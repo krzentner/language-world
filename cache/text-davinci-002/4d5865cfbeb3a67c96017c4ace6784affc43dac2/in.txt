@@ -1,0 +1,40 @@
+I put a book on a shelf.
+I only had one hand.
+I was standing in front of a shelf.
+There was a book on the floor.
+I turned to face the shelf.
+I bent down.
+I picked up the book.
+I turned to face the shelf.
+I walked forward to the shelf.
+I put the book on the shelf.
+I let go.
+Done.
+
+I closed a curtain.
+I only had one hand.
+I was standing in front of a window.
+The window had a curtain on its left side.
+I turned to face the curtain.
+I grabbed the curtain.
+I turned to face the right side of the window.
+I walked forward to the right side of the window.
+I pulled the curtain to the right side of the window.
+I let go.
+Done.
+
+I opened a fridge.
+I was standing in front of the fridge.
+The fridge had a door.
+The fridge had a handle on its right side.
+I grabbed the handle from the side.
+I pulled back and to the left.
+I stepped backwards.
+I let go.
+I put my hand inside the fridge.
+I pushed to the left.
+Done.
+
+I opened a jar.
+I only had one hand.
+I was standing in front of a counter.

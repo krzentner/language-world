@@ -1,0 +1,38 @@
+I put an apple on a table.
+I only had one hand.
+The apple was in my hand.
+The table was in the living room.
+I was standing in the living room.
+The table was in front of me.
+The apple was in my hand.
+I put the apple on the table.
+Done.
+
+I opened a fridge.
+I was standing in front of the fridge.
+The fridge had a door.
+The fridge had a handle on its right side.
+I grabbed the handle from the side.
+I pulled back and to the left.
+I stepped backwards.
+I let go.
+I put my hand inside the fridge.
+I pushed to the left.
+Done.
+
+I put a book on a shelf.
+I only had one hand.
+I was standing in front of a shelf.
+There was a book on the floor.
+I turned to face the shelf.
+I bent down.
+I picked up the book.
+I turned to face the shelf.
+I walked forward to the shelf.
+I put the book on the shelf.
+I let go.
+Done.
+
+I opened a jar.
+I only had one hand.
+I was standing in front of a counter.
