@@ -30,7 +30,7 @@ def cache_lookup(*, engine: str, prompt: str) -> [str]:
     results = []
     for filename in filesnames:
         if filename.endswith('out.txt'):
-            with open(filename) as f:
+            with open(f'{cache_dir}/{filename}') as f:
                 results.append(f.read())
     return results
 
@@ -46,7 +46,8 @@ def cache_write(*, engine: str, prompt: str, response: str):
         f.write(response)
 
 
-def run_prompt(prompt: str, engine: str, skip_cache: bool = False) -> str:
+def run_prompt(prompt: str, engine: str = 'gpt3',
+               skip_cache: bool = False) -> str:
     if not prompt.endswith('\n'):
         prompt = prompt + '\n'
     engine = ENGINE_SYNONYMS.get(engine, engine)
@@ -64,3 +65,15 @@ def run_prompt(prompt: str, engine: str, skip_cache: bool = False) -> str:
 
     cache_write(engine=engine, prompt=prompt, response=response)
     return response
+
+
+def past_tense_to_capability(past_tense: str, **kwargs):
+    cap_lines = []
+    for line in past_tense.split('\n'):
+        assert '\n' not in line
+        cap_lines.append(run_prompt(
+            'Past tense:\nI opened a jar.\n'
+            'Skill:\nI can open a jar.\n'
+            'Past tense:\n' + line + '\n'
+            'Skill:\n'))
+    return cap_lines
