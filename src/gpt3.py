@@ -10,7 +10,7 @@ def run_prompt(prompt: str) -> str:
     response = openai.Completion.create(
     engine="text-davinci-002",
     prompt=prompt,
-    temperature=0.2,
+    temperature=0.7,
     max_tokens=2000,
     top_p=1,
     frequency_penalty=0.01,

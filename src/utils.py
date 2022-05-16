@@ -67,6 +67,45 @@ def run_prompt(prompt: str, engine: str = 'gpt3',
     return response
 
 
+def parse_prompt(prompt: str) -> {str: [str]}:
+    output = {}
+    sections = [section.split('\n') for section in prompt.split('#')]
+    return {lines[0].strip(): [line.strip() for line in lines[1:] if line]
+            for lines in sections if lines[0].strip()}
+
+
+def prompts() -> {int: {str: [str]}}:
+    results = {}
+    for filename in os.listdir('prompts'):
+        assert filename.endswith('.md')
+        index = int(filename.split('.')[0])
+        with open(f'prompts/{filename}') as f:
+            results[index] = parse_prompt(f.read())
+    return results
+
+
+def load_prompt(promt_number: int) -> {str: [str]} or None:
+    for filename in os.listdir('prompts'):
+        assert filename.endswith('.md')
+        index = int(filename.split('.')[0])
+        if index == promt_number:
+            with open(f'prompts/{filename}') as f:
+                return parse_prompt(f.read())
+
+
+def format_prompt(prompt: {str: [str]}) -> str:
+    return '\n'.join(prompt['Task']
+                     + prompt.get('Context', [])
+                     + prompt.get('Steps', []))
+
+
+def format_request(base_promts: [{str: [str]}], target_prompt: {str: [str]}):
+    target_prompt_no_reponse = {key: val for (key, val) in target_prompt.items()
+                                if key != 'Steps'}
+    return '\n\n'.join([format_prompt(prompt)
+                        for prompt in base_promts + [target_prompt_no_reponse]])
+
+
 def past_tense_to_capability(past_tense: str, **kwargs):
     cap_lines = []
     for line in past_tense.split('\n'):
@@ -75,5 +114,5 @@ def past_tense_to_capability(past_tense: str, **kwargs):
             'Past tense:\nI opened a jar.\n'
             'Skill:\nI can open a jar.\n'
             'Past tense:\n' + line + '\n'
-            'Skill:\n'))
+            'Skill:\n', **kwargs))
     return cap_lines
