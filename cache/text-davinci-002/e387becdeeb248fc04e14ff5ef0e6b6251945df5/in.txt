@@ -1,0 +1,28 @@
+I grabbed an egg.
+I was a robot with a gripper.
+There was a carton of eggs in front of me.
+I put my gripper below the front of the carton.
+I lifted my gripper 10cm.
+I caged an egg with my gripper.
+I closed the gripper 50% of the way.
+I lifted my gripper 10cm.
+I had grabbed an egg.
+
+I grabbed an apple.
+I was a robot with a gripper.
+There was an apple in front of me.
+I caged the apple from above.
+I closed my gripper 80% of the way.
+I lifted my gripper 10cm.
+I had grabbed an apple.
+
+I grabbed a door handle.
+I was a robot with a gripper.
+There was a door in front of me.
+I caged the door handle from the side.
+I closed my gripper 90% of the way.
+I had grabbed a door handle.
+
+I grabbed a bag of chips.
+I was a robot with a gripper.
+There was a bag of chips in front of me.

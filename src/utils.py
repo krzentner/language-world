@@ -116,3 +116,18 @@ def past_tense_to_capability(past_tense: str, **kwargs):
             'Past tense:\n' + line + '\n'
             'Skill:\n', **kwargs))
     return cap_lines
+
+def run(*args, engine='gpt3', skip_cache=False, verbose=False):
+    all_prompts = prompts()
+    the_prompts = [all_prompts[i] for i in args]
+    target_promt = the_prompts[-1]
+    base_prompts = the_prompts[:-1]
+    assert len(base_prompts) + 1 == len(args)
+    request = format_request(base_prompts, target_promt)
+    if verbose:
+        print('=' * 5, 'Request', '=' * 5)
+        print(request)
+        print('=' * 5, 'Response', '=' * 5)
+    response = run_prompt(request, engine=engine, skip_cache=skip_cache)
+    print(response)
+    return response

@@ -1,0 +1,42 @@
+I got a dress.
+I only had one hand.
+II was standing in the bedroom.
+The bedroom had a closet.
+The closet contains dresses.
+The dresses are on hangers.
+I walked to the closet.
+I opened the closet door.
+I walked to a dress in the closet.
+I grabbed the hanger.
+I pulled the hanger up.
+I pulled the hanger out.
+I walked to the bedroom.
+Done.
+
+I got an apple from a pantry.
+I only had one hand.
+I would not drop the apple.
+I was standing in the living room.
+The pantry had a door and shelves.
+There's a handle on the door.
+There's an apple on the shelves.
+I walked to the pantry.
+I opened the door.
+I walked inside the pantry.
+I grabbed an apple.
+I walked to the living room.
+Done.
+
+I opened a cabinet.
+I only had one hand.
+I was standing in front of a cabinet.
+The cabinet had a handle on its left side.
+I grabbed the cabinet handle from the side.
+I pulled the handle out and to the right.
+I put my hand inside the cabinet.
+I pushed the cabinet door to the right.
+Done.
+
+I opened a jar.
+I only had one hand.
+I was standing in front of a counter.

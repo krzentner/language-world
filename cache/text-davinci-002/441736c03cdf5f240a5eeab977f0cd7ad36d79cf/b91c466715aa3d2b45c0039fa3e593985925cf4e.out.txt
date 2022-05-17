@@ -1,0 +1,11 @@
+The jar was on the counter.
+The jar had a lid.
+The jar was sealed.
+I grabbed the jar with my gripper.
+I turned the jar counter-clockwise.
+I stopped when the jar was pointing downwards.
+I put the gripper on the lid.
+I pushed down 10cm.
+I turned the jar clockwise.
+I stopped when the jar was pointing upwards.
+I had opened a jar.

@@ -1,0 +1,11 @@
+The counter had a jar on it.
+The jar had a lid.
+The jar was sealed.
+I grabbed the jar.
+I unscrewed the lid.
+I put the lid on the counter.
+I put my hand in the jar.
+I grabbed what was in the jar.
+I put the lid back on the jar.
+I screwed the lid back on.
+Done.
