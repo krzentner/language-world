@@ -8,10 +8,12 @@ authors = ["K.R. Zentner <krzentner@gmail.com>"]
 python = "^3.8"
 openai = "^0.18.1"
 python-dotenv = "^0.20.0"
+setuptools = "^62.3.1"
+pip = "^22.1"
 
 [tool.poetry.dev-dependencies]
 ipython = "^8.3.0"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools", "poetry-core>=1.0.0"]
+build-backend = "setuptools.build_meta"
