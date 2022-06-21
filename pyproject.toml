@@ -5,11 +5,18 @@ description = ""
 authors = ["K.R. Zentner <krzentner@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.8,<3.11"
 openai = "^0.18.1"
 python-dotenv = "^0.20.0"
 setuptools = "^62.3.1"
 pip = "^22.1"
+metaworld = {path = "metaworld", develop = true}
+jupyterlab = "^3.4.3"
+scipy = "^1.8.1"
+mayavi = "^4.7.4"
+PyQt5 = "^5.15.7"
+open3d = "^0.15.2"
+Pillow = "^9.1.1"
 
 [tool.poetry.dev-dependencies]
 ipython = "^8.3.0"
