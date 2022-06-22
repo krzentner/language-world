@@ -6,56 +6,6 @@ import gym
 import plotly.express as px
 import plotly.graph_objects as go
 
-def render_env(env_name, seed=1000):
-    env = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE[f'{env_name}-v2-goal-observable'](seed)
-    env.seeded_rand_vec = True
-    env.reset()
-    width = 64
-    height = 48
-    camera = "corner4"
-
-    img, depth = env.sim.render(
-        width,
-        height,
-        mode='offscreen',
-        camera_name=camera,
-        depth=True
-    )
-    obs = env._get_obs()
-    mlab_imshowColor(img)
-    # Pos Hand
-    points3d(obs[0], obs[1], obs[2])
-    # Pos obj
-    points3d(obs[4], obs[5], obs[6], color=(0, 0, 1))
-    points_pixel_space = np.mgrid[-1:1:(2/height), -1:1:(2/width)].astype(np.float32)
-    print(points_pixel_space.shape)
-    assert points_pixel_space.shape == (2, height, width)
-    assert depth[None].shape == (1, height, width)
-    points_with_depth = np.concatenate((points_pixel_space, depth[None]), axis=0)
-    assert points_with_depth.shape == (3, height, width)
-    mat = get_camera_mat(env, width, height, camera)
-    points_in_3d = points_with_depth.T @ mat
-    print(points_in_3d)
-    assert points_in_3d.shape == (width, height, 4)
-    assert points_in_3d.T.shape == (4, height, width)
-    points_flat_3d = points_in_3d.T.reshape(4, -1)
-    assert img.transpose(2, 0, 1).shape == (3, height, width)
-    colors_flat_3d = img.transpose(2, 0, 1).reshape(3, -1)
-
-    alpha = pl.ones(width * height)
-    myLut = pl.c_[img.reshape(-1, 3), alpha]
-    myLutLookupArray = pl.arange(width * height).reshape(width, height)
-
-    points = mlab.points3d(points_flat_3d[0], points_flat_3d[1],  points_flat_3d[2], colormap='binary')
-    points.module_manager.scalar_lut_manager.lut.table = myLut
-
-    # mlab.points3d(points_in_3d[:, :, 0] / 100, points_in_3d[:, :, 1] / 100, points_in_3d[:, :, 2] / 100)
-
-    mlab.show()
-
-def points3d(x, y, z, *args, **kwargs):
-    return mlab.points3d(100 * x, 100 * y, 100 * z, *args, **kwargs)
-
 from mj_pc.mj_point_clouds import PointCloudGenerator
 import open3d as o3d
 
@@ -173,30 +123,93 @@ class MetaWorldVoxelEnv(gym.Env):
         divisor = np.maximum(np.expand_dims(count_grid, -1).astype(np.float32), 1.)
         color_grid /= divisor
 
-        # X, Y, Z = np.mgrid[min_bound[0]:max_bound[0]:(grid_shape[0] * 1j),
-                           # min_bound[1]:max_bound[1]:(grid_shape[1] * 1j),
-                           # min_bound[2]:max_bound[2]:(grid_shape[2] * 1j)]
-        # ds = count_grid.flatten()
-        # X = X.flatten()[ds > 0]
-        # Y = Y.flatten()[ds > 0]
-        # Z = Z.flatten()[ds > 0]
-        # C = color_grid.reshape(-1, 3)[ds > 0]
-        # # values = np.sin(X*Y*Z) / (X*Y*Z)
-        # # vol = (X - 1)**2 + (Y - 1)**2 + Z**2
+        if False:
+            X, Y, Z = np.mgrid[min_bound[0]:max_bound[0]:(grid_shape[0] * 1j),
+                            min_bound[1]:max_bound[1]:(grid_shape[1] * 1j),
+                            min_bound[2]:max_bound[2]:(grid_shape[2] * 1j)]
+            ds = count_grid.flatten()
+            X = X.flatten()[ds > 0]
+            Y = Y.flatten()[ds > 0]
+            Z = Z.flatten()[ds > 0]
+            C = color_grid.reshape(-1, 3)[ds > 0]
+            R, G, B = C.T
+            A = np.minimum(1., ds[ds > 0].astype(np.float32))
 
-        # fig = go.Figure(data=[go.Scatter3d(
-            # x=X.flatten(),
-            # y=Y.flatten(),
-            # z=Z.flatten(),
-            # mode='markers',
-            # marker=dict(
-                # size=grid_shape[0],
-                # color=255 * C,
-                # opacity=1.0,
-            # )
-        # )])
+            # fig = go.Figure(data=[go.Scatter3d(
+                # x=X.flatten(),
+                # y=Y.flatten(),
+                # z=Z.flatten(),
+                # mode='markers',
+                # marker=dict(
+                    # size=grid_shape[0],
+                    # color=255 * C,
+                    # opacity=1.0,
+                # )
+            # )])
 
-        # fig.write_html('first_figure.html', auto_open=True)
+            # fig.write_html('first_figure.html', auto_open=True)
+
+            faces_i = []
+            faces_j = []
+            faces_k = []
+
+            verts_x = []
+            verts_y = []
+            verts_z = []
+
+            n_verts = 0
+            # x_lut =  [0, 1, 0, 1, 0, 1, 0, 1]
+            # y_lut =  [0, 0, 1, 1, 0, 0, 1, 1]
+            # z_lut = [0, 0, 0, 0, 1, 1, 1, 1]
+            # i_lut =  [0, 3, 4, 7, 0, 6, 1, 7, 0, 5, 2, 7]
+            # j_lut = [1, 2, 5, 6, 2, 4, 3, 5, 4, 1, 6, 3]
+            # k_lut = [3, 0, 7, 4, 6, 0, 7, 1, 5, 0, 7, 2]
+
+            x_lut = [0, 0, 1, 1, 0, 0, 1, 1]
+            y_lut = [0, 1, 1, 0, 0, 1, 1, 0]
+            z_lut = [0, 0, 0, 0, 1, 1, 1, 1]
+            i_lut = [7, 0, 0, 0, 4, 4, 6, 6, 4, 0, 3, 2]
+            j_lut = [3, 4, 1, 2, 5, 6, 5, 2, 0, 1, 6, 3]
+            k_lut = [0, 7, 2, 3, 6, 7, 1, 1, 5, 5, 7, 6]
+
+            def addBox(px, py, pz, sx, sy, sz):
+                nonlocal n_verts
+                for q in range(12):
+                    faces_i.append(i_lut[q] + n_verts)
+                    faces_j.append(j_lut[q] + n_verts)
+                    faces_k.append(k_lut[q] + n_verts)
+                for q in range(8):
+                    verts_x.append(px + sx * x_lut[q])
+                    verts_y.append(py + sy * y_lut[q])
+                    verts_z.append(pz + sz * z_lut[q])
+                    n_verts += 1
+
+            vert_color = []
+            dx = grid_dims[0] / grid_shape[0]
+            dy = grid_dims[1] / grid_shape[1]
+            dz = grid_dims[2] / grid_shape[2]
+
+            for (x, y, z, r, g, b, a) in zip(X, Y, Z, R, G, B, A):
+                addBox(x, y, z, dx, dy, dz)
+                for _ in range(8):
+                    vert_color.append((255 * r, 255 * g, 255 * b, a))
+
+            fig = go.Figure(data=[
+                go.Mesh3d(
+                    # 8 vertices of a cube
+                    x=verts_x,
+                    y=verts_y,
+                    z=verts_z,
+                    # i, j and k give the vertices of triangles
+                    i = faces_i,
+                    j = faces_j,
+                    k = faces_k,
+                    showscale=True,
+                    vertexcolor=vert_color,
+                )
+            ])
+
+            fig.write_html('voxels.html', auto_open=True)
 
         count_feature_grid = count_grid.astype(np.float32) / 16
         feature_grid = np.concatenate((color_grid,
@@ -206,7 +219,7 @@ class MetaWorldVoxelEnv(gym.Env):
                                       dtype=np.float32)
 
         assert feature_grid.dtype == np.float32
-        assert feature_grid.shape == grid_shape + (VOXEL_FEATURES,)
+        assert feature_grid.shape == grid_shape + (self.VOXEL_FEATURES,)
         return feature_grid
 
 

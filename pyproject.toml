@@ -21,6 +21,7 @@ ipdb = "^0.13.9"
 dash = "^2.5.1"
 plotly = "^5.8.2"
 pandas = "^1.4.2"
+torch = "^1.11.0"
 
 [tool.poetry.dev-dependencies]
 ipython = "^8.3.0"
