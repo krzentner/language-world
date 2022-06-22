@@ -216,8 +216,8 @@ class TD3(RLAlgorithm):
                         self._min_buffer_size):
                     trainer.enable_logging = True
                     eval_eps = self._evaluate_policy()
-                    log_performance(trainer.step_episode,
-                                    eval_eps,
+                    log_performance(trainer.step_itr,
+                                    trainer.step_episode,
                                     discount=self._discount,
                                     prefix='Training')
                     log_performance(trainer.step_itr,
