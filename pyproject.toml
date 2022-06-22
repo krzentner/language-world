@@ -17,6 +17,10 @@ mayavi = "^4.7.4"
 PyQt5 = "^5.15.7"
 open3d = "^0.15.2"
 Pillow = "^9.1.1"
+ipdb = "^0.13.9"
+dash = "^2.5.1"
+plotly = "^5.8.2"
+pandas = "^1.4.2"
 
 [tool.poetry.dev-dependencies]
 ipython = "^8.3.0"
