@@ -4,3 +4,5 @@ __pycache__
 src/language_to_policies.egg-info/
 *.zip
 *.pth
+notebooks/.ipynb_checkpoints/
+notebooks/image_path_v2/
