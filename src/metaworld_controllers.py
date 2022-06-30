@@ -372,6 +372,10 @@ class SawyerUniversalV2Policy(Policy):
         o_d = self._parse_obs(obs)
         tree = DECISION_TREES[self.env_name]['function']
         controller_name = tree(o_d)
+        return self.run_controller(controller_name, obs)
+
+    def run_controller(self, controller_name, obs):
+        o_d = self._parse_obs(obs)
         controller_func = CONTROLLERS[controller_name]['function']
         controller_params = controller_func(o_d)
         delta_xyz = move(o_d['hand_pos'],
@@ -386,7 +390,6 @@ class SawyerUniversalV2Policy(Policy):
         action['delta_pos'] = delta_xyz
         action['grab_effort'] = controller_params['grab_effort']
         return action.array
-
 
 def trajectory_summary(env, policy, act_noise_pct, render=False, end_on_success=True):
     """Tests whether a given policy solves an environment

@@ -222,6 +222,5 @@ class MetaWorldVoxelEnv(gym.Env):
         assert feature_grid.shape == grid_shape + (self.VOXEL_FEATURES,)
         return feature_grid
 
-
 if __name__ == '__main__':
     render_env_mj_pc('reach')
