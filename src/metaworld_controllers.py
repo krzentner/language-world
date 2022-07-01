@@ -343,53 +343,51 @@ def close_gripper_around_puck(o_d):
 def place_goal_at_puck(o_d):
     return act(o_d['goal_pos'], 1., p=10)
 
+@assert_fully_parsed
+def parse_obs(obs):
+    return {
+        'hand_pos': obs[:3],
+        'gripper_distance_apart': obs[3],
+        'obj1_pos': obs[4:7],
+        'obj1_rot': obs[7:11],
+        'obj2_pos': obs[11:14],
+        'obj2_rot': obs[14:18],
+        'last_hand_pos': obs[18:21],
+        'last_gripper': obs[21],
+        'last_obj1_pos': obs[22:25],
+        'last_obj1_rot': obs[25:29],
+        'last_obj2_pos': obs[29:32],
+        'last_obj2_rot': obs[32:36],
+        'goal_pos': obs[36:39],
+    }
+
+def run_controller(controller_name, parsed_obs):
+    controller_func = CONTROLLERS[controller_name]['function']
+    controller_params = controller_func(parsed_obs)
+    delta_xyz = move(parsed_obs['hand_pos'],
+                     controller_params['target_xyz'],
+                     controller_params['control_coeff'])
+
+    action = Action({
+        'delta_pos': np.arange(3),
+        'grab_effort': 3
+    })
+
+    action['delta_pos'] = delta_xyz
+    action['grab_effort'] = controller_params['grab_effort']
+    return action.array
+
 
 @dataclass
-class SawyerUniversalV2Policy(Policy):
+class SawyerUniversalV2Policy:
 
     env_name: str or None = None
 
-    @staticmethod
-    @assert_fully_parsed
-    def _parse_obs(obs):
-        return {
-            'hand_pos': obs[:3],
-            'gripper_distance_apart': obs[3],
-            'obj1_pos': obs[4:7],
-            'obj1_rot': obs[7:11],
-            'obj2_pos': obs[11:14],
-            'obj2_rot': obs[14:18],
-            'last_hand_pos': obs[18:21],
-            'last_gripper': obs[21],
-            'last_obj1_pos': obs[22:25],
-            'last_obj1_rot': obs[25:29],
-            'last_obj2_pos': obs[29:32],
-            'last_obj2_rot': obs[32:36],
-            'goal_pos': obs[36:39],
-        }
-
     def get_action(self, obs):
-        o_d = self._parse_obs(obs)
+        o_d = parse_obs(obs)
         tree = DECISION_TREES[self.env_name]['function']
         controller_name = tree(o_d)
-        return self.run_controller(controller_name, obs)
-
-    def run_controller(self, controller_name, obs):
-        o_d = self._parse_obs(obs)
-        controller_func = CONTROLLERS[controller_name]['function']
-        controller_params = controller_func(o_d)
-        delta_xyz = move(o_d['hand_pos'],
-                         controller_params['target_xyz'],
-                         controller_params['control_coeff'])
-
-        action = Action({
-            'delta_pos': np.arange(3),
-            'grab_effort': 3
-        })
-
-        action['delta_pos'] = delta_xyz
-        action['grab_effort'] = controller_params['grab_effort']
-        return action.array
+        return run_controller(controller_name, o_d)
 
 def trajectory_summary(env, policy, act_noise_pct, render=False, end_on_success=True):
     """Tests whether a given policy solves an environment
