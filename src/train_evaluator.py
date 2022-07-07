@@ -1,5 +1,6 @@
 import collections
 
+import random
 from absl import logging
 from flax import linen as nn
 from flax.metrics import tensorboard
@@ -31,16 +32,28 @@ class ConditionEvaluator(nn.Module):
   def setup(self):
     self.cond_encoder = nn.Sequential([
         nn.Dense(256),
-        nn.tanh,
+        nn.relu,
+        nn.Dense(256),
+        nn.relu,
+        nn.Dense(256),
+        nn.relu,
         nn.Dense(128),
-        nn.tanh,
+        nn.relu,
+        nn.Dense(64),
+        nn.relu,
         nn.Dense(64),
     ])
     self.state_encoder = nn.Sequential([
+        nn.Dense(128),
+        nn.relu,
+        nn.Dense(128),
+        nn.relu,
+        nn.Dense(128),
+        nn.relu,
+        nn.Dense(128),
+        nn.relu,
         nn.Dense(64),
-        nn.tanh,
-        nn.Dense(64),
-        nn.tanh,
+        nn.relu,
         nn.Dense(64),
     ])
 
@@ -58,12 +71,13 @@ def update_model(state, grads):
 def apply_model(state, observations, descriptors_embedded, targets):
   def loss_fn(params):
     truth_values = state.apply_fn(params, observations, descriptors_embedded)
-    loss = jnp.mean(optax.l2_loss(truth_values, targets))
+    loss = -jnp.mean(truth_values * targets) / (1 + jnp.sum(targets != 0))
+    # loss = jnp.mean(optax.l2_loss(truth_values, targets))
     return loss, truth_values
 
   grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
   (loss, truth_values), grads = grad_fn(state.params)
-  accuracy = jnp.mean(jnp.einsum('ij,ij->ij', truth_values, targets) > 0)
+  accuracy = jnp.sum(truth_values * targets > 0) / jnp.sum(targets != 0)
   return grads, loss, accuracy
 
 
@@ -161,8 +175,8 @@ def train_epoch(state, batch):
   state = update_model(state, grads)
   return state, loss, accuracy
 
-def train_and_evaluate(envs=','.join([e[:-3] for e in MT10_V2.keys()]), seed=100,
-                       num_batches=1e6, batch_size=16):
+def train_and_evaluate(envs=','.join([e[:-3] for e in MT10_V2.keys()]), seed=random.randrange(1000),
+                       num_batches=1e5, batch_size=16):
   workdir = f'data/train_evaluator_seed={seed}'
   rng = jax.random.PRNGKey(seed)
   summary_writer = tensorboard.SummaryWriter(workdir)
@@ -175,7 +189,7 @@ def train_and_evaluate(envs=','.join([e[:-3] for e in MT10_V2.keys()]), seed=100
   client = reverb.Client(f'localhost:{server.port}')
 
   rng, init_rng = jax.random.split(rng)
-  learning_rate = 1e-5
+  learning_rate = 1e-6
   momentum = 0.99
   cond_evaluator = ConditionEvaluator()
   params = cond_evaluator.init(rng, jnp.ones([batch_size, 39]), jnp.ones([batch_size, 3, DISC_DIM]))
