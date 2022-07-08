@@ -71,29 +71,14 @@ def update_model(state, grads):
 def apply_model(state, observations, descriptors_embedded, targets):
   def loss_fn(params):
     truth_values = state.apply_fn(params, observations, descriptors_embedded)
-    loss = -jnp.mean(truth_values * targets) / (1 + jnp.sum(targets != 0))
-    # loss = jnp.mean(optax.l2_loss(truth_values, targets))
+    # loss = -jnp.mean(truth_values * targets) / (1 + jnp.sum(targets != 0))
+    loss = jnp.mean(optax.l2_loss(truth_values, targets))
     return loss, truth_values
 
   grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
   (loss, truth_values), grads = grad_fn(state.params)
   accuracy = jnp.sum(truth_values * targets > 0) / jnp.sum(targets != 0)
   return grads, loss, accuracy
-
-
-class CondAgent(nn.Module):
-
-  def setup(self):
-    with open('data/embedded_mt10.pkl', 'rb') as f:
-      plans = pickle.load(f)
-    parsed_plans = {}
-    for (plan_name, plan) in plans.items():
-      conds = jnp.concatenate([step['cond_embed'] for step in plan])
-      actions = jnp.concatenate([step['action_embed'] for step in plan])
-      parsed_plans[plan_name] = {
-          'conds': conds,
-          'actions': actions,
-      }
 
 
 def store_obs(env_name, client, observation):
@@ -176,7 +161,7 @@ def train_epoch(state, batch):
   return state, loss, accuracy
 
 def train_and_evaluate(envs=','.join([e[:-3] for e in MT10_V2.keys()]), seed=random.randrange(1000),
-                       num_batches=1e5, batch_size=16):
+                       num_batches=1e4, batch_size=16):
   workdir = f'data/train_evaluator_seed={seed}'
   rng = jax.random.PRNGKey(seed)
   summary_writer = tensorboard.SummaryWriter(workdir)
@@ -189,7 +174,7 @@ def train_and_evaluate(envs=','.join([e[:-3] for e in MT10_V2.keys()]), seed=ran
   client = reverb.Client(f'localhost:{server.port}')
 
   rng, init_rng = jax.random.split(rng)
-  learning_rate = 1e-6
+  learning_rate = 1e-4
   momentum = 0.99
   cond_evaluator = ConditionEvaluator()
   params = cond_evaluator.init(rng, jnp.ones([batch_size, 39]), jnp.ones([batch_size, 3, DISC_DIM]))

@@ -129,6 +129,11 @@ def slide_window_closed_right(robot):
   # To put the gripper left of the window handle, the robot's gripper needs to be moved there.
   if check("the robot's gripper is not left of the window handle"):
     robot.move_gripper("left of the window handle")
+
+def reach_for_target(robot):
+  # To reach for a target, the robot needs to move its gripper to the target.
+  if check("the robot's gripper is not near the target"):
+    robot.move_gripper("to the target")
 """
 
 FN_NAME = re.compile(r'def ([a-zA-Z_]+)\(')
@@ -191,6 +196,14 @@ def embed_condition(cond):
   else:
     embed = get_embedder()([preprocess_condition(cond)])
     EMBEDDING_CACHE[cond] = embed
+    return embed
+
+def embed_action(action):
+  if action in EMBEDDING_CACHE:
+    return EMBEDDING_CACHE[action]
+  else:
+    embed = get_embedder()([action])[0]
+    EMBEDDING_CACHE[action] = embed
     return embed
 
 if __name__ == '__main__':
