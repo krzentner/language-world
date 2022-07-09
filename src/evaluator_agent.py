@@ -32,6 +32,7 @@ except ImportError:
 import generate_metaworld_scene_dataset
 import embed_prompt
 import metaworld_jax_controllers
+import easy_process
 
 import pickle
 
@@ -88,18 +89,22 @@ class CondAgent(nn.Module):
                         nn.softmax(conds_truth_values,
                                    where=conds_mask,
                                    initial=0))
+    controller_names = []
     controller_names_embedded = []
     controller_outputs = []
     for (env, obs) in zip(env_names, low_dim):
       parsed_obs = metaworld_jax_controllers.parse_obs(obs)
       control_out = []
       control_names = []
+      control_names_emb = []
       for (name, controller) in metaworld_jax_controllers.CONTROLLERS.items():
         if controller['env-name'] != env:
           continue
-        control_names.append(embed_prompt.embed_action(name))
+        control_names.append(name)
+        control_names_emb.append(embed_prompt.embed_action(name))
         control_out.append(metaworld_jax_controllers.run_controller(name, parsed_obs))
-      controller_names_embedded.append(control_names)
+      controller_names.append(control_names)
+      controller_names_embedded.append(control_names_emb)
       controller_outputs.append(control_out)
     assert controller_names_embedded
     names_padded, names_mask = pad_list(controller_names_embedded)
@@ -212,6 +217,35 @@ def sample_process(env_name: str, port: int, seed: int, noise_scale: float):
     store(env_name, client, observation, action, reward)
   return_env(env_name, env)
 
+@easy_process.subprocess_func
+def sampler_proc(env_name, port, seed, noise_scale, *, parent):
+  client = reverb.Client(f'localhost:{port}')
+
+  while True:
+    print('waiting')
+    msg = parent.recv()
+    if msg == 'stop':
+      return
+    elif msg == 'gather':
+      try:
+        env = get_env(env_name, seed)
+        max_episode_length = 500
+        policy = SawyerUniversalV2Policy(env_name=env_name)
+        observation = env.reset()
+        use_random = False
+        for i in tqdm(range(max_episode_length)):
+          print(i)
+          action = policy.get_action(observation)
+          action_noisy = action + np.random.normal(scale=noise_scale)
+          observation, reward, done, info = env.step(action_noisy)
+          store(env_name, client, observation, action, reward)
+        return_env(env_name, env)
+      except Exception as ex:
+        print(ex)
+      parent.send('gather done')
+    else:
+      raise TypeError("Unknown message")
+
 
 def eval_policy(policy, env_names, seed):
   env_names = tuple(env_names)
@@ -262,43 +296,46 @@ def train_and_evaluate(train_envs=','.join([e[:-3] for e in MT10_V2.keys()]),
   state = train_state.TrainState.create(
       apply_fn=cond_agent.apply, params=params, tx=tx)
 
-  with concurrent.futures.ThreadPoolExecutor() as executor:
-    for epoch in tqdm(range(int(num_batches))):
-      # We need new samples
-      if epoch % (len(train_env_names) * max_episode_length / batch_size) == 0:
-        concurrent.futures.wait([
-          executor.submit(sample_process, env_name, server.port, seed, noise_scale)
-          for env_name in train_env_names])
-        with open(f'{workdir}/{epoch}.pkl', 'wb') as f:
-          pickle.dump(state.params, f)
+  workers = [sampler_proc(env_name, server.port, seed, noise_scale)
+             for env_name in train_env_names]
 
-      if epoch % 100 == 0:
-        rewards = eval_policy(cond_agent.as_policy(None, state),
-                              train_env_names + test_env_names,
-                              seed)
-
-        avg_rewards = []
-        for env_name in train_env_names:
-          avg_reward = np.mean(rewards[env_name])
-          summary_writer.scalar(f'{env_name}/avg_reward', avg_reward, epoch)
-          avg_rewards.append(avg_reward)
-        summary_writer.scalar('train_envs/avg_reward', np.mean(avg_rewards), epoch)
-
-        avg_rewards = []
-        for env_name in test_env_names:
-          avg_reward = np.mean(rewards[env_name])
-          summary_writer.scalar(f'{env_name}/avg_reward', avg_reward, epoch)
-          avg_rewards.append(avg_reward)
-        summary_writer.scalar('test_envs/avg_reward', np.mean(avg_rewards), epoch)
-
-      batch = client.sample('mt_obs', num_samples = batch_size)
-      state, train_loss = train_epoch(state, batch)
-
-      summary_writer.scalar('train_loss', train_loss, epoch)
-
-      summary_writer.flush()
+  for epoch in tqdm(range(int(num_batches))):
+    # We need new samples
+    if epoch % 100 == 0:
+      for worker in workers:
+        worker.send('gather', block=True)
+      for worker in workers:
+        worker.recv()
       with open(f'{workdir}/{epoch}.pkl', 'wb') as f:
         pickle.dump(state.params, f)
+
+    if epoch % 100 == 0:
+      rewards = eval_policy(cond_agent.as_policy(None, state),
+                            train_env_names + test_env_names,
+                            seed)
+
+      avg_rewards = []
+      for env_name in train_env_names:
+        avg_reward = np.mean(rewards[env_name])
+        summary_writer.scalar(f'{env_name}/avg_reward', avg_reward, epoch)
+        avg_rewards.append(avg_reward)
+      summary_writer.scalar('train_envs/avg_reward', np.mean(avg_rewards), epoch)
+
+      avg_rewards = []
+      for env_name in test_env_names:
+        avg_reward = np.mean(rewards[env_name])
+        summary_writer.scalar(f'{env_name}/avg_reward', avg_reward, epoch)
+        avg_rewards.append(avg_reward)
+      summary_writer.scalar('test_envs/avg_reward', np.mean(avg_rewards), epoch)
+
+    batch = client.sample('mt_obs', num_samples = batch_size)
+    state, train_loss = train_epoch(state, batch)
+
+    summary_writer.scalar('train_loss', train_loss, epoch)
+
+    summary_writer.flush()
+    with open(f'{workdir}/checkpoint.pkl', 'wb') as f:
+      pickle.dump(state.params, f)
   return state
 
 if __name__ == '__main__':
