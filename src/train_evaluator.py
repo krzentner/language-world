@@ -1,5 +1,8 @@
 import collections
 
+import clize
+import os
+from pprint import pprint
 import random
 from absl import logging
 from flax import linen as nn
@@ -12,7 +15,9 @@ import numpy as np
 import optax
 import pickle
 import reverb
-import concurrent.futures
+
+import easy_process
+from sample_utils import make_env, sample_noisy_policy, MT10_ENV_NAMES
 
 from tqdm import tqdm
 from metaworld.envs.mujoco.env_dict import MT10_V2
@@ -89,43 +94,16 @@ def store_obs(env_name, client, observation):
 
 ENV_CACHE = collections.defaultdict(list)
 
-def make_env(env_name, seed: int):
-    env = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE[f'{env_name}-v2-goal-observable'](seed)
-    env.seeded_rand_vec = True
-    return env
-
 CLIENT = None
 
-def sample_process(env_name: str, port: int, seed: int):
-  random_policy_prob=0.005
-  global CLIENT
-  client = CLIENT or reverb.Client(f'localhost:{port}')
-  CLIENT = client
-
-  try:
-    # This operation is atomic!
-    # Important for multithreading!
-    env = ENV_CACHE[env_name].pop()
-  except IndexError:
-    env = make_env(env_name, seed)
-
-  max_episode_length = 500
+@easy_process.subprocess_func
+def sample_process(*, env_name: str, noise_scale: float, seed: int, parent):
+  env = make_env(env_name, seed)
   policy = SawyerUniversalV2Policy(env_name=env_name)
-  observation = env.reset()
-  use_random = False
-  for i in range(max_episode_length):
-    store_obs(env_name, client, observation)
-    if i > 0 and not use_random and np.random.uniform() < random_policy_prob:
-      use_random = True
-    if use_random:
-      noise = env.action_space.sample()
-      alpha = 0.9
-      action = alpha * action + (1 - alpha) * noise
-    else:
-      action = policy.get_action(observation)
-    observation, r, done, info = env.step(action)
-  store_obs(env_name, client, observation)
-  ENV_CACHE[env_name].append(env)
+
+  while True:
+    parent.sendrecv(list(sample_noisy_policy(env, policy, noise_scale)))
+
 
 DISC_DIM = 512
 
@@ -160,9 +138,29 @@ def train_epoch(state, batch):
   state = update_model(state, grads)
   return state, loss, accuracy
 
-def train_and_evaluate(envs=','.join([e[:-3] for e in MT10_V2.keys()]), seed=random.randrange(1000),
+def worker_dataset(*, envs=','.join(MT10_ENV_NAMES),
+                   n_timesteps=1000, seed=100, noise_scale=0.1):
+  env_names = list(envs.split(','))
+  with easy_process.Scope():
+    workers = [sample_process(env_name=env_name, seed=seed, noise_scale=noise_scale)
+              for env_name in env_names]
+    datapoints = []
+    with tqdm(total=n_timesteps) as pbar:
+      while len(datapoints) < n_timesteps:
+        for worker in workers:
+          worker.send('gather', block=False)
+        for worker in workers:
+          episode = worker.recv(block=False)
+          if episode:
+            datapoints.extend(episode)
+            pbar.update(len(episode))
+  return datapoints
+
+
+def train_and_evaluate(envs=','.join([e[:-3] for e in MT10_V2.keys()]),
+                       seed=random.randrange(1000),
                        num_batches=1e4, batch_size=16):
-  workdir = f'data/train_evaluator_seed={seed}'
+  workdir = f'~/data/train_evaluator_seed={seed}'
   rng = jax.random.PRNGKey(seed)
   summary_writer = tensorboard.SummaryWriter(workdir)
   summary_writer.hparams(dict(locals()))
@@ -177,7 +175,8 @@ def train_and_evaluate(envs=','.join([e[:-3] for e in MT10_V2.keys()]), seed=ran
   learning_rate = 1e-4
   momentum = 0.99
   cond_evaluator = ConditionEvaluator()
-  params = cond_evaluator.init(rng, jnp.ones([batch_size, 39]), jnp.ones([batch_size, 3, DISC_DIM]))
+  params = cond_evaluator.init(rng, jnp.ones([batch_size, 39]),
+                               jnp.ones([batch_size, 3, DISC_DIM]))
   tx = optax.sgd(learning_rate, momentum)
   state = train_state.TrainState.create(
       apply_fn=cond_evaluator.apply, params=params, tx=tx)
@@ -202,4 +201,5 @@ def train_and_evaluate(envs=','.join([e[:-3] for e in MT10_V2.keys()]), seed=ran
   return state
 
 if __name__ == '__main__':
-  train_and_evaluate()
+  # pprint(worker_dataset(MT10_ENV_NAMES, 50000, seed=100)[100])
+  clize.run(worker_dataset)

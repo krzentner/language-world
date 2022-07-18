@@ -11,7 +11,8 @@ from tqdm import tqdm
 from metaworld.envs.mujoco.env_dict import MT10_V2
 import metaworld_controllers
 from metaworld_controllers import SawyerUniversalV2Policy, parse_obs, run_controller
-from metaworld.envs import ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE
+from sample_utils import (make_env, sample_noisy_policy,
+                          sample_policy_with_noise_process)
 
 import ou_process
 
@@ -19,18 +20,32 @@ import reverb
 
 REVERB_CHECKPOINT_FILENAME = 'data/reverb_checkpoint'
 
-def describe_relative_coordinates(xyz1, xyz2):
-  descriptors = {
+class FixedDict(dict):
+
+  def __setitem__(self, key, value):
+    assert key in self, f"{key} not present in dict"
+    return super().__setitem__(key, value)
+
+def describe_symmetric_coordinates(xyz1, xyz2):
+  descriptors = FixedDict({
       "near": 0,
+      "around": 0,
       "left of": 0,
       "right of": 0,
       "behind": 0,
       "in front of": 0,
       "above": 0,
       "below": 0,
-  }
+      "vertically aligned with": 0,
+      "almost vertically aligned with": 0,
+      "mostly below": 0,
+      "horizontally aligned with": 0,
+      "forward aligned with": 0,
+  })
   if np.linalg.norm(xyz1 - xyz2) < .04:
     descriptors["near"] = 1.
+  if np.linalg.norm(xyz1 - xyz2 + [0, 0, 0.02]) < .03:
+    descriptors["around"] = 1.
   if xyz1[0] - xyz2[0] > 0.04:
     descriptors["left of"] = 1.
   if xyz1[0] - xyz2[0] < -0.04:
@@ -43,6 +58,17 @@ def describe_relative_coordinates(xyz1, xyz2):
     descriptors["above"] = 1.
   if np.linalg.norm(xyz1[:2] - xyz2[:2]) < 0.02 and xyz1[2] - xyz2[2] < 0:
     descriptors["below"] = 1.
+  if np.linalg.norm(xyz1[:2] - xyz2[:2]) < 0.06:
+    descriptors["vertically aligned with"] = 1.
+  if np.linalg.norm(xyz1[:2] - xyz2[:2]) < 0.12:
+    descriptors["almost vertically aligned with"] = 1.
+  if xyz1[2] < xyz2[2] + 0.23:
+    descriptors["mostly below"] = 1.
+  if np.linalg.norm(xyz1[1:] - xyz2[1:]) < 0.03:
+    descriptors["horizontally aligned with"] = 1.
+  if np.linalg.norm(xyz1[[0,2]] - xyz2[[0,2]]) < 0.03:
+    descriptors["forward aligned with"] = 1.
+  descriptors = dict(descriptors)
   for key in list(descriptors.keys()):
     descriptors[f"not {key}"] = 1 - descriptors[key]
   return descriptors
@@ -56,7 +82,6 @@ OBJECT_NAMES = {
     },
     'peg-insert-side': {
         'obj1_pos': "peg",
-        'goal_pos': "hole",
     },
     'reach': {
         'goal_pos': "reach target"
@@ -89,13 +114,47 @@ def describe_obs(env_name, obs):
   keys_to_names = {'hand_pos': "the robot's gripper"}
   keys_to_names.update(OBJECT_NAMES[env_name])
   descriptors = {}
-  for (key1, name1) in keys_to_names.items():
-    for (key2, name2) in keys_to_names.items():
-      if key1 == key2:
+  object_locations = []
+  for (key, name) in OBJECT_NAMES[env_name].items():
+    object_locations.append((name, obs[key]))
+  object_locations.append(("the robot's gripper", obs['hand_pos']))
+  if env_name == 'peg-insert-side':
+    object_locations.append(("hole", np.array([-.35, obs['goal_pos'][1], .16])))
+  for (i, (name1, xyz1)) in enumerate(object_locations):
+    for (j, (name2, xyz2)) in enumerate(object_locations):
+      if name1 == name2:
         continue
-      disc = describe_relative_coordinates(obs[key1], obs[key2])
+      # This runs (2-4x) faster, but is less complete
+      # if i > j:
+        # continue
+      disc = describe_symmetric_coordinates(xyz1, xyz2)
       for (key, val) in disc.items():
         descriptors[f"{name1} is {key} {name2}"] = val
+  for (key, name) in OBJECT_NAMES[env_name].items():
+    if key == 'goal_pos':
+      continue
+    gripper_motion = obs['hand_pos'] - obs['last_hand_pos']
+    obj_motion = obs[key] - obs[f'last_{key}']
+
+    if obs[key][2] > 0.02:
+      descriptors[f"{name} is touching the table"] = 0.
+      descriptors[f"{name} is not touching the table"] = 1.
+    else:
+      descriptors[f"{name} is touching the table"] = 1.
+      descriptors[f"{name} is not touching the table"] = 0.
+
+  if obs['gripper_distance_apart'] > 0.75:
+    descriptors["gripper is open"] = 1.
+    descriptors["gripper is closed"] = 0.
+  else:
+    descriptors["gripper is open"] = 0.
+    descriptors["gripper is closed"] = 1.
+
+  conjunction_descriptors = {}
+  for (desc1, value1) in descriptors.items():
+    for (desc2, value2) in descriptors.items():
+      conjunction_descriptors[f"{desc1} and {desc2}"] = value1 * value2
+  descriptors.update(conjunction_descriptors)
   return descriptors
 
 
@@ -145,7 +204,7 @@ def generate(n_episodes_per_env=100, random_policy_prob=0.005,
           alpha = 0.9
           action = alpha * action + (1 - alpha) * noise
         else:
-          action = policy.get_action(observation)
+          action, info = policy.get_action(observation)
         observation, r, done, info = env.step(action)
       store_obs(client, observation)
   checkpoint_file = client.checkpoint()
@@ -154,66 +213,6 @@ def generate(n_episodes_per_env=100, random_policy_prob=0.005,
   checkpointer = reverb.checkpointers.DefaultCheckpointer(path=REVERB_CHECKPOINT_FILENAME)
   del server
   server = start_reverb_server(max_size, checkpointer)
-
-def make_env(env_name, seed: int):
-    env = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE[f'{env_name}-v2-goal-observable'](seed)
-    env.seeded_rand_vec = True
-    env.max_episode_length = 500
-    return env
-
-def sample_policy_or_random(env, policy, random_policy_prob):
-    observation = env.reset()
-    use_random = False
-    yield {'observation': observation}
-    for i in range(env.max_episode_length):
-      if i > 0 and not use_random and np.random.uniform() < random_policy_prob:
-        use_random = True
-      if use_random:
-        noise = env.action_space.sample()
-        alpha = 0.9
-        action = alpha * action + (1 - alpha) * noise
-      else:
-        action = policy.get_action(observation)
-      next_obs, reward, done, info = env.step(action)
-      yield {'observation': observation,
-             'action': action,
-             'reward': reward,
-             'done': done,
-             'success': info['success']}
-      observation = next_obs
-
-
-def sample_noisy_policy(env, policy, noise_scale):
-    observation = env.reset()
-    yield {'observation': observation}
-    for i in range(env.max_episode_length):
-      action = policy.get_action(observation)
-      action_noisy = action + np.random.normal(scale=noise_scale)
-      next_obs, reward, done, info = env.step(action_noisy)
-      yield {'observation': observation,
-             'action': action,
-             'action_noisy': action_noisy,
-             'reward': reward,
-             'done': done,
-             'success': info['success']}
-      observation = next_obs
-
-
-def sample_policy_with_noise_process(env, policy, process):
-  process.reset()
-  observation = env.reset()
-  yield {'observation': observation}
-  for i in range(env.max_episode_length):
-    action = policy.get_action(observation)
-    action_noisy = action + process.simulate()
-    next_obs, reward, done, info = env.step(action_noisy)
-    yield {'observation': observation,
-            'action': action,
-            'action_noisy': action_noisy,
-            'reward': reward,
-            'done': done,
-            'success': info['success']}
-    observation = next_obs
 
 MT10_ENV_NAMES = [e[:-3] for e in MT10_V2.keys()]
 
@@ -259,24 +258,34 @@ class DescriptorPolicy:
     else:
       controller_name = random.choice(list(self.descriptor_to_controller.values()))
     ground_truth_controller_name = tree(obs)
-    # if controller_name != ground_truth_controller_name:
-      # print('candidate_controllers:', candidate_controllers)
-      # print('ground_truth_controller:', ground_truth_controller_name)
-      # pprint(descriptions)
-    return run_controller(controller_name, obs)
+    info = {}
+    info['controller_name'] = controller_name
+    info['candidate_controllers'] = list(set(candidate_controllers))
+    return run_controller(controller_name, obs), info
 
 def evaluate_policy(env_name, n_episodes, episode_factory):
   successes = []
+  controller_counts = defaultdict(int)
+  candidate_counts = defaultdict(int)
   for i in tqdm(range(n_episodes)):
     success = False
     for data in episode_factory():
       success |= data.get('success', 0) > 0
+      if 'controller_name' in data:
+        controller_counts[data['controller_name']] += 1
+      for candidate in data.get('candidate_controllers', []):
+        candidate_counts[candidate] += 1
     successes.append(success)
   print('Success rate for', env_name, ':', np.mean(successes))
+  print('controller_counts:')
+  pprint(dict(controller_counts))
+  print('candidate_counts:')
+  pprint(dict(candidate_counts))
   return np.mean(successes)
 
 
-def find_controllers_with_missing_descriptors(seed=100):
+def find_controllers_with_missing_descriptors(*, envs=','.join(MT10_ENV_NAMES), seed=100):
+  env_names = list(envs.split(','))
   # For each descriptor, record how many observations with that descriptor each
   # controller is active
   # For each controller, look through each of these descriptor distributions,
@@ -284,11 +293,15 @@ def find_controllers_with_missing_descriptors(seed=100):
   # Compose into policy, and count timesteps where policy disagrees with
   # original tree
   # for env_name in ['button-press-topdown']:
-  for env_name in MT10_ENV_NAMES:
+  success_rates = {}
+  for env_name in env_names:
     desc_to_con_count = defaultdict(lambda: defaultdict(int))
     tree = metaworld_controllers.DECISION_TREES[env_name]['function']
     policy = SawyerUniversalV2Policy(env_name=env_name)
     env = make_env(env_name, seed)
+    # evaluate_policy(env_name, 10,
+                    # lambda: sample_noisy_policy(env, policy, 0.01))
+    controller_total_counts = defaultdict(int)
     for episode in tqdm(range(10)):
       for data in sample_noisy_policy(env, policy, 0.01):
         obs = parse_obs(data['observation'])
@@ -296,63 +309,46 @@ def find_controllers_with_missing_descriptors(seed=100):
         descriptions = describe_obs(env_name, obs)
         for (desc, value) in descriptions.items():
           desc_to_con_count[desc][controller_name] += value
+        controller_total_counts[controller_name] += 1
     policy_desc_to_con = {}
     for con_name in controller_names_for_env(env_name):
+      # Maximize number of timesteps where the description is present for this
+      # controller and no other controllers.
       best_descriptors = sorted(desc_to_con_count.items(),
                                 key=lambda items:
-                                2 * items[1][con_name] - sum(items[1].values()),
+                                (items[1][con_name] -
+                                 (sum(items[1].values()) - items[1][con_name])),
                                 reverse=True)
+      num_chosen = 0
       for (descriptor, counts) in best_descriptors:
-        if descriptor not in policy_desc_to_con:
-          print('Chose descriptor', repr(descriptor),
-                'for controller', repr(con_name),
-                '(matches for', counts[con_name], 'timesteps)')
-          policy_desc_to_con[descriptor] = con_name
+        print('Chose descriptor', repr(descriptor),
+              'for controller', repr(con_name),
+              '(matches for', counts[con_name], '/',
+              controller_total_counts[con_name], 'timesteps)')
+        policy_desc_to_con[descriptor] = con_name
+        num_chosen += 1
+        if num_chosen >= 1:
           break
+    print(policy_desc_to_con)
     desc_policy = DescriptorPolicy(policy_desc_to_con, env_name=env_name)
-    evaluate_policy(env_name, 10,
-                    lambda: sample_noisy_policy(env, desc_policy, 0.01))
-
-
-  # for env_name in MT10_ENV_NAMES:
-    # controller_desc_counts = defaultdict(lambda: defaultdict(int))
-    # controller_counts = defaultdict(int)
-    # env_counts = defaultdict(int)
-    # tree = metaworld_controllers.DECISION_TREES[env_name]['function']
-    # successes = []
-    # for episode in tqdm(range(10)):
-      # success = False
-      # for data in sample_noisy_policy(env, policy, 0.01):
-        # o_d = parse_obs(data['observation'])
-        # controller_name = tree(o_d)
-        # update_counts(controller_desc_counts[controller_name],
-                      # env_name, data['observation'])
-        # update_counts(env_counts, env_name, data['observation'])
-        # success |= data.get('success', 0) > 0
-      # successes.append(success)
-    # print('Success rate for', env_name, ':', np.mean(successes))
-    # controller_desc_less_env = {
-        # controller_name: {desc: (controller_desc_counts[controller_name][desc]
-                                 # - env_count[desc])
-                          # for desc in desc_counts.keys()}
-      # for controller_name in controller_desc_counts.keys()
-    # }
-    # for (controller_name, counts) in controller_desc_less_env.items():
-      # sorted_controllers =
-
+    success = evaluate_policy(env_name, 10,
+                              lambda: sample_noisy_policy(env, desc_policy, 0.10))
+    success_rates[env_name] = success
+  pprint(success_rates)
 
 
 def test_smoke():
   seed = 100
   env_name = 'peg-insert-side'
-  env = make_env(env_name)
+  env = make_env(env_name, seed)
   policy = SawyerUniversalV2Policy(env_name=env_name)
   observation = env.reset()
   for i in range(env.max_episode_length):
-    action = policy.get_action(observation)
+    action, _ = policy.get_action(observation)
     observation, r, done, info = env.step(action)
     print('-' * 80)
-    print('\n'.join(describe_obs(env_name, observation)))
+    for (desc, truth_value) in describe_obs(env_name, observation).items():
+      print(f"{desc}:", bool(truth_value))
     print('-' * 80)
 
 

@@ -271,7 +271,7 @@ def train_and_evaluate(train_envs=','.join([e[:-3] for e in MT10_V2.keys()]),
                        # test_envs=','.join([e[:-3] for e in MT10_V2.keys()]),
                        seed=random.randrange(1000),
                        num_batches=1e6, batch_size=16, noise_scale=0.1):
-  workdir = f'data/evaluator_agent_seed={seed}_noise-scale={noise_scale}'
+  workdir = f'~/data/evaluator_agent_seed={seed}_noise-scale={noise_scale}'
   rng = jax.random.PRNGKey(seed)
   summary_writer = tensorboard.SummaryWriter(workdir)
   summary_writer.hparams(dict(locals()))
@@ -289,7 +289,7 @@ def train_and_evaluate(train_envs=','.join([e[:-3] for e in MT10_V2.keys()]),
   cond_agent = CondAgent()
   params = cond_agent.init(rng, ['drawer-close', 'pick-place'] * int(batch_size / 2),
                            jnp.ones([batch_size, 39]))
-  with open('data/best_evaluator.pkl', 'rb') as f:
+  with open('~/data/best_evaluator.pkl', 'rb') as f:
     cond_eval_state = pickle.load(f)
   params = params.copy({'cond_evaluator': cond_eval_state['params']})
   tx = optax.sgd(learning_rate, momentum)

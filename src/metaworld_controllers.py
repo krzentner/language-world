@@ -2,8 +2,25 @@ from dataclasses import dataclass
 import numpy as np
 
 from metaworld.envs.mujoco.env_dict import MT10_V2, ALL_V2_ENVIRONMENTS
-from metaworld.policies.policy import Policy, assert_fully_parsed, move
-from metaworld.policies.action import Action
+from metaworld.policies.policy import Policy, assert_fully_parsed
+
+
+def move(from_xyz, to_xyz, p):
+    """Computes action components that help move from 1 position to another
+
+    Args:
+        from_xyz (np.ndarray): The coordinates to move from (usually current position)
+        to_xyz (np.ndarray): The coordinates to move to
+        p (float): constant to scale response
+
+    Returns:
+        (np.ndarray): Response that will decrease abs(to_xyz - from_xyz)
+
+    """
+    error = to_xyz - from_xyz
+    response = p * error
+
+    return response
 
 def act(target_xyz, grab_effort, *, p):
     return {
@@ -25,7 +42,7 @@ def declare_controller(env_name, name):
         return func
     return decorator
 
-def declare_tree(env_name):
+def declare_policy(env_name):
     def decorator(func):
         assert env_name not in DECISION_TREES
         DECISION_TREES[env_name] = {
@@ -37,28 +54,28 @@ def declare_tree(env_name):
 @declare_controller("drawer-close", "put the gripper in front of the drawer")
 def front_drawer(o_d):
     pos_curr = o_d['hand_pos']
-    pos_drwr = o_d['obj1_pos'] + [.0, .0, -.02]
+    pos_drwr = o_d['obj1_pos'] + np.array([.0, .0, -.02])
     return act([pos_curr[0], pos_curr[1], pos_drwr[2] + 0.5], 1, p=25)
 
 @declare_controller("drawer-close", "put the gripper above the drawer handle")
 def above_drawer_handle(o_d):
-    pos_drwr = o_d['obj1_pos'] + [0., -0.075, 0.23]
-    return act(pos_drwr + [0., -0.075, 0.23], 1, p=25)
+    pos_drwr = o_d['obj1_pos'] + np.array([0., -0.075, 0.23])
+    return act(pos_drwr + np.array([0., -0.075, 0.23]), 1, p=25)
 
 @declare_controller("drawer-close", "grab drawer handle")
 def cage_gripper_handle(o_d):
-    pos_drwr = o_d['obj1_pos'] + [.0, .0, -.02]
-    return act(pos_drwr + [0., -0.075, 0.], 1, p=25)
+    pos_drwr = o_d['obj1_pos'] + np.array([.0, .0, -.02])
+    return act(pos_drwr + np.array([0., -0.075, 0.]), 1, p=25)
 
 @declare_controller("drawer-close", "push drawer closed")
 def push_drawer(o_d):
-    pos_drwr = o_d['obj1_pos'] + [.0, .0, -.02]
+    pos_drwr = o_d['obj1_pos'] + np.array([.0, .0, -.02])
     return act(pos_drwr, 1, p=25)
 
-@declare_tree("drawer-close")
+@declare_policy("drawer-close")
 def drawer_close(o_d):
     pos_curr = o_d['hand_pos']
-    pos_drwr = o_d['obj1_pos'] + [.0, .0, -.02]
+    pos_drwr = o_d['obj1_pos'] + np.array([.0, .0, -.02])
 
     # if further forward than the drawer...
     if pos_curr[1] > pos_drwr[1]:
@@ -78,7 +95,7 @@ def drawer_close(o_d):
 @declare_controller("peg-insert-side", "put gripper above peg")
 def cage_peg(o_d):
     pos_peg = o_d['obj1_pos']
-    return act(pos_peg + [.0, .0, .3], -1, p=25)
+    return act(pos_peg + np.array([.0, .0, .3]), -1, p=25)
 
 @declare_controller("peg-insert-side", "grab peg")
 def grab_peg(o_d):
@@ -92,14 +109,14 @@ def grab_peg(o_d):
 @declare_controller("peg-insert-side", "align peg to hole")
 def cage_peg(o_d):
     pos_hole = np.array([-.35, o_d['goal_pos'][1], .16])
-    return act(pos_hole + [.4, .0, .0], .6, p=25)
+    return act(pos_hole + np.array([.4, .0, .0]), .6, p=25)
 
 @declare_controller("peg-insert-side", "insert peg into hole")
 def cage_peg(o_d):
     pos_hole = np.array([-.35, o_d['goal_pos'][1], .16])
     return act(pos_hole, .6, p=25)
 
-@declare_tree("peg-insert-side")
+@declare_policy("peg-insert-side")
 def peg_insert_side(o_d):
     pos_curr = o_d['hand_pos']
     pos_peg = o_d['obj1_pos']
@@ -117,7 +134,7 @@ def peg_insert_side(o_d):
     else:
         return "insert peg into hole"
 
-@declare_tree('reach')
+@declare_policy('reach')
 def reach(o_d):
     return "reach to goal"
 
@@ -127,20 +144,20 @@ def reach_controller(o_d):
 
 @declare_controller('window-open', "move gripper to right of window handle")
 def right_of_window_handle(o_d):
-    pos_wndw = o_d['obj1_pos'] + [-0.03, -0.03, -0.08]
-    return act(pos_wndw + [0., 0., 0.3], 1., p=25)
+    pos_wndw = o_d['obj1_pos'] + np.array([-0.03, -0.03, -0.08])
+    return act(pos_wndw + np.array([0., 0., 0.3]), 1., p=25)
 
 @declare_controller('window-open', "slide window left")
 def slide_window_left(o_d):
-    pos_wndw = o_d['obj1_pos'] + [-0.03, -0.03, -0.08]
+    pos_wndw = o_d['obj1_pos'] + np.array([-0.03, -0.03, -0.08])
     return act(pos_wndw, 1., p=25)
 
 @declare_controller('window-open', "push window left harder")
 def push_window_left(o_d):
-    pos_wndw = o_d['obj1_pos'] + [-0.03, -0.03, -0.08]
-    return act(pos_wndw + [0.1, 0., 0.], 1., p=25)
+    pos_wndw = o_d['obj1_pos'] + np.array([-0.03, -0.03, -0.08])
+    return act(pos_wndw + np.array([0.1, 0., 0.]), 1., p=25)
 
-@declare_tree('window-open')
+@declare_policy('window-open')
 def window_open(o_d):
     pos_curr = o_d['hand_pos']
     pos_wndw = o_d['obj1_pos'] + np.array([-0.03, -0.03, -0.08])
@@ -154,20 +171,20 @@ def window_open(o_d):
 
 @declare_controller('window-close', "move gripper to left of window handle")
 def left_of_window_handle(o_d):
-    pos_wndw = o_d['obj1_pos'] + [+0.03, -0.03, -0.08]
-    return act(pos_wndw + [0., 0., 0.25], 1., p=25)
+    pos_wndw = o_d['obj1_pos'] + np.array([+0.03, -0.03, -0.08])
+    return act(pos_wndw + np.array([0., 0., 0.25]), 1., p=25)
 
 @declare_controller('window-close', "slide window right")
 def slide_window_right(o_d):
-    pos_wndw = o_d['obj1_pos'] + [+0.03, -0.03, -0.08]
+    pos_wndw = o_d['obj1_pos'] + np.array([+0.03, -0.03, -0.08])
     return act(pos_wndw, 1., p=25)
 
 @declare_controller('window-close', "push window right harder")
 def slide_window_right(o_d):
-    pos_wndw = o_d['obj1_pos'] + [+0.03, -0.03, -0.08]
-    return act(pos_wndw + [-0.1, 0., 0.], 1., p=25)
+    pos_wndw = o_d['obj1_pos'] + np.array([+0.03, -0.03, -0.08])
+    return act(pos_wndw + np.array([-0.1, 0., 0.]), 1., p=25)
 
-@declare_tree('window-close')
+@declare_policy('window-close')
 def window_close(o_d):
     pos_curr = o_d['hand_pos']
     pos_wndw = o_d['obj1_pos'] + np.array([+0.03, -0.03, -0.08])
@@ -179,7 +196,7 @@ def window_close(o_d):
     else:
         return "push window right harder"
 
-@declare_tree('drawer-open')
+@declare_policy('drawer-open')
 def drawer_open(o_d):
     pos_curr = o_d['hand_pos']
     pos_drwr = o_d['obj1_pos'] + np.array([.0, .0, -.02])
@@ -197,8 +214,8 @@ def drawer_open(o_d):
 
 @declare_controller('drawer-open', "put gripper above drawer handle")
 def gripper_above_drawer_handle(o_d):
-    pos_drwr = o_d['obj1_pos'] + [.0, .0, -.02]
-    to_pos = pos_drwr + [0., 0., 0.3]
+    pos_drwr = o_d['obj1_pos'] + np.array([.0, .0, -.02])
+    to_pos = pos_drwr + np.array([0., 0., 0.3])
     return act(to_pos, -1, p=4)
 
 @declare_controller('drawer-open', "put gripper around drawer handle")
@@ -211,10 +228,10 @@ def gripper_above_drawer_handle(o_d):
     to_pos = pos_drwr + np.array([0., -0.06, 0.])
     return act(to_pos, -1, p=50)
 
-@declare_tree('door-open')
+@declare_policy('door-open')
 def door_open(o_d):
     pos_curr = o_d['hand_pos']
-    pos_door = o_d['obj1_pos'] - [0.05, 0, 0]
+    pos_door = o_d['obj1_pos'] - np.array([0.05, 0, 0])
 
     # align end effector's Z axis with door handle's Z axis
     if np.linalg.norm(pos_curr[:2] - pos_door[:2]) > 0.12:
@@ -228,23 +245,23 @@ def door_open(o_d):
 
 @declare_controller('door-open', "put gripper above door handle")
 def gripper_above_door_handle(o_d):
-    pos_door = o_d['obj1_pos'] - [0.05, 0, 0]
-    return act(pos_door + [0.06, 0.02, 0.2], 1, p=4)
+    pos_door = o_d['obj1_pos'] - np.array([0.05, 0, 0])
+    return act(pos_door + np.array([0.06, 0.02, 0.2]), 1, p=4)
 
 @declare_controller('door-open', "put gripper around door handle")
 def gripper_around_door_handle(o_d):
-    pos_door = o_d['obj1_pos'] - [0.05, 0, 0]
-    return act(pos_door + [0.06, 0.02, 0], 1, p=4)
+    pos_door = o_d['obj1_pos'] - np.array([0.05, 0, 0])
+    return act(pos_door + np.array([0.06, 0.02, 0]), 1, p=4)
 
 @declare_controller('door-open', "push door closed")
 def push_door_closed(o_d):
-    pos_door = o_d['obj1_pos'] - [0.05, 0, 0]
+    pos_door = o_d['obj1_pos'] - np.array([0.05, 0, 0])
     return act(pos_door, 1, p=4)
 
-@declare_tree('push')
+@declare_policy('push')
 def push(o_d):
     pos_curr = o_d['hand_pos']
-    pos_puck = o_d['obj1_pos'] + [-0.005, 0, 0]
+    pos_puck = o_d['obj1_pos'] + np.array([-0.005, 0, 0])
     pos_goal = o_d['goal_pos']
 
     # If error in the XY plane is greater than 0.02, place end effector above the puck
@@ -260,35 +277,37 @@ def push(o_d):
 @declare_controller('push', "put the gripper above the puck")
 def gripper_above_puck(o_d):
     pos_curr = o_d['hand_pos']
-    pos_puck = o_d['obj1_pos'] + [-0.005, 0, 0]
+    pos_puck = o_d['obj1_pos'] + np.array([-0.005, 0, 0])
+    grab_effort = 0
     if np.linalg.norm(pos_curr[:2] - pos_puck[:2]) > 0.02 or abs(pos_curr[2] - pos_puck[2]) > 0.10:
         grab_effort = 0
     else:
         grab_effort = 0.6
-    return act(pos_puck + [0., 0., 0.2], grab_effort, p=10)
+    return act(pos_puck + np.array([0., 0., 0.2]), grab_effort, p=10)
 
 @declare_controller('push', "push the gripper into the puck")
 def push_down_on_puck(o_d):
     pos_curr = o_d['hand_pos']
-    pos_puck = o_d['obj1_pos'] + [-0.005, 0, 0]
+    pos_puck = o_d['obj1_pos'] + np.array([-0.005, 0, 0])
+    grab_effort = 0.6
     if np.linalg.norm(pos_curr[:2] - pos_puck[:2]) > 0.02 or abs(pos_curr[2] - pos_puck[2]) > 0.10:
         grab_effort = 0
     else:
         grab_effort = 0.6
-    return act(pos_puck + [0., 0., 0.03], grab_effort, p=10)
+    return act(pos_puck + np.array([0., 0., 0.03]), grab_effort, p=10)
 
 @declare_controller('push', "slide the puck to the goal")
 def slide_puck_to_goal(o_d):
     pos_goal = o_d['goal_pos']
     pos_curr = o_d['hand_pos']
-    pos_puck = o_d['obj1_pos'] + [-0.005, 0, 0]
+    pos_puck = o_d['obj1_pos'] + np.array([-0.005, 0, 0])
     if np.linalg.norm(pos_curr[:2] - pos_puck[:2]) > 0.02 or abs(pos_curr[2] - pos_puck[2]) > 0.10:
         grab_effort = 0
     else:
         grab_effort = 0.6
     return act(pos_goal, grab_effort, p=10)
 
-@declare_tree('button-press-topdown')
+@declare_policy('button-press-topdown')
 def button_press_topdown(o_d):
     pos_curr = o_d['hand_pos']
     pos_button = o_d['obj1_pos']
@@ -306,12 +325,12 @@ def gripper_above_button(o_d):
 def push_down_on_button(o_d):
     return act(o_d['obj1_pos'], 1., p=25)
 
-@declare_tree('pick-place')
-def pick_place(o_d):
-    pos_curr = o_d['hand_pos']
-    pos_puck = o_d['obj1_pos'] + np.array([-0.005, 0, 0])
-    pos_goal = o_d['goal_pos']
-    gripper_separation = o_d['gripper_distance_apart']
+@declare_policy('pick-place')
+def pick_place(obs):
+    pos_curr = obs['hand_pos']
+    pos_puck = obs['obj1_pos'] + np.array([-0.005, 0, 0])
+    pos_goal = obs['goal_pos']
+    gripper_separation = obs['gripper_distance_apart']
     # If error in the XY plane is greater than 0.02, place end effector above the puck
     if np.linalg.norm(pos_curr[:2] - pos_puck[:2]) > 0.02:
         return "place gripper above puck"
@@ -326,22 +345,22 @@ def pick_place(o_d):
         return "place puck at goal"
 
 @declare_controller('pick-place', "place gripper above puck")
-def place_gripper_above_puck(o_d):
-    pos_puck = o_d['obj1_pos'] + np.array([-0.005, 0, 0])
+def place_gripper_above_puck(obs):
+    pos_puck = obs['obj1_pos'] + np.array([-0.005, 0, 0])
     return act(pos_puck + np.array([0., 0., 0.1]), 0., p=10)
 
 @declare_controller('pick-place', "drop gripper around puck")
-def drop_gripper_argound_puck(o_d):
-    pos_puck = o_d['obj1_pos'] + np.array([-0.005, 0, 0])
+def drop_gripper_argound_puck(obs):
+    pos_puck = obs['obj1_pos'] + np.array([-0.005, 0, 0])
     return act(pos_puck + np.array([0., 0., 0.03]), 0., p=10)
 
 @declare_controller('pick-place', "close gripper around puck")
-def close_gripper_around_puck(o_d):
-    return act(o_d['hand_pos'], 1., p=10)
+def close_gripper_around_puck(obs):
+    return act(obs['hand_pos'], 1., p=10)
 
 @declare_controller('pick-place', "place puck at goal")
-def place_goal_at_puck(o_d):
-    return act(o_d['goal_pos'], 1., p=10)
+def place_puck_at_goal(obs):
+    return act(obs['goal_pos'], 1., p=10)
 
 def parse_obs(obs):
     return {
@@ -367,14 +386,7 @@ def run_controller(controller_name, parsed_obs):
                      controller_params['target_xyz'],
                      controller_params['control_coeff'])
 
-    action = Action({
-        'delta_pos': np.arange(3),
-        'grab_effort': 3
-    })
-
-    action['delta_pos'] = delta_xyz
-    action['grab_effort'] = controller_params['grab_effort']
-    return action.array
+    return np.concatenate([delta_xyz, np.array([controller_params['grab_effort']])])
 
 
 @dataclass
@@ -386,7 +398,7 @@ class SawyerUniversalV2Policy:
         o_d = parse_obs(obs)
         tree = DECISION_TREES[self.env_name]['function']
         controller_name = tree(o_d)
-        return run_controller(controller_name, o_d)
+        return run_controller(controller_name, o_d), {'controller_name': controller_name}
 
 def trajectory_summary(env, policy, act_noise_pct, render=False, end_on_success=True):
     """Tests whether a given policy solves an environment
@@ -450,7 +462,7 @@ def trajectory_generator(env, policy, act_noise_pct, render=False):
     # assert env.observation_space.contains(o)
 
     for _ in range(env.max_path_length):
-        a = policy.get_action(o)
+        a, _ = policy.get_action(o)
         a = np.random.normal(a, act_noise_pct * action_space_ptp)
 
         o, r, done, info = env.step(a)

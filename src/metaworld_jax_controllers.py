@@ -448,7 +448,7 @@ def trajectory_generator(env, policy, act_noise_pct, render=False):
     # assert env.observation_space.contains(o)
 
     for _ in range(env.max_path_length):
-        a = policy.get_action(o)
+        a, _ = policy.get_action(o)
         a = np.random.normal(a, act_noise_pct * action_space_ptp)
 
         o, r, done, info = env.step(a)
