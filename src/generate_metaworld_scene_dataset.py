@@ -3,6 +3,8 @@ from collections import defaultdict
 from pprint import pprint
 from dataclasses import dataclass
 import random
+import os
+import pickle
 
 import numpy as np
 import clize
@@ -12,7 +14,8 @@ from metaworld.envs.mujoco.env_dict import MT10_V2
 import metaworld_controllers
 from metaworld_controllers import SawyerUniversalV2Policy, parse_obs, run_controller
 from sample_utils import (make_env, sample_noisy_policy,
-                          sample_policy_with_noise_process)
+                          sample_policy_with_noise_process, collect_noisy_episodes)
+from sample_utils import MT50_ENV_NAMES
 
 import ou_process
 
@@ -82,6 +85,7 @@ OBJECT_NAMES = {
     },
     'peg-insert-side': {
         'obj1_pos': "peg",
+        # The goal is weirdly offset, so it's hacked in below
     },
     'reach': {
         'goal_pos': "reach target"
@@ -105,8 +109,155 @@ OBJECT_NAMES = {
     },
     'button-press-topdown': {
         'obj1_pos': "button",
-    }
+    },
+    'sweep': {
+        'obj1_pos': "cube",
+        'goal_pos': "target location",
+    },
+    'assembly': {
+        'obj1_pos': "wrench",
+        'goal_pos': "peg",
+    },
+    'basketball': {
+        'obj1_pos': "ball",
+        'goal_pos': "hoop",
+    },
+    'bin-picking': {
+        'obj1_pos': "cube",
+    },
+    'box-close': {
+        'obj1_pos': "lid",
+        'goal_pos': "box",
+    },
+    'button-press-topdown-wall': {
+        'obj1_pos': "button",
+    },
+    'button-press': {
+        'obj1_pos': "button",
+    },
+    'button-press-wall': {
+        'obj1_pos': "button",
+    },
+    'coffee-button': {
+        'obj1_pos': "button",
+    },
+    'coffee-pull': {
+        'obj1_pos': "mug",
+    },
+    'coffee-push': {
+        'obj1_pos': "mug",
+        'goal_pos': "target location",
+    },
+    'dial-turn': {
+        'obj1_pos': "dial",
+    },
+    'disassemble': {
+        'obj1_pos': "wrench",
+        'goal_pos': "peg",
+    },
+    'door-close': {
+        'obj1_pos': "door",
+        'goal_pos': "target location",
+    },
+    'door-lock': {
+        'obj1_pos': "door's lock",
+    },
+    'door-unlock': {
+        'obj1_pos': "door's lock",
+    },
+    'faucet-close': {
+        'obj1_pos': "faucet",
+    },
+    'faucet-open': {
+        'obj1_pos': "faucet",
+    },
+    'hammer': {
+        'obj1_pos': "hammer",
+    },
+    'hand-insert': {
+        'obj1_pos': "puck",
+        'goal_pos': "target location",
+    },
+    'handle-press-side': {
+        'obj1_pos': "handle",
+    },
+    'handle-press': {
+        'obj1_pos': "handle",
+    },
+    'handle-pull-side': {
+        'obj1_pos': "handle",
+    },
+    'handle-pull': {
+        'obj1_pos': "handle",
+    },
+    'lever-pull': {
+        'obj1_pos': "lever",
+    },
+    'peg-unplug-side': {
+        'obj1_pos': "peg",
+    },
+    'pick-out-of-hole': {
+        'obj1_pos': "puck",
+        'goal_pos': "target location",
+    },
+    'pick-place-wall': {
+        'obj1_pos': "puck",
+        'goal_pos': "target location",
+    },
+    'plate-slide-back-side': {
+        'obj1_pos': "plate",
+    },
+    'plate-slide-back': {
+        'obj1_pos': "plate",
+    },
+    'plate-slide-side': {
+        'obj1_pos': "plate",
+    },
+    'plate-slide': {
+        'obj1_pos': "plate",
+        'goal_pos': "target location",
+    },
+    'push-back': {
+        'obj1_pos': "puck",
+        'goal_pos': "target location",
+    },
+    'push-wall': {
+        'obj1_pos': "puck",
+        'goal_pos': "target location",
+    },
+    'reach-wall': {
+        'goal_pos': "target location",
+    },
+    'shelf-place': {
+        'obj1_pos': "block",
+        'goal_pos': "shelf",
+    },
+    'soccer': {
+        'obj1_pos': "ball",
+        'goal_pos': "goal",
+    },
+    'stick-pull': {
+        'obj1_pos': "stick",
+        'obj2_pos': "thermos",
+        'goal_pos': "target location",
+    },
+    'stick-push': {
+        'obj1_pos': "stick",
+        'obj2_pos': "thermos",
+        'goal_pos': "target location",
+    },
+    'sweep-into': {
+        'obj1_pos': "cube",
+        'goal_pos': "target location",
+    },
+    'sweep': {
+        'obj1_pos': "cube",
+        'goal_pos': "target location",
+    },
 }
+
+assert len(OBJECT_NAMES) == 50
+assert set(OBJECT_NAMES.keys()) == set(MT50_ENV_NAMES)
 
 def describe_obs(env_name, obs):
   if not isinstance(obs, dict):
@@ -129,6 +280,8 @@ def describe_obs(env_name, obs):
         # continue
       disc = describe_symmetric_coordinates(xyz1, xyz2)
       for (key, val) in disc.items():
+        if key == 'around' or key == 'not around' and name1 != "the robot's gripper":
+          continue
         descriptors[f"{name1} is {key} {name2}"] = val
   for (key, name) in OBJECT_NAMES[env_name].items():
     if key == 'goal_pos':
@@ -150,6 +303,9 @@ def describe_obs(env_name, obs):
     descriptors["gripper is open"] = 0.
     descriptors["gripper is closed"] = 1.
 
+  # for (key, value) in descriptors.items():
+    # if value > 0:
+      # print(key)
   conjunction_descriptors = {}
   for (desc1, value1) in descriptors.items():
     for (desc2, value2) in descriptors.items():
@@ -245,6 +401,8 @@ def controller_names_for_env(env_name):
 class DescriptorPolicy:
   descriptor_to_controller: dict
   env_name: str
+  controller_choice_prob: float = 1.0
+  base_weight: float or None = None
 
   def get_action(self, observation):
     tree = metaworld_controllers.DECISION_TREES[self.env_name]['function']
@@ -253,7 +411,7 @@ class DescriptorPolicy:
     candidate_controllers = [
         con for (desc, con) in self.descriptor_to_controller.items()
         if descriptions[desc] > 0]
-    if candidate_controllers:
+    if candidate_controllers and np.random.uniform() < self.controller_choice_prob:
       controller_name = random.choice(candidate_controllers)
     else:
       controller_name = random.choice(list(self.descriptor_to_controller.values()))
@@ -261,15 +419,25 @@ class DescriptorPolicy:
     info = {}
     info['controller_name'] = controller_name
     info['candidate_controllers'] = list(set(candidate_controllers))
-    return run_controller(controller_name, obs), info
+    if self.base_weight:
+      descriptors = list(self.descriptor_to_controller.keys())
+      weights = np.array([1. if descriptions[desc] > 0 else self.base_weight
+                          for desc in descriptors])
+      weights /= weights.sum()
+      actions = np.array([run_controller(self.descriptor_to_controller[desc], obs)
+                          for desc in descriptors])
+      weighted_action = np.einsum('i,ik->k', weights, actions)
+      return weighted_action, info
+    else:
+      return run_controller(controller_name, obs), info
 
-def evaluate_policy(env_name, n_episodes, episode_factory):
+def evaluate_policy(env_name, episodes):
   successes = []
   controller_counts = defaultdict(int)
   candidate_counts = defaultdict(int)
-  for i in tqdm(range(n_episodes)):
+  for episode in episodes:
     success = False
-    for data in episode_factory():
+    for data in episode:
       success |= data.get('success', 0) > 0
       if 'controller_name' in data:
         controller_counts[data['controller_name']] += 1
@@ -294,16 +462,22 @@ def find_controllers_with_missing_descriptors(*, envs=','.join(MT10_ENV_NAMES), 
   # original tree
   # for env_name in ['button-press-topdown']:
   success_rates = {}
+  controller_maps = {}
   for env_name in env_names:
     desc_to_con_count = defaultdict(lambda: defaultdict(int))
     tree = metaworld_controllers.DECISION_TREES[env_name]['function']
     policy = SawyerUniversalV2Policy(env_name=env_name)
     env = make_env(env_name, seed)
-    # evaluate_policy(env_name, 10,
-                    # lambda: sample_noisy_policy(env, policy, 0.01))
     controller_total_counts = defaultdict(int)
-    for episode in tqdm(range(10)):
-      for data in sample_noisy_policy(env, policy, 0.01):
+    episodes = collect_noisy_episodes(10 * [env_name],
+                                      policy, n_episodes=100,
+                                      seed=seed, noise_scale=0.1)
+    # for episode in tqdm(range(100)):
+      # ou_proc = ou_process.OUProcess(dimensions=4)
+      # for data in sample_noisy_policy(env, policy, 0.01):
+    for episode in tqdm(episodes):
+      for data in episode:
+      # for data in sample_policy_with_noise_process(env, policy, ou_proc):
         obs = parse_obs(data['observation'])
         controller_name = tree(obs)
         descriptions = describe_obs(env_name, obs)
@@ -330,11 +504,33 @@ def find_controllers_with_missing_descriptors(*, envs=','.join(MT10_ENV_NAMES), 
         if num_chosen >= 1:
           break
     print(policy_desc_to_con)
+    controller_maps[env_name] = policy_desc_to_con
     desc_policy = DescriptorPolicy(policy_desc_to_con, env_name=env_name)
-    success = evaluate_policy(env_name, 10,
-                              lambda: sample_noisy_policy(env, desc_policy, 0.10))
-    success_rates[env_name] = success
-  pprint(success_rates)
+    controller_prob = 0.1
+    print('Weighting incorrect controller by', controller_prob)
+    desc_policy.base_weight = controller_prob
+    success = evaluate_policy(env_name,
+                              collect_noisy_episodes(20 * [env_name],
+                                                     desc_policy,
+                                                     seed=seed,
+                                                     n_episodes=100,
+                                                     noise_scale=0.1))
+    # for controller_prob in np.linspace(0, 1, 11):
+      # print('Weighting incorrect controller by', controller_prob)
+      # desc_policy.base_weight = controller_prob
+      # success = evaluate_policy(env_name, 10,
+                                # lambda: sample_noisy_policy(env, desc_policy, 0.10))
+      # desc_policy.base_weight = None
+      # print('Using correct controller with prob', controller_prob)
+      # desc_policy.controller_choice_prob = controller_prob
+      # success = evaluate_policy(env_name, 10,
+                                # lambda: sample_noisy_policy(env, desc_policy, 0.10))
+      # if controller_prob == 1.0:
+        # success_rates[env_name] = success
+  print(success_rates)
+  print(controller_maps)
+  with open(os.path.expanduser('~/data/controller_map.pkl'), 'wb') as f:
+    pickle.dump(controller_maps, f)
 
 
 def test_smoke():

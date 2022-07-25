@@ -1,6 +1,12 @@
 import numpy as np
 import re
 from pprint import pprint
+import pickle
+import shutil
+from os.path import expanduser
+import dbm.gnu
+from tqdm import tqdm
+import tensorflow as tf
 
 EMBEDDER = None # hub.load("https://tfhub.dev/google/universal-sentence-encoder-large/5")
 
@@ -188,22 +194,75 @@ def parse_condition_consequences(con_con):
     conditional_actions.append((preprocess_condition(condition), action))
   return conditional_actions
 
+
+# try:
+  # EMBEDDING_DB = dbm.open(expanduser('~/data/embedding_cache'), 'c')
+# except Exception:
+  # EMBEDDING_DB = {}
+
+# print('Initializing embedding_db')
+# for (k, v) in tqdm(EMBEDDING_CACHE.items()):
+  # EMBEDDING_DB[k] = pickle.dumps(v)
+# print('Initializing embedding_db')
+
 EMBEDDING_CACHE = {}
+UNFLUSHED_VALUES = []
+
+def load_cache():
+  print('Loading embedding cache')
+  embedding_db = dbm.gnu.open(expanduser('~/data/embedding_cache.db'), 'c')
+  key = embedding_db.firstkey()
+  while key is not None:
+    value = pickle.loads(embedding_db[key])
+    if isinstance(value, np.ndarray):
+      EMBEDDING_CACHE[key.decode('utf-8')] = value
+    key = embedding_db.nextkey(key)
+  print('Done loading embedding cache')
+
+load_cache()
+
+def save_cache():
+  print('Saving cache')
+  with open(expanduser('~/data/embedding_cache.pkl.tmp'), 'wb') as f:
+    pickle.dump(EMBEDDING_CACHE, f)
+  shutil.move(expanduser('~/data/embedding_cache.pkl.tmp'),
+              expanduser('~/data/embedding_cache.pkl'))
+  embedding_db = dbm.open(expanduser('~/data/embedding_cache.db'), 'c')
+  global UNFLUSHED_VALUES
+  UNFLUSHED_VALUES, need_write = [], UNFLUSHED_VALUES
+  for (key, value) in need_write:
+    embedding_db[key] = pickle.dumps(value)
+
+print('Loading embedding cache')
+try:
+  with open(expanduser('~/data/embedding_cache.pkl'), 'rb') as f:
+    EMBEDDING_CACHE = pickle.load(f)
+except FileNotFoundError:
+  print("Could not load embedding cache")
+print('Done loading embedding cache')
+
 
 def embed_condition(cond):
   if cond in EMBEDDING_CACHE:
     return EMBEDDING_CACHE[cond]
   else:
-    embed = get_embedder()([preprocess_condition(cond)])
+    embed = np.array(get_embedder()([preprocess_condition(cond)])[0])
     EMBEDDING_CACHE[cond] = embed
+    UNFLUSHED_VALUES.append((cond, pickle.dumps(embed)))
+    if len(UNFLUSHED_VALUES) > 100:
+      save_cache()
     return embed
 
 def embed_action(action):
   if action in EMBEDDING_CACHE:
     return EMBEDDING_CACHE[action]
   else:
-    embed = get_embedder()([action])[0]
+    print('cache miss')
+    embed = np.array(get_embedder()([action])[0])
     EMBEDDING_CACHE[action] = embed
+    UNFLUSHED_VALUES.append((action, pickle.dumps(embed)))
+    if len(UNFLUSHED_VALUES) > 100:
+      save_cache()
     return embed
 
 if __name__ == '__main__':

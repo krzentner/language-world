@@ -23,11 +23,13 @@ def move(from_xyz, to_xyz, p):
     return response
 
 def act(target_xyz, grab_effort, *, p):
-    return {
-        'target_xyz': np.asarray(target_xyz, dtype='float'),
-        'grab_effort': float(grab_effort),
-        'control_coeff': float(p)
-    }
+  if isinstance(grab_effort, int):
+    grab_effort = float(grab_effort)
+  return {
+      'target_xyz': np.asarray(target_xyz, dtype='float32'),
+      'grab_effort': grab_effort,
+      'control_coeff': float(p)
+  }
 
 CONTROLLERS = {}
 DECISION_TREES = {}
@@ -101,10 +103,10 @@ def cage_peg(o_d):
 def grab_peg(o_d):
     pos_curr = o_d['hand_pos']
     pos_peg = o_d['obj1_pos']
-    if abs(pos_curr[2] - pos_peg[2]) > 0.15:
-        return act(pos_peg, -1, p=25)
-    else:
-        return act(pos_peg, .6, p=25)
+    grab_effort = np.interp(abs(pos_curr[2] - pos_peg[2]),
+                            xp=np.array([0.14, 0.15]),
+                            fp=np.array([0.6, -1]))
+    return act(pos_peg, grab_effort, p=25)
 
 @declare_controller("peg-insert-side", "align peg to hole")
 def cage_peg(o_d):
@@ -279,10 +281,7 @@ def gripper_above_puck(o_d):
     pos_curr = o_d['hand_pos']
     pos_puck = o_d['obj1_pos'] + np.array([-0.005, 0, 0])
     grab_effort = 0
-    if np.linalg.norm(pos_curr[:2] - pos_puck[:2]) > 0.02 or abs(pos_curr[2] - pos_puck[2]) > 0.10:
-        grab_effort = 0
-    else:
-        grab_effort = 0.6
+    grab_effort = 0
     return act(pos_puck + np.array([0., 0., 0.2]), grab_effort, p=10)
 
 @declare_controller('push', "push the gripper into the puck")
@@ -290,10 +289,7 @@ def push_down_on_puck(o_d):
     pos_curr = o_d['hand_pos']
     pos_puck = o_d['obj1_pos'] + np.array([-0.005, 0, 0])
     grab_effort = 0.6
-    if np.linalg.norm(pos_curr[:2] - pos_puck[:2]) > 0.02 or abs(pos_curr[2] - pos_puck[2]) > 0.10:
-        grab_effort = 0
-    else:
-        grab_effort = 0.6
+    grab_effort = 0
     return act(pos_puck + np.array([0., 0., 0.03]), grab_effort, p=10)
 
 @declare_controller('push', "slide the puck to the goal")
@@ -301,10 +297,7 @@ def slide_puck_to_goal(o_d):
     pos_goal = o_d['goal_pos']
     pos_curr = o_d['hand_pos']
     pos_puck = o_d['obj1_pos'] + np.array([-0.005, 0, 0])
-    if np.linalg.norm(pos_curr[:2] - pos_puck[:2]) > 0.02 or abs(pos_curr[2] - pos_puck[2]) > 0.10:
-        grab_effort = 0
-    else:
-        grab_effort = 0.6
+    grab_effort = 0.6
     return act(pos_goal, grab_effort, p=10)
 
 @declare_policy('button-press-topdown')

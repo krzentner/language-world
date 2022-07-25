@@ -5,6 +5,7 @@ import queue
 import functools
 import os
 import warnings
+import time
 
 USE_THREADS = False
 
@@ -54,16 +55,14 @@ class ProcessHandle:
 
   def sendrecv(self, item, step_timeout=0.1):
     has_send = False
-    result = None
-    while not has_send or result is None:
-      if result is None:
-        result = self.recv(block=True,
-                           timeout=step_timeout if not has_send else None)
+    results = []
+    while not has_send or not results:
+      results.append(self.recv(block=True, timeout=step_timeout))
       if not has_send:
         has_send = self.send(item,
                              block=True,
-                             timeout=step_timeout if result is None else None)
-    return result
+                             timeout=step_timeout)
+    return results
 
   def _flip(self):
     return ProcessHandle(incoming=self.outgoing, outgoing=self.incoming)
@@ -137,31 +136,56 @@ def _force_close_process(proc, exception):
   # However, we might be crashing, so we need it to close or we'll block
   # when multiprocessing joins on the process.
   # First, try to see if the process is already dead:
-  proc.process.join(1)
+  proc.process.join(0.1)
   if not proc.process.is_alive():
     return
   # Second, try to send the exception with a timeout.
   proc.send_exception(exception, block=True, timeout=10)
   if not proc.process.is_alive():
     return
+  TIMEOUT = 0.1
+  # TIMEOUT = 10
   # Then, give it ten seconds to close
-  proc.process.join(10)
+  proc.process.join(TIMEOUT)
   if not proc.process.is_alive():
     return
   # Third, send SIGTERM
   proc.process.terminate()
-  proc.process.join(10)
+  proc.process.join(TIMEOUT)
   if not proc.process.is_alive():
     return
   proc.process.kill()
 
+def _alive_procs(procs, timeout=0.1):
+  for proc in procs:
+    proc.process.join(timeout)
+  return [proc for proc in procs if proc.process.is_alive()]
+
+
 def force_close_processes(processes):
   exception = ProcessCloseException()
-  stuck_procs = [proc for proc in processes
-                 if not proc.send_exception(exception, block=False)]
+  stuck_procs = [proc for proc in processes if proc.process]
+
+  # Try to send the exception for 10 seconds.
+  for i in range(100):
+    for proc in stuck_procs:
+      proc.send_exception(exception, block=False)
+    stuck_procs = _alive_procs(stuck_procs, timeout=0.1)
+    if not stuck_procs:
+      break
+
+  # Send SIGTERM
   for proc in stuck_procs:
+    proc.process.terminate()
+  stuck_procs = _alive_procs(stuck_procs, timeout=10)
+
+  for proc in stuck_procs:
+    proc.process.kill()
+  # Block on joining everything to avoid errors below
+  stuck_procs = _alive_procs(stuck_procs, timeout=None)
+
+  for proc in processes:
     if proc.process:
-      _force_close_process(proc, exception)
       proc.process.close()
     else:
       assert proc.thread is not None

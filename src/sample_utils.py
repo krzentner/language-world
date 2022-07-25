@@ -1,8 +1,11 @@
-from metaworld.envs.mujoco.env_dict import MT10_V2
+from metaworld.envs.mujoco.env_dict import MT10_V2, MT50_V2
 from metaworld.envs import ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE
 import numpy as np
+import easy_process
+from tqdm import tqdm
 
 MT10_ENV_NAMES = [e[:-3] for e in MT10_V2.keys()]
+MT50_ENV_NAMES = [e[:-3] for e in MT50_V2.keys()]
 
 def make_env(env_name, seed: int):
     env = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE[f'{env_name}-v2-goal-observable'](seed)
@@ -38,7 +41,8 @@ def sample_noisy_policy(env, policy, noise_scale):
     yield {'observation': observation}
     for i in range(env.max_episode_length):
       action, agent_info = policy.get_action(observation)
-      action_noisy = action + np.random.normal(scale=noise_scale)
+      action_noisy = action + np.random.normal(scale=noise_scale,
+                                               size=action.shape)
       next_obs, reward, done, info = env.step(action_noisy)
       data = {'observation': observation,
               'action': action,
@@ -76,3 +80,32 @@ def sample_policy_with_noise_process(env, policy, process):
       data[k] = v
     yield data
     observation = next_obs
+
+
+@easy_process.subprocess_func
+def noisy_sample_process(*, env_name: str, policy, noise_scale: float, seed: int, parent):
+  env = make_env(env_name, seed)
+
+  while True:
+    episode = []
+    for data in sample_noisy_policy(env, policy, noise_scale):
+      data['env_name'] = env_name
+      episode.append(data)
+    parent.sendrecv(episode)
+
+
+def collect_noisy_episodes(env_names, policy, *, n_episodes=100, seed=100,
+                           noise_scale=0.1):
+  episodes = []
+  with easy_process.Scope():
+    workers = [noisy_sample_process(env_name=env_name, policy=policy, seed=seed,
+                                    noise_scale=noise_scale)
+              for env_name in env_names]
+    with tqdm(total=n_episodes) as pbar:
+      while len(episodes) < n_episodes:
+        for worker in workers:
+          episode = worker.recv(block=False)
+          if episode:
+            episodes.append(episode)
+            pbar.update(1)
+  return episodes
