@@ -13,16 +13,18 @@ import ml_collections
 import numpy as np
 import optax
 import pickle
+from tqdm import tqdm
 
 import easy_process
-from sample_utils import make_env, sample_noisy_policy, MT10_ENV_NAMES
-from jax_utils import fit_model
+from sample_utils import (make_env, MT50_ENV_NAMES,
+                          sample_policy_with_noise_process)
+from run_utils import float_list, str_list
+from ou_process import OUProcess
+import jax_utils
 from generate_metaworld_scene_dataset import describe_obs
-
-from tqdm import tqdm
-from metaworld_controllers import SawyerUniversalV2Policy
-
+from metaworld_universal_policy import SawyerUniversalV2Policy
 import embed_prompt
+
 
 class ConditionEvaluator(nn.Module):
 
@@ -80,26 +82,32 @@ def apply_model(state, inputs, targets):
 
 
 @easy_process.subprocess_func
-def sample_process(*, env_name: str, noise_scale: float, seed: int, parent):
+def sample_process(*, env_name: str, noise_scales: [float], seed: int, parent):
   env = make_env(env_name, seed)
   policy = SawyerUniversalV2Policy(env_name=env_name)
 
   while True:
-    episode = []
-    for data in sample_noisy_policy(env, policy, noise_scale):
-      data['env_name'] = env_name
-      episode.append(data)
-    parent.sendrecv(episode)
+    random.shuffle(noise_scales)
+    for noise_scale in noise_scales:
+      ou_proc = OUProcess(dimensions=env.action_space.shape[0],
+                          sigma=noise_scale)
+      episode = []
+      for data in sample_policy_with_noise_process(env, policy, ou_proc):
+        data['env_name'] = env_name
+        data['noise_scale'] = noise_scale
+        episode.append(data)
+      parent.sendrecv(episode)
 
 
 DISC_DIM = 512
 
-def worker_dataset(*, envs=','.join(MT10_ENV_NAMES),
-                   n_timesteps=1000, seed=100, noise_scale=0.1):
-  env_names = list(envs.split(','))
+def worker_dataset(*,
+                   envs: str_list=MT50_ENV_NAMES,
+                   n_timesteps=1000, seed=jax_utils.DEFAULT_SEED,
+                   noise_scales: float_list=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]):
   with easy_process.Scope():
-    workers = [sample_process(env_name=env_name, seed=seed, noise_scale=noise_scale)
-              for env_name in env_names]
+    workers = [sample_process(env_name=env_name, seed=seed, noise_scales=noise_scales)
+              for env_name in envs]
     datapoints = []
     with tqdm(total=n_timesteps) as pbar:
       while len(datapoints) < n_timesteps:
@@ -142,15 +150,16 @@ def preprocess(batch):
       targets_padded[i][j] = descriptors_targets[i][j]
   return (obs_batch, descriptors_padded), targets_padded
 
-
-def train_evaluator(*, envs=','.join(MT10_ENV_NAMES),
-                    n_epochs=50, n_timesteps=int(1e6), seed=100, noise_scale=0.1):
+def train_evaluator(*, envs: str_list=MT50_ENV_NAMES,
+                    n_epochs=50, n_timesteps=int(1e7), seed=jax_utils.DEFAULT_SEED,
+                    noise_scales: float_list=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]):
   print('Gathering dataset:')
   data = worker_dataset(envs=envs, n_timesteps=n_timesteps, seed=seed,
-                        noise_scale=noise_scale)
+                        noise_scales=noise_scales)
   cond_evaluator = ConditionEvaluator()
-  fit_model(cond_evaluator, data, apply_model, 'evaluator', batch_size=4,
-            preprocess=preprocess)
+  jax_utils.fit_model(cond_evaluator, data, apply_model, 'evaluator',
+                      batch_size=4, preprocess=preprocess, seed=seed)
+  embed_prompt.save_cache()
 
 
 if __name__ == '__main__':

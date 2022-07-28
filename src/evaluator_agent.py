@@ -148,119 +148,253 @@ parsed_plans_2 = {
     },
 }
 
-parsed_plans = {
-    "button-press-topdown": {
-        "button is not vertically aligned with the robot's gripper": "put "
-        "gripper "
-        "above "
-        "button",
-        "button is vertically aligned with the robot's gripper": "push "
-        "down "
-        "on "
-        "button",
-    },
-    "door-open": {
-        "door handle is left of the robot's gripper and gripper is closed": "put "
-        "gripper "
-        "around "
-        "door "
-        "handle",
-        "door handle is not almost vertically aligned with the robot's gripper": "put "
-        "gripper "
-        "above "
-        "door "
-        "handle",
-        "door handle is vertically aligned with the robot's gripper and door handle is not left of the robot's gripper": "push "
-        "door "
-        "closed",
-    },
-    "drawer-close": {
-        "drawer handle is below the robot's gripper": "put the "
-        "gripper above "
-        "the drawer "
-        "handle",
-        "drawer handle is forward aligned with the robot's gripper": "push "
-        "drawer "
-        "closed",
-        "drawer handle is not vertically aligned with the robot's gripper and drawer handle is not forward aligned with the robot's gripper": "grab "
-        "drawer "
-        "handle",
-        "gripper is open": "put the gripper in front of the drawer",
-    },
-    "drawer-open": {
-        "drawer handle is not vertically aligned with the robot's gripper": "put "
-        "gripper "
-        "above "
-        "drawer "
-        "handle",
-        "drawer handle is vertically aligned with the robot's gripper and the robot's gripper is not around drawer handle": "put "
-        "gripper "
-        "around "
-        "drawer "
-        "handle",
-        "the robot's gripper is around drawer handle": "pull away " "from drawer",
-    },
-    "peg-insert-side": {
-        "peg is forward aligned with the robot's gripper and peg is not horizontally aligned with hole": "align "
-        "peg "
-        "to "
-        "hole",
-        "peg is horizontally aligned with hole": "insert peg into " "hole",
-        "peg is left of the robot's gripper": "put gripper above " "peg",
-        "peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper": "grab "
-        "peg",
+parsed_plans3 = {
+    "reach": {"reach target is mostly below the robot's gripper": "reach to goal"},
+    "push": {
+        "puck is not behind target location and puck is not below the robot's gripper": "put the gripper above the puck",
+        "puck is below the robot's gripper and puck is not near the robot's gripper": "push the gripper into the puck",
+        "puck is near the robot's gripper and puck is below the robot's gripper": "slide the puck to the goal",
     },
     "pick-place": {
+        "puck is not below the robot's gripper": "place gripper above puck",
+        "puck is not below target location and puck is not near the robot's gripper": "drop gripper around puck",
+        "puck is near the robot's gripper and gripper is open": "close gripper around puck",
         "gripper is closed": "place puck at goal",
-        "puck is around the robot's gripper and gripper is open": "close "
-        "gripper "
-        "around "
-        "puck",
-        "puck is below the robot's gripper and puck is not around the robot's gripper": "drop "
-        "gripper "
-        "around "
-        "puck",
-        "puck is not below the robot's gripper": "place gripper above " "puck",
     },
-    "push": {
-        "puck is below the robot's gripper and puck is not near the robot's gripper": "push "
-        "the "
-        "gripper "
-        "into "
-        "the "
-        "puck",
-        "puck is near the robot's gripper": "slide the puck to the goal",
-        "puck is not below the robot's gripper": "put the gripper above the " "puck",
+    "door-open": {
+        "door handle is not almost vertically aligned with the robot's gripper": "put gripper above door handle",
+        "door handle is not right of the robot's gripper and door handle is not forward aligned with the robot's gripper": "put gripper around door handle",
+        "door handle is vertically aligned with the robot's gripper and door handle is not left of the robot's gripper": "push door closed",
     },
-    "reach": {"reach target is mostly below the robot's gripper": "reach to goal"},
-    "window-close": {
-        "window handle is not vertically aligned with the robot's gripper": "move "
-        "gripper "
-        "to "
-        "left "
-        "of "
-        "window "
-        "handle",
-        "window handle is right of the robot's gripper": "slide " "window " "right",
-        "window handle is vertically aligned with the robot's gripper and window handle is not right of the robot's gripper": "push "
-        "window "
-        "right "
-        "harder",
+    "drawer-open": {
+        "drawer handle is not vertically aligned with the robot's gripper": "put gripper above drawer handle",
+        "drawer handle is vertically aligned with the robot's gripper and the robot's gripper is not around drawer handle": "put gripper around drawer handle",
+        "drawer handle is near the robot's gripper and drawer handle is not below the robot's gripper": "pull away from drawer",
+    },
+    "drawer-close": {
+        "gripper is open": "put the gripper in front of the drawer",
+        "drawer handle is below the robot's gripper and the robot's gripper is not mostly below drawer handle": "put the gripper above the drawer handle",
+        "drawer handle is not vertically aligned with the robot's gripper and drawer handle is not forward aligned with the robot's gripper": "grab drawer handle",
+        "drawer handle is forward aligned with the robot's gripper": "push drawer closed",
+    },
+    "button-press-topdown": {
+        "button is not vertically aligned with the robot's gripper": "put gripper above button",
+        "button is vertically aligned with the robot's gripper": "push down on button",
+    },
+    "peg-insert-side": {
+        "peg is left of the robot's gripper": "put gripper above peg",
+        "peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper": "grab peg",
+        "peg is forward aligned with the robot's gripper and the robot's gripper is not horizontally aligned with hole": "align peg to hole",
+        "peg is horizontally aligned with hole": "insert peg into hole",
     },
     "window-open": {
-        "window handle is left of the robot's gripper and window handle is vertically aligned with the robot's gripper": "slide "
-        "window "
-        "left",
-        "window handle is near the robot's gripper": "push window " "left harder",
-        "window handle is not vertically aligned with the robot's gripper and the robot's gripper is mostly below window handle": "move "
-        "gripper "
-        "to "
-        "right "
-        "of "
-        "window "
-        "handle",
+        "window handle is not vertically aligned with the robot's gripper and the robot's gripper is mostly below window handle": "move gripper to right of window handle",
+        "window handle is left of the robot's gripper and window handle is vertically aligned with the robot's gripper": "slide window left",
+        "window handle is near the robot's gripper": "push window left harder",
+    },
+    "window-close": {
+        "window handle is not vertically aligned with the robot's gripper": "move gripper to left of window handle",
+        "window handle is right of the robot's gripper": "slide window right",
+        "window handle is vertically aligned with the robot's gripper and window handle is not right of the robot's gripper": "push window right harder",
     },
 }
+
+parsed_plans = {
+    "reach": {
+        "reach target is mostly below the robot's gripper": "reach to goal",
+        "reach target is not right of the robot's gripper": "reach to goal",
+    },
+    "push": {
+        "puck is not behind target location and puck is not below the robot's gripper": "put the gripper above the puck",
+        "puck is not behind target location and the robot's gripper is not above puck": "put the gripper above the puck",
+        "puck is below the robot's gripper and puck is not near the robot's gripper": "push the gripper into the puck",
+        "puck is below the robot's gripper and the robot's gripper is not near puck": "push the gripper into the puck",
+        "puck is near the robot's gripper and puck is below the robot's gripper": "slide the puck to the goal",
+        "puck is near the robot's gripper and the robot's gripper is above puck": "slide the puck to the goal",
+    },
+    "pick-place": {
+        "puck is not below the robot's gripper": "place gripper above puck",
+        "the robot's gripper is not above puck": "place gripper above puck",
+        "puck is not below target location and puck is not near the robot's gripper": "drop gripper around puck",
+        "puck is not below target location and the robot's gripper is not near puck": "drop gripper around puck",
+        "puck is near the robot's gripper and gripper is open": "close gripper around puck",
+        "the robot's gripper is near puck and gripper is open": "close gripper around puck",
+        "target location is forward aligned with the robot's gripper and puck is not touching the table": "place puck at goal",
+        "the robot's gripper is forward aligned with target location and puck is not touching the table": "place puck at goal",
+    },
+    "door-open": {
+        "door handle is not almost vertically aligned with the robot's gripper": "put gripper above door handle",
+        "the robot's gripper is not almost vertically aligned with door handle": "put gripper above door handle",
+        "door handle is not right of the robot's gripper and door handle is not forward aligned with the robot's gripper": "put gripper around door handle",
+        "door handle is not right of the robot's gripper and the robot's gripper is not forward aligned with door handle": "put gripper around door handle",
+        "door handle is forward aligned with the robot's gripper": "push door closed",
+        "the robot's gripper is forward aligned with door handle": "push door closed",
+    },
+    "drawer-open": {
+        "drawer handle is not vertically aligned with the robot's gripper": "put gripper above drawer handle",
+        "the robot's gripper is not vertically aligned with drawer handle": "put gripper above drawer handle",
+        "drawer handle is vertically aligned with the robot's gripper and the robot's gripper is not around drawer handle": "put gripper around drawer handle",
+        "the robot's gripper is vertically aligned with drawer handle and the robot's gripper is not around drawer handle": "put gripper around drawer handle",
+        "drawer handle is near the robot's gripper and drawer handle is not below the robot's gripper": "pull away from drawer",
+        "drawer handle is near the robot's gripper and the robot's gripper is not above drawer handle": "pull away from drawer",
+    },
+    "drawer-close": {
+        "gripper is open": "put the gripper in front of the drawer",
+        "drawer handle is vertically aligned with the robot's gripper and gripper is open": "put the gripper in front of the drawer",
+        "drawer handle is below the robot's gripper and the robot's gripper is not mostly below drawer handle": "put the gripper above the drawer handle",
+        "the robot's gripper is above drawer handle and the robot's gripper is not mostly below drawer handle": "put the gripper above the drawer handle",
+        "drawer handle is not vertically aligned with the robot's gripper and drawer handle is not forward aligned with the robot's gripper": "grab drawer handle",
+        "drawer handle is not vertically aligned with the robot's gripper and the robot's gripper is not forward aligned with drawer handle": "grab drawer handle",
+        "drawer handle is forward aligned with the robot's gripper": "push drawer closed",
+        "the robot's gripper is forward aligned with drawer handle": "push drawer closed",
+    },
+    "button-press-topdown": {
+        "button is not vertically aligned with the robot's gripper": "put gripper above button",
+        "the robot's gripper is not vertically aligned with button": "put gripper above button",
+        "button is vertically aligned with the robot's gripper": "push down on button",
+        "the robot's gripper is vertically aligned with button": "push down on button",
+    },
+    "peg-insert-side": {
+        "peg is left of the robot's gripper": "put gripper above peg",
+        "the robot's gripper is right of peg": "put gripper above peg",
+        "peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper": "grab peg",
+        "peg is not left of the robot's gripper and the robot's gripper is not forward aligned with peg": "grab peg",
+        "peg is forward aligned with the robot's gripper and peg is not horizontally aligned with hole": "align peg to hole",
+        "peg is forward aligned with the robot's gripper and hole is not horizontally aligned with peg": "align peg to hole",
+        "peg is horizontally aligned with hole": "insert peg into hole",
+        "hole is horizontally aligned with peg": "insert peg into hole",
+    },
+    "window-open": {
+        "window handle is not vertically aligned with the robot's gripper and the robot's gripper is mostly below window handle": "move gripper to right of window handle",
+        "the robot's gripper is mostly below window handle and window handle is not vertically aligned with the robot's gripper": "move gripper to right of window handle",
+        "window handle is left of the robot's gripper and window handle is vertically aligned with the robot's gripper": "slide window left",
+        "window handle is left of the robot's gripper and window handle is almost vertically aligned with the robot's gripper": "slide window left",
+        "window handle is near the robot's gripper": "push window left harder",
+        "window handle is behind the robot's gripper": "push window left harder",
+    },
+    "window-close": {
+        "window handle is not vertically aligned with the robot's gripper": "move gripper to left of window handle",
+        "the robot's gripper is not vertically aligned with window handle": "move gripper to left of window handle",
+        "window handle is right of the robot's gripper": "slide window right",
+        "the robot's gripper is left of window handle": "slide window right",
+        "window handle is vertically aligned with the robot's gripper and window handle is not right of the robot's gripper": "push window right harder",
+        "window handle is vertically aligned with the robot's gripper and the robot's gripper is not left of window handle": "push window right harder",
+    },
+}
+
+# {
+# "button-press-topdown": {
+# "button is not vertically aligned with the robot's gripper": "put "
+# "gripper "
+# "above "
+# "button",
+# "button is vertically aligned with the robot's gripper": "push "
+# "down "
+# "on "
+# "button",
+# },
+# "door-open": {
+# "door handle is left of the robot's gripper and gripper is closed": "put "
+# "gripper "
+# "around "
+# "door "
+# "handle",
+# "door handle is not almost vertically aligned with the robot's gripper": "put "
+# "gripper "
+# "above "
+# "door "
+# "handle",
+# "door handle is vertically aligned with the robot's gripper and door handle is not left of the robot's gripper": "push "
+# "door "
+# "closed",
+# },
+# "drawer-close": {
+# "drawer handle is below the robot's gripper": "put the "
+# "gripper above "
+# "the drawer "
+# "handle",
+# "drawer handle is forward aligned with the robot's gripper": "push "
+# "drawer "
+# "closed",
+# "drawer handle is not vertically aligned with the robot's gripper and drawer handle is not forward aligned with the robot's gripper": "grab "
+# "drawer "
+# "handle",
+# "gripper is open": "put the gripper in front of the drawer",
+# },
+# "drawer-open": {
+# "drawer handle is not vertically aligned with the robot's gripper": "put "
+# "gripper "
+# "above "
+# "drawer "
+# "handle",
+# "drawer handle is vertically aligned with the robot's gripper and the robot's gripper is not around drawer handle": "put "
+# "gripper "
+# "around "
+# "drawer "
+# "handle",
+# "the robot's gripper is around drawer handle": "pull away " "from drawer",
+# },
+# "peg-insert-side": {
+# "peg is forward aligned with the robot's gripper and peg is not horizontally aligned with hole": "align "
+# "peg "
+# "to "
+# "hole",
+# "peg is horizontally aligned with hole": "insert peg into " "hole",
+# "peg is left of the robot's gripper": "put gripper above " "peg",
+# "peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper": "grab "
+# "peg",
+# },
+# "pick-place": {
+# "gripper is closed": "place puck at goal",
+# "puck is around the robot's gripper and gripper is open": "close "
+# "gripper "
+# "around "
+# "puck",
+# "puck is below the robot's gripper and puck is not around the robot's gripper": "drop "
+# "gripper "
+# "around "
+# "puck",
+# "puck is not below the robot's gripper": "place gripper above " "puck",
+# },
+# "push": {
+# "puck is below the robot's gripper and puck is not near the robot's gripper": "push "
+# "the "
+# "gripper "
+# "into "
+# "the "
+# "puck",
+# "puck is near the robot's gripper": "slide the puck to the goal",
+# "puck is not below the robot's gripper": "put the gripper above the " "puck",
+# },
+# "reach": {"reach target is mostly below the robot's gripper": "reach to goal"},
+# "window-close": {
+# "window handle is not vertically aligned with the robot's gripper": "move "
+# "gripper "
+# "to "
+# "left "
+# "of "
+# "window "
+# "handle",
+# "window handle is right of the robot's gripper": "slide " "window " "right",
+# "window handle is vertically aligned with the robot's gripper and window handle is not right of the robot's gripper": "push "
+# "window "
+# "right "
+# "harder",
+# },
+# "window-open": {
+# "window handle is left of the robot's gripper and window handle is vertically aligned with the robot's gripper": "slide "
+# "window "
+# "left",
+# "window handle is near the robot's gripper": "push window " "left harder",
+# "window handle is not vertically aligned with the robot's gripper and the robot's gripper is mostly below window handle": "move "
+# "gripper "
+# "to "
+# "right "
+# "of "
+# "window "
+# "handle",
+# },
+# }
 
 
 def embed_plan(plan):
@@ -291,24 +425,9 @@ for (plan_name, plan) in parsed_plans.items():
     }
 print("Done embedding plans")
 
-CALLED_SETUP = False
-CALLED_INIT = False
-
 
 class CondAgent(nn.Module):
-
-    # def __init__(self, *args, **kwargs):
-    # global CALLED_INIT
-    # if CALLED_INIT:
-    # import ipdb; ipdb.set_trace()
-    # CALLED_INIT = True
-    # super().__init__(*args, **kwargs)
-
     def setup(self):
-        # global CALLED_SETUP
-        # if CALLED_SETUP:
-        # import ipdb; ipdb.set_trace()
-        # CALLED_SETUP = True
         self.plans = embedded_plans
         self.cond_evaluator = train_evaluator.ConditionEvaluator()
 
@@ -316,19 +435,23 @@ class CondAgent(nn.Module):
         info = {}
         plans = [self.plans[env_name] for env_name in env_names]
         conds_padded, conds_mask = pad_list([plan["conds"] for plan in plans])
-        conds_truth_values = self.cond_evaluator(low_dim, conds_padded)
-        controller_weights = nn.softmax(2 * conds_truth_values, axis=1)
-        # where=conds_mask,
-        # initial=0)
+        conds_logits = self.cond_evaluator(low_dim, conds_padded)
+        true_logits = 10 * true_cond_results - 5
+        # logits = 2 * (0.9 * conds_logits + 0.1 * true_logits)
+        logits = 0.2 * (10 * jnp.tanh(conds_logits)) + 0.8 * true_logits
+        controller_weights = nn.softmax(2 * logits, axis=1,
+        where=conds_mask,
+        initial=0)
         # controller_weights = controller_weights * (1.0 + true_cond_results)
-        info["truth_values"] = conds_truth_values
+        info["logits"] = logits
+        info["truth_values"] = conds_logits
         info["controller_weights"] = controller_weights
         info["true_cond_results"] = true_cond_results
-        controller_weights /= controller_weights.sum(axis=1)[0]
         info["weight_correlation"] = (
             controller_weights * true_cond_results - 0.5 * conds_mask
         )
         # perfect_weights = []
+        controller_weights /= controller_weights.sum(axis=1)[0]
         controller_outputs = []
         for (env_name, obs, plan) in zip(env_names, low_dim, plans):
             # descriptors = generate_metaworld_scene_dataset.describe_obs(env_name,
@@ -344,52 +467,49 @@ class CondAgent(nn.Module):
                     for name in plan["actions_str"]
                 ]
             )
-        # controller_weights, _ = pad_list(perfect_weights)
-        # controller_weights = true_cond_results
         controller_outputs, _ = pad_list(controller_outputs)
         weighted_outputs = jnp.einsum(
             "ij,ijk->ik", controller_weights, controller_outputs
         )
         return weighted_outputs, info
-        # jnp.stack([metaworld_jax_controllers
-        # actions_padded, actions_mask = pad_list([plan['actions'] for plan in plans])
-        # action = jnp.einsum('ikj,ik->ij',
-        # actions_padded,
-        # nn.softmax(conds_truth_values,
-        # where=conds_mask,
-        # initial=0))
-        # controller_names = []
-        # controller_names_embedded = []
-        # controller_outputs = []
-        # for (env, obs) in zip(env_names, low_dim):
-        # parsed_obs = metaworld_jax_controllers.parse_obs(obs)
-        # control_out = []
-        # control_names = []
-        # control_names_emb = []
-        # for (name, controller) in metaworld_jax_controllers.CONTROLLERS.items():
-        # if controller['env-name'] != env:
-        # continue
-        # control_names.append(name)
-        # control_names_emb.append(embed_prompt.embed_action(name))
-        # control_out.append(metaworld_jax_controllers.run_controller(name, parsed_obs))
-        # controller_names.append(control_names)
-        # controller_names_embedded.append(control_names_emb)
-        # controller_outputs.append(control_out)
-        # assert controller_names_embedded
-        # names_padded, names_mask = pad_list(controller_names_embedded)
-        # controller_weights = nn.softmax(jnp.einsum('ik,ijk->ij', action, names_padded),
-        # where=names_mask,
-        # initial=0)
-        # outputs_padded, output_mask = pad_list(controller_outputs)
-        # output = jnp.einsum('ij,ijk->ik', controller_weights, outputs_padded)
-        # return output
 
     def as_policy(self, env_name, state):
-        # @partial(jax.jit, static_argnames=['env_names'])
-        # def run_nn(env_names, observations):
-        # return state.apply_fn(state.params, env_names, observations)
-        # return CondAgentPolicy(env_name=env_name, bound=self.bind(state.params))
         return CondAgentPolicy(env_name=env_name, state=state, cond_agent=self)
+
+
+class LearnedController(nn.Module):
+    def setup(self):
+        self.language_reencoder = nn.Sequential(
+            [
+                nn.Dense(64),
+                nn.relu,
+                nn.Dense(64),
+                nn.relu,
+                nn.Dense(64),
+            ]
+        )
+        self.action_model = nn.Sequential(
+            [
+                nn.Dense(128),
+                nn.relu,
+                nn.Dense(128),
+                nn.relu,
+                nn.Dense(128),
+                nn.relu,
+                nn.Dense(64),
+                nn.relu,
+                nn.Dense(32),
+                nn.relu,
+                nn.Dense(4),
+            ]
+        )
+
+    def __call__(self, low_dim, encoded_language_actions):
+        info = {}
+        reencoded_language = self.language_reencoder(encoded_language_actions)
+        obs_and_lang_actions = jnp.concatenate([low_dim, reencoded_language], axis=-1)
+        actions = self.action_model(obs_and_lang_actions)
+        return actions, info
 
 
 @dataclass
@@ -398,26 +518,12 @@ class CondAgentPolicy:
     env_name: str or None
     state: train_state.TrainState
     cond_agent: CondAgent
-    # bound: nn.Module
-
-    # def get_action(self, low_dim, env_name=None):
-    # env_name = env_name or self.env_name
-    # assert env_name
-    # return np.asarray(self.bound(tuple([env_name]),
-    # jnp.array([low_dim])))[0], {}
-
-    # def get_actions(self, observations, env_names):
-    # return np.asarray(self.bound(tuple(env_names), observations)), {}
 
     def get_action(self, low_dim, env_name=None):
         env_name = env_name or self.env_name
         assert env_name
-        actions, infos = self.get_actions(np.array([low_dim]), np.array([env_name]))
-        # print(infos)
+        actions, infos = self.get_actions(np.array([low_dim]), [env_name])
         return actions[0], {k: v[0] for (k, v) in infos.items()}
-        # return np.asarray(run_cond_agent(self.state,
-        # tuple([env_name]),
-        # jnp.array([low_dim])))[0], {}
 
     def get_actions(self, observations, env_names):
         plans = [embedded_plans[env_name] for env_name in env_names]
@@ -435,12 +541,10 @@ class CondAgentPolicy:
             self.state, tuple(env_names), observations, true_cond_results
         )
 
+        # for (k, v) in info.items():
+          # print(k, v)
+
         return np.asarray(action), info
-
-
-# @partial(nn.jit, static_argnums=2)
-# def run_cond_agent(cond_agent, params, env_names, observations):
-# return cond_agent.apply(params, env_names, observations)
 
 
 @partial(jax.jit, static_argnames=["env_names"])
@@ -479,24 +583,6 @@ def train_epoch(state, batch):
     grads, loss = apply_model(state, tuple(env_names), obs_batch, action_batch)
     state = update_model(state, grads)
     return state, loss
-
-
-def sample_process(env_name: str, port: int, seed: int, noise_scale: float):
-    global CLIENT
-    client = CLIENT or reverb.Client(f"localhost:{port}")
-    CLIENT = client
-
-    env = get_env(env_name, seed)
-    max_episode_length = 500
-    policy = SawyerUniversalV2Policy(env_name=env_name)
-    observation = env.reset()
-    use_random = False
-    for i in tqdm(range(max_episode_length)):
-        action = policy.get_action(observation)
-        action_noisy = action + np.random.normal(scale=noise_scale)
-        observation, reward, done, info = env.step(action_noisy)
-        store(env_name, client, observation, action, reward)
-    return_env(env_name, env)
 
 
 @easy_process.subprocess_func
@@ -595,7 +681,8 @@ def train_and_evaluate(
         rng,
         ["drawer-close", "pick-place"] * int(batch_size / 2),
         jnp.ones([batch_size, 39]),
-        jnp.ones([batch_size, 4]),
+        jnp.ones([batch_size, np.max([len(embedded_plans[env_name]['conds'])
+                                      for env_name in ['drawer-close', 'pick-place']])]),
     )
     params = params.copy({"params": {"cond_evaluator": load_best_evaluator_params()}})
     tx = optax.sgd(learning_rate, momentum)
@@ -608,48 +695,6 @@ def train_and_evaluate(
         success = evaluate_policy(
             env_name, 10, lambda: sample_noisy_policy(env, policy, 0.10)
         )
-
-    # workers = [sampler_proc(env_name, server.port, seed, noise_scale)
-    # for env_name in train_env_names]
-
-    # for epoch in tqdm(range(int(num_batches))):
-    # # We need new samples
-    # if epoch % 100 == 0:
-    # for worker in workers:
-    # worker.send('gather', block=True)
-    # for worker in workers:
-    # worker.recv()
-    # with open(f'{workdir}/{epoch}.pkl', 'wb') as f:
-    # pickle.dump(state.params, f)
-
-    # if epoch % 100 == 0:
-    # rewards = eval_policy(cond_agent.as_policy(None, state),
-    # train_env_names + test_env_names,
-    # seed)
-
-    # avg_rewards = []
-    # for env_name in train_env_names:
-    # avg_reward = np.mean(rewards[env_name])
-    # summary_writer.scalar(f'{env_name}/avg_reward', avg_reward, epoch)
-    # avg_rewards.append(avg_reward)
-    # summary_writer.scalar('train_envs/avg_reward', np.mean(avg_rewards), epoch)
-
-    # avg_rewards = []
-    # for env_name in test_env_names:
-    # avg_reward = np.mean(rewards[env_name])
-    # summary_writer.scalar(f'{env_name}/avg_reward', avg_reward, epoch)
-    # avg_rewards.append(avg_reward)
-    # summary_writer.scalar('test_envs/avg_reward', np.mean(avg_rewards), epoch)
-
-    # batch = client.sample('mt_obs', num_samples = batch_size)
-    # state, train_loss = train_epoch(state, batch)
-
-    # summary_writer.scalar('train_loss', train_loss, epoch)
-
-    # summary_writer.flush()
-    # with open(f'{workdir}/checkpoint.pkl', 'wb') as f:
-    # pickle.dump(state.params, f)
-    # return state
 
 
 if __name__ == "__main__":

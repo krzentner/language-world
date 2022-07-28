@@ -2,20 +2,30 @@ import shutil as sh
 from collections import defaultdict
 from pprint import pprint
 from dataclasses import dataclass
+from functools import partial
 import random
 import os
 import pickle
+import typing
 
+import jax
 import numpy as np
+import jax.numpy as jnp
+
 import clize
 from tqdm import tqdm
 
+import easy_process
 from metaworld.envs.mujoco.env_dict import MT10_V2
 import metaworld_controllers
 from metaworld_controllers import SawyerUniversalV2Policy, parse_obs, run_controller
+import metaworld_universal_policy
 from sample_utils import (make_env, sample_noisy_policy,
                           sample_policy_with_noise_process, collect_noisy_episodes)
+from run_utils import float_list, str_list
 from sample_utils import MT50_ENV_NAMES
+from ou_process import OUProcess
+import jax_utils
 
 import ou_process
 
@@ -29,21 +39,26 @@ class FixedDict(dict):
     assert key in self, f"{key} not present in dict"
     return super().__setitem__(key, value)
 
-def describe_symmetric_coordinates(xyz1, xyz2):
+COORDINATE_RELATIONS = [
+  "near",
+  "around",
+  "left of",
+  "right of",
+  "behind",
+  "in front of",
+  "above",
+  "below",
+  "vertically aligned with",
+  "almost vertically aligned with",
+  "mostly below",
+  "horizontally aligned with",
+  "forward aligned with",
+]
+
+
+def describe_relative_coordinates(xyz1, xyz2):
   descriptors = FixedDict({
-      "near": 0,
-      "around": 0,
-      "left of": 0,
-      "right of": 0,
-      "behind": 0,
-      "in front of": 0,
-      "above": 0,
-      "below": 0,
-      "vertically aligned with": 0,
-      "almost vertically aligned with": 0,
-      "mostly below": 0,
-      "horizontally aligned with": 0,
-      "forward aligned with": 0,
+      relation: 0 for relation in COORDINATE_RELATIONS
   })
   if np.linalg.norm(xyz1 - xyz2) < .04:
     descriptors["near"] = 1.
@@ -256,8 +271,23 @@ OBJECT_NAMES = {
     },
 }
 
+OBJECT_NAMES_TO_PARSE_NAME = {
+  env_name: {
+      v: k
+      for (k, v) in env_map.items()
+  } for (env_name, env_map) in OBJECT_NAMES.items()
+}
+
 assert len(OBJECT_NAMES) == 50
 assert set(OBJECT_NAMES.keys()) == set(MT50_ENV_NAMES)
+
+WALL_ENVS = {
+    'reach-wall',
+    'pick-place-wall',
+    'push-wall',
+    'button-press-wall',
+    'button-press-topdown-wall',
+}
 
 def describe_obs(env_name, obs):
   if not isinstance(obs, dict):
@@ -271,16 +301,23 @@ def describe_obs(env_name, obs):
   object_locations.append(("the robot's gripper", obs['hand_pos']))
   if env_name == 'peg-insert-side':
     object_locations.append(("hole", np.array([-.35, obs['goal_pos'][1], .16])))
+  elif (env_name == 'reach-wall' or
+        env_name == 'push-wall' or
+        env_name == 'pick-place-wall'):
+    # TODO(zentner): Maybe sure the wall coordinates reflect the center of the
+    # wall.
+    object_locations.append(("wall", np.array([0.1, 0.75, 0.06])))
+  elif env_name == 'button-press-wall':
+    object_locations.append(("wall", np.array([0.1, 0.6, 0.])))
+  elif env_name == 'button-press-topdown-wall':
+    object_locations.append(("wall", np.array([0.1, 0.7, 0.])))
   for (i, (name1, xyz1)) in enumerate(object_locations):
     for (j, (name2, xyz2)) in enumerate(object_locations):
       if name1 == name2:
         continue
-      # This runs (2-4x) faster, but is less complete
-      # if i > j:
-        # continue
-      disc = describe_symmetric_coordinates(xyz1, xyz2)
+      disc = describe_relative_coordinates(xyz1, xyz2)
       for (key, val) in disc.items():
-        if key == 'around' or key == 'not around' and name1 != "the robot's gripper":
+        if (key == 'around' or key == 'not around') and name1 != "the robot's gripper":
           continue
         descriptors[f"{name1} is {key} {name2}"] = val
   for (key, name) in OBJECT_NAMES[env_name].items():
@@ -311,23 +348,165 @@ def describe_obs(env_name, obs):
     for (desc2, value2) in descriptors.items():
       conjunction_descriptors[f"{desc1} and {desc2}"] = value1 * value2
   descriptors.update(conjunction_descriptors)
+  descriptors_enumerated = enumerate_descriptors(env_name)
+  # pprint(descriptors_enumerated)
+  assert set(descriptors_enumerated) == set(descriptors.keys())
+  values = eval_conditions(env_name, tuple(descriptors_enumerated), obs)
+  for (cond, val) in zip(descriptors_enumerated, values):
+  # for cond in descriptors_enumerated:
+    # val = eval_conditions(env_name, [cond], obs)[0]
+    if bool(descriptors[cond]) != val:
+      print(f'now: {cond!r} = {val}')
+      print(f'old: {descriptors[cond]}')
+    assert bool(descriptors[cond]) == val, f"Evaluation doesn't match for {cond!r}"
   return descriptors
 
+POSITIVE_RELATION_SUBSTR = [f'is {rel}' for rel in COORDINATE_RELATIONS]
+NEGATIVE_RELATION_SUBSTR = [f'is not {rel}' for rel in COORDINATE_RELATIONS]
 
-def store_obs(client, observation):
-  client.insert(observation, priorities={'mt_obs': 1.})
+WALL_ENVS = {'reach-wall', 'push-wall', 'pick-place-wall', 'button-press-wall',
+             'button-press-topdown-wall'}
 
-def start_reverb_server(max_size, checkpointer=None):
-  return reverb.Server(tables=[
-      reverb.Table(
-          name='mt_obs',
-          sampler=reverb.selectors.Uniform(),
-          remover=reverb.selectors.Fifo(),
-          max_size=max_size,
-          rate_limiter=reverb.rate_limiters.MinSize(1)),
-      ],
-      checkpointer=checkpointer,
-  )
+# @partial(jax.jit, static_argnames=["env_name", "object_name"])
+def get_object_location(env_name: str, object_name: str, obs):
+  try:
+    parse_name = OBJECT_NAMES_TO_PARSE_NAME[env_name][object_name]
+  except KeyError as exc:
+    if object_name == "the robot's gripper":
+      parse_name = 'hand_pos'
+    elif env_name == 'peg-insert-side' and object_name == 'hole':
+      return jnp.array([-.35, obs['goal_pos'][1], .16])
+    elif env_name in WALL_ENVS and object_name == 'wall':
+      if (env_name == 'reach-wall' or
+            env_name == 'push-wall' or
+            env_name == 'pick-place-wall'):
+        # TODO(zentner): Maybe sure the wall coordinates reflect the center of the
+        # wall.
+        return jnp.array([0.1, 0.75, 0.06])
+      elif env_name == 'button-press-wall':
+        return jnp.array([0.1, 0.6, 0.])
+      elif env_name == 'button-press-topdown-wall':
+        return jnp.array([0.1, 0.7, 0.])
+    else:
+      raise exc
+  # print(f'{object_name!r} (a.k.a. {parse_name!r}) is located at {obs[parse_name]}')
+  return obs[parse_name]
+
+@partial(jax.jit, static_argnames=["rel"])
+def eval_relation(rel: str, xyz1: np.ndarray, xyz2: np.ndarray) -> bool:
+  assert rel.strip() == rel
+  if rel == 'near':
+    return jnp.linalg.norm(xyz1 - xyz2) < .04
+  elif rel == 'around':
+    return jnp.linalg.norm(xyz1 - xyz2 + jnp.array([0, 0, 0.02])) < .03
+  elif rel == 'left of':
+    return xyz1[0] - xyz2[0] > 0.04
+  elif rel == 'right of':
+    return xyz1[0] - xyz2[0] < -0.04
+  elif rel == 'behind':
+    return ((xyz1[1] - xyz2[1] > 0.04) *
+            (jnp.linalg.norm(jnp.array([xyz1[0] - xyz2[0], xyz1[2] - xyz2[2]])) < 0.04))
+  elif rel == 'in front of':
+    return ((xyz1[1] - xyz2[1] < -0.04) *
+            (jnp.linalg.norm(jnp.array([xyz1[0] - xyz2[0], xyz1[2] - xyz2[2]])) < 0.04))
+  elif rel == 'above':
+    return ((jnp.linalg.norm(xyz1[:2] - xyz2[:2]) < 0.02) * (xyz1[2] - xyz2[2] > 0.))
+  elif rel == 'below':
+    return ((jnp.linalg.norm(xyz1[:2] - xyz2[:2]) < 0.02) * (xyz1[2] - xyz2[2] < 0))
+  elif rel == 'vertically aligned with':
+    return jnp.linalg.norm(xyz1[:2] - xyz2[:2]) < 0.06
+  elif rel == 'almost vertically aligned with':
+    return jnp.linalg.norm(xyz1[:2] - xyz2[:2]) < 0.12
+  elif rel == 'mostly below':
+    return xyz1[2] < xyz2[2] + 0.23
+  elif rel == 'horizontally aligned with':
+    return jnp.linalg.norm(xyz1[1:] - xyz2[1:]) < 0.03
+  elif rel == 'forward aligned with':
+    return jnp.linalg.norm(jnp.array([xyz1[0] - xyz2[0], xyz1[2] - xyz2[2]])) < 0.03
+  else:
+    raise TypeError(f'Unknown coordinate relation {rel}')
+
+# @partial(jax.jit, static_argnames=["env_name", "conds"])
+def eval_conditions(env_name: str, conds: typing.Tuple[str], obs):
+  if not isinstance(obs, dict):
+    obs = parse_obs(obs)
+  results = []
+  for full_cond in conds:
+    base_conds = full_cond.split(' and ')
+
+    base_results = []
+    for cond in base_conds:
+      if cond == 'gripper is open':
+        base_results.append(obs['gripper_distance_apart'] > 0.75)
+      elif cond == 'gripper is closed':
+        base_results.append(obs['gripper_distance_apart'] <= 0.75)
+      elif cond.endswith(' is not touching the table'):
+        object_name = cond.split(' is not touching the table')[0]
+        xyz = get_object_location(env_name, object_name, obs)
+        base_results.append(xyz[2] > 0.02)
+      elif cond.endswith(' is touching the table'):
+        object_name = cond.split(' is touching the table')[0]
+        xyz = get_object_location(env_name, object_name, obs)
+        base_results.append(xyz[2] <= 0.02)
+      elif any(substr in cond for substr in NEGATIVE_RELATION_SUBSTR):
+        neg_relations = [rel for rel in COORDINATE_RELATIONS
+                         if f' is not {rel} ' in cond]
+        assert len(neg_relations) == 1
+        rel = neg_relations[0]
+        obj_name1, obj_name2 = cond.split(f' is not {rel} ')
+        xyz1 = get_object_location(env_name, obj_name1, obs)
+        xyz2 = get_object_location(env_name, obj_name2, obs)
+        base_results.append(1 - eval_relation(rel, xyz1, xyz2))
+      elif any(substr in cond for substr in POSITIVE_RELATION_SUBSTR):
+        pos_relations = [rel for rel in COORDINATE_RELATIONS
+                         if f' is {rel} ' in cond]
+        assert len(pos_relations) == 1
+        rel = pos_relations[0]
+        obj_name1, obj_name2 = cond.split(f' is {rel} ')
+        xyz1 = get_object_location(env_name, obj_name1, obs)
+        xyz2 = get_object_location(env_name, obj_name2, obs)
+        base_results.append(eval_relation(rel, xyz1, xyz2))
+      else:
+        raise TypeError(f'Could not eval condition {cond}')
+    results.append(jnp.all(jnp.array(base_results)))
+  return jnp.array(results)
+
+def enumerate_descriptors(env_name: str) -> [str]:
+  object_names = ["the robot's gripper"] + list(OBJECT_NAMES[env_name].values())
+  if env_name == 'peg-insert-side':
+    object_names.append("hole")
+  elif (env_name == 'reach-wall' or
+        env_name == 'push-wall' or
+        env_name == 'pick-place-wall' or
+        env_name == 'button-press-wall' or
+        env_name == 'button-press-topdown-wall'):
+    object_names.append('wall')
+  descriptors = []
+  for name1 in object_names:
+    for name2 in object_names:
+      if name1 == name2:
+        continue
+      for rel in COORDINATE_RELATIONS:
+        if rel == 'around' and name1 != "the robot's gripper":
+          continue
+        descriptors.append(f"{name1} is {rel} {name2}")
+        descriptors.append(f"{name1} is not {rel} {name2}")
+  for (key, name) in OBJECT_NAMES[env_name].items():
+    if key == 'goal_pos':
+      continue
+    descriptors.append(f"{name} is touching the table")
+    descriptors.append(f"{name} is not touching the table")
+
+  descriptors.append("gripper is open")
+  descriptors.append("gripper is closed")
+
+  conjunction_descriptors = []
+  for desc1 in descriptors:
+    for desc2 in descriptors:
+      conjunction_descriptors.append(f"{desc1} and {desc2}")
+  all_descriptors = descriptors + conjunction_descriptors
+  return all_descriptors
+
 
 def update_counts(descriptor_counts, env_name, observation):
   descriptions = describe_obs(env_name, observation)
@@ -501,7 +680,7 @@ def find_controllers_with_missing_descriptors(*, envs=','.join(MT10_ENV_NAMES), 
               controller_total_counts[con_name], 'timesteps)')
         policy_desc_to_con[descriptor] = con_name
         num_chosen += 1
-        if num_chosen >= 1:
+        if num_chosen >= 2:
           break
     print(policy_desc_to_con)
     controller_maps[env_name] = policy_desc_to_con
@@ -515,6 +694,14 @@ def find_controllers_with_missing_descriptors(*, envs=','.join(MT10_ENV_NAMES), 
                                                      seed=seed,
                                                      n_episodes=100,
                                                      noise_scale=0.1))
+    desc_policy.base_weight = None
+    success = evaluate_policy(env_name,
+                              collect_noisy_episodes(20 * [env_name],
+                                                     desc_policy,
+                                                     seed=seed,
+                                                     n_episodes=100,
+                                                     noise_scale=0.1))
+    success_rates[env_name] = success
     # for controller_prob in np.linspace(0, 1, 11):
       # print('Weighting incorrect controller by', controller_prob)
       # desc_policy.base_weight = controller_prob
@@ -535,18 +722,57 @@ def find_controllers_with_missing_descriptors(*, envs=','.join(MT10_ENV_NAMES), 
 
 def test_smoke():
   seed = 100
-  env_name = 'peg-insert-side'
+  with tqdm(total=len(MT50_ENV_NAMES) * 500) as pbar:
+    for env_name in MT50_ENV_NAMES:
+      env = make_env(env_name, seed)
+      # conditions = tuple(enumerate_descriptors(env_name)[:4])
+      policy = metaworld_universal_policy.SawyerUniversalV2Policy(env_name=env_name)
+      observation = env.reset()
+      for i in range(env.max_episode_length):
+        action, _ = policy.get_action(observation)
+        observation, r, done, info = env.step(action)
+        # eval_conditions(env_name, conditions, observation)
+        describe_obs(env_name, observation)
+        pbar.update(1)
+        # print('-' * 80)
+        # for (desc, truth_value) in describe_obs(env_name, observation).items():
+          # print(f"{desc}:", bool(truth_value))
+        # print('-' * 80)
+
+@easy_process.subprocess_func
+def sample_process(*, env_name: str, noise_scales: [float], seed: int, parent):
   env = make_env(env_name, seed)
-  policy = SawyerUniversalV2Policy(env_name=env_name)
-  observation = env.reset()
-  for i in range(env.max_episode_length):
-    action, _ = policy.get_action(observation)
-    observation, r, done, info = env.step(action)
-    print('-' * 80)
-    for (desc, truth_value) in describe_obs(env_name, observation).items():
-      print(f"{desc}:", bool(truth_value))
-    print('-' * 80)
+  policy = metaworld_universal_policy.SawyerUniversalV2Policy(env_name=env_name)
+
+  while True:
+    random.shuffle(noise_scales)
+    for noise_scale in noise_scales:
+      ou_proc = OUProcess(dimensions=env.action_space.shape[0],
+                          sigma=noise_scale)
+      episode = []
+      for data in sample_policy_with_noise_process(env, policy, ou_proc):
+        describe_obs(env_name, data['observation'])
+        data['env_name'] = env_name
+        data['noise_scale'] = noise_scale
+        episode.append(data)
+      parent.sendrecv(episode)
+
+def test_parallel(envs: str_list=MT50_ENV_NAMES,
+                  seed=jax_utils.DEFAULT_SEED,
+                  noise_scales: float_list=[0.1, 0.2, 0.5, 0.9]):
+  with easy_process.Scope():
+    workers = [sample_process(env_name=env_name, seed=seed, noise_scales=noise_scales)
+              for env_name in envs]
+    datapoints = []
+    with tqdm(total=len(envs) * len(noise_scales)) as pbar:
+      for _ in range(len(noise_scales)):
+        for worker in workers:
+          episode = worker.recv(block=True)
+          datapoints.extend(episode)
+          pbar.update(1)
 
 
 if __name__ == '__main__':
-  clize.run(find_controllers_with_missing_descriptors)
+  # clize.run(find_controllers_with_missing_descriptors)
+  clize.run(test_parallel)
+  # clize.run(test_smoke)

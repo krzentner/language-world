@@ -249,7 +249,7 @@ def embed_condition(cond):
     embed = np.array(get_embedder()([preprocess_condition(cond)])[0])
     EMBEDDING_CACHE[cond] = embed
     UNFLUSHED_VALUES.append((cond, pickle.dumps(embed)))
-    if len(UNFLUSHED_VALUES) > 100:
+    if len(UNFLUSHED_VALUES) > 100000:
       save_cache()
     return embed
 
@@ -261,7 +261,7 @@ def embed_action(action):
     embed = np.array(get_embedder()([action])[0])
     EMBEDDING_CACHE[action] = embed
     UNFLUSHED_VALUES.append((action, pickle.dumps(embed)))
-    if len(UNFLUSHED_VALUES) > 100:
+    if len(UNFLUSHED_VALUES) > 100000:
       save_cache()
     return embed
 

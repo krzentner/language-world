@@ -58,16 +58,24 @@ class FitCallbacks:
   def training_complete(self, state):
     return state
 
+DEFAULT_SEED = random.randrange(1000)
 
 def fit_model(model, data, apply_model, model_name,
               preprocess,
               batch_size=16, n_epochs=5,
-              seed=random.randrange(1000), learning_rate=1e-4,
+              seed=DEFAULT_SEED, learning_rate=1e-4,
               momentum=0.995, callbacks=FitCallbacks()):
   workdir = expanduser(f'~/data/fit_model={model_name}_seed={seed}')
   print('workdir:', workdir)
   summary_writer = tensorboard.SummaryWriter(workdir)
-  summary_writer.hparams(dict(locals()))
+  summary_writer.hparams({
+      'learning_rate': learning_rate,
+      'momentum': momentum,
+      'seed': seed,
+      'n_datapoints': len(data),
+      'batch_size': batch_size,
+      'n_epochs': n_epochs,
+  })
 
   @jax.jit
   def update_model(state, grads):
