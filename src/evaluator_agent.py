@@ -5,6 +5,7 @@ import clize
 from functools import partial
 import os
 import typing
+import cloudpickle
 
 import random
 from flax import linen as nn
@@ -37,6 +38,10 @@ import easy_process
 import embed_prompt
 import sample_utils
 from sample_utils import make_env, sample_noisy_policy, sample_policy_with_noise_process
+from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES
+from run_utils import float_list, str_list
+from ou_process import OUProcess
+import jax_utils
 
 import pickle
 
@@ -397,6 +402,11 @@ parsed_plans = {
 # }
 
 
+# jit_eval_conditions = jax.jit(generate_metaworld_scene_dataset.eval_conditions,
+# static_argnames=["env_name", "conds"])
+jit_eval_conditions = generate_metaworld_scene_dataset.eval_conditions
+
+
 def embed_plan(plan):
     embedded_plan = {
         "conds": [embed_prompt.embed_condition(cond) for cond in plan["conds"]],
@@ -427,51 +437,70 @@ print("Done embedding plans")
 
 
 class CondAgent(nn.Module):
+    use_learned_evaluator: bool
+    use_learned_controller: bool
+    mix_in_language_space: bool
+
     def setup(self):
         self.plans = embedded_plans
         self.cond_evaluator = train_evaluator.ConditionEvaluator()
+        self.learned_controller = LearnedController()
 
-    def __call__(self, env_names, low_dim, true_cond_results):
+    def __call__(self, env_names, low_dim):
         info = {}
         plans = [self.plans[env_name] for env_name in env_names]
-        conds_padded, conds_mask = pad_list([plan["conds"] for plan in plans])
-        conds_logits = self.cond_evaluator(low_dim, conds_padded)
-        true_logits = 10 * true_cond_results - 5
-        # logits = 2 * (0.9 * conds_logits + 0.1 * true_logits)
-        logits = 0.2 * (10 * jnp.tanh(conds_logits)) + 0.8 * true_logits
-        controller_weights = nn.softmax(2 * logits, axis=1,
-        where=conds_mask,
-        initial=0)
-        # controller_weights = controller_weights * (1.0 + true_cond_results)
+        if self.use_learned_evaluator:
+            conds_padded, conds_mask = pad_list([plan["conds"] for plan in plans])
+            conds_logits = self.cond_evaluator(low_dim, conds_padded)
+            logits = 10 * jnp.tanh(conds_logits)
+        else:
+            true_values = []
+            for (env_name, obs, plan) in zip(env_names, low_dim, plans):
+                true_results = jit_eval_conditions(env_name, plan["conds_str"], obs)
+                true_values.append(true_results)
+            padded_true_results, conds_mask = pad_list(true_values)
+            logits = 10 * padded_true_results - 5
+        controller_weights = nn.softmax(logits, axis=1, where=conds_mask, initial=0)
         info["logits"] = logits
-        info["truth_values"] = conds_logits
         info["controller_weights"] = controller_weights
-        info["true_cond_results"] = true_cond_results
-        info["weight_correlation"] = (
-            controller_weights * true_cond_results - 0.5 * conds_mask
-        )
-        # perfect_weights = []
         controller_weights /= controller_weights.sum(axis=1)[0]
         controller_outputs = []
-        for (env_name, obs, plan) in zip(env_names, low_dim, plans):
-            # descriptors = generate_metaworld_scene_dataset.describe_obs(env_name,
-            # np.array(obs))
-            # perfect_weights.append([
-            # jnp.array(descriptors[cond]) for cond in plan['conds_str']
-            # ])
-            parsed_obs = metaworld_jax_controllers.parse_obs(obs)
-            metaworld_controllers.np = jnp
-            controller_outputs.append(
-                [
-                    metaworld_controllers.run_controller(name, parsed_obs)
-                    for name in plan["actions_str"]
-                ]
+        if self.mix_in_language_space:
+            assert self.use_learned_controller
+            embedded_controller_names = [plan["actions"] for plan in plans]
+            padded_controller_names, action_mask = pad_list(embedded_controller_names)
+            action_embed = jnp.einsum(
+                "ij,ijk->ik", controller_weights, padded_controller_names
             )
-        controller_outputs, _ = pad_list(controller_outputs)
-        weighted_outputs = jnp.einsum(
-            "ij,ijk->ik", controller_weights, controller_outputs
-        )
-        return weighted_outputs, info
+            actions, controller_info = self.learned_controller(low_dim, action_embed)
+        else:
+            if self.use_learned_controller:
+                controller_outputs = []
+                for (obs, plan) in zip(low_dim, plans):
+                    action, controller_info = eslf.learned_controller(
+                        jnp.array([obs for action_embed in plan["actions"]]),
+                        plan["actions"],
+                    )
+                    controller_outputs.append(action)
+                controller_outputs = jnp.array(controller_outputs)
+                actions = jnp.einsum(
+                    "ij,ijk->ik", controller_weights, controller_outputs
+                )
+            else:
+                for (env_name, obs, plan) in zip(env_names, low_dim, plans):
+                    parsed_obs = metaworld_jax_controllers.parse_obs(obs)
+                    metaworld_controllers.np = jnp
+                    controller_outputs.append(
+                        [
+                            metaworld_controllers.run_controller(name, parsed_obs)
+                            for name in plan["actions_str"]
+                        ]
+                    )
+                controller_outputs, _ = pad_list(controller_outputs)
+                actions = jnp.einsum(
+                    "ij,ijk->ik", controller_weights, controller_outputs
+                )
+        return actions, info
 
     def as_policy(self, env_name, state):
         return CondAgentPolicy(env_name=env_name, state=state, cond_agent=self)
@@ -526,112 +555,99 @@ class CondAgentPolicy:
         return actions[0], {k: v[0] for (k, v) in infos.items()}
 
     def get_actions(self, observations, env_names):
-        plans = [embedded_plans[env_name] for env_name in env_names]
-        perfect_weights = []
-        for (env_name, obs, plan) in zip(env_names, observations, plans):
-            descriptors = generate_metaworld_scene_dataset.describe_obs(
-                env_name, np.array(obs)
-            )
-            perfect_weights.append(
-                [jnp.array(descriptors[cond]) for cond in plan["conds_str"]]
-            )
-        true_cond_results, _ = pad_list(perfect_weights)
-
-        action, info = run_cond_agent(
-            self.state, tuple(env_names), observations, true_cond_results
-        )
+        action, info = run_cond_agent(self.state, tuple(env_names), observations)
 
         # for (k, v) in info.items():
-          # print(k, v)
+        # print(k, v)
 
         return np.asarray(action), info
 
 
 @partial(jax.jit, static_argnames=["env_names"])
-def run_cond_agent(state, env_names, observations, true_cond_results):
-    return state.apply_fn(state.params, env_names, observations, true_cond_results)
+def run_cond_agent(state, env_names, observations):
+    return state.apply_fn(state.params, env_names, observations)
 
 
-@jax.jit
-def update_model(state, grads):
-    return state.apply_gradients(grads=grads)
-
-
-# @partial(jax.jit, static_argnames=['env_names'])
-def apply_model(state, env_names, observations, action_targets):
+@partial(jax.jit, static_argnames=["env_names"])
+def apply_model(state, env_names, low_dim, targets):
     def loss_fn(params):
-        action = state.apply_fn(params, env_names, observations)
-        loss = jnp.mean(optax.l2_loss(action, action_targets))
-        return loss
+        actions, info = state.apply_fn(params, env_names, low_dim)
+        loss = jnp.mean(optax.l2_loss(actions, targets))
+        return loss, actions
 
-    grad_fn = jax.value_and_grad(loss_fn)
-    loss, grads = grad_fn(state.params)
-    return grads, loss
+    grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
+    (loss, actions), grads = grad_fn(state.params)
+    return (
+        grads,
+        loss,
+        {
+            "actions_mean": jnp.mean(actions),
+            "actions_var": jnp.var(actions),
+        },
+    )
 
 
-def train_epoch(state, batch):
-    observations = []
-    action_targets = []
-    env_names = []
-    for sample_pkl in batch:
-        sample = pickle.loads(sample_pkl[0].data[0].item())
-        observations.append(sample["observation"])
-        action_targets.append(sample["action"])
-        env_names.append(sample["env_name"])
-    obs_batch = np.stack(observations)
-    action_batch = np.stack(action_targets)
-    grads, loss = apply_model(state, tuple(env_names), obs_batch, action_batch)
-    state = update_model(state, grads)
-    return state, loss
+def grouped_env_dataset(
+    *,
+    envs: str_list = MT50_ENV_NAMES,
+    n_timesteps=1000,
+    seed=jax_utils.DEFAULT_SEED,
+    shuffle_timesteps=True,
+    noise_scales: float_list = [0.1, 0.2, 0.3, 0.4],
+) -> [[dict]]:
+    """Produce a set of datapoints that each contain one timestep from each env."""
+    with easy_process.Scope():
+        workers = [
+            sample_process(env_name=env_name, seed=seed, noise_scales=noise_scales)
+            for env_name in envs
+        ]
+        datapoints = []
+        successes = defaultdict(list)
+        with tqdm(total=n_timesteps) as pbar:
+            while len(datapoints) < n_timesteps:
+                episode_block = []
+                for (env_name, worker) in zip(envs, workers):
+                    episode = worker.recv(block=True)
+                    successes[env_name].append(episode_to_success(episode))
+                    if shuffle_timesteps:
+                        random.shuffle(episode)
+                    episode_block.append(episode)
+                new_datapoints = min(len(episode) for episode in episode_block)
+                for i in range(new_datapoints):
+                    datapoints.append([episode[i] for episode in episode_block])
+                pbar.update(new_datapoints)
+    for (env_name, success_rate) in successes.items():
+        print(f"Data success rate for {env_name}:", np.mean(success_rate))
+    return datapoints
 
 
 @easy_process.subprocess_func
-def sampler_proc(env_name, port, seed, noise_scale, *, parent):
-    client = reverb.Client(f"localhost:{port}")
+def sample_process(*, env_name: str, noise_scales: [float], seed: int, parent):
+    env = make_env(env_name, seed)
+    policy = SawyerUniversalV2Policy(env_name=env_name)
 
     while True:
-        print("waiting")
-        msg = parent.recv()
-        if msg == "stop":
-            return
-        elif msg == "gather":
-            try:
-                env = get_env(env_name, seed)
-                max_episode_length = 500
-                policy = SawyerUniversalV2Policy(env_name=env_name)
-                observation = env.reset()
-                use_random = False
-                for i in tqdm(range(max_episode_length)):
-                    print(i)
-                    action = policy.get_action(observation)
-                    action_noisy = action + np.random.normal(scale=noise_scale)
-                    observation, reward, done, info = env.step(action_noisy)
-                    store(env_name, client, observation, action, reward)
-                return_env(env_name, env)
-            except Exception as ex:
-                print(ex)
-            parent.send("gather done")
-        else:
-            raise TypeError("Unknown message")
+        random.shuffle(noise_scales)
+        for noise_scale in noise_scales:
+            ou_proc = OUProcess(dimensions=env.action_space.shape[0], sigma=noise_scale)
+            episode = []
+            for data in sample_policy_with_noise_process(env, policy, ou_proc):
+                data["env_name"] = env_name
+                data["noise_scale"] = noise_scale
+                episode.append(data)
+            parent.sendrecv(episode)
 
 
-def eval_policy(policy, env_names, seed):
-    env_names = tuple(env_names)
-    envs = [get_env(name, seed) for name in env_names]
-
-    max_episode_length = 500
-    observations = [env.reset() for env in envs]
-    use_random = False
-    rewards = {name: [] for name in env_names}
-    for i in tqdm(range(max_episode_length)):
-        actions = step_agent(policy.state, env_names, jnp.array(observations))
-        for i, action in enumerate(actions):
-            observations[i], reward, done, info = envs[i].step(np.array(action))
-            rewards[env_names[i]].append(reward)
-
-    for (env_name, env) in zip(env_names, envs):
-        return_env(env_name, env)
-    return rewards
+def preprocess(batch):
+    env_names = []
+    observations = []
+    actions = []
+    for stack in batch:
+        for data in stack:
+            env_names.append(data["env_name"])
+            observations.append(data["observation"])
+            actions.append(data["action"])
+    return (tuple(env_names), jnp.array(observations)), jnp.array(actions)
 
 
 def load_best_evaluator_params():
@@ -640,61 +656,175 @@ def load_best_evaluator_params():
     return cond_eval_state["params"]
 
 
-def evaluate_policy(env_name, n_episodes, episode_factory):
+@easy_process.subprocess_func
+def eval_process(*, env, policy, noise_scale: float, parent):
+    while True:
+        episode = []
+        for data in sample_noisy_policy(env, policy, noise_scale):
+            data["noise_scale"] = noise_scale
+            episode.append(data)
+        state_updates = parent.sendrecv(episode_to_success(episode))
+        if state_updates:
+            policy.state = policy.state.replace(params=state_updates[-1])
+            parent.sendrecv("policy updated")
+
+def episode_to_success(episode):
+    success = False
+    for data in episode:
+        success |= data.get("success", 0) > 0
+    return success
+
+N_EVAL_WORKERS = 50
+
+def evaluate_policy(env_name, n_episodes, env, policy, noise_scale):
     successes = []
-    for i in tqdm(range(n_episodes)):
-        success = False
-        for data in episode_factory():
-            success |= data.get("success", 0) > 0
-        successes.append(success)
+    if n_episodes <= 10:
+        for i in tqdm(range(n_episodes)):
+            successes.append(episode_to_success(sample_noisy_policy(env, policy,
+                                                                    noise_scale)))
+    else:
+        with easy_process.Scope():
+            workers = [
+                eval_process(env=env, policy=policy, noise_scale=noise_scale)
+                for _ in range(N_EVAL_WORKERS)
+            ]
+            with tqdm(total=n_episodes) as pbar:
+                while len(successes) < n_episodes:
+                    for worker in workers:
+                        success = worker.recv(block=False)
+                        if success is not None and success != "policy updated":
+                            successes.append(success)
+                            pbar.update(1)
     print("Success rate for", env_name, ":", np.mean(successes))
     return np.mean(successes)
 
 
+class EvalCallbacks(jax_utils.FitCallbacks):
+    def __init__(self, seed, env_names, cond_agent, noise_scale=0.10):
+        self.envs = {env_name: make_env(env_name, seed) for env_name in env_names}
+        self.noise_scale = noise_scale
+        self.cond_agent = cond_agent
+        self.process_scope = easy_process.Scope()
+        self.workers = {}
+        self.n_episodes = 50
+        self.step_period = 10
+        self.current_step = 0
+
+    def epoch_start(self, state):
+        self.current_step += 1
+        if self.current_step % self.step_period == 1:
+            return self.training_complete(state)
+        else:
+            return state, {}
+
+    def training_complete(self, state):
+        infos = {}
+        for (env_name, env) in self.envs.items():
+            policy = self.cond_agent.as_policy(env_name, state)
+            if env_name in self.workers:
+                workers = self.workers[env_name]
+                for worker in workers:
+                    worker.send(state.params, block=True)
+                for worker in workers:
+                    msg = None
+                    while msg != "policy updated":
+                        msg = worker.recv(block=True)
+            else:
+                easy_process.SCOPE_STACK.append(self.process_scope)
+                workers = [eval_process(env=env, policy=policy, noise_scale=self.noise_scale)
+                           for _ in range(N_EVAL_WORKERS)]
+                self.workers[env_name] = workers
+                easy_process.SCOPE_STACK.pop()
+
+            successes = []
+            with tqdm(total=self.n_episodes) as pbar:
+                while len(successes) < self.n_episodes:
+                    for worker in workers:
+                        success = worker.recv(block=False)
+                        if success is not None and success != "policy updated":
+                            successes.append(success)
+                            pbar.update(1)
+            print(f"Success rate for {env_name}:", np.mean(successes))
+            infos[f"{env_name}/SuccessRate"] = np.mean(successes)
+        return state, infos
+
+
+
 def train_and_evaluate(
     *,
-    train_envs=",".join([e[:-3] for e in MT10_V2.keys()]),
-    test_envs="",
-    # test_envs=','.join([e[:-3] for e in MT10_V2.keys()]),
-    seed=random.randrange(1000),
-    num_batches=1e6,
-    batch_size=16,
+    train_envs: str_list = MT10_ENV_NAMES,
+    test_envs: str_list = MT10_ENV_NAMES,
+    seed=jax_utils.DEFAULT_SEED,
+    n_timesteps=1e5,
+    batch_size=4,
     noise_scale=0.1,
 ):
-    workdir = os.path.expanduser(
-        f"~/data/cond_agent_seed={seed}_noise-scale={noise_scale}"
-    )
-    rng = jax.random.PRNGKey(seed)
-    summary_writer = tensorboard.SummaryWriter(workdir)
-    summary_writer.hparams(dict(locals()))
 
-    train_env_names = [name for name in train_envs.split(",") if name]
-    test_env_names = [name for name in test_envs.split(",") if name]
-    max_episode_length = 500
-    max_size = len(train_env_names) * max_episode_length * 10
+    data = grouped_env_dataset(envs=train_envs, n_timesteps=n_timesteps, seed=seed)
+    cond_agent = CondAgent(
+        use_learned_evaluator=False,
+        mix_in_language_space=True,
+        use_learned_controller=True,
+    )
+    callbacks = EvalCallbacks(seed, train_envs + test_envs, cond_agent)
+    jax_utils.fit_model(
+        cond_agent,
+        data,
+        apply_model,
+        "cond_agent",
+        batch_size=batch_size,
+        preprocess=preprocess,
+        seed=seed,
+        n_epochs=500,
+        callbacks=callbacks,
+    )
+    embed_prompt.save_cache()
+    print('Done saving cache')
+    callbacks.process_scope.close()
 
-    rng, init_rng = jax.random.split(rng)
-    learning_rate = 1e-4
-    momentum = 0.99
-    cond_agent = CondAgent()
-    params = cond_agent.init(
-        rng,
-        ["drawer-close", "pick-place"] * int(batch_size / 2),
-        jnp.ones([batch_size, 39]),
-        jnp.ones([batch_size, np.max([len(embedded_plans[env_name]['conds'])
-                                      for env_name in ['drawer-close', 'pick-place']])]),
-    )
-    params = params.copy({"params": {"cond_evaluator": load_best_evaluator_params()}})
-    tx = optax.sgd(learning_rate, momentum)
-    state = train_state.TrainState.create(
-        apply_fn=cond_agent.apply, params=params, tx=tx
-    )
-    for env_name in train_env_names + test_env_names:
-        env = make_env(env_name, seed)
-        policy = cond_agent.as_policy(env_name, state)
-        success = evaluate_policy(
-            env_name, 10, lambda: sample_noisy_policy(env, policy, 0.10)
-        )
+    # workdir = os.path.expanduser(
+    # f"~/data/cond_agent_seed={seed}_noise-scale={noise_scale}"
+    # )
+    # rng = jax.random.PRNGKey(seed)
+    # summary_writer = tensorboard.SummaryWriter(workdir)
+    # summary_writer.hparams(dict(locals()))
+
+    # train_env_names = [name for name in train_envs.split(",") if name]
+    # test_env_names = [name for name in test_envs.split(",") if name]
+    # max_episode_length = 500
+    # max_size = len(train_env_names) * max_episode_length * 10
+
+    # rng, init_rng = jax.random.split(rng)
+    # learning_rate = 1e-4
+    # momentum = 0.99
+    # cond_agent = CondAgent()
+    # params = cond_agent.init(
+    # rng,
+    # ["drawer-close", "pick-place"] * int(batch_size / 2),
+    # jnp.ones([batch_size, 39]),
+    # jnp.ones(
+    # [
+    # batch_size,
+    # np.max(
+    # [
+    # len(embedded_plans[env_name]["conds"])
+    # for env_name in ["drawer-close", "pick-place"]
+    # ]
+    # ),
+    # ]
+    # ),
+    # )
+    # params = params.copy({"params": {"cond_evaluator": load_best_evaluator_params()}})
+    # tx = optax.sgd(learning_rate, momentum)
+    # state = train_state.TrainState.create(
+    # apply_fn=cond_agent.apply, params=params, tx=tx
+    # )
+    # for env_name in train_env_names + test_env_names:
+    # env = make_env(env_name, seed)
+    # policy = cond_agent.as_policy(env_name, state)
+    # success = evaluate_policy(
+    # env_name, 10, lambda: sample_noisy_policy(env, policy, 0.10)
+    # )
 
 
 if __name__ == "__main__":

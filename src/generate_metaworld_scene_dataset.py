@@ -348,17 +348,17 @@ def describe_obs(env_name, obs):
     for (desc2, value2) in descriptors.items():
       conjunction_descriptors[f"{desc1} and {desc2}"] = value1 * value2
   descriptors.update(conjunction_descriptors)
-  descriptors_enumerated = enumerate_descriptors(env_name)
-  # pprint(descriptors_enumerated)
-  assert set(descriptors_enumerated) == set(descriptors.keys())
-  values = eval_conditions(env_name, tuple(descriptors_enumerated), obs)
-  for (cond, val) in zip(descriptors_enumerated, values):
-  # for cond in descriptors_enumerated:
-    # val = eval_conditions(env_name, [cond], obs)[0]
-    if bool(descriptors[cond]) != val:
-      print(f'now: {cond!r} = {val}')
-      print(f'old: {descriptors[cond]}')
-    assert bool(descriptors[cond]) == val, f"Evaluation doesn't match for {cond!r}"
+  # descriptors_enumerated = enumerate_descriptors(env_name)
+  # # pprint(descriptors_enumerated)
+  # assert set(descriptors_enumerated) == set(descriptors.keys())
+  # values = eval_conditions(env_name, tuple(descriptors_enumerated), obs)
+  # for (cond, val) in zip(descriptors_enumerated, values):
+  # # for cond in descriptors_enumerated:
+    # # val = eval_conditions(env_name, [cond], obs)[0]
+    # if bool(descriptors[cond]) != val:
+      # print(f'now: {cond!r} = {val}')
+      # print(f'old: {descriptors[cond]}')
+    # assert bool(descriptors[cond]) == val, f"Evaluation doesn't match for {cond!r}"
   return descriptors
 
 POSITIVE_RELATION_SUBSTR = [f'is {rel}' for rel in COORDINATE_RELATIONS]

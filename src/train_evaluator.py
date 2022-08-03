@@ -63,9 +63,9 @@ class ConditionEvaluator(nn.Module):
     return result
 
 @jax.jit
-def apply_model(state, inputs, targets):
+def apply_model(state, low_dim, conditions, targets):
   def loss_fn(params):
-    truth_values = state.apply_fn(params, *inputs)
+    truth_values = state.apply_fn(params, low_dim, conditions)
     loss = jnp.mean(optax.sigmoid_binary_cross_entropy(
         jnp.stack([truth_values, -truth_values], axis=-1),
         jnp.stack([targets, 1 - targets], axis=-1)))

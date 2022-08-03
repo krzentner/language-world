@@ -56,12 +56,14 @@ class ProcessHandle:
   def sendrecv(self, item, step_timeout=0.1):
     has_send = False
     results = []
-    while not has_send or not results:
-      results.append(self.recv(block=True, timeout=step_timeout))
+    while not has_send and not results:
       if not has_send:
         has_send = self.send(item,
                              block=True,
                              timeout=step_timeout)
+      msg = self.recv(block=True, timeout=step_timeout)
+      if msg is not None:
+        results.append(msg)
     return results
 
   def _flip(self):
@@ -122,9 +124,12 @@ class Scope:
 
   def __exit__(self, exc_type, exc_value, traceback):
     assert SCOPE_STACK[-1] is self
+    self.close()
+    SCOPE_STACK.pop()
+
+  def close(self):
     force_close_processes(self.processes)
     self.processes = []
-    SCOPE_STACK.pop()
 
 
 def _force_close_process(proc, exception):

@@ -62,12 +62,12 @@ def sample_noisy_policy(env, policy, noise_scale):
 def sample_policy_with_noise_process(env, policy, process):
   process.reset()
   observation = env.reset()
-  yield {'observation': observation}
   for i in range(env.max_episode_length):
     action, agent_info = policy.get_action(observation)
     action_noisy = action + process.simulate()
     next_obs, reward, done, info = env.step(action_noisy)
     data = {'observation': observation,
+            'next_observation': next_obs,
             'action': action,
             'action_noisy': action_noisy,
             'reward': reward,

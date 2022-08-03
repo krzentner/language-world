@@ -44,21 +44,25 @@ def save_params(workdir, step, state, delete_prev=True):
 class FitCallbacks:
 
   def epoch_start(self, state):
-    return state
+    return state, {}
 
   def epoch_end(self, state):
-    return state
+    return state, {}
 
   def minibatch_start(self, state):
-    return state
+    return state, {}
 
   def minibatch_end(self, state):
-    return state
+    return state, {}
 
   def training_complete(self, state):
-    return state
+    return state, {}
 
 DEFAULT_SEED = random.randrange(1000)
+
+def log_infos(summary_writer, infos, step):
+    for (k, v) in infos.items():
+      summary_writer.scalar(k, v, step)
 
 def fit_model(model, data, apply_model, model_name,
               preprocess,
@@ -93,25 +97,31 @@ def fit_model(model, data, apply_model, model_name,
   step = 0
   for epoch in range(n_epochs):
     print('Beginning epoch', epoch)
-    state = callbacks.epoch_start(state)
+    state, infos = callbacks.epoch_start(state)
+    log_infos(summary_writer, infos, step)
     first_step_in_epoch = True
     rng, minibatch_rng = jax.random.split(rng)
     for (minibatch, key) in approx_minibatches(minibatch_rng, data, batch_size):
-      state = callbacks.minibatch_start(state)
+      state, infos = callbacks.minibatch_start(state)
+      log_infos(summary_writer, infos, step)
       if step % 1000 == 0:
         save_params(workdir, step, state,
                     delete_prev=not first_step_in_epoch)
         first_step_in_epoch = False
       inputs, targets = preprocess(minibatch)
-      grads, loss, infos = apply_model(state, inputs, targets)
+      grads, loss, infos = apply_model(state, *inputs, targets)
       state = update_model(state, grads)
-      for (k, v) in infos.items():
-        summary_writer.scalar(k, v, step)
+      log_infos(summary_writer, infos, step)
+      state, infos = callbacks.minibatch_end(state)
+      log_infos(summary_writer, infos, step)
       summary_writer.flush()
       step += 1
-      state = callbacks.minibatch_end(state)
-    state = callbacks.epoch_end(state)
+    state, infos = callbacks.epoch_end(state)
+    log_infos(summary_writer, infos, step)
     save_params(workdir, epoch, state)
-  state = callbacks.training_complete(state)
+    summary_writer.flush()
+  state, infos = callbacks.training_complete(state)
+  log_infos(summary_writer, infos, step)
+  summary_writer.flush()
 
   return state
