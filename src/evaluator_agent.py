@@ -287,124 +287,9 @@ parsed_plans = {
     },
 }
 
-# {
-# "button-press-topdown": {
-# "button is not vertically aligned with the robot's gripper": "put "
-# "gripper "
-# "above "
-# "button",
-# "button is vertically aligned with the robot's gripper": "push "
-# "down "
-# "on "
-# "button",
-# },
-# "door-open": {
-# "door handle is left of the robot's gripper and gripper is closed": "put "
-# "gripper "
-# "around "
-# "door "
-# "handle",
-# "door handle is not almost vertically aligned with the robot's gripper": "put "
-# "gripper "
-# "above "
-# "door "
-# "handle",
-# "door handle is vertically aligned with the robot's gripper and door handle is not left of the robot's gripper": "push "
-# "door "
-# "closed",
-# },
-# "drawer-close": {
-# "drawer handle is below the robot's gripper": "put the "
-# "gripper above "
-# "the drawer "
-# "handle",
-# "drawer handle is forward aligned with the robot's gripper": "push "
-# "drawer "
-# "closed",
-# "drawer handle is not vertically aligned with the robot's gripper and drawer handle is not forward aligned with the robot's gripper": "grab "
-# "drawer "
-# "handle",
-# "gripper is open": "put the gripper in front of the drawer",
-# },
-# "drawer-open": {
-# "drawer handle is not vertically aligned with the robot's gripper": "put "
-# "gripper "
-# "above "
-# "drawer "
-# "handle",
-# "drawer handle is vertically aligned with the robot's gripper and the robot's gripper is not around drawer handle": "put "
-# "gripper "
-# "around "
-# "drawer "
-# "handle",
-# "the robot's gripper is around drawer handle": "pull away " "from drawer",
-# },
-# "peg-insert-side": {
-# "peg is forward aligned with the robot's gripper and peg is not horizontally aligned with hole": "align "
-# "peg "
-# "to "
-# "hole",
-# "peg is horizontally aligned with hole": "insert peg into " "hole",
-# "peg is left of the robot's gripper": "put gripper above " "peg",
-# "peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper": "grab "
-# "peg",
-# },
-# "pick-place": {
-# "gripper is closed": "place puck at goal",
-# "puck is around the robot's gripper and gripper is open": "close "
-# "gripper "
-# "around "
-# "puck",
-# "puck is below the robot's gripper and puck is not around the robot's gripper": "drop "
-# "gripper "
-# "around "
-# "puck",
-# "puck is not below the robot's gripper": "place gripper above " "puck",
-# },
-# "push": {
-# "puck is below the robot's gripper and puck is not near the robot's gripper": "push "
-# "the "
-# "gripper "
-# "into "
-# "the "
-# "puck",
-# "puck is near the robot's gripper": "slide the puck to the goal",
-# "puck is not below the robot's gripper": "put the gripper above the " "puck",
-# },
-# "reach": {"reach target is mostly below the robot's gripper": "reach to goal"},
-# "window-close": {
-# "window handle is not vertically aligned with the robot's gripper": "move "
-# "gripper "
-# "to "
-# "left "
-# "of "
-# "window "
-# "handle",
-# "window handle is right of the robot's gripper": "slide " "window " "right",
-# "window handle is vertically aligned with the robot's gripper and window handle is not right of the robot's gripper": "push "
-# "window "
-# "right "
-# "harder",
-# },
-# "window-open": {
-# "window handle is left of the robot's gripper and window handle is vertically aligned with the robot's gripper": "slide "
-# "window "
-# "left",
-# "window handle is near the robot's gripper": "push window " "left harder",
-# "window handle is not vertically aligned with the robot's gripper and the robot's gripper is mostly below window handle": "move "
-# "gripper "
-# "to "
-# "right "
-# "of "
-# "window "
-# "handle",
-# },
-# }
-
-
-# jit_eval_conditions = jax.jit(generate_metaworld_scene_dataset.eval_conditions,
-# static_argnames=["env_name", "conds"])
-jit_eval_conditions = generate_metaworld_scene_dataset.eval_conditions
+jit_eval_conditions = jax.jit(generate_metaworld_scene_dataset.eval_conditions,
+static_argnames=["env_name", "conds", "fuzzy"])
+# jit_eval_conditions = generate_metaworld_scene_dataset.eval_conditions
 
 
 def embed_plan(plan):
@@ -440,9 +325,9 @@ class CondAgent(nn.Module):
     use_learned_evaluator: bool
     use_learned_controller: bool
     mix_in_language_space: bool
+    plans: dict
 
     def setup(self):
-        self.plans = embedded_plans
         self.cond_evaluator = train_evaluator.ConditionEvaluator()
         self.learned_controller = LearnedController()
 
@@ -456,7 +341,8 @@ class CondAgent(nn.Module):
         else:
             true_values = []
             for (env_name, obs, plan) in zip(env_names, low_dim, plans):
-                true_results = jit_eval_conditions(env_name, plan["conds_str"], obs)
+                true_results = jit_eval_conditions(env_name, plan["conds_str"],
+                                                   obs, fuzzy=True)
                 true_values.append(true_results)
             padded_true_results, conds_mask = pad_list(true_values)
             logits = 10 * padded_true_results - 5
@@ -765,6 +651,7 @@ def train_and_evaluate(
         use_learned_evaluator=False,
         mix_in_language_space=True,
         use_learned_controller=True,
+        plans=embedded_plans,
     )
     callbacks = EvalCallbacks(seed, train_envs + test_envs, cond_agent)
     jax_utils.fit_model(
@@ -777,6 +664,7 @@ def train_and_evaluate(
         seed=seed,
         n_epochs=500,
         callbacks=callbacks,
+        learning_rate=1e-5,
     )
     embed_prompt.save_cache()
     print('Done saving cache')
