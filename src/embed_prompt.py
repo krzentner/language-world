@@ -210,6 +210,12 @@ UNFLUSHED_VALUES = []
 
 def load_cache():
   print('Loading embedding cache')
+  global EMBEDDING_CACHE
+  try:
+    with open(expanduser('~/data/embedding_cache.pkl'), 'rb') as f:
+      EMBEDDING_CACHE = pickle.load(f)
+  except FileNotFoundError:
+    print("Could not load embedding cache")
   embedding_db = dbm.gnu.open(expanduser('~/data/embedding_cache.db'), 'c')
   key = embedding_db.firstkey()
   while key is not None:
@@ -232,15 +238,6 @@ def save_cache():
   UNFLUSHED_VALUES, need_write = [], UNFLUSHED_VALUES
   for (key, value) in need_write:
     embedding_db[key] = pickle.dumps(value)
-
-print('Loading embedding cache')
-try:
-  with open(expanduser('~/data/embedding_cache.pkl'), 'rb') as f:
-    EMBEDDING_CACHE = pickle.load(f)
-except FileNotFoundError:
-  print("Could not load embedding cache")
-print('Done loading embedding cache')
-
 
 def embed_condition(cond):
   if cond in EMBEDDING_CACHE:

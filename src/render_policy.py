@@ -22,23 +22,34 @@ def render_frame(env, tmpdirname, frame):
   return frame + 1
 
 
-def render_policy(env, policy, filename, noise_process=None, frame_skip=2):
+def render_policy(env, policy, filename, noise_process=None, frame_skip=2,
+                  freeze_on_success=False):
   if noise_process is None:
     noise_process = GaussianNoiseProcess(dimensions=4, noise_scale=0.05)
   frame = 0
+  success = False
+  total_reward = 0
   with tempfile.TemporaryDirectory() as tmpdirname:
     noise_process.reset()
     observation = env.reset()
     for i in tqdm(range(env.max_episode_length)):
       if i % frame_skip == 0:
-        frame = render_frame(env, tmpdirname, frame)
+        if freeze_on_success and success:
+          shutil.copy(f'{tmpdirname}/{frame:04d}.png',
+                      f'{tmpdirname}/{frame + 1:04d}.png')
+          frame += 1
+        else:
+          frame = render_frame(env, tmpdirname, frame)
       action, agent_info = policy.get_action(observation)
       action_noisy = action + noise_process.simulate()
       next_obs, reward, done, info = env.step(action_noisy)
+      success = success | (info['success'] > 0)
+      total_reward += reward
       observation = next_obs
     print('Rendering video...')
     run(['ffmpeg', '-y', '-pattern_type', 'glob', '-i', f'{tmpdirname}/*.png', filename])
     print('Done rendering video')
+  return success, total_reward
 
 
 def test_smoke(env_name='pick-place'):

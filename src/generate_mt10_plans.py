@@ -2,6 +2,9 @@ import os
 import pickle
 import re
 import optax
+from os.path import expanduser
+from collections import defaultdict
+import shutil
 from dataclasses import dataclass
 from textwrap import indent, dedent
 import clize
@@ -19,7 +22,8 @@ from flax.training import train_state
 import jax_utils
 from run_utils import str_list
 import metaworld_controllers
-from metaworld_controllers import SawyerUniversalV2Policy, parse_obs, run_controller
+from metaworld_controllers import parse_obs, run_controller
+from metaworld_universal_policy import SawyerUniversalV2Policy
 import numpy as np
 import random
 import embed_prompt
@@ -202,12 +206,12 @@ def load_and_parse_plans(filename="mt10_plans.py"):
     with open(filename, "r") as f:
         contents = f.read()
     without_comments = []
-    for line in contents.split('\n'):
-        if '#' in line:
-            without_comments.append(line.split('#')[0])
+    for line in contents.split("\n"):
+        if "#" in line:
+            without_comments.append(line.split("#")[0])
         else:
             without_comments.append(line)
-    contents = '\n'.join(without_comments)
+    contents = "\n".join(without_comments)
     print(contents)
     plans_parsed = {
         FN_NAME.findall(plan)[0].replace("_", "-"): {
@@ -269,8 +273,11 @@ class DescriptorPolicy:
 
 
 def eval_plans(
-    *, filename="mt10_plans.py", seed=jax_utils.DEFAULT_SEED, env_names:
-    str_list = None, noise_scale: float = 0.05
+    *,
+    filename="mt10_plans.py",
+    seed=jax_utils.DEFAULT_SEED,
+    env_names: str_list = None,
+    noise_scale: float = 0.05,
 ):
     success_rates = {}
     plans = load_and_parse_plans(filename)
@@ -285,8 +292,8 @@ def eval_plans(
             env_name,
             (sample_noisy_policy(env, policy, noise_scale) for _ in tqdm(range(10)))
             # collect_noisy_episodes(
-                # 50 * [env_name], policy, seed=seed, n_episodes=100,
-                   # noise_scale=noise_scale
+            # 50 * [env_name], policy, seed=seed, n_episodes=100,
+            # noise_scale=noise_scale
             # ),
         )
         success_rates[env_name] = success
@@ -295,9 +302,33 @@ def eval_plans(
 
 
 def load_best_cond_agent_params():
-    with open(os.path.expanduser("~/data/best_cond_agent.pkl"), "rb") as f:
+    with open(expanduser("~/data/best_cond_agent.pkl"), "rb") as f:
         cond_eval_state = pickle.load(f)
     return cond_eval_state
+
+
+def evaluate_policy(env_name, episodes):
+    print("Evaluating", env_name)
+    successes = []
+    rewards = []
+    controller_counts = defaultdict(int)
+    candidate_counts = defaultdict(int)
+    for episode in episodes:
+        success = False
+        episode_rewards = []
+        for data in episode:
+            success |= data.get("success", 0) > 0
+            if "controller_name" in data:
+                controller_counts[data["controller_name"]] += 1
+            for candidate in data.get("candidate_controllers", []):
+                candidate_counts[candidate] += 1
+            if "reward" in data:
+                episode_rewards.append(data["reward"])
+        rewards.append(np.mean(episode_rewards))
+        successes.append(success)
+    print("Success rate for", env_name, ":", np.mean(successes))
+    print("Avg timestep reward for", env_name, ":", np.mean(rewards))
+    return np.mean(successes), np.mean(rewards)
 
 
 def run_cond_agent_mt50(
@@ -349,22 +380,40 @@ def run_cond_agent_mt50(
     )
 
     success_rates = {}
+    rewards = {}
     for env_name in parsed_plans:
         print(env_name)
         policy = cond_agent.as_policy(env_name, tstate)
         env = make_env(env_name, seed)
-        success = generate_metaworld_scene_dataset.evaluate_policy(
+        success, rew = evaluate_policy(
             env_name,
-            [sample_noisy_policy(env, policy, 0.05) for _ in tqdm(range(10))]
-            # collect_noisy_episodes(
-            # 20 * [env_name], desc_policy, seed=seed, n_episodes=100, noise_scale=0.1
-            # ),
+            # [sample_noisy_policy(env, policy, 0.05) for _ in tqdm(range(20))]
+            collect_noisy_episodes(
+                20 * [env_name], policy, seed=seed, n_episodes=100, noise_scale=0.05
+            ),
         )
         success_rates[env_name] = success
-        render_policy(env, policy,
-                      os.path.expanduser(f'~/data/{env_name}-cond-agent.mp4'))
+        rewards[env_name] = rew
+        for i in range(20):
+            render_success, _ = render_policy(
+                env, policy, expanduser(f"~/data/{env_name}-cond-agent.mp4")
+            )
+            if render_success:
+                shutil.copy(
+                    expanduser(f"~/data/{env_name}-cond-agent.mp4"),
+                    expanduser(f"~/data/{env_name}-cond-agent-success.mp4"),
+                )
+                print(f"Rendered successful episode for {env_name}")
+                break
+            elif success == 0:
+                print(f"Skipping additional renders of {env_name}")
+                break
+            elif i == 19:
+                print(f"Could not render successful episode for {env_name}")
 
     print(success_rates)
+    print(rewards)
+
     results = {
         "door-open": 1.0,
         "drawer-open": 1.0,
@@ -419,8 +468,269 @@ def run_cond_agent_mt50(
     }
 
 
+COND_AGENT_MT50_SUCCESS_RATES = {
+    "door-open": 1.0,
+    "drawer-open": 1.0,
+    "assembly": 0.0,
+    "basketball": 0.0,
+    "button-press-topdown": 1.0,
+    "button-press-topdown-wall": 1.0,
+    "button-press": 0.0,
+    "button-press-wall": 0.0,
+    "coffee-button": 1.0,
+    "coffee-pull": 0.0,
+    "coffee-push": 0.3277310924369748,
+    "bin-picking": 0.0,
+    "dial-turn": 0.0,
+    "disassemble": 0.0,
+    "drawer-close": 1.0,
+    "faucet-open": 0.0,
+    "faucet-close": 1.0,
+    "hammer": 0.0,
+    "box-close": 0.0,
+    "handle-press-side": 1.0,
+    "handle-press": 1.0,
+    "handle-pull-side": 0.0,
+    "handle-pull": 0.0,
+    "lever-pull": 0.0,
+    "peg-insert-side": 0.0,
+    "peg-unplug-side": 0.0,
+    "pick-out-of-hole": 0.0,
+    "pick-place": 0.33613445378151263,
+    "door-lock": 0.8,
+    "pick-place-wall": 0.8,
+    "plate-slide": 0.0,
+    "plate-slide-side": 0.0,
+    "plate-slide-back": 0.0,
+    "plate-slide-back-side": 0.2,
+    "push-back": 0.0,
+    "push": 0.0,
+    "push-wall": 0.0,
+    "reach": 0.0,
+    "door-unlock": 1.0,
+    "reach-wall": 0.0,
+    "shelf-place": 0.0,
+    "soccer": 0.3277310924369748,
+    "stick-push": 0.0,
+    "stick-pull": 0.0,
+    "sweep-into": 0.0,
+    "sweep": 0.0,
+    "window-open": 1.0,
+    "window-close": 1.0,
+    "hand-insert": 0.33613445378151263,
+    "door-close": 0.0,
+}
+
+COND_AGENT_MT50_AVG_REWARDS = {
+    "door-open": 4.832744201843733,
+    "drawer-open": 6.779472281802684,
+    "assembly": 0.7907047011704622,
+    "basketball": 0.0401335967003641,
+    "button-press-topdown": 2.4320281451598453,
+    "button-press-topdown-wall": 2.441310434666451,
+    "button-press": 1.5928397279317537,
+    "button-press-wall": 2.8740240780375403,
+    "coffee-button": 0.5136896228296887,
+    "coffee-pull": 0.06349058447050131,
+    "coffee-push": 0.820363037195592,
+    "bin-picking": 0.07365367959845744,
+    "dial-turn": 0.0,
+    "disassemble": 0.6137373790736731,
+    "drawer-close": 8.348006787275224,
+    "faucet-open": 3.841867310857751,
+    "faucet-close": 6.691619706861348,
+    "hammer": 1.0582331282664468,
+    "box-close": 0.43441998485522654,
+    "handle-press-side": 3.9988713529666113,
+    "handle-press": 2.2629697429159092,
+    "handle-pull-side": 0.07622844454659186,
+    "handle-pull": 0.23800977606830284,
+    "lever-pull": 0.9280958338825261,
+    "peg-insert-side": 0.5194617376342479,
+    "peg-unplug-side": 0.15540857405352307,
+    "pick-out-of-hole": 0.023711271930740317,
+    "pick-place": 1.4731109759624283,
+    "door-lock": 4.58277408416355,
+    "pick-place-wall": 5.3571015128856265,
+    "plate-slide": 1.0241282704846115,
+    "plate-slide-side": 1.201046600160031,
+    "plate-slide-back": 0.48291988084651083,
+    "plate-slide-back-side": 4.321487126648609,
+    "push-back": 0.08368613756830115,
+    "push": 0.6620759860499941,
+    "push-wall": 0.44768513549580186,
+    "reach": 1.2659688701020806,
+    "door-unlock": 2.7314037777263964,
+    "reach-wall": 2.152393212263986,
+    "shelf-place": 0.010100094436881632,
+    "soccer": 2.007491770131034,
+    "stick-push": 0.11808060771539967,
+    "stick-pull": 0.051553445307199845,
+    "sweep-into": 1.4271523935437664,
+    "sweep": 0.2690005521563934,
+    "window-open": 3.78505119299706,
+    "window-close": 7.455605275749486,
+    "hand-insert": 1.6011996255374634,
+    "door-close": 0.6176600280161432,
+}
+
+
+def eval_universal_agent(
+    *, seed=jax_utils.DEFAULT_SEED, env_names: str_list = MT50_ENV_NAMES
+):
+    policy = SawyerUniversalV2Policy()
+    policy_name = "universal"
+    success_rates = {}
+    rewards = {}
+    for env_name in env_names:
+        print(env_name)
+        policy.env_name = env_name
+        env = make_env(env_name, seed)
+        success, rew = evaluate_policy(
+            env_name,
+            # [sample_noisy_policy(env, policy, 0.05) for _ in tqdm(range(20))]
+            collect_noisy_episodes(
+                20 * [env_name], policy, seed=seed, n_episodes=100, noise_scale=0.05
+            ),
+        )
+        success_rates[env_name] = success
+        rewards[env_name] = rew
+        for i in range(20):
+            render_success, _ = render_policy(
+                env, policy, expanduser(f"~/data/{env_name}-{policy_name}-{i}.mp4")
+            )
+            if render_success:
+                shutil.copy(
+                    expanduser(f"~/data/{env_name}-{policy_name}-{i}.mp4"),
+                    expanduser(f"~/data/{env_name}-{policy_name}-success.mp4"),
+                )
+                print(f"Rendered successful episode for {env_name}")
+                break
+            elif success == 0:
+                print(f"Skipping additional renders of {env_name}")
+                break
+            elif i == 19:
+                print(f"Could not render successful episode for {env_name}")
+
+    print(success_rates)
+    print(rewards)
+
+
+UNIVERSAL_POLICY_MT50_SUCCESS_RATES = {
+    "assembly": 1.0,
+    "basketball": 1.0,
+    "bin-picking": 1.0,
+    "box-close": 1.0,
+    "button-press-topdown": 1.0,
+    "button-press-topdown-wall": 1.0,
+    "button-press": 1.0,
+    "button-press-wall": 1.0,
+    "coffee-button": 1.0,
+    "coffee-pull": 1.0,
+    "coffee-push": 1.0,
+    "dial-turn": 1.0,
+    "disassemble": 1.0,
+    "door-close": 1.0,
+    "door-lock": 1.0,
+    "door-open": 1.0,
+    "door-unlock": 1.0,
+    "hand-insert": 1.0,
+    "drawer-close": 1.0,
+    "drawer-open": 1.0,
+    "faucet-open": 1.0,
+    "faucet-close": 1.0,
+    "hammer": 1.0,
+    "handle-press-side": 1.0,
+    "handle-press": 1.0,
+    "handle-pull-side": 1.0,
+    "handle-pull": 1.0,
+    "lever-pull": 1.0,
+    "peg-insert-side": 1.0,
+    "pick-place-wall": 1.0,
+    "pick-out-of-hole": 1.0,
+    "reach": 1.0,
+    "push-back": 1.0,
+    "push": 1.0,
+    "pick-place": 1.0,
+    "plate-slide": 1.0,
+    "plate-slide-side": 1.0,
+    "plate-slide-back": 1.0,
+    "plate-slide-back-side": 1.0,
+    "peg-unplug-side": 0.8,
+    "soccer": 1.0,
+    "stick-push": 1.0,
+    "stick-pull": 0.8,
+    "push-wall": 1.0,
+    "reach-wall": 1.0,
+    "shelf-place": 1.0,
+    "sweep-into": 1.0,
+    "sweep": 1.0,
+    "window-open": 1.0,
+    "window-close": 1.0,
+}
+UNIVERSAL_POLICY_MT50_REWARDS = {
+    "assembly": 8.620974144625707,
+    "basketball": 8.159030897938049,
+    "bin-picking": 7.453498761291571,
+    "box-close": 8.453067703058407,
+    "button-press-topdown": 7.736315817279586,
+    "button-press-topdown-wall": 8.65356303178741e-06,
+    "button-press": 1.097237480197445,
+    "button-press-wall": 5.845410150045204,
+    "coffee-button": 0.9624949603100298,
+    "coffee-pull": 8.503358317797748,
+    "coffee-push": 3.8273922479312805,
+    "dial-turn": 7.495605806924134,
+    "disassemble": 7.659915153746863,
+    "door-close": 9.107683490781367,
+    "door-lock": 6.432786935405873,
+    "door-open": 8.453754381783037,
+    "door-unlock": 6.888390002210485,
+    "hand-insert": 6.290221035449021,
+    "drawer-close": 8.531454424993694,
+    "drawer-open": 8.174588208421888,
+    "faucet-open": 8.121981431700094,
+    "faucet-close": 7.9366850919474325,
+    "hammer": 2.5449725444010745,
+    "handle-press-side": 1.9644419855294364,
+    "handle-press": 2.6710785493120937,
+    "handle-pull-side": 6.3400635227936,
+    "handle-pull": 7.91908899932046,
+    "lever-pull": 1.031074870256094,
+    "peg-insert-side": 7.913621924377314,
+    "pick-place-wall": 8.60096018377793,
+    "pick-out-of-hole": 7.315644046473473,
+    "reach": 9.659844960150942,
+    "push-back": 0.9078517909425513,
+    "push": 7.458508614112852,
+    "pick-place": 8.939628841218017,
+    "plate-slide": 8.554776024364273,
+    "plate-slide-side": 6.881260839968695,
+    "plate-slide-back": 2.389051096658791,
+    "plate-slide-back-side": 1.5955390795186486,
+    "peg-unplug-side": 1.7760022692123942,
+    "soccer": 5.381428840546107,
+    "stick-push": 1.976047113043637,
+    "stick-pull": 0.9242958863561005,
+    "push-wall": 8.258202024683364,
+    "reach-wall": 9.665049295469473,
+    "shelf-place": 6.558495178959657,
+    "sweep-into": 2.1009095626808523,
+    "sweep": 8.648997454469987,
+    "window-open": 3.366995077637805,
+    "window-close": 6.739395638308984,
+}
+
 if __name__ == "__main__":
     # clize.run(eval_plans)
     # print(load_mt10_plans())
     # print(load_and_parse_plans())
     clize.run(run_cond_agent_mt50)
+    # clize.run(eval_universal_agent)
+    # print('Environment Name, Zero-Shot Success Rate, Reward Percentage')
+    # for env_name in MT50_ENV_NAMES:
+      # if env_name in MT10_ENV_NAMES:
+        # continue
+      # print(env_name, "{}%".format(int(100 * COND_AGENT_MT50_SUCCESS_RATES[env_name])),
+            # "{}%".format(int(100 * COND_AGENT_MT50_AVG_REWARDS[env_name] /
+                             # UNIVERSAL_POLICY_MT50_REWARDS[env_name])), sep=',')

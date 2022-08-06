@@ -427,6 +427,11 @@ MT10_PLANS = {
 }
 
 
+WALL_HEIGHT = 0.05
+WALL_WIDTH = 0.1
+WALL_DEPTH = 0.005
+
+
 def describe_obs(env_name, obs):
     if not isinstance(obs, dict):
         obs = parse_obs(obs)
@@ -444,13 +449,14 @@ def describe_obs(env_name, obs):
         or env_name == "push-wall"
         or env_name == "pick-place-wall"
     ):
-        # TODO(zentner): Maybe sure the wall coordinates reflect the center of the
-        # wall.
-        object_locations.append(("wall", np.array([0.1, 0.75, 0.06])))
+        object_locations.append(("wall", np.array([0.1 + WALL_WIDTH / 2, 0.75,
+                                                   0.06 + WALL_HEIGHT])))
     elif env_name == "button-press-wall":
-        object_locations.append(("wall", np.array([0.1, 0.6, 0.0])))
+        object_locations.append(("wall", np.array([0.1 + WALL_WIDTH / 2, 0.6,
+                                                   0.0 + WALL_HEIGHT])))
     elif env_name == "button-press-topdown-wall":
-        object_locations.append(("wall", np.array([0.1, 0.7, 0.0])))
+        object_locations.append(("wall", np.array([0.1 + WALL_WIDTH / 2, 0.7,
+                                                   0.0 + WALL_HEIGHT])))
     for (i, (name1, xyz1)) in enumerate(object_locations):
         for (j, (name2, xyz2)) in enumerate(object_locations):
             if name1 == name2:
