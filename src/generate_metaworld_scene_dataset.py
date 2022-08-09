@@ -371,8 +371,8 @@ MT10_PLANS = {
         "the robot's gripper is not almost vertically aligned with door handle": "put gripper above door handle",
         "door handle is left of the robot's gripper and gripper is closed": "put gripper around door handle",
         "the robot's gripper is right of door handle and gripper is closed": "put gripper around door handle",
-        "door handle is vertically aligned with the robot's gripper and door handle is not left of the robot's gripper": "push door closed",
-        "door handle is vertically aligned with the robot's gripper and the robot's gripper is not right of door handle": "push door closed",
+        "door handle is vertically aligned with the robot's gripper and door handle is not left of the robot's gripper": "pull door open",
+        "door handle is vertically aligned with the robot's gripper and the robot's gripper is not right of door handle": "pull door open",
     },
     "drawer-open": {
         "drawer handle is not vertically aligned with the robot's gripper": "put gripper above drawer handle",
@@ -521,7 +521,7 @@ WALL_ENVS = {
     "button-press-topdown-wall",
 }
 
-@partial(jax.jit, static_argnames=["env_name", "object_name", "fuzzy"])
+# @partial(jax.jit, static_argnames=["env_name", "object_name", "fuzzy"])
 def get_object_location(env_name: str, object_name: str, obs, fuzzy: bool=False):
     try:
         parse_name = OBJECT_NAMES_TO_PARSE_NAME[env_name][object_name]
@@ -605,9 +605,9 @@ def eval_conditions(env_name: str, conds: typing.Tuple[str], obs, fuzzy=False):
 
         base_results = []
         for cond in base_conds:
-            if cond == "gripper is open":
+            if cond == "the robot's gripper is open":
                 base_results.append(obs["gripper_distance_apart"] > 0.75)
-            elif cond == "gripper is closed":
+            elif cond == "the robot's gripper is closed":
                 base_results.append(obs["gripper_distance_apart"] <= 0.75)
             elif cond.endswith(" is not touching the table"):
                 object_name = cond.split(" is not touching the table")[0]
@@ -649,7 +649,8 @@ def eval_conditions(env_name: str, conds: typing.Tuple[str], obs, fuzzy=False):
 
 
 def enumerate_descriptors(env_name: str) -> [str]:
-    object_names = ["the robot's gripper"] + list(OBJECT_NAMES[env_name].values())
+    object_names = ["robot's gripper"] + list(OBJECT_NAMES[env_name].values())
+    object_names = ["the " + obj_name for obj_name in object_names]
     if env_name == "peg-insert-side":
         object_names.append("hole")
     elif (
@@ -676,8 +677,8 @@ def enumerate_descriptors(env_name: str) -> [str]:
         descriptors.append(f"{name} is touching the table")
         descriptors.append(f"{name} is not touching the table")
 
-    descriptors.append("gripper is open")
-    descriptors.append("gripper is closed")
+    descriptors.append("the robot's gripper is open")
+    descriptors.append("the robot's gripper is closed")
 
     conjunction_descriptors = []
     for desc1 in descriptors:

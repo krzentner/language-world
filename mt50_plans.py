@@ -702,7 +702,7 @@
 
 
 # push-wall: grab the puck and move it to the target location with a small wall in the way
- def push_wall(robot):
+def push_wall(robot):
     if check("puck is not below the robot's gripper"):
         robot.place("gripper above puck")
     if check("the robot's gripper is not above puck"):

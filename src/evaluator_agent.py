@@ -42,6 +42,7 @@ from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES
 from run_utils import float_list, str_list
 from ou_process import OUProcess
 import jax_utils
+from jax_utils import pad_list
 
 import pickle
 
@@ -57,17 +58,6 @@ ENV_NAME_TO_PLAN_NAME = {
     "window-open": "slide_window_open_left",
     "reach": "reach_for_target",
 }
-
-
-def pad_list(seq, max_len=None):
-    if max_len is None:
-        max_len = max(len(s) for s in seq)
-    zero = jnp.zeros(seq[0][0].shape)
-    padded = jnp.array(
-        [[s[i] if len(s) > i else zero for i in range(max_len)] for s in seq]
-    )
-    mask = jnp.array([[1 if len(s) > i else 0 for i in range(max_len)] for s in seq])
-    return padded, mask
 
 
 parsed_plans_2 = {

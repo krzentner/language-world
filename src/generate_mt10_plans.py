@@ -26,10 +26,8 @@ from metaworld_controllers import parse_obs, run_controller
 from metaworld_universal_policy import SawyerUniversalV2Policy
 import numpy as np
 import random
-import embed_prompt
 import jax
 import jax.numpy as jnp
-from evaluator_agent import CondAgent
 from tqdm import tqdm
 from render_policy import render_policy
 
@@ -154,9 +152,9 @@ MT50_TASK_DESCRIPTIONS = {
     "plate-slide-side": "slide the plate sideways into the target location",
     "plate-slide-back": "slide the plate back into the target location",
     "plate-slide-back-side": "slide the plate back sideways into the target location",
-    "push-back": "grab the puck and move it back to the target location",
-    "push": "grab the puck and move it to the target location",
-    "push-wall": "grab the puck and move it to the target location with a small wall in the way",
+    "push-back": "slide the puck backwards to the target location",
+    "push": "slide the puck to the target location",
+    "push-wall": "slide the puck to the target location with a small wall in the way",
     "reach": "reach to the target location",
     "door-unlock": "turn the dial on the door",
     "reach-wall": "reach to the target location with a short wall in the way",
@@ -166,8 +164,8 @@ MT50_TASK_DESCRIPTIONS = {
     "stick-pull": "use the stick to pull the thermos to the target location",
     "sweep-into": "grab the cube and move it to the target location",
     "sweep": "grab the cube and move sideways it to the target location",
-    "window-open": "slide the window open",
-    "window-close": "slide the window closed",
+    "window-open": "slide the window open to the left",
+    "window-close": "slide the window closed to the right",
     "hand-insert": "pick up the puck and move it to the target location",
     "door-close": "push the door closed to the target location",
 }
@@ -200,6 +198,28 @@ def print_plans():
 FN_NAME = re.compile(r"def ([a-zA-Z_]+)\(")
 CLAUSES = re.compile(r'if check\("([^"]+)"\):\s+([^\n]+)', flags=re.MULTILINE)
 VERB_DETAILS = re.compile(r'robot.([a-zA-Z_]+)\("([^"]+)"\)')
+MOVE_GRIPPER = re.compile(f'robot.move_gripper\("([^"]+)"\)')
+CLOSE_GRIPPER = re.compile(f'robot.move_gripper\("([^"]+)", close_gripper=True\)')
+OPEN_GRIPPER = re.compile(f'robot.move_gripper\("([^"]+)", open_gripper=True\)')
+
+
+def preprocess_location(action):
+  locs = action.split(' and ')
+  goals = []
+  for loc in locs:
+    found_relation = False
+    if 'touching ' in loc:
+      found_relation = True
+    for rel in generate_metaworld_scene_dataset.COORDINATE_RELATIONS:
+      if found_relation:
+        break
+      if f"{rel} " in loc:
+        found_relation = True
+    if not found_relation:
+      goals.append(f"the robot's gripper is near {loc}")
+    else:
+      goals.append(f"the robot's gripper is {loc}")
+  return " and ".join(goals)
 
 
 def load_and_parse_plans(filename="mt10_plans.py"):
@@ -213,14 +233,29 @@ def load_and_parse_plans(filename="mt10_plans.py"):
             without_comments.append(line)
     contents = "\n".join(without_comments)
     print(contents)
-    plans_parsed = {
-        FN_NAME.findall(plan)[0].replace("_", "-"): {
-            cond: " ".join(VERB_DETAILS.findall(action)[0])
-            for (cond, action) in CLAUSES.findall(plan)
-        }
-        for plan in contents.split("\n\n")
-        if FN_NAME.findall(plan)
-    }
+    plans_parsed = {}
+    for plan in contents.split("\n\n"):
+      names = FN_NAME.findall(plan)
+      if names:
+        clause_map = {}
+        for (cond, action) in CLAUSES.findall(plan):
+          verb_details = VERB_DETAILS.findall(action)
+          if verb_details and verb_details[0][0] != 'move_gripper':
+            clause_map[cond] = " ".join(verb_details[0])
+          close_gripper = CLOSE_GRIPPER.findall(action)
+          if close_gripper:
+            loc = preprocess_location(close_gripper[0])
+            clause_map[cond] = f"{loc} and the robot's gripper is closed"
+          open_gripper = OPEN_GRIPPER.findall(action)
+          if open_gripper:
+            loc = preprocess_location(open_gripper[0])
+            clause_map[cond] = f"{loc} and the robot's gripper is open"
+            clause_map[cond] = (f"the robot's gripper is {loc}"
+                                 " and the robot's gripper is open")
+          move_gripper = MOVE_GRIPPER.findall(action)
+          if move_gripper:
+            clause_map[cond] = preprocess_location(move_gripper[0])
+        plans_parsed[names[0].replace("_", "-")] = clause_map
     return plans_parsed
 
 
@@ -279,18 +314,20 @@ def eval_plans(
     env_names: str_list = None,
     noise_scale: float = 0.05,
 ):
+    generate_metaworld_scene_dataset.jnp = np
     success_rates = {}
     plans = load_and_parse_plans(filename)
-    print(plans)
+    # print(plans)
     if env_names is None:
         env_names = list(plans.keys())
     for env_name in env_names:
         plan = plans[env_name]
+        pprint(list(plan.items()))
         policy = DescriptorPolicy(plan, env_name=env_name)
         env = make_env(env_name, seed)
         success = generate_metaworld_scene_dataset.evaluate_policy(
             env_name,
-            (sample_noisy_policy(env, policy, noise_scale) for _ in tqdm(range(10)))
+            (sample_noisy_policy(env, policy, noise_scale) for _ in tqdm(range(20)))
             # collect_noisy_episodes(
             # 50 * [env_name], policy, seed=seed, n_episodes=100,
             # noise_scale=noise_scale
@@ -334,6 +371,7 @@ def evaluate_policy(env_name, episodes):
 def run_cond_agent_mt50(
     *, seed=jax_utils.DEFAULT_SEED, env_names: str_list = MT50_ENV_NAMES
 ):
+    import embed_prompt
     embedded_plans = {}
     parsed_plans = load_and_parse_plans("mt50_plans.py")
     print("Embedding plans...")
@@ -356,6 +394,7 @@ def run_cond_agent_mt50(
     # embed_prompt.save_cache()
     print("Done embedding plans")
 
+    from evaluator_agent import CondAgent
     cond_agent = CondAgent(
         use_learned_evaluator=False,
         mix_in_language_space=True,
@@ -722,10 +761,10 @@ UNIVERSAL_POLICY_MT50_REWARDS = {
 }
 
 if __name__ == "__main__":
-    # clize.run(eval_plans)
+    clize.run(eval_plans)
     # print(load_mt10_plans())
     # print(load_and_parse_plans())
-    clize.run(run_cond_agent_mt50)
+    # clize.run(run_cond_agent_mt50)
     # clize.run(eval_universal_agent)
     # print('Environment Name, Zero-Shot Success Rate, Reward Percentage')
     # for env_name in MT50_ENV_NAMES:

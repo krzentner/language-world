@@ -138,23 +138,23 @@ def peg_insert_side(o_d):
 
 @declare_policy('reach')
 def reach(o_d):
-    return "reach to goal"
+    return "the robot's gripper is near the target location"
 
-@declare_controller('reach', 'reach to goal')
+@declare_controller('reach', "the robot's gripper is near the target location")
 def reach_controller(o_d):
     return act(o_d['goal_pos'], 0, p=5)
 
-@declare_controller('window-open', "move gripper to right of window handle")
+@declare_controller('window-open', "the robot's gripper is right of the window handle and the robot's gripper is near the windown handle")
 def right_of_window_handle(o_d):
     pos_wndw = o_d['obj1_pos'] + np.array([-0.03, -0.03, -0.08])
     return act(pos_wndw + np.array([0., 0., 0.3]), 1., p=25)
 
-@declare_controller('window-open', "slide window left")
+@declare_controller('window-open', "the robot's gripper is near the window handle")
 def slide_window_left(o_d):
-    pos_wndw = o_d['obj1_pos'] + np.array([-0.03, -0.03, -0.08])
+    pos_wndw = o_d['obj1_pos']
     return act(pos_wndw, 1., p=25)
 
-@declare_controller('window-open', "push window left harder")
+@declare_controller('window-open', "the robot's gripper is near the left side of the window")
 def push_window_left(o_d):
     pos_wndw = o_d['obj1_pos'] + np.array([-0.03, -0.03, -0.08])
     return act(pos_wndw + np.array([0.1, 0., 0.]), 1., p=25)
@@ -165,23 +165,23 @@ def window_open(o_d):
     pos_wndw = o_d['obj1_pos'] + np.array([-0.03, -0.03, -0.08])
 
     if np.linalg.norm(pos_curr[:2] - pos_wndw[:2]) > 0.04:
-        return "move gripper to right of window handle"
+        return "the robot's gripper is right of the window handle and the robot's gripper is near the windown handle"
     elif abs(pos_curr[2] - pos_wndw[2]) > 0.02:
-        return "slide window left"
+        return "the robot's gripper is near the window handle"
     else:
-        return "push window left harder"
+        return "the robot's gripper is near the left side of the window"
 
-@declare_controller('window-close', "move gripper to left of window handle")
+@declare_controller('window-close', "the robot's gripper is left of the window handle")
 def left_of_window_handle(o_d):
     pos_wndw = o_d['obj1_pos'] + np.array([+0.03, -0.03, -0.08])
     return act(pos_wndw + np.array([0., 0., 0.25]), 1., p=25)
 
-@declare_controller('window-close', "slide window right")
+@declare_controller('window-close', "the robot's gripper is left of the window handle and the robot's gripper is near the window handle")
 def slide_window_right(o_d):
     pos_wndw = o_d['obj1_pos'] + np.array([+0.03, -0.03, -0.08])
     return act(pos_wndw, 1., p=25)
 
-@declare_controller('window-close', "push window right harder")
+@declare_controller('window-close', "the robot's gripper is near the right side of the window")
 def slide_window_right(o_d):
     pos_wndw = o_d['obj1_pos'] + np.array([+0.03, -0.03, -0.08])
     return act(pos_wndw + np.array([-0.1, 0., 0.]), 1., p=25)
@@ -192,11 +192,11 @@ def window_close(o_d):
     pos_wndw = o_d['obj1_pos'] + np.array([+0.03, -0.03, -0.08])
 
     if np.linalg.norm(pos_curr[:2] - pos_wndw[:2]) > 0.04:
-        return "move gripper to left of window handle"
+        return "the robot's gripper is near the window handle"
     elif abs(pos_curr[2] - pos_wndw[2]) > 0.02:
-        return "slide window right"
+        return "the robot's gripper is left of the window handle and the robot's gripper is near the window handle"
     else:
-        return "push window right harder"
+        return "the robot's gripper is near the right side of the window"
 
 @declare_policy('drawer-open')
 def drawer_open(o_d):
@@ -243,7 +243,7 @@ def door_open(o_d):
         return "put gripper around door handle"
     # push from front edge toward door handle's centroid
     else:
-        return "push door closed"
+        return "pull door open"
 
 @declare_controller('door-open', "put gripper above door handle")
 def gripper_above_door_handle(o_d):
@@ -255,8 +255,8 @@ def gripper_around_door_handle(o_d):
     pos_door = o_d['obj1_pos'] - np.array([0.05, 0, 0])
     return act(pos_door + np.array([0.06, 0.02, 0]), 1, p=4)
 
-@declare_controller('door-open', "push door closed")
-def push_door_closed(o_d):
+@declare_controller('door-open', "pull door open")
+def pull_door_open(o_d):
     pos_door = o_d['obj1_pos'] - np.array([0.05, 0, 0])
     return act(pos_door, 1, p=4)
 
@@ -268,31 +268,27 @@ def push(o_d):
 
     # If error in the XY plane is greater than 0.02, place end effector above the puck
     if np.linalg.norm(pos_curr[:2] - pos_puck[:2]) > 0.02:
-        return "put the gripper above the puck"
+        return "the robot's gripper is above the puck and the robot's gripper is vertically aligned with the puck"
     # Once XY error is low enough, drop end effector down on top of puck
     elif abs(pos_curr[2] - pos_puck[2]) > 0.04:
-        return "push the gripper into the puck"
+        return "the robot's gripper is near the puck and the robot's gripper is touching the table"
     # Move to the goal
     else:
-        return "slide the puck to the goal"
+        return "the robot's gripper is near the target location and the robot's gripper is touching the table and the robot's gripper is closed"
 
-@declare_controller('push', "put the gripper above the puck")
+@declare_controller('push', "the robot's gripper is above the puck and the robot's gripper is vertically aligned with the puck")
 def gripper_above_puck(o_d):
     pos_curr = o_d['hand_pos']
     pos_puck = o_d['obj1_pos'] + np.array([-0.005, 0, 0])
-    grab_effort = 0
-    grab_effort = 0
-    return act(pos_puck + np.array([0., 0., 0.2]), grab_effort, p=10)
+    return act(pos_puck + np.array([0., 0., 0.2]), 0, p=10)
 
-@declare_controller('push', "push the gripper into the puck")
+@declare_controller('push', "the robot's gripper is near the puck and the robot's gripper is touching the table")
 def push_down_on_puck(o_d):
     pos_curr = o_d['hand_pos']
     pos_puck = o_d['obj1_pos'] + np.array([-0.005, 0, 0])
-    grab_effort = 0.6
-    grab_effort = 0
-    return act(pos_puck + np.array([0., 0., 0.03]), grab_effort, p=10)
+    return act(pos_puck + np.array([0., 0., 0.03]), 0, p=10)
 
-@declare_controller('push', "slide the puck to the goal")
+@declare_controller('push', "the robot's gripper is near the target location and the robot's gripper is touching the table and the robot's gripper is closed")
 def slide_puck_to_goal(o_d):
     pos_goal = o_d['goal_pos']
     pos_curr = o_d['hand_pos']

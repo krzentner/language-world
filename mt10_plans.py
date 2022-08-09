@@ -1,144 +1,142 @@
 # reach: reach to the target location
 def reach(robot):
+    # We don't have any objects to manipulate, so we can just move the robot's
+    # gripper directly to the target location
     if check("the robot's gripper is not near reach target"):
-        robot.reach("to goal")
+        robot.move_gripper("the target location")
 
 
-# push: grab the puck and move it to the target location
+# push: slide the puck to the target location
 def push(robot):
-    if check("the robot's gripper is not above puck"):
-        robot.put("the gripper above the puck")
-    if check("the robot's gripper is above puck and the robot's gripper is not near puck"):
-        robot.push("the gripper into the puck")
-    if check("puck is below the robot's gripper and the robot's gripper is not near puck"):
-        robot.push("the gripper into the puck")
-    if check("puck is near the robot's gripper and puck is below the robot's gripper"):
-        robot.slide("the puck to the goal")
+    # The robot can slide the puck by trapping it by pushing down on it from
+    # above and moving the gripper.
+    # If the puck isn't below the gripper as seen from above, move the gripper
+    # above the puck.
+    if check("the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck"):
+        robot.move_gripper("above the puck and vertically aligned with the puck")
+    # If the gripper is aligned with the puck but not near it, move the gripper
+    # down to the puck to slide it.
+    if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck"):
+        robot.move_gripper("near the puck and touching the table")
+    # If the gripper is near the puck, we've probably trapped the puck and can
+    # slide it to the target location.
+    # Close the gripper to make sure we keep control of the puck.
+    if check("the robot's gripper is near the puck and the puck is below the robot's gripper"):
+        robot.move_gripper("the target location and touching the table", close_gripper=True)
 
 
 # pick-place: pick up the puck and hold it at the target location
 def pick_place(robot):
+    # First, put the gripper roughly above puck, so that we don't bump it while
+    # trying to grab it.
     if check("the robot's gripper is not above the puck"):
         robot.place("gripper above puck")
-    if check("the robot's gripper is not around puck and gripper is open"):
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
         robot.drop("gripper around puck")
-    # if check("the robot's gripper is near puck and gripper is open"):
-        # robot.close("gripper around puck")
-    if check("the robot's gripper is above puck and gripper is closed"):
+    # If the gripper is near the puck and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near puck and the robot's gripper is open"):
+        robot.close("gripper around puck")
+    # We closed the gripper, and the puck is still near the gripper, so maybe we
+    # grabbed it.
+    # Try to move the puck to the goal.
+    # If we didn't grab it, we'll just go back to an earlier step.
+    if check("the robot's gripper is above puck and the robot's gripper is closed"):
         robot.place("puck at goal")
 
 
 # door-open: pull the door open
 def door_open(robot):
-    if check("door handle is not almost vertically aligned with the robot's gripper"):
-        robot.put("gripper above door handle")
     if check("the robot's gripper is not almost vertically aligned with door handle"):
         robot.put("gripper above door handle")
-    if check("door handle is left of the robot's gripper and gripper is closed"):
+    if check("the robot's gripper is almost vertically aligned with the door handle and the robot's gripper is open"):
         robot.put("gripper around door handle")
-    if check("the robot's gripper is right of door handle and gripper is closed"):
-        robot.put("gripper around door handle")
-    if check("door handle is vertically aligned with the robot's gripper and door handle is not left of the robot's gripper"):
-        robot.push("door closed")
-    if check("door handle is vertically aligned with the robot's gripper and the robot's gripper is not right of door handle"):
-        robot.push("door closed")
+    if check("the robot's gripper is vertically aligned with the door handle"):
+        robot.pull("door open")
 
 
 # drawer-open: pull the drawer open
 def drawer_open(robot):
-    if check("drawer handle is not vertically aligned with the robot's gripper"):
-        robot.put("gripper above drawer handle")
+    # We need to put the gripper above the drawer handle before we can grab it,
+    # because of the angle of the robot's gripper.
     if check("the robot's gripper is not vertically aligned with drawer handle"):
         robot.put("gripper above drawer handle")
-    if check("drawer handle is vertically aligned with the robot's gripper and the robot's gripper is not around drawer handle"):
-        robot.put("gripper around drawer handle")
+    # Once the gripper is lined up above the drawer handle, we should be able to
+    # grab the drawer handle by moving the gripper down around it.
     if check("the robot's gripper is vertically aligned with drawer handle and the robot's gripper is not around drawer handle"):
         robot.put("gripper around drawer handle")
+    # Once the gripper is around the drawer handle, we can just pull the drawer
+    # open.
     if check("the robot's gripper is around drawer handle"):
-        robot.pull("away from drawer")
-    if check("drawer handle is vertically aligned with the robot's gripper and the robot's gripper is around drawer handle"):
         robot.pull("away from drawer")
 
 
 # drawer-close: push the drawer close
 def drawer_close(robot):
-    if check("gripper is open"):
-        robot.put("the gripper in front of the drawer")
-    if check("drawer handle is vertically aligned with the robot's gripper and gripper is open"):
-        robot.put("the gripper in front of the drawer")
-    if check("drawer handle is below the robot's gripper"):
-        robot.put("the gripper above the drawer handle")
-    if check("the robot's gripper is above drawer handle"):
-        robot.put("the gripper above the drawer handle")
-    if check("drawer handle is not vertically aligned with the robot's gripper and drawer handle is not forward aligned with the robot's gripper"):
+    # If the gripper is not near the drawer handle, move it to the drawer
+    # handle.
+    # We don't need to be careful about the direction, since the drawer is large
+    # and we're just pushing it (unlike when opening the drawer).
+    if check("the robot's gripper is not near the drawer handle"):
         robot.grab("drawer handle")
-    if check("drawer handle is not vertically aligned with the robot's gripper and the robot's gripper is not forward aligned with drawer handle"):
-        robot.grab("drawer handle")
-    if check("drawer handle is forward aligned with the robot's gripper"):
-        robot.push("drawer closed")
+    # If the drawer is aligned with the gripper as seen from in front, we can
+    # push the drawer closed.
     if check("the robot's gripper is forward aligned with drawer handle"):
         robot.push("drawer closed")
 
 
 # button-press-topdown: push the button down from above
 def button_press_topdown(robot):
-    if check("button is not vertically aligned with the robot's gripper"):
-        robot.put("gripper above button")
+    # Because this is "topdown", we just need to line up the gripper from above.
+    # Line up the robot's gripper from above.
     if check("the robot's gripper is not vertically aligned with button"):
         robot.put("gripper above button")
-    if check("button is vertically aligned with the robot's gripper"):
-        robot.push("down on button")
+    # Now that the gripper is lined up, just push down on the button.
     if check("the robot's gripper is vertically aligned with button"):
         robot.push("down on button")
 
 
 # peg-insert-side: insert the peg into the hole from the side
 def peg_insert_side(robot):
-    if check("peg is left of the robot's gripper"):
+    if check("the robot's gripper is not vertically aligned with the peg"):
         robot.put("gripper above peg")
-    if check("the robot's gripper is right of peg"):
-        robot.put("gripper above peg")
-    if check("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper"):
+    if check("the robot's gripper is not forward aligned with peg"):
         robot.grab("peg")
-    if check("peg is not left of the robot's gripper and the robot's gripper is not forward aligned with peg"):
-        robot.grab("peg")
-    if check("peg is forward aligned with the robot's gripper and peg is not horizontally aligned with hole"):
-        robot.align("peg to hole")
-    if check("peg is forward aligned with the robot's gripper and hole is not horizontally aligned with peg"):
+    if check("the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole"):
         robot.align("peg to hole")
     if check("peg is horizontally aligned with hole"):
         robot.insert("peg into hole")
-    if check("hole is horizontally aligned with peg"):
-        robot.insert("peg into hole")
 
 
-# window-open: slide the window open
+# window-open: slide the window open to the left
 def window_open(robot):
-    if check("window handle is not vertically aligned with the robot's gripper and the robot's gripper is mostly below window handle"):
-        robot.move("gripper to right of window handle")
-    if check("the robot's gripper is mostly below window handle and window handle is not vertically aligned with the robot's gripper"):
-        robot.move("gripper to right of window handle")
-    if check("window handle is left of the robot's gripper and window handle is vertically aligned with the robot's gripper"):
-        robot.slide("window left")
-    if check("window handle is left of the robot's gripper and window handle is almost vertically aligned with the robot's gripper"):
-        robot.slide("window left")
-    if check("window handle is near the robot's gripper"):
-        robot.push("window left harder")
-    if check("window handle is behind the robot's gripper"):
-        robot.push("window left harder")
+    # If the the window handle is left of the robot's gripper, we should move the
+    # gripper near the window handle to start pushing
+    if check("the window handle is left of the robot's gripper and the robot's gripper is not near the window handle"):
+        robot.move_gripper("the window handle")
+    # If the robot's gripper is near the window handle we can probably slide the
+    # window open now by moving the gripper left.
+    if check("the robot's gripper is near the window handle"):
+        robot.move_gripper("the left side of the window")
+    # If the robot's gripper is not near the window handle as seen from above,
+    # we should move the gripper to the right of the window handle so that we
+    # will be able to slide the window left.
+    if check("the robot's gripper is not vertically aligned with the window handle"):
+        robot.move_gripper("right of the window handle and near the window handle")
 
 
-# window-close: slide the window closed
+# window-close: slide the window closed to the right
 def window_close(robot):
-    if check("window handle is not vertically aligned with the robot's gripper"):
-        robot.move("gripper to left of window handle")
-    if check("the robot's gripper is not vertically aligned with window handle"):
-        robot.move("gripper to left of window handle")
-    if check("window handle is right of the robot's gripper"):
-        robot.slide("window right")
-    if check("the robot's gripper is left of window handle"):
-        robot.slide("window right")
-    if check("window handle is vertically aligned with the robot's gripper and window handle is not right of the robot's gripper"):
-        robot.push("window right harder")
-    if check("window handle is vertically aligned with the robot's gripper and the robot's gripper is not left of window handle"):
-        robot.push("window right harder")
+    # If the the window handle is right of the robot's gripper, we should move the
+    # gripper near the window handle to start pushing
+    if check("the window handle is right of the robot's gripper and the robot's gripper is not near the window handle"):
+        robot.move_gripper("the window handle")
+    # If the robot's gripper is near the window handle we can probably slide the
+    # window close now by moving the gripper right.
+    if check("the robot's gripper is near the window handle"):
+        robot.move_gripper("the right side of the window")
+    # If the robot's gripper is not near the window handle as seen from above,
+    # we should move the gripper to the left of the window handle so that we
+    # will be able to slide the window right.
+    if check("the robot's gripper is not vertically aligned with the window handle"):
+        robot.move_gripper("left of the window handle and near the window handle")
