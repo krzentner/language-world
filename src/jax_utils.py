@@ -9,6 +9,79 @@ import random
 import optax
 import pickle
 from os.path import expanduser
+import jax.numpy as jnp
+
+
+def pad_list(seq, max_len=None):
+    if max_len is None:
+        max_len = max(len(s) for s in seq)
+    zero = jnp.zeros(seq[0][0].shape)
+    padded = jnp.array(
+        [[s[i] if len(s) > i else zero for i in range(max_len)] for s in seq]
+    )
+    mask = jnp.array([[1 if len(s) > i else 0 for i in range(max_len)] for s in seq])
+    return padded, mask
+
+def find_max_lens(seq):
+  if isinstance(seq, list):
+    sub_max_lens = [find_max_lens(s) for s in seq]
+    max_lens = sub_max_lens[0]
+    for sub_max in sub_max_lens:
+      # We don't handle different levels of dimensions
+      assert len(sub_max_lens[0]) == len(sub_max)
+      for (i, m_len) in enumerate(sub_max):
+        if m_len > max_lens[i]:
+          max_lens[i] = m_len
+    return [len(seq)] + max_lens
+  else:
+    return list(seq.shape)
+
+def pad_list_nd_inner(seq, target_lens, mask_shape):
+  if isinstance(seq, list):
+    sub_padded, sub_mask = zip(*[pad_list_nd_inner(s, target_lens[1:], mask_shape[1:])
+                                 for s in seq])
+    sub_padded = jnp.array(sub_padded)
+    sub_mask = jnp.array(sub_mask)
+  else:
+    sub_padded = seq
+    if mask_shape:
+      sub_mask = jnp.ones([len(seq)] + mask_shape[1:])
+    else:
+      sub_mask = jnp.ones(())
+  if len(sub_padded) < target_lens[0]:
+    # If we're not supposed to be masking at this depth, something has probably
+    # gone wrong
+    assert mask_shape
+    len_diff = target_lens[0] - len(sub_padded)
+    sub_padded = jnp.concatenate(
+        [sub_padded, jnp.zeros([len_diff] + target_lens[1:])])
+    sub_mask = jnp.concatenate(
+        [sub_mask, jnp.zeros([len_diff] + mask_shape[1:])])
+  return sub_padded, sub_mask
+
+def pad_list_nd(seq, mask_depth):
+  max_lens = find_max_lens(seq)
+  mask_shape = max_lens[:mask_depth]
+  padded, mask = pad_list_nd_inner(seq, max_lens, mask_shape)
+  return padded, mask
+
+
+def pad_list_single_pass(seq, new_len=None):
+  if isinstance(seq[0], list):
+    max_len = max(len(s) for s in seq)
+    seq_padded = []
+    seq_mask = []
+    for (s_padded, s_mask) in (pad_list_nd(s, max_len) for s in seq):
+      seq_padded.append(s_padded)
+      seq_mask.append(s_mask)
+    return jnp.array(seq_padded), jnp.array(seq_mask)
+  else:
+    zero = jnp.zeros(seq[0])
+    padded = jnp.array(
+        [seq[i] if len(seq) > i else zero for i in range(max_len)]
+    )
+    mask = jnp.array([1 if len(seq) > i else 0 for i in range(max_len)])
+    return padded, mask
 
 
 def approx_minibatches(key, dataset, batch_size, epoch_size=None):
