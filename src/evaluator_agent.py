@@ -1,4 +1,6 @@
 import collections
+import time
+import json
 from collections import defaultdict
 from dataclasses import dataclass
 import clize
@@ -6,6 +8,7 @@ from functools import partial
 import os
 import typing
 import cloudpickle
+from os.path import expanduser
 
 import random
 from flax import linen as nn
@@ -29,7 +32,7 @@ import sys
 sys.path.append("src")
 
 import metaworld_controllers
-from metaworld_controllers import SawyerUniversalV2Policy, parse_obs
+from metaworld_universal_policy import SawyerUniversalV2Policy
 import train_evaluator
 import generate_metaworld_scene_dataset
 import embed_prompt
@@ -277,8 +280,11 @@ parsed_plans = {
     },
 }
 
-jit_eval_conditions = jax.jit(generate_metaworld_scene_dataset.eval_conditions,
-static_argnames=["env_name", "conds", "fuzzy"])
+generate_metaworld_scene_dataset.np = jnp
+jit_eval_conditions = jax.jit(
+    generate_metaworld_scene_dataset.eval_conditions,
+    static_argnames=["env_name", "conds", "fuzzy"],
+)
 # jit_eval_conditions = generate_metaworld_scene_dataset.eval_conditions
 
 
@@ -290,25 +296,23 @@ def embed_plan(plan):
     return embedded_plan
 
 
-embedded_plans = {}
-print("Embedding plans...")
-for (plan_name, plan) in parsed_plans.items():
-    conds = list(plan.keys())
-    conds_embed = jnp.stack(
-        [np.array(embed_prompt.embed_condition(cond)) for cond in conds]
-    )
-    actions_embed = jnp.stack(
-        [np.array(embed_prompt.embed_action(plan[cond])) for cond in conds]
-    )
-    embedded_plans[plan_name] = {
-        # 'conds': self.param(f'{plan_name}.conds', lambda _: conds_embed),
-        # 'actions': self.param(f'{plan_name}.actions', lambda _: actions_embed),
-        "conds": conds_embed,
-        "actions": actions_embed,
-        "conds_str": conds,
-        "actions_str": [plan[cond] for cond in conds],
-    }
-print("Done embedding plans")
+def embed_plans(plans):
+    embedded_plans = {}
+    for (plan_name, plan) in parsed_plans.items():
+        conds = list(plan.keys())
+        conds_embed = jnp.stack(
+            [np.array(embed_prompt.embed_condition(cond)) for cond in conds]
+        )
+        actions_embed = jnp.stack(
+            [np.array(embed_prompt.embed_action(plan[cond])) for cond in conds]
+        )
+        embedded_plans[plan_name] = {
+            "conds": conds_embed,
+            "actions": actions_embed,
+            "conds_str": conds,
+            "actions_str": [plan[cond] for cond in conds],
+        }
+    return embedded_plans
 
 
 class CondAgent(nn.Module):
@@ -331,8 +335,9 @@ class CondAgent(nn.Module):
         else:
             true_values = []
             for (env_name, obs, plan) in zip(env_names, low_dim, plans):
-                true_results = jit_eval_conditions(env_name, plan["conds_str"],
-                                                   obs, fuzzy=True)
+                true_results = jit_eval_conditions(
+                    env_name, plan["conds_str"], obs, fuzzy=True
+                )
                 true_values.append(true_results)
             padded_true_results, conds_mask = pad_list(true_values)
             logits = 10 * padded_true_results - 5
@@ -353,12 +358,12 @@ class CondAgent(nn.Module):
             if self.use_learned_controller:
                 controller_outputs = []
                 for (obs, plan) in zip(low_dim, plans):
-                    action, controller_info = eslf.learned_controller(
+                    action, controller_info = self.learned_controller(
                         jnp.array([obs for action_embed in plan["actions"]]),
                         plan["actions"],
                     )
                     controller_outputs.append(action)
-                controller_outputs = jnp.array(controller_outputs)
+                controller_outputs, controller_mask = pad_list(controller_outputs)
                 actions = jnp.einsum(
                     "ij,ijk->ik", controller_weights, controller_outputs
                 )
@@ -463,6 +468,45 @@ def apply_model(state, env_names, low_dim, targets):
     )
 
 
+def mean(seq):
+    assert len(seq) > 0
+    return np.mean(seq)
+
+
+def single_env_dataset(
+    *,
+    env_name: str,
+    n_timesteps=500,
+    seed=jax_utils.DEFAULT_SEED,
+    shuffle_timesteps=True,
+    noise_scales: float_list = [0.1],
+) -> [dict]:
+    """Produce a set of datapoints that each contain one timestep from each env."""
+    env = make_env(env_name, seed)
+    policy = SawyerUniversalV2Policy(env_name=env_name)
+    datapoints = []
+    successes = []
+
+    assert len(noise_scales) * env.max_episode_length <= n_timesteps
+
+    random.shuffle(noise_scales)
+    with tqdm(total=n_timesteps) as pbar:
+        for noise_scale in noise_scales:
+            ou_proc = OUProcess(dimensions=env.action_space.shape[0], sigma=noise_scale)
+            episode = []
+            for data in sample_policy_with_noise_process(env, policy, ou_proc):
+                data["env_name"] = env_name
+                data["noise_scale"] = noise_scale
+                episode.append(data)
+                pbar.update(1)
+            successes.append(episode_to_success(episode))
+            datapoints.extend(episode)
+    if shuffle_timesteps:
+        random.shuffle(datapoints)
+    print(f"Data success rate for {env_name}:", mean(successes))
+    return datapoints
+
+
 def grouped_env_dataset(
     *,
     envs: str_list = MT50_ENV_NAMES,
@@ -472,9 +516,14 @@ def grouped_env_dataset(
     noise_scales: float_list = [0.1, 0.2, 0.3, 0.4],
 ) -> [[dict]]:
     """Produce a set of datapoints that each contain one timestep from each env."""
-    with easy_process.Scope():
+    scope = easy_process.Scope()
+    try:
         workers = [
-            sample_process(env_name=env_name, seed=seed, noise_scales=noise_scales)
+            easy_process.Subprocess(
+                sample_process,
+                kwargs=dict(env_name=env_name, seed=seed, noise_scales=noise_scales),
+                scope=scope,
+            )
             for env_name in envs
         ]
         datapoints = []
@@ -492,12 +541,13 @@ def grouped_env_dataset(
                 for i in range(new_datapoints):
                     datapoints.append([episode[i] for episode in episode_block])
                 pbar.update(new_datapoints)
+    finally:
+        scope.close()
     for (env_name, success_rate) in successes.items():
-        print(f"Data success rate for {env_name}:", np.mean(success_rate))
+        print(f"Data success rate for {env_name}:", mean(success_rate))
     return datapoints
 
 
-@easy_process.subprocess_func
 def sample_process(*, env_name: str, noise_scales: [float], seed: int, parent):
     env = make_env(env_name, seed)
     policy = SawyerUniversalV2Policy(env_name=env_name)
@@ -532,17 +582,18 @@ def load_best_evaluator_params():
     return cond_eval_state["params"]
 
 
-@easy_process.subprocess_func
-def eval_process(*, env, policy, noise_scale: float, parent):
+def eval_process(*, env_name, policy, noise_scale: float, parent):
+    env = make_env(env_name, random.randrange(1000))
     while True:
         episode = []
         for data in sample_noisy_policy(env, policy, noise_scale):
             data["noise_scale"] = noise_scale
             episode.append(data)
-        state_updates = parent.sendrecv(episode_to_success(episode))
+        state_updates = parent.sendrecv(episode)
         if state_updates:
             policy.state = policy.state.replace(params=state_updates[-1])
             parent.sendrecv("policy updated")
+
 
 def episode_to_success(episode):
     success = False
@@ -550,33 +601,57 @@ def episode_to_success(episode):
         success |= data.get("success", 0) > 0
     return success
 
+
+def average_reward(episode):
+    return mean([data["reward"] for data in episode if "reward" in data])
+
+
 N_EVAL_WORKERS = 50
+
 
 def evaluate_policy(env_name, n_episodes, env, policy, noise_scale):
     successes = []
     if n_episodes <= 10:
         for i in tqdm(range(n_episodes)):
-            successes.append(episode_to_success(sample_noisy_policy(env, policy,
-                                                                    noise_scale)))
+            successes.append(
+                episode_to_success(sample_noisy_policy(env, policy, noise_scale))
+            )
     else:
-        with easy_process.Scope():
-            workers = [
-                eval_process(env=env, policy=policy, noise_scale=noise_scale)
-                for _ in range(N_EVAL_WORKERS)
-            ]
+        scope = easy_process.Scope()
+        try:
+            workers = []
+            for _ in range(N_EVAL_WORKERS):
+                workers.append(
+                    easy_process.Subprocess(
+                        eval_process,
+                        kwargs=dict(env=env, policy=policy, noise_scale=noise_scale),
+                        scope=scope,
+                    )
+                )
             with tqdm(total=n_episodes) as pbar:
                 while len(successes) < n_episodes:
                     for worker in workers:
-                        success = worker.recv(block=False)
-                        if success is not None and success != "policy updated":
-                            successes.append(success)
+                        episode = worker.recv(block=False)
+                        if episode is not None and episode != "policy updated":
+                            successes.append(episode_to_success(episode))
                             pbar.update(1)
-    print("Success rate for", env_name, ":", np.mean(successes))
-    return np.mean(successes)
+        finally:
+            scope.close()
+    print("Success rate for", env_name, ":", mean(successes))
+    return mean(successes)
 
 
 class EvalCallbacks(jax_utils.FitCallbacks):
-    def __init__(self, seed, env_names, cond_agent, noise_scale=0.10):
+    def __init__(
+        self,
+        seed,
+        env_names,
+        cond_agent,
+        noise_scale=0.10,
+        base_infos=None,
+        results_proc=None,
+        output_filename=None,
+    ):
         self.envs = {env_name: make_env(env_name, seed) for env_name in env_names}
         self.noise_scale = noise_scale
         self.cond_agent = cond_agent
@@ -585,6 +660,15 @@ class EvalCallbacks(jax_utils.FitCallbacks):
         self.n_episodes = 50
         self.step_period = 10
         self.current_step = 0
+        if base_infos is None:
+            base_infos = {}
+        self.base_infos = base_infos
+        self.results_proc = results_proc
+        self.output_filename = output_filename
+        if output_filename:
+            with open(output_filename, "w") as f:
+                # Truncate the output file
+                pass
 
     def epoch_start(self, state):
         self.current_step += 1
@@ -593,8 +677,8 @@ class EvalCallbacks(jax_utils.FitCallbacks):
         else:
             return state, {}
 
-    def training_complete(self, state):
-        infos = {}
+    def _run_evals(self, state):
+        infos = self.base_infos.copy()
         for (env_name, env) in self.envs.items():
             policy = self.cond_agent.as_policy(env_name, state)
             if env_name in self.workers:
@@ -606,27 +690,113 @@ class EvalCallbacks(jax_utils.FitCallbacks):
                     while msg != "policy updated":
                         msg = worker.recv(block=True)
             else:
-                easy_process.SCOPE_STACK.append(self.process_scope)
-                workers = [eval_process(env=env, policy=policy, noise_scale=self.noise_scale)
-                           for _ in range(N_EVAL_WORKERS)]
+                workers = [
+                    easy_process.Subprocess(
+                        eval_process,
+                        kwargs=dict(env_name=env_name, policy=policy,
+                                    noise_scale=self.noise_scale),
+                        scope=self.process_scope,
+                    )
+                    for _ in range(N_EVAL_WORKERS)
+                ]
                 self.workers[env_name] = workers
-                easy_process.SCOPE_STACK.pop()
 
             successes = []
+            rewards = []
             with tqdm(total=self.n_episodes) as pbar:
                 while len(successes) < self.n_episodes:
                     for worker in workers:
-                        success = worker.recv(block=False)
-                        if success is not None and success != "policy updated":
-                            successes.append(success)
+                        episode = worker.recv(block=False)
+                        if episode is not None and episode != "policy updated":
+                            successes.append(episode_to_success(episode))
+                            rewards.append(average_reward(episode))
                             pbar.update(1)
-            print(f"Success rate for {env_name}:", np.mean(successes))
-            infos[f"{env_name}/SuccessRate"] = np.mean(successes)
+            print(f"Success rate for {env_name}:", mean(successes))
+            infos[f"{env_name}/SuccessRate"] = mean(successes)
+            infos[f"{env_name}/RewardMean"] = mean(rewards)
+        if self.output_filename:
+            with open(self.output_filename, "a") as f:
+                json.dump(infos, f)
+                f.write("\n")
+        return infos
+
+    def training_complete(self, state):
+        infos = self._run_evals(state)
+        if self.results_proc is not None:
+            print("Sending back results")
+            self.results_proc.sendrecv(infos)
         return state, infos
 
 
+class SingleProcEvalCallbacks(jax_utils.FitCallbacks):
+    def __init__(
+        self,
+        seed,
+        env_names,
+        cond_agent,
+        noise_scale=0.10,
+        base_infos=None,
+        results_proc=None,
+        output_filename=None,
+    ):
+        self.envs = {env_name: make_env(env_name, seed) for env_name in env_names}
+        self.noise_scale = noise_scale
+        self.cond_agent = cond_agent
+        self.process_scope = easy_process.Scope()
+        self.workers = {}
+        self.n_episodes = 50
+        self.step_period = 10
+        self.current_step = 0
+        if base_infos is None:
+            base_infos = {}
+        self.base_infos = base_infos
+        self.results_proc = results_proc
+        self.output_filename = output_filename
+        if output_filename:
+            with open(output_filename, "w") as f:
+                # Truncate the output file
+                pass
 
-def train_and_evaluate(
+    def minibatch_start(self, state):
+        return state, {}
+
+    def epoch_start(self, state):
+        self.current_step += 1
+        if self.current_step % self.step_period == 1:
+            return self.training_complete(state)
+        else:
+            return state, {}
+
+    def _run_evals(self, state):
+        infos = self.base_infos.copy()
+        for (env_name, env) in self.envs.items():
+            policy = self.cond_agent.as_policy(env_name, state)
+            successes = []
+            rewards = []
+            with tqdm(total=self.n_episodes) as pbar:
+                while len(successes) < self.n_episodes:
+                    episode = list(sample_noisy_policy(env, policy, self.noise_scale))
+                    successes.append(episode_to_success(episode))
+                    rewards.append(average_reward(episode))
+                    pbar.update(1)
+            print(f"Success rate for {env_name}:", mean(successes))
+            infos[f"{env_name}/SuccessRate"] = mean(successes)
+            infos[f"{env_name}/RewardMean"] = mean(rewards)
+        if self.output_filename:
+            with open(self.output_filename, "a") as f:
+                json.dump(info, f)
+                f.write("\n")
+        return infos
+
+    def training_complete(self, state):
+        infos = self._run_evals(state)
+        if self.results_proc is not None:
+            print("Sending back results")
+            self.results_proc.sendrecv(infos)
+        return state, infos
+
+
+def zeroshot(
     *,
     train_envs: str_list = MT10_ENV_NAMES,
     test_envs: str_list = MT10_ENV_NAMES,
@@ -634,16 +804,23 @@ def train_and_evaluate(
     n_timesteps=1e5,
     batch_size=4,
     noise_scale=0.1,
+    language_space_mixing=True,
+    plan_file,
+    out_file,
 ):
+    from generate_mt10_plans import load_and_parse_plans
 
     data = grouped_env_dataset(envs=train_envs, n_timesteps=n_timesteps, seed=seed)
+    parsed_plans = load_and_parse_plans(plan_file)
     cond_agent = CondAgent(
         use_learned_evaluator=False,
-        mix_in_language_space=True,
+        mix_in_language_space=language_space_mixing,
         use_learned_controller=True,
-        plans=embedded_plans,
+        plans=embed_plans(parsed_plans),
     )
-    callbacks = EvalCallbacks(seed, train_envs + test_envs, cond_agent)
+    callbacks = EvalCallbacks(
+        seed, train_envs + test_envs, cond_agent, output_filename=out_file
+    )
     jax_utils.fit_model(
         cond_agent,
         data,
@@ -652,58 +829,271 @@ def train_and_evaluate(
         batch_size=batch_size,
         preprocess=preprocess,
         seed=seed,
-        n_epochs=500,
+        n_epochs=1000,
         callbacks=callbacks,
         learning_rate=1e-5,
     )
     embed_prompt.save_cache()
-    print('Done saving cache')
+    print("Done saving cache")
     callbacks.process_scope.close()
 
-    # workdir = os.path.expanduser(
-    # f"~/data/cond_agent_seed={seed}_noise-scale={noise_scale}"
-    # )
-    # rng = jax.random.PRNGKey(seed)
-    # summary_writer = tensorboard.SummaryWriter(workdir)
-    # summary_writer.hparams(dict(locals()))
 
-    # train_env_names = [name for name in train_envs.split(",") if name]
-    # test_env_names = [name for name in test_envs.split(",") if name]
-    # max_episode_length = 500
-    # max_size = len(train_env_names) * max_episode_length * 10
+def train_and_evaluate_fewshot(
+    *,
+    train_envs: str_list = MT10_ENV_NAMES,
+    target_env: str,
+    seed=jax_utils.DEFAULT_SEED,
+    n_timesteps=1e5,
+    fewshot_timesteps=500,
+    out_file,
+):
+    from generate_mt10_plans import load_and_parse_plans
 
-    # rng, init_rng = jax.random.split(rng)
-    # learning_rate = 1e-4
-    # momentum = 0.99
-    # cond_agent = CondAgent()
-    # params = cond_agent.init(
-    # rng,
-    # ["drawer-close", "pick-place"] * int(batch_size / 2),
-    # jnp.ones([batch_size, 39]),
-    # jnp.ones(
-    # [
-    # batch_size,
-    # np.max(
-    # [
-    # len(embedded_plans[env_name]["conds"])
-    # for env_name in ["drawer-close", "pick-place"]
-    # ]
-    # ),
-    # ]
-    # ),
-    # )
-    # params = params.copy({"params": {"cond_evaluator": load_best_evaluator_params()}})
-    # tx = optax.sgd(learning_rate, momentum)
-    # state = train_state.TrainState.create(
-    # apply_fn=cond_agent.apply, params=params, tx=tx
-    # )
-    # for env_name in train_env_names + test_env_names:
-    # env = make_env(env_name, seed)
-    # policy = cond_agent.as_policy(env_name, state)
-    # success = evaluate_policy(
-    # env_name, 10, lambda: sample_noisy_policy(env, policy, 0.10)
-    # )
+    embedded_plans = {}
+    parsed_plans = load_and_parse_plans("mt50_plans.py")
+    print("Embedding plans...")
+    for (plan_name, plan) in parsed_plans.items():
+        conds = list(plan.keys())
+        conds_embed = jnp.stack(
+            [np.array(embed_prompt.embed_condition(cond)) for cond in conds]
+        )
+        actions_embed = jnp.stack(
+            [np.array(embed_prompt.embed_action(plan[cond])) for cond in conds]
+        )
+        embedded_plans[plan_name] = {
+            "conds": conds_embed,
+            "actions": actions_embed,
+            "conds_str": conds,
+            "actions_str": [plan[cond] for cond in conds],
+        }
+    print("Done embedding plans")
+
+    cond_agent = CondAgent(
+        use_learned_evaluator=False,
+        mix_in_language_space=True,
+        use_learned_controller=True,
+        plans=embedded_plans,
+    )
+    callbacks = EvalCallbacks(
+        seed,
+        [target_env],
+        cond_agent,
+        base_infos={
+            "target_task": target_env,
+        },
+        output_filename=out_file,
+    )
+    train_and_evaluate_fewshot_with_callbacks(
+        callbacks=callbacks,
+        cond_agent=cond_agent,
+        train_envs=train_envs,
+        target_env=target_env,
+        seed=seed,
+        n_timesteps=n_timesteps,
+        fewshot_timesteps=fewshot_timesteps,
+    )
+
+
+def fewshot_process(
+    *,
+    train_envs: str_list = MT10_ENV_NAMES,
+    target_env: str,
+    seed=jax_utils.DEFAULT_SEED,
+    n_timesteps=1e5,
+    fewshot_timesteps=500,
+    parent,
+):
+    from generate_mt10_plans import load_and_parse_plans
+
+    sys.stdout = open(expanduser(f"~/data/{target_env}.stdout"), "w")
+    sys.stderr = open(expanduser(f"~/data/{target_env}.stderr"), "w")
+
+    embedded_plans = {}
+    parsed_plans = load_and_parse_plans("mt50_plans.py")
+    print("Embedding plans...")
+    for (plan_name, plan) in parsed_plans.items():
+        conds = list(plan.keys())
+        conds_embed = jnp.stack(
+            [np.array(embed_prompt.embed_condition(cond)) for cond in conds]
+        )
+        actions_embed = jnp.stack(
+            [np.array(embed_prompt.embed_action(plan[cond])) for cond in conds]
+        )
+        embedded_plans[plan_name] = {
+            "conds": conds_embed,
+            "actions": actions_embed,
+            "conds_str": conds,
+            "actions_str": [plan[cond] for cond in conds],
+        }
+    print("Done embedding plans")
+
+    cond_agent = CondAgent(
+        use_learned_evaluator=False,
+        mix_in_language_space=True,
+        use_learned_controller=True,
+        plans=embedded_plans,
+    )
+    callbacks = SingleProcEvalCallbacks(
+        seed,
+        [target_env],
+        cond_agent,
+        base_infos={
+            "target_task": target_env,
+        },
+        results_proc=parent,
+    )
+    callbacks.step_period = 30
+    try:
+        train_and_evaluate_fewshot_with_callbacks(
+            callbacks=callbacks,
+            cond_agent=cond_agent,
+            train_envs=train_envs,
+            target_env=target_env,
+            seed=seed,
+            n_timesteps=n_timesteps,
+            fewshot_timesteps=fewshot_timesteps,
+        )
+    except Exception as exc:
+        print(exc)
+        raise exc
+
+
+def train_and_eval_all_fewshot_parallel(
+    *,
+    train_envs: str_list = MT10_ENV_NAMES,
+    target_envs: str_list = MT50_ENV_NAMES,
+    seed=jax_utils.DEFAULT_SEED,
+    n_timesteps=1e4,
+    fewshot_timesteps=500,
+):
+    workdir = expanduser(f"~/data/train_and_eval_all_fewshot_seed={seed}")
+    n_evals = 101
+    summary_writer = tensorboard.SummaryWriter(workdir)
+    scope = easy_process.Scope()
+    try:
+        workers = []
+        for env_name in target_envs:
+            print(f"Starting worker for task {1+len(workers)}/{len(target_envs)}")
+            workers.append(
+                easy_process.Subprocess(
+                    fewshot_process,
+                    kwargs=dict(
+                        train_envs=train_envs,
+                        target_env=env_name,
+                        seed=seed,
+                        n_timesteps=n_timesteps,
+                        fewshot_timesteps=fewshot_timesteps,
+                    ),
+                    scope=scope,
+                )
+            )
+            # Sampling uses a lot of memory, so start processes slowly
+            time.sleep(10)
+        print("#" * 30, "ALL WORKERS STARTED", "#" * 30)
+        datapoints = []
+        successes = defaultdict(list)
+        for i in tqdm(range(n_evals)):
+            success_rates = {}
+            rewards = {}
+            for worker in workers:
+                info = worker.recv(block=True)
+                env_name = info["target_task"]
+                success_rates[env_name] = info[f"{env_name}/SuccessRate"]
+                rewards[env_name] = info[f"{env_name}/RewardMean"]
+                summary_writer.scalar(
+                    f"{env_name}/SuccessRate", success_rates[env_name], i
+                )
+                summary_writer.scalar(
+                    f"{env_name}/RewardMean", info[f"{env_name}/RewardMean"], i
+                )
+            print("reward_means =", rewards)
+            print("success_rates =", success_rates)
+            for threshold in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
+                tasks_at_success_rate = [
+                    env_name
+                    for env_name in target_envs
+                    if success_rates[env_name] >= threshold
+                ]
+                summary_writer.scalar(
+                    f"TasksAtSuccessRate/success_rate:{threshold}",
+                    len(tasks_at_success_rate),
+                    i,
+                )
+            summary_writer.flush()
+    finally:
+        scope.close()
+
+
+def train_and_eval_all_fewshot(
+    *,
+    train_envs: str_list = MT10_ENV_NAMES,
+    target_envs: str_list = MT50_ENV_NAMES,
+    seed=jax_utils.DEFAULT_SEED,
+    n_timesteps=1e4,
+    fewshot_timesteps=500,
+):
+    for env_name in target_envs:
+        train_and_evaluate_fewshot(
+            train_envs=train_envs,
+            target_env=env_name,
+            seed=seed,
+            n_timesteps=n_timesteps,
+            fewshot_timesteps=fewshot_timesteps,
+        )
+
+
+def train_and_evaluate_fewshot_with_callbacks(
+    *,
+    callbacks,
+    cond_agent,
+    train_envs: str_list = MT10_ENV_NAMES,
+    target_env: str,
+    seed=jax_utils.DEFAULT_SEED,
+    n_timesteps=1e5,
+    fewshot_timesteps=500,
+):
+    # batch_size is basically source_repeats[0] * train_envs + source_repeats[1]
+    source_repeats = [2, 20]
+
+    def preprocess_fewshot(batch):
+        env_names = []
+        observations = []
+        actions = []
+        base_stacks = batch[: source_repeats[0]]
+        target_stack = batch[source_repeats[0] :]
+        assert len(target_stack) == source_repeats[1]
+        for stack in base_stacks + [target_stack]:
+            for data in stack:
+                env_names.append(data["env_name"])
+                observations.append(data["observation"])
+                actions.append(data["action"])
+        return (tuple(env_names), jnp.array(observations)), jnp.array(actions)
+
+    base_data = grouped_env_dataset(envs=train_envs, n_timesteps=n_timesteps, seed=seed)
+    target_data = single_env_dataset(
+        env_name=target_env, n_timesteps=fewshot_timesteps, seed=seed
+    )
+    jax_utils.fit_model_multisource(
+        model=cond_agent,
+        sources=[base_data, target_data],
+        source_repeats=source_repeats,
+        apply_model=apply_model,
+        model_name=f"cond_agent_fewshot_task={target_env}",
+        preprocess=preprocess_fewshot,
+        seed=seed,
+        n_epochs=3000,
+        callbacks=callbacks,
+        learning_rate=1e-5,
+    )
+    embed_prompt.save_cache()
+    print("Done saving cache")
+    callbacks.process_scope.close()
 
 
 if __name__ == "__main__":
-    clize.run(train_and_evaluate)
+    # import multiprocessing as mp
+
+    # mp.set_start_method("spawn")
+    # clize.run(train_and_evaluate_fewshot)
+    # clize.run(train_and_eval_all_fewshot)
+    clize.run(zeroshot, train_and_evaluate_fewshot)

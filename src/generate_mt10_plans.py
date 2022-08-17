@@ -17,6 +17,8 @@ from sample_utils import (
     collect_noisy_episodes,
     sample_noisy_policy,
     make_env,
+    DEFAULT_SEED,
+    evaluate_policy,
 )
 from flax.training import train_state
 import jax_utils
@@ -310,7 +312,7 @@ class DescriptorPolicy:
 def eval_plans(
     *,
     filename="mt10_plans.py",
-    seed=jax_utils.DEFAULT_SEED,
+    seed=DEFAULT_SEED,
     env_names: str_list = None,
     noise_scale: float = 0.05,
 ):
@@ -342,30 +344,6 @@ def load_best_cond_agent_params():
     with open(expanduser("~/data/best_cond_agent.pkl"), "rb") as f:
         cond_eval_state = pickle.load(f)
     return cond_eval_state
-
-
-def evaluate_policy(env_name, episodes):
-    print("Evaluating", env_name)
-    successes = []
-    rewards = []
-    controller_counts = defaultdict(int)
-    candidate_counts = defaultdict(int)
-    for episode in episodes:
-        success = False
-        episode_rewards = []
-        for data in episode:
-            success |= data.get("success", 0) > 0
-            if "controller_name" in data:
-                controller_counts[data["controller_name"]] += 1
-            for candidate in data.get("candidate_controllers", []):
-                candidate_counts[candidate] += 1
-            if "reward" in data:
-                episode_rewards.append(data["reward"])
-        rewards.append(np.mean(episode_rewards))
-        successes.append(success)
-    print("Success rate for", env_name, ":", np.mean(successes))
-    print("Avg timestep reward for", env_name, ":", np.mean(rewards))
-    return np.mean(successes), np.mean(rewards)
 
 
 def run_cond_agent_mt50(
@@ -761,9 +739,9 @@ UNIVERSAL_POLICY_MT50_REWARDS = {
 }
 
 if __name__ == "__main__":
-    clize.run(eval_plans)
+    # clize.run(eval_plans)
     # print(load_mt10_plans())
-    # print(load_and_parse_plans())
+    print(load_and_parse_plans('mt50_plans.py'))
     # clize.run(run_cond_agent_mt50)
     # clize.run(eval_universal_agent)
     # print('Environment Name, Zero-Shot Success Rate, Reward Percentage')

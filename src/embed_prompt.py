@@ -216,13 +216,17 @@ def load_cache():
       EMBEDDING_CACHE = pickle.load(f)
   except FileNotFoundError:
     print("Could not load embedding cache")
-  embedding_db = dbm.gnu.open(expanduser('~/data/embedding_cache.db'), 'c')
-  key = embedding_db.firstkey()
-  while key is not None:
-    value = pickle.loads(embedding_db[key])
-    if isinstance(value, np.ndarray):
-      EMBEDDING_CACHE[key.decode('utf-8')] = value
-    key = embedding_db.nextkey(key)
+  try:
+    embedding_db = dbm.gnu.open(expanduser('~/data/embedding_cache.db'), 'c')
+    key = embedding_db.firstkey()
+    while key is not None:
+      value = pickle.loads(embedding_db[key])
+      if isinstance(value, np.ndarray):
+        EMBEDDING_CACHE[key.decode('utf-8')] = value
+      key = embedding_db.nextkey(key)
+  except dbm.gnu.error as exc:
+    print('Ignoring cache db error:', exc)
+    pass
   print('Done loading embedding cache')
 
 load_cache()

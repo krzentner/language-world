@@ -62,6 +62,9 @@ class ProcessHandle:
                              block=True,
                              timeout=step_timeout)
       msg = self.recv(block=True, timeout=step_timeout)
+      proc = getattr(self, 'process', None)
+      if proc and not proc.is_alive():
+        print('SUBPROCESS HARD FAULT')
       if msg is not None:
         results.append(msg)
     return results
@@ -72,7 +75,7 @@ class ProcessHandle:
 
 class Subprocess(ProcessHandle):
 
-  def __init__(self, target, args, kwargs, use_thread=None, scope=None):
+  def __init__(self, target, *, args=(), kwargs, use_thread=None, scope=None):
     super().__init__()
     if not isinstance(use_thread, bool):
       use_thread = USE_THREADS
@@ -225,5 +228,5 @@ def _subprocess_wrapper(outgoing, target, args_kwargs):
 def subprocess_func(func):
   @functools.wraps(func)
   def subprocess_wrapper(*args, **kwargs):
-    return Subprocess(func, args, kwargs)
+    return Subprocess(target=func, args=args, kwargs=kwargs)
   return subprocess_wrapper

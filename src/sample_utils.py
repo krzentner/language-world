@@ -1,8 +1,20 @@
 from metaworld.envs.mujoco.env_dict import MT10_V2, MT50_V2
 from metaworld.envs import ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE
+import random
 import numpy as np
 import easy_process
 from tqdm import tqdm
+import difflib
+from collections import defaultdict
+
+DEFAULT_SEED = random.randrange(1000)
+
+def str_project(src, targets):
+    matches = sorted(targets,
+                     key=lambda tgt: difflib.SequenceMatcher(None, tgt, src).ratio(),
+                     reverse=True)
+    return matches
+
 
 MT10_ENV_NAMES = [e[:-3] for e in MT10_V2.keys()]
 MT50_ENV_NAMES = [e[:-3] for e in MT50_V2.keys()]
@@ -109,3 +121,27 @@ def collect_noisy_episodes(env_names, policy, *, n_episodes=100, seed=100,
             episodes.append(episode)
             pbar.update(1)
   return episodes
+
+
+def evaluate_policy(env_name, episodes):
+    print("Evaluating", env_name)
+    successes = []
+    rewards = []
+    controller_counts = defaultdict(int)
+    candidate_counts = defaultdict(int)
+    for episode in episodes:
+        success = False
+        episode_rewards = []
+        for data in episode:
+            success |= data.get("success", 0) > 0
+            if "controller_name" in data:
+                controller_counts[data["controller_name"]] += 1
+            for candidate in data.get("candidate_controllers", []):
+                candidate_counts[candidate] += 1
+            if "reward" in data:
+                episode_rewards.append(data["reward"])
+        rewards.append(np.mean(episode_rewards))
+        successes.append(success)
+    print("Success rate for", env_name, ":", np.mean(successes))
+    print("Avg timestep reward for", env_name, ":", np.mean(rewards))
+    return np.mean(successes), np.mean(rewards)
