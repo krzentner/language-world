@@ -145,3 +145,19 @@ def evaluate_policy(env_name, episodes):
     print("Success rate for", env_name, ":", np.mean(successes))
     print("Avg timestep reward for", env_name, ":", np.mean(rewards))
     return np.mean(successes), np.mean(rewards)
+
+
+def mean(seq):
+    assert len(seq) > 0
+    return np.mean(seq)
+
+
+def episode_to_success(episode):
+    success = False
+    for data in episode:
+        success |= data.get("success", 0) > 0
+    return success
+
+
+def average_reward(episode):
+    return mean([data["reward"] for data in episode if "reward" in data])

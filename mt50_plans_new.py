@@ -289,6 +289,7 @@ def drawer_close(robot):
     # We don't need to be careful about the direction, since the drawer is large
     # and we're just pushing it (unlike when opening the drawer).
     if check("the robot's gripper is not near the drawer handle"):
+
         robot.grab("drawer handle")
     # If the drawer is aligned with the gripper as seen from in front, we can
     # push the drawer closed.
@@ -363,6 +364,7 @@ def hammer(robot):
 
 # box-close: pick up the box lid and place it on the box
 def box_close(robot):
+
     # Steps:
     #  1. Pick up the box lid
     #  2. Put the box lid on the box
@@ -581,6 +583,9 @@ def door_lock(robot):
     # Rotate the dial to the left.
     if check("the robot's gripper is vertically aligned with the dial"):
         robot.rotate("dial left")
+    # Rotate the dial to the right.
+    if check("the robot's gripper is vertically aligned with the dial"):
+        robot
 
 
 # pick-place-wall: pick up the puck and hold it at the target location with a short wall in the way
@@ -959,6 +964,7 @@ def window_close(robot):
     # If the the window handle is right of the robot's gripper, we should move the
     # gripper near the window handle to start pushing
     if check("the window handle is right of the robot's gripper and the robot's gripper is not near the window handle"):
+
         robot.move("gripper to left of window handle")
     # If the robot's gripper is near the window handle we can probably slide the
     # window close now by moving the gripper right.

@@ -206,22 +206,22 @@ OPEN_GRIPPER = re.compile(f'robot.move_gripper\("([^"]+)", open_gripper=True\)')
 
 
 def preprocess_location(action):
-  locs = action.split(' and ')
-  goals = []
-  for loc in locs:
-    found_relation = False
-    if 'touching ' in loc:
-      found_relation = True
-    for rel in generate_metaworld_scene_dataset.COORDINATE_RELATIONS:
-      if found_relation:
-        break
-      if f"{rel} " in loc:
-        found_relation = True
-    if not found_relation:
-      goals.append(f"the robot's gripper is near {loc}")
-    else:
-      goals.append(f"the robot's gripper is {loc}")
-  return " and ".join(goals)
+    locs = action.split(" and ")
+    goals = []
+    for loc in locs:
+        found_relation = False
+        if "touching " in loc:
+            found_relation = True
+        for rel in generate_metaworld_scene_dataset.COORDINATE_RELATIONS:
+            if found_relation:
+                break
+            if f"{rel} " in loc:
+                found_relation = True
+        if not found_relation:
+            goals.append(f"the robot's gripper is near {loc}")
+        else:
+            goals.append(f"the robot's gripper is {loc}")
+    return " and ".join(goals)
 
 
 def load_and_parse_plans(filename="mt10_plans.py"):
@@ -237,27 +237,29 @@ def load_and_parse_plans(filename="mt10_plans.py"):
     print(contents)
     plans_parsed = {}
     for plan in contents.split("\n\n"):
-      names = FN_NAME.findall(plan)
-      if names:
-        clause_map = {}
-        for (cond, action) in CLAUSES.findall(plan):
-          verb_details = VERB_DETAILS.findall(action)
-          if verb_details and verb_details[0][0] != 'move_gripper':
-            clause_map[cond] = " ".join(verb_details[0])
-          close_gripper = CLOSE_GRIPPER.findall(action)
-          if close_gripper:
-            loc = preprocess_location(close_gripper[0])
-            clause_map[cond] = f"{loc} and the robot's gripper is closed"
-          open_gripper = OPEN_GRIPPER.findall(action)
-          if open_gripper:
-            loc = preprocess_location(open_gripper[0])
-            clause_map[cond] = f"{loc} and the robot's gripper is open"
-            clause_map[cond] = (f"the robot's gripper is {loc}"
-                                 " and the robot's gripper is open")
-          move_gripper = MOVE_GRIPPER.findall(action)
-          if move_gripper:
-            clause_map[cond] = preprocess_location(move_gripper[0])
-        plans_parsed[names[0].replace("_", "-")] = clause_map
+        names = FN_NAME.findall(plan)
+        if names:
+            clause_map = {}
+            for (cond, action) in CLAUSES.findall(plan):
+                verb_details = VERB_DETAILS.findall(action)
+                if verb_details and verb_details[0][0] != "move_gripper":
+                    clause_map[cond] = " ".join(verb_details[0])
+                close_gripper = CLOSE_GRIPPER.findall(action)
+                if close_gripper:
+                    loc = preprocess_location(close_gripper[0])
+                    clause_map[cond] = f"{loc} and the robot's gripper is closed"
+                open_gripper = OPEN_GRIPPER.findall(action)
+                if open_gripper:
+                    loc = preprocess_location(open_gripper[0])
+                    clause_map[cond] = f"{loc} and the robot's gripper is open"
+                    clause_map[cond] = (
+                        f"the robot's gripper is {loc}"
+                        " and the robot's gripper is open"
+                    )
+                move_gripper = MOVE_GRIPPER.findall(action)
+                if move_gripper:
+                    clause_map[cond] = preprocess_location(move_gripper[0])
+            plans_parsed[names[0].replace("_", "-")] = clause_map
     return plans_parsed
 
 
@@ -350,6 +352,7 @@ def run_cond_agent_mt50(
     *, seed=jax_utils.DEFAULT_SEED, env_names: str_list = MT50_ENV_NAMES
 ):
     import embed_prompt
+
     embedded_plans = {}
     parsed_plans = load_and_parse_plans("mt50_plans.py")
     print("Embedding plans...")
@@ -373,6 +376,7 @@ def run_cond_agent_mt50(
     print("Done embedding plans")
 
     from evaluator_agent import CondAgent
+
     cond_agent = CondAgent(
         use_learned_evaluator=False,
         mix_in_language_space=True,
@@ -738,16 +742,66 @@ UNIVERSAL_POLICY_MT50_REWARDS = {
     "window-close": 6.739395638308984,
 }
 
+mt10_plans = {
+    "reach": {"the robot's gripper is not near reach target": "reach to goal"},
+    "push": {
+        "the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck": "put the gripper above the puck",
+        "the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck": "push the gripper into the puck",
+        "the robot's gripper is near the puck and the puck is below the robot's gripper": "slide the puck to the goal",
+    },
+    "pick-place": {
+        "the robot's gripper is not above the puck": "place gripper above puck",
+        "the robot's gripper is not around puck and the robot's gripper is open": "drop gripper around puck",
+        "the robot's gripper is near puck and the robot's gripper is open": "close gripper around puck",
+        "the robot's gripper is above puck and the robot's gripper is closed": "place puck at goal",
+    },
+    "door-open": {
+        "the robot's gripper is not almost vertically aligned with door handle": "put gripper above door handle",
+        "the robot's gripper is almost vertically aligned with the door handle and the robot's gripper is open": "put gripper around door handle",
+        "the robot's gripper is vertically aligned with the door handle": "pull door open",
+    },
+    "drawer-open": {
+        "the robot's gripper is not vertically aligned with drawer handle": "put gripper above drawer handle",
+        "the robot's gripper is vertically aligned with drawer handle and the robot's gripper is not around drawer handle": "put gripper around drawer handle",
+        "the robot's gripper is around drawer handle": "pull away from drawer",
+    },
+    "drawer-close": {
+        "the robot's gripper is not near the drawer handle": "grab drawer handle",
+        "the robot's gripper is forward aligned with drawer handle": "push drawer closed",
+    },
+    "button-press-topdown": {
+        "the robot's gripper is not vertically aligned with button": "put gripper above button",
+        "the robot's gripper is vertically aligned with button": "push down on button",
+    },
+    "peg-insert-side": {
+        "the robot's gripper is not vertically aligned with the peg": "put gripper above peg",
+        "peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper": "grab peg",
+        "the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole": "align peg to hole",
+        "peg is horizontally aligned with hole": "insert peg into hole",
+    },
+    "window-open": {
+        "the robot's gripper is not vertically aligned with the window handle and the robot's gripper is below the window handle": "move gripper to right of window handle",
+        "the robot's gripper is near the window handle": "slide window left",
+        "the robot's gripper is in front of the window handle": "push window left harder",
+    },
+    "window-close": {
+        "the window handle is right of the robot's gripper and the robot's gripper is not near the window handle": "move gripper to left of window handle",
+        "the robot's gripper is near the window handle": "slide window right",
+        "the robot's gripper is in front of the window handle": "push window right harder",
+    },
+}
+
 if __name__ == "__main__":
     # clize.run(eval_plans)
     # print(load_mt10_plans())
-    print(load_and_parse_plans('mt50_plans.py'))
+    # print(load_and_parse_plans('mt50_plans.py'))
+    print(load_and_parse_plans("mt10_plans.py"))
     # clize.run(run_cond_agent_mt50)
     # clize.run(eval_universal_agent)
     # print('Environment Name, Zero-Shot Success Rate, Reward Percentage')
     # for env_name in MT50_ENV_NAMES:
-      # if env_name in MT10_ENV_NAMES:
-        # continue
-      # print(env_name, "{}%".format(int(100 * COND_AGENT_MT50_SUCCESS_RATES[env_name])),
-            # "{}%".format(int(100 * COND_AGENT_MT50_AVG_REWARDS[env_name] /
-                             # UNIVERSAL_POLICY_MT50_REWARDS[env_name])), sep=',')
+    # if env_name in MT10_ENV_NAMES:
+    # continue
+    # print(env_name, "{}%".format(int(100 * COND_AGENT_MT50_SUCCESS_RATES[env_name])),
+    # "{}%".format(int(100 * COND_AGENT_MT50_AVG_REWARDS[env_name] /
+    # UNIVERSAL_POLICY_MT50_REWARDS[env_name])), sep=',')

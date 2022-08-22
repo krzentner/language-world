@@ -54,6 +54,7 @@ def eval_diff_agent(
     *,
     seed=sample_utils.DEFAULT_SEED,
     env_names: str_list = MT50_ENV_NAMES,
+    plan_file: str = "mt50_plans.py",
     out_success: str,
     out_avg_reward: str,
     render_output_dir: str,
@@ -99,7 +100,7 @@ def eval_diff_agent(
     print(success_rates)
     print(rewards)
     with open(out_success, 'w') as f:
-        json.dump(succcess_rates, f)
+        json.dump(success_rates, f)
     with open(out_avg_reward, 'w') as f:
         json.dump(rewards, f)
 
