@@ -1,6 +1,7 @@
 from doexp import cmd, In, Out, GLOBAL_CONTEXT
 from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES
-GLOBAL_CONTEXT.vm_percent_cap = 60.
+import psutil
+GLOBAL_CONTEXT.vm_percent_cap = 30.
 
 # cmd('python', 'src/find_most_likely_plans.py', Out('controller_map.pkl'))
 # cmd('python', 'src/plot_tasks_at_success_rate.py', '--out-file', Out('cond_agent_v0_success_rates.html'))
@@ -45,28 +46,29 @@ cmd('python', 'src/evaluator_agent.py', 'zeroshot',
     '--out-file', Out('cond_agent_v0_results_no_mix.json'),
     warmup_time=30)
 
-cmd('python', 'src/evaluator_agent.py', 'zeroshot',
-    '--plan-file', 'mt50_plans_v1.py',
-    '--out-file', Out('cond_agent_v1_results.json'),
-    warmup_time=600)
-
-for env_name in MT50_ENV_NAMES:
-  cmd('python', 'src/evaluator_agent.py', 'fewshot',
-      '--language-space-mixing=no',
+if psutil.virtual_memory().percent <= 15:
+  cmd('python', 'src/evaluator_agent.py', 'zeroshot',
       '--plan-file', 'mt50_plans_v1.py',
-      '--target-env', env_name,
-      '--out-file', Out(f'cond_agent_v1_fewshot_no_mix-{env_name}.json'),
-      warmup_time=210)
+      '--out-file', Out('cond_agent_v1_zeroshot.ndjson'),
+      warmup_time=600)
 
-for env_name in MT50_ENV_NAMES:
-  cmd('python', 'src/evaluator_agent.py', 'fewshot',
-      '--plan-file', 'mt50_plans_v1.py',
-      '--target-env', env_name,
-      '--out-file', Out(f'cond_agent_v1_fewshot-{env_name}.ndjson'),
-      warmup_time=180)
+# for env_name in MT50_ENV_NAMES:
+  # cmd('python', 'src/evaluator_agent.py', 'fewshot',
+      # '--language-space-mixing=no',
+      # '--plan-file', 'mt50_plans_v1.py',
+      # '--target-env', env_name,
+      # '--out-file', Out(f'cond_agent_v1_fewshot_no_mix-{env_name}.ndjson'),
+      # warmup_time=210)
+
+# for env_name in MT50_ENV_NAMES:
+  # cmd('python', 'src/evaluator_agent.py', 'fewshot',
+      # '--plan-file', 'mt50_plans_v1.py',
+      # '--target-env', env_name,
+      # '--out-file', Out(f'cond_agent_v1_fewshot-{env_name}.ndjson'),
+      # warmup_time=180)
 
 for env_name in MT50_ENV_NAMES:
   cmd('python', 'src/mlp_agent.py', 'fewshot',
       '--target-env', env_name,
-      '--out-file', Out(f'mlp_agent_v1_fewshot-{env_name}.ndjson'),
-      warmup_time=120)
+      '--out-file', Out(f'mlp_agent_v1_fewshot-{env_name}-500-epochs.ndjson'),
+      warmup_time=60)

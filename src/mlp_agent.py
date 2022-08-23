@@ -138,7 +138,7 @@ def zeroshot(
         batch_size=batch_size,
         preprocess=preprocess,
         seed=seed,
-        n_epochs=200,
+        n_epochs=1000,
         callbacks=callbacks,
         learning_rate=1e-5,
     )
@@ -215,7 +215,7 @@ def train_and_evaluate_fewshot_with_callbacks(
         model_name=f"mlp_agent_fewshot_task={target_env}",
         preprocess=preprocess_fewshot,
         seed=seed,
-        n_epochs=200,
+        n_epochs=500,
         callbacks=callbacks,
         learning_rate=1e-5,
     )

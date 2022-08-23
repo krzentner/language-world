@@ -52,11 +52,14 @@ class Context:
             done = True
             for cmd in sorted(self.commands, key=lambda cmd: cmd.warmup_time):
                 if self._should_run(cmd):
-                    print(f"Starting {cmd}")
+                    # print(f"Starting {cmd}")
                     done = False
                     proc = self.run(cmd)
                     self.running.append((cmd, proc))
                     break
+            if psutil.virtual_memory().percent >= self.vm_percent_cap:
+                print("Waiting for more RAM ...")
+                time.sleep(10)
             self.running, completed = _filter_completed(self.running)
             if self.running:
                 done = False
@@ -129,8 +132,6 @@ class Context:
                 print(f"Need output {arg.filename}")
                 need_output = True
         if need_output and psutil.virtual_memory().percent >= self.vm_percent_cap:
-            print("Waiting for free RAM...")
-            time.sleep(30)
             return False
         return need_output
 

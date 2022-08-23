@@ -9,52 +9,78 @@ import sys
 
 def plot_tasks_auc(data, filename, title="Success Rate", x_label="Success Rate"):
     fig = go.Figure()
+    N_TASKS = 10
     for (exp_name, perf) in data.items():
-        tasks_by_success_rate = sorted(
-            [(p, env_name) for (env_name, p) in perf.items()]
-        )
-        env_names = [env_name for (p, env_name) in tasks_by_success_rate]
-        N_TASKS = len(env_names)
-        y = [N_TASKS]
+        env_names = list(perf.keys())
+        if len(env_names) > N_TASKS:
+            N_TASKS = len(env_names)
+
+        envs_at_success_rate = {}
+        for (env_name, p) in perf.items():
+            p = int(100 * p)
+            if p not in envs_at_success_rate:
+                envs_at_success_rate[p] = [env_name]
+            else:
+                envs_at_success_rate[p].append(env_name)
+
+        y = [len(env_names)]
         x = [0.0]
         text = [",<br>".join(env_names)]
-        for i in range(N_TASKS):
-            if i > 0 and tasks_by_success_rate[i - 1][0] == tasks_by_success_rate[i][0]:
-                continue
-            x.append(tasks_by_success_rate[i][0])
-            y.append(N_TASKS - i)
-            text.append(",<br>".join(env_names[i:]))
+        envs_remaining = y[0]
+        for (p, env_names_at_p) in sorted(envs_at_success_rate.items()):
+            y.append(envs_remaining)
+            envs_remaining -= len(env_names_at_p)
+            x.append(p)
+            text.append(",<br>".join(env_names_at_p))
+
+        # for i in range(len(env_names)):
+            # if i > 0 and tasks_by_success_rate[i - 1][0] == tasks_by_success_rate[i][0]:
+                # continue
+            # x.append(tasks_by_success_rate[i][0])
+            # y.append(len(env_names) - i)
+            # if i + 1 == len(env_names):
+                # text.append(",<br>".join(env_names[last_i:]))
+            # else:
+                # text.append(",<br>".join(env_names[last_i:i]))
+                # last_i = i
 
         fig.add_trace(go.Scatter(x=x, y=y, text=text, name=exp_name, line_shape="vh"))
-        fig.update_yaxes(range=(0, N_TASKS * 1.1), zeroline=True)
+    fig.update_yaxes(range=(0, N_TASKS * 1.1), zeroline=True)
     fig.update_layout(title=title, yaxis_title="Number of Tasks", xaxis_title=x_label)
     fig.write_html(filename)
     return fig
 
+def load_result_file(filename, metric='SuccessRate'):
+    perf = {}
+    with open(os.path.expanduser(filename)) as f:
+        data = json.load(f)
+        for env_name in MT50_ENV_NAMES:
+            key = f'{env_name}/{metric}'
+            if key in data and data[key] > perf.get(key, 0):
+                perf[env_name] = data[key]
+    return perf
 
-def load_result_files(filenames, metric='SuccessRate'):
+
+def load_result_files(filenames, metric='SuccessRate', n_evals=None):
     perf = {}
     for filename in filenames:
         try:
-            try:
-                with open(os.path.expanduser(filename)) as f:
-                    lines = f.readlines()
-                for line in lines:
-                    print(filename, file=sys.stderr)
-                    data = json.loads(line)
-                    for env_name in MT50_ENV_NAMES:
-                        key = f'{env_name}/{metric}'
-                        if key in data and data[key] > perf.get(key, 0):
-                            perf[env_name] = data[key]
-            except json.decoder.JSONDecodeError:
-                with open(os.path.expanduser(filename)) as f:
-                    data = json.load(f)
-                    for env_name in MT50_ENV_NAMES:
-                        key = f'{env_name}/{metric}'
-                        if key in data and data[key] > perf.get(key, 0):
-                            perf[env_name] = data[key]
+            with open(os.path.expanduser(filename)) as f:
+                lines = f.readlines()
+            if n_evals is not None:
+                assert len(lines) >= n_evals, f"{filename} does not contain enough evals"
+                lines = lines[:n_evals]
+            for line in lines:
+                data = json.loads(line)
+                for env_name in MT50_ENV_NAMES:
+                    key = f'{env_name}/{metric}'
+                    if key in data and data[key] > perf.get(key, 0):
+                        perf[env_name] = data[key]
         except FileNotFoundError as exc:
-            print(exc, file=sys.stderr)
+            if n_evals is not None:
+                raise exc
+            else:
+                print(exc, file=sys.stderr)
     return perf
 
 
@@ -386,10 +412,18 @@ def success_rate_results():
         "CondAgent Zero Shot (v0 prompt, No Language Mix, WIP)": zero_shot_no_language_mix,
         "EditDistanceAgent (v0 prompt)": diff_agent,
         "PaLM Chosen Primitives (v1 prompt)": diff_agent_proj,
-        "CondAgent Zero Shot (v1 prompt)": load_result_files(
+        "CondAgent Zero Shot (v1 prompt, short run)": load_result_files(
                 ['~/exp_data/cond_agent_v1_results.json']),
-        "CondAgent One Shot (v1 prompt)": load_result_files(
+        "CondAgent Zero Shot (v1 prompt)": load_result_files(
+                ['~/exp_data/cond_agent_v1_results.ndjson']),
+        "CondAgent One Shot (v1 prompt, short run)": load_result_files(
                 [f'~/exp_data/cond_agent_v1_fewshot-{env_name}.json'
+                 for env_name in MT50_ENV_NAMES]),
+        "CondAgent One Shot (v1 prompt)": load_result_files(
+                [f'~/exp_data/cond_agent_v1_fewshot-{env_name}.ndjson'
+                 for env_name in MT50_ENV_NAMES]),
+        "MLPAgent One Shot": load_result_files(
+                [f'~/exp_data/mlp_agent_v1_fewshot-{env_name}.ndjson'
                  for env_name in MT50_ENV_NAMES]),
     }
     return data
