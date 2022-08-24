@@ -296,6 +296,7 @@ def fewshot(
     n_timesteps=1e5,
     fewshot_timesteps=500,
     language_space_mixing=True,
+    use_noise=True,
     plan_file,
     out_file,
 ):
@@ -326,6 +327,7 @@ def fewshot(
         seed=seed,
         n_timesteps=n_timesteps,
         fewshot_timesteps=fewshot_timesteps,
+        use_noise=use_noise,
     )
 
 
@@ -486,6 +488,7 @@ def train_and_evaluate_fewshot_with_callbacks(
     seed=jax_utils.DEFAULT_SEED,
     n_timesteps=1e5,
     fewshot_timesteps=500,
+    use_noise=True,
 ):
     # batch_size is basically source_repeats[0] * train_envs + source_repeats[1]
     source_repeats = [2, 20]
@@ -504,10 +507,23 @@ def train_and_evaluate_fewshot_with_callbacks(
                 actions.append(data["action"])
         return (tuple(env_names), jnp.array(observations)), jnp.array(actions)
 
-    base_data = grouped_env_dataset(envs=train_envs, n_timesteps=n_timesteps, seed=seed)
-    target_data = single_env_dataset(
-        env_name=target_env, n_timesteps=fewshot_timesteps, seed=seed
-    )
+    if use_noise:
+        base_data = grouped_env_dataset(
+            envs=train_envs, n_timesteps=n_timesteps, seed=seed
+        )
+        target_data = single_env_dataset(
+            env_name=target_env, n_timesteps=fewshot_timesteps, seed=seed
+        )
+    else:
+        base_data = grouped_env_dataset(
+            envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
+        )
+        target_data = single_env_dataset(
+            env_name=target_env,
+            n_timesteps=fewshot_timesteps,
+            seed=seed,
+            noise_scales=[0.0],
+        )
     jax_utils.fit_model_multisource(
         model=cond_agent,
         sources=[base_data, target_data],

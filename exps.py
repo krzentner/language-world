@@ -1,7 +1,7 @@
 from doexp import cmd, In, Out, GLOBAL_CONTEXT
 from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES
 import psutil
-GLOBAL_CONTEXT.vm_percent_cap = 30.
+GLOBAL_CONTEXT.vm_percent_cap = 25.
 
 # cmd('python', 'src/find_most_likely_plans.py', Out('controller_map.pkl'))
 # cmd('python', 'src/plot_tasks_at_success_rate.py', '--out-file', Out('cond_agent_v0_success_rates.html'))
@@ -67,8 +67,23 @@ if psutil.virtual_memory().percent <= 15:
       # '--out-file', Out(f'cond_agent_v1_fewshot-{env_name}.ndjson'),
       # warmup_time=180)
 
+# for env_name in MT50_ENV_NAMES:
+  # cmd('python', 'src/evaluator_agent.py', 'fewshot',
+      # '--plan-file', 'mt50_plans_v1.py',
+      # '--target-env', env_name,
+      # '--use-noise', 'no',
+      # '--out-file', Out(f'cond_agent_v1_fewshot-{env_name}-no-noise.ndjson'),
+      # warmup_time=180)
+
+# for env_name in MT50_ENV_NAMES:
+  # cmd('python', 'src/mlp_agent.py', 'fewshot',
+      # '--target-env', env_name,
+      # '--out-file', Out(f'mlp_agent_v1_fewshot-{env_name}-500-epochs.ndjson'),
+      # warmup_time=60)
+
 for env_name in MT50_ENV_NAMES:
   cmd('python', 'src/mlp_agent.py', 'fewshot',
       '--target-env', env_name,
-      '--out-file', Out(f'mlp_agent_v1_fewshot-{env_name}-500-epochs.ndjson'),
+      '--use-noise', 'no',
+      '--out-file', Out(f'mlp_agent_v1_fewshot-{env_name}-no-noise.ndjson'),
       warmup_time=60)
