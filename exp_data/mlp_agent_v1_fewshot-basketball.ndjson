@@ -1,0 +1,11 @@
+{"target_task": "basketball", "basketball/SuccessRate": 0.0, "basketball/RewardMean": 0.02327076467236973}
+{"target_task": "basketball", "basketball/SuccessRate": 0.02, "basketball/RewardMean": 0.2188778041469035}
+{"target_task": "basketball", "basketball/SuccessRate": 0.26, "basketball/RewardMean": 2.4683937961456417}
+{"target_task": "basketball", "basketball/SuccessRate": 0.04, "basketball/RewardMean": 1.7962634420341619}
+{"target_task": "basketball", "basketball/SuccessRate": 0.92, "basketball/RewardMean": 1.9852722322492713}
+{"target_task": "basketball", "basketball/SuccessRate": 0.9, "basketball/RewardMean": 2.6312850023028567}
+{"target_task": "basketball", "basketball/SuccessRate": 0.98, "basketball/RewardMean": 4.022210514281552}
+{"target_task": "basketball", "basketball/SuccessRate": 0.58, "basketball/RewardMean": 3.8758884965522555}
+{"target_task": "basketball", "basketball/SuccessRate": 0.04, "basketball/RewardMean": 3.4127233776721186}
+{"target_task": "basketball", "basketball/SuccessRate": 0.72, "basketball/RewardMean": 2.6417554397025493}
+{"target_task": "basketball", "basketball/SuccessRate": 0.78, "basketball/RewardMean": 3.6285527422219213}

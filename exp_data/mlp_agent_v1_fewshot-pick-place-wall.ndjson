@@ -1,0 +1,11 @@
+{"target_task": "pick-place-wall", "pick-place-wall/SuccessRate": 0.0, "pick-place-wall/RewardMean": 0.0}
+{"target_task": "pick-place-wall", "pick-place-wall/SuccessRate": 0.0, "pick-place-wall/RewardMean": 0.0}
+{"target_task": "pick-place-wall", "pick-place-wall/SuccessRate": 0.02, "pick-place-wall/RewardMean": 0.013991798956852354}
+{"target_task": "pick-place-wall", "pick-place-wall/SuccessRate": 0.06, "pick-place-wall/RewardMean": 0.37173434569262026}
+{"target_task": "pick-place-wall", "pick-place-wall/SuccessRate": 0.68, "pick-place-wall/RewardMean": 2.591365496707266}
+{"target_task": "pick-place-wall", "pick-place-wall/SuccessRate": 0.58, "pick-place-wall/RewardMean": 3.206502847718982}
+{"target_task": "pick-place-wall", "pick-place-wall/SuccessRate": 0.98, "pick-place-wall/RewardMean": 7.156632830631463}
+{"target_task": "pick-place-wall", "pick-place-wall/SuccessRate": 0.46, "pick-place-wall/RewardMean": 2.3186406587949246}
+{"target_task": "pick-place-wall", "pick-place-wall/SuccessRate": 0.98, "pick-place-wall/RewardMean": 6.467108501821546}
+{"target_task": "pick-place-wall", "pick-place-wall/SuccessRate": 0.26, "pick-place-wall/RewardMean": 0.5374846332357456}
+{"target_task": "pick-place-wall", "pick-place-wall/SuccessRate": 0.64, "pick-place-wall/RewardMean": 1.7893857778731208}

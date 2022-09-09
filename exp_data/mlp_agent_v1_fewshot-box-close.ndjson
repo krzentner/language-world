@@ -1,0 +1,11 @@
+{"target_task": "box-close", "box-close/SuccessRate": 0.0, "box-close/RewardMean": 0.5251957421981546}
+{"target_task": "box-close", "box-close/SuccessRate": 0.04, "box-close/RewardMean": 0.4762117868511245}
+{"target_task": "box-close", "box-close/SuccessRate": 0.0, "box-close/RewardMean": 0.7387307876033131}
+{"target_task": "box-close", "box-close/SuccessRate": 0.54, "box-close/RewardMean": 2.2855335213015984}
+{"target_task": "box-close", "box-close/SuccessRate": 0.0, "box-close/RewardMean": 1.8344853630473472}
+{"target_task": "box-close", "box-close/SuccessRate": 0.22, "box-close/RewardMean": 1.376086114775613}
+{"target_task": "box-close", "box-close/SuccessRate": 0.16, "box-close/RewardMean": 1.142757319541697}
+{"target_task": "box-close", "box-close/SuccessRate": 0.08, "box-close/RewardMean": 0.7681128320391799}
+{"target_task": "box-close", "box-close/SuccessRate": 0.5, "box-close/RewardMean": 1.89807429347091}
+{"target_task": "box-close", "box-close/SuccessRate": 0.38, "box-close/RewardMean": 1.6468066792569587}
+{"target_task": "box-close", "box-close/SuccessRate": 0.1, "box-close/RewardMean": 0.8279485334016217}

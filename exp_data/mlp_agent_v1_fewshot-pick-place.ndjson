@@ -1,0 +1,11 @@
+{"target_task": "pick-place", "pick-place/SuccessRate": 0.0, "pick-place/RewardMean": 0.009851827662574288}
+{"target_task": "pick-place", "pick-place/SuccessRate": 0.68, "pick-place/RewardMean": 0.2262055410181429}
+{"target_task": "pick-place", "pick-place/SuccessRate": 0.36, "pick-place/RewardMean": 1.469973376409922}
+{"target_task": "pick-place", "pick-place/SuccessRate": 0.98, "pick-place/RewardMean": 0.3788866093922023}
+{"target_task": "pick-place", "pick-place/SuccessRate": 1.0, "pick-place/RewardMean": 5.445484191576868}
+{"target_task": "pick-place", "pick-place/SuccessRate": 0.9, "pick-place/RewardMean": 2.103460332317761}
+{"target_task": "pick-place", "pick-place/SuccessRate": 1.0, "pick-place/RewardMean": 3.881709782434187}
+{"target_task": "pick-place", "pick-place/SuccessRate": 0.98, "pick-place/RewardMean": 2.607618466254219}
+{"target_task": "pick-place", "pick-place/SuccessRate": 1.0, "pick-place/RewardMean": 7.409554192137694}
+{"target_task": "pick-place", "pick-place/SuccessRate": 1.0, "pick-place/RewardMean": 8.750748850862715}
+{"target_task": "pick-place", "pick-place/SuccessRate": 0.98, "pick-place/RewardMean": 5.867294210906916}

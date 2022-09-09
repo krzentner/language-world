@@ -1,0 +1,11 @@
+{"target_task": "lever-pull", "lever-pull/SuccessRate": 0.0, "lever-pull/RewardMean": 0.18827285600156415}
+{"target_task": "lever-pull", "lever-pull/SuccessRate": 0.5, "lever-pull/RewardMean": 1.1936476221204821}
+{"target_task": "lever-pull", "lever-pull/SuccessRate": 0.36, "lever-pull/RewardMean": 0.9529150212116316}
+{"target_task": "lever-pull", "lever-pull/SuccessRate": 0.84, "lever-pull/RewardMean": 1.3923774664530046}
+{"target_task": "lever-pull", "lever-pull/SuccessRate": 0.76, "lever-pull/RewardMean": 1.165368772130684}
+{"target_task": "lever-pull", "lever-pull/SuccessRate": 0.16, "lever-pull/RewardMean": 0.7699070947367345}
+{"target_task": "lever-pull", "lever-pull/SuccessRate": 0.76, "lever-pull/RewardMean": 1.3971799283315938}
+{"target_task": "lever-pull", "lever-pull/SuccessRate": 0.7, "lever-pull/RewardMean": 1.091499591690248}
+{"target_task": "lever-pull", "lever-pull/SuccessRate": 0.84, "lever-pull/RewardMean": 1.0969525484850293}
+{"target_task": "lever-pull", "lever-pull/SuccessRate": 0.46, "lever-pull/RewardMean": 1.0609400300962804}
+{"target_task": "lever-pull", "lever-pull/SuccessRate": 0.04, "lever-pull/RewardMean": 0.6577826470450993}

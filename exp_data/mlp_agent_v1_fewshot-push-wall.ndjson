@@ -1,0 +1,11 @@
+{"target_task": "push-wall", "push-wall/SuccessRate": 0.0, "push-wall/RewardMean": 0.03496004700592428}
+{"target_task": "push-wall", "push-wall/SuccessRate": 0.0, "push-wall/RewardMean": 0.039380562105906826}
+{"target_task": "push-wall", "push-wall/SuccessRate": 0.02, "push-wall/RewardMean": 0.16998968980223592}
+{"target_task": "push-wall", "push-wall/SuccessRate": 0.32, "push-wall/RewardMean": 1.923463942943308}
+{"target_task": "push-wall", "push-wall/SuccessRate": 0.06, "push-wall/RewardMean": 0.4646887192834496}
+{"target_task": "push-wall", "push-wall/SuccessRate": 0.44, "push-wall/RewardMean": 3.4354109020539614}
+{"target_task": "push-wall", "push-wall/SuccessRate": 0.1, "push-wall/RewardMean": 0.7889625288079434}
+{"target_task": "push-wall", "push-wall/SuccessRate": 0.58, "push-wall/RewardMean": 4.581518166479569}
+{"target_task": "push-wall", "push-wall/SuccessRate": 0.8, "push-wall/RewardMean": 5.557189036423073}
+{"target_task": "push-wall", "push-wall/SuccessRate": 0.06, "push-wall/RewardMean": 0.39786036388315965}
+{"target_task": "push-wall", "push-wall/SuccessRate": 0.64, "push-wall/RewardMean": 4.76770845564393}

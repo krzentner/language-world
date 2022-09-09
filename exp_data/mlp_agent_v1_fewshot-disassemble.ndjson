@@ -1,0 +1,11 @@
+{"target_task": "disassemble", "disassemble/SuccessRate": 0.0, "disassemble/RewardMean": 0.2946040907238087}
+{"target_task": "disassemble", "disassemble/SuccessRate": 0.0, "disassemble/RewardMean": 0.3051401621889874}
+{"target_task": "disassemble", "disassemble/SuccessRate": 0.0, "disassemble/RewardMean": 0.2975988394074658}
+{"target_task": "disassemble", "disassemble/SuccessRate": 0.38, "disassemble/RewardMean": 3.5944695491492866}
+{"target_task": "disassemble", "disassemble/SuccessRate": 0.3, "disassemble/RewardMean": 2.8940770489026635}
+{"target_task": "disassemble", "disassemble/SuccessRate": 0.74, "disassemble/RewardMean": 6.721706736160374}
+{"target_task": "disassemble", "disassemble/SuccessRate": 0.8, "disassemble/RewardMean": 7.174773616515147}
+{"target_task": "disassemble", "disassemble/SuccessRate": 0.78, "disassemble/RewardMean": 6.660368835725405}
+{"target_task": "disassemble", "disassemble/SuccessRate": 0.64, "disassemble/RewardMean": 5.626432172877816}
+{"target_task": "disassemble", "disassemble/SuccessRate": 0.98, "disassemble/RewardMean": 8.702072276058168}
+{"target_task": "disassemble", "disassemble/SuccessRate": 0.72, "disassemble/RewardMean": 6.488428665768648}

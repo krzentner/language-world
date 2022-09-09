@@ -1,0 +1,11 @@
+{"target_task": "pick-out-of-hole", "pick-out-of-hole/SuccessRate": 0.0, "pick-out-of-hole/RewardMean": 0.009323256811815582}
+{"target_task": "pick-out-of-hole", "pick-out-of-hole/SuccessRate": 0.26, "pick-out-of-hole/RewardMean": 0.2989587345529073}
+{"target_task": "pick-out-of-hole", "pick-out-of-hole/SuccessRate": 0.46, "pick-out-of-hole/RewardMean": 0.9176363022800649}
+{"target_task": "pick-out-of-hole", "pick-out-of-hole/SuccessRate": 0.76, "pick-out-of-hole/RewardMean": 5.398236832083801}
+{"target_task": "pick-out-of-hole", "pick-out-of-hole/SuccessRate": 0.08, "pick-out-of-hole/RewardMean": 0.3407094159863995}
+{"target_task": "pick-out-of-hole", "pick-out-of-hole/SuccessRate": 0.48, "pick-out-of-hole/RewardMean": 0.9118155766566312}
+{"target_task": "pick-out-of-hole", "pick-out-of-hole/SuccessRate": 0.18, "pick-out-of-hole/RewardMean": 0.36498887720284673}
+{"target_task": "pick-out-of-hole", "pick-out-of-hole/SuccessRate": 0.34, "pick-out-of-hole/RewardMean": 1.1780057385824516}
+{"target_task": "pick-out-of-hole", "pick-out-of-hole/SuccessRate": 0.36, "pick-out-of-hole/RewardMean": 1.7047761187762491}
+{"target_task": "pick-out-of-hole", "pick-out-of-hole/SuccessRate": 0.42, "pick-out-of-hole/RewardMean": 2.530708725432339}
+{"target_task": "pick-out-of-hole", "pick-out-of-hole/SuccessRate": 0.22, "pick-out-of-hole/RewardMean": 0.8569432516885641}

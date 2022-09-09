@@ -1,0 +1,11 @@
+{"target_task": "sweep", "sweep/SuccessRate": 0.0, "sweep/RewardMean": 0.07562816804416789}
+{"target_task": "sweep", "sweep/SuccessRate": 0.0, "sweep/RewardMean": 0.3176181484768204}
+{"target_task": "sweep", "sweep/SuccessRate": 0.94, "sweep/RewardMean": 7.808872860324335}
+{"target_task": "sweep", "sweep/SuccessRate": 1.0, "sweep/RewardMean": 8.58707110488031}
+{"target_task": "sweep", "sweep/SuccessRate": 1.0, "sweep/RewardMean": 8.43418345505841}
+{"target_task": "sweep", "sweep/SuccessRate": 0.98, "sweep/RewardMean": 7.594895798911751}
+{"target_task": "sweep", "sweep/SuccessRate": 1.0, "sweep/RewardMean": 8.615528507160287}
+{"target_task": "sweep", "sweep/SuccessRate": 1.0, "sweep/RewardMean": 8.44656163211058}
+{"target_task": "sweep", "sweep/SuccessRate": 1.0, "sweep/RewardMean": 8.530230509820754}
+{"target_task": "sweep", "sweep/SuccessRate": 1.0, "sweep/RewardMean": 8.602209837037531}
+{"target_task": "sweep", "sweep/SuccessRate": 1.0, "sweep/RewardMean": 8.565806136732794}

@@ -1,0 +1,11 @@
+{"target_task": "dial-turn", "dial-turn/SuccessRate": 0.0, "dial-turn/RewardMean": 0.009048618675374445}
+{"target_task": "dial-turn", "dial-turn/SuccessRate": 1.0, "dial-turn/RewardMean": 7.073050617095654}
+{"target_task": "dial-turn", "dial-turn/SuccessRate": 0.0, "dial-turn/RewardMean": 2.627701935941262}
+{"target_task": "dial-turn", "dial-turn/SuccessRate": 0.64, "dial-turn/RewardMean": 7.458564689275955}
+{"target_task": "dial-turn", "dial-turn/SuccessRate": 0.98, "dial-turn/RewardMean": 7.744055227962849}
+{"target_task": "dial-turn", "dial-turn/SuccessRate": 0.92, "dial-turn/RewardMean": 7.717112300421436}
+{"target_task": "dial-turn", "dial-turn/SuccessRate": 1.0, "dial-turn/RewardMean": 7.392496752405059}
+{"target_task": "dial-turn", "dial-turn/SuccessRate": 1.0, "dial-turn/RewardMean": 7.621869354952604}
+{"target_task": "dial-turn", "dial-turn/SuccessRate": 1.0, "dial-turn/RewardMean": 6.963883817711315}
+{"target_task": "dial-turn", "dial-turn/SuccessRate": 0.26, "dial-turn/RewardMean": 6.131435898690316}
+{"target_task": "dial-turn", "dial-turn/SuccessRate": 0.38, "dial-turn/RewardMean": 6.431677310250089}

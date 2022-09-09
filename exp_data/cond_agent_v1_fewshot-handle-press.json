@@ -1,0 +1,4 @@
+{"target_task": "handle-press", "handle-press/SuccessRate": 0.0, "handle-press/RewardMean": 0.6229162228235272}
+{"target_task": "handle-press", "handle-press/SuccessRate": 0.24, "handle-press/RewardMean": 1.0471642411620232}
+{"target_task": "handle-press", "handle-press/SuccessRate": 0.42, "handle-press/RewardMean": 1.8705132697539704}
+{"target_task": "handle-press", "handle-press/SuccessRate": 0.94, "handle-press/RewardMean": 5.220062615899378}

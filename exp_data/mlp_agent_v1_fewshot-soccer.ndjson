@@ -1,0 +1,11 @@
+{"target_task": "soccer", "soccer/SuccessRate": 0.0, "soccer/RewardMean": 0.011461236374876829}
+{"target_task": "soccer", "soccer/SuccessRate": 0.9, "soccer/RewardMean": 4.29723300455632}
+{"target_task": "soccer", "soccer/SuccessRate": 0.22, "soccer/RewardMean": 1.4494433244310678}
+{"target_task": "soccer", "soccer/SuccessRate": 1.0, "soccer/RewardMean": 5.547092847283375}
+{"target_task": "soccer", "soccer/SuccessRate": 0.64, "soccer/RewardMean": 3.1585558881819344}
+{"target_task": "soccer", "soccer/SuccessRate": 0.88, "soccer/RewardMean": 4.605043571743067}
+{"target_task": "soccer", "soccer/SuccessRate": 0.74, "soccer/RewardMean": 2.681311344674755}
+{"target_task": "soccer", "soccer/SuccessRate": 0.6, "soccer/RewardMean": 3.0413453404516777}
+{"target_task": "soccer", "soccer/SuccessRate": 0.0, "soccer/RewardMean": 0.5898591692909608}
+{"target_task": "soccer", "soccer/SuccessRate": 0.8, "soccer/RewardMean": 2.733288041904863}
+{"target_task": "soccer", "soccer/SuccessRate": 0.54, "soccer/RewardMean": 2.185398412632264}
