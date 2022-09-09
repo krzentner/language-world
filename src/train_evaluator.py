@@ -21,6 +21,9 @@ from sample_utils import (make_env, MT50_ENV_NAMES,
 from run_utils import float_list, str_list
 from ou_process import OUProcess
 import jax_utils
+import jax.numpy as jnp
+import generate_metaworld_scene_dataset
+generate_metaworld_scene_dataset.np = jnp
 from generate_metaworld_scene_dataset import (describe_obs,
                                               enumerate_descriptors,
                                               eval_conditions)
@@ -188,14 +191,17 @@ def preprocess(batch):
 
 def train_evaluator(*, envs: str_list=MT50_ENV_NAMES,
                     n_epochs=50, n_timesteps=int(1e6), seed=jax_utils.DEFAULT_SEED,
-                    noise_scales: float_list=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]):
+                    noise_scales: float_list=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+                    out_file):
   print('Gathering dataset:')
   data = worker_dataset(envs=envs, n_timesteps=n_timesteps, seed=seed,
                         noise_scales=noise_scales)
   cond_evaluator = ConditionEvaluator()
-  jax_utils.fit_model(cond_evaluator, data, apply_model, 'evaluator',
-                      batch_size=4, preprocess=preprocess, seed=seed)
+  state = jax_utils.fit_model(cond_evaluator, data, apply_model, 'evaluator',
+                              batch_size=4, preprocess=preprocess, seed=seed)
   embed_prompt.save_cache()
+  with open(out_file, 'wb') as f:
+    pickle.dump(state.params, f)
 
 
 if __name__ == '__main__':

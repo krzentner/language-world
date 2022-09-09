@@ -79,6 +79,8 @@ def embed_plans(parsed_plans):
 class CondAgent(nn.Module):
     use_learned_evaluator: bool
     use_learned_controller: bool
+    give_obs_to_learned_controller: bool
+    use_goal_space_primitives: bool
     mix_in_language_space: bool
     plans: dict
 
@@ -86,9 +88,57 @@ class CondAgent(nn.Module):
         self.cond_evaluator = train_evaluator.ConditionEvaluator()
         self.learned_controller = LearnedController()
 
+    def _compute_goal_space_primitives(self, env_names, low_dim):
+        if self.use_learned_evaluator:
+            conds_padded, conds_mask = pad_list(
+                [
+                    jnp.stacK(
+                        [
+                            embed_prompt.embed_condition(cond)
+                            for cond in generate_metaworld_scene_dataset.enumerate_base_conds(
+                                env_name
+                            )
+                        ]
+                    )
+                    for env_name in env_names
+                ]
+            )
+            conds_logits = self.cond_evaluator(low_dim, conds_padded)
+            logits = jnp.tanh(conds_logits)
+        else:
+            true_values = []
+            for (env_name, obs, plan) in zip(env_names, low_dim, plans):
+                true_results = jit_eval_conditions(
+                    env_name,
+                    generate_metaworld_scene_dataset.enumerate_base_conds(
+                        env_name
+                    ),
+                    obs,
+                    fuzzy=True,
+                )
+                true_values.append(true_results)
+            padded_true_results, conds_mask = pad_list(true_values)
+            logits = 2 * padded_true_results - 1.0
+        goal_vecs = []
+        for (env_name, plan) in zip(env_names, plans):
+            goal_vec = [
+                [
+                    1.0 if cond in primitive else 0.0
+                    for cond in generate_metaworld_scene_dataset.enumerate_base_conds(
+                        env_name
+                    )
+                ]
+                for primitive in plan["actions_str"]
+            ]
+            goal_vecs.append(goal_vec)
+        goals_padded, goals_mask = pad_list(goal_vecs)
+        return jnp.concatenate([goals_padded, logits], axis=-1), goals_mask
+
     def __call__(self, env_names, low_dim):
         info = {}
         plans = [self.plans[env_name] for env_name in env_names]
+        if self.use_goal_space_primitives:
+            assert self.mix_in_language_space
         if self.use_learned_evaluator:
             conds_padded, conds_mask = pad_list([plan["conds"] for plan in plans])
             conds_logits = self.cond_evaluator(low_dim, conds_padded)
@@ -109,20 +159,34 @@ class CondAgent(nn.Module):
         controller_outputs = []
         if self.mix_in_language_space:
             assert self.use_learned_controller
-            embedded_controller_names = [plan["actions"] for plan in plans]
-            padded_controller_names, action_mask = pad_list(embedded_controller_names)
+            if self.use_goal_space_primitives:
+                primitive_reprs, primitive_mask = self._compute_goal_space_primitives(env_names,
+                                                                                      low_dim)
+            else:
+                embedded_controller_names = [plan["actions"] for plan in plans]
+                primitive_reprs, primitive_mask = pad_list(embedded_controller_names)
             action_embed = jnp.einsum(
-                "ij,ijk->ik", controller_weights, padded_controller_names
+                "ij,ijk->ik", controller_weights, primitive_reprs
             )
-            actions, controller_info = self.learned_controller(low_dim, action_embed)
+            if self.give_obs_to_learned_controller:
+                actions, controller_info = self.learned_controller(
+                    action_embed, low_dim
+                )
+            else:
+                actions, controller_info = self.learned_controller(action_embed)
         else:
             if self.use_learned_controller:
                 controller_outputs = []
                 for (obs, plan) in zip(low_dim, plans):
-                    action, controller_info = self.learned_controller(
-                        jnp.array([obs for action_embed in plan["actions"]]),
-                        plan["actions"],
-                    )
+                    if self.give_obs_to_learned_controller:
+                        action, controller_info = self.learned_controller(
+                            plan["actions"],
+                            jnp.array([obs for action_embed in plan["actions"]]),
+                        )
+                    else:
+                        action, controller_info = self.learned_controller(
+                            plan["actions"],
+                        )
                     controller_outputs.append(action)
                 controller_outputs, controller_mask = pad_list(controller_outputs)
                 actions = jnp.einsum(
@@ -175,11 +239,16 @@ class LearnedController(nn.Module):
             ]
         )
 
-    def __call__(self, low_dim, encoded_language_actions):
+    def __call__(self, encoded_language_actions, low_dim=None):
         info = {}
         reencoded_language = self.language_reencoder(encoded_language_actions)
-        obs_and_lang_actions = jnp.concatenate([low_dim, reencoded_language], axis=-1)
-        actions = self.action_model(obs_and_lang_actions)
+        if low_dim is not None:
+            obs_and_lang_actions = jnp.concatenate(
+                [low_dim, reencoded_language], axis=-1
+            )
+            actions = self.action_model(obs_and_lang_actions)
+        else:
+            actions = self.action_model(reencoded_language)
         return actions, info
 
 
@@ -256,22 +325,33 @@ def zeroshot(
     batch_size=4,
     noise_scale=0.1,
     language_space_mixing=True,
+    use_noise=True,
+    give_obs_to_learned_controller=True,
+    use_goal_space_primitives=False,
     plan_file,
     out_file,
 ):
     from generate_mt10_plans import load_and_parse_plans
 
-    data = grouped_env_dataset(envs=train_envs, n_timesteps=n_timesteps, seed=seed)
+    if use_noise:
+        data = grouped_env_dataset(envs=train_envs, n_timesteps=n_timesteps, seed=seed)
+    else:
+        data = grouped_env_dataset(
+            envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
+        )
     parsed_plans = load_and_parse_plans(plan_file)
     cond_agent = CondAgent(
         use_learned_evaluator=False,
         mix_in_language_space=language_space_mixing,
         use_learned_controller=True,
+        give_obs_to_learned_controller=give_obs_to_learned_controller,
+        use_goal_space_primitives=use_goal_space_primitives,
         plans=embed_plans(parsed_plans),
     )
-    callbacks = EvalCallbacks(
+    callbacks = SingleProcEvalCallbacks(
         seed, train_envs + test_envs, cond_agent, output_filename=out_file
     )
+    # callbacks.step_period = 100
     jax_utils.fit_model(
         cond_agent,
         data,
@@ -297,6 +377,8 @@ def fewshot(
     fewshot_timesteps=500,
     language_space_mixing=True,
     use_noise=True,
+    give_obs_to_learned_controller=True,
+    use_goal_space_primitives=False,
     plan_file,
     out_file,
 ):
@@ -308,6 +390,8 @@ def fewshot(
         use_learned_evaluator=False,
         mix_in_language_space=language_space_mixing,
         use_learned_controller=True,
+        give_obs_to_learned_controller=give_obs_to_learned_controller,
+        use_goal_space_primitives=use_goal_space_primitives,
         plans=embed_plans(parsed_plans),
     )
     callbacks = SingleProcEvalCallbacks(
@@ -338,6 +422,8 @@ def fewshot_process(
     seed=jax_utils.DEFAULT_SEED,
     n_timesteps=1e5,
     fewshot_timesteps=500,
+    give_obs_to_learned_controller=True,
+    use_goal_space_primitives=False,
     parent,
 ):
     from generate_mt10_plans import load_and_parse_plans
@@ -368,6 +454,8 @@ def fewshot_process(
         use_learned_evaluator=False,
         mix_in_language_space=True,
         use_learned_controller=True,
+        give_obs_to_learned_controller=give_obs_to_learned_controller,
+        use_goal_space_primitives=use_goal_space_primitives,
         plans=embedded_plans,
     )
     callbacks = SingleProcEvalCallbacks(

@@ -21,6 +21,8 @@ from run_utils import float_list, str_list
 import jax_utils
 from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks
 from datasets import single_env_dataset, grouped_env_dataset
+from embed_prompt import embed_action
+from generate_mt10_plans import MT50_TASK_DESCRIPTIONS
 
 
 def env_names_to_onehots(env_names, all_names=MT50_ENV_NAMES):
@@ -30,6 +32,8 @@ def env_names_to_onehots(env_names, all_names=MT50_ENV_NAMES):
 
 
 class MLPAgent(nn.Module):
+    use_language_embedding: bool
+
     def setup(self):
         self.layers = nn.Sequential(
             [
@@ -46,11 +50,26 @@ class MLPAgent(nn.Module):
                 nn.Dense(4),
             ]
         )
+        if self.use_language_embedding:
+            self.language_reencoder = nn.Sequential(
+                [
+                    nn.Dense(64),
+                    nn.relu,
+                    nn.Dense(64),
+                    nn.relu,
+                    nn.Dense(64),
+                ]
+            )
 
     def __call__(self, env_names, low_dim):
         info = {}
-        one_hots = env_names_to_onehots(env_names)
-        inputs = jnp.concatenate([low_dim, one_hots], axis=-1)
+        if self.use_language_embedding:
+            task_reprs = jnp.stack([embed_action(MT50_TASK_DESCRIPTIONS[env_name])
+                                    for env_name in env_names])
+            task_reprs = self.language_reencoder(task_reprs)
+        else:
+            task_reprs = env_names_to_onehots(env_names)
+        inputs = jnp.concatenate([low_dim, task_reprs], axis=-1)
         actions = self.layers(inputs)
         return actions, info
 
@@ -123,10 +142,16 @@ def zeroshot(
     seed=jax_utils.DEFAULT_SEED,
     n_timesteps=1e5,
     batch_size=4,
-    noise_scale=0.1,
+    use_noise=True,
     out_file,
 ):
-    agent = MLPAgent()
+    if use_noise:
+        data = grouped_env_dataset(envs=train_envs, n_timesteps=n_timesteps, seed=seed)
+    else:
+        data = grouped_env_dataset(
+            envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
+        )
+    agent = MLPAgent(use_language_embedding=True)
     callbacks = EvalCallbacks(
         seed, train_envs + test_envs, agent, output_filename=out_file
     )
@@ -152,7 +177,6 @@ def fewshot(
     seed=jax_utils.DEFAULT_SEED,
     n_timesteps=1e5,
     fewshot_timesteps=500,
-    language_space_mixing=True,
     use_noise=True,
     out_file,
 ):
@@ -236,9 +260,69 @@ def train_and_evaluate_fewshot_with_callbacks(
         learning_rate=1e-5,
     )
 
+def real_oneshot(
+    *,
+    target_env: str,
+    seed=jax_utils.DEFAULT_SEED,
+    fewshot_timesteps=500,
+    use_noise=True,
+    out_file,
+):
+
+    def preprocess_oneshot(batch):
+        env_names = []
+        observations = []
+        actions = []
+        for data in batch:
+            env_names.append(data["env_name"])
+            observations.append(data["observation"])
+            actions.append(data["action"])
+        return (tuple(env_names), jnp.array(observations)), jnp.array(actions)
+
+    agent = MLPAgent()
+    callbacks = SingleProcEvalCallbacks(
+        seed,
+        [target_env],
+        agent,
+        base_infos={
+            "target_task": target_env,
+        },
+        output_filename=out_file,
+    )
+    batch_size = 32
+
+    if use_noise:
+        target_data = single_env_dataset(
+            env_name=target_env, n_timesteps=fewshot_timesteps, seed=seed
+        )
+    else:
+        target_data = single_env_dataset(
+            env_name=target_env,
+            n_timesteps=fewshot_timesteps,
+            seed=seed,
+            noise_scales=[0.0],
+        )
+    epoch_mult = int(9091 / 16)
+    print(f'Running for {500 * epoch_mult} epochs')
+    callbacks.step_period = callbacks.step_period * epoch_mult
+    print(f'Eval every {callbacks.step_period} epochs')
+    jax_utils.fit_model(
+        model=agent,
+        data=target_data,
+        batch_size=batch_size,
+        apply_model=apply_model,
+        model_name=f"mlp_agent_real_oneshot_task={target_env}",
+        preprocess=preprocess_oneshot,
+        seed=seed,
+        n_epochs=500 * epoch_mult,
+        callbacks=callbacks,
+        learning_rate=1e-5,
+    )
+
+
 
 if __name__ == "__main__":
     # import multiprocessing as mp
 
     # mp.set_start_method("spawn")
-    clize.run(zeroshot, fewshot)
+    clize.run(zeroshot, fewshot, real_oneshot)

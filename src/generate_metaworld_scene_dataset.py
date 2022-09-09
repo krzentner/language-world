@@ -430,7 +430,7 @@ def eval_conditions(env_name: str, conds: typing.Tuple[str], obs, fuzzy=False):
     return np.array(results)
 
 
-def enumerate_descriptors(env_name: str) -> [str]:
+def enumerate_base_conds(env_name: str) -> [str]:
     object_names = ["robot's gripper"] + list(OBJECT_NAMES[env_name].values())
     object_names = ["the " + obj_name for obj_name in object_names]
     if env_name == "peg-insert-side":
@@ -461,13 +461,19 @@ def enumerate_descriptors(env_name: str) -> [str]:
 
     descriptors.append("the robot's gripper is open")
     descriptors.append("the robot's gripper is closed")
+    return descriptors
 
+
+def enumerate_descriptors(env_name: str) -> [str]:
+    descriptors = enumerate_base_conds(env_name)
     conjunction_descriptors = []
     for desc1 in descriptors:
         for desc2 in descriptors:
             conjunction_descriptors.append(f"{desc1} and {desc2}")
     all_descriptors = descriptors + conjunction_descriptors
     return all_descriptors
+
+enumerate_conditions = enumerate_descriptors
 
 
 def test_smoke():

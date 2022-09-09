@@ -172,6 +172,37 @@ MT50_TASK_DESCRIPTIONS = {
     "door-close": "push the door closed to the target location",
 }
 
+def clause_str(cond, action):
+    if action.startswith("the robot's gripper is "):
+        gripper_state = None
+        if action.endswith(" and the robot's gripper is open"):
+            gripper_state = "open"
+            action = action.split(' and ')[0]
+        elif action.endswith(" and the robot's gripper is closed"):
+            gripper_state = "close"
+            action = action.split(' and ')[0]
+        target = action.split("the robot's gripper is ", 1)[1]
+        if gripper_state is None:
+            return  dedent(
+            f"""\
+                    if check("{cond}"):
+                        robot.move_gripper("{target}")""")
+        elif gripper_state == "open":
+            return  dedent(
+            f"""\
+                    if check("{cond}"):
+                        robot.move_gripper("{target}", open_gripper=True)""")
+        elif gripper_state == "close":
+            return  dedent(
+            f"""\
+                    if check("{cond}"):
+                        robot.move_gripper("{target}", close_gripper=True)""")
+    else:
+        return dedent(
+            f"""\
+                    if check("{cond}"):
+                        robot.{action.split(' ')[0]}("{' '.join(action.split(' ')[1:])}")""")
+
 
 def plan_str(env_name, plan):
     header = dedent(
@@ -180,11 +211,7 @@ def plan_str(env_name, plan):
                   def {env_name.replace('-', '_')}(robot):"""
     )
     clauses = [
-        dedent(
-            f"""\
-                    if check("{cond}"):
-                        robot.{action.split(' ')[0]}("{' '.join(action.split(' ')[1:])}")"""
-        )
+            clause_str(cond, action)
         for (cond, action) in plan.items()
     ]
     return "\n".join([header] + [indent(clause, " " * 4) for clause in clauses])
@@ -259,6 +286,44 @@ def load_and_parse_plans(filename="mt10_plans.py"):
                 move_gripper = MOVE_GRIPPER.findall(action)
                 if move_gripper:
                     clause_map[cond] = preprocess_location(move_gripper[0])
+            plans_parsed[names[0].replace("_", "-")] = clause_map
+    return plans_parsed
+
+
+def load_and_parse_plans_as_list(filename="mt10_plans.py"):
+    with open(filename, "r") as f:
+        contents = f.read()
+    without_comments = []
+    for line in contents.split("\n"):
+        if "#" in line:
+            without_comments.append(line.split("#")[0])
+        else:
+            without_comments.append(line)
+    contents = "\n".join(without_comments)
+    print(contents)
+    plans_parsed = {}
+    for plan in contents.split("\n\n"):
+        names = FN_NAME.findall(plan)
+        if names:
+            clause_map = []
+            for (cond, action) in CLAUSES.findall(plan):
+                verb_details = VERB_DETAILS.findall(action)
+                if verb_details and verb_details[0][0] != "move_gripper":
+                    clause_map.append((cond, " ".join(verb_details[0])))
+                close_gripper = CLOSE_GRIPPER.findall(action)
+                if close_gripper:
+                    loc = preprocess_location(close_gripper[0])
+                    clause_map.append((cond, f"{loc} and the robot's gripper is closed"))
+                open_gripper = OPEN_GRIPPER.findall(action)
+                if open_gripper:
+                    loc = preprocess_location(open_gripper[0])
+                    clause_map.append((cond, f"{loc} and the robot's gripper is open"))
+                    clause_map.append((cond,
+                                       f"the robot's gripper is {loc}"
+                                       " and the robot's gripper is open"))
+                move_gripper = MOVE_GRIPPER.findall(action)
+                if move_gripper:
+                    clause_map.append((cond, preprocess_location(move_gripper[0])))
             plans_parsed[names[0].replace("_", "-")] = clause_map
     return plans_parsed
 

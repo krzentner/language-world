@@ -6,13 +6,20 @@ import easy_process
 from tqdm import tqdm
 import difflib
 from collections import defaultdict
+import json
 
 DEFAULT_SEED = random.randrange(1000)
 
+STR_PROJ_CACHE = {}
+
 def str_project(src, targets):
+    cache_key = (src, tuple(targets))
+    if cache_key in STR_PROJ_CACHE:
+        return STR_PROJ_CACHE[cache_key]
     matches = sorted(targets,
                      key=lambda tgt: difflib.SequenceMatcher(None, tgt, src).ratio(),
                      reverse=True)
+    STR_PROJ_CACHE[cache_key] = matches
     return matches
 
 
@@ -161,3 +168,49 @@ def episode_to_success(episode):
 
 def average_reward(episode):
     return mean([data["reward"] for data in episode if "reward" in data])
+
+
+class Evaluator:
+
+    def __init__(
+        self,
+        seed,
+        env_names,
+        noise_scale=0.10,
+        base_infos=None,
+        results_proc=None,
+        output_filename=None,
+    ):
+        self.envs = {env_name: make_env(env_name, seed) for env_name in env_names}
+        self.noise_scale = noise_scale
+        self.n_episodes = 50
+        if base_infos is None:
+            base_infos = {}
+        self.base_infos = base_infos
+        self.results_proc = results_proc
+        self.output_filename = output_filename
+        if output_filename:
+            with open(output_filename, "w") as f:
+                # Truncate the output file
+                pass
+
+    def evaluate(self, policy):
+        infos = self.base_infos.copy()
+        for (env_name, env) in self.envs.items():
+            policy.env_name = env_name
+            successes = []
+            rewards = []
+            with tqdm(total=self.n_episodes) as pbar:
+                while len(successes) < self.n_episodes:
+                    episode = list(sample_noisy_policy(env, policy, self.noise_scale))
+                    successes.append(episode_to_success(episode))
+                    rewards.append(average_reward(episode))
+                    pbar.update(1)
+            print(f"Success rate for {env_name}:", mean(successes))
+            infos[f"{env_name}/SuccessRate"] = mean(successes)
+            infos[f"{env_name}/RewardMean"] = mean(rewards)
+        if self.output_filename:
+            with open(self.output_filename, "a") as f:
+                json.dump(infos, f)
+                f.write("\n")
+        return infos

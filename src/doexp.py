@@ -32,6 +32,7 @@ class Context:
     running: list = field(default_factory=list)
     data_dir: str = os.path.expanduser("~/exp_data")
     vm_percent_cap: float = 60.0
+    max_concurrent_jobs: int = 12
 
     def cmd(self, command):
         self.commands.add(command)
@@ -131,7 +132,9 @@ class Context:
             ):
                 print(f"Need output {arg.filename}")
                 need_output = True
-        if need_output and psutil.virtual_memory().percent >= self.vm_percent_cap:
+        if len(self.running) >= self.max_concurrent_jobs:
+            return False
+        if psutil.virtual_memory().percent >= self.vm_percent_cap:
             return False
         return need_output
 
