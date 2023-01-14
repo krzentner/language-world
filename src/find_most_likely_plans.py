@@ -25,8 +25,8 @@ from sample_utils import (
     collect_noisy_episodes,
 )
 from run_utils import float_list, str_list
+import sample_utils
 from sample_utils import MT50_ENV_NAMES
-import jax_utils
 import ou_process
 
 from generate_metaworld_scene_dataset import describe_obs
@@ -92,7 +92,7 @@ def sample_process(*, env_name: str, noise_scales: [float], seed: int, parent):
 
 def test_parallel(
     envs: str_list = MT50_ENV_NAMES,
-    seed=jax_utils.DEFAULT_SEED,
+    seed=sample_utils.DEFAULT_SEED,
     noise_scales: float_list = [0.1, 0.2, 0.5, 0.9],
 ):
     with easy_process.Scope():

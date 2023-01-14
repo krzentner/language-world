@@ -1,6 +1,6 @@
 import random
-import jax_utils
 import easy_process
+import sample_utils
 from sample_utils import (
     make_env,
     sample_policy_with_noise_process,
@@ -19,7 +19,7 @@ def single_env_dataset(
     *,
     env_name: str,
     n_timesteps=500,
-    seed=jax_utils.DEFAULT_SEED,
+    seed=sample_utils.DEFAULT_SEED,
     shuffle_timesteps=True,
     noise_scales: float_list = [0.1],
 ) -> [dict]:
@@ -69,7 +69,7 @@ def grouped_env_dataset(
     *,
     envs: str_list,
     n_timesteps=1000,
-    seed=jax_utils.DEFAULT_SEED,
+    seed=sample_utils.DEFAULT_SEED,
     shuffle_timesteps=True,
     noise_scales: float_list = [0.1, 0.2, 0.3, 0.4],
 ) -> [[dict]]:

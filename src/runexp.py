@@ -1,3 +1,4 @@
+#!/bin/env python3
 import doexp
 
 if __name__ == '__main__':

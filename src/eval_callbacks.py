@@ -6,7 +6,7 @@ from sample_utils import (
     episode_to_success,
     average_reward,
 )
-import jax_utils
+import pytorch_utils
 import easy_process
 import random
 from tqdm import tqdm
@@ -24,11 +24,11 @@ def eval_process(*, env_name, policy, noise_scale: float, parent):
             episode.append(data)
         state_updates = parent.sendrecv(episode)
         if state_updates:
-            policy.state = policy.state.replace(params=state_updates[-1])
+            policy.load_state_dict(state_updates[-1])
             parent.sendrecv("policy updated")
 
 
-class SingleProcEvalCallbacks(jax_utils.FitCallbacks):
+class SingleProcEvalCallbacks(pytorch_utils.FitCallbacks):
     def __init__(
         self,
         seed,
@@ -55,20 +55,20 @@ class SingleProcEvalCallbacks(jax_utils.FitCallbacks):
                 # Truncate the output file
                 pass
 
-    def minibatch_start(self, state):
-        return state, {}
+    def minibatch_start(self):
+        return {}
 
-    def epoch_start(self, state):
+    def epoch_start(self):
         self.current_step += 1
         if self.current_step % self.step_period == 1:
-            return self.training_complete(state)
+            return self.training_complete()
         else:
-            return state, {}
+            return {}
 
-    def _run_evals(self, state):
+    def _run_evals(self):
         infos = self.base_infos.copy()
         for (env_name, env) in self.envs.items():
-            policy = self.agent.as_policy(env_name, state)
+            policy = self.agent.as_policy(env_name)
             successes = []
             rewards = []
             with tqdm(total=self.n_episodes) as pbar:
@@ -86,15 +86,15 @@ class SingleProcEvalCallbacks(jax_utils.FitCallbacks):
                 f.write("\n")
         return infos
 
-    def training_complete(self, state):
-        infos = self._run_evals(state)
+    def training_complete(self):
+        infos = self._run_evals()
         if self.results_proc is not None:
             print("Sending back results")
             self.results_proc.sendrecv(infos)
-        return state, infos
+        return infos
 
 
-class EvalCallbacks(jax_utils.FitCallbacks):
+class EvalCallbacks(pytorch_utils.FitCallbacks):
     def __init__(
         self,
         seed,
@@ -123,21 +123,21 @@ class EvalCallbacks(jax_utils.FitCallbacks):
                 # Truncate the output file
                 pass
 
-    def epoch_start(self, state):
+    def epoch_start(self):
         self.current_step += 1
         if self.current_step % self.step_period == 1:
-            return self.training_complete(state)
+            return self.training_complete()
         else:
-            return state, {}
+            return {}
 
-    def _run_evals(self, state):
+    def _run_evals(self):
         infos = self.base_infos.copy()
         for (env_name, env) in self.envs.items():
-            policy = self.agent.as_policy(env_name, state)
+            policy = self.agent.as_policy(env_name)
             if env_name in self.workers:
                 workers = self.workers[env_name]
                 for worker in workers:
-                    worker.send(state.params, block=True)
+                    worker.send(self.agent.state_dict(), block=True)
                 for worker in workers:
                     msg = None
                     while msg != "policy updated":
@@ -176,14 +176,14 @@ class EvalCallbacks(jax_utils.FitCallbacks):
                 f.write("\n")
         return infos
 
-    def training_complete(self, state):
-        infos = self._run_evals(state)
+    def training_complete(self):
+        infos = self._run_evals()
         if self.results_proc is not None:
             print("Sending back results")
             self.results_proc.sendrecv(infos)
         if self.process_scope:
             self.process_scope.close()
-        return state, infos
+        return infos
 
 
 def evaluate_policy(env_name, n_episodes, env, policy, noise_scale):

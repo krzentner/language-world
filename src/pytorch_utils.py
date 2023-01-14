@@ -1,26 +1,24 @@
 import numpy as np
-import jax
-import jax.profiler
-from flax.metrics import tensorboard
-from flax.training import train_state
+import torch
+from torch import nn
+from torch.nn import functional as F
+# from torch.utils import tensorboard
+import tensorboardX
 from tqdm import tqdm
 import math
 import os
-import optax
 import pickle
 from os.path import expanduser
-import jax.numpy as jnp
 import sample_utils
-
 
 def pad_list(seq, max_len=None):
     if max_len is None:
         max_len = max(len(s) for s in seq)
-    zero = jnp.zeros(seq[0][0].shape)
-    padded = jnp.array(
+    zero = torch.zeros(seq[0][0].shape)
+    padded = torch.tensor(
         [[s[i] if len(s) > i else zero for i in range(max_len)] for s in seq]
     )
-    mask = jnp.array([[1 if len(s) > i else 0 for i in range(max_len)] for s in seq])
+    mask = torch.tensor([[1 if len(s) > i else 0 for i in range(max_len)] for s in seq])
     return padded, mask
 
 
@@ -44,23 +42,23 @@ def pad_list_nd_inner(seq, target_lens, mask_shape):
         sub_padded, sub_mask = zip(
             *[pad_list_nd_inner(s, target_lens[1:], mask_shape[1:]) for s in seq]
         )
-        sub_padded = jnp.array(sub_padded)
-        sub_mask = jnp.array(sub_mask)
+        sub_padded = np.array(sub_padded)
+        sub_mask = np.array(sub_mask)
     else:
         sub_padded = seq
         if mask_shape:
-            sub_mask = jnp.ones([len(seq)] + mask_shape[1:])
+            sub_mask = np.ones([len(seq)] + mask_shape[1:])
         else:
-            sub_mask = jnp.ones(())
+            sub_mask = np.ones(())
     if len(sub_padded) < target_lens[0]:
         # If we're not supposed to be masking at this depth, something has probably
         # gone wrong
         assert mask_shape
         len_diff = target_lens[0] - len(sub_padded)
-        sub_padded = jnp.concatenate(
-            [sub_padded, jnp.zeros([len_diff] + target_lens[1:])]
+        sub_padded = np.concatenate(
+            [sub_padded, np.zeros([len_diff] + target_lens[1:])]
         )
-        sub_mask = jnp.concatenate([sub_mask, jnp.zeros([len_diff] + mask_shape[1:])])
+        sub_mask = np.concatenate([sub_mask, np.zeros([len_diff] + mask_shape[1:])])
     return sub_padded, sub_mask
 
 
@@ -79,27 +77,25 @@ def pad_list_single_pass(seq, new_len=None):
         for (s_padded, s_mask) in (pad_list_nd(s, max_len) for s in seq):
             seq_padded.append(s_padded)
             seq_mask.append(s_mask)
-        return jnp.array(seq_padded), jnp.array(seq_mask)
+        return np.array(seq_padded), np.array(seq_mask)
     else:
-        zero = jnp.zeros(seq[0])
-        padded = jnp.array([seq[i] if len(seq) > i else zero for i in range(max_len)])
-        mask = jnp.array([1 if len(seq) > i else 0 for i in range(max_len)])
+        zero = np.zeros(seq[0])
+        padded = np.array([seq[i] if len(seq) > i else zero for i in range(max_len)])
+        mask = np.array([1 if len(seq) > i else 0 for i in range(max_len)])
         return padded, mask
 
 
-def approx_minibatches(key, dataset, batch_size, epoch_size=None):
+def approx_minibatches(dataset, batch_size, epoch_size=None):
     n_data_points = len(dataset)
     if epoch_size is None:
         epoch_size = n_data_points
     n_batches = int(math.ceil(epoch_size / batch_size))
-    for _ in tqdm(range(n_batches)):
-        key, next_key = jax.random.split(key)
-        indices = jax.random.randint(key, (batch_size,), 0, n_data_points)
-        yield ([dataset[i] for i in indices], key)
-        key = next_key
+    for _ in range(n_batches):
+        indices = np.random.randint(size=(batch_size,), low=0, high=n_data_points)
+        yield [dataset[i] for i in indices]
 
 
-def multisource_approx_minibatch(key, sources, source_repeats, epoch_size=None):
+def multisource_approx_minibatch(sources, source_repeats, epoch_size=None):
     assert len(sources) == len(source_repeats)
     n_data_points = max([repeats * len(source)
                          for (source, repeats) in zip(sources, source_repeats)])
@@ -107,25 +103,23 @@ def multisource_approx_minibatch(key, sources, source_repeats, epoch_size=None):
         epoch_size = n_data_points
     batch_size = sum(source_repeats)
     n_batches = int(math.ceil(epoch_size / batch_size))
-    for _ in tqdm(range(n_batches)):
+    for _ in range(n_batches):
         batch = []
         for source, reps in zip(sources, source_repeats):
-            key, next_key = jax.random.split(key)
-            indices = jax.random.randint(key, (reps,), 0, len(source))
+            indices = np.random.randint(size=(reps,), low=0, high=len(source))
             for i in indices:
                 batch.append(source[i])
-            key = next_key
         assert len(batch) == batch_size
-        yield (batch, key)
+        yield batch
 
 
 LAST_SAVED_PARAMS_STEP = {}
 
 
-def save_params(workdir, step, state, delete_prev=True):
+def save_params(workdir, step, agent, delete_prev=True):
     # print(f'Saving params to {workdir}/{step}.pkl')
     with open(f"{workdir}/{step}.pkl", "wb") as f:
-        pickle.dump(state.params, f)
+        pickle.dump(agent.state_dict(), f)
     if delete_prev:
         try:
             if workdir in LAST_SAVED_PARAMS_STEP:
@@ -139,27 +133,27 @@ def save_params(workdir, step, state, delete_prev=True):
 
 
 class FitCallbacks:
-    def epoch_start(self, state):
-        return state, {}
+    def epoch_start(self):
+        return {}
 
-    def epoch_end(self, state):
-        return state, {}
+    def epoch_end(self):
+        return {}
 
-    def minibatch_start(self, state):
-        return state, {}
+    def minibatch_start(self):
+        return {}
 
-    def minibatch_end(self, state):
-        return state, {}
+    def minibatch_end(self):
+        return {}
 
-    def training_complete(self, state):
-        return state, {}
+    def training_complete(self):
+        return {}
 
 DEFAULT_SEED = sample_utils.DEFAULT_SEED
 
 def log_infos(summary_writer, infos, step):
     for (k, v) in infos.items():
         try:
-            summary_writer.scalar(k, v, step)
+            summary_writer.add_scalar(k, v, step)
         except ValueError:
             pass
         except TypeError:
@@ -167,9 +161,9 @@ def log_infos(summary_writer, infos, step):
 
 
 def fit_model(
-    model,
     data,
-    apply_model,
+    create_model,
+    loss_function,
     model_name,
     preprocess,
     batch_size=16,
@@ -181,8 +175,8 @@ def fit_model(
 ):
     workdir = expanduser(f"~/data/fit_model={model_name}_seed={seed}")
     print("workdir:", workdir)
-    summary_writer = tensorboard.SummaryWriter(workdir)
-    summary_writer.hparams(
+    summary_writer = tensorboardX.SummaryWriter(workdir)
+    summary_writer.add_hparams(
         {
             "learning_rate": learning_rate,
             "momentum": momentum,
@@ -190,59 +184,51 @@ def fit_model(
             "n_datapoints": len(data),
             "batch_size": batch_size,
             "n_epochs": n_epochs,
-        }
+        }, {}
     )
 
-    @jax.jit
-    def update_model(state, grads):
-        return state.apply_gradients(grads=grads)
-
-    rng = jax.random.PRNGKey(seed)
-
-    rng, init_rng = jax.random.split(rng)
-    params = model.init(init_rng, *preprocess(data[:1])[0])
-    tx = optax.sgd(learning_rate, momentum)
-
-    state = train_state.TrainState.create(apply_fn=model.apply, params=params, tx=tx)
+    torch.manual_seed(seed)
+    model = create_model(*preprocess(data[:1])[0])
+    opt = torch.optim.SGD(model.parameters(), learning_rate, momentum)
 
     step = 0
-    for epoch in range(n_epochs):
-        print("Beginning epoch", epoch)
-        state, infos = callbacks.epoch_start(state)
+    for epoch in tqdm(range(n_epochs)):
+        # print("Beginning epoch", epoch)
+        infos = callbacks.epoch_start()
         log_infos(summary_writer, infos, step)
         first_step_in_epoch = True
-        rng, minibatch_rng = jax.random.split(rng)
-        for (minibatch, key) in approx_minibatches(minibatch_rng, data, batch_size):
-            state, infos = callbacks.minibatch_start(state)
+        for minibatch in approx_minibatches(data, batch_size):
+            infos = callbacks.minibatch_start()
             log_infos(summary_writer, infos, step)
             if step % 1000 == 0:
-                save_params(workdir, step, state, delete_prev=not first_step_in_epoch)
+                save_params(workdir, step, model, delete_prev=not first_step_in_epoch)
                 first_step_in_epoch = False
             inputs, targets = preprocess(minibatch)
-            grads, loss, infos = apply_model(state, *inputs, targets)
-            state = update_model(state, grads)
+            loss, infos = loss_function(model, *inputs, targets)
+            opt.zero_grad()
+            loss.backward()
+            opt.step()
             log_infos(summary_writer, infos, step)
-            state, infos = callbacks.minibatch_end(state)
+            infos = callbacks.minibatch_end()
             log_infos(summary_writer, infos, step)
             summary_writer.flush()
             step += 1
-        state, infos = callbacks.epoch_end(state)
+        infos = callbacks.epoch_end()
         log_infos(summary_writer, infos, step)
-        save_params(workdir, epoch, state)
+        save_params(workdir, epoch, model)
         summary_writer.flush()
-        jax.profiler.save_device_memory_profile(f"{model_name}-memory-{epoch}.prof")
-    state, infos = callbacks.training_complete(state)
+    infos = callbacks.training_complete()
     log_infos(summary_writer, infos, step)
     summary_writer.flush()
 
-    return state
+    return model
 
 
 def fit_model_multisource(
-    model,
     sources,
     source_repeats,
-    apply_model,
+    create_model,
+    loss_function,
     model_name,
     preprocess,
     n_epochs=5,
@@ -254,8 +240,8 @@ def fit_model_multisource(
     workdir = expanduser(f"~/data/fit_model={model_name}_seed={seed}")
     print("workdir:", workdir)
     print('Setting up SummaryWriter... ', end='', flush=True)
-    summary_writer = tensorboard.SummaryWriter(workdir)
-    summary_writer.hparams(
+    summary_writer = tensorboardX.SummaryWriter(workdir)
+    summary_writer.add_hparams(
         {
             "learning_rate": learning_rate,
             "momentum": momentum,
@@ -263,58 +249,44 @@ def fit_model_multisource(
             "source_lengths": [len(source) for source in sources],
             "source_repeats": source_repeats,
             "n_epochs": n_epochs,
-        }
+        }, {}
     )
     print('done')
 
-    @jax.jit
-    def update_model(state, grads):
-        return state.apply_gradients(grads=grads)
-
-    rng = jax.random.PRNGKey(seed)
-
-    rng, init_rng = jax.random.split(rng)
-    print('Gathing first batch... ')
-    first_batch, rng = next(multisource_approx_minibatch(rng, sources, source_repeats))
-    inputs = preprocess(first_batch)[0]
-    print('done')
-    print('Initializing model ... ', end='', flush=True)
-    params = model.init(init_rng, *inputs)
-    print('done')
-    tx = optax.sgd(learning_rate, momentum)
-
-    state = train_state.TrainState.create(apply_fn=model.apply, params=params, tx=tx)
+    torch.manual_seed(seed)
+    first_batch = next(multisource_approx_minibatch(sources, source_repeats))
+    model = create_model(*preprocess(data[:1])[0])
+    opt = torch.optim.SGD(model.parameters(), learning_rate, momentum)
 
     step = 0
-    for epoch in range(n_epochs):
-        print("Beginning epoch", epoch)
-        state, infos = callbacks.epoch_start(state)
+    for epoch in tqdm(range(n_epochs)):
+        # print("Beginning epoch", epoch)
+        infos = callbacks.epoch_start()
         log_infos(summary_writer, infos, step)
         first_step_in_epoch = True
-        rng, minibatch_rng = jax.random.split(rng)
-        for (minibatch, key) in multisource_approx_minibatch(minibatch_rng,
-                                                             sources,
+        for minibatch in multisource_approx_minibatch( sources,
                                                              source_repeats):
-            state, infos = callbacks.minibatch_start(state)
+            infos = callbacks.minibatch_start()
             log_infos(summary_writer, infos, step)
             if step % 1000 == 0:
-                save_params(workdir, step, state, delete_prev=not first_step_in_epoch)
+                save_params(workdir, step, model, delete_prev=not first_step_in_epoch)
                 first_step_in_epoch = False
             inputs, targets = preprocess(minibatch)
-            grads, loss, infos = apply_model(state, *inputs, targets)
-            state = update_model(state, grads)
+            loss, infos = loss_function(model, *inputs, targets)
+            opt.zero_grad()
+            loss.backward()
+            opt.step()
             log_infos(summary_writer, infos, step)
-            state, infos = callbacks.minibatch_end(state)
+            infos = callbacks.minibatch_end()
             log_infos(summary_writer, infos, step)
             summary_writer.flush()
             step += 1
-        state, infos = callbacks.epoch_end(state)
+        infos = callbacks.epoch_end()
         log_infos(summary_writer, infos, step)
-        save_params(workdir, epoch, state)
+        save_params(workdir, epoch, model)
         summary_writer.flush()
-        jax.profiler.save_device_memory_profile(f"{model_name}-memory-{epoch}.prof")
-    state, infos = callbacks.training_complete(state)
+    infos = callbacks.training_complete()
     log_infos(summary_writer, infos, step)
     summary_writer.flush()
 
-    return state
+    return model
