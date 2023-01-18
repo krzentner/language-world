@@ -2,6 +2,7 @@ import numpy as np
 import torch
 from torch import nn
 from torch.nn import functional as F
+
 # from torch.utils import tensorboard
 import tensorboardX
 from tqdm import tqdm
@@ -10,6 +11,7 @@ import os
 import pickle
 from os.path import expanduser
 import sample_utils
+
 
 def pad_list(seq, max_len=None):
     if max_len is None:
@@ -97,8 +99,9 @@ def approx_minibatches(dataset, batch_size, epoch_size=None):
 
 def multisource_approx_minibatch(sources, source_repeats, epoch_size=None):
     assert len(sources) == len(source_repeats)
-    n_data_points = max([repeats * len(source)
-                         for (source, repeats) in zip(sources, source_repeats)])
+    n_data_points = max(
+        [repeats * len(source) for (source, repeats) in zip(sources, source_repeats)]
+    )
     if epoch_size is None:
         epoch_size = n_data_points
     batch_size = sum(source_repeats)
@@ -133,22 +136,24 @@ def save_params(workdir, step, agent, delete_prev=True):
 
 
 class FitCallbacks:
-    def epoch_start(self):
+    def epoch_start(self, model):
         return {}
 
-    def epoch_end(self):
+    def epoch_end(self, model):
         return {}
 
-    def minibatch_start(self):
+    def minibatch_start(self, model):
         return {}
 
-    def minibatch_end(self):
+    def minibatch_end(self, model):
         return {}
 
-    def training_complete(self):
+    def training_complete(self, model):
         return {}
+
 
 DEFAULT_SEED = sample_utils.DEFAULT_SEED
+
 
 def log_infos(summary_writer, infos, step):
     for (k, v) in infos.items():
@@ -184,21 +189,22 @@ def fit_model(
             "n_datapoints": len(data),
             "batch_size": batch_size,
             "n_epochs": n_epochs,
-        }, {}
+        },
+        {},
     )
 
     torch.manual_seed(seed)
-    model = create_model(*preprocess(data[:1])[0])
+    model = create_model(preprocess(data[:1])[0])
     opt = torch.optim.SGD(model.parameters(), learning_rate, momentum)
 
     step = 0
     for epoch in tqdm(range(n_epochs)):
         # print("Beginning epoch", epoch)
-        infos = callbacks.epoch_start()
+        infos = callbacks.epoch_start(model)
         log_infos(summary_writer, infos, step)
         first_step_in_epoch = True
         for minibatch in approx_minibatches(data, batch_size):
-            infos = callbacks.minibatch_start()
+            infos = callbacks.minibatch_start(model)
             log_infos(summary_writer, infos, step)
             if step % 1000 == 0:
                 save_params(workdir, step, model, delete_prev=not first_step_in_epoch)
@@ -209,15 +215,15 @@ def fit_model(
             loss.backward()
             opt.step()
             log_infos(summary_writer, infos, step)
-            infos = callbacks.minibatch_end()
+            infos = callbacks.minibatch_end(model)
             log_infos(summary_writer, infos, step)
             summary_writer.flush()
             step += 1
-        infos = callbacks.epoch_end()
+        infos = callbacks.epoch_end(model)
         log_infos(summary_writer, infos, step)
         save_params(workdir, epoch, model)
         summary_writer.flush()
-    infos = callbacks.training_complete()
+    infos = callbacks.training_complete(model)
     log_infos(summary_writer, infos, step)
     summary_writer.flush()
 
@@ -239,7 +245,7 @@ def fit_model_multisource(
 ):
     workdir = expanduser(f"~/data/fit_model={model_name}_seed={seed}")
     print("workdir:", workdir)
-    print('Setting up SummaryWriter... ', end='', flush=True)
+    print("Setting up SummaryWriter... ", end="", flush=True)
     summary_writer = tensorboardX.SummaryWriter(workdir)
     summary_writer.add_hparams(
         {
@@ -249,24 +255,24 @@ def fit_model_multisource(
             "source_lengths": [len(source) for source in sources],
             "source_repeats": source_repeats,
             "n_epochs": n_epochs,
-        }, {}
+        },
+        {},
     )
-    print('done')
+    print("done")
 
     torch.manual_seed(seed)
     first_batch = next(multisource_approx_minibatch(sources, source_repeats))
-    model = create_model(*preprocess(data[:1])[0])
+    model = create_model(preprocess(first_batch)[0])
     opt = torch.optim.SGD(model.parameters(), learning_rate, momentum)
 
     step = 0
     for epoch in tqdm(range(n_epochs)):
         # print("Beginning epoch", epoch)
-        infos = callbacks.epoch_start()
+        infos = callbacks.epoch_start(model)
         log_infos(summary_writer, infos, step)
         first_step_in_epoch = True
-        for minibatch in multisource_approx_minibatch( sources,
-                                                             source_repeats):
-            infos = callbacks.minibatch_start()
+        for minibatch in multisource_approx_minibatch(sources, source_repeats):
+            infos = callbacks.minibatch_start(model)
             log_infos(summary_writer, infos, step)
             if step % 1000 == 0:
                 save_params(workdir, step, model, delete_prev=not first_step_in_epoch)
@@ -277,15 +283,15 @@ def fit_model_multisource(
             loss.backward()
             opt.step()
             log_infos(summary_writer, infos, step)
-            infos = callbacks.minibatch_end()
+            infos = callbacks.minibatch_end(model)
             log_infos(summary_writer, infos, step)
             summary_writer.flush()
             step += 1
-        infos = callbacks.epoch_end()
+        infos = callbacks.epoch_end(model)
         log_infos(summary_writer, infos, step)
         save_params(workdir, epoch, model)
         summary_writer.flush()
-    infos = callbacks.training_complete()
+    infos = callbacks.training_complete(model)
     log_infos(summary_writer, infos, step)
     summary_writer.flush()
 

@@ -105,6 +105,7 @@ def grouped_env_dataset(
         print(f"Data success rate for {env_name}:", mean(success_rate))
     return datapoints
 
-if __name__ == '__main__':
-  single_env_dataset(env_name='pick-place', noise_scales=[0.])
-  grouped_env_dataset(envs=['pick-place', 'push'], noise_scales=[0.])
+
+if __name__ == "__main__":
+    single_env_dataset(env_name="pick-place", noise_scales=[0.0])
+    grouped_env_dataset(envs=["pick-place", "push"], noise_scales=[0.0])

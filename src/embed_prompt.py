@@ -8,15 +8,20 @@ import dbm.gnu
 from tqdm import tqdm
 import tensorflow as tf
 
-EMBEDDER = None # hub.load("https://tfhub.dev/google/universal-sentence-encoder-large/5")
+EMBEDDER = (
+    None  # hub.load("https://tfhub.dev/google/universal-sentence-encoder-large/5")
+)
 
 
 def get_embedder():
-  global EMBEDDER
-  if EMBEDDER is None:
-    import tensorflow_hub as hub
-    EMBEDDER = hub.load("https://tfhub.dev/google/universal-sentence-encoder-large/5")
-  return EMBEDDER
+    global EMBEDDER
+    if EMBEDDER is None:
+        import tensorflow_hub as hub
+
+        EMBEDDER = hub.load(
+            "https://tfhub.dev/google/universal-sentence-encoder-large/5"
+        )
+    return EMBEDDER
 
 
 MT10_INSTRUCTIONS = """
@@ -142,133 +147,152 @@ def reach_for_target(robot):
     robot.move_gripper("to the target")
 """
 
-FN_NAME = re.compile(r'def ([a-zA-Z_]+)\(')
-CONDITIONS_CONSEQUENCES = re.compile(r'if check\("([^"]+)"\):\s+robot.([^\n]+)\s+', flags=re.MULTILINE)
+FN_NAME = re.compile(r"def ([a-zA-Z_]+)\(")
+CONDITIONS_CONSEQUENCES = re.compile(
+    r'if check\("([^"]+)"\):\s+robot.([^\n]+)\s+', flags=re.MULTILINE
+)
+
 
 def embed_mt10():
-  MT10_PROMPTS = re.compile("(?=def)").split(MT10_INSTRUCTIONS)
+    MT10_PROMPTS = re.compile("(?=def)").split(MT10_INSTRUCTIONS)
 
-  mt10_embedded = {}
-  for prompt in MT10_PROMPTS:
-    names = FN_NAME.findall(prompt)
-    if names:
-      name = names[0]
-      conds_consequences = CONDITIONS_CONSEQUENCES.findall(prompt)
-      cond_actions = parse_condition_consequences(conds_consequences)
-      pprint(cond_actions)
-      cond_action_embeds = []
-      for (cond, action) in cond_actions:
-        cond_embed = np.asarray(get_embedder()([cond]))
-        action_embed = np.asarray(get_embedder()([action]))
-        cond_action_embeds.append({
-            'cond': cond,
-            'action': action,
-            'action_embed': action_embed,
-            'cond_embed': cond_embed,
-        })
-      mt10_embedded[name] = cond_action_embeds
-  return mt10_embedded
+    mt10_embedded = {}
+    for prompt in MT10_PROMPTS:
+        names = FN_NAME.findall(prompt)
+        if names:
+            name = names[0]
+            conds_consequences = CONDITIONS_CONSEQUENCES.findall(prompt)
+            cond_actions = parse_condition_consequences(conds_consequences)
+            pprint(cond_actions)
+            cond_action_embeds = []
+            for (cond, action) in cond_actions:
+                cond_embed = np.asarray(get_embedder()([cond]))
+                action_embed = np.asarray(get_embedder()([action]))
+                cond_action_embeds.append(
+                    {
+                        "cond": cond,
+                        "action": action,
+                        "action_embed": action_embed,
+                        "cond_embed": cond_embed,
+                    }
+                )
+            mt10_embedded[name] = cond_action_embeds
+    return mt10_embedded
 
 
 MOVE_GRIPPER = re.compile(r'move_gripper\("([^"]+)"\)')
 PUSH_GRIPPER = re.compile(r'push_gripper\("([^"]+)"\)')
 
+
 def preprocess_condition(cond):
-  return cond
-  # return f"Is it true that {cond}?"
+    return cond
+    # return f"Is it true that {cond}?"
+
 
 def parse_condition_consequences(con_con):
-  conditional_actions = []
-  for (condition, consequence) in con_con:
-    action = ""
-    if consequence == 'close_gripper()':
-      action = "Close the robot's gripper."
-    if consequence == 'open_gripper()':
-      action = "Open the robot's gripper."
-    move_targets = MOVE_GRIPPER.findall(consequence)
-    if move_targets:
-      action = f"Move the robot's gripper {move_targets[0]}."
-    push_targets = PUSH_GRIPPER.findall(consequence)
-    if push_targets:
-      action = f"Push the robot's gripper {push_targets[0]}."
-    conditional_actions.append((preprocess_condition(condition), action))
-  return conditional_actions
+    conditional_actions = []
+    for (condition, consequence) in con_con:
+        action = ""
+        if consequence == "close_gripper()":
+            action = "Close the robot's gripper."
+        if consequence == "open_gripper()":
+            action = "Open the robot's gripper."
+        move_targets = MOVE_GRIPPER.findall(consequence)
+        if move_targets:
+            action = f"Move the robot's gripper {move_targets[0]}."
+        push_targets = PUSH_GRIPPER.findall(consequence)
+        if push_targets:
+            action = f"Push the robot's gripper {push_targets[0]}."
+        conditional_actions.append((preprocess_condition(condition), action))
+    return conditional_actions
 
 
 # try:
-  # EMBEDDING_DB = dbm.open(expanduser('~/data/embedding_cache'), 'c')
+# EMBEDDING_DB = dbm.open(expanduser('~/data/embedding_cache'), 'c')
 # except Exception:
-  # EMBEDDING_DB = {}
+# EMBEDDING_DB = {}
 
 # print('Initializing embedding_db')
 # for (k, v) in tqdm(EMBEDDING_CACHE.items()):
-  # EMBEDDING_DB[k] = pickle.dumps(v)
+# EMBEDDING_DB[k] = pickle.dumps(v)
 # print('Initializing embedding_db')
 
 EMBEDDING_CACHE = {}
 UNFLUSHED_VALUES = []
 
+
 def load_cache():
-  print('Loading embedding cache')
-  global EMBEDDING_CACHE
-  try:
-    with open(expanduser('~/data/embedding_cache.pkl'), 'rb') as f:
-      EMBEDDING_CACHE = pickle.load(f)
-  except FileNotFoundError:
-    print("Could not load embedding cache")
-  try:
-    embedding_db = dbm.gnu.open(expanduser('~/data/embedding_cache.db'), 'c')
-    key = embedding_db.firstkey()
-    while key is not None:
-      value = pickle.loads(embedding_db[key])
-      if isinstance(value, np.ndarray):
-        EMBEDDING_CACHE[key.decode('utf-8')] = value
-      key = embedding_db.nextkey(key)
-  except dbm.gnu.error as exc:
-    print('Ignoring cache db error:', exc)
-    pass
-  print('Done loading embedding cache')
+    print("Loading embedding cache")
+    global EMBEDDING_CACHE
+    try:
+        with open(expanduser("~/data/embedding_cache.pkl"), "rb") as f:
+            EMBEDDING_CACHE = pickle.load(f)
+    except FileNotFoundError:
+        print("Could not load embedding cache")
+    try:
+        embedding_db = dbm.gnu.open(expanduser("~/data/embedding_cache.db"), "c")
+        key = embedding_db.firstkey()
+        while key is not None:
+            value = pickle.loads(embedding_db[key])
+            if isinstance(value, np.ndarray):
+                EMBEDDING_CACHE[key.decode("utf-8")] = value
+            key = embedding_db.nextkey(key)
+    except dbm.gnu.error as exc:
+        print("Ignoring cache db error:", exc)
+        pass
+    print("Done loading embedding cache")
+
 
 load_cache()
 
+
 def save_cache():
-  print('Saving cache')
-  with open(expanduser('~/data/embedding_cache.pkl.tmp'), 'wb') as f:
-    pickle.dump(EMBEDDING_CACHE, f)
-  shutil.move(expanduser('~/data/embedding_cache.pkl.tmp'),
-              expanduser('~/data/embedding_cache.pkl'))
-  embedding_db = dbm.open(expanduser('~/data/embedding_cache.db'), 'c')
-  global UNFLUSHED_VALUES
-  UNFLUSHED_VALUES, need_write = [], UNFLUSHED_VALUES
-  for (key, value) in need_write:
-    embedding_db[key] = pickle.dumps(value)
+    print("Saving cache")
+    with open(expanduser("~/data/embedding_cache.pkl.tmp"), "wb") as f:
+        pickle.dump(EMBEDDING_CACHE, f)
+    shutil.move(
+        expanduser("~/data/embedding_cache.pkl.tmp"),
+        expanduser("~/data/embedding_cache.pkl"),
+    )
+    embedding_db = dbm.open(expanduser("~/data/embedding_cache.db"), "c")
+    global UNFLUSHED_VALUES
+    UNFLUSHED_VALUES, need_write = [], UNFLUSHED_VALUES
+    for (key, value) in need_write:
+        embedding_db[key] = pickle.dumps(value)
+
+
+UNFLUSHED_VALUES_CAP = 0
+
 
 def embed_condition(cond):
-  if cond in EMBEDDING_CACHE:
-    return EMBEDDING_CACHE[cond]
-  else:
-    embed = np.array(get_embedder()([preprocess_condition(cond)])[0])
-    EMBEDDING_CACHE[cond] = embed
-    UNFLUSHED_VALUES.append((cond, pickle.dumps(embed)))
-    if len(UNFLUSHED_VALUES) > 100000:
-      save_cache()
-    return embed
+    if cond in EMBEDDING_CACHE:
+        return EMBEDDING_CACHE[cond]
+    else:
+        embed = np.array(get_embedder()([preprocess_condition(cond)])[0])
+        EMBEDDING_CACHE[cond] = embed
+        UNFLUSHED_VALUES.append((cond, pickle.dumps(embed)))
+        if len(UNFLUSHED_VALUES) > UNFLUSHED_VALUES_CAP:
+            save_cache()
+        return embed
+
 
 def embed_action(action):
-  if action in EMBEDDING_CACHE:
-    return EMBEDDING_CACHE[action]
-  else:
-    print('cache miss')
-    embed = np.array(get_embedder()([action])[0])
-    EMBEDDING_CACHE[action] = embed
-    UNFLUSHED_VALUES.append((action, pickle.dumps(embed)))
-    if len(UNFLUSHED_VALUES) > 100000:
-      save_cache()
-    return embed
+    if action in EMBEDDING_CACHE:
+        return EMBEDDING_CACHE[action]
+    else:
+        print("cache miss")
+        embed = np.array(get_embedder()([action])[0])
+        EMBEDDING_CACHE[action] = embed
+        UNFLUSHED_VALUES.append((action, pickle.dumps(embed)))
+        if len(UNFLUSHED_VALUES) > UNFLUSHED_VALUES_CAP:
+            save_cache()
+        return embed
 
-if __name__ == '__main__':
-  import pickle
-  embedded = embed_mt10()
-  pprint(embedded)
-  with open('data/embedded_mt10.pkl', 'wb') as f:
-    pickle.dump(embedded, f)
+
+if __name__ == "__main__":
+    import pickle
+
+    embedded = embed_mt10()
+    pprint(embedded)
+    with open("data/embedded_mt10.pkl", "wb") as f:
+        pickle.dump(embedded, f)

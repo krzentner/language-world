@@ -26,12 +26,10 @@ class FragmentBuffer:
 
     def __init__(self, n_episodes: int, max_episode_length: int):
         self.buffers: dict[str, torch.Tensor or list] = {}
-        self.episode_length_so_far: torch.Tensor[int] = torch.zeros(
+        self.episode_length_so_far: torch.Tensor = torch.zeros(
             n_episodes, dtype=torch.int64
         )
-        self.episode_complete: torch.Tensor[bool] = torch.zeros(
-            n_episodes, dtype=torch.bool
-        )
+        self.episode_complete: torch.Tensor = torch.zeros(n_episodes, dtype=torch.bool)
         self._n_episodes = n_episodes
         self._max_episode_length = max_episode_length
         self._next_episode_id: EpisodeId = EpisodeId(1)

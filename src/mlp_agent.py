@@ -1,5 +1,7 @@
 import json
 from dataclasses import dataclass
+
+from torch.nn.modules import loss
 import clize
 from functools import partial
 
@@ -10,15 +12,15 @@ import numpy as np
 
 from tqdm import tqdm
 
-import sys
+# import sys
 
-sys.path.append("src")
+# sys.path.append("src")
 
 import sample_utils
 from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES
 from run_utils import float_list, str_list
 import pytorch_utils
-from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks
+from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks, RayEvalCallbacks
 from datasets import single_env_dataset, grouped_env_dataset
 from embed_prompt import embed_action
 from generate_mt10_plans import MT50_TASK_DESCRIPTIONS
@@ -27,7 +29,7 @@ from generate_mt10_plans import MT50_TASK_DESCRIPTIONS
 def env_names_to_onehots(env_names, all_names=MT50_ENV_NAMES):
     return F.one_hot(
         torch.tensor([all_names.index(env_name) for env_name in env_names]),
-        len(all_names)
+        len(all_names),
     )
 
 
@@ -36,35 +38,31 @@ class MLPAgent(nn.Module):
         super().__init__()
         self.use_language_embedding = use_language_embedding
         self.layers = nn.Sequential(
-                nn.LazyLinear(128),
-                nn.ReLU(),
-                nn.LazyLinear(128),
-                nn.ReLU(),
-                nn.LazyLinear(128),
-                nn.ReLU(),
-                nn.LazyLinear(64),
-                nn.ReLU(),
-                nn.LazyLinear(32),
-                nn.ReLU(),
-                nn.LazyLinear(4),
+            nn.LazyLinear(128),
+            nn.ReLU(),
+            nn.LazyLinear(128),
+            nn.ReLU(),
+            nn.LazyLinear(128),
+            nn.ReLU(),
+            nn.LazyLinear(64),
+            nn.ReLU(),
+            nn.LazyLinear(32),
+            nn.ReLU(),
+            nn.LazyLinear(4),
         )
         if self.use_language_embedding:
             self.language_reencoder = nn.Sequential(
-                    nn.LazyLinear(64),
-                    nn.ReLU(),
-                    nn.LazyLinear(64),
-                    nn.ReLU(),
-                    nn.LazyLinear(64),
+                nn.LazyLinear(64),
+                nn.ReLU(),
+                nn.LazyLinear(64),
+                nn.ReLU(),
+                nn.LazyLinear(64),
             )
 
-    def forward(self, env_names, low_dim):
-        info = {}
+    def forward(self, task_reprs, low_dim):
         if self.use_language_embedding:
-            task_reprs = torch.stack([embed_action(MT50_TASK_DESCRIPTIONS[env_name])
-                                      for env_name in env_names])
             task_reprs = self.language_reencoder(task_reprs)
-        else:
-            task_reprs = env_names_to_onehots(env_names)
+        info = {}
         inputs = torch.cat([low_dim, task_reprs], dim=-1)
         actions = self.layers(inputs)
         return actions, info
@@ -85,9 +83,23 @@ class MLPAgentPolicy:
         actions, infos = self.get_actions(np.array([low_dim]), [env_name])
         return actions[0], {k: v[0] for (k, v) in infos.items()}
 
-    def get_actions(self, observations, env_names):
+    def get_actions(self, observations, env_names=None):
+        if env_names is None:
+            env_names = [self.env_name] * len(observations)
+        if self.agent.use_language_embedding:
+            task_reprs = torch.stack(
+                [
+                    torch.as_tensor(embed_action(MT50_TASK_DESCRIPTIONS[env_name]))
+                    for env_name in env_names
+                ]
+            )
+        else:
+            task_reprs = env_names_to_onehots(env_names)
         with torch.no_grad():
-            action, info = self.agent(tuple(env_names), torch.as_tensor(observations, dtype=torch.float32))
+            action, info = self.agent(
+                task_reprs,
+                torch.as_tensor(np.asarray(observations), dtype=torch.float32),
+            )
 
         # for (k, v) in info.items():
         # print(k, v)
@@ -107,18 +119,6 @@ def loss_function(agent, env_names, low_dim, targets):
     )
 
 
-def preprocess(batch):
-    env_names = []
-    observations = []
-    actions = []
-    for stack in batch:
-        for data in stack:
-            env_names.append(data["env_name"])
-            observations.append(data["observation"])
-            actions.append(data["action"])
-    return (tuple(env_names), torch.tensor(observations, dtype=torch.float32)), torch.tensor(actions, dtype=torch.float32)
-
-
 def zeroshot(
     *,
     train_envs: str_list = MT10_ENV_NAMES,
@@ -129,6 +129,7 @@ def zeroshot(
     use_noise=True,
     out_file,
 ):
+    print("Gathering training dataset")
     if use_noise:
         data = grouped_env_dataset(envs=train_envs, n_timesteps=n_timesteps, seed=seed)
     else:
@@ -136,14 +137,47 @@ def zeroshot(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
         )
     agent = MLPAgent(use_language_embedding=True)
-    callbacks = EvalCallbacks(
-        seed, train_envs + test_envs, agent, output_filename=out_file
+
+    def preprocess(batch):
+        env_names = []
+        observations = []
+        actions = []
+        for stack in batch:
+            for data in stack:
+                env_names.append(data["env_name"])
+                observations.append(data["observation"])
+                actions.append(data["action"])
+        task_reprs = torch.stack(
+            [
+                torch.as_tensor(embed_action(MT50_TASK_DESCRIPTIONS[env_name]))
+                for env_name in env_names
+            ]
+        )
+        return (
+            task_reprs,
+            torch.tensor(np.asarray(observations), dtype=torch.float32),
+        ), torch.tensor(np.asarray(actions), dtype=torch.float32)
+
+    def create_model(example_inputs):
+        with torch.no_grad():
+            agent(*example_inputs)
+        print("Starting jit compile")
+        model = torch.jit.script(agent, example_inputs=[example_inputs])
+        print("Done jit compiling")
+        return model
+
+    callbacks = RayEvalCallbacks(
+        seed,
+        test_envs,
+        agent,
+        output_filename=out_file,
+        step_period=100,
     )
     pytorch_utils.fit_model(
-        agent,
-        data,
-        loss_function,
-        "mlp_agent",
+        data=data,
+        create_model=create_model,
+        loss_function=loss_function,
+        model_name="mlp_agent_zeroshot",
         batch_size=batch_size,
         preprocess=preprocess,
         seed=seed,
@@ -159,8 +193,8 @@ def fewshot(
     train_envs: str_list = MT10_ENV_NAMES,
     target_env: str,
     seed=sample_utils.DEFAULT_SEED,
-    use_language_embedding: bool=False,
-    n_timesteps=1e5,
+    use_language_embedding: bool = False,
+    n_timesteps=int(1e5),
     fewshot_timesteps=500,
     use_noise=True,
     out_file,
@@ -174,6 +208,7 @@ def fewshot(
             "target_task": target_env,
         },
         output_filename=out_file,
+        step_period=100,
     )
     train_and_evaluate_fewshot_with_callbacks(
         callbacks=callbacks,
@@ -184,6 +219,7 @@ def fewshot(
         n_timesteps=n_timesteps,
         fewshot_timesteps=fewshot_timesteps,
         use_noise=use_noise,
+        use_language_embedding=use_language_embedding,
     )
 
 
@@ -193,7 +229,8 @@ def train_and_evaluate_fewshot_with_callbacks(
     agent,
     train_envs: str_list = MT10_ENV_NAMES,
     target_env: str,
-    seed: int=sample_utils.DEFAULT_SEED,
+    use_language_embedding,
+    seed: int = sample_utils.DEFAULT_SEED,
     n_timesteps=int(1e5),
     fewshot_timesteps=500,
     use_noise=True,
@@ -216,7 +253,19 @@ def train_and_evaluate_fewshot_with_callbacks(
                 env_names.append(data["env_name"])
                 observations.append(data["observation"])
                 actions.append(data["action"])
-        return (tuple(env_names), torch.tensor(observations, dtype=torch.float32)), torch.tensor(actions, dtype=torch.float32)
+        if use_language_embedding:
+            task_reprs = torch.stack(
+                [
+                    torch.as_tensor(embed_action(MT50_TASK_DESCRIPTIONS[env_name]))
+                    for env_name in env_names
+                ]
+            )
+        else:
+            task_reprs = env_names_to_onehots(env_names)
+        return (
+            task_reprs,
+            torch.tensor(observations, dtype=torch.float32),
+        ), torch.tensor(actions, dtype=torch.float32)
 
     if use_noise:
         base_data = grouped_env_dataset(
@@ -248,6 +297,7 @@ def train_and_evaluate_fewshot_with_callbacks(
         learning_rate=1e-5,
     )
 
+
 def real_oneshot(
     *,
     target_env: str,
@@ -257,7 +307,6 @@ def real_oneshot(
     use_language_embedding=False,
     out_file,
 ):
-
     def preprocess_oneshot(batch):
         env_names = []
         observations = []
@@ -266,7 +315,19 @@ def real_oneshot(
             env_names.append(data["env_name"])
             observations.append(data["observation"])
             actions.append(data["action"])
-        return (tuple(env_names), torch.tensor(observations, dtype=torch.float32)), torch.tensor(actions, dtype=torch.float32)
+        if use_language_embedding:
+            task_reprs = torch.stack(
+                [
+                    torch.as_tensor(embed_action(MT50_TASK_DESCRIPTIONS[env_name]))
+                    for env_name in env_names
+                ]
+            )
+        else:
+            task_reprs = env_names_to_onehots(env_names)
+        return (
+            task_reprs,
+            torch.tensor(observations, dtype=torch.float32),
+        ), torch.tensor(actions, dtype=torch.float32)
 
     agent = MLPAgent(use_language_embedding=use_language_embedding)
 
@@ -281,6 +342,7 @@ def real_oneshot(
             "target_task": target_env,
         },
         output_filename=out_file,
+        step_period=100,
     )
     batch_size = 32
 
@@ -296,9 +358,9 @@ def real_oneshot(
             noise_scales=[0.0],
         )
     epoch_mult = int(9091 / 16)
-    print(f'Running for {500 * epoch_mult} epochs')
+    print(f"Running for {500 * epoch_mult} epochs")
     callbacks.step_period = callbacks.step_period * epoch_mult
-    print(f'Eval every {callbacks.step_period} epochs')
+    print(f"Eval every {callbacks.step_period} epochs")
     pytorch_utils.fit_model(
         create_model=create_model,
         data=target_data,
@@ -311,7 +373,6 @@ def real_oneshot(
         callbacks=callbacks,
         learning_rate=1e-5,
     )
-
 
 
 if __name__ == "__main__":
