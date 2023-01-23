@@ -58,6 +58,8 @@ class MLPAgent(nn.Module):
                 nn.ReLU(),
                 nn.LazyLinear(64),
             )
+        else:
+            self.language_reencoder = nn.ReLU()
 
     def forward(self, task_reprs, low_dim):
         if self.use_language_embedding:
@@ -161,9 +163,7 @@ def zeroshot(
     def create_model(example_inputs):
         with torch.no_grad():
             agent(*example_inputs)
-        print("Starting jit compile")
         model = torch.jit.script(agent, example_inputs=[example_inputs])
-        print("Done jit compiling")
         return model
 
     callbacks = RayEvalCallbacks(
@@ -199,8 +199,9 @@ def fewshot(
     use_noise=True,
     out_file,
 ):
+    print("Using training envs:", train_envs)
     agent = MLPAgent(use_language_embedding=use_language_embedding)
-    callbacks = SingleProcEvalCallbacks(
+    callbacks = RayEvalCallbacks(
         seed,
         [target_env],
         agent,
@@ -238,8 +239,11 @@ def train_and_evaluate_fewshot_with_callbacks(
     # batch_size is basically source_repeats[0] * train_envs + source_repeats[1]
     source_repeats = [2, 20]
 
-    def create_model(_example_inputs, _example_targets):
-        return agent
+    def create_model(example_inputs):
+        with torch.no_grad():
+            agent(*example_inputs)
+        model = torch.jit.script(agent, example_inputs=[example_inputs])
+        return model
 
     def preprocess_fewshot(batch):
         env_names = []
@@ -264,8 +268,8 @@ def train_and_evaluate_fewshot_with_callbacks(
             task_reprs = env_names_to_onehots(env_names)
         return (
             task_reprs,
-            torch.tensor(observations, dtype=torch.float32),
-        ), torch.tensor(actions, dtype=torch.float32)
+            torch.tensor(np.asarray(observations), dtype=torch.float32),
+        ), torch.tensor(np.asarray(actions), dtype=torch.float32)
 
     if use_noise:
         base_data = grouped_env_dataset(

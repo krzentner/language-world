@@ -89,6 +89,7 @@ class RayEvalCallbacks(pytorch_utils.FitCallbacks):
             return {}
 
     def _run_evals(self, agent):
+        print("Evaluating...")
         infos = self.base_infos.copy()
         results = {}
         for (env_name, worker) in self.workers.items():
@@ -164,9 +165,10 @@ class SingleProcEvalCallbacks(pytorch_utils.FitCallbacks):
             return {}
 
     def _run_evals(self, agent):
+        print("Evaluating...")
         infos = self.base_infos.copy()
         for (env_name, envs) in self.envs.items():
-            self.agent.load_state_dict(agent)
+            self.agent.load_state_dict(agent.state_dict())
             policy = self.agent.as_policy(env_name)
             successes = []
             rewards = []

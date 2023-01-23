@@ -329,3 +329,7 @@ def cmd(
             gpus=gpus,
         )
     )
+
+
+if __name__ == "__main__":
+    print("Do not call doexp directly. Call the wrapper script runexp")

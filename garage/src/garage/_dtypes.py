@@ -6,8 +6,12 @@ import warnings
 
 import numpy as np
 
-from garage.np import (concat_tensor_dict_list, pad_batch_array,
-                       slice_nested_dict, stack_tensor_dict_list)
+from garage.np import (
+    concat_tensor_dict_list,
+    pad_batch_array,
+    slice_nested_dict,
+    stack_tensor_dict_list,
+)
 
 # pylint: disable=too-many-lines
 
@@ -26,6 +30,7 @@ class StepType(enum.IntEnum):
     * An unsuccessful sequence truncated by time limit will look like:
         FIRST, MID, MID, MID, TIMEOUT
     """
+
     # Denotes the first :class:`~TimeStep` in a sequence.
     FIRST = 0
     # Denotes any :class:`~TimeStep` in the middle of a sequence (i.e. not the
@@ -61,9 +66,11 @@ class StepType(enum.IntEnum):
         elif step_cnt == 1:
             return StepType.FIRST
         elif step_cnt < 1:
-            raise ValueError('Expect step_cnt to be >= 1, but got {} '
-                             'instead. Did you forget to call `reset('
-                             ')`?'.format(step_cnt))
+            raise ValueError(
+                "Expect step_cnt to be >= 1, but got {} "
+                "instead. Did you forget to call `reset("
+                ")`?".format(step_cnt)
+            )
         else:
             return StepType.MID
 
@@ -114,7 +121,7 @@ class TimeStep:
 
     """
 
-    env_spec: 'garage.EnvSpec'  # NOQA: F821
+    env_spec: "garage.EnvSpec"  # NOQA: F821
     episode_info: Dict[str, np.ndarray]
     observation: np.ndarray
     action: np.ndarray
@@ -147,12 +154,10 @@ class TimeStep:
     @property
     def last(self):
         """bool: Whether this step is the last of its episode."""
-        return self.step_type is StepType.TERMINAL or self.step_type \
-            is StepType.TIMEOUT
+        return self.step_type is StepType.TERMINAL or self.step_type is StepType.TIMEOUT
 
     @classmethod
-    def from_env_step(cls, env_step, last_observation, agent_info,
-                      episode_info):
+    def from_env_step(cls, env_step, last_observation, agent_info, episode_info):
         """Create a TimeStep from a EnvStep.
 
         Args:
@@ -170,15 +175,17 @@ class TimeStep:
             TimeStep: The TimeStep with all information of EnvStep plus the
             agent info.
         """
-        return cls(env_spec=env_step.env_spec,
-                   episode_info=episode_info,
-                   observation=last_observation,
-                   action=env_step.action,
-                   reward=env_step.reward,
-                   next_observation=env_step.observation,
-                   env_info=env_step.env_info,
-                   agent_info=agent_info,
-                   step_type=env_step.step_type)
+        return cls(
+            env_spec=env_step.env_spec,
+            episode_info=episode_info,
+            observation=last_observation,
+            action=env_step.action,
+            reward=env_step.reward,
+            next_observation=env_step.observation,
+            env_info=env_step.env_info,
+            agent_info=agent_info,
+            step_type=env_step.step_type,
+        )
 
 
 @dataclass(frozen=True)
@@ -224,7 +231,7 @@ class TimeStepBatch:
         """Runs integrity checking after __init__."""
         check_timestep_batch(self, np.ndarray)
 
-    env_spec: 'garage.EnvSpec'  # NOQA: F821
+    env_spec: "garage.EnvSpec"  # NOQA: F821
     episode_infos: Dict[str, np.ndarray or dict]
     observations: np.ndarray
     actions: np.ndarray
@@ -249,8 +256,9 @@ class TimeStepBatch:
 
         """
         if len(batches) < 1:
-            raise ValueError('Please provide at least one TimeStepBatch to '
-                             'concatenate')
+            raise ValueError(
+                "Please provide at least one TimeStepBatch to " "concatenate"
+            )
         episode_infos = {
             k: np.concatenate([b.episode_infos[k] for b in batches])
             for k in batches[0].episode_infos.keys()
@@ -267,17 +275,18 @@ class TimeStepBatch:
         return cls(
             env_spec=batches[0].env_spec,
             episode_infos=episode_infos,
-            observations=np.concatenate(
-                [batch.observations for batch in batches]),
+            observations=np.concatenate([batch.observations for batch in batches]),
             actions=np.concatenate([batch.actions for batch in batches]),
             rewards=np.concatenate([batch.rewards for batch in batches]),
             next_observations=np.concatenate(
-                [batch.next_observations for batch in batches]),
+                [batch.next_observations for batch in batches]
+            ),
             env_infos=env_infos,
             agent_infos=agent_infos,
-            step_types=np.concatenate([batch.step_types for batch in batches]))
+            step_types=np.concatenate([batch.step_types for batch in batches]),
+        )
 
-    def split(self) -> List['TimeStepBatch']:
+    def split(self) -> List["TimeStepBatch"]:
         """Split a :class:`~TimeStepBatch` into a list of :class:`~TimeStepBatch`s.
 
         The opposite of concatenate.
@@ -292,23 +301,19 @@ class TimeStepBatch:
         for i in range(len(self.rewards)):
             time_step = TimeStepBatch(
                 episode_infos={
-                    k: np.asarray([v[i]])
-                    for (k, v) in self.episode_infos.items()
+                    k: np.asarray([v[i]]) for (k, v) in self.episode_infos.items()
                 },
                 env_spec=self.env_spec,
                 observations=np.asarray([self.observations[i]]),
                 actions=np.asarray([self.actions[i]]),
                 rewards=np.asarray([self.rewards[i]]),
                 next_observations=np.asarray([self.next_observations[i]]),
-                env_infos={
-                    k: np.asarray([v[i]])
-                    for (k, v) in self.env_infos.items()
-                },
+                env_infos={k: np.asarray([v[i]]) for (k, v) in self.env_infos.items()},
                 agent_infos={
-                    k: np.asarray([v[i]])
-                    for (k, v) in self.agent_infos.items()
+                    k: np.asarray([v[i]]) for (k, v) in self.agent_infos.items()
                 },
-                step_types=np.asarray([self.step_types[i]], dtype=StepType))
+                step_types=np.asarray([self.step_types[i]], dtype=StepType),
+            )
             time_steps.append(time_step)
         return time_steps
 
@@ -353,28 +358,24 @@ class TimeStepBatch:
         """
         samples = []
         for i in range(len(self.rewards)):
-            samples.append({
-                'episode_infos': {
-                    k: np.asarray([v[i]])
-                    for (k, v) in self.episode_infos.items()
-                },
-                'observations':
-                np.asarray([self.observations[i]]),
-                'actions':
-                np.asarray([self.actions[i]]),
-                'rewards':
-                np.asarray([self.rewards[i]]),
-                'next_observations':
-                np.asarray([self.next_observations[i]]),
-                'env_infos':
-                {k: np.asarray([v[i]])
-                 for (k, v) in self.env_infos.items()},
-                'agent_infos':
-                {k: np.asarray([v[i]])
-                 for (k, v) in self.agent_infos.items()},
-                'step_types':
-                np.asarray([self.step_types[i]])
-            })
+            samples.append(
+                {
+                    "episode_infos": {
+                        k: np.asarray([v[i]]) for (k, v) in self.episode_infos.items()
+                    },
+                    "observations": np.asarray([self.observations[i]]),
+                    "actions": np.asarray([self.actions[i]]),
+                    "rewards": np.asarray([self.rewards[i]]),
+                    "next_observations": np.asarray([self.next_observations[i]]),
+                    "env_infos": {
+                        k: np.asarray([v[i]]) for (k, v) in self.env_infos.items()
+                    },
+                    "agent_infos": {
+                        k: np.asarray([v[i]]) for (k, v) in self.agent_infos.items()
+                    },
+                    "step_types": np.asarray([self.step_types[i]]),
+                }
+            )
         return samples
 
     @property
@@ -433,18 +434,20 @@ class TimeStepBatch:
 
         """
         if len(ts_samples) < 1:
-            raise ValueError('Please provide at least one dict')
+            raise ValueError("Please provide at least one dict")
 
         ts_batches = [
-            TimeStepBatch(episode_infos=sample['episode_infos'],
-                          env_spec=env_spec,
-                          observations=sample['observations'],
-                          actions=sample['actions'],
-                          rewards=sample['rewards'],
-                          next_observations=sample['next_observations'],
-                          env_infos=sample['env_infos'],
-                          agent_infos=sample['agent_infos'],
-                          step_types=sample['step_types'])
+            TimeStepBatch(
+                episode_infos=sample["episode_infos"],
+                env_spec=env_spec,
+                observations=sample["observations"],
+                actions=sample["actions"],
+                rewards=sample["rewards"],
+                next_observations=sample["next_observations"],
+                env_infos=sample["env_infos"],
+                agent_infos=sample["agent_infos"],
+                step_types=sample["step_types"],
+            )
             for sample in ts_samples
         ]
 
@@ -525,19 +528,30 @@ class EpisodeBatch(TimeStepBatch):
     last_observations: np.ndarray
     lengths: np.ndarray
 
-    def __init__(self, env_spec, episode_infos, observations,
-                 last_observations, actions, rewards, env_infos, agent_infos,
-                 step_types, lengths):  # noqa: D102
+    def __init__(
+        self,
+        env_spec,
+        episode_infos,
+        observations,
+        last_observations,
+        actions,
+        rewards,
+        env_infos,
+        agent_infos,
+        step_types,
+        lengths,
+    ):  # noqa: D102
         # lengths
         if len(lengths.shape) != 1:
             raise ValueError(
-                f'lengths has shape {lengths.shape} but must be a ternsor of '
-                f'shape (N,)')
+                f"lengths has shape {lengths.shape} but must be a ternsor of "
+                f"shape (N,)"
+            )
 
-        if not (lengths.dtype.kind == 'u' or lengths.dtype.kind == 'i'):
+        if not (lengths.dtype.kind == "u" or lengths.dtype.kind == "i"):
             raise ValueError(
-                f'lengths has dtype {lengths.dtype}, but must have an '
-                f'integer dtype')
+                f"lengths has dtype {lengths.dtype}, but must have an " f"integer dtype"
+            )
 
         n_episodes = len(lengths)
 
@@ -547,46 +561,48 @@ class EpisodeBatch(TimeStepBatch):
         for key, val in episode_infos.items():
             if not isinstance(val, np.ndarray):
                 raise ValueError(
-                    f'Entry {key!r} in episode_infos is of type {type(val)!r} '
-                    f'but must be of type {np.ndarray!r}')
-            if hasattr(val, 'shape'):
+                    f"Entry {key!r} in episode_infos is of type {type(val)!r} "
+                    f"but must be of type {np.ndarray!r}"
+                )
+            if hasattr(val, "shape"):
                 if val.shape[0] != n_episodes:
                     raise ValueError(
-                        f'Entry {key!r} in episode_infos has batch size '
-                        f'{val.shape[0]}, but must have batch size '
-                        f'{n_episodes} to match the number of episodes')
+                        f"Entry {key!r} in episode_infos has batch size "
+                        f"{val.shape[0]}, but must have batch size "
+                        f"{n_episodes} to match the number of episodes"
+                    )
 
         if not isinstance(last_observations, np.ndarray):
-            raise ValueError(
-                f'last_observations is not of type {np.ndarray!r}')
+            raise ValueError(f"last_observations is not of type {np.ndarray!r}")
         if last_observations.shape[0] != n_episodes:
             raise ValueError(
-                f'last_observations has batch size '
-                f'{last_observations.shape[0]} but must have '
-                f'batch size {n_episodes} to match the number of episodes')
-        if not _space_soft_contains(env_spec.observation_space,
-                                    last_observations[0]):
-            raise ValueError(f'last_observations must have the same '
-                             f'number of entries as there are episodes '
-                             f'({n_episodes}) but got data with shape '
-                             '{last_observations[0].shape} entries')
+                f"last_observations has batch size "
+                f"{last_observations.shape[0]} but must have "
+                f"batch size {n_episodes} to match the number of episodes"
+            )
+        if not _space_soft_contains(env_spec.observation_space, last_observations[0]):
+            raise ValueError(
+                f"last_observations must have the same "
+                f"number of entries as there are episodes "
+                f"({n_episodes}) but got data with shape "
+                "{last_observations[0].shape} entries"
+            )
 
-        object.__setattr__(self, 'last_observations', last_observations)
-        object.__setattr__(self, 'lengths', lengths)
-        object.__setattr__(self, 'env_spec', env_spec)
+        object.__setattr__(self, "last_observations", last_observations)
+        object.__setattr__(self, "lengths", lengths)
+        object.__setattr__(self, "env_spec", env_spec)
         # Used to compute the episode_infos property, but also used in .split
-        object.__setattr__(self, 'episode_infos_by_episode', episode_infos)
-        object.__setattr__(self, 'observations', observations)
+        object.__setattr__(self, "episode_infos_by_episode", episode_infos)
+        object.__setattr__(self, "observations", observations)
         # No need for next_observations, it was replaced with a property
-        object.__setattr__(self, 'actions', actions)
-        object.__setattr__(self, 'rewards', rewards)
-        object.__setattr__(self, 'env_infos', env_infos)
-        object.__setattr__(self, 'agent_infos', agent_infos)
-        object.__setattr__(self, 'step_types', step_types)
+        object.__setattr__(self, "actions", actions)
+        object.__setattr__(self, "rewards", rewards)
+        object.__setattr__(self, "env_infos", env_infos)
+        object.__setattr__(self, "agent_infos", agent_infos)
+        object.__setattr__(self, "step_types", step_types)
         check_timestep_batch(
-            self,
-            np.ndarray,
-            ignored_fields={'next_observations', 'episode_infos'})
+            self, np.ndarray, ignored_fields={"next_observations", "episode_infos"}
+        )
 
     @classmethod
     def concatenate(cls, *batches):
@@ -601,10 +617,8 @@ class EpisodeBatch(TimeStepBatch):
         """
         if __debug__:
             for b in batches:
-                assert (set(b.env_infos.keys()) == set(
-                    batches[0].env_infos.keys()))
-                assert (set(b.agent_infos.keys()) == set(
-                    batches[0].agent_infos.keys()))
+                assert set(b.env_infos.keys()) == set(batches[0].env_infos.keys())
+                assert set(b.agent_infos.keys()) == set(batches[0].agent_infos.keys())
         env_infos = {
             k: np.concatenate([b.env_infos[k] for b in batches])
             for k in batches[0].env_infos.keys()
@@ -620,16 +634,17 @@ class EpisodeBatch(TimeStepBatch):
         return cls(
             episode_infos=episode_infos,
             env_spec=batches[0].env_spec,
-            observations=np.concatenate(
-                [batch.observations for batch in batches]),
+            observations=np.concatenate([batch.observations for batch in batches]),
             last_observations=np.concatenate(
-                [batch.last_observations for batch in batches]),
+                [batch.last_observations for batch in batches]
+            ),
             actions=np.concatenate([batch.actions for batch in batches]),
             rewards=np.concatenate([batch.rewards for batch in batches]),
             env_infos=env_infos,
             agent_infos=agent_infos,
             step_types=np.concatenate([batch.step_types for batch in batches]),
-            lengths=np.concatenate([batch.lengths for batch in batches]))
+            lengths=np.concatenate([batch.lengths for batch in batches]),
+        )
 
     def _episode_ranges(self):
         """Iterate through start and stop indices for each episode.
@@ -659,8 +674,9 @@ class EpisodeBatch(TimeStepBatch):
         for i, (start, stop) in enumerate(self._episode_ranges()):
             eps = EpisodeBatch(
                 env_spec=self.env_spec,
-                episode_infos=slice_nested_dict(self.episode_infos_by_episode,
-                                                i, i + 1),
+                episode_infos=slice_nested_dict(
+                    self.episode_infos_by_episode, i, i + 1
+                ),
                 observations=self.observations[start:stop],
                 last_observations=np.asarray([self.last_observations[i]]),
                 actions=self.actions[start:stop],
@@ -668,7 +684,8 @@ class EpisodeBatch(TimeStepBatch):
                 env_infos=slice_nested_dict(self.env_infos, start, stop),
                 agent_infos=slice_nested_dict(self.agent_infos, start, stop),
                 step_types=self.step_types[start:stop],
-                lengths=np.asarray([self.lengths[i]]))
+                lengths=np.asarray([self.lengths[i]]),
+            )
             episodes.append(eps)
 
         return episodes
@@ -703,28 +720,29 @@ class EpisodeBatch(TimeStepBatch):
         """
         episodes = []
         for i, (start, stop) in enumerate(self._episode_ranges()):
-            episodes.append({
-                'episode_infos':
-                {k: v[i:i + 1]
-                 for (k, v) in self.episode_infos.items()},
-                'observations':
-                self.observations[start:stop],
-                'next_observations':
-                np.concatenate((self.observations[1 + start:stop],
-                                [self.last_observations[i]])),
-                'actions':
-                self.actions[start:stop],
-                'rewards':
-                self.rewards[start:stop],
-                'env_infos':
-                {k: v[start:stop]
-                 for (k, v) in self.env_infos.items()},
-                'agent_infos':
-                {k: v[start:stop]
-                 for (k, v) in self.agent_infos.items()},
-                'step_types':
-                self.step_types[start:stop]
-            })
+            episodes.append(
+                {
+                    "episode_infos": {
+                        k: v[i : i + 1] for (k, v) in self.episode_infos.items()
+                    },
+                    "observations": self.observations[start:stop],
+                    "next_observations": np.concatenate(
+                        (
+                            self.observations[1 + start : stop],
+                            [self.last_observations[i]],
+                        )
+                    ),
+                    "actions": self.actions[start:stop],
+                    "rewards": self.rewards[start:stop],
+                    "env_infos": {
+                        k: v[start:stop] for (k, v) in self.env_infos.items()
+                    },
+                    "agent_infos": {
+                        k: v[start:stop] for (k, v) in self.agent_infos.items()
+                    },
+                    "step_types": self.step_types[start:stop],
+                }
+            )
         return episodes
 
     @classmethod
@@ -763,49 +781,53 @@ class EpisodeBatch(TimeStepBatch):
                     shape (T,) containing the time step types for all
                     transitions in this batch.
         """
-        lengths = np.asarray([len(p['rewards']) for p in paths])
+        lengths = np.asarray([len(p["rewards"]) for p in paths])
         if all(
-                len(path['observations']) == length + 1
-                for (path, length) in zip(paths, lengths)):
-            last_observations = np.asarray(
-                [p['observations'][-1] for p in paths])
-            observations = np.concatenate(
-                [p['observations'][:-1] for p in paths])
+            len(path["observations"]) == length + 1
+            for (path, length) in zip(paths, lengths)
+        ):
+            last_observations = np.asarray([p["observations"][-1] for p in paths])
+            observations = np.concatenate([p["observations"][:-1] for p in paths])
         else:
             # The number of observations and timesteps must match.
-            observations = np.concatenate([p['observations'] for p in paths])
-            if paths[0].get('next_observations') is not None:
+            observations = np.concatenate([p["observations"] for p in paths])
+            if paths[0].get("next_observations") is not None:
                 last_observations = np.asarray(
-                    [p['next_observations'][-1] for p in paths])
+                    [p["next_observations"][-1] for p in paths]
+                )
             else:
-                last_observations = np.asarray(
-                    [p['observations'][-1] for p in paths])
+                last_observations = np.asarray([p["observations"][-1] for p in paths])
 
         stacked_paths = concat_tensor_dict_list(paths)
         episode_infos = stack_tensor_dict_list(
-            [path['episode_infos'] for path in paths])
+            [path["episode_infos"] for path in paths]
+        )
 
         # Temporary solution. This logic is not needed if algorithms process
         # step_types instead of dones directly.
-        if 'dones' in stacked_paths and 'step_types' not in stacked_paths:
-            step_types = np.array([
-                StepType.TERMINAL if done else StepType.MID
-                for done in stacked_paths['dones']
-            ],
-                                  dtype=StepType)
-            stacked_paths['step_types'] = step_types
-            del stacked_paths['dones']
+        if "dones" in stacked_paths and "step_types" not in stacked_paths:
+            step_types = np.array(
+                [
+                    StepType.TERMINAL if done else StepType.MID
+                    for done in stacked_paths["dones"]
+                ],
+                dtype=StepType,
+            )
+            stacked_paths["step_types"] = step_types
+            del stacked_paths["dones"]
 
-        return cls(env_spec=env_spec,
-                   episode_infos=episode_infos,
-                   observations=observations,
-                   last_observations=last_observations,
-                   actions=stacked_paths['actions'],
-                   rewards=stacked_paths['rewards'],
-                   env_infos=stacked_paths['env_infos'],
-                   agent_infos=stacked_paths['agent_infos'],
-                   step_types=stacked_paths['step_types'],
-                   lengths=lengths)
+        return cls(
+            env_spec=env_spec,
+            episode_infos=episode_infos,
+            observations=observations,
+            last_observations=last_observations,
+            actions=stacked_paths["actions"],
+            rewards=stacked_paths["rewards"],
+            env_infos=stacked_paths["env_infos"],
+            agent_infos=stacked_paths["agent_infos"],
+            step_types=stacked_paths["step_types"],
+            lengths=lengths,
+        )
 
     @property
     def next_observations(self):
@@ -821,10 +843,13 @@ class EpisodeBatch(TimeStepBatch):
 
         """
         return np.concatenate(
-            tuple([
-                np.concatenate((eps.observations[1:], eps.last_observations))
-                for eps in self.split()
-            ]))
+            tuple(
+                [
+                    np.concatenate((eps.observations[1:], eps.last_observations))
+                    for eps in self.split()
+                ]
+            )
+        )
 
     @property
     def episode_infos(self):
@@ -842,10 +867,12 @@ class EpisodeBatch(TimeStepBatch):
 
         """
         return {
-            key: np.concatenate([
-                np.repeat([v], length, axis=0)
-                for (v, length) in zip(val, self.lengths)
-            ])
+            key: np.concatenate(
+                [
+                    np.repeat([v], length, axis=0)
+                    for (v, length) in zip(val, self.lengths)
+                ]
+            )
             for (key, val) in self.episode_infos_by_episode.items()
         }
 
@@ -858,8 +885,9 @@ class EpisodeBatch(TimeStepBatch):
                 :math:`(N, max_episode_length, O^*)`.
 
         """
-        return pad_batch_array(self.observations, self.lengths,
-                               self.env_spec.max_episode_length)
+        return pad_batch_array(
+            self.observations, self.lengths, self.env_spec.max_episode_length
+        )
 
     @property
     def padded_actions(self):
@@ -870,8 +898,9 @@ class EpisodeBatch(TimeStepBatch):
                 :math:`(N, max_episode_length, A^*)`.
 
         """
-        return pad_batch_array(self.actions, self.lengths,
-                               self.env_spec.max_episode_length)
+        return pad_batch_array(
+            self.actions, self.lengths, self.env_spec.max_episode_length
+        )
 
     @property
     def observations_list(self):
@@ -908,8 +937,9 @@ class EpisodeBatch(TimeStepBatch):
                 :math:`(N, max_episode_length)`.
 
         """
-        return pad_batch_array(self.rewards, self.lengths,
-                               self.env_spec.max_episode_length)
+        return pad_batch_array(
+            self.rewards, self.lengths, self.env_spec.max_episode_length
+        )
 
     @property
     def valids(self):
@@ -919,8 +949,9 @@ class EpisodeBatch(TimeStepBatch):
             np.ndarray: the shape is :math:`(N, max_episode_length)`.
 
         """
-        return pad_batch_array(np.ones_like(self.rewards), self.lengths,
-                               self.env_spec.max_episode_length)
+        return pad_batch_array(
+            np.ones_like(self.rewards), self.lengths, self.env_spec.max_episode_length
+        )
 
     @property
     def padded_next_observations(self):
@@ -930,8 +961,9 @@ class EpisodeBatch(TimeStepBatch):
             np.ndarray: Array of shape :math:`(N, max_episode_length, O^*)`
 
         """
-        return pad_batch_array(self.next_observations, self.lengths,
-                               self.env_spec.max_episode_length)
+        return pad_batch_array(
+            self.next_observations, self.lengths, self.env_spec.max_episode_length
+        )
 
     @property
     def padded_step_types(self):
@@ -941,8 +973,9 @@ class EpisodeBatch(TimeStepBatch):
             np.ndarray: Array of shape :math:`(N, max_episode_length)`
 
         """
-        return pad_batch_array(self.step_types, self.lengths,
-                               self.env_spec.max_episode_length)
+        return pad_batch_array(
+            self.step_types, self.lengths, self.env_spec.max_episode_length
+        )
 
     @property
     def padded_agent_infos(self):
@@ -955,8 +988,7 @@ class EpisodeBatch(TimeStepBatch):
 
         """
         return {
-            k: pad_batch_array(arr, self.lengths,
-                               self.env_spec.max_episode_length)
+            k: pad_batch_array(arr, self.lengths, self.env_spec.max_episode_length)
             for (k, arr) in self.agent_infos.items()
         }
 
@@ -971,8 +1003,7 @@ class EpisodeBatch(TimeStepBatch):
 
         """
         return {
-            k: pad_batch_array(arr, self.lengths,
-                               self.env_spec.max_episode_length)
+            k: pad_batch_array(arr, self.lengths, self.env_spec.max_episode_length)
             for (k, arr) in self.env_infos.items()
         }
 
@@ -992,7 +1023,7 @@ def _space_soft_contains(space, element):
     """
     if space.contains(element):
         return True
-    elif hasattr(space, 'flat_dim'):
+    elif hasattr(space, "flat_dim"):
         return space.flat_dim == np.prod(element.shape)
     else:
         return False
@@ -1013,71 +1044,92 @@ def check_timestep_batch(batch, array_type, ignored_fields=()):
     fields = {
         field: getattr(batch, field)
         for field in [
-            'env_spec', 'rewards', 'rewards', 'observations', 'actions',
-            'next_observations', 'step_types', 'agent_infos', 'episode_infos',
-            'env_infos'
-        ] if field not in ignored_fields
+            "env_spec",
+            "rewards",
+            "rewards",
+            "observations",
+            "actions",
+            "next_observations",
+            "step_types",
+            "agent_infos",
+            "episode_infos",
+            "env_infos",
+        ]
+        if field not in ignored_fields
     }
-    env_spec = fields.get('env_spec', None)
+    env_spec = fields.get("env_spec", None)
     inferred_batch_size = None
     inferred_batch_size_field = None
     for field, value in fields.items():
         if field in [
-                'observations', 'actions', 'rewards', 'next_observations',
-                'step_types'
+            "observations",
+            "actions",
+            "rewards",
+            "next_observations",
+            "step_types",
         ]:
             if not isinstance(value, array_type):
-                raise ValueError(f'{field} is not of type {array_type!r}')
-        if hasattr(value, 'shape'):
+                raise ValueError(f"{field} is not of type {array_type!r}")
+        if hasattr(value, "shape"):
             if inferred_batch_size is None:
                 inferred_batch_size = value.shape[0]
                 inferred_batch_size_field = field
             elif value.shape[0] != inferred_batch_size:
                 raise ValueError(
-                    f'{field} has batch size {value.shape[0]}, but '
-                    f'must have batch size {inferred_batch_size} '
-                    f'to match {inferred_batch_size_field}')
-            if env_spec and field in ['observations', 'next_observations']:
-                if not _space_soft_contains(env_spec.observation_space,
-                                            value[0]):
+                    f"{field} has batch size {value.shape[0]}, but "
+                    f"must have batch size {inferred_batch_size} "
+                    f"to match {inferred_batch_size_field}"
+                )
+            if env_spec and field in ["observations", "next_observations"]:
+                if not _space_soft_contains(env_spec.observation_space, value[0]):
                     raise ValueError(
-                        f'Each {field[:-1]} has shape {value[0].shape} '
-                        f'but must match the observation_space '
-                        f'{env_spec.observation_space}')
-                if (isinstance(value[0], np.ndarray)
-                        and not env_spec.observation_space.contains(value[0])):
+                        f"Each {field[:-1]} has shape {value[0].shape} "
+                        f"but must match the observation_space "
+                        f"{env_spec.observation_space}"
+                    )
+                if isinstance(
+                    value[0], np.ndarray
+                ) and not env_spec.observation_space.contains(value[0]):
                     warnings.warn(
-                        f'Observation {value[0]!r} is outside '
-                        f'observation_space {env_spec.observation_space}')
-            if env_spec and field == 'actions':
+                        f"Observation {value[0]!r} is outside "
+                        f"observation_space {env_spec.observation_space}"
+                    )
+            if env_spec and field == "actions":
                 if not _space_soft_contains(env_spec.action_space, value[0]):
                     raise ValueError(
-                        f'Each {field[:-1]} has shape {value[0].shape} '
-                        f'but must match the action_space '
-                        f'{env_spec.action_space}')
-            if field in ['rewards', 'step_types']:
-                if value.shape != (inferred_batch_size, ):
-                    raise ValueError(f'{field} has shape {value.shape} '
-                                     f'but must have batch size '
-                                     f'{inferred_batch_size} to match '
-                                     f'{inferred_batch_size_field}')
-        if field in ['agent_infos', 'env_infos', 'episode_infos']:
+                        f"Each {field[:-1]} has shape {value[0].shape} "
+                        f"but must match the action_space "
+                        f"{env_spec.action_space}"
+                    )
+            if field in ["rewards", "step_types"]:
+                if value.shape != (inferred_batch_size,):
+                    raise ValueError(
+                        f"{field} has shape {value.shape} "
+                        f"but must have batch size "
+                        f"{inferred_batch_size} to match "
+                        f"{inferred_batch_size_field}"
+                    )
+        if field in ["agent_infos", "env_infos", "episode_infos"]:
             for key, val in value.items():
                 if not isinstance(val, (array_type, dict)):
                     raise ValueError(
-                        f'Entry {key!r} in {field} is of type {type(val)}'
-                        f'but must be {array_type!r} or dict')
-                if hasattr(val, 'shape'):
+                        f"Entry {key!r} in {field} is of type {type(val)}"
+                        f"but must be {array_type!r} or dict"
+                    )
+                if hasattr(val, "shape"):
                     if val.shape[0] != inferred_batch_size:
                         raise ValueError(
-                            f'Entry {key!r} in {field} has batch size '
-                            f'{val.shape[0]} but must have batch size '
-                            f'{inferred_batch_size} to match '
-                            f'{inferred_batch_size_field}')
+                            f"Entry {key!r} in {field} has batch size "
+                            f"{val.shape[0]} but must have batch size "
+                            f"{inferred_batch_size} to match "
+                            f"{inferred_batch_size_field}"
+                        )
 
-        if (field == 'step_types' and isinstance(value, np.ndarray)
-                and  # Only numpy arrays support custom dtypes.
-                value.dtype != StepType):
+        if (
+            field == "step_types"
+            and isinstance(value, np.ndarray)
+            and value.dtype != StepType  # Only numpy arrays support custom dtypes.
+        ):
             raise ValueError(
-                f'step_types has dtype {value.dtype} but must have '
-                f'dtype StepType')
+                f"step_types has dtype {value.dtype} but must have " f"dtype StepType"
+            )

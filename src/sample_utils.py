@@ -39,6 +39,7 @@ def make_env(env_name, seed: int):
 
 
 def sample_policy_or_random(env, policy, random_policy_prob):
+    assert env.seeded_rand_vec
     observation = env.reset()
     use_random = False
     yield {"observation": observation}
@@ -70,8 +71,9 @@ def vec_collect_noisy_episodes(envs, policy, noise_scale, n_episodes):
 
 
 def vec_sample_noisy_policy(envs, policy, noise_scale):
+    assert all(env.seeded_rand_vec for env in envs)
     observations = [env.reset() for env in envs]
-    episodes = [[{"observation": obs}] for obs in observations]
+    episodes = [[] for obs in observations]
     for _ in range(envs[0].max_episode_length):
         actions, agent_info = policy.get_actions(observations)
         for i, env in enumerate(envs):
