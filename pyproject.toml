@@ -10,10 +10,9 @@ openai = "^0.18.1"
 python-dotenv = "^0.20.0"
 setuptools = "^62.3.1"
 pip = "^22.1"
-metaworld = {path = "metaworld", develop = true}
 jupyterlab = "^3.4.3"
 scipy = "^1.8.1"
-PyQt5 = "^5.15.7"
+PyQt5 = "5.15.7"
 Pillow = "^9.1.1"
 ipdb = "^0.13.9"
 plotly = "^5.8.2"
@@ -34,9 +33,10 @@ opencv-python = "^4.6.0"
 tensorflow = "^2.9.1"
 tensorflow-hub = "^0.12.0"
 clize = "^4.2.1"
-dm-reverb = {extras = ["tensorflow"], version = "^0.8.0"}
 ml-collections = "^0.1.1"
 pillow = "9.1.1"
+metaworld = {path = "metaworld", develop = true}
+cliport = {path = "cliport", develop = true}
 
 [tool.poetry.dev-dependencies]
 ipython = "^8.3.0"
