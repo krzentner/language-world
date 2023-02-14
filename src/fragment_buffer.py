@@ -35,10 +35,18 @@ class FragmentBuffer:
         self._next_episode_id: EpisodeId = EpisodeId(1)
         self._next_allocation_index: int = 0
         self._episode_allocations: dict[EpisodeId, int] = {}
+        self._rev_episode_allocations: dict[int, EpisodeId] = {}
 
-    def start_episode(self) -> EpisodeId:
-        episode_id = self._next_episode_id
-        self._next_episode_id = EpisodeId(self._next_episode_id + 1)
+    def start_episode(self, episode_id=None) -> EpisodeId:
+        if episode_id is None:
+            episode_id = self._next_episode_id
+            self._next_episode_id = EpisodeId(self._next_episode_id + 1)
+        episode_to_remove = self._rev_episode_allocations.get(
+            self._next_allocation_index
+        )
+        if episode_to_remove is not None:
+            del self._episode_allocations[episode_to_remove]
+        self._rev_episode_allocations[self._next_allocation_index] = episode_id
         self._episode_allocations[episode_id] = self._next_allocation_index
         self.episode_length_so_far[self._next_allocation_index] = 0
         self.episode_complete[self._next_allocation_index] = False
@@ -55,10 +63,9 @@ class FragmentBuffer:
     ):
         timesteps = {}
         for k, v in timestep.items():
-            try:
-                v = torch.as_tensor(v)
+            if isinstance(v, torch.Tensor):
                 timesteps[k] = v.unsqueeze(-1)
-            except (RuntimeError, TypeError, ValueError):
+            else:
                 timesteps[k] = [v]
         self.store_timesteps(episode_id, timesteps)
 
@@ -71,18 +78,27 @@ class FragmentBuffer:
         start_step = self.episode_length_so_far[allocation_index]
         n_steps = None
         for k, v in timesteps.items():
-            try:
-                v = torch.as_tensor(v)
-            except (RuntimeError, TypeError, ValueError):
-                pass
+            if n_steps is None:
+                n_steps = len(v)
+            else:
+                assert n_steps == len(v)
+
             buffer = self.buffers.get(k)
-            if buffer is None:
-                if isinstance(v, list):
+            if isinstance(v, list):
+                if buffer is None:
                     buffer = [
                         [None] * self._max_episode_length
                         for _ in range(self._n_episodes)
                     ]
-                elif isinstance(v, torch.Tensor):
+                    self.buffers[k] = buffer
+                else:
+                    if not isinstance(buffer, list):
+                        raise TypeError(
+                            f"Expected a timestep sequence of type {type(buffer)} "
+                            f"for {k} but got one of type {type(v)}"
+                        )
+            elif isinstance(v, torch.Tensor):
+                if buffer is None:
                     buffer = torch.zeros(
                         (
                             self._n_episodes,
@@ -91,13 +107,15 @@ class FragmentBuffer:
                         + v.shape[1:],
                         dtype=v.dtype,
                     )
+                    self.buffers[k] = buffer
                 else:
-                    raise TypeError("Unsupported timestep sequence type {}", type(v))
-                self.buffers[k] = buffer
-            if n_steps is None:
-                n_steps = min(len(v), self._max_episode_length)
+                    if not isinstance(buffer, torch.Tensor):
+                        raise TypeError(
+                            f"Expected a timestep sequence of type {type(buffer)} "
+                            f"for {k} but got one of type {type(v)}"
+                        )
             else:
-                assert n_steps == min(len(v), self._max_episode_length)
+                raise TypeError("Unsupported timestep sequence type {}", type(v))
             print(start_step, start_step + n_steps, v)
             buffer[allocation_index][start_step : start_step + n_steps] = v
         self.episode_length_so_far[allocation_index] += n_steps
@@ -186,7 +204,7 @@ def test_indexing():
     for x in range(2):
         ep = buffer.start_episode()
         for i in range(x + 3):
-            buffer.store_timestep(ep, {"t": i})
+            buffer.store_timestep(ep, {"t": torch.tensor(i)})
     indices = buffer.valid_indices(fragment_length=4)
     assert (indices == torch.tensor([[1, 0]])).all()
     indices = buffer.valid_indices(fragment_length=3)
