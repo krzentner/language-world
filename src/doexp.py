@@ -1,10 +1,14 @@
+#!/usr/bin/env python3
 from dataclasses import dataclass, field
+from typing import Union, List, Tuple
 import os
+import re
 import subprocess
 import psutil
 import time
 import shutil
 import math
+import sys
 
 
 @dataclass(frozen=True)
@@ -23,15 +27,44 @@ class Cmd:
     args: tuple
     extra_outputs: tuple
     extra_inputs: tuple
-    warmup_time: float = field(default=30.0, compare=False)
-    ram_gb: float = field(default=4, compare=False)
-    priority: int = field(default=10, compare=False)
-    gpus: str or None = field(default=None, compare=False)
+    warmup_time: float = 1.0
+    ram_gb: float = 4.0
+    priority: Union[int, Tuple[int, ...]] = 10
+    gpus: Union[str, None] = None
 
 
 _BYTES_PER_GB = (1024) ** 3
 # If srun is installed, use slurm
 _USING_SLURM = bool(shutil.which("srun"))
+CUDA_DEVICES = []
+next_cuda_device = 0
+
+
+def get_cuda_gpus():
+    global CUDA_DEVICES
+    visible_devices = os.environ.get("CUDA_VISIBLE_DEVICES", None)
+    if visible_devices is None:
+        try:
+            _nvidia_smi_proc = subprocess.run(
+                ["nvidia-smi", "--list-gpus"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+                check=False,
+            )
+            output = _nvidia_smi_proc.stdout.decode("utf-8")
+            CUDA_DEVICES = re.findall(r"GPU ([0-9]*):", output)
+        except FileNotFoundError:
+            CUDA_DEVICES = []
+    else:
+        if visible_devices == "-1":
+            CUDA_DEVICES = []
+        try:
+            CUDA_DEVICES = [str(int(d)) for d in visible_devices.split(",")]
+        except ValueError:
+            CUDA_DEVICES = []
+
+
+get_cuda_gpus()
 
 
 def _ram_in_use_gb():
@@ -73,8 +106,12 @@ def _filter_cmds_ram(commands, *, reserved_ram_gb, ram_gb_cap):
 
 
 def _sort_cmds(commands):
-    def key(cmd):
-        return (-cmd.priority, cmd.warmup_time, cmd.ram_gb)
+    def key(cmd) -> tuple[list[int], float, float]:
+        priority_as_list = cmd.priority
+        if not isinstance(priority_as_list, (list, tuple)):
+            priority_as_list = [priority_as_list]
+
+        return ([-prio for prio in priority_as_list], cmd.warmup_time, cmd.ram_gb)
 
     return sorted(list(commands), key=key)
 
@@ -116,10 +153,17 @@ def _cmd_name(cmd):
     return name
 
 
-def _run_process(args, *, ram_gb, stdout, stderr):
+def _run_process(args, *, gpus, ram_gb, stdout, stderr):
+    global next_cuda_device
+    env = os.environ.copy()
     if _USING_SLURM:
         args = ["srun", f"--mem={int(math.ceil(ram_gb))}G", "--"] + args
-    return subprocess.Popen(args, stdout=stdout, stderr=stderr)
+    elif gpus is not None:
+        env["CUDA_VISIBLE_DEVICES"] = gpus
+    elif len(CUDA_DEVICES) > 1:
+        env["CUDA_VISIBLE_DEVICES"] = str(CUDA_DEVICES[next_cuda_device])
+        next_cuda_device = (next_cuda_device + 1) % len(CUDA_DEVICES)
+    return subprocess.Popen(args, stdout=stdout, stderr=stderr, env=env)
 
 
 @dataclass
@@ -131,9 +175,8 @@ class Context:
     data_dir: str = f"{os.getcwd()}/data/experiments"
     _vm_percent_cap: float = 90.0
     max_concurrent_jobs: int or None = psutil.cpu_count()
-    warmup_deadlines: dict[Cmd, float] = field(default_factory=dict)
+    warmup_deadline: float = time.monotonic()
     reserved_ram_gb: float = _ram_in_use_gb()
-    target_load_avg_per_core: float = 0.8
 
     @property
     def ram_gb_cap(self):
@@ -179,16 +222,7 @@ class Context:
             and len(self.running) >= self.max_concurrent_jobs
         ):
             return False
-        if (
-            not _USING_SLURM
-            and len(self.running) >= 1
-            and psutil.getloadavg()[0]
-            > self.target_load_avg_per_core * psutil.cpu_count(logical=True)
-        ):
-            return False
-        if any(
-            time.monotonic() < self.warmup_deadlines[cmd] for cmd, _proc in self.running
-        ):
+        if time.monotonic() < self.warmup_deadline:
             return False
         return True
 
@@ -246,9 +280,11 @@ class Context:
         stderr = open(os.path.join(cmd_dir, "stderr.txt"), "w")
         args = _cmd_to_args(cmd, self.data_dir)
         print(" ".join(args))
-        proc = _run_process(args, ram_gb=cmd.ram_gb, stdout=stdout, stderr=stderr)
+        proc = _run_process(
+            args, gpus=cmd.gpus, ram_gb=cmd.ram_gb, stdout=stdout, stderr=stderr
+        )
         print(proc.pid)
-        self.warmup_deadlines[cmd] = time.monotonic() + cmd.warmup_time
+        self.warmup_deadline = time.monotonic() + cmd.warmup_time
         self.running.append((cmd, proc))
         return proc
 
@@ -265,14 +301,20 @@ class Context:
 
         by_total_time = sorted(self.running, key=total_time)
         for (running_cmd, proc) in by_total_time:
-            mem = psutil.Process(proc.pid).memory_info()
-            ram_gb = (mem.rss + mem.vms) / _BYTES_PER_GB
+            try:
+                mem = psutil.Process(proc.pid).memory_full_info()
+            except psutil.ZombieProcess:
+                continue
+            ram_gb = (mem.pss + mem.uss) / _BYTES_PER_GB
             if ram_gb > running_cmd.ram_gb:
                 print(
                     f"Command exceeded memory limit "
                     f"({ram_gb} > {running_cmd.ram_gb}): "
                     f"{_cmd_name(running_cmd)}"
                 )
+                self.reserved_ram_gb -= running_cmd.ram_gb
+                running_cmd.ram_gb = ram_gb
+                self.reserved_ram_gb += running_cmd.ram_gb
             if gb_free < 0:
                 print(f"Terminating process: {_cmd_name(running_cmd)}")
                 proc.terminate()
@@ -314,10 +356,12 @@ def cmd(
     extra_inputs=tuple(),
     warmup_time: float = 1.0,
     ram_gb: float = 4,
-    priority: int = 10,
-    gpus: str or None = None,
+    priority: Union[int, List[int], Tuple[int, ...]] = 10,
+    gpus: Union[str, None] = None,
 ):
     """Add a command to be run by the GLOBAL_CONTEXT"""
+    if isinstance(priority, list):
+        priority = tuple(priority)
     GLOBAL_CONTEXT.cmd(
         Cmd(
             args=tuple(args),
@@ -332,4 +376,7 @@ def cmd(
 
 
 if __name__ == "__main__":
-    print("Do not call doexp directly. Call the wrapper script runexp")
+    print("You probably meant to call src/runexp.py")
+    command = [sys.executable, "src/runexp.py"]
+    print("Executing ", " ".join(command))
+    os.execv(command[0], command)
