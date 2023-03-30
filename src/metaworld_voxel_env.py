@@ -9,65 +9,101 @@ import plotly.graph_objects as go
 from mj_pc.mj_point_clouds import PointCloudGenerator
 import open3d as o3d
 
+
 def render_env_mj_pc(env_name, seed=1000):
     env = MetaWorldVoxelEnv(env_name=env_name, seed=seed)
     obs = env.reset()
-    assert env.observation_space['imgs']['depth_imgs'].contains(obs['imgs']['depth_imgs'])
-    assert env.observation_space['imgs']['color_imgs'].contains(obs['imgs']['color_imgs'])
-    assert env.observation_space['imgs']['cam_locations'].contains(obs['imgs']['cam_locations'])
-    assert env.observation_space['imgs']['cam2world_mats'].contains(obs['imgs']['cam2world_mats'])
+    assert env.observation_space["imgs"]["depth_imgs"].contains(
+        obs["imgs"]["depth_imgs"]
+    )
+    assert env.observation_space["imgs"]["color_imgs"].contains(
+        obs["imgs"]["color_imgs"]
+    )
+    assert env.observation_space["imgs"]["cam_locations"].contains(
+        obs["imgs"]["cam_locations"]
+    )
+    assert env.observation_space["imgs"]["cam2world_mats"].contains(
+        obs["imgs"]["cam2world_mats"]
+    )
     # Don't check low_dim, since it's broken anyways
     env.obsToNumpyVoxels(obs)
 
-class MetaWorldVoxelEnv(gym.Env):
 
-    def __init__(self,
-                 *,
-                 env_name,
-                 seed,
-                 camera_names=('corner4', 'behindGripper'),
-                 img_width=128,
-                 img_height=72):
+class MetaWorldVoxelEnv(gym.Env):
+    def __init__(
+        self,
+        *,
+        env_name,
+        seed,
+        camera_names=("corner4", "behindGripper"),
+        img_width=128,
+        img_height=72,
+    ):
         self.img_width = img_width
         self.img_height = img_height
-        self.env = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE[f'{env_name}-v2-goal-observable'](seed)
+        self.env = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE[
+            f"{env_name}-v2-goal-observable"
+        ](seed)
         self.env.seeded_rand_vec = True
-        self.pc_gen = PointCloudGenerator(self.env.sim,
-                                          min_bound=(-1., -1., -1.),
-                                          max_bound=(1., 1., 1.),
-                                          camera_names=camera_names,
-                                          width=img_width,
-                                          height=img_height)
+        self.pc_gen = PointCloudGenerator(
+            self.env.sim,
+            min_bound=(-1.0, -1.0, -1.0),
+            max_bound=(1.0, 1.0, 1.0),
+            camera_names=camera_names,
+            width=img_width,
+            height=img_height,
+        )
         self.action_space = self.env.action_space
-        self.observation_space = spaces.Dict({
-            'low_dim': self.env.observation_space,
-            'imgs': spaces.Dict({
-                'cam2world_mats': spaces.Dict({
-                    cam_name: spaces.Box(low=-np.inf, high=np.inf, shape=(4, 4))
-                    for cam_name in camera_names
-                }),
-                'cam_locations': spaces.Dict({
-                    cam_name: spaces.Box(low=-np.inf, high=np.inf, shape=(3,))
-                    for cam_name in camera_names
-                }),
-                'color_imgs': spaces.Dict({
-                    cam_name: spaces.Box(low=0, high=255,
-                                         shape=(self.img_height, self.img_width, 3),
-                                         dtype=np.uint8)
-                    for cam_name in camera_names
-                }),
-                'depth_imgs': spaces.Dict({
-                    cam_name: spaces.Box(low=0, high=np.inf,
-                                         shape=(self.img_height, self.img_width),
-                                         dtype=np.float32)
-                    for cam_name in camera_names
-                }),
-            })
-        })
+        self.observation_space = spaces.Dict(
+            {
+                "low_dim": self.env.observation_space,
+                "imgs": spaces.Dict(
+                    {
+                        "cam2world_mats": spaces.Dict(
+                            {
+                                cam_name: spaces.Box(
+                                    low=-np.inf, high=np.inf, shape=(4, 4)
+                                )
+                                for cam_name in camera_names
+                            }
+                        ),
+                        "cam_locations": spaces.Dict(
+                            {
+                                cam_name: spaces.Box(
+                                    low=-np.inf, high=np.inf, shape=(3,)
+                                )
+                                for cam_name in camera_names
+                            }
+                        ),
+                        "color_imgs": spaces.Dict(
+                            {
+                                cam_name: spaces.Box(
+                                    low=0,
+                                    high=255,
+                                    shape=(self.img_height, self.img_width, 3),
+                                    dtype=np.uint8,
+                                )
+                                for cam_name in camera_names
+                            }
+                        ),
+                        "depth_imgs": spaces.Dict(
+                            {
+                                cam_name: spaces.Box(
+                                    low=0,
+                                    high=np.inf,
+                                    shape=(self.img_height, self.img_width),
+                                    dtype=np.float32,
+                                )
+                                for cam_name in camera_names
+                            }
+                        ),
+                    }
+                ),
+            }
+        )
 
     def _wrap_obs(self, low_dim_obs):
-        return {'low_dim': low_dim_obs,
-                'imgs': self.pc_gen.generateObservation()}
+        return {"low_dim": low_dim_obs, "imgs": self.pc_gen.generateObservation()}
 
     def reset(self):
         obs = self.env.reset()
@@ -78,15 +114,17 @@ class MetaWorldVoxelEnv(gym.Env):
         return self._wrap_obs(obs), reward, done, info
 
     def visualize(self, obs):
-        point_cloud = self.pc_gen.observationToPointCloud(obs['imgs'],
-                                                          estimate_normals=True)
-        voxel_grid = o3d.geometry.VoxelGrid.create_from_point_cloud(point_cloud,
-                                                                    voxel_size=0.01)
+        point_cloud = self.pc_gen.observationToPointCloud(
+            obs["imgs"], estimate_normals=True
+        )
+        voxel_grid = o3d.geometry.VoxelGrid.create_from_point_cloud(
+            point_cloud, voxel_size=0.01
+        )
         o3d.visualization.draw_geometries([point_cloud, voxel_grid])
 
-    VOXEL_FEATURES = 5 # RGB + Count + Ones
+    VOXEL_FEATURES = 5  # RGB + Count + Ones
 
-    def obsToNumpyVoxels(self, obs, grid_shape=(64, 64, 64), grid_dims=(1., 1., 1.)):
+    def obsToNumpyVoxels(self, obs, grid_shape=(64, 64, 64), grid_dims=(1.0, 1.0, 1.0)):
         """
 
         Args:
@@ -98,9 +136,10 @@ class MetaWorldVoxelEnv(gym.Env):
             np.ndarray: The featurized voxel grid. Has shape grid_shape + (VOXEL_FEATUES,)
 
         """
-        gripper_location = obs['low_dim'][:3]
-        point_cloud = self.pc_gen.observationToPointCloud(obs['imgs'],
-                                                          estimate_normals=False)
+        gripper_location = obs["low_dim"][:3]
+        point_cloud = self.pc_gen.observationToPointCloud(
+            obs["imgs"], estimate_normals=False
+        )
         # Center the gripper
         # That's right, it's serious egocentrism time :sunglasses:
         point_cloud = point_cloud.translate(-gripper_location)
@@ -108,7 +147,8 @@ class MetaWorldVoxelEnv(gym.Env):
         min_bound = (-grid_dims[0] / 2, -grid_dims[1] / 2, -grid_dims[2] / 2)
         max_bound = (grid_dims[0] / 2, grid_dims[1] / 2, grid_dims[2] / 2)
         target_bounds = o3d.geometry.AxisAlignedBoundingBox(
-            min_bound=min_bound, max_bound=max_bound)
+            min_bound=min_bound, max_bound=max_bound
+        )
         point_cloud = point_cloud.crop(target_bounds)
 
         locations = np.asarray(point_cloud.points)
@@ -120,31 +160,33 @@ class MetaWorldVoxelEnv(gym.Env):
             count_grid[indices[i, 0], indices[i, 1], indices[i, 2]] += 1
             color_grid[indices[i, 0], indices[i, 1], indices[i, 2]] += colors[i]
 
-        divisor = np.maximum(np.expand_dims(count_grid, -1).astype(np.float32), 1.)
+        divisor = np.maximum(np.expand_dims(count_grid, -1).astype(np.float32), 1.0)
         color_grid /= divisor
 
         if False:
-            X, Y, Z = np.mgrid[min_bound[0]:max_bound[0]:(grid_shape[0] * 1j),
-                            min_bound[1]:max_bound[1]:(grid_shape[1] * 1j),
-                            min_bound[2]:max_bound[2]:(grid_shape[2] * 1j)]
+            X, Y, Z = np.mgrid[
+                min_bound[0] : max_bound[0] : (grid_shape[0] * 1j),
+                min_bound[1] : max_bound[1] : (grid_shape[1] * 1j),
+                min_bound[2] : max_bound[2] : (grid_shape[2] * 1j),
+            ]
             ds = count_grid.flatten()
             X = X.flatten()[ds > 0]
             Y = Y.flatten()[ds > 0]
             Z = Z.flatten()[ds > 0]
             C = color_grid.reshape(-1, 3)[ds > 0]
             R, G, B = C.T
-            A = np.minimum(1., ds[ds > 0].astype(np.float32))
+            A = np.minimum(1.0, ds[ds > 0].astype(np.float32))
 
             # fig = go.Figure(data=[go.Scatter3d(
-                # x=X.flatten(),
-                # y=Y.flatten(),
-                # z=Z.flatten(),
-                # mode='markers',
-                # marker=dict(
-                    # size=grid_shape[0],
-                    # color=255 * C,
-                    # opacity=1.0,
-                # )
+            # x=X.flatten(),
+            # y=Y.flatten(),
+            # z=Z.flatten(),
+            # mode='markers',
+            # marker=dict(
+            # size=grid_shape[0],
+            # color=255 * C,
+            # opacity=1.0,
+            # )
             # )])
 
             # fig.write_html('first_figure.html', auto_open=True)
@@ -194,33 +236,36 @@ class MetaWorldVoxelEnv(gym.Env):
                 for _ in range(8):
                     vert_color.append((255 * r, 255 * g, 255 * b, a))
 
-            fig = go.Figure(data=[
-                go.Mesh3d(
-                    # 8 vertices of a cube
-                    x=verts_x,
-                    y=verts_y,
-                    z=verts_z,
-                    # i, j and k give the vertices of triangles
-                    i = faces_i,
-                    j = faces_j,
-                    k = faces_k,
-                    showscale=True,
-                    vertexcolor=vert_color,
-                )
-            ])
+            fig = go.Figure(
+                data=[
+                    go.Mesh3d(
+                        # 8 vertices of a cube
+                        x=verts_x,
+                        y=verts_y,
+                        z=verts_z,
+                        # i, j and k give the vertices of triangles
+                        i=faces_i,
+                        j=faces_j,
+                        k=faces_k,
+                        showscale=True,
+                        vertexcolor=vert_color,
+                    )
+                ]
+            )
 
-            fig.write_html('voxels.html', auto_open=True)
+            fig.write_html("voxels.html", auto_open=True)
 
         count_feature_grid = count_grid.astype(np.float32) / 16
-        feature_grid = np.concatenate((color_grid,
-                                       np.expand_dims(count_grid, -1),
-                                       np.ones(grid_shape + (1,))),
-                                      axis=-1,
-                                      dtype=np.float32)
+        feature_grid = np.concatenate(
+            (color_grid, np.expand_dims(count_grid, -1), np.ones(grid_shape + (1,))),
+            axis=-1,
+            dtype=np.float32,
+        )
 
         assert feature_grid.dtype == np.float32
         assert feature_grid.shape == grid_shape + (self.VOXEL_FEATURES,)
         return feature_grid
 
-if __name__ == '__main__':
-    render_env_mj_pc('reach')
+
+if __name__ == "__main__":
+    render_env_mj_pc("reach")

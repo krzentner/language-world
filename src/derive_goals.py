@@ -1,6 +1,11 @@
 import clize
 from collections import defaultdict
-from generate_metaworld_scene_dataset import enumerate_base_conds, eval_conditions, parse_obs, enumerate_descriptors
+from generate_metaworld_scene_dataset import (
+    enumerate_base_conds,
+    eval_conditions,
+    parse_obs,
+    enumerate_descriptors,
+)
 from metaworld_controllers import parse_obs
 from metaworld_universal_policy import SawyerUniversalV2Policy
 from run_utils import str_list
@@ -8,6 +13,7 @@ from generate_mt10_plans import load_and_parse_plans, plan_str
 from tqdm import tqdm
 import sample_utils
 from pprint import pprint
+
 
 def split_conds(env_name, obs, conditions, fuzzy):
     truth_values = eval_conditions(env_name, conditions, obs, fuzzy=fuzzy)
@@ -31,7 +37,7 @@ def change_counts(env_name, episode, key_conditions, candidate_conds):
     before_conds = {}
     conditions_to_change_count = defaultdict(lambda: defaultdict(int))
     for (i, data) in enumerate(episode):
-        obs = parse_obs(data['observation'])
+        obs = parse_obs(data["observation"])
         conds_now, _ = split_conds(env_name, obs, candidate_conds, fuzzy=False)
         true_keys, false_keys = split_conds(env_name, obs, key_conditions, fuzzy=False)
         if i + 1 == len(episode):
@@ -48,34 +54,43 @@ def change_counts(env_name, episode, key_conditions, candidate_conds):
             # Record all of the conditions that became true while key was true
             for key in false_keys:
                 if key in before_conds:
-                    record_changes(conditions_to_change_count[key],
-                                before_conds[key], conds_now)
+                    record_changes(
+                        conditions_to_change_count[key], before_conds[key], conds_now
+                    )
                     del before_conds[key]
     return conditions_to_change_count
+
 
 def most_frequent_changes(env_name, data, key_conditions):
     candidate_conds = enumerate_base_conds(env_name)
     all_conds = enumerate_descriptors(env_name)
-    key_cond_proj = {key_cond: sample_utils.str_project(key_cond, all_conds)[0]
-                     for key_cond in key_conditions}
+    key_cond_proj = {
+        key_cond: sample_utils.str_project(key_cond, all_conds)[0]
+        for key_cond in key_conditions
+    }
     key_cond_rev = {v: k for (k, v) in key_cond_proj.items()}
     key_conds = [key_cond_proj[key_cond] for key_cond in key_conditions]
     conditions_to_change_count = defaultdict(lambda: defaultdict(int))
     for episode in data:
-        episode_counts = change_counts(env_name, episode, key_conds,
-                                       candidate_conds)
+        episode_counts = change_counts(env_name, episode, key_conds, candidate_conds)
         for (key, cond_counts) in episode_counts.items():
             for (cond, count) in cond_counts.items():
                 conditions_to_change_count[key][cond] += count
-    return {key_cond_rev[key]: sorted(list(cond_counts.items()),
-                        key=lambda pair: pair[1],
-                        reverse=True)
-            for (key, cond_counts) in conditions_to_change_count.items()}
+    return {
+        key_cond_rev[key]: sorted(
+            list(cond_counts.items()), key=lambda pair: pair[1], reverse=True
+        )
+        for (key, cond_counts) in conditions_to_change_count.items()
+    }
 
-def find_most_likely_conditions(*, envs: str_list=sample_utils.MT10_ENV_NAMES,
-                                seed=sample_utils.DEFAULT_SEED,
-                                plan_file:str = 'mt50_plans_v1.py',
-                                out_file:str = 'mt10_plans_v2_from_demonstrations.py'):
+
+def find_most_likely_conditions(
+    *,
+    envs: str_list = sample_utils.MT10_ENV_NAMES,
+    seed=sample_utils.DEFAULT_SEED,
+    plan_file: str = "mt50_plans_v1.py",
+    out_file: str = "mt10_plans_v2_from_demonstrations.py",
+):
     success_rates = {}
     controller_maps = {}
     plans = load_and_parse_plans(plan_file)
@@ -88,7 +103,11 @@ def find_most_likely_conditions(*, envs: str_list=sample_utils.MT10_ENV_NAMES,
             policy = SawyerUniversalV2Policy(env_name=env_name)
             env = sample_utils.make_env(env_name, seed)
             episodes = sample_utils.collect_noisy_episodes(
-                10 * [env_name], policy, n_episodes=100, seed=seed, noise_scale=noise_scale
+                10 * [env_name],
+                policy,
+                n_episodes=100,
+                seed=seed,
+                noise_scale=noise_scale,
             )
             key_conds = list(plans[env_name].keys())
             freq_changes = most_frequent_changes(env_name, tqdm(episodes), key_conds)
@@ -97,10 +116,12 @@ def find_most_likely_conditions(*, envs: str_list=sample_utils.MT10_ENV_NAMES,
                 best_goal = None
                 best_count = None
                 for (cond, count) in changes:
-                    if (cond.startswith("the robot's gripper is") and
-                        not cond.startswith("the robot's gripper is not") and
-                        cond != "the robot's gripper is open" and
-                        cond != "the robot's gripper is closed"):
+                    if (
+                        cond.startswith("the robot's gripper is")
+                        and not cond.startswith("the robot's gripper is not")
+                        and cond != "the robot's gripper is open"
+                        and cond != "the robot's gripper is closed"
+                    ):
                         best_goal = cond
                         best_count = count
                         break
@@ -126,11 +147,12 @@ def find_most_likely_conditions(*, envs: str_list=sample_utils.MT10_ENV_NAMES,
             new_plans[env_name] = new_plan
     for (env_name, plan) in new_plans.items():
         print(plan_str(env_name, plan))
-    with open(out_file, 'w') as f:
+    with open(out_file, "w") as f:
         for (env_name, plan) in new_plans.items():
             print(plan_str(env_name, plan), file=f)
-            print('\n', file=f)
+            print("\n", file=f)
     return new_plans
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     clize.run(find_most_likely_conditions)

@@ -34,15 +34,15 @@ def plot_tasks_auc(data, filename, title="Success Rate", x_label="Success Rate")
             text.append(",<br>".join(env_names_at_p))
 
         # for i in range(len(env_names)):
-            # if i > 0 and tasks_by_success_rate[i - 1][0] == tasks_by_success_rate[i][0]:
-                # continue
-            # x.append(tasks_by_success_rate[i][0])
-            # y.append(len(env_names) - i)
-            # if i + 1 == len(env_names):
-                # text.append(",<br>".join(env_names[last_i:]))
-            # else:
-                # text.append(",<br>".join(env_names[last_i:i]))
-                # last_i = i
+        # if i > 0 and tasks_by_success_rate[i - 1][0] == tasks_by_success_rate[i][0]:
+        # continue
+        # x.append(tasks_by_success_rate[i][0])
+        # y.append(len(env_names) - i)
+        # if i + 1 == len(env_names):
+        # text.append(",<br>".join(env_names[last_i:]))
+        # else:
+        # text.append(",<br>".join(env_names[last_i:i]))
+        # last_i = i
 
         fig.add_trace(go.Scatter(x=x, y=y, text=text, name=exp_name, line_shape="vh"))
     fig.update_yaxes(range=(0, N_TASKS * 1.1), zeroline=True)
@@ -50,31 +50,36 @@ def plot_tasks_auc(data, filename, title="Success Rate", x_label="Success Rate")
     fig.write_html(filename)
     return fig
 
-def load_result_file(filename, metric='SuccessRate', max_t=True):
+
+def load_result_file(filename, metric="SuccessRate", max_t=True):
     perf = {}
     with open(os.path.expanduser(filename)) as f:
         data = json.load(f)
         for env_name in MT50_ENV_NAMES:
-            key = f'{env_name}/{metric}'
+            key = f"{env_name}/{metric}"
             if key in data and (not max_t or data[key] > perf.get(env_name, -1)):
                 perf[env_name] = data[key]
     return perf
 
 
-def load_result_files(filenames, metric='SuccessRate', n_evals=None, max_t=True):
+def load_result_files(filenames, metric="SuccessRate", n_evals=None, max_t=True):
     perf = {}
     for filename in filenames:
         try:
             with open(os.path.expanduser(filename)) as f:
                 lines = f.readlines()
             if n_evals is not None:
-                assert len(lines) >= n_evals, f"{filename} does not contain enough evals"
+                assert (
+                    len(lines) >= n_evals
+                ), f"{filename} does not contain enough evals"
                 lines = lines[:n_evals]
             for line in lines:
                 data = json.loads(line)
                 for env_name in MT50_ENV_NAMES:
-                    key = f'{env_name}/{metric}'
-                    if key in data and (not max_t or data[key] > perf.get(env_name, -1)):
+                    key = f"{env_name}/{metric}"
+                    if key in data and (
+                        not max_t or data[key] > perf.get(env_name, -1)
+                    ):
                         perf[env_name] = data[key]
         except FileNotFoundError as exc:
             if n_evals is not None:
@@ -92,8 +97,8 @@ def run(
     ignore_mt10: bool = False,
     max_t: bool = True,
     assume_mt10: bool = False,
-    result_set: str = 'all',
-    out_file
+    result_set: str = "all",
+    out_file,
 ):
     if in_file:
         assert title
@@ -415,155 +420,189 @@ def success_rate_results(result_set, max_t):
         "sweep-into": 0.0,
         "sweep": 0.0,
     }
-    if result_set == 'all':
-      data = {
-          "CondAgent One Shot (v0 prompt)": one_shot,
-          "CondAgent Zero Shot (v0 prompt)": zero_shot,
-          # "BC One Shot (WIP)": nabc_one_shot,
-          "CondAgent Zero Shot (v0 prompt, No Language Mix, WIP)": zero_shot_no_language_mix,
-          "EditDistanceAgent (v0 prompt)": diff_agent,
-          "PaLM Chosen Primitives (v1 prompt)": diff_agent_proj,
-          "CondAgent Zero Shot (v1 prompt, short run)": load_result_files(
-                  ['~/exp_data/cond_agent_v1_results.json'], max_t=max_t),
-          "CondAgent Zero Shot (v1 prompt)": load_result_files(
-                  ['~/exp_data2/cond_agent_v1_zeroshot-no-noise.ndjson'], max_t=max_t),
-          "CondAgent One Shot (v1 prompt, short run)": load_result_files(
-                  [f'~/exp_data/cond_agent_v1_fewshot-{env_name}.json'
-                  for env_name in MT50_ENV_NAMES], max_t=max_t),
-          # "CondAgent One Shot (v1 prompt)": load_result_files(
-                  # [f'~/exp_data/cond_agent_v1_fewshot-{env_name}.ndjson'
-                  # for env_name in MT50_ENV_NAMES], max_t=max_t),
-          "CondAgent One Shot (v1 prompt)": load_result_files(
-                  [f'~/exp_data2/cond_agent_v1_fewshot-{env_name}-no-noise.ndjson'
-                  for env_name in MT50_ENV_NAMES], max_t=max_t),
-          "MLPAgent One Shot (NABC)": load_result_files(
-                  [f'~/exp_data/mlp_agent_v1_fewshot-{env_name}.ndjson'
-                  for env_name in MT50_ENV_NAMES], max_t=max_t),
-          "MLPAgent One Shot": load_result_files(
-                  [f'~/exp_data/mlp_agent_v1_fewshot-{env_name}-no-noise.ndjson'
-                  for env_name in MT50_ENV_NAMES], max_t=max_t),
-          "Random Primitive Agent": load_result_file(
-              '~/exp_data/random_language_agent_results.json', max_t=max_t),
-          "Sequential Primitives Agent (v1 prompt)": load_result_file(
-              '~/exp_data/uncond_agent-v1-results.json', max_t=max_t),
-      }
-    elif result_set == 'language-world':
-      data = {
-          "Random Primitive Agent": load_result_file(
-              '~/exp_data/random_language_agent_results.json', max_t=max_t),
-          "PaLM Primitive Sequence (v1 prompt)": load_result_file(
-              '~/exp_data/uncond_agent-v1-results.json', max_t=max_t),
-          "PaLM Conditions + Primitives (v1 prompt)": diff_agent_proj,
-      }
-    elif result_set == 'zeroshot':
-      data = {
-          "CondAgent Zero Shot (goal prompt, ABR)": load_result_files([
-              '~/exp_data/cond_agent_v2_zeroshot.ndjson'
-          ], max_t=max_t),
-          "CondAgent Zero Shot (v0 prompt, ABR)": zero_shot,
-          "CondAgent Zero Shot (v1 prompt, ABR)": load_result_files([
-              '~/exp_data/cond_agent_v1_zeroshot.ndjson'
-          ], max_t=max_t),
-          # "MLPAgent Zero Shot": load_result_file(
-              # '~/exp_data/mlp_agent_v1_zeroshot-no-noise.ndjson', max_t=max_t),
-          "Random Primitive Agent": load_result_file(
-              '~/exp_data/random_language_agent_results.json', max_t=max_t),
-          "PaLM Conditions + Primitives (v1 prompt)": diff_agent_proj,
-      }
-    elif result_set == 'zeroshot-no-noise':
-      data = {
-          "CondAgent Zero Shot (goal prompt)": load_result_files([
-              '~/exp_data/cond_agent_v2_zeroshot-no-noise.ndjson'
-          ], max_t=max_t),
-          "CondAgent Zero Shot (v1 prompt)": load_result_files([
-              '~/exp_data/cond_agent_v1_zeroshot-no-noise.ndjson'
-          ], max_t=max_t),
-          # "MLPAgent Zero Shot": load_result_file(
-              # '~/exp_data/mlp_agent_v1_zeroshot.ndjson'),
-          "Random Primitive Agent": load_result_file(
-              '~/exp_data/random_language_agent_results.json', max_t=max_t),
-          "PaLM Conditions + Primitives (v1 prompt)": diff_agent_proj,
-      }
-    elif result_set == 'no-mix':
-      data = {
-          "CondAgent Zero Shot (v0 prompt, ABR)": zero_shot,
-          "CondAgent-argmax Zero Shot (v0 prompt, ABR)": load_result_files([
-              '~/exp_data/cond_agent_v0_results_no_mix.json'
-          ], max_t=False),
-      }
-    elif result_set == 'noise-difference':
-      data = {
-          # "CondAgent Zero Shot (goal prompt)": load_result_files([
-              # '~/exp_data/cond_agent_v2_zeroshot.ndjson'
-          # ], max_t=max_t),
-          # "CondAgent Zero Shot (goal prompt, ABR)": load_result_files([
-              # '~/exp_data/cond_agent_v2_zeroshot-noise.ndjson'
-          # ], max_t=max_t),
-          "CondAgent Zero Shot (v1 prompt)": load_result_files([
-              '~/exp_data/cond_agent_v1_zeroshot-no-noise.ndjson'
-          ], max_t=max_t),
-          "CondAgent Zero Shot (v1 prompt, ABR)": load_result_files([
-              '~/exp_data/cond_agent_v1_zeroshot.ndjson'
-          ], max_t=max_t),
-          # "MLPAgent Zero Shot": load_result_file(
-              # '~/exp_data/mlp_agent_v1_zeroshot.ndjson'),
-          # "Random Primitive Agent": load_result_file(
-              # '~/exp_data/random_language_agent_results.json', max_t=max_t),
-          # "PaLM Conditions + Primitives (v1 prompt)": diff_agent_proj,
-      }
-    elif result_set == 'primitive-no-obs':
-      data = {
-          # "CondAgent Zero Shot (goal prompt)": load_result_files([
-              # '~/exp_data/cond_agent_v2_zeroshot.ndjson'
-          # ], max_t=max_t),
-          # "CondAgent Zero Shot (goal prompt, ABR)": load_result_files([
-              # '~/exp_data/cond_agent_v2_zeroshot-noise.ndjson'
-          # ], max_t=max_t),
-          "CondAgent Zero Shot (v1 prompt)": load_result_files([
-              '~/exp_data/cond_agent_v1_zeroshot-no-noise.ndjson'
-          ], max_t=max_t),
-          # "CondAgent Zero Shot (v1 prompt, ABR)": load_result_files([
-              # '~/exp_data/cond_agent_v1_zeroshot.ndjson'
-          # ], max_t=max_t),
-          "CondAgent Zero Shot (v1 prompt, hidden obs)": load_result_files([
-              '~/exp_data/cond_agent_v1_zeroshot-naive-no-primitive-obs.ndjson'
-          ], max_t=max_t),
-          # "MLPAgent Zero Shot": load_result_file(
-              # '~/exp_data/mlp_agent_v1_zeroshot.ndjson'),
-          # "Random Primitive Agent": load_result_file(
-              # '~/exp_data/random_language_agent_results.json', max_t=max_t),
-          # "PaLM Conditions + Primitives (v1 prompt)": diff_agent_proj,
-      }
-    elif result_set == 'best':
-      data = {
-          # "PaLM Chosen Primitives (v1 prompt)": diff_agent_proj,
-          # "CondAgent Zero Shot (v1 prompt)": load_result_file(
-                  # '~/exp_data2/tmp/cond_agent_v1_zeroshot-no-noise.ndjson'),
-          # "CondAgent Zero Shot (v0 prompt, ABR)": zero_shot,
-          "CondAgent Zero Shot (v1 prompt)": load_result_files([
-              '~/exp_data/cond_agent_v1_zeroshot-no-noise.ndjson'
-          ], max_t=max_t),
-          "CondAgent Zero Shot (v1 prompt, ABR)": load_result_files([
-              '~/exp_data/cond_agent_v1_zeroshot.ndjson'
-          ], max_t=max_t),
-          # "CondAgent One Shot (v1 prompt)": load_result_files(
-                  # [f'~/exp_data/cond_agent_v1_fewshot-{env_name}.ndjson'
-                  # for env_name in MT50_ENV_NAMES], max_t=max_t),
-          "CondAgent One Shot (v1 prompt)": load_result_files(
-                  [f'~/exp_data2/cond_agent_v1_fewshot-{env_name}-no-noise.ndjson'
-                  for env_name in MT50_ENV_NAMES], max_t=False),
-          # "CondAgent One Shot (v1 prompt, ABR)": load_result_files(
-                  # [f'~/exp_data2/cond_agent_v1_fewshot-{env_name}.ndjson'
-                  # for env_name in MT50_ENV_NAMES], max_t=max_t),
-          "MLPAgent One Shot": load_result_files(
-                  [f'~/exp_data/mlp_agent_v1_fewshot-{env_name}-no-noise.ndjson'
-                  for env_name in MT50_ENV_NAMES], max_t=False),
-          # "MLPAgent True One Shot": load_result_files(
-              # [f'~/exp_data/tmp/mlp_agent_v1_real_oneshot-{env_name}-no-noise-full.ndjson'
-                  # for env_name in MT50_ENV_NAMES], max_t=False),
-          "Random Primitive Agent": load_result_file(
-              '~/exp_data/random_language_agent_results.json', max_t=max_t),
-      }
+    if result_set == "all":
+        data = {
+            "CondAgent One Shot (v0 prompt)": one_shot,
+            "CondAgent Zero Shot (v0 prompt)": zero_shot,
+            # "BC One Shot (WIP)": nabc_one_shot,
+            "CondAgent Zero Shot (v0 prompt, No Language Mix, WIP)": zero_shot_no_language_mix,
+            "EditDistanceAgent (v0 prompt)": diff_agent,
+            "PaLM Chosen Primitives (v1 prompt)": diff_agent_proj,
+            "CondAgent Zero Shot (v1 prompt, short run)": load_result_files(
+                ["~/exp_data/cond_agent_v1_results.json"], max_t=max_t
+            ),
+            "CondAgent Zero Shot (v1 prompt)": load_result_files(
+                ["~/exp_data2/cond_agent_v1_zeroshot-no-noise.ndjson"], max_t=max_t
+            ),
+            "CondAgent One Shot (v1 prompt, short run)": load_result_files(
+                [
+                    f"~/exp_data/cond_agent_v1_fewshot-{env_name}.json"
+                    for env_name in MT50_ENV_NAMES
+                ],
+                max_t=max_t,
+            ),
+            # "CondAgent One Shot (v1 prompt)": load_result_files(
+            # [f'~/exp_data/cond_agent_v1_fewshot-{env_name}.ndjson'
+            # for env_name in MT50_ENV_NAMES], max_t=max_t),
+            "CondAgent One Shot (v1 prompt)": load_result_files(
+                [
+                    f"~/exp_data2/cond_agent_v1_fewshot-{env_name}-no-noise.ndjson"
+                    for env_name in MT50_ENV_NAMES
+                ],
+                max_t=max_t,
+            ),
+            "MLPAgent One Shot (NABC)": load_result_files(
+                [
+                    f"~/exp_data/mlp_agent_v1_fewshot-{env_name}.ndjson"
+                    for env_name in MT50_ENV_NAMES
+                ],
+                max_t=max_t,
+            ),
+            "MLPAgent One Shot": load_result_files(
+                [
+                    f"~/exp_data/mlp_agent_v1_fewshot-{env_name}-no-noise.ndjson"
+                    for env_name in MT50_ENV_NAMES
+                ],
+                max_t=max_t,
+            ),
+            "Random Primitive Agent": load_result_file(
+                "~/exp_data/random_language_agent_results.json", max_t=max_t
+            ),
+            "Sequential Primitives Agent (v1 prompt)": load_result_file(
+                "~/exp_data/uncond_agent-v1-results.json", max_t=max_t
+            ),
+        }
+    elif result_set == "language-world":
+        data = {
+            "Random Primitive Agent": load_result_file(
+                "~/exp_data/random_language_agent_results.json", max_t=max_t
+            ),
+            "PaLM Primitive Sequence (v1 prompt)": load_result_file(
+                "~/exp_data/uncond_agent-v1-results.json", max_t=max_t
+            ),
+            "PaLM Conditions + Primitives (v1 prompt)": diff_agent_proj,
+        }
+    elif result_set == "zeroshot":
+        data = {
+            "CondAgent Zero Shot (goal prompt, ABR)": load_result_files(
+                ["~/exp_data/cond_agent_v2_zeroshot.ndjson"], max_t=max_t
+            ),
+            "CondAgent Zero Shot (v0 prompt, ABR)": zero_shot,
+            "CondAgent Zero Shot (v1 prompt, ABR)": load_result_files(
+                ["~/exp_data/cond_agent_v1_zeroshot.ndjson"], max_t=max_t
+            ),
+            # "MLPAgent Zero Shot": load_result_file(
+            # '~/exp_data/mlp_agent_v1_zeroshot-no-noise.ndjson', max_t=max_t),
+            "Random Primitive Agent": load_result_file(
+                "~/exp_data/random_language_agent_results.json", max_t=max_t
+            ),
+            "PaLM Conditions + Primitives (v1 prompt)": diff_agent_proj,
+        }
+    elif result_set == "zeroshot-no-noise":
+        data = {
+            "CondAgent Zero Shot (goal prompt)": load_result_files(
+                ["~/exp_data/cond_agent_v2_zeroshot-no-noise.ndjson"], max_t=max_t
+            ),
+            "CondAgent Zero Shot (v1 prompt)": load_result_files(
+                ["~/exp_data/cond_agent_v1_zeroshot-no-noise.ndjson"], max_t=max_t
+            ),
+            # "MLPAgent Zero Shot": load_result_file(
+            # '~/exp_data/mlp_agent_v1_zeroshot.ndjson'),
+            "Random Primitive Agent": load_result_file(
+                "~/exp_data/random_language_agent_results.json", max_t=max_t
+            ),
+            "PaLM Conditions + Primitives (v1 prompt)": diff_agent_proj,
+        }
+    elif result_set == "no-mix":
+        data = {
+            "CondAgent Zero Shot (v0 prompt, ABR)": zero_shot,
+            "CondAgent-argmax Zero Shot (v0 prompt, ABR)": load_result_files(
+                ["~/exp_data/cond_agent_v0_results_no_mix.json"], max_t=False
+            ),
+        }
+    elif result_set == "noise-difference":
+        data = {
+            # "CondAgent Zero Shot (goal prompt)": load_result_files([
+            # '~/exp_data/cond_agent_v2_zeroshot.ndjson'
+            # ], max_t=max_t),
+            # "CondAgent Zero Shot (goal prompt, ABR)": load_result_files([
+            # '~/exp_data/cond_agent_v2_zeroshot-noise.ndjson'
+            # ], max_t=max_t),
+            "CondAgent Zero Shot (v1 prompt)": load_result_files(
+                ["~/exp_data/cond_agent_v1_zeroshot-no-noise.ndjson"], max_t=max_t
+            ),
+            "CondAgent Zero Shot (v1 prompt, ABR)": load_result_files(
+                ["~/exp_data/cond_agent_v1_zeroshot.ndjson"], max_t=max_t
+            ),
+            # "MLPAgent Zero Shot": load_result_file(
+            # '~/exp_data/mlp_agent_v1_zeroshot.ndjson'),
+            # "Random Primitive Agent": load_result_file(
+            # '~/exp_data/random_language_agent_results.json', max_t=max_t),
+            # "PaLM Conditions + Primitives (v1 prompt)": diff_agent_proj,
+        }
+    elif result_set == "primitive-no-obs":
+        data = {
+            # "CondAgent Zero Shot (goal prompt)": load_result_files([
+            # '~/exp_data/cond_agent_v2_zeroshot.ndjson'
+            # ], max_t=max_t),
+            # "CondAgent Zero Shot (goal prompt, ABR)": load_result_files([
+            # '~/exp_data/cond_agent_v2_zeroshot-noise.ndjson'
+            # ], max_t=max_t),
+            "CondAgent Zero Shot (v1 prompt)": load_result_files(
+                ["~/exp_data/cond_agent_v1_zeroshot-no-noise.ndjson"], max_t=max_t
+            ),
+            # "CondAgent Zero Shot (v1 prompt, ABR)": load_result_files([
+            # '~/exp_data/cond_agent_v1_zeroshot.ndjson'
+            # ], max_t=max_t),
+            "CondAgent Zero Shot (v1 prompt, hidden obs)": load_result_files(
+                ["~/exp_data/cond_agent_v1_zeroshot-naive-no-primitive-obs.ndjson"],
+                max_t=max_t,
+            ),
+            # "MLPAgent Zero Shot": load_result_file(
+            # '~/exp_data/mlp_agent_v1_zeroshot.ndjson'),
+            # "Random Primitive Agent": load_result_file(
+            # '~/exp_data/random_language_agent_results.json', max_t=max_t),
+            # "PaLM Conditions + Primitives (v1 prompt)": diff_agent_proj,
+        }
+    elif result_set == "best":
+        data = {
+            # "PaLM Chosen Primitives (v1 prompt)": diff_agent_proj,
+            # "CondAgent Zero Shot (v1 prompt)": load_result_file(
+            # '~/exp_data2/tmp/cond_agent_v1_zeroshot-no-noise.ndjson'),
+            # "CondAgent Zero Shot (v0 prompt, ABR)": zero_shot,
+            "CondAgent Zero Shot (v1 prompt)": load_result_files(
+                ["~/exp_data/cond_agent_v1_zeroshot-no-noise.ndjson"], max_t=max_t
+            ),
+            "CondAgent Zero Shot (v1 prompt, ABR)": load_result_files(
+                ["~/exp_data/cond_agent_v1_zeroshot.ndjson"], max_t=max_t
+            ),
+            # "CondAgent One Shot (v1 prompt)": load_result_files(
+            # [f'~/exp_data/cond_agent_v1_fewshot-{env_name}.ndjson'
+            # for env_name in MT50_ENV_NAMES], max_t=max_t),
+            "CondAgent One Shot (v1 prompt)": load_result_files(
+                [
+                    f"~/exp_data2/cond_agent_v1_fewshot-{env_name}-no-noise.ndjson"
+                    for env_name in MT50_ENV_NAMES
+                ],
+                max_t=False,
+            ),
+            # "CondAgent One Shot (v1 prompt, ABR)": load_result_files(
+            # [f'~/exp_data2/cond_agent_v1_fewshot-{env_name}.ndjson'
+            # for env_name in MT50_ENV_NAMES], max_t=max_t),
+            "MLPAgent One Shot": load_result_files(
+                [
+                    f"~/exp_data/mlp_agent_v1_fewshot-{env_name}-no-noise.ndjson"
+                    for env_name in MT50_ENV_NAMES
+                ],
+                max_t=False,
+            ),
+            # "MLPAgent True One Shot": load_result_files(
+            # [f'~/exp_data/tmp/mlp_agent_v1_real_oneshot-{env_name}-no-noise-full.ndjson'
+            # for env_name in MT50_ENV_NAMES], max_t=False),
+            "Random Primitive Agent": load_result_file(
+                "~/exp_data/random_language_agent_results.json", max_t=max_t
+            ),
+        }
     return data
 
 

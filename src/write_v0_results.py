@@ -1,12 +1,14 @@
 import clize
 import json
 
+
 def main(*, oneshot_success_out, zeroshot_success_out):
     data = condagent_v0_mt50_results()
-    with open(oneshot_success_out, 'w') as f:
-        json.dump(data['One Shot'], f)
-    with open(zeroshot_success_out, 'w') as f:
-        json.dump(data['Zero Shot'], f)
+    with open(oneshot_success_out, "w") as f:
+        json.dump(data["One Shot"], f)
+    with open(zeroshot_success_out, "w") as f:
+        json.dump(data["Zero Shot"], f)
+
 
 def condagent_v0_mt50_results():
     one_shot = {
@@ -116,5 +118,6 @@ def condagent_v0_mt50_results():
     data = {"One Shot": one_shot, "Zero Shot": zero_shot}
     return data
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     clize.run(main)

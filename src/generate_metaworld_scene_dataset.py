@@ -2,6 +2,7 @@ from functools import partial
 import typing
 
 import numpy as np
+
 # import jax
 # import jax.numpy as np
 
@@ -306,15 +307,16 @@ WALL_ENVS = {
 }
 
 # @partial(jax.jit, static_argnames=["env_name", "object_name", "fuzzy"])
-def get_object_location(env_name: str, object_name: str, obs, fuzzy: bool=False):
+def get_object_location(env_name: str, object_name: str, obs, fuzzy: bool = False):
     try:
         parse_name = OBJECT_NAMES_TO_PARSE_NAME[env_name][object_name]
     except KeyError as exc:
         if object_name == "the robot's gripper":
             parse_name = "hand_pos"
-        elif object_name.startswith('the '):
-            return get_object_location(env_name, object_name.split('the ')[1],
-                                       obs, fuzzy=fuzzy)
+        elif object_name.startswith("the "):
+            return get_object_location(
+                env_name, object_name.split("the ")[1], obs, fuzzy=fuzzy
+            )
         elif env_name == "peg-insert-side" and object_name == "hole":
             return np.array([-0.35, obs["goal_pos"][1], 0.16])
         elif env_name in WALL_ENVS and object_name == "wall":
@@ -422,8 +424,9 @@ def eval_conditions(env_name: str, conds: typing.Tuple[str], obs, fuzzy=False):
             elif fuzzy:
                 possible_conditions = enumerate_descriptors(env_name)
                 matches = str_project(cond, possible_conditions)
-                base_results.append(eval_conditions(env_name, [matches[0]], obs,
-                                                    fuzzy=False)[0])
+                base_results.append(
+                    eval_conditions(env_name, [matches[0]], obs, fuzzy=False)[0]
+                )
             else:
                 raise TypeError(f"Could not eval condition {cond}")
         results.append(np.all(np.array(base_results)))
@@ -473,6 +476,7 @@ def enumerate_descriptors(env_name: str) -> [str]:
     all_descriptors = descriptors + conjunction_descriptors
     return all_descriptors
 
+
 enumerate_conditions = enumerate_descriptors
 
 
@@ -503,10 +507,13 @@ def test_jax():
     from tqdm import tqdm
     import jax
     import jax.numpy as jnp
+
     global np
     np = jnp
 
-    eval_conditions_jit = jax.jit(eval_conditions, static_argnames=["env_name", "conds"])
+    eval_conditions_jit = jax.jit(
+        eval_conditions, static_argnames=["env_name", "conds"]
+    )
 
     seed = 100
     PATH_LEN = 500
@@ -527,6 +534,6 @@ def test_jax():
                 pbar.update(1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # test_smoke()
     test_jax()

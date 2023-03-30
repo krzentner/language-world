@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class OUProcess:
     r"""An implementation of a Ornstein-Uhlenbeck process.
 
@@ -23,21 +24,13 @@ class OUProcess:
 
     """
 
-    def __init__(self,
-                 *,
-                 dimensions,
-                 mu=0,
-                 sigma=0.3,
-                 theta=0.15,
-                 dt=1e-2,
-                 x0=None):
+    def __init__(self, *, dimensions, mu=0, sigma=0.3, theta=0.15, dt=1e-2, x0=None):
         self._dimensions = dimensions
         self._mu = mu
         self._sigma = sigma
         self._theta = theta
         self._dt = dt
-        self._x0 = x0 if x0 is not None else self._mu * np.zeros(
-            self._dimensions)
+        self._x0 = x0 if x0 is not None else self._mu * np.zeros(self._dimensions)
         self._state = self._x0
 
     def simulate(self):
@@ -49,12 +42,11 @@ class OUProcess:
         """
         x = self._state
         dx = self._theta * (self._mu - x) * self._dt + self._sigma * np.sqrt(
-            self._dt) * np.random.normal(size=len(x))
+            self._dt
+        ) * np.random.normal(size=len(x))
         self._state = x + dx
         return self._state
 
     def reset(self):
-        """Reset the state of the process.
-
-        """
+        """Reset the state of the process."""
         self._state = self._x0

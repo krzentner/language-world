@@ -31,6 +31,7 @@ import ou_process
 
 from generate_metaworld_scene_dataset import describe_obs
 
+
 def update_counts(descriptor_counts, env_name, observation):
     descriptions = describe_obs(env_name, observation)
     for (description, truth_value) in descriptions.items():
@@ -157,7 +158,7 @@ class DescriptorPolicy:
 
 
 def evaluate_policy(env_name, episodes):
-    print('Evaluating', env_name)
+    print("Evaluating", env_name)
     successes = []
     controller_counts = defaultdict(int)
     candidate_counts = defaultdict(int)
@@ -178,8 +179,12 @@ def evaluate_policy(env_name, episodes):
     return np.mean(successes)
 
 
-def find_most_likely_plans(*, envs=",".join(MT10_ENV_NAMES), seed=100,
-                           controller_map_filename=os.path.expanduser("~/data/controller_map.pkl")):
+def find_most_likely_plans(
+    *,
+    envs=",".join(MT10_ENV_NAMES),
+    seed=100,
+    controller_map_filename=os.path.expanduser("~/data/controller_map.pkl")
+):
     env_names = list(envs.split(","))
     # For each descriptor, record how many observations with that descriptor each
     # controller is active
@@ -268,5 +273,6 @@ def find_most_likely_plans(*, envs=",".join(MT10_ENV_NAMES), seed=100,
 def run(output):
     find_most_likely_plans(controller_map_filename=output)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     clize.run(run)

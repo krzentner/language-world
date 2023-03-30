@@ -110,9 +110,7 @@ class CondAgent(nn.Module):
             for (env_name, obs, plan) in zip(env_names, low_dim, plans):
                 true_results = jit_eval_conditions(
                     env_name,
-                    generate_metaworld_scene_dataset.enumerate_base_conds(
-                        env_name
-                    ),
+                    generate_metaworld_scene_dataset.enumerate_base_conds(env_name),
                     obs,
                     fuzzy=True,
                 )
@@ -160,14 +158,13 @@ class CondAgent(nn.Module):
         if self.mix_in_language_space:
             assert self.use_learned_controller
             if self.use_goal_space_primitives:
-                primitive_reprs, primitive_mask = self._compute_goal_space_primitives(env_names,
-                                                                                      low_dim)
+                primitive_reprs, primitive_mask = self._compute_goal_space_primitives(
+                    env_names, low_dim
+                )
             else:
                 embedded_controller_names = [plan["actions"] for plan in plans]
                 primitive_reprs, primitive_mask = pad_list(embedded_controller_names)
-            action_embed = jnp.einsum(
-                "ij,ijk->ik", controller_weights, primitive_reprs
-            )
+            action_embed = jnp.einsum("ij,ijk->ik", controller_weights, primitive_reprs)
             if self.give_obs_to_learned_controller:
                 actions, controller_info = self.learned_controller(
                     action_embed, low_dim

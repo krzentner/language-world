@@ -28,7 +28,9 @@ class UncondAgent:
         controller_idx = controller_number % len(self.plans[self.env_name])
         controller_name = self.plans[self.env_name][controller_idx][1]
         if controller_name not in PROJ_CACHE:
-            PROJ_CACHE[controller_name] = str_project(controller_name, PRIMITIVE_NAMES)[0]
+            PROJ_CACHE[controller_name] = str_project(controller_name, PRIMITIVE_NAMES)[
+                0
+            ]
         chosen_controller = PROJ_CACHE[controller_name]
         parsed_obs = metaworld_controllers.parse_obs(observation)
         return (
@@ -37,7 +39,7 @@ class UncondAgent:
         )
 
 
-def evaluate(*, seed=random.randrange(1000), plan_file='mt50_plans_v1.py', out_file):
+def evaluate(*, seed=random.randrange(1000), plan_file="mt50_plans_v1.py", out_file):
     parsed_plans = load_and_parse_plans_as_list(plan_file)
     policy = UncondAgent(plans=parsed_plans)
     evaluator = sample_utils.Evaluator(

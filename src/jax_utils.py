@@ -101,8 +101,9 @@ def approx_minibatches(key, dataset, batch_size, epoch_size=None):
 
 def multisource_approx_minibatch(key, sources, source_repeats, epoch_size=None):
     assert len(sources) == len(source_repeats)
-    n_data_points = max([repeats * len(source)
-                         for (source, repeats) in zip(sources, source_repeats)])
+    n_data_points = max(
+        [repeats * len(source) for (source, repeats) in zip(sources, source_repeats)]
+    )
     if epoch_size is None:
         epoch_size = n_data_points
     batch_size = sum(source_repeats)
@@ -154,7 +155,9 @@ class FitCallbacks:
     def training_complete(self, state):
         return state, {}
 
+
 DEFAULT_SEED = sample_utils.DEFAULT_SEED
+
 
 def log_infos(summary_writer, infos, step):
     for (k, v) in infos.items():
@@ -253,7 +256,7 @@ def fit_model_multisource(
 ):
     workdir = expanduser(f"~/data/fit_model={model_name}_seed={seed}")
     print("workdir:", workdir)
-    print('Setting up SummaryWriter... ', end='', flush=True)
+    print("Setting up SummaryWriter... ", end="", flush=True)
     summary_writer = tensorboard.SummaryWriter(workdir)
     summary_writer.hparams(
         {
@@ -265,7 +268,7 @@ def fit_model_multisource(
             "n_epochs": n_epochs,
         }
     )
-    print('done')
+    print("done")
 
     @jax.jit
     def update_model(state, grads):
@@ -274,13 +277,13 @@ def fit_model_multisource(
     rng = jax.random.PRNGKey(seed)
 
     rng, init_rng = jax.random.split(rng)
-    print('Gathing first batch... ')
+    print("Gathing first batch... ")
     first_batch, rng = next(multisource_approx_minibatch(rng, sources, source_repeats))
     inputs = preprocess(first_batch)[0]
-    print('done')
-    print('Initializing model ... ', end='', flush=True)
+    print("done")
+    print("Initializing model ... ", end="", flush=True)
     params = model.init(init_rng, *inputs)
-    print('done')
+    print("done")
     tx = optax.sgd(learning_rate, momentum)
 
     state = train_state.TrainState.create(apply_fn=model.apply, params=params, tx=tx)
@@ -292,9 +295,9 @@ def fit_model_multisource(
         log_infos(summary_writer, infos, step)
         first_step_in_epoch = True
         rng, minibatch_rng = jax.random.split(rng)
-        for (minibatch, key) in multisource_approx_minibatch(minibatch_rng,
-                                                             sources,
-                                                             source_repeats):
+        for (minibatch, key) in multisource_approx_minibatch(
+            minibatch_rng, sources, source_repeats
+        ):
             state, infos = callbacks.minibatch_start(state)
             log_infos(summary_writer, infos, step)
             if step % 1000 == 0:

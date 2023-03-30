@@ -9,13 +9,20 @@ from generate_mt10_plans import load_and_parse_plans
 import sample_utils
 import random
 import json
-from sample_utils import MT50_ENV_NAMES, make_env, collect_noisy_episodes, evaluate_policy, sample_noisy_policy
+from sample_utils import (
+    MT50_ENV_NAMES,
+    make_env,
+    collect_noisy_episodes,
+    evaluate_policy,
+    sample_noisy_policy,
+)
 from render_policy import render_policy
 from run_utils import str_list
 from tqdm import tqdm
 
 PRIMITIVE_NAMES = list(CONTROLLERS.keys())
 PROJ_CACHE = {}
+
 
 @dataclass
 class DiffAgent:
@@ -44,7 +51,9 @@ class DiffAgent:
         info["controller_name"] = controller_name
         info["candidate_controllers"] = list(set(candidate_controllers))
         if controller_name not in PROJ_CACHE:
-            PROJ_CACHE[controller_name] = str_project(controller_name, PRIMITIVE_NAMES)[0]
+            PROJ_CACHE[controller_name] = str_project(controller_name, PRIMITIVE_NAMES)[
+                0
+            ]
         chosen_controller = PROJ_CACHE[controller_name]
         info["chosen_controller"] = chosen_controller
         return run_controller(chosen_controller, obs), info
@@ -61,7 +70,7 @@ def eval_diff_agent(
 ):
     success_rates = {}
     rewards = {}
-    plans = load_and_parse_plans('mt50_plans.py')
+    plans = load_and_parse_plans("mt50_plans.py")
     for env_name in env_names:
         plan = plans[env_name]
         conds = list(plan.keys())
@@ -82,7 +91,7 @@ def eval_diff_agent(
         rewards[env_name] = rew
         for i in range(20):
             render_success, _ = render_policy(
-                    env, policy, f"{render_output_dir}/{env_name}-{policy_name}-{i}.mp4"
+                env, policy, f"{render_output_dir}/{env_name}-{policy_name}-{i}.mp4"
             )
             if render_success:
                 shutil.copy(
@@ -99,10 +108,11 @@ def eval_diff_agent(
 
     print(success_rates)
     print(rewards)
-    with open(out_success, 'w') as f:
+    with open(out_success, "w") as f:
         json.dump(success_rates, f)
-    with open(out_avg_reward, 'w') as f:
+    with open(out_avg_reward, "w") as f:
         json.dump(rewards, f)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     clize.run(eval_diff_agent)
