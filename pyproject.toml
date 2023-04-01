@@ -46,4 +46,5 @@ requires = ["setuptools", "poetry-core>=1.0.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.pyright]
-venv = "venv"
+include = ["src"]
+venv = ".venv"
