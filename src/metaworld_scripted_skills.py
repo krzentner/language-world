@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Dict, Optional, Union
 import numpy as np
 
 from metaworld.envs.mujoco.env_dict import MT10_V2, ALL_V2_ENVIRONMENTS
@@ -420,7 +421,13 @@ def parse_obs(obs):
     }
 
 
-def run_skill(skill_name, parsed_obs):
+def run_scripted_skill(
+    skill_name: str, obs: Union[Dict[str, np.ndarray], np.ndarray]
+) -> np.ndarray:
+    if isinstance(obs, str):
+        parsed_obs = parse_obs(obs)
+    else:
+        parsed_obs = obs
     skill_func = SCRIPTED_SKILLS[skill_name]["function"]
     skill_params = skill_func(parsed_obs)
     delta_xyz = move(
@@ -435,13 +442,13 @@ def run_skill(skill_name, parsed_obs):
 @dataclass
 class SawyerUniversalV2Policy:
 
-    env_name: str or None = None
+    env_name: Optional[str] = None
 
     def get_action(self, obs):
         o_d = parse_obs(obs)
         tree = DECISION_TREES[self.env_name]["function"]
         skill_name = tree(o_d)
-        return run_skill(skill_name, o_d), {"skill_name": skill_name}
+        return run_scripted_skill(skill_name, o_d), {"skill_name": skill_name}
 
 
 def trajectory_summary(env, policy, act_noise_pct, render=False, end_on_success=True):

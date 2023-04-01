@@ -1,3 +1,4 @@
+from typing import Tuple
 from metaworld.envs.mujoco.env_dict import MT10_V2, MT50_V2
 from metaworld.envs import ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE
 import random
@@ -183,7 +184,7 @@ def collect_noisy_episodes(
     return episodes
 
 
-def evaluate_policy(env_name, episodes):
+def evaluate_policy(env_name, episodes) -> Tuple[float, float]:
     print("Evaluating", env_name)
     successes = []
     rewards = []
@@ -266,3 +267,19 @@ class Evaluator:
                 json.dump(infos, f)
                 f.write("\n")
         return infos
+
+
+def eval_policy(
+    policy,
+    env_name: str,
+    *,
+    seed,
+    noise_scale: float = 0.0,
+    n_episodes: int = 100,
+    vec_envs: int = 1,
+) -> Tuple[float, float]:
+    envs = [make_env(env_name, seed + i) for i in range(vec_envs)]
+    episodes = vec_collect_noisy_episodes(
+        envs, policy, noise_scale, n_episodes=n_episodes
+    )
+    return evaluate_policy(policy, episodes)

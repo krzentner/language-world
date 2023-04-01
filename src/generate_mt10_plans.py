@@ -1,6 +1,7 @@
 import os
 import pickle
 import re
+from typing import Union
 import optax
 from os.path import expanduser
 from collections import defaultdict
@@ -341,7 +342,7 @@ class DescriptorPolicy:
     descriptor_to_scripted_skill: dict
     env_name: str
     scripted_skill_choice_prob: float = 1.0
-    base_weight: float or None = None
+    base_weight: Union[float, None] = None
 
     def get_action(self, observation):
         tree = metaworld_scripted_skills.DECISION_TREES[self.env_name]["function"]
