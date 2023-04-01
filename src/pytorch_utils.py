@@ -296,3 +296,10 @@ def fit_model_multisource(
     summary_writer.flush()
 
     return model
+
+
+def env_names_to_onehots(env_names, all_names=MT50_ENV_NAMES):
+    return F.one_hot(
+        torch.tensor([all_names.index(env_name) for env_name in env_names]),
+        len(all_names),
+    )

@@ -26,13 +26,6 @@ from embed_prompt import embed_action
 from generate_mt10_plans import MT50_TASK_DESCRIPTIONS
 
 
-def env_names_to_onehots(env_names, all_names=MT50_ENV_NAMES):
-    return F.one_hot(
-        torch.tensor([all_names.index(env_name) for env_name in env_names]),
-        len(all_names),
-    )
-
-
 class MLPAgent(nn.Module):
     def __init__(self, use_language_embedding: bool):
         super().__init__()
@@ -96,7 +89,7 @@ class MLPAgentPolicy:
                 ]
             )
         else:
-            task_reprs = env_names_to_onehots(env_names)
+            task_reprs = pytorch_utils.env_names_to_onehots(env_names)
         with torch.no_grad():
             action, info = self.agent(
                 task_reprs,
@@ -265,7 +258,7 @@ def train_and_evaluate_fewshot_with_callbacks(
                 ]
             )
         else:
-            task_reprs = env_names_to_onehots(env_names)
+            task_reprs = pytorch_utils.env_names_to_onehots(env_names)
         return (
             task_reprs,
             torch.tensor(np.asarray(observations), dtype=torch.float32),
@@ -327,7 +320,7 @@ def real_oneshot(
                 ]
             )
         else:
-            task_reprs = env_names_to_onehots(env_names)
+            task_reprs = pytorch_utils.env_names_to_onehots(env_names)
         return (
             task_reprs,
             torch.tensor(observations, dtype=torch.float32),
