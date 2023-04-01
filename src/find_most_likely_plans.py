@@ -15,8 +15,12 @@ from tqdm import tqdm
 
 import easy_process
 from metaworld.envs.mujoco.env_dict import MT10_V2
-import metaworld_controllers
-from metaworld_controllers import SawyerUniversalV2Policy, parse_obs, run_controller
+import metaworld_scripted_skills
+from metaworld_scripted_skills import (
+    SawyerUniversalV2Policy,
+    parse_obs,
+    run_scripted_skill,
+)
 import metaworld_universal_policy
 from sample_utils import (
     make_env,
@@ -67,10 +71,13 @@ def count_descriptors(
     return descriptor_counts
 
 
-def controller_names_for_env(env_name):
-    for (controller_name, controller) in metaworld_controllers.CONTROLLERS.items():
-        if controller["env-name"] == env_name:
-            yield controller_name
+def scripted_skill_names_for_env(env_name):
+    for (
+        scripted_skill_name,
+        scripted_skill,
+    ) in metaworld_scripted_skills.SCRIPTED_SKILLS.items():
+        if scripted_skill["env-name"] == env_name:
+            yield scripted_skill_name
 
 
 @easy_process.subprocess_func
@@ -112,32 +119,35 @@ def test_parallel(
 
 @dataclass
 class DescriptorPolicy:
-    descriptor_to_controller: dict
+    descriptor_to_scripted_skill: dict
     env_name: str
-    controller_choice_prob: float = 1.0
+    scripted_skill_choice_prob: float = 1.0
     base_weight: float or None = None
 
     def get_action(self, observation):
-        tree = metaworld_controllers.DECISION_TREES[self.env_name]["function"]
+        tree = metaworld_scripted_skills.DECISION_TREES[self.env_name]["function"]
         obs = parse_obs(observation)
         descriptions = describe_obs(self.env_name, obs)
-        candidate_controllers = [
+        candidate_scripted_skills = [
             con
-            for (desc, con) in self.descriptor_to_controller.items()
+            for (desc, con) in self.descriptor_to_scripted_skill.items()
             if descriptions[desc] > 0
         ]
-        if candidate_controllers and np.random.uniform() < self.controller_choice_prob:
-            controller_name = random.choice(candidate_controllers)
+        if (
+            candidate_scripted_skills
+            and np.random.uniform() < self.scripted_skill_choice_prob
+        ):
+            scripted_skill_name = random.choice(candidate_scripted_skills)
         else:
-            controller_name = random.choice(
-                list(self.descriptor_to_controller.values())
+            scripted_skill_name = random.choice(
+                list(self.descriptor_to_scripted_skill.values())
             )
-        ground_truth_controller_name = tree(obs)
+        ground_truth_scripted_skill_name = tree(obs)
         info = {}
-        info["controller_name"] = controller_name
-        info["candidate_controllers"] = list(set(candidate_controllers))
+        info["scripted_skill_name"] = scripted_skill_name
+        info["candidate_scripted_skills"] = list(set(candidate_scripted_skills))
         if self.base_weight:
-            descriptors = list(self.descriptor_to_controller.keys())
+            descriptors = list(self.descriptor_to_scripted_skill.keys())
             weights = np.array(
                 [
                     1.0 if descriptions[desc] > 0 else self.base_weight
@@ -147,33 +157,33 @@ class DescriptorPolicy:
             weights /= weights.sum()
             actions = np.array(
                 [
-                    run_controller(self.descriptor_to_controller[desc], obs)
+                    run_scripted_skill(self.descriptor_to_scripted_skill[desc], obs)
                     for desc in descriptors
                 ]
             )
             weighted_action = np.einsum("i,ik->k", weights, actions)
             return weighted_action, info
         else:
-            return run_controller(controller_name, obs), info
+            return run_scripted_skill(scripted_skill_name, obs), info
 
 
 def evaluate_policy(env_name, episodes):
     print("Evaluating", env_name)
     successes = []
-    controller_counts = defaultdict(int)
+    scripted_skill_counts = defaultdict(int)
     candidate_counts = defaultdict(int)
     for episode in episodes:
         success = False
         for data in episode:
             success |= data.get("success", 0) > 0
-            if "controller_name" in data:
-                controller_counts[data["controller_name"]] += 1
-            for candidate in data.get("candidate_controllers", []):
+            if "scripted_skill_name" in data:
+                scripted_skill_counts[data["scripted_skill_name"]] += 1
+            for candidate in data.get("candidate_scripted_skills", []):
                 candidate_counts[candidate] += 1
         successes.append(success)
     print("Success rate for", env_name, ":", np.mean(successes))
-    print("controller_counts:")
-    pprint(dict(controller_counts))
+    print("scripted_skill_counts:")
+    pprint(dict(scripted_skill_counts))
     print("candidate_counts:")
     pprint(dict(candidate_counts))
     return np.mean(successes)
@@ -183,24 +193,24 @@ def find_most_likely_plans(
     *,
     envs=",".join(MT10_ENV_NAMES),
     seed=100,
-    controller_map_filename=os.path.expanduser("~/data/controller_map.pkl")
+    scripted_skill_map_filename=os.path.expanduser("~/data/scripted_skill_map.pkl")
 ):
     env_names = list(envs.split(","))
     # For each descriptor, record how many observations with that descriptor each
-    # controller is active
-    # For each controller, look through each of these descriptor distributions,
+    # scripted_skill is active
+    # For each scripted_skill, look through each of these descriptor distributions,
     # and choose the best descriptor
     # Compose into policy, and count timesteps where policy disagrees with
     # original tree
     # for env_name in ['button-press-topdown']:
     success_rates = {}
-    controller_maps = {}
+    scripted_skill_maps = {}
     for env_name in env_names:
         desc_to_con_count = defaultdict(lambda: defaultdict(int))
-        tree = metaworld_controllers.DECISION_TREES[env_name]["function"]
+        tree = metaworld_scripted_skills.DECISION_TREES[env_name]["function"]
         policy = SawyerUniversalV2Policy(env_name=env_name)
         env = make_env(env_name, seed)
-        controller_total_counts = defaultdict(int)
+        scripted_skill_total_counts = defaultdict(int)
         episodes = collect_noisy_episodes(
             10 * [env_name], policy, n_episodes=100, seed=seed, noise_scale=0.1
         )
@@ -211,15 +221,15 @@ def find_most_likely_plans(
             for data in episode:
                 # for data in sample_policy_with_noise_process(env, policy, ou_proc):
                 obs = parse_obs(data["observation"])
-                controller_name = tree(obs)
+                scripted_skill_name = tree(obs)
                 descriptions = describe_obs(env_name, obs)
                 for (desc, value) in descriptions.items():
-                    desc_to_con_count[desc][controller_name] += value
-                controller_total_counts[controller_name] += 1
+                    desc_to_con_count[desc][scripted_skill_name] += value
+                scripted_skill_total_counts[scripted_skill_name] += 1
         policy_desc_to_con = {}
-        for con_name in controller_names_for_env(env_name):
+        for con_name in scripted_skill_names_for_env(env_name):
             # Maximize number of timesteps where the description is present for this
-            # controller and no other controllers.
+            # scripted_skill and no other scripted_skills.
             best_descriptors = sorted(
                 desc_to_con_count.items(),
                 key=lambda items: (
@@ -232,12 +242,12 @@ def find_most_likely_plans(
                 print(
                     "Chose descriptor",
                     repr(descriptor),
-                    "for controller",
+                    "for scripted_skill",
                     repr(con_name),
                     "(matches for",
                     counts[con_name],
                     "/",
-                    controller_total_counts[con_name],
+                    scripted_skill_total_counts[con_name],
                     "timesteps)",
                 )
                 policy_desc_to_con[descriptor] = con_name
@@ -245,11 +255,11 @@ def find_most_likely_plans(
                 if num_chosen >= 1:
                     break
         print(policy_desc_to_con)
-        controller_maps[env_name] = policy_desc_to_con
+        scripted_skill_maps[env_name] = policy_desc_to_con
         desc_policy = DescriptorPolicy(policy_desc_to_con, env_name=env_name)
-        controller_prob = 0.1
-        print("Weighting incorrect controller by", controller_prob)
-        desc_policy.base_weight = controller_prob
+        scripted_skill_prob = 0.1
+        print("Weighting incorrect scripted_skill by", scripted_skill_prob)
+        desc_policy.base_weight = scripted_skill_prob
         success = evaluate_policy(
             env_name,
             collect_noisy_episodes(
@@ -265,13 +275,13 @@ def find_most_likely_plans(
         )
         success_rates[env_name] = success
     print(success_rates)
-    print(controller_maps)
-    with open(controller_map_filename, "wb") as f:
-        pickle.dump(controller_maps, f)
+    print(scripted_skill_maps)
+    with open(scripted_skill_map_filename, "wb") as f:
+        pickle.dump(scripted_skill_maps, f)
 
 
 def run(output):
-    find_most_likely_plans(controller_map_filename=output)
+    find_most_likely_plans(scripted_skill_map_filename=output)
 
 
 if __name__ == "__main__":

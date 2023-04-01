@@ -20,7 +20,11 @@ print(sys.path)
 import metaworld_voxel_env
 
 # 4
-from metaworld_controllers import DECISION_TREES, CONTROLLERS, SawyerUniversalV2Policy
+from metaworld_scripted_skills import (
+    DECISION_TREES,
+    SCRIPTED_SKILLS,
+    SawyerUniversalV2Policy,
+)
 
 # 5
 env_name = "drawer-open"
@@ -34,12 +38,12 @@ policy = SawyerUniversalV2Policy(env_name=env_name)
 # 7
 obs = env.reset()
 observations = []
-controller_names = []
+scripted_skill_names = []
 for i in range(100):
     tree = DECISION_TREES[env_name]["function"]
     o_d = policy._parse_obs(obs["low_dim"])
-    controller_name = tree(o_d)
-    controller_names.append(controller_name)
+    scripted_skill_name = tree(o_d)
+    scripted_skill_names.append(scripted_skill_name)
     observations.append(obs)
     action = policy.get_action(obs["low_dim"])
     obs, reward, done, info = env.step(action)
@@ -68,7 +72,7 @@ def obs_to_clip(obs):
 from collections import defaultdict
 
 obs_for_con_name = defaultdict(list)
-for (con_name, obs) in zip(controller_names, observations):
+for (con_name, obs) in zip(scripted_skill_names, observations):
     obs_for_con_name[con_name].append(obs)
 
 features_for_con_name = {}
@@ -85,7 +89,7 @@ for con_name in features_for_con_name.keys():
 import numpy as np
 
 # 12
-def choose_controller(obs, use_max=False):
+def choose_scripted_skill(obs, use_max=False):
     image_features = obs_to_clip(obs).squeeze()
     image_features /= image_features.norm()
     if use_max:
@@ -110,13 +114,13 @@ def choose_controller(obs, use_max=False):
         return np.random.choice(list(features_for_con_name.keys()), p=con_logits)
 
 
-choose_controller(obs)
+choose_scripted_skill(obs)
 
 # 13
 obs = env.reset()
 for i in range(100):
-    controller_name = choose_controller(obs, use_max=True)
-    action = policy.run_controller(controller_name, obs["low_dim"])
+    scripted_skill_name = choose_scripted_skill(obs, use_max=True)
+    action = policy.run_scripted_skill(scripted_skill_name, obs["low_dim"])
     obs, reward, done, info = env.step(action)
 plt.imshow(obs["imgs"]["color_imgs"]["corner4"])
 plt.show()

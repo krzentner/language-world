@@ -3,7 +3,7 @@ import shutil
 import numpy as np
 from sample_utils import str_project
 from dataclasses import dataclass
-from metaworld_controllers import parse_obs, run_controller, CONTROLLERS
+from metaworld_scripted_skills import parse_obs, run_scripted_skill, SCRIPTED_SKILLS
 from generate_metaworld_scene_dataset import eval_conditions, enumerate_descriptors
 from generate_mt10_plans import load_and_parse_plans
 import sample_utils
@@ -20,7 +20,7 @@ from render_policy import render_policy
 from run_utils import str_list
 from tqdm import tqdm
 
-PRIMITIVE_NAMES = list(CONTROLLERS.keys())
+PRIMITIVE_NAMES = list(SCRIPTED_SKILLS.keys())
 PROJ_CACHE = {}
 
 
@@ -29,7 +29,7 @@ class DiffAgent:
     conds: list[str]
     primitives: list[str]
     env_name: str
-    controller_choice_prob: float = 1.0
+    scripted_skill_choice_prob: float = 1.0
 
     def __post_init__(self):
         possible_conds = enumerate_descriptors(self.env_name)
@@ -38,25 +38,28 @@ class DiffAgent:
     def get_action(self, observation):
         obs = parse_obs(observation)
         cond_results = eval_conditions(self.env_name, self.conds, obs, fuzzy=True)
-        candidate_controllers = [
+        candidate_scripted_skills = [
             prim
             for (truth_value, prim) in zip(cond_results, self.primitives)
             if truth_value > 0
         ]
-        if candidate_controllers and np.random.uniform() < self.controller_choice_prob:
-            controller_name = random.choice(candidate_controllers)
+        if (
+            candidate_scripted_skills
+            and np.random.uniform() < self.scripted_skill_choice_prob
+        ):
+            scripted_skill_name = random.choice(candidate_scripted_skills)
         else:
-            controller_name = random.choice(self.primitives)
+            scripted_skill_name = random.choice(self.primitives)
         info = {}
-        info["controller_name"] = controller_name
-        info["candidate_controllers"] = list(set(candidate_controllers))
-        if controller_name not in PROJ_CACHE:
-            PROJ_CACHE[controller_name] = str_project(controller_name, PRIMITIVE_NAMES)[
-                0
-            ]
-        chosen_controller = PROJ_CACHE[controller_name]
-        info["chosen_controller"] = chosen_controller
-        return run_controller(chosen_controller, obs), info
+        info["scripted_skill_name"] = scripted_skill_name
+        info["candidate_scripted_skills"] = list(set(candidate_scripted_skills))
+        if scripted_skill_name not in PROJ_CACHE:
+            PROJ_CACHE[scripted_skill_name] = str_project(
+                scripted_skill_name, PRIMITIVE_NAMES
+            )[0]
+        chosen_scripted_skill = PROJ_CACHE[scripted_skill_name]
+        info["chosen_scripted_skill"] = chosen_scripted_skill
+        return run_scripted_skill(chosen_scripted_skill, obs), info
 
 
 def eval_diff_agent(

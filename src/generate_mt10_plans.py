@@ -23,8 +23,8 @@ from sample_utils import (
 from flax.training import train_state
 import jax_utils
 from run_utils import str_list
-import metaworld_controllers
-from metaworld_controllers import parse_obs, run_controller
+import metaworld_scripted_skills
+from metaworld_scripted_skills import parse_obs, run_scripted_skill
 from metaworld_universal_policy import SawyerUniversalV2Policy
 import numpy as np
 import random
@@ -338,31 +338,34 @@ def load_and_parse_plans_as_list(filename="mt10_plans.py"):
 
 @dataclass
 class DescriptorPolicy:
-    descriptor_to_controller: dict
+    descriptor_to_scripted_skill: dict
     env_name: str
-    controller_choice_prob: float = 1.0
+    scripted_skill_choice_prob: float = 1.0
     base_weight: float or None = None
 
     def get_action(self, observation):
-        tree = metaworld_controllers.DECISION_TREES[self.env_name]["function"]
+        tree = metaworld_scripted_skills.DECISION_TREES[self.env_name]["function"]
         obs = parse_obs(observation)
-        candidate_controllers = [
+        candidate_scripted_skills = [
             con
-            for (desc, con) in self.descriptor_to_controller.items()
+            for (desc, con) in self.descriptor_to_scripted_skill.items()
             if eval_conditions(self.env_name, [desc], obs)[0]
         ]
-        if candidate_controllers and np.random.uniform() < self.controller_choice_prob:
-            controller_name = random.choice(candidate_controllers)
+        if (
+            candidate_scripted_skills
+            and np.random.uniform() < self.scripted_skill_choice_prob
+        ):
+            scripted_skill_name = random.choice(candidate_scripted_skills)
         else:
-            controller_name = random.choice(
-                list(self.descriptor_to_controller.values())
+            scripted_skill_name = random.choice(
+                list(self.descriptor_to_scripted_skill.values())
             )
-        ground_truth_controller_name = tree(obs)
+        ground_truth_scripted_skill_name = tree(obs)
         info = {}
-        info["controller_name"] = controller_name
-        info["candidate_controllers"] = list(set(candidate_controllers))
+        info["scripted_skill_name"] = scripted_skill_name
+        info["candidate_scripted_skills"] = list(set(candidate_scripted_skills))
         if self.base_weight:
-            descriptors = list(self.descriptor_to_controller.keys())
+            descriptors = list(self.descriptor_to_scripted_skill.keys())
             weights = np.array(
                 [
                     1.0
@@ -374,14 +377,14 @@ class DescriptorPolicy:
             weights /= weights.sum()
             actions = np.array(
                 [
-                    run_controller(self.descriptor_to_controller[desc], obs)
+                    run_scripted_skill(self.descriptor_to_scripted_skill[desc], obs)
                     for desc in descriptors
                 ]
             )
             weighted_action = np.einsum("i,ik->k", weights, actions)
             return weighted_action, info
         else:
-            return run_controller(controller_name, obs), info
+            return run_scripted_skill(scripted_skill_name, obs), info
 
 
 def eval_plans(
@@ -453,7 +456,7 @@ def run_cond_agent_mt50(
     cond_agent = CondAgent(
         use_learned_evaluator=False,
         mix_in_language_space=True,
-        use_learned_controller=True,
+        use_learned_scripted_skill=True,
         plans=embedded_plans,
     )
 

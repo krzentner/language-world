@@ -6,7 +6,7 @@ import numpy as np
 # import jax
 # import jax.numpy as np
 
-from metaworld_controllers import parse_obs
+from metaworld_scripted_skills import parse_obs
 from sample_utils import MT50_ENV_NAMES, str_project
 
 

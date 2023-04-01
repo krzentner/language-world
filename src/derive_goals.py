@@ -6,7 +6,7 @@ from generate_metaworld_scene_dataset import (
     parse_obs,
     enumerate_descriptors,
 )
-from metaworld_controllers import parse_obs
+from metaworld_scripted_skills import parse_obs
 from metaworld_universal_policy import SawyerUniversalV2Policy
 from run_utils import str_list
 from generate_mt10_plans import load_and_parse_plans, plan_str
@@ -92,7 +92,7 @@ def find_most_likely_conditions(
     out_file: str = "mt10_plans_v2_from_demonstrations.py",
 ):
     success_rates = {}
-    controller_maps = {}
+    scripted_skill_maps = {}
     plans = load_and_parse_plans(plan_file)
     new_plans = {}
     for env_name in envs:

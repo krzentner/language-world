@@ -31,11 +31,11 @@ import sys
 
 sys.path.append("src")
 
-import metaworld_controllers
+import metaworld_scripted_skills
 import train_evaluator
 import generate_metaworld_scene_dataset
 import embed_prompt
-import metaworld_jax_controllers
+import metaworld_jax_scripted_skills
 import easy_process
 import embed_prompt
 import sample_utils
@@ -78,15 +78,15 @@ def embed_plans(parsed_plans):
 
 class CondAgent(nn.Module):
     use_learned_evaluator: bool
-    use_learned_controller: bool
-    give_obs_to_learned_controller: bool
+    use_learned_scripted_skill: bool
+    give_obs_to_learned_scripted_skill: bool
     use_goal_space_primitives: bool
     mix_in_language_space: bool
     plans: dict
 
     def setup(self):
         self.cond_evaluator = train_evaluator.ConditionEvaluator()
-        self.learned_controller = LearnedController()
+        self.learned_scripted_skill = LearnedScriptedSkill()
 
     def _compute_goal_space_primitives(self, env_names, low_dim):
         if self.use_learned_evaluator:
@@ -150,58 +150,66 @@ class CondAgent(nn.Module):
                 true_values.append(true_results)
             padded_true_results, conds_mask = pad_list(true_values)
             logits = 10 * padded_true_results - 5
-        controller_weights = nn.softmax(logits, axis=1, where=conds_mask, initial=0)
+        scripted_skill_weights = nn.softmax(logits, axis=1, where=conds_mask, initial=0)
         info["logits"] = logits
-        info["controller_weights"] = controller_weights
-        controller_weights /= controller_weights.sum(axis=1)[0]
-        controller_outputs = []
+        info["scripted_skill_weights"] = scripted_skill_weights
+        scripted_skill_weights /= scripted_skill_weights.sum(axis=1)[0]
+        scripted_skill_outputs = []
         if self.mix_in_language_space:
-            assert self.use_learned_controller
+            assert self.use_learned_scripted_skill
             if self.use_goal_space_primitives:
                 primitive_reprs, primitive_mask = self._compute_goal_space_primitives(
                     env_names, low_dim
                 )
             else:
-                embedded_controller_names = [plan["actions"] for plan in plans]
-                primitive_reprs, primitive_mask = pad_list(embedded_controller_names)
-            action_embed = jnp.einsum("ij,ijk->ik", controller_weights, primitive_reprs)
-            if self.give_obs_to_learned_controller:
-                actions, controller_info = self.learned_controller(
+                embedded_scripted_skill_names = [plan["actions"] for plan in plans]
+                primitive_reprs, primitive_mask = pad_list(
+                    embedded_scripted_skill_names
+                )
+            action_embed = jnp.einsum(
+                "ij,ijk->ik", scripted_skill_weights, primitive_reprs
+            )
+            if self.give_obs_to_learned_scripted_skill:
+                actions, scripted_skill_info = self.learned_scripted_skill(
                     action_embed, low_dim
                 )
             else:
-                actions, controller_info = self.learned_controller(action_embed)
+                actions, scripted_skill_info = self.learned_scripted_skill(action_embed)
         else:
-            if self.use_learned_controller:
-                controller_outputs = []
+            if self.use_learned_scripted_skill:
+                scripted_skill_outputs = []
                 for (obs, plan) in zip(low_dim, plans):
-                    if self.give_obs_to_learned_controller:
-                        action, controller_info = self.learned_controller(
+                    if self.give_obs_to_learned_scripted_skill:
+                        action, scripted_skill_info = self.learned_scripted_skill(
                             plan["actions"],
                             jnp.array([obs for action_embed in plan["actions"]]),
                         )
                     else:
-                        action, controller_info = self.learned_controller(
+                        action, scripted_skill_info = self.learned_scripted_skill(
                             plan["actions"],
                         )
-                    controller_outputs.append(action)
-                controller_outputs, controller_mask = pad_list(controller_outputs)
+                    scripted_skill_outputs.append(action)
+                scripted_skill_outputs, scripted_skill_mask = pad_list(
+                    scripted_skill_outputs
+                )
                 actions = jnp.einsum(
-                    "ij,ijk->ik", controller_weights, controller_outputs
+                    "ij,ijk->ik", scripted_skill_weights, scripted_skill_outputs
                 )
             else:
                 for (env_name, obs, plan) in zip(env_names, low_dim, plans):
-                    parsed_obs = metaworld_jax_controllers.parse_obs(obs)
-                    metaworld_controllers.np = jnp
-                    controller_outputs.append(
+                    parsed_obs = metaworld_jax_scripted_skills.parse_obs(obs)
+                    metaworld_scripted_skills.np = jnp
+                    scripted_skill_outputs.append(
                         [
-                            metaworld_controllers.run_controller(name, parsed_obs)
+                            metaworld_scripted_skills.run_scripted_skill(
+                                name, parsed_obs
+                            )
                             for name in plan["actions_str"]
                         ]
                     )
-                controller_outputs, _ = pad_list(controller_outputs)
+                scripted_skill_outputs, _ = pad_list(scripted_skill_outputs)
                 actions = jnp.einsum(
-                    "ij,ijk->ik", controller_weights, controller_outputs
+                    "ij,ijk->ik", scripted_skill_weights, scripted_skill_outputs
                 )
         return actions, info
 
@@ -209,7 +217,7 @@ class CondAgent(nn.Module):
         return CondAgentPolicy(env_name=env_name, state=state, cond_agent=self)
 
 
-class LearnedController(nn.Module):
+class LearnedScriptedSkill(nn.Module):
     def setup(self):
         self.language_reencoder = nn.Sequential(
             [
@@ -323,7 +331,7 @@ def zeroshot(
     noise_scale=0.1,
     language_space_mixing=True,
     use_noise=True,
-    give_obs_to_learned_controller=True,
+    give_obs_to_learned_scripted_skill=True,
     use_goal_space_primitives=False,
     plan_file,
     out_file,
@@ -340,8 +348,8 @@ def zeroshot(
     cond_agent = CondAgent(
         use_learned_evaluator=False,
         mix_in_language_space=language_space_mixing,
-        use_learned_controller=True,
-        give_obs_to_learned_controller=give_obs_to_learned_controller,
+        use_learned_scripted_skill=True,
+        give_obs_to_learned_scripted_skill=give_obs_to_learned_scripted_skill,
         use_goal_space_primitives=use_goal_space_primitives,
         plans=embed_plans(parsed_plans),
     )
@@ -374,7 +382,7 @@ def fewshot(
     fewshot_timesteps=500,
     language_space_mixing=True,
     use_noise=True,
-    give_obs_to_learned_controller=True,
+    give_obs_to_learned_scripted_skill=True,
     use_goal_space_primitives=False,
     plan_file,
     out_file,
@@ -386,8 +394,8 @@ def fewshot(
     cond_agent = CondAgent(
         use_learned_evaluator=False,
         mix_in_language_space=language_space_mixing,
-        use_learned_controller=True,
-        give_obs_to_learned_controller=give_obs_to_learned_controller,
+        use_learned_scripted_skill=True,
+        give_obs_to_learned_scripted_skill=give_obs_to_learned_scripted_skill,
         use_goal_space_primitives=use_goal_space_primitives,
         plans=embed_plans(parsed_plans),
     )
@@ -419,7 +427,7 @@ def fewshot_process(
     seed=jax_utils.DEFAULT_SEED,
     n_timesteps=1e5,
     fewshot_timesteps=500,
-    give_obs_to_learned_controller=True,
+    give_obs_to_learned_scripted_skill=True,
     use_goal_space_primitives=False,
     parent,
 ):
@@ -450,8 +458,8 @@ def fewshot_process(
     cond_agent = CondAgent(
         use_learned_evaluator=False,
         mix_in_language_space=True,
-        use_learned_controller=True,
-        give_obs_to_learned_controller=give_obs_to_learned_controller,
+        use_learned_scripted_skill=True,
+        give_obs_to_learned_scripted_skill=give_obs_to_learned_scripted_skill,
         use_goal_space_primitives=use_goal_space_primitives,
         plans=embedded_plans,
     )

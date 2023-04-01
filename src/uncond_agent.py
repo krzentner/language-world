@@ -1,12 +1,12 @@
 from dataclasses import dataclass
-import metaworld_controllers
+import metaworld_scripted_skills
 import random
 import sample_utils
 import clize
 from generate_mt10_plans import load_and_parse_plans_as_list
 from sample_utils import str_project
 
-PRIMITIVE_NAMES = list(metaworld_controllers.CONTROLLERS.keys())
+PRIMITIVE_NAMES = list(metaworld_scripted_skills.SCRIPTED_SKILLS.keys())
 PROJ_CACHE = {}
 
 
@@ -24,18 +24,20 @@ class UncondAgent:
 
     def get_action(self, observation):
         self.current_timestep = self.current_timestep % 500
-        controller_number = int(self.current_timestep / self.n_timesteps)
-        controller_idx = controller_number % len(self.plans[self.env_name])
-        controller_name = self.plans[self.env_name][controller_idx][1]
-        if controller_name not in PROJ_CACHE:
-            PROJ_CACHE[controller_name] = str_project(controller_name, PRIMITIVE_NAMES)[
-                0
-            ]
-        chosen_controller = PROJ_CACHE[controller_name]
-        parsed_obs = metaworld_controllers.parse_obs(observation)
+        scripted_skill_number = int(self.current_timestep / self.n_timesteps)
+        scripted_skill_idx = scripted_skill_number % len(self.plans[self.env_name])
+        scripted_skill_name = self.plans[self.env_name][scripted_skill_idx][1]
+        if scripted_skill_name not in PROJ_CACHE:
+            PROJ_CACHE[scripted_skill_name] = str_project(
+                scripted_skill_name, PRIMITIVE_NAMES
+            )[0]
+        chosen_scripted_skill = PROJ_CACHE[scripted_skill_name]
+        parsed_obs = metaworld_scripted_skills.parse_obs(observation)
         return (
-            metaworld_controllers.run_controller(chosen_controller, parsed_obs),
-            {"controller_name": controller_name},
+            metaworld_scripted_skills.run_scripted_skill(
+                chosen_scripted_skill, parsed_obs
+            ),
+            {"scripted_skill_name": scripted_skill_name},
         )
 
 

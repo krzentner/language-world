@@ -1,10 +1,10 @@
 from dataclasses import dataclass
-import metaworld_controllers
+import metaworld_scripted_skills
 import random
 import sample_utils
 import clize
 
-CONTROLLER_NAMES = list(metaworld_controllers.CONTROLLERS.keys())
+SCRIPTED_SKILL_NAMES = list(metaworld_scripted_skills.SCRIPTED_SKILLS.keys())
 
 
 @dataclass
@@ -13,22 +13,24 @@ class RandLangAgent:
 
     env_name: str or None = None  # Ignored
     n_timesteps: int = 25
-    current_controller: str or None = None
-    timesteps_at_current_controller: int = 0
+    current_scripted_skill: str or None = None
+    timesteps_at_current_scripted_skill: int = 0
 
     def reset(self):
-        self.current_controller = None
-        self.timesteps_at_current_controller = 0
+        self.current_scripted_skill = None
+        self.timesteps_at_current_scripted_skill = 0
 
     def get_action(self, observation):
-        if self.timesteps_at_current_controller % self.n_timesteps == 0:
-            self.timesteps_at_current_controller = 0
-            self.current_controller = random.choice(CONTROLLER_NAMES)
-        self.timesteps_at_current_controller += 1
-        parsed_obs = metaworld_controllers.parse_obs(observation)
+        if self.timesteps_at_current_scripted_skill % self.n_timesteps == 0:
+            self.timesteps_at_current_scripted_skill = 0
+            self.current_scripted_skill = random.choice(SCRIPTED_SKILL_NAMES)
+        self.timesteps_at_current_scripted_skill += 1
+        parsed_obs = metaworld_scripted_skills.parse_obs(observation)
         return (
-            metaworld_controllers.run_controller(self.current_controller, parsed_obs),
-            {"controller_name": self.current_controller},
+            metaworld_scripted_skills.run_scripted_skill(
+                self.current_scripted_skill, parsed_obs
+            ),
+            {"scripted_skill_name": self.current_scripted_skill},
         )
 
 

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-import numpy as np
+import jax.numpy as jnp
 
 from metaworld.envs.mujoco.env_dict import MT10_V2, ALL_V2_ENVIRONMENTS
 from metaworld.policies.policy import Policy, assert_fully_parsed
@@ -24,23 +24,21 @@ def move(from_xyz, to_xyz, p):
 
 
 def act(target_xyz, grab_effort, *, p):
-    if isinstance(grab_effort, int):
-        grab_effort = float(grab_effort)
     return {
-        "target_xyz": np.asarray(target_xyz, dtype="float32"),
-        "grab_effort": grab_effort,
+        "target_xyz": jnp.asarray(target_xyz, dtype="float32"),
+        "grab_effort": float(grab_effort),
         "control_coeff": float(p),
     }
 
 
-CONTROLLERS = {}
+SCRIPTED_SKILLS = {}
 DECISION_TREES = {}
 
 
-def declare_controller(env_name, name):
+def declare_scripted_skill(env_name, name):
     def decorator(func):
-        assert name not in CONTROLLERS
-        CONTROLLERS[name] = {
+        assert name not in SCRIPTED_SKILLS
+        SCRIPTED_SKILLS[name] = {
             "function": func,
             "env-name": env_name,
         }
@@ -49,7 +47,7 @@ def declare_controller(env_name, name):
     return decorator
 
 
-def declare_policy(env_name):
+def declare_tree(env_name):
     def decorator(func):
         assert env_name not in DECISION_TREES
         DECISION_TREES[env_name] = {
@@ -60,35 +58,35 @@ def declare_policy(env_name):
     return decorator
 
 
-@declare_controller("drawer-close", "put the gripper in front of the drawer")
+@declare_scripted_skill("drawer-close", "put the gripper in front of the drawer")
 def front_drawer(o_d):
     pos_curr = o_d["hand_pos"]
-    pos_drwr = o_d["obj1_pos"] + np.array([0.0, 0.0, -0.02])
+    pos_drwr = o_d["obj1_pos"] + jnp.array([0.0, 0.0, -0.02])
     return act([pos_curr[0], pos_curr[1], pos_drwr[2] + 0.5], 1, p=25)
 
 
-@declare_controller("drawer-close", "put the gripper above the drawer handle")
+@declare_scripted_skill("drawer-close", "put the gripper above the drawer handle")
 def above_drawer_handle(o_d):
-    pos_drwr = o_d["obj1_pos"] + np.array([0.0, -0.075, 0.23])
-    return act(pos_drwr + np.array([0.0, -0.075, 0.23]), 1, p=25)
+    pos_drwr = o_d["obj1_pos"] + jnp.array([0.0, -0.075, 0.23])
+    return act(pos_drwr + jnp.array([0.0, -0.075, 0.23]), 1, p=25)
 
 
-@declare_controller("drawer-close", "grab drawer handle")
+@declare_scripted_skill("drawer-close", "grab drawer handle")
 def cage_gripper_handle(o_d):
-    pos_drwr = o_d["obj1_pos"] + np.array([0.0, 0.0, -0.02])
-    return act(pos_drwr + np.array([0.0, -0.075, 0.0]), 1, p=25)
+    pos_drwr = o_d["obj1_pos"] + jnp.array([0.0, 0.0, -0.02])
+    return act(pos_drwr + jnp.array([0.0, -0.075, 0.0]), 1, p=25)
 
 
-@declare_controller("drawer-close", "push drawer closed")
+@declare_scripted_skill("drawer-close", "push drawer closed")
 def push_drawer(o_d):
-    pos_drwr = o_d["obj1_pos"] + np.array([0.0, 0.0, -0.02])
+    pos_drwr = o_d["obj1_pos"] + jnp.array([0.0, 0.0, -0.02])
     return act(pos_drwr, 1, p=25)
 
 
-@declare_policy("drawer-close")
+@declare_tree("drawer-close")
 def drawer_close(o_d):
     pos_curr = o_d["hand_pos"]
-    pos_drwr = o_d["obj1_pos"] + np.array([0.0, 0.0, -0.02])
+    pos_drwr = o_d["obj1_pos"] + jnp.array([0.0, 0.0, -0.02])
 
     # if further forward than the drawer...
     if pos_curr[1] > pos_drwr[1]:
@@ -106,87 +104,84 @@ def drawer_close(o_d):
         return "push drawer closed"
 
 
-@declare_controller("peg-insert-side", "put gripper above peg")
+@declare_scripted_skill("peg-insert-side", "put gripper above peg")
 def cage_peg(o_d):
     pos_peg = o_d["obj1_pos"]
-    return act(pos_peg + np.array([0.0, 0.0, 0.3]), -1, p=25)
+    return act(pos_peg + jnp.array([0.0, 0.0, 0.3]), -1, p=25)
 
 
-@declare_controller("peg-insert-side", "grab peg")
+@declare_scripted_skill("peg-insert-side", "grab peg")
 def grab_peg(o_d):
     pos_curr = o_d["hand_pos"]
     pos_peg = o_d["obj1_pos"]
-    grab_effort = np.interp(
-        abs(pos_curr[2] - pos_peg[2]), xp=np.array([0.14, 0.15]), fp=np.array([0.6, -1])
-    )
-    return act(pos_peg, grab_effort, p=25)
+    return act(pos_peg, 0.6, p=25)
 
 
-@declare_controller("peg-insert-side", "align peg to hole")
+@declare_scripted_skill("peg-insert-side", "align peg to hole")
 def cage_peg(o_d):
-    pos_hole = np.array([-0.35, o_d["goal_pos"][1], 0.16])
-    return act(pos_hole + np.array([0.4, 0.0, 0.0]), 0.6, p=25)
+    pos_hole = jnp.array([-0.35, o_d["goal_pos"][1], 0.16])
+    return act(pos_hole + jnp.array([0.4, 0.0, 0.0]), 0.6, p=25)
 
 
-@declare_controller("peg-insert-side", "insert peg into hole")
+@declare_scripted_skill("peg-insert-side", "insert peg into hole")
 def cage_peg(o_d):
-    pos_hole = np.array([-0.35, o_d["goal_pos"][1], 0.16])
+    pos_hole = jnp.array([-0.35, o_d["goal_pos"][1], 0.16])
     return act(pos_hole, 0.6, p=25)
 
 
-@declare_policy("peg-insert-side")
+@declare_tree("peg-insert-side")
 def peg_insert_side(o_d):
     pos_curr = o_d["hand_pos"]
     pos_peg = o_d["obj1_pos"]
     # lowest X is -.35, doesn't matter if we overshoot
     # Y is given by hole_vec
     # Z is constant at .16
-    pos_hole = np.array([-0.35, o_d["goal_pos"][1], 0.16])
+    pos_hole = jnp.array([-0.35, o_d["goal_pos"][1], 0.16])
 
-    if np.linalg.norm(pos_curr[:2] - pos_peg[:2]) > 0.04:
+    if jnp.linalg.norm(pos_curr[:2] - pos_peg[:2]) > 0.04:
         return "put gripper above peg"
     elif abs(pos_curr[2] - pos_peg[2]) > 0.025:
         return "grab peg"
-    elif np.linalg.norm(pos_peg[1:] - pos_hole[1:]) > 0.03:
+    elif jnp.linalg.norm(pos_peg[1:] - pos_hole[1:]) > 0.03:
         return "align peg to hole"
     else:
         return "insert peg into hole"
 
 
-@declare_policy("reach")
+@declare_tree("reach")
 def reach(o_d):
     return "reach to goal"
 
 
-@declare_controller("reach", "reach to goal")
-def reach_controller(o_d):
+@declare_scripted_skill("reach", "reach to goal")
+def reach_scripted_skill(o_d):
     return act(o_d["goal_pos"], 0, p=5)
 
 
-@declare_controller("window-open", "move gripper to right of window handle")
+@declare_scripted_skill("window-open", "move gripper to right of window handle")
 def right_of_window_handle(o_d):
-    pos_wndw = o_d["obj1_pos"] + np.array([-0.03, -0.03, -0.08])
-    return act(pos_wndw + np.array([0.0, 0.0, 0.3]), 1.0, p=25)
+    pos_wndw = o_d["obj1_pos"] + jnp.array([-0.03, -0.03, -0.08])
+    return act(pos_wndw + jnp.array([0.0, 0.0, 0.3]), 1.0, p=25)
 
 
-@declare_controller("window-open", "slide window left")
+@declare_scripted_skill("window-open", "slide window left")
 def slide_window_left(o_d):
-    pos_wndw = o_d["obj1_pos"] + np.array([-0.03, -0.03, -0.08])
+    pos_wndw = o_d["obj1_pos"] + jnp.array([-0.03, -0.03, -0.08])
     return act(pos_wndw, 1.0, p=25)
 
 
-@declare_controller("window-open", "push window left harder")
+@declare_scripted_skill("window-open", "push window left harder")
 def push_window_left(o_d):
-    pos_wndw = o_d["obj1_pos"] + np.array([-0.03, -0.03, -0.08])
-    return act(pos_wndw + np.array([0.1, 0.0, 0.0]), 1.0, p=25)
+    pos_wndw = o_d["obj1_pos"] + jnp.array([-0.03, -0.03, -0.08])
+    return act(pos_wndw + jnp.array([0.1, 0.0, 0.0]), 1.0, p=25)
 
 
-@declare_policy("window-open")
+@declare_tree("window-open")
 def window_open(o_d):
     pos_curr = o_d["hand_pos"]
-    pos_wndw = o_d["obj1_pos"] + np.array([-0.03, -0.03, -0.08])
+    pos_wndw = o_d["obj1_pos"] + jnp.array([-0.03, -0.03, -0.08])
 
-    if np.linalg.norm(pos_curr[:2] - pos_wndw[:2]) > 0.04:
+    if jnp.linalg.norm(pos_curr[:2] - pos_wndw[:2]) > 0.04:
         return "move gripper to right of window handle"
     elif abs(pos_curr[2] - pos_wndw[2]) > 0.02:
         return "slide window left"
@@ -194,30 +189,30 @@ def window_open(o_d):
         return "push window left harder"
 
 
-@declare_controller("window-close", "move gripper to left of window handle")
+@declare_scripted_skill("window-close", "move gripper to left of window handle")
 def left_of_window_handle(o_d):
-    pos_wndw = o_d["obj1_pos"] + np.array([+0.03, -0.03, -0.08])
-    return act(pos_wndw + np.array([0.0, 0.0, 0.25]), 1.0, p=25)
+    pos_wndw = o_d["obj1_pos"] + jnp.array([+0.03, -0.03, -0.08])
+    return act(pos_wndw + jnp.array([0.0, 0.0, 0.25]), 1.0, p=25)
 
 
-@declare_controller("window-close", "slide window right")
+@declare_scripted_skill("window-close", "slide window right")
 def slide_window_right(o_d):
-    pos_wndw = o_d["obj1_pos"] + np.array([+0.03, -0.03, -0.08])
+    pos_wndw = o_d["obj1_pos"] + jnp.array([+0.03, -0.03, -0.08])
     return act(pos_wndw, 1.0, p=25)
 
 
-@declare_controller("window-close", "push window right harder")
+@declare_scripted_skill("window-close", "push window right harder")
 def slide_window_right(o_d):
-    pos_wndw = o_d["obj1_pos"] + np.array([+0.03, -0.03, -0.08])
-    return act(pos_wndw + np.array([-0.1, 0.0, 0.0]), 1.0, p=25)
+    pos_wndw = o_d["obj1_pos"] + jnp.array([+0.03, -0.03, -0.08])
+    return act(pos_wndw + jnp.array([-0.1, 0.0, 0.0]), 1.0, p=25)
 
 
-@declare_policy("window-close")
+@declare_tree("window-close")
 def window_close(o_d):
     pos_curr = o_d["hand_pos"]
-    pos_wndw = o_d["obj1_pos"] + np.array([+0.03, -0.03, -0.08])
+    pos_wndw = o_d["obj1_pos"] + jnp.array([+0.03, -0.03, -0.08])
 
-    if np.linalg.norm(pos_curr[:2] - pos_wndw[:2]) > 0.04:
+    if jnp.linalg.norm(pos_curr[:2] - pos_wndw[:2]) > 0.04:
         return "move gripper to left of window handle"
     elif abs(pos_curr[2] - pos_wndw[2]) > 0.02:
         return "slide window right"
@@ -225,13 +220,13 @@ def window_close(o_d):
         return "push window right harder"
 
 
-@declare_policy("drawer-open")
+@declare_tree("drawer-open")
 def drawer_open(o_d):
     pos_curr = o_d["hand_pos"]
-    pos_drwr = o_d["obj1_pos"] + np.array([0.0, 0.0, -0.02])
+    pos_drwr = o_d["obj1_pos"] + jnp.array([0.0, 0.0, -0.02])
 
     # align end effector's Z axis with drawer handle's Z axis
-    if np.linalg.norm(pos_curr[:2] - pos_drwr[:2]) > 0.06:
+    if jnp.linalg.norm(pos_curr[:2] - pos_drwr[:2]) > 0.06:
         return "put gripper above drawer handle"
     # drop down to touch drawer handle
     elif abs(pos_curr[2] - pos_drwr[2]) > 0.04:
@@ -242,67 +237,67 @@ def drawer_open(o_d):
         return "pull away from drawer"
 
 
-@declare_controller("drawer-open", "put gripper above drawer handle")
+@declare_scripted_skill("drawer-open", "put gripper above drawer handle")
 def gripper_above_drawer_handle(o_d):
-    pos_drwr = o_d["obj1_pos"] + np.array([0.0, 0.0, -0.02])
-    to_pos = pos_drwr + np.array([0.0, 0.0, 0.3])
+    pos_drwr = o_d["obj1_pos"] + jnp.array([0.0, 0.0, -0.02])
+    to_pos = pos_drwr + jnp.array([0.0, 0.0, 0.3])
     return act(to_pos, -1, p=4)
 
 
-@declare_controller("drawer-open", "put gripper around drawer handle")
+@declare_scripted_skill("drawer-open", "put gripper around drawer handle")
 def gripper_around_drawer_handle(o_d):
     return act(o_d["obj1_pos"], -1, p=4)
 
 
-@declare_controller("drawer-open", "pull away from drawer")
+@declare_scripted_skill("drawer-open", "pull away from drawer")
 def gripper_above_drawer_handle(o_d):
-    pos_drwr = o_d["obj1_pos"] + np.array([0.0, 0.0, -0.02])
-    to_pos = pos_drwr + np.array([0.0, -0.06, 0.0])
+    pos_drwr = o_d["obj1_pos"] + jnp.array([0.0, 0.0, -0.02])
+    to_pos = pos_drwr + jnp.array([0.0, -0.06, 0.0])
     return act(to_pos, -1, p=50)
 
 
-@declare_policy("door-open")
+@declare_tree("door-open")
 def door_open(o_d):
     pos_curr = o_d["hand_pos"]
-    pos_door = o_d["obj1_pos"] - np.array([0.05, 0, 0])
+    pos_door = o_d["obj1_pos"] - jnp.array([0.05, 0, 0])
 
     # align end effector's Z axis with door handle's Z axis
-    if np.linalg.norm(pos_curr[:2] - pos_door[:2]) > 0.12:
+    if jnp.linalg.norm(pos_curr[:2] - pos_door[:2]) > 0.12:
         return "put gripper above door handle"
     # drop down on front edge of door handle
     elif abs(pos_curr[2] - pos_door[2]) > 0.04:
         return "put gripper around door handle"
     # push from front edge toward door handle's centroid
     else:
-        return "pull door open"
+        return "push door closed"
 
 
-@declare_controller("door-open", "put gripper above door handle")
+@declare_scripted_skill("door-open", "put gripper above door handle")
 def gripper_above_door_handle(o_d):
-    pos_door = o_d["obj1_pos"] - np.array([0.05, 0, 0])
-    return act(pos_door + np.array([0.06, 0.02, 0.2]), 1, p=4)
+    pos_door = o_d["obj1_pos"] - jnp.array([0.05, 0, 0])
+    return act(pos_door + jnp.array([0.06, 0.02, 0.2]), 1, p=4)
 
 
-@declare_controller("door-open", "put gripper around door handle")
+@declare_scripted_skill("door-open", "put gripper around door handle")
 def gripper_around_door_handle(o_d):
-    pos_door = o_d["obj1_pos"] - np.array([0.05, 0, 0])
-    return act(pos_door + np.array([0.06, 0.02, 0]), 1, p=4)
+    pos_door = o_d["obj1_pos"] - jnp.array([0.05, 0, 0])
+    return act(pos_door + jnp.array([0.06, 0.02, 0]), 1, p=4)
 
 
-@declare_controller("door-open", "pull door open")
-def pull_door_open(o_d):
-    pos_door = o_d["obj1_pos"] - np.array([0.05, 0, 0])
+@declare_scripted_skill("door-open", "push door closed")
+def push_door_closed(o_d):
+    pos_door = o_d["obj1_pos"] - jnp.array([0.05, 0, 0])
     return act(pos_door, 1, p=4)
 
 
-@declare_policy("push")
+@declare_tree("push")
 def push(o_d):
     pos_curr = o_d["hand_pos"]
-    pos_puck = o_d["obj1_pos"] + np.array([-0.005, 0, 0])
+    pos_puck = o_d["obj1_pos"] + jnp.array([-0.005, 0, 0])
     pos_goal = o_d["goal_pos"]
 
     # If error in the XY plane is greater than 0.02, place end effector above the puck
-    if np.linalg.norm(pos_curr[:2] - pos_puck[:2]) > 0.02:
+    if jnp.linalg.norm(pos_curr[:2] - pos_puck[:2]) > 0.02:
         return "put the gripper above the puck"
     # Once XY error is low enough, drop end effector down on top of puck
     elif abs(pos_curr[2] - pos_puck[2]) > 0.04:
@@ -312,62 +307,60 @@ def push(o_d):
         return "slide the puck to the goal"
 
 
-@declare_controller("push", "put the gripper above the puck")
+@declare_scripted_skill("push", "put the gripper above the puck")
 def gripper_above_puck(o_d):
     pos_curr = o_d["hand_pos"]
-    pos_puck = o_d["obj1_pos"] + np.array([-0.005, 0, 0])
+    pos_puck = o_d["obj1_pos"] + jnp.array([-0.005, 0, 0])
     grab_effort = 0
-    grab_effort = 0
-    return act(pos_puck + np.array([0.0, 0.0, 0.2]), grab_effort, p=10)
+    return act(pos_puck + jnp.array([0.0, 0.0, 0.2]), grab_effort, p=10)
 
 
-@declare_controller("push", "push the gripper into the puck")
+@declare_scripted_skill("push", "push the gripper into the puck")
 def push_down_on_puck(o_d):
     pos_curr = o_d["hand_pos"]
-    pos_puck = o_d["obj1_pos"] + np.array([-0.005, 0, 0])
+    pos_puck = o_d["obj1_pos"] + jnp.array([-0.005, 0, 0])
     grab_effort = 0.6
-    grab_effort = 0
-    return act(pos_puck + np.array([0.0, 0.0, 0.03]), grab_effort, p=10)
+    return act(pos_puck + jnp.array([0.0, 0.0, 0.03]), grab_effort, p=10)
 
 
-@declare_controller("push", "slide the puck to the goal")
+@declare_scripted_skill("push", "slide the puck to the goal")
 def slide_puck_to_goal(o_d):
     pos_goal = o_d["goal_pos"]
     pos_curr = o_d["hand_pos"]
-    pos_puck = o_d["obj1_pos"] + np.array([-0.005, 0, 0])
+    pos_puck = o_d["obj1_pos"] + jnp.array([-0.005, 0, 0])
     grab_effort = 0.6
     return act(pos_goal, grab_effort, p=10)
 
 
-@declare_policy("button-press-topdown")
+@declare_tree("button-press-topdown")
 def button_press_topdown(o_d):
     pos_curr = o_d["hand_pos"]
     pos_button = o_d["obj1_pos"]
 
-    if np.linalg.norm(pos_curr[:2] - pos_button[:2]) > 0.04:
+    if jnp.linalg.norm(pos_curr[:2] - pos_button[:2]) > 0.04:
         return "put gripper above button"
     else:
         return "push down on button"
 
 
-@declare_controller("button-press-topdown", "put gripper above button")
+@declare_scripted_skill("button-press-topdown", "put gripper above button")
 def gripper_above_button(o_d):
-    return act(o_d["obj1_pos"] + np.array([0.0, 0.0, 0.1]), 1.0, p=25)
+    return act(o_d["obj1_pos"] + jnp.array([0.0, 0.0, 0.1]), 1.0, p=25)
 
 
-@declare_controller("button-press-topdown", "push down on button")
+@declare_scripted_skill("button-press-topdown", "push down on button")
 def push_down_on_button(o_d):
     return act(o_d["obj1_pos"], 1.0, p=25)
 
 
-@declare_policy("pick-place")
-def pick_place(obs):
-    pos_curr = obs["hand_pos"]
-    pos_puck = obs["obj1_pos"] + np.array([-0.005, 0, 0])
-    pos_goal = obs["goal_pos"]
-    gripper_separation = obs["gripper_distance_apart"]
+@declare_tree("pick-place")
+def pick_place(o_d):
+    pos_curr = o_d["hand_pos"]
+    pos_puck = o_d["obj1_pos"] + jnp.array([-0.005, 0, 0])
+    pos_goal = o_d["goal_pos"]
+    gripper_separation = o_d["gripper_distance_apart"]
     # If error in the XY plane is greater than 0.02, place end effector above the puck
-    if np.linalg.norm(pos_curr[:2] - pos_puck[:2]) > 0.02:
+    if jnp.linalg.norm(pos_curr[:2] - pos_puck[:2]) > 0.02:
         return "place gripper above puck"
     # Once XY error is low enough, drop end effector down on top of puck
     elif abs(pos_curr[2] - pos_puck[2]) > 0.05 and pos_puck[-1] < 0.04:
@@ -380,26 +373,26 @@ def pick_place(obs):
         return "place puck at goal"
 
 
-@declare_controller("pick-place", "place gripper above puck")
-def place_gripper_above_puck(obs):
-    pos_puck = obs["obj1_pos"] + np.array([-0.005, 0, 0])
-    return act(pos_puck + np.array([0.0, 0.0, 0.1]), 0.0, p=10)
+@declare_scripted_skill("pick-place", "place gripper above puck")
+def place_gripper_above_puck(o_d):
+    pos_puck = o_d["obj1_pos"] + jnp.array([-0.005, 0, 0])
+    return act(pos_puck + jnp.array([0.0, 0.0, 0.1]), 0.0, p=10)
 
 
-@declare_controller("pick-place", "drop gripper around puck")
-def drop_gripper_argound_puck(obs):
-    pos_puck = obs["obj1_pos"] + np.array([-0.005, 0, 0])
-    return act(pos_puck + np.array([0.0, 0.0, 0.03]), 0.0, p=10)
+@declare_scripted_skill("pick-place", "drop gripper around puck")
+def drop_gripper_argound_puck(o_d):
+    pos_puck = o_d["obj1_pos"] + jnp.array([-0.005, 0, 0])
+    return act(pos_puck + jnp.array([0.0, 0.0, 0.03]), 0.0, p=10)
 
 
-@declare_controller("pick-place", "close gripper around puck")
-def close_gripper_around_puck(obs):
-    return act(obs["hand_pos"], 1.0, p=10)
+@declare_scripted_skill("pick-place", "close gripper around puck")
+def close_gripper_around_puck(o_d):
+    return act(o_d["hand_pos"], 1.0, p=10)
 
 
-@declare_controller("pick-place", "place puck at goal")
-def place_puck_at_goal(obs):
-    return act(obs["goal_pos"], 1.0, p=10)
+@declare_scripted_skill("pick-place", "place puck at goal")
+def place_goal_at_puck(o_d):
+    return act(o_d["goal_pos"], 1.0, p=10)
 
 
 def parse_obs(obs):
@@ -420,16 +413,18 @@ def parse_obs(obs):
     }
 
 
-def run_controller(controller_name, parsed_obs):
-    controller_func = CONTROLLERS[controller_name]["function"]
-    controller_params = controller_func(parsed_obs)
+def run_scripted_skill(scripted_skill_name, parsed_obs):
+    scripted_skill_func = SCRIPTED_SKILLS[scripted_skill_name]["function"]
+    scripted_skill_params = scripted_skill_func(parsed_obs)
     delta_xyz = move(
         parsed_obs["hand_pos"],
-        controller_params["target_xyz"],
-        controller_params["control_coeff"],
+        scripted_skill_params["target_xyz"],
+        scripted_skill_params["control_coeff"],
     )
 
-    return np.concatenate([delta_xyz, np.array([controller_params["grab_effort"]])])
+    return jnp.concatenate(
+        [delta_xyz, jnp.array([scripted_skill_params["grab_effort"]])]
+    )
 
 
 @dataclass
@@ -440,10 +435,8 @@ class SawyerUniversalV2Policy:
     def get_action(self, obs):
         o_d = parse_obs(obs)
         tree = DECISION_TREES[self.env_name]["function"]
-        controller_name = tree(o_d)
-        return run_controller(controller_name, o_d), {
-            "controller_name": controller_name
-        }
+        scripted_skill_name = tree(o_d)
+        return run_scripted_skill(scripted_skill_name, o_d)
 
 
 def trajectory_summary(env, policy, act_noise_pct, render=False, end_on_success=True):
@@ -549,9 +542,3 @@ def test_universal_scripted_policy(env_name, act_noise_pct, iters=100):
     print(successes)
     expected_success_rate = 0.8
     assert successes >= expected_success_rate * iters
-
-
-if __name__ == "__main__":
-    from pprint import pprint
-
-    pprint(len(CONTROLLERS), "CONTROLLERS:", CONTROLLERS)
