@@ -2,14 +2,12 @@ import re
 from textwrap import indent, dedent
 import json
 from typing import Dict, List, Optional, Tuple
+import os
 
 import generate_metaworld_scene_dataset
 from generate_metaworld_scene_dataset import eval_conditions
 
-from sample_utils import (
-    MT10_ENV_NAMES,
-    MT50_ENV_NAMES,
-)
+from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES
 
 
 def load_plan_file(
@@ -103,6 +101,19 @@ def preprocess_location(action: str) -> str:
             goals.append(f"the robot's gripper is {loc}")
     return " and ".join(goals)
 
+def wrap_in_markdown(contents, task):
+    return dedent("""
+        Hello. Today I would like you to help me control a robot. The robot has a single gripper that it can use to grab small objects.
+
+        Here's some code that demonstrates how the robot can do a variety of tasks:
+
+        ```
+        {contents}
+        ```
+
+        Please write a program to do the last task, `{task}`.
+        """).format(contents=contents, task=task)
+
 
 FN_NAME = re.compile(r"def ([a-zA-Z_]+)\(")
 CLAUSES = re.compile(r'if check\("([^"]+)"\):\s+([^\n]+)', flags=re.MULTILINE)
@@ -111,16 +122,27 @@ MOVE_GRIPPER = re.compile(f'robot.move_gripper\("([^"]+)"\)')
 CLOSE_GRIPPER = re.compile(f'robot.move_gripper\("([^"]+)", close_gripper=True\)')
 OPEN_GRIPPER = re.compile(f'robot.move_gripper\("([^"]+)", open_gripper=True\)')
 
+def encode_py(env_name, plan, chain_of_thought=False):
+    contents = []
+    for base_task, steps in plan.items():
+        contents.append(plan_str_py(base_task, steps, chain_of_thought=chain_of_thought))
+    contents.append(plan_str_py(env_name, []))
+    return '\n\n'.join(contents)
 
-def plan_str_py(env_name, plan):
+def plan_str_py(env_name, steps, chain_of_thought=False):
     header = dedent(
         f"""\
         # {env_name}: {MT50_TASK_DESCRIPTIONS[env_name]}
         # def {env_name.replace('-', '_')}(robot):"""
     )
-    clauses = [clause_str(cond, action) for (cond, action) in plan.items()]
+    clauses = [clause_str(cond, action) for (cond, action) in steps]
+    if chain_of_thought:
+        new_clauses = [dedent(MT10_STEPS[env_name]).strip()]
+        for step_i in range(len(clauses)):
+            new_clauses.append(dedent(MT10_STEP_REASONS[env_name][step_i]).strip())
+            new_clauses.append(clauses[step_i])
+        clauses = new_clauses
     return "\n".join([header] + [indent(clause, " " * 4) for clause in clauses])
-
 
 def clause_str(cond, action):
     if action.startswith("the robot's gripper is "):
@@ -215,16 +237,234 @@ MT50_TASK_DESCRIPTIONS = {
     "door-close": "push the door closed to the target location",
 }
 
+MT10_STEPS = {
+    "reach": """
+    # Steps:
+    #  1. Reach towards the target
+    """,
+    "push": """
+    # Steps:
+    #  1. Put gripper above puck
+    #  2. Push gripper into top of puck
+    #  3. Slide puck to goal
+    """,
+    "pick-place": """
+    # Steps:
+    #  1. Put gripper above puck
+    #  2. Drop gripper around puck
+    #  3. Close gripper around puck
+    #  4. Move puck to goal
+    """,
+    "door-open": """
+    # Steps:
+    #  1. Put gripper above door handle
+    #  2. Drop gripper around door handle
+    #  3. Pull open the door
+    """,
+    "drawer-open": """
+    # Steps:
+    #  1. Put gripper above drawer handle
+    #  2. Drop gripper around drawer handle
+    #  3. Pull open the drawer
+    """,
+    "drawer-close": """
+    # Steps:
+    #  1. Put gripper roughly around the drawer handle
+    #  2. Push the drawer closed
+    """,
+    "button-press-topdown": """
+    # Steps:
+    #  1. Line up the gripper as viewed from above
+    #  2. Push down on the button from the top
+    """,
+    "peg-insert-side": """
+    # Steps:
+    #  1. Put gripper above the peg
+    #  2. Grab the peg with the gripper
+    #  3. Line the peg up with the hole
+    #  4. Slide the peg sideways into the hole
+    """,
+    "window-open": """
+    # Steps:
+    #  1. Put gripper right of the window handle
+    #  2. Start pushing against the window handle to open the window
+    #  3. Push the window open harder
+    """,
+    "window-close": """
+    # Steps:
+    #  1. Put gripper left of the window handle
+    #  2. Start pushing against the window handle to close the window
+    #  3. Push the window closed harder
+    """,
+}
 
-def main(filename: str, *, encoding: str = "guess", out_encoding: str = "json"):
+MT10_STEP_REASONS: dict[str, list[str]] = {
+    "reach": ['''
+    # We don't have any objects to manipulate, so we can just move the robot's
+    # gripper directly to the target location
+    ''',],
+    "push": ['''
+    # The robot can slide the puck by trapping it by pushing down on it from
+    # above and moving the gripper.
+    # If the puck isn't below the gripper as seen from above, move the gripper
+    # above the puck.
+    ''',
+             '''
+    # If the gripper is aligned with the puck but not near it, move the gripper
+    # down to the puck to slide it.
+    ''',
+             '''
+    # If the gripper is near the puck, we've probably trapped the puck and can
+    # slide it to the target location.
+    # Close the gripper to make sure we keep control of the puck.
+    '''],
+    "pick-place": [
+        '''
+    # First, put the gripper roughly above puck, so that we don't bump it while
+    # trying to grab it.
+    ''',
+        '''
+    # If the gripper is near the puck and open, maybe we can grab it by closing
+    # the gripper.
+    ''',
+        '''
+    # We closed the gripper, and the puck is still near the gripper, so maybe we
+    # grabbed it.
+    # Try to move the puck to the goal.
+    # If we didn't grab it, we'll just go back to an earlier step.
+    '''
+    ],
+    'door-open': [
+        '''
+    # First, put the gripper mostly above the door handle.
+    ''',
+        '''
+    # As long as the gripper is almost lined up, closing it should line it up
+    # all the way.
+    ''',
+        '''
+    # As long as the gripper is still vertically aligned with the door handle,
+    # it's being opened, so keep pulling.
+    ''',
+    ],
+    "drawer-open": [
+        '''
+    # We need to put the gripper above the drawer handle before we can grab it,
+    # because of the angle of the robot's gripper.
+    ''',
+        '''
+    # Once the gripper is lined up above the drawer handle, we should be able to
+    # grab the drawer handle by moving the gripper down around it.
+    ''',
+        '''
+    # Once the gripper is around the drawer handle, we can just pull the drawer
+    # open.
+    '''
+    ],
+    'drawer-close': [
+        '''
+    # If the gripper is not near the drawer handle, move it to the drawer
+    # handle.
+    # We don't need to be careful about the direction, since the drawer is large
+    # and we're just pushing it (unlike when opening the drawer).
+        ''',
+        '''
+    # If the drawer is aligned with the gripper as seen from in front, we can
+    # push the drawer closed.
+        '''
+    ],
+    'button-press-topdown': [
+        '''
+    # Because this is "topdown", we just need to line up the gripper from above.
+    # Line up the robot's gripper from above.
+    ''',
+        '''
+    # Now that the gripper is lined up, just push down on the button.
+        '''
+    ],
+    'peg-insert-side': [
+        '''
+    # First, put the gripper above the peg.
+    ''',
+        '''
+    # If the peg becomes left of the gripper, go back to putting the gripper
+    # above the peg.
+    # Because the peg is a long object, check if the gripper is lined up with it
+    # from the front instead of around it.
+    ''',
+        '''
+    # As long the gripper is still mostly around the peg and the peg isn't lined
+    # up with the hole, line up the peg with the hole.
+    ''',
+        '''
+    # If the peg is lined up with the hole to the side, insert it.
+    ''',
+    ],
+    'window-open': [
+        '''
+    # If the robot's gripper is not vertically lined up with the window handle,
+    # we should move the gripper near the window handle to start pushing
+    ''',
+        '''
+    # If the robot's gripper is near the window handle we can probably slide the
+    # window open now by moving the gripper left.
+    ''',
+        '''
+    # If the robot's gripper is starting to be in front of the window handle,
+    # push harder.
+    '''
+    ],
+    'window-close': [
+        '''
+    # If the the window handle is right of the robot's gripper, we should move the
+    # gripper near the window handle to start pushing
+    ''',
+        '''
+    # If the robot's gripper is near the window handle we can probably slide the
+    # window close now by moving the gripper right.
+    ''',
+        '''
+    # If the robot's gripper is starting to be in front of the window handle,
+    # push harder.
+    ''',
+    ]
+}
+
+
+def save(plan_str: str, filename: str):
+    assert '\n' not in filename
+    if '/' in filename:
+        os.makedirs(filename.rsplit('/', maxsplit=1)[0], exist_ok=True)
+    with open(filename, 'w') as f:
+        f.write(plan_str)
+
+
+def convert(filename: str, *, encoding: str = "guess", out_encoding: str = "json", out_file: str):
     if encoding == "guess":
         plans = load_plan_file(filename)
     else:
         plans = load_plan_file(filename, encoding)
-    print(encode_plans(plans, encoding=out_encoding))
+    encoded = encode_plans(plans, encoding=out_encoding)
+    print(encoded)
+    if out_file is not None:
+        save(encoded, out_file)
+
+def generate_all_plans():
+    mt10_basic = load_plan_file('plans/mt10_basic.json')
+    mt10_goal = load_plan_file('plans/mt10_goal.json')
+    for task in MT50_ENV_NAMES:
+        basic_py = encode_py(task, mt10_basic)
+        save(basic_py, f'data/basic_py/{task}.py')
+        chain_py = encode_py(task, mt10_goal, chain_of_thought=True)
+        save(chain_py, f'data/chain_py/{task}.py')
+        goal_py = encode_py(task, mt10_goal, chain_of_thought=True)
+        save(goal_py, f'data/goal_py/{task}.py')
+        save(wrap_in_markdown(basic_py, task), f'data/basic_py_md/{task}.py.md')
+        save(wrap_in_markdown(chain_py, task), f'data/chain_py_md/{task}.py.md')
+        save(wrap_in_markdown(goal_py, task), f'data/goal_py_md/{task}.py.md')
 
 
 if __name__ == "__main__":
     import clize
 
-    clize.run(main)
+    clize.run(convert, generate_all_plans)

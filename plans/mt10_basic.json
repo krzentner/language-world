@@ -1,0 +1,134 @@
+{
+ "reach": [
+  [
+   "the robot's gripper is not near reach target",
+   "reach to goal"
+  ]
+ ],
+ "push": [
+  [
+   "the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck",
+   "put the gripper above the puck"
+  ],
+  [
+   "the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck",
+   "push the gripper into the puck"
+  ],
+  [
+   "the robot's gripper is near the puck and the puck is below the robot's gripper",
+   "slide the puck to the goal"
+  ]
+ ],
+ "pick-place": [
+  [
+   "the robot's gripper is not above the puck",
+   "place gripper above puck"
+  ],
+  [
+   "the robot's gripper is not around puck and the robot's gripper is open",
+   "drop gripper around puck"
+  ],
+  [
+   "the robot's gripper is near puck and the robot's gripper is open",
+   "close gripper around puck"
+  ],
+  [
+   "the robot's gripper is above puck and the robot's gripper is closed",
+   "place puck at goal"
+  ]
+ ],
+ "door-open": [
+  [
+   "the robot's gripper is not almost vertically aligned with door handle",
+   "put gripper above door handle"
+  ],
+  [
+   "the robot's gripper is almost vertically aligned with the door handle and the robot's gripper is open",
+   "put gripper around door handle"
+  ],
+  [
+   "the robot's gripper is vertically aligned with the door handle",
+   "pull door open"
+  ]
+ ],
+ "drawer-open": [
+  [
+   "the robot's gripper is not vertically aligned with drawer handle",
+   "put gripper above drawer handle"
+  ],
+  [
+   "the robot's gripper is vertically aligned with drawer handle and the robot's gripper is not around drawer handle",
+   "put gripper around drawer handle"
+  ],
+  [
+   "the robot's gripper is around drawer handle",
+   "pull away from drawer"
+  ]
+ ],
+ "drawer-close": [
+  [
+   "the robot's gripper is not near the drawer handle",
+   "grab drawer handle"
+  ],
+  [
+   "the robot's gripper is forward aligned with drawer handle",
+   "push drawer closed"
+  ]
+ ],
+ "button-press-topdown": [
+  [
+   "the robot's gripper is not vertically aligned with button",
+   "put gripper above button"
+  ],
+  [
+   "the robot's gripper is vertically aligned with button",
+   "push down on button"
+  ]
+ ],
+ "peg-insert-side": [
+  [
+   "the robot's gripper is not vertically aligned with the peg",
+   "put gripper above peg"
+  ],
+  [
+   "peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper",
+   "grab peg"
+  ],
+  [
+   "the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole",
+   "align peg to hole"
+  ],
+  [
+   "peg is horizontally aligned with hole",
+   "insert peg into hole"
+  ]
+ ],
+ "window-open": [
+  [
+   "the robot's gripper is not vertically aligned with the window handle and the robot's gripper is below the window handle",
+   "move gripper to right of window handle"
+  ],
+  [
+   "the robot's gripper is near the window handle",
+   "slide window left"
+  ],
+  [
+   "the robot's gripper is in front of the window handle",
+   "push window left harder"
+  ]
+ ],
+ "window-close": [
+  [
+   "the window handle is right of the robot's gripper and the robot's gripper is not near the window handle",
+   "move gripper to left of window handle"
+  ],
+  [
+   "the robot's gripper is near the window handle",
+   "slide window right"
+  ],
+  [
+   "the robot's gripper is in front of the window handle",
+   "push window right harder"
+  ]
+ ]
+}
