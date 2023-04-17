@@ -232,12 +232,14 @@ def plan_str_md(env_name, steps, *, chain_of_thought, use_goal_conditioning):
         clause_str_md(cond, action, use_goal_conditioning) for (cond, action) in steps
     ]
     if chain_of_thought:
-        new_clauses = [dedent(MT10_STEPS[env_name]).strip()]
+        new_clauses = [
+            dedent(MT10_STEPS[env_name]).replace("# ", "").replace("\n", " ").strip()
+        ]
         for step_i in range(len(clauses)):
             new_clauses.append(
                 dedent(MT10_STEP_REASONS[env_name][step_i])
                 .replace("# ", "")
-                .replace("\n", "")
+                .replace("\n", " ")
                 .strip()
             )
             new_clauses.append(clauses[step_i])
@@ -404,6 +406,9 @@ MT10_STEP_REASONS: dict[str, list[str]] = {
     # trying to grab it.
     """,
         """
+    # If the gripper isn't around the puck, put it around the puck.
+    """,
+        """
     # If the gripper is near the puck and open, maybe we can grab it by closing
     # the gripper.
     """,
@@ -538,7 +543,7 @@ def generate_all_plans():
     for task in MT50_ENV_NAMES:
         basic_py = encode_py(task, mt10_basic)
         save(basic_py, f"data/basic_py/{task}.py")
-        chain_py = encode_py(task, mt10_goal, chain_of_thought=True)
+        chain_py = encode_py(task, mt10_basic, chain_of_thought=True)
         save(chain_py, f"data/chain_py/{task}.py")
         goal_py = encode_py(
             task, mt10_goal, chain_of_thought=True, use_goal_conditioning=True
@@ -547,6 +552,17 @@ def generate_all_plans():
         save(wrap_in_markdown(basic_py, task), f"data/basic_py_md/{task}.py.md")
         save(wrap_in_markdown(chain_py, task), f"data/chain_py_md/{task}.py.md")
         save(wrap_in_markdown(goal_py, task), f"data/goal_py_md/{task}.py.md")
+        save(encode_md(task, mt10_basic), f"data/basic_md/{task}.md")
+        save(
+            encode_md(task, mt10_basic, chain_of_thought=True),
+            f"data/chain_md/{task}.md",
+        )
+        save(
+            encode_md(
+                task, mt10_goal, chain_of_thought=True, use_goal_conditioning=True
+            ),
+            f"data/goal_md/{task}.md",
+        )
 
 
 if __name__ == "__main__":
