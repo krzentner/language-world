@@ -103,19 +103,29 @@ def preprocess_location(action: str) -> str:
 
 
 def wrap_in_markdown(contents, task):
-    return dedent(
-        """
+    base, query = contents.strip().rsplit("\n\n", maxsplit=1)
+    return (
+        dedent(
+            """\
         Hello. Today I would like you to help me control a robot. The robot has a single gripper that it can use to grab small objects.
 
         Here's some code that demonstrates how the robot can do a variety of tasks:
 
         ```
-        {contents}
+        {base}
         ```
 
-        Please write a program to do the last task, `{task}`.
+        Please write a program to perform the last task, `{task}`.
+        Begin with the text:
+
+        ```
+        {query}
+        ```
         """
-    ).format(contents=contents, task=task)
+        )
+        .strip()
+        .format(base=base.strip(), query=query.strip(), task=task)
+    )
 
 
 FN_NAME = re.compile(r"def ([a-zA-Z_]+)\(")
