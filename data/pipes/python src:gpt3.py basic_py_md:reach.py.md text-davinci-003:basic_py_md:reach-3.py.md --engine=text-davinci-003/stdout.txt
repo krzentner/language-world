@@ -1,0 +1,23 @@
+Using engine: text-davinci-003
+
+
+and end with:
+
+```
+    if check("the robot's gripper is not near reach target"):
+        robot.reach("to goal")
+```
+
+The program should demonstrate how the robot can reach a target location. 
+
+```
+# reach: reach to the target location
+# def reach(robot):
+    if check("the robot's gripper is not near the target"):
+        robot.move("gripper to target")
+    if check("the robot's gripper is not close enough to the target"):
+        robot.adjust("gripper closer to target")
+    if check("the robot's gripper is close enough to the target"):
+        robot.reach("to goal")
+```
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_py_md/reach-3.py.md'

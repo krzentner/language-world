@@ -1,0 +1,43 @@
+Using model: text-davinci-003
+
+    Steps:  1. Put gripper above lock  2. Drop gripper around lock  3. Turn the lock dial
+    First, the robot should move the gripper to the lock.
+    - When the robot's gripper is not above the lock, move the robot's gripper until the robot's gripper is above the lock
+    Once the gripper is above the lock, we can move the gripper around it to grab it.
+    - When the robot's gripper is above the lock and the robot's gripper is not around lock, move the robot's gripper until the robot's gripper is around the lock and the robot's gripper is closed
+    Now the robot can grab the lock with the gripper and turn the lock dial.
+    - When the robot's gripper is around the lock, move the robot's gripper until the lock dial is in the correct position
+
+    Steps:  1. Put gripper right of door handle  2. Grab dial with gripper  3. Rotate dial to desired orientation 
+    First, move the gripper to the right of the door handle so we can grab it with the gripper.
+    - When the robot's gripper is not right of the door handle, move the robot's gripper until the robot's gripper is right of the door handle 
+    Once we have moved the gripper to the right of the handle, line up the gripper with the dial so we can grab it with the gripper.
+    - When the robot's gripper is not forward aligned with the dial, move the robot's gripper until the gripper is forward aligned with the dial and the gripper is closed
+    Once the gripper is lined up, grab the dial with the gripper and rotate it to the desired orientation.
+    - When the robot's gripper is forward aligned with the dial, move the robot's gripper until the dial is pointing in the desired direction
+
+    Steps:  1. Put gripper on top of the door dial  2. Close gripper around the door dial  3. Turn the door dial
+    First, the gripper should be put towards the top of the door dial, so that it is able to grab around the edge of the dial.
+    - When the robot's gripper is not near the door dial, move the robot's gripper until the robot's gripper is near the door dial
+    When the robot's gripper is near the door dial, close the gripper around it.
+    - When the robot's gripper is near the door dial and the robot's gripper is not closed, move the robot's gripper until the robot's gripper is around the door dial and the robot's gripper is closed
+    Finally, turn the door dial until it is in the desired position.
+    - When the robot's gripper is around the door dial, move the robot's gripper until the door dial is in the desired position
+
+    Steps:  1. Put gripper above door handle  2. Line up gripper with the dial  3. Grab the dial  4. Turn dial
+    We should move the robot's gripper near the door handle to start turning the dial. 
+    - When the robot's gripper is not above the door handle, move the robot's gripper until the robot's gripper is above the door handle
+    If the robot can see the dial, it should move the gripper until it's lined up with the dial before grabbing it.
+    - When the robot's gripper is above door handle and the robot's gripper is not forward aligned with dial, move the robot's gripper until the robot's gripper is forward aligned with the dial and the robot's gripper is closed.
+    Now that the robot's gripper is lined up, just grab the dial.
+    - When the robot's gripper is forward aligned with the dial and the robot's gripper is closed, move the robot's gripper until the robot's gripper is around the dial 
+   If the robot's gripper is around the dial it, can start turning the dial.
+    - When the robot's gripper is around the dial, move the robot's gripper until the robot's gripper is near the desired position of the dial
+
+    Steps:  1. Put gripper above dial  2. Put gripper forward aligned with dial  3. Turn the dial clockwise  4. Turn the dial counter clockwise
+    First, the robot's gripper needs to be above the dial and is closed.
+    - When the robot's gripper is not vertically aligned with dial, move the robot's gripper until the robot's gripper is vertically aligned with the dial and the robot's gripper is closed
+    We need to get the gripper forward aligned with the dial so that it can turn the dial.
+    - When the robot's gripper is not forward aligned with dial, move the robot's gripper until the robot's gripper is forward aligned with the dial
+    Now that the gripper is forward aligned, the robot can turn the dial by moving it clockwise and counter clockwise.
+    - When the robot's gripper is forward aligned with dial, move the robot's gripper to turn the dial clockwise and then counter clockwise

@@ -1,0 +1,47 @@
+Using model: gpt-3.5-turbo
+# button-press: push the button from the front
+# def button_press(robot):
+    if check("the robot's gripper is not horizontally aligned with the button and the robot's gripper is not near the button"):
+        robot.move("gripper to front of button")
+    if check("the robot's gripper is near the button"):
+        robot.push("button")
+# button-press: push the button from the front
+def button_press(robot):
+    if check("the robot's gripper is not in front of the button"):
+        robot.move("gripper to the front of the button")
+    if check("the robot's gripper is in front of the button and the robot's gripper is not around the button"):
+        robot.grab("the button")
+    if check("the robot's gripper is around the button"):
+        robot.push("down on the button")
+# button-press: push the button from the front
+# def button_press(robot):
+    if check("the robot's gripper is not horizontally aligned with button"):
+        robot.grab("button")
+    if check("the robot's gripper is not at the right distance from the button"):
+        robot.move("gripper closer to button")
+    if check("the robot's gripper is at the right distance from the button and the robot's gripper is not vertically aligned with button"):
+        robot.put("gripper above button")
+    if check("the robot's gripper is vertically aligned with button"):
+        robot.push("the button")
+# button-press: push the button from the front
+def button_press(robot):
+    if check("the robot's gripper is not forward aligned with button"):
+        robot.move("gripper in front of button")
+    if check("the robot's gripper is above button and open"):
+        robot.drop("gripper onto button")
+    if check("the robot's gripper is around button"):
+        robot.close("gripper around button")
+    if check("the robot's gripper is around button and almost touching the surface, and the button is not pressed"):
+        robot.push("button down")
+# button-press: push the button from the front
+# def button_press(robot):
+    if check("the robot's gripper is not vertically aligned with button and the robot's gripper is not aligned with the button"):
+        robot.put("gripper in front of button")
+    if check("the robot's gripper is not vertically aligned with button and the robot's gripper is aligned with the button"):
+        robot.move("gripper below the button")
+    if check("the robot's gripper is below the button and the robot's gripper is open"):
+        robot.grab("button")
+    if check("the robot's gripper is around the button and the robot's gripper is not aligned with the button"):
+        robot.align("gripper to button")
+    if check("the robot's gripper is aligned with the button"):
+        robot.push("the button down")

@@ -1,0 +1,59 @@
+Using model: gpt-3.5-turbo
+# button-press-topdown-wall: push the button down from above with a short wall in the way
+# def button_press_topdown_wall(robot):
+    if check("the robot's gripper is not above the button"):
+        robot.place("gripper above button")
+    if check("the robot's gripper is above the button and the robot's gripper is not behind the wall"):
+        robot.move("gripper behind the wall")
+    if check("the robot's gripper is behind the wall and the robot's gripper is not vertically aligned with the button"):
+        robot.move("gripper to side of button")
+        robot.put("gripper above button")
+    if check("the robot's gripper is vertically aligned with button"):
+        robot.push("down on button")
+# button-press-topdown-wall: push the button down from above with a short wall in the way
+# def button_press_topdown_wall(robot):
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.put("gripper above button")
+    if check("the robot's gripper is not near the wall"):
+        robot.move("gripper to the wall")
+    if check("the robot's gripper is near the wall"):
+        robot.push("gripper against the wall")
+    if check("the robot's gripper is vertically aligned with button"):
+        robot.push("down on button")
+# button-press-topdown-wall: push the button down from above with a short wall in the way
+# def button_press_topdown_wall(robot):
+    if check("the robot's gripper is not on the same side of the wall as the button"):
+        robot.move("to the other side of the wall")
+    if check("the robot's gripper is not vertically aligned with the button and the wall is blocking the gripper's movement"):
+        robot.move("to right above the button")
+    if check("the robot's gripper is right above the button but the wall is still blocking the gripper's downward movement"):
+        robot.move("gripper around the wall")
+    if check("the robot's gripper is vertically aligned with the button"):
+        robot.push("down on button")
+# button-press-topdown-wall: push the button down from above with a short wall in the way
+# def button_press_topdown_wall(robot):
+def button_press_topdown_wall(robot):
+    if check("the robot is not facing the button"):
+        robot.turn("towards button")
+    if check("the robot's gripper is not above the button"):
+        robot.move("gripper to above button")
+    if check("the robot's gripper is vertically aligned with the button"):
+        robot.push("down on button")
+    if check("the robot's gripper is touching the wall"):
+        robot.move("gripper away from wall")
+        robot.lift("gripper up")
+Here is a program to perform the `button-press-topdown-wall` task:
+
+```
+# button-press-topdown-wall: push the button down from above with a short wall in the way
+# def button_press_topdown_wall(robot):
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.move("gripper above button")
+    if check("the robot's gripper is not over the wall"):
+        robot.move("gripper to the side of the wall")
+    if check("the robot's gripper is over the wall"):
+        robot.move("gripper down to the button")
+        robot.push("down on button")
+```
+
+The program first checks if the gripper is not already vertically aligned with the button, and if so, moves it to the correct position. Then it checks if the gripper is not over the wall, and if not, moves it to the side of the wall. Finally, when the gripper is over the wall, the program moves it down to the button and pushes the button down.

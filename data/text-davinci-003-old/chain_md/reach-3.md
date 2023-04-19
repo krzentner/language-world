@@ -1,0 +1,2 @@
+
+    Steps:  1. Reach towards the target  2. Move the robot's gripper directly to the target location  3. Check if the robot's gripper is near the target location  4. If not, repeat steps 1-3 until the robot's gripper is near the target location

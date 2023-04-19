@@ -1,0 +1,53 @@
+Using model: text-davinci-003
+
+    if check("the robot's gripper is not above the peg"):
+        robot.place("gripper above peg")
+    if check("the robot's gripper is above the peg and the gripper is not around the peg"):
+        robot.drop("gripper around peg")
+    if check("the robot's gripper is around the peg and the gripper is not tightened"):
+        robot.tighten("gripper around peg")
+
+# unscrew: unscrew the bolt
+# def unscrew(robot):
+    if check("the robot's gripper is not around the bolt head"):
+        robot.put("gripper around the bolt head")
+    if check("the robot's gripper is around the bolt head"):
+        robot.unscrew("the bolt")
+
+    if check("the robot's gripper is not vertically aligned with the wrench"):
+        robot.put("gripper above wrench")
+    if check("the wrench is not left of the robot's gripper and the wrench is not forward aligned with the robot's gripper"):
+        robot.grab("wrench")
+    if check("the robot's gripper is forward aligned with the wrench and the wrench is not above the peg"):
+        robot.put("wrench above peg")
+    if check("the robot's gripper is above peg and the wrench is aligned with the peg"):
+        robot.align("wrench to peg")
+    if check("the robot's gripper is above peg and the wrench is aligned with the peg"):
+        robot.drop("wrench around peg")
+
+    if check("the robot's gripper is not above the wrench"):
+        robot.move("gripper above wrench")
+    if check("wrench is not left of the robot's gripper and wrench is not forward aligned with the robot's gripper"):
+        robot.grab("wrench")
+    if check("the robot's gripper is forward aligned with the wrench and the wrench is not near the peg"):
+        robot.move("wrench to peg")
+    if check("the wrench is near the peg and the robot's gripper is not around the peg"):
+        robot.put("wrench around peg")
+
+    if check("the robot's gripper is not above the wrench and the wrench is not placed in the desired orientation"):
+        robot.put("gripper above wrench")
+    if check("the robot's gripper is above the wrench and the wrench is not around the peg"):
+        robot.align("wrench to peg")
+    if check("the wrench is almost around the peg and the robot's gripper is not above the handle"):
+        robot.grasp("wrench handle")
+    if check("the robot's gripper is above the wrench handle"):
+        robot.put("wrench around peg")
+
+    if check("the robot's gripper is not above the wrench"):
+        robot.grab("wrench")
+    if check("the robot's gripper is above the wrench and the wrench is not above the peg"):
+        robot.move("wrench above peg")
+    if check("the wrench is above the peg and the peg is not left of the wrench"):
+        robot.align("wrench to peg")
+    if check("the peg is left of the wrench and the robot's gripper is open"):
+        robot.put("wrench around peg")

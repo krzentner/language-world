@@ -1,0 +1,23 @@
+Using engine: text-davinci-003
+
+
+Steps: 
+1. Put gripper above the lever
+2. Grab the lever with the gripper
+3. Rotate the lever up
+
+If the robot's gripper is not above the lever, move it above the lever.
+```
+    if check("the robot's gripper is not above the lever"):
+        robot.move_gripper("above the lever")
+```
+If the gripper is above the lever but not around it, move the gripper around the lever.
+```
+    if check("the robot's gripper is not around the lever and the robot's gripper is open"):
+        robot.move_gripper("near the lever", close_gripper=True)
+```
+Once the gripper is around the lever, we can rotate the lever up by moving the gripper up.
+```
+    if check("the robot's gripper is around the lever"):
+        robot.move_gripper("above the lever")
+```

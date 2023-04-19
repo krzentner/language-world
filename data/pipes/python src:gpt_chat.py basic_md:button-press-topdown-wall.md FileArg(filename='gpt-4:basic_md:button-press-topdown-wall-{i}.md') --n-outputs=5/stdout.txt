@@ -1,0 +1,25 @@
+Using model: gpt-3.5-turbo
+To push the button down from above with a short wall in the way reliably, the robot should perform the following steps:
+    - When the robot's gripper is not vertically aligned with button, the robot should put gripper above button.
+    - When there is a short wall between the robot's gripper and the button, the robot should move its gripper to one side of the wall to get a clear path to the button.
+    - When the robot's gripper is vertically aligned with button and there is no obstacle in the way, the robot should push down on button.
+To push the button down from above with a short wall in the way reliably, the robot should perform the following steps:
+  - When the robot's gripper is not vertically aligned with the button and the robot's gripper is below the height of the wall, the robot should move gripper to the side of the wall and then move it above the button.
+  - When the robot's gripper is vertically aligned with the button and the robot's gripper is below the height of the wall, the robot should lift gripper above the wall.
+  - When the robot's gripper is above the height of the wall and not vertically aligned with the button, the robot should move gripper above the button.
+  - When the robot's gripper is vertically aligned with the button, the robot should move gripper down to touch the button and then press down on the button.
+To push the button down from above with a short wall in the way reliably, the robot should perform the following steps:
+
+- When the robot's gripper is not vertically aligned with the button and the robot's gripper is not above the wall, the robot should move gripper above the wall.
+- When the robot's gripper is above the wall but not vertically aligned with the button, the robot should move gripper above the button.
+- When the robot's gripper is vertically aligned with the button, the robot should push down on the button.
+- If the robot encounters the wall while moving the gripper, it should move the gripper to the side of the wall and then move it up or down to reach the button. Alternatively, if the robot has sensors that can detect the wall, it can use them to plan a path around the wall.
+To push the button down from above with a short wall in the way reliably, the robot should perform the following steps:
+
+- When the robot's gripper is not vertically aligned with the button and not above the wall, the robot should move gripper above the wall.
+- When the robot's gripper is above the wall and not vertically aligned with the button, the robot should move gripper above the button.
+- When the robot's gripper is vertically aligned with the button, the robot should push down on the button with enough force to overcome the height of the wall.
+To push the button down from above with a short wall in the way reliably, the robot should perform the following steps:
+- When the robot's gripper is not vertically aligned with the button and the wall is blocking the robot's reach, the robot should put gripper above the wall and move to a position where it can reach the button.
+- When the robot's gripper is vertically aligned with the button and the wall is still blocking the robot's reach, the robot should use the gripper to push the button down from above the wall.
+- When the wall is no longer blocking the robot's reach, the robot should move its gripper over the button and push it down.

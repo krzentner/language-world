@@ -1,0 +1,65 @@
+Using model: text-davinci-003
+
+
+The code should be:
+
+```
+# coffee-pull: grab the mug and pull it to the target location
+# def coffee_pull(robot):
+    if check("the robot's gripper is not above the mug"):
+        robot.put("gripper above mug")
+    if check("the robot's gripper is not around mug and the robot's gripper is open"):
+        robot.drop("gripper around mug")
+    if check("the robot's gripper is around mug"):
+        robot.pull("mug to goal")
+```
+
+
+Solution:
+
+```
+# coffee-pull: grab the mug and pull it to the target location
+# def coffee_pull(robot):
+    if check("the robot's gripper is not vertically aligned with the mug"):
+        robot.put("gripper above mug")
+    if check("the robot's gripper is not around mug and the robot's gripper is open"):
+        robot.drop("gripper around mug")
+    if check("the robot's gripper is around mug and the robot's gripper is open"):
+        robot.close("gripper around mug")
+    if check("the robot's gripper is around mug and the robot's gripper is closed"):
+        robot.pull("mug to goal")
+```
+
+
+if check("the robot's gripper is not near the mug"):
+    robot.reach("until the mug is in grip")
+if check("the robot's gripper is around mug"):
+    robot.pull("the mug to target location")
+
+
+Solution:
+
+```
+# coffee-pull: grab the mug and pull it to the target location
+# def coffee_pull(robot):
+    if check("the robot's gripper is not above the mug"):
+        robot.put("gripper above mug")
+    if check("the robot's gripper is not around the mug and the robot's gripper is open"):
+        robot.drop("gripper around mug")
+    if check("the robot's gripper is around the mug and the robot's gripper is open"):
+        robot.close("gripper around mug")
+    if check("the robot's gripper is around the mug and the robot's gripper is closed"):
+        robot.pull("mug to goal")
+```
+
+
+Solution: 
+
+# coffee-pull: grab the mug and pull it to the target location
+# def coffee_pull(robot):
+    if check("the robot's gripper is not above the mug"):
+        robot.put("gripper above the mug")
+    if check("the robot's gripper is not around mug and the robot's gripper is open"):
+        robot.grab("gripper around mug")
+    if check("the robot's gripper is around mug and the robot's gripper is close"):
+        robot.pull("the mug to the goal")

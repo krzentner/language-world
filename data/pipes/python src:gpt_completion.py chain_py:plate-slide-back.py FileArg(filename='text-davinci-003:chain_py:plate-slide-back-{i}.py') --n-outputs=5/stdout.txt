@@ -1,0 +1,71 @@
+Using model: text-davinci-003
+
+    # Steps:
+    #  1. Put gripper in front of plate
+    #  2. Push plate back
+    # First, move the gripper close to the plate so that we can start pushing it.
+    if check("the robot's gripper is not close to the plate"):
+        robot.put("gripper in front of plate")
+    # If the gripper is close to the plate, push the plate back into the target
+    # location.
+    if check("the robot's gripper is close to the plate"):
+        robot.push("plate back to target")
+
+    # Steps:
+    #  1. Put gripper above the plate
+    #  2. Drop gripper around the plate
+    #  3. Slide the plate back
+    # We won't actually grab the plate, but grab it by putting it below the
+    # gripper as seen from above.
+    # If the plate isn't below the gripper, put the gripper above the plate.
+    if check("the plate is not below the robot's gripper"):
+        robot.put("gripper above plate")
+    # As long as the gripper is still above the plate, let's move the gripper
+    # around and align it under the plate.
+    # As long as the gripper is still above the plate, just keep pushing down
+    # until it's under the plate.
+    if check("the robot's gripper is above plate"):
+        robot.push("gripper down")
+    # If the gripper is under the plate, just keep pushing it back.
+    if check("the robot's gripper is below plate"):
+        robot.slide("plate back")
+
+    # Steps:
+    #  1. Put gripper above the plate
+    #  2. Drop gripper around the plate
+    #  3. Slide the plate back
+    # If the gripper is not behind the plate, put the gripper above the plate.
+    if check("the robot's gripper is not behind the plate"):
+        robot.put("gripper above plate")
+    # If the gripper is above and left or right of the plate, put it around
+    # the plate.
+    if check("the robot's gripper is above the plate and the robot's gripper is left-aligned with or right-aligned with the plate"):
+        robot.drop("gripper around plate")
+    # Once the gripper is around the plate, just slide it backwards until it's
+    # in the target location.
+    if check("the robot's gripper is around the plate"):
+        robot.slide("plate back")
+
+    # Steps:
+    #  1. Put gripper above the plate
+    #  2. Slide the plate back
+    # The plate is a relatively large object, so we need to line up the gripper
+    # with the plate from above.
+    if check("the robot's gripper is not above the plate"):
+        robot.put("gripper above plate")
+    # If the plate is the correct direction from the gripper, we can slide it
+    # back.
+    if check("the robot's gripper is above the plate"):
+        robot.slide("plate back")
+
+    # Steps:
+    #  1. Put gripper forward aligned with the plate
+    #  2. Push the plate back
+    # If the plate isn't forward aligned with the robot's gripper, move the
+    # gripper until it is forward aligned with the plate.
+    if check("the robot's gripper is not forward aligned with the plate"):
+        robot.put("gripper forward aligned with the plate")
+    # Now that the robot's gripper is forward aligned with the plate, slide it
+    # back.
+    if check("the robot's gripper is forward aligned with the plate"):
+        robot.slide("plate to target location")

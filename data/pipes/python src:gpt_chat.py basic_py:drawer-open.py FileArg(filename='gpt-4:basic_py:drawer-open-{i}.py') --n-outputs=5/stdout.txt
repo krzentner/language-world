@@ -1,0 +1,22 @@
+Using model: gpt-3.5-turbo
+This function has already been defined earlier. Please see the "drawer-open" function above.
+It looks like the function for drawer-open was already defined earlier. Did you mean to define it again or make changes to it?
+Sorry, there seems to be a duplicate function of `drawer_open`. Here are the functions for `close_drawer` and `open_drawer` instead:
+
+# close-drawer: push the drawer close
+# def close_drawer(robot):
+    if check("the robot's gripper is not near the drawer handle"):
+        robot.grab("drawer handle")
+    if check("the robot's gripper is forward aligned with drawer handle"):
+        robot.push("drawer closed")
+
+# open-drawer: pull the drawer open
+# def open_drawer(robot):
+    if check("the robot's gripper is not vertically aligned with drawer handle"):
+        robot.put("gripper above drawer handle")
+    if check("the robot's gripper is vertically aligned with drawer handle and the robot's gripper is not around drawer handle"):
+        robot.put("gripper around drawer handle")
+    if check("the robot's gripper is around drawer handle"):
+        robot.pull("away from drawer")
+Sorry, it looks like we already defined the `drawer_open()` function earlier in this code snippet. Maybe you meant to define a different function instead?
+I already provided the code for "drawer-open" function. Do you need help with anything else?

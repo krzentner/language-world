@@ -1,0 +1,36 @@
+Using model: text-davinci-003
+
+
+Steps:  1. Line up the gripper with the handle as viewed from the side  2. Push down on the handle  3. Move the handle left or right as needed
+    First, we need to line up the gripper with the handle as seen from the side, to prevent the handle from slipping off.
+    - When the robot's gripper is not vertically aligned with handle, the robot should put gripper next to handle.
+    Now that the gripper is lined up, it can push down the handle.
+    - When the robot's gripper is vertically aligned with handle, the robot should push down handle.
+    If the handle doesn't slide, it may be blocked, so try pushing the handle left or right until it slides.
+    - When the robot's gripper is vertically aligned with handle and the handle is blocked, the robot should move handle left or right.
+
+    Steps:  1. Put gripper beside the handle  2. Push down on the handle
+    We need to first put the robot's gripper beside the handle. We don't want to put it above the handle, because pushing down might be harder from that position.
+    - When the robot's gripper is not beside the handle, the robot should put gripper beside handle.
+    If the handle is below the gripper, push down to press it.
+    - When the handle is below the robot's gripper, the robot should push down handle.
+
+    Steps:  1. Put gripper above handle  2. Push gripper into handle from the side  3. Push down handle
+    First, put the gripper above the handle.
+    - When the robot's gripper is not horizontally aligned with handle, the robot should put gripper above handle.
+    As long as the gripper is aligned with the handle, we can move it towards the handle by pushing into it from the side.
+    - When the robot's gripper is horizontally aligned with handle and the robot's gripper is not above handle, the robot should push gripper into handle from the side.
+    Once the gripper is securely against the handle, push down the handle.
+    - When the robot's gripper is above handle, the robot should push down handle.
+
+    Steps:  1. Put gripper left of handle  2. Push handle down
+    First, place the robot's gripper left of the handle.
+    - When the handle is right of robot's gripper and robot's gripper is not near the handle, the robot should move gripper to left of handle.
+    If the gripper is close to the handle, push it down until it fully depresses.
+    - When the robot's gripper is near the handle, the robot should push handle down.
+
+    Steps:  1. Put gripper near the handle  2. Push the handle down from the side 
+    First, the robot should move the gripper near the handle.
+    - When the robot's gripper is not near the handle, the robot should place the gripper near the handle.
+    Now that the gripper is near the handle, press down on the side of the handle.
+    - When the robot's gripper is near the handle, the robot should push handle down from side.

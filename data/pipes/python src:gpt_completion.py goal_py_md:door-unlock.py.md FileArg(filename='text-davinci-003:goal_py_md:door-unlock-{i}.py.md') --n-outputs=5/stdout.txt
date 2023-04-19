@@ -1,0 +1,111 @@
+Using model: text-davinci-003
+
+
+Answer:
+
+```
+# door-unlock: turn the dial on the door
+# def door_unlock(robot):
+    # Steps:
+    #  1. Put gripper above the dial
+    #  2. Drop gripper around the dial
+    #  3. Turn the dial in the correct direction
+    #  4. Pull open the door
+    # First, put the gripper above the dial.
+    if check("the robot's gripper is not vertically aligned with the dial"):
+        robot.move_gripper("vertically aligned with the dial")
+    # If the dial isn't below the gripper as seen from above, move the
+    # gripper above the dial.
+    if check("the robot's gripper is not above the dial and the robot's gripper is not vertically aligned with the dial"):
+        robot.move_gripper("near the dial", close_gripper=True)
+    # If the gripper is around the dial, turn it in the correct direction.
+    if check("the robot's gripper is around the dial"):
+        robot.move_gripper("in the correct direction")
+    # Once the dial is turned, the door should open.
+    if check("the robot's gripper is around the dial and the door is unlocked"):
+        robot.move_gripper("horizontally aligned with the door handle")
+```
+
+
+Steps: 
+1. Put gripper in front of the dial
+2. Slowly rotate the dial in one direction
+3. Switch direction and slowly rotate in the opposite direction
+4. Repeat steps 2 and 3 until the door unlocks
+
+if check("the robot's gripper is not forward aligned with dial"):
+  robot.move_gripper("forward aligned with dial")
+
+initial_direction = "clockwise"
+while(not check("the door is unlocked")):
+  robot.rotate_gripper(initial_direction)
+  initial_direction = "counter-clockwise" if initial_direction == "clockwise" else "clockwise"
+
+
+## Solution
+
+```
+# door-unlock: turn the dial on the door
+# def door_unlock(robot):
+    # Steps:
+    #  1. Put gripper above dial
+    #  2. Drop gripper around dial
+    #  3. Rotate the dial
+    # First, put the gripper above the dial.
+    if check("the robot's gripper is not vertically aligned with dial"):
+        robot.move_gripper("vertically aligned with the dial", close_gripper=True)
+    # As long as the gripper is aligned with the dial, moving the gripper
+    # slightly to the right of it should allow us to grab the dial.
+    if check("the robot's gripper is vertically aligned with dial"):
+        robot.move_gripper("right of the dial")
+    # Once we have a grip on the dial, rotate it to the desired point.
+    if check("the robot's gripper is around dial"):
+        robot.rotate_gripper("to the desired point")
+```
+
+
+Steps:
+  1. Put gripper directly above the dial
+  2. Drop gripper to the left of the dial
+  3. Turn the dial clockwise
+  4. Stop turning dial when it stops of its own accord 
+
+# door-unlock: turn the dial on the door
+# def door_unlock(robot):
+    # Steps:
+    #  1. Put gripper directly above the dial
+    if check("the robot's gripper is not vertically aligned with the dial"):
+        robot.move_gripper("vertically aligned with the dial")
+    #  2. Drop gripper to the left of the dial
+    if check("the robot's gripper is not left of the dial"):
+        robot.move_gripper("left of the dial", close_gripper=True)
+    #  3. Turn the dial clockwise
+    if check("the robot's gripper is left of the dial"):
+        robot.move_gripper("right")
+    #  4. Stop turning dial when it stops of its own accord
+    if check("the dial is turning on its own accord"):
+        robot.stop_gripper()
+
+
+Steps:
+ 1. Put gripper on top of door handle  
+ 2. Grip the door handle with gripper
+ 3. Turn the gripper clockwise to unlock the door
+
+```
+# door-unlock: turn the dial on the door
+# def door_unlock(robot):
+    # Steps:
+    #  1. Put gripper on top of door handle
+    #  2. Grip the door handle with gripper
+    #  3. Turn the gripper clockwise to unlock the door
+   
+    # First, put the gripper above the door handle 
+    if check("the robot's gripper is not above the door handle"):
+        robot.move_gripper("above the door handle", close_gripper=True)
+    # Next, turn the gripper clockwise to grip the handle
+    if check("the robot's gripper is not in front of the door handle"): 
+        robot.move_gripper("in front of the door handle")
+    # Finally, rotate the gripper clockwise to unlock the door
+    if check("the robot's gripper is in front of the door handle"):
+        robot.rotate_gripper("clockwise")

@@ -1,0 +1,10 @@
+Using engine: text-davinci-003
+
+
+If check("the robot's gripper is not above the handle"):
+    robot.put("gripper above handle")
+if check("the robot's gripper is not around the handle and the robot's gripper is open"):
+    robot.grab("gripper around handle")
+if check("the robot's gripper is around the handle"):
+    robot.pull("handle up")
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_py_md/handle-pull-0.py.md'

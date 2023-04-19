@@ -1,0 +1,36 @@
+Using model: text-davinci-003
+
+    if check("the robot's gripper is not near the plate"):
+        robot.reach("to plate")
+    if check("the robot's gripper is near the plate and the robot's gripper is not below plate"):
+        robot.drop("gripper below plate")
+    if check("the robot's gripper is below the plate"):
+        robot.push("plate back")
+
+    if check("the robot's gripper is not above plate"):
+        robot.place("gripper above plate")
+    if check("the plate is not backwards aligned with the robot's gripper"):
+        robot.align("plate backwards")
+    if check("the plate is above the target location and the robot's gripper is above the plate"):
+        robot.slide("plate back")
+
+    if check("the robot's gripper is not near the plate and the plate is back of the target"):
+        robot.move("gripper near plate")
+    if check("the robot's gripper is near plate and plate is not horizontally aligned with target"):
+        robot.slide("plate to target")
+    if check("the robot's gripper is near plate and the plate is not exactly at target"):
+        robot.push("plate slightly into target")
+
+    if check("the robot's gripper is not above plate and the robot's gripper is not vertically aligned with plate"):
+        robot.put("gripper above plate")
+    if check("the robot's gripper is vertically aligned with plate and the robot's gripper is not near plate"):
+        robot.push("gripper into the plate")
+    if check("the robot's gripper is near the plate and the plate is above the robot's gripper"):
+        robot.slide("plate to target")
+
+    if check("the robot's gripper is not above the plate and the robot's gripper is not forward aligned with the plate"):
+        robot.move("gripper in front of plate")
+    if check("the robot's gripper is not horizontally aligned with the target location"):
+        robot.align("the plate to the goal")
+    if check("the robot's gripper is horizontally aligned with the target location"):
+        robot.slide("back the plate to the goal")

@@ -1,0 +1,69 @@
+Using model: text-davinci-003
+
+    # Steps:
+    #  1. Put the gripper above the dial
+    #  2. Put the gripper around the dial
+    #  3. Turn the dial clockwise
+    # The door lock has a dial, so we need to line up the robot's gripper as
+    # seen from above to rotate it.
+    if check("robot's gripper is not vertically aligned with dial"):
+        robot.move_gripper("vertically aligned with the dial",close_gripper=True)
+    # If the gripper is lined up from above, move the gripper down to the dial
+    # and rotate the dial clockwise.
+    if check("the robot's gripper is vertically aligned with dial and the robot's gripper is not near dial"):
+        robot.move_gripper("around the dial")
+    # If the gripper is near the dial, rotate the dial clockwise until the
+    # door is unlocked.
+    if check("the robot's gripper is near dial"):
+        robot.turn_dial("clockwise")
+
+    # Steps:
+    #  1. Put gripper above the door lock's dial
+    #  2. Grab lock's dial with gripper
+    #  3. Turn the dial
+    # Put the gripper vertically above the dial.
+    if check("the robot's gripper is not vertically aligned with the dial"):
+        robot.move_gripper("vertically aligned with the dial")
+    # once the gripper is above the dial, it can pull down to grab the dial.
+    if check("the robot's gripper is not above the dial"):
+        robot.move_gripper("above the dial", close_gripper=True)
+    # If the gripper is now around the dial, we should be able to turn the
+    # dial.
+    if check("the robot's gripper is around the dial"):
+        robot.move_gripper("left of the dial")
+
+    # Steps:
+    #  1. Put gripper above the door lock
+    #  2. Move gripper around the lock
+    #  3. Twist the knob to the desired number
+    # First, put the robot's gripper above the door lock.
+    if check("the robot's gripper is not above the door lock"):
+        robot.move_gripper("above the door lock")
+    # Once the gripper is above the lock, move it around the lock.
+    if check("the robot's gripper is not around the door lock"):
+        robot.move_gripper("around the door lock", close_gripper=True)
+    # Once the gripper is around the lock, twist the knob to the desired number.
+    if check("the robot's gripper is around the door lock"):
+        robot.move_gripper("counterclockwise around the door lock")
+
+    # Steps:
+    #  1. Put gripper in front of the lock
+    #  2. Turn the dial of the lock
+    # Put the gripper in front of the lock. Align the gripper from the top
+    # because of the angle of the dial, to make sure it's lined up.
+    if check("the robot's gripper is not vertically aligned with the dial"):
+        robot.move_gripper("vertically aligned with the dial", close_gripper=True)
+    # Once the robot's gripper is lined up, simply turn the dial.
+    if check("the robot's gripper is vertically aligned with the dial"):
+        robot.move_gripper("around the dial")
+
+    # Steps:
+    #  1. Put gripper above the dial
+    #  2. Drop gripper around dial
+    #  3. Turn dial to left or right
+    # First, put the gripper above the dial.
+    if check("the robot's gripper is not vertically aligned with dial"):
+        robot.move_gripper("vertically aligned with the dial", close_gripper=True)
+    # Now that the gripper is lined up, just turn the dial.
+    if check("the robot's gripper is vertically aligned with dial"):
+        robot.move_gripper("horizontally aligned with the dial")

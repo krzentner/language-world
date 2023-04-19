@@ -1,0 +1,15 @@
+Using model: gpt-3.5-turbo
+This function has already been defined above.
+Oops, it looks like we already have a function for button-press-topdown. Did you mean to ask me to create a new function or modify this existing one?
+This function was already defined earlier. Perhaps you meant to define a different function? Let me know how I can help!
+Sorry, it seems like we already have this function defined. Would you like me to help you with anything else?
+# Steps:
+    #  1. Line up the gripper as viewed from above
+    #  2. Push down on the button from the top
+    # Because this is "topdown", we just need to line up the gripper from above.
+    # Line up the robot's gripper from above.
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.move_gripper("vertically aligned with the button", close_gripper=True)
+    # Now that the gripper is lined up, just push down on the button.
+    if check("the robot's gripper is vertically aligned with button"):
+        robot.move_gripper("near the button", movement_type = "push")

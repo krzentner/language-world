@@ -1,0 +1,98 @@
+Using model: gpt-3.5-turbo
+# Steps:
+    #  1. Put gripper around the dial
+    #  2. Turn the dial to the correct combination
+    # First, put the gripper around the dial.
+    if check("the robot's gripper is not around the dial"):
+        robot.drop("gripper around dial")
+    # Turn the dial. We need to keep track of the current number, so we can
+    # understand how far we've turned it.
+    # We can't assume how many spins the dial takes to rotate or the direction
+    # of rotation, so we'll need to experimentally figure that out and adjust
+    # the steps accordingly.
+    current_number = 0
+    while current_number < combination[0]:
+        robot.turn("dial right")
+        current_number += 1
+    while current_number > combination[0]:
+        robot.turn("dial left")
+        current_number -= 1
+    # Repeat these steps for the second and third digits in the combination.
+    current_number = 0
+    while current_number < combination[1]:
+        robot.turn("dial right")
+        current_number += 1
+    while current_number > combination[1]:
+        robot.turn("dial left")
+        current_number -= 1
+    current_number = 0
+    while current_number < combination[2]:
+        robot.turn("dial right")
+        current_number += 1
+    while current_number > combination[2]:
+        robot.turn("dial left")
+        current_number -= 1
+    # Once the dial is set to the correct combination, the door should unlock.
+    robot.pull("door open")
+# Steps:
+    #  1. Put gripper around door handle
+    #  2. Turn the dial to unlock the door
+    # We need to put the gripper around the door handle first in order to turn
+    # the dial.
+    if check("the robot's gripper is not around the door handle"):
+        robot.drop("gripper around door handle")
+    # Once the gripper is around the door handle, we can turn the dial to unlock
+    # the door.
+    if check("the robot's gripper is around the door handle"):
+        robot.turn("dial to unlock the door")
+# Steps:
+#   1. Put gripper near the door handle
+#   2. Turn the dial in the correct direction
+#   3. Turn the dial until the lock clicks open
+# First, put the gripper near the door handle.
+if check("the robot's gripper is not near the door handle"):
+    robot.move("gripper near the door handle")
+# Determine which way to turn the dial based on the current position and the
+# desired position of the lock.
+if check("the dial is not turned towards the unlock position"):
+    if check("the dial is turned to the right of the unlock position"):
+        robot.turn("the dial left")
+    else:
+        robot.turn("the dial right")
+# Keep turning the dial until the lock clicks open.
+while check("the lock is not unlocked"):
+    robot.turn("the dial left")
+# Steps:
+    #  1. Align the gripper with the door dial
+    #  2. Grab the dial with the gripper
+    #  3. Turn the dial to the correct combination
+    #  4. Release the dial
+    # First, line up the gripper with the door dial.
+    if check("the robot's gripper is not vertically aligned with the door dial"):
+        robot.put("gripper above door dial")
+    # Once the gripper is aligned with the dial, grab it.
+    if check("the robot's gripper is vertically aligned with the door dial and the robot's gripper is open"):
+        robot.grab("door dial")
+    # Now we can turn the dial to the correct combination.
+    if check("the dial is not set to the correct combination"):
+        robot.turn("dial to correct combination")
+    # Finally, release the dial.
+    if check("the dial is set to the correct combination and the robot's gripper is closed"):
+        robot.release("door dial")
+# Steps:
+    #  1. Put gripper around the door dial
+    #  2. Turn the dial to the right
+    #  3. Turn the dial to the left
+    #  4. Turn the dial to the right again
+    # Put the gripper around the door dial.
+    if check("the robot's gripper is not around the door dial"):
+        robot.grab("door dial")
+    # Turn the dial to the right.
+    if check("the dial is not turned to the right"):
+        robot.turn("dial to the right")
+    # Turn the dial to the left.
+    if check("the dial is not turned to the left"):
+        robot.turn("dial to the left")
+    # Turn the dial to the right again.
+    if check("the dial is not turned to the right again"):
+        robot.turn("dial to the right again")

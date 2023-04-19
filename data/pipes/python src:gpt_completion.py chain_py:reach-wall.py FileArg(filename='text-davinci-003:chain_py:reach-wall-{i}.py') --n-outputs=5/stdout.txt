@@ -1,0 +1,69 @@
+Using model: text-davinci-003
+
+    # Steps:
+    #  1. Reach the wall
+    #  2. Reach around the wall
+    #  3. Reach the target
+    # We need to reach the wall first, so that the robot can move around it while
+    # maintaining control.
+    if check("the robot's gripper is not close to the wall"):
+        robot.reach("to wall")
+    # Once the robot is close to the wall, it can move around it while staying
+    # close to it.
+    if check("the robot's gripper is close to the wall and the robot's gripper is below the wall"):
+        robot.reach("over wall")
+    # Once the robot is over the wall, it can reach out and grab the target.
+    if check("the robot's gripper is above the wall and the robot's gripper is not near the target"):
+        robot.reach("to goal")
+
+    # Steps: 
+    #  1. Put gripper above wall
+    #  2. Reach over wall
+    # We can reach over a short wall by putting the gripper above the wall and
+    # then reach over the wall.
+    if check("the robot's gripper is not above wall"):
+        robot.put("gripper above wall")
+    # Once the gripper is above the wall, we can reach over it.
+    if check("the robot's gripper is above wall"):
+        robot.reach("over wall")
+
+    # Steps:
+    #  1. Reach towards the wall
+    #  2. Push the gripper against the wall
+    #  3. Reach towards the target with the wall obstructing the approach
+    # To reach the target, we need to get past the wall.
+    # First, reach towards the wall itself.
+    if check("the wall is not near the robot's gripper"):
+        robot.reach("wall")
+    # Once the wall is close, push the robot's gripper against the wall.
+    if check("the wall is near the robot's gripper"):
+        robot.push("gripper against wall")
+    # Now that the robot's gripper is past the wall, reach for the target with
+    # the wall obstructing the approach.
+    if check("the target is not near the robot's gripper and the wall is past the robot's gripper"):
+        robot.reach("to target")
+
+    # Steps:
+    #  1. Reach towards the target
+    #  2. Move robot's arm to the side to clear the wall
+    # We can just move the robot's gripper directly to the target location
+    if check("robot's gripper is not near target"):
+        robot.reach("to goal")
+    # If the wall is still in the way, we need to move the arm to the side to
+    # clear it.
+    # This is done by subtracting a certain value from the x coordinate of the
+    # target location. Move the arm until it crosses the wall.
+    if check("the wall is still in the way and the robot's gripper is not near target"):
+        robot.move("the arm to the side")
+
+    # Steps:
+    #  1. Reach around the wall
+    #  2. Reach to the target
+    # To reach around the wall, the robot's gripper should go around the left
+    # side of the wall first.
+    if check("the wall is between the robot and target and the robot's gripper is not around the left side of the wall"):
+        robot.reach("around the wall")
+    # After the robot's gripper goes around the left side of the wall, it should
+    # reach to the target.
+    if check("the robot's gripper is around the left side of the wall"):
+        robot.reach("to target")

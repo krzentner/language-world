@@ -1,0 +1,1 @@
+I think there might be a duplicate function here, as this is the exact same code for `window-open` as earlier. Did you mean to write a different function for this task?

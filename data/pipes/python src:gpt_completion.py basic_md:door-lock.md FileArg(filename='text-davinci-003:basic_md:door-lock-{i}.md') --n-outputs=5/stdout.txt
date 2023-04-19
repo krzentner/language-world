@@ -1,0 +1,21 @@
+Using model: text-davinci-003
+
+    - When the robot's gripper is not near the door handle and the robot's gripper is not vertically aligned with the door handle, the robot should move gripper to right of door handle.
+    - When the robot's gripper is near the door handle, the robot should put the gripper around the door handle.
+    - When the robot's gripper is around the door handle and the door handle is free to move, the robot should turn the door handle clockwise or counter clockwise as desired.
+
+    - When the robot's gripper is not around the dial, the robot should put gripper around dial.
+    - When the robot's gripper is around the dial, the robot should rotate clockwise for few cycles.
+    - When the robot's gripper is still around the dial, the robot should rotate anti-clockwise for few cycles.
+
+    - When the robot's gripper is not vertically aligned with the lock handle, the robot should move gripper to left of lock handle.
+    - When the robot's gripper is near the lock handle, the robot should move gripper around lock handle. 
+    - When the robot's gripper is around the lock handle, the robot should turn clockwise to lock and counter-clockwise to unlock.
+
+    - When the robot's gripper is not above the dial, the robot should move gripper above dial.
+    - When the robot's gripper is above the dial and the dial is not left of the robot's gripper, the robot should rotate gripper to left side of dial.
+    - When the robot's gripper is almost horizontally aligned with the dial, the robot should turn dial right.
+
+    - When the robot's gripper is not above dial, the robot should place gripper above dial.
+    - When the robot's gripper is almost vertically aligned with the dial, the robot should grab dial.
+    - When the robot's gripper is near the dial, the robot should rotate dial.

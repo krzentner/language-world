@@ -1,0 +1,33 @@
+Using model: gpt-3.5-turbo
+To pick up the cube and place it in the target bin reliably, the robot should perform the following steps:
+  - When the robot's gripper is not above the cube, the robot should place gripper above cube.
+  - When the robot's gripper is around cube and the robot's gripper is open, the robot should close gripper around cube.
+  - When the robot's gripper is holding the cube, the robot should move it towards the target bin.
+  - When the robot's gripper is above the target bin and the robot's gripper is holding the cube, the robot should release the cube inside the bin.
+To pick up the cube and place it in the target bin reliably, the robot should perform the following steps:
+- When the robot's gripper is not above the cube, the robot should place gripper above the cube.
+- When the robot's gripper is above the cube and the robot's gripper is open, the robot should lower gripper to the cube and close the gripper around it.
+- When the robot's gripper has the cube and is near the target bin, the robot should align the gripper above the target bin.
+- When the robot's gripper is above the target bin, the robot should release the cube into it.
+To pick up the cube and place it in the target bin reliably, the robot should perform the following steps:
+- When the robot's gripper is not above the cube, the robot should place the gripper above the cube.
+- When the robot's gripper is open and not around the cube, the robot should drop the gripper around the cube.
+- When the robot's gripper is near the cube and the gripper is open, the robot should close the gripper around the cube.
+- The robot should lift the cube without hitting the bin or other obstacles.
+- When the robot's gripper is above the target bin and the gripper is closed, the robot should release the cube into the bin.
+- The robot should ensure that the cube is placed properly in the bin without damaging the cube or the bin.
+For the task `bin-picking`, the robot should perform the following steps:
+- When the robot's gripper is not above the cube, the robot should move gripper above the cube.
+- When the robot's gripper is above the cube and the gripper is open, the robot should close the gripper around the cube.
+- When the robot's gripper has a secure grip on the cube, the robot should lift the cube from the table.
+- When the robot's gripper is above the target bin, the robot should move the gripper over the bin.
+- When the robot's gripper is above the bin and the gripper is open, the robot should release the cube into the bin.
+- When the cube is successfully placed in the bin, the robot should retract its arm away from the bin.
+To pick up the cube and place it in the target bin reliably, the robot should perform the following steps:
+
+- When the robot's gripper is not above the cube, the robot should place the gripper above the cube.
+- When the robot's gripper is not aligned with the cube and the robot's gripper is open, the robot should drop the gripper around the cube.
+- When the robot's gripper is near the cube and the robot's gripper is open, the robot should close the gripper around the cube.
+- When the robot's gripper is holding the cube and the robot is above the target bin, the robot should release the cube into the bin. 
+
+It's important to first make sure the robot's gripper is above the cube before attempting to pick it up. Once the gripper is positioned correctly, the robot should check if the gripper is open and if it is not aligned with the cube, drop the gripper around the cube. From there, the robot can close the gripper around the cube, making sure to verify that it is holding the cube securely. Finally, the robot can move the gripper above the target bin and release the cube into the bin.

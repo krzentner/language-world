@@ -1,0 +1,93 @@
+Using model: gpt-3.5-turbo
+# Steps:
+#   1. Put the gripper above the ball
+#   2. Grab the ball with the gripper
+#   3. Move the gripper towards the hoop
+#   4. Release the ball at the right angle to go through the hoop
+# First, the gripper should be above the ball to grab it.
+if check("the robot's gripper is not vertically aligned with the ball"):
+    robot.move_gripper("vertically aligned with the ball")
+# Once the gripper is above the ball, close the gripper to grab it.
+if check("the robot's gripper is vertically aligned with the ball and the robot's gripper is open"):
+    robot.move_gripper("around the ball")
+# Move the gripper towards the hoop. We can assume that the hoop is directly
+# ahead so there's no need to move the gripper left or right.
+if check("the robot's gripper is around the ball and the robot's gripper is not near the hoop"):
+    robot.move_gripper("above the hoop")
+# Finally, release the ball with the right angle to go through the hoop.
+if check("the robot's gripper is near the hoop and the robot's gripper is around the ball"):
+    robot.move_gripper("above the ball", open_gripper=True)
+# Steps:
+#  1. Put gripper above the ball
+#  2. Grab the ball with the gripper
+#  3. Line up the ball with the hoop
+#  4. Push the ball into the hoop
+# First, put the gripper above the ball.
+if check("the robot's gripper is not above the ball"):
+    robot.move_gripper("above the ball")
+# If the ball is not trapped inside the gripper, grab the ball.
+if check("the robot's gripper is not around the ball"):
+    robot.move_gripper("near the ball", close_gripper=True)
+# If the ball is not vertically aligned with the hoop, align it.
+if check("the ball is not vertically aligned with the hoop"):
+    robot.move_gripper("above the ball", close_gripper=True)
+# If the ball is aligned with the hoop, push it into the hoop.
+if check("the ball is vertically aligned with the hoop"):
+    robot.move_gripper("behind the hoop")
+# Steps:
+#  1. Put gripper above ball
+#  2. Grab the ball with the gripper
+#  3. Move the ball over to the hoop
+#  4. Release the ball into the hoop
+# First, put the gripper above the ball.
+if check("the robot's gripper is not vertically aligned with the ball"):
+    robot.move_gripper("vertically aligned with the ball")
+# If the gripper is above the ball, grab the ball.
+if check("the robot's gripper is above the ball and the gripper is open"):
+    robot.move_gripper("around the ball", close_gripper=True)
+# If the gripper is grabbing the ball, move the ball over to the hoop.
+if check("the robot's gripper is around the ball"):
+    robot.move_gripper("above the hoop")
+# If the ball is above the hoop and the gripper is grabbing it, release it into
+# the hoop.
+if check("the robot's gripper is above the hoop and the gripper is closed"):
+    robot.move_gripper("around the ball", close_gripper=False)
+# Steps:
+    #  1. Move gripper above ball and open gripper
+    #  2. Move gripper towards the hoop
+    #  3. Close the gripper and lift the ball
+    #  4. Aim and shoot the ball into the hoop
+    # First, move the gripper above the ball and open the gripper.
+    if check("the robot's gripper is not above the ball"):
+        robot.move_gripper("above the ball")
+    if check("the robot's gripper is above the ball and the gripper is not open"):
+        robot.move_gripper("near the ball", close_gripper=True)
+    # Move the ball towards the hoop.
+    if check("the robot's gripper is not aimed towards the hoop"):
+        robot.move_gripper("aimed towards the hoop")
+    # Close the gripper and lift the ball.
+    if check("the robot's gripper is aimed towards the hoop and the gripper is open"):
+        robot.move_gripper("above the hoop", close_gripper=True)
+    # Aim and shoot the ball into the hoop.
+    if check("the robot's gripper is above the hoop and the ball is grasped by the gripper"):
+        robot.move_gripper("towards the hoop", open_gripper=True)
+# Steps:
+    #  1. Align gripper above ball
+    #  2. Grab ball with gripper
+    #  3. Align gripper and ball with hoop
+    #  4. Push ball towards hoop
+    #  5. Release ball into hoop
+    # First, put the gripper above the ball.
+    if check("the robot's gripper is not aligned with the ball"):
+        robot.move_gripper("above the ball")
+    # If the gripper is above the ball, we can probably grab it.
+    if check("the robot's gripper is above the ball and the robot's gripper is not holding the ball"):
+        robot.move_gripper("around the ball", close_gripper=True)
+    # If the ball is in the gripper and the gripper is not aligned with the hoop,
+    # align the gripper and ball with the hoop.
+    if check("the robot's gripper is holding the ball and the robot's gripper is not aligned with the hoop"):
+        robot.move_gripper("aligned with the hoop")
+    # If the gripper and ball are aligned with the hoop, push the ball towards the
+    # hoop.
+    if check("the robot's gripper is aligned with the hoop and the ball is in front of the hoop"):
+        robot.move_gripper("inside the hoop", close_gripper=False)

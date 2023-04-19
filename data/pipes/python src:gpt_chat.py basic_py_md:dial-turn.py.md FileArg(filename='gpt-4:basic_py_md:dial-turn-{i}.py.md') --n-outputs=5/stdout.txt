@@ -1,0 +1,49 @@
+Using model: gpt-3.5-turbo
+# dial-turn: turn the dial
+# def dial_turn(robot):
+    if check("the robot's gripper is not near dial"):
+        robot.reach("to dial")
+    if check("the robot's gripper is around dial knob"):
+        robot.twist("to turn dial")
+# dial-turn: turn the dial
+# def dial_turn(robot):
+    if check("the robot's gripper is not near the dial"):
+        robot.move("the gripper to the dial")
+    if check("the robot's gripper is near the dial and the robot's gripper is not aligned with the dial"):
+        robot.align("the gripper with the dial")
+    if check("the robot's gripper is aligned with the dial and the robot's gripper is not around the dial"):
+        robot.drop("the gripper around the dial")
+    if check("the robot's gripper is around the dial"):
+        robot.rotate("the dial to the desired position")
+# dial-turn: turn the dial
+# def dial_turn(robot):
+    if check("the robot's gripper is not near the dial"):
+        robot.move("the gripper to the dial")
+    if check("the robot's gripper is near the dial and the robot's gripper is not touching the dial"):
+        robot.grab("the dial")
+    if check("the robot's gripper is touching the dial"):
+        robot.rotate("the dial clockwise") # adjust direction as needed
+    if check("the dial is at the desired position"):
+        robot.release("the dial")
+# dial-turn: turn the dial
+# def dial_turn(robot):
+    if check("the robot's gripper is not near the dial and the robot's gripper is not vertically aligned with the dial"):
+        robot.put("gripper near dial")
+    if check("the robot's gripper is near the dial and the robot's gripper is not vertically aligned with the dial"):
+        robot.align("gripper to dial")
+    if check("the robot's gripper is aligned with the dial and the robot's gripper is open"):
+        robot.close("gripper around dial")
+    if check("the robot's gripper is closed around the dial"):
+        robot.turn("the dial")
+# dial-turn: turn the dial
+# def dial_turn(robot):
+    if check("the robot's gripper is not near the dial"):
+        robot.move("gripper to dial")
+    if check("the robot's gripper is near the dial and the gripper is not positioned around it"):
+        robot.grab("the dial")
+    if check("the gripper is positioned around the dial and the robot is not turning it"):
+        robot.twist("the dial to the desired position")
+    if check("the dial is at the desired position"):
+        robot.release("the dial") 
+
+Note: the `check()` function in this code is referring to a hypothetical helper function that checks if a certain condition is true, like if the robot's gripper is in the correct position to perform the next action. The actual implementation of `check()` is not shown here. The robot's `move()`, `grab()`, `twist()`, and `release()` functions are also hypothetical and would need to be implemented based on the specifics of the robot being used.

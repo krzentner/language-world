@@ -1,0 +1,7 @@
+Using engine: text-davinci-003
+
+    - When the robot's gripper is not horizontally aligned with the plate, the robot should align the gripper with the plate.
+    - When the robot's gripper is horizontally aligned with the plate, the robot should push the plate forward.
+    - When the plate is near the goal, the robot should slow down pushing the plate.
+    - When the plate is at the goal, the robot should stop pushing the plate.
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_md/plate-slide-4.md'

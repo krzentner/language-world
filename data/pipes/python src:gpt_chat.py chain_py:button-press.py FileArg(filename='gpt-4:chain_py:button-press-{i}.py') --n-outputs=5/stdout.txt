@@ -1,0 +1,64 @@
+Using model: gpt-3.5-turbo
+# Steps:
+#   1. Align gripper with button from the front
+#   2. Push the button
+# Because we're pressing from the front, we need to align the gripper with the
+# button from the front view.
+if check("the robot's gripper is not forward aligned with button"):
+    robot.move("gripper towards button from front")
+# Once the gripper is lined up from the front, just push the button.
+if check("the robot's gripper is forward aligned with button"):
+    robot.push("button")
+# Steps:
+    #  1. Put gripper in front of the button
+    #  2. Grab the button with the gripper
+    #  3. Push the gripper forward to press the button
+    # First, put the gripper in front of the button.
+    if check("the robot's gripper is not in front of the button"):
+        robot.place("gripper in front of button")
+    # If the gripper isn't around the button, put it around the button.
+    if check("the robot's gripper is not around button and the robot's gripper is open"):
+        robot.drop("gripper around button")
+    # If the gripper is near the button and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near button and the robot's gripper is open"):
+        robot.close("gripper around button")
+    # We closed the gripper, and the button is still near the gripper, so maybe we
+    # grabbed it.
+    # Try to push the gripper forward to press the button.
+    # If we didn't grab it, we'll just go back to an earlier step.
+    if check("the robot's gripper is around button"):
+        robot.push("forward to press button")
+# Steps:
+    #  1. Put gripper in front of button
+    #  2. Push down on the button
+    # The robot needs to be aligned with the button from the front to push it.
+    # Move the gripper to be in front of the button.
+    if check("the robot's gripper is not in front of the button"):
+        robot.move("gripper to front of button")
+    # Once the gripper is in front of the button, just push down on the button.
+    if check("the robot's gripper is in front of the button"):
+        robot.push("down on button")
+# Steps:
+#  1. Put gripper in front of button
+#  2. Grab the button with the gripper
+#  3. Push the button
+# We need to put the gripper in front of the button first.
+if check("the robot's gripper is not in front of the button"):
+    robot.put("gripper in front of button")
+# Once the gripper is lined up in front of the button, we can grab it.
+if check("the robot's gripper is in front of button and the robot's gripper is not around button"):
+    robot.grab("button")
+# We have the button in our gripper now, so we can just push it.
+if check("the robot's gripper is around button"):
+    robot.push("button")
+# Steps:
+#  1. Line up the gripper as viewed from the front
+#  2. Push the button
+# Because this is just a front view, we just need to line up the gripper from
+# the front. Line up the robot's gripper from the front. We don't need to be
+# careful about how we're pushing the button, just push it.
+if check("the robot's gripper is not forward aligned with the button"):
+    robot.move("gripper in front of button")
+if check("the robot's gripper is forward aligned with button"):
+    robot.push("button")

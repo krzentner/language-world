@@ -1,0 +1,93 @@
+Using model: text-davinci-003
+
+    # Steps:
+    #  1. Put gripper above the plate
+    #  2. Grab the plate with the gripper
+    #  3. Line the plate up with the target location
+    #  4. Slide the plate sideways into the target location
+    # First, put the gripper above the plate.
+    if check("the robot's gripper is not vertically aligned with the plate"):
+        robot.put("gripper above plate")
+    # If the plate becomes left of the gripper, go back to putting the gripper
+    # above the plate.
+    # Because the plate is a flat object, check if the gripper is lined up with
+    # it from the top and bottom instead of around it.
+    if check("plate is not left of the robot's gripper and plate is not vertically aligned with the robot's gripper"):
+        robot.grab("plate")
+    # As long the gripper is still mostly around the plate and the plate isn't
+    # lined up with the target location, line up the plate with the target
+    # location.
+    if check("the robot's gripper is vertically aligned with the plate and the plate is not horizontally aligned with the target location"):
+        robot.align("plate to target location")
+    # If the plate is lined up with the target location to the side, slide it
+    # into it.
+    if check("plate is horizontally aligned with target location"):
+        robot.slide("plate into target location")
+
+    # Steps:
+    #  1. Put gripper forward of plate
+    #  2. Grip plate
+    #  3. Align plate with target location
+    #  4. Push plate into target location
+    # If the robot's gripper is not near the plate, put the gripper near the
+    # plate.
+    if check("the robot's gripper is not near the plate"):
+        robot.put("gripper forward of plate")
+    # If the robot's gripper is near the plate, try to grab it.
+    if check("the robot's gripper is near the plate and the robot's gripper is open"):
+        robot.grab("plate")
+    # If the robot's gripper is gripping the plate, align the plate with the
+    # target location.
+    if check("the robot's gripper is gripping the plate and the plate is not horizontally aligned with the target location"):
+        robot.align("plate with target location")
+    # If the plate is aligned with the target location, push it into the target
+    # location.
+    if check("the plate is horizontally aligned with the target location"):
+        robot.push("plate into target location")
+
+    # Steps:
+    #  1. Place the gripper near the plate
+    #  2. Place the gripper around the plate
+    #  3. Push the plate sideways
+    # If the robot's gripper is not near the plate, it should move the robot's
+    # gripper near the plate.
+    if check("the robot's gripper is not near the plate"):
+        robot.place("gripper near plate")
+    # If the robot's gripper is near the plate and not around it, the robot
+    # should move the gripper around the plate.
+    if check("the robot's gripper is near the plate and the robot's gripper is not around the plate"):
+        robot.grab("plate")
+    # Once the gripper is around the plate, the robot can start pushing it
+    # sideways towards the goal.
+    if check("the robot's gripper is around the plate"):
+        robot.slide("plate to goal")
+
+    # Steps:
+    #  1. Put gripper around plate
+    #  2. Slide plate sideways
+    # First, we need to put the gripper around the plate for control and to make
+    # sure we can slide it.
+    if check("the robot's gripper is not around plate"):
+        robot.put("gripper around plate")
+    # Once the gripper is around the plate, try to slide it sideways to the
+    # target location.
+    if check("the robot's gripper is around plate"):
+        robot.slide("plate sideways")
+
+    # Steps:
+    #  1. Put gripper near the edge of the plate
+    #  2. Push against the edge of the plate to slide it
+    #  3. Push the plate harder to slide it faster
+    # First, move the gripper near the edge of the plate.
+    # Since the plate is larger than the gripper, check if the gripper is near
+    # the plate instead of around it.
+    if check("the gripper is not near the plate"):
+        robot.move("gripper near edge of plate")
+    # If the gripper is near the plate and the plate isn't at the goal yet, push
+    # the plate away from the gripper.
+    if check("the gripper is near the plate and the plate is not at the goal"):
+        robot.push("plate away from gripper")
+    # If the gripper is near the plate and the plate still isn't at the goal,
+    # push harder and faster.
+    if check("the gripper is near the plate and the plate is not at the goal"):
+        robot.push("plate away from gripper harder and faster")

@@ -1,0 +1,82 @@
+Using model: text-davinci-003
+
+    # Steps:
+    #  1. Put gripper horizontally above the wrench
+    #  2. move gripper down along the wrench
+    #  3. Pull wrench off the peg
+    # First, put the gripper horizontally above the wrench.
+    if check("the robot's gripper is not horizontally aligned with the wrench"):
+        robot.put("gripper above wrench")
+    # If the gripper is not near the wrench and the wrench is fully in view,
+    # the gripper should be moved downward along the wrench.
+    if check("the robot's gripper is not near wrench and wrench is fully visible"):
+        robot.move("gripper down along wrench")
+    # If the robot's gripper is near the wrench, pull it off.
+    if check("the robot's gripper is near wrench"):
+        robot.pull("wrench off peg")
+
+    # Steps:
+    #  1. Line up the robot's gripper with the peg as seen from the top
+    #  2. Pull the wrench off the peg
+    # First, move the robot's gripper to the correct position.
+    if check("the robot's gripper is not vertically aligned with peg"):
+        robot.put("gripper above peg")
+    # Move the robot's gripper downward to surround the peg.
+    if check("the robot's gripper is vertically aligned with the peg and the robot's gripper is not around the peg"):
+        robot.grab("peg")
+    # Now that the peg is enclosed by the gripper, start pulling it off the peg.
+    if check("the robot's gripper is around the peg"):
+        robot.pull("wrench off peg")
+
+    # Steps:
+    #  1. Put gripper above peg
+    #  2. Grab the wrench with the gripper
+    #  3. Pull away from the peg
+    # First, put the gripper above the peg.
+    if check("the robot's gripper is not above the peg"):
+        robot.put("gripper above peg")
+    # As long as the gripper is lined up with the wrench and doesn't have it yet,
+    # grab the wrench.
+    if check("the robot's gripper is forward aligned with wrench and the robot's gripper is not around wrench"): 
+        robot.grab("wrench")
+    # Once we have the wrench in our gripper, pull away from the peg.
+    if check("the robot's gripper is around wrench and wrench is still part of peg"):
+        robot.pull("away from peg")
+
+    # Steps:
+    #  1. Put gripper above or at level with the wrench
+    #  2. Pull the wrench away from the peg
+    #  3. Pull the wrench straight up when it's free
+    # We want to keep the wrench from going vertical, so we start by putting the
+    # gripper above or at the same height as the wrench.
+    if check("the robot's gripper is not at the same level as the wrench"):
+        robot.put("gripper at same level as wrench")
+    # Once the gripper is in the right location, we can try to pull the wrench
+    # away from the peg.
+    if check("the robot's gripper is at the same level as the wrench"):
+        robot.pull("wrench away from peg")
+    # If the wrench is far enough away from the peg, it might be time to pull it
+    # straight up.
+    if check("the wrench not touching the peg"):
+        robot.pull("wrench straight up")
+
+    # Steps:
+    #  1. Put gripper above handle of wrench
+    #  2. Move gripper towards peg
+    #  3. Grab handle of wrench
+    #  4. Pull wrench off the peg
+    # First, put the gripper above the handle of the wrench.
+    if check("the robot's gripper is not above handle of wrench"):
+        robot.put("gripper above handle of wrench")
+    # If the handle of the wrench is above the gripper, we should move the
+    # gripper towards the peg to grab it.
+    if check("the handle of the wrench is above the robot's gripper and the robot's gripper is open"):
+        robot.move("gripper towards peg")
+    # If the handle of the wrench is below the gripper and the gripper is open,
+    # try to grab it.
+    if check("the handle of the wrench is below the robot's gripper and the robot's gripper is open"):
+        robot.grab("handle of wrench")
+    # If our gripper is below the handle of the wrench and the gripper is closed,
+    # pull the wrench off the peg.
+    if check("the robot's gripper is below the handle of the wrench and the robot's gripper is closed"):
+        robot.pull("wrench off peg")

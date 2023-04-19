@@ -1,0 +1,5 @@
+Using engine: text-davinci-003
+
+    if check("the robot's gripper is not near reach target and the short wall is in the way"):
+        robot.reach("around wall to goal")
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_py/reach-wall-0.py'

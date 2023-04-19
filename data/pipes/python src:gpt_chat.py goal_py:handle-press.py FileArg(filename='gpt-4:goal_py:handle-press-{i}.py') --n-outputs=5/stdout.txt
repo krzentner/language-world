@@ -1,0 +1,59 @@
+Using model: gpt-3.5-turbo
+# Steps:
+    #  1. Line up the gripper above the handle
+    #  2. Push down on the handle
+    # First, line up the gripper vertically above the handle.
+    if check("the robot's gripper is not above the handle"):
+        robot.move_gripper("above the handle")
+    # Once the gripper is above the handle, push down on the handle.
+    if check("the robot's gripper is above the handle"):
+        robot.move_gripper("near the handle")
+# Steps:
+    #  1. Put gripper above the handle
+    #  2. Grab the handle with the gripper
+    #  3. Push down on the handle
+    # First, put the gripper above the handle.
+    if check("the robot's gripper is not above the handle"):
+        robot.move_gripper("above the handle")
+    # If the gripper is not around the handle, close the gripper around the handle.
+    if check("the robot's gripper is not around the handle and the robot's gripper is open"):
+        robot.move_gripper("around the handle", close_gripper=True)
+    # If the gripper is around the handle, push down on the handle.
+    if check("the robot's gripper is around the handle"):
+        robot.move_gripper("near the base of the handle")
+# Steps:
+    #  1. Put gripper above the handle
+    #  2. Grab the handle with the gripper
+    #  3. Push down on the handle
+    # First, put the gripper above the handle.
+    if check("the robot's gripper is not vertically aligned with the handle"):
+        robot.move_gripper("vertically aligned with the handle")
+    # If the handle isn't lined up with the gripper, put the gripper around the
+    # handle.
+    if check("the robot's gripper is not around the handle"):
+        robot.move_gripper("around the handle", close_gripper=True)
+    # Now that the gripper is around the handle, push down on the handle.
+    if check("the robot's gripper is around the handle"):
+        robot.move_gripper("near the bottom of the handle")
+# Steps:
+    #  1. Put gripper above the handle
+    #  2. Push down on the handle
+    # Place the gripper above the handle before pushing.
+    if check("the robot's gripper is not above the handle"):
+        robot.move_gripper("above the handle")
+    # Push down on the handle.
+    if check("the robot's gripper is above the handle"):
+        robot.move_gripper("on the handle")
+# Steps:
+    #  1. Put gripper above the handle
+    #  2. Drop gripper around the handle
+    #  3. Push down on the handle
+    # First, put the gripper above the handle.
+    if check("the robot's gripper is not above the handle"):
+        robot.move_gripper("above the handle")
+    # If the gripper isn't around the handle and open, put it around the handle.
+    if check("the robot's gripper is not around the handle and the robot's gripper is open"):
+        robot.move_gripper("near the handle", close_gripper=True)
+    # If the gripper is around the handle and closed, push down on the handle.
+    if check("the robot's gripper is around the handle and the robot's gripper is not pushing down on it"):
+        robot.move_gripper("pushing down on the handle")

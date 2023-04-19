@@ -1,0 +1,80 @@
+Using model: gpt-3.5-turbo
+# button-press: push the button from the front
+# def button_press(robot):
+    # Steps:
+    #  1. Line up the gripper next to the button
+    #  2. Move the gripper forward until it pushes the button
+    # Because this is not "topdown", we need to line up the gripper next to
+    # button first.
+    if check("the robot's gripper is not horizontally aligned with button"):
+        robot.move("gripper next to button")
+    # Now that the gripper is next to the button, move it forward until it
+    # pushes the button.
+    if check("the robot's gripper is horizontally aligned with button"):
+        robot.push("button forward")
+# button-press: push the button from the front
+# def button_press(robot):
+    # Steps:
+    # 1. Put gripper in front of the button
+    # 2. Move the gripper forward to contact the button
+    # 3. Push the button
+    # First, put the gripper roughly in front of the button.
+    if check("the robot's gripper is not in front of the button"):
+        robot.place("gripper in front of button")
+    # Move the gripper forward until it touches the button
+    if check("the robot's gripper is not touching the button"):
+        robot.move("gripper forward to contact button")
+    # Once the gripper is touching the button, push it
+    if check("the robot's gripper is touching the button"):
+        robot.push("button")
+# button-press: push the button from the front
+# def button_press(robot):
+    # Steps:
+    # 1. Put the gripper in front of the button
+    # 2. Hold the button with the gripper
+    # 3. Push down on the button
+    # First, put the gripper in front of the button.
+    if check("the robot's gripper is not in front of the button"):
+        robot.move("gripper to front of button")
+    # If the gripper is in front of the button, hold the button with the gripper.
+    if check("the robot's gripper is in front of the button and the robot's gripper is not around the button"):
+        robot.grab("button")
+    # Once the gripper is holding the button, we can push down to activate it.
+    if check("the robot's gripper is around the button"):
+        robot.push("down on button")
+# button-press: push the button from the front
+# def button_press(robot):
+    # Steps:
+    #  1. Put gripper in front of the button
+    #  2. Grab the button with the gripper
+    #  3. Move the gripper up a bit
+    #  4. Push the button down
+    # First, put the gripper in front of the button.
+    if check("the robot's gripper is not in front of the button"):
+        robot.move("gripper to front of button")
+    # If the gripper is in front of the button and open, grab the button.
+    if check("the robot's gripper is in front of the button and the robot's gripper is open"):
+        robot.grab("button")
+    # If the gripper is holding the button and not near the top, move up a bit.
+    if check("the button is in the gripper and the gripper is not near the top of the button"):
+        robot.move("gripper up")
+    # If the gripper is holding the button and near the top, push the button down.
+    if check("the button is in the gripper and the gripper is near the top of the button"):
+        robot.push("button down")
+# button-press: push the button from the front
+# def button_press(robot):
+    # Steps:
+    #  1. Line up the gripper with the button
+    #  2. Move the gripper forward to push the button
+    #  3. Move the gripper back to release the button
+    # First, put the gripper roughly in front of the button.
+    if check("the robot's gripper is not in front of the button"):
+        robot.place("gripper in front of button")
+    # Once the gripper is in front of the button, move it forward to push the
+    # button.
+    if check("the robot's gripper is in front of the button and the robot's gripper is not near the button"):
+        robot.move_forward("to push the button")
+    # If the gripper is near the button, it's probably pushing it.
+    # Move the gripper back to release the button.
+    if check("the robot's gripper is near the button"):
+        robot.move_backward("to release the button")

@@ -1,0 +1,1 @@
+Sorry, it looks like the function for `window_open` was already defined earlier.

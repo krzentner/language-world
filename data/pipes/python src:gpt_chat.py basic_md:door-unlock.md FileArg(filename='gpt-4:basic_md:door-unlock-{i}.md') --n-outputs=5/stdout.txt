@@ -1,0 +1,24 @@
+Using model: gpt-3.5-turbo
+To turn the dial on the door reliably, the robot should perform the following steps:
+- When the robot's gripper is not positioned at the dial, the robot should move the gripper to the dial.
+- When the robot's gripper is positioned at the dial and the dial is locked, the robot should turn the dial in the correct direction and by the correct amount to unlock it.
+- When the dial is unlocked, the robot should stop turning the dial and move the gripper away from the dial.
+To turn the dial on the door reliably, the robot should perform the following steps:
+- When the robot's gripper is not aligned with the dial, the robot should move the gripper above the dial.
+- When the gripper is aligned with the dial, the robot should close the gripper around the dial.
+- When the gripper has a firm grip on the dial, the robot should turn the dial in the correct direction to unlock the door.
+- When the dial has been turned to the correct position, the robot should release its grip on the dial.
+To turn the dial on the door reliably, the robot should perform the following steps:
+
+- When the robot's gripper is not aligned with the door handle, the robot should move gripper above the door handle.
+- When the robot's gripper is aligned with the door handle, the robot should turn the dial to the correct combination.
+- When the dial is turned to the correct combination, the robot should push the door open.
+To turn the dial on the door reliably, the robot should perform the following steps:
+    - When the robot's gripper is not almost vertically aligned with the door handle, the robot should put gripper above the dial.
+    - When the robot's gripper is almost vertically aligned with the dial and the robot's gripper is open, the robot should put gripper around the dial.
+    - When the robot's gripper is around the dial, the robot should turn the dial to the correct combination.
+    - When the door is unlocked, the robot should release the dial and open the door.
+To turn the dial on the door reliably, the robot should perform the following steps:
+
+- When the robot's gripper is not vertically aligned with the dial, the robot should put gripper above the dial.
+- When the robot's gripper is vertically aligned with the dial, the robot should turn dial to the required position to unlock the door. The exact steps to turn the dial will depend on the design of the dial and the door.

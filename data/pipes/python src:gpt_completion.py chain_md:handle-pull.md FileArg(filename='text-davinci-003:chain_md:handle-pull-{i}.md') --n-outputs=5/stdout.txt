@@ -1,0 +1,42 @@
+Using model: text-davinci-003
+
+    Steps:  1. Put gripper underneath handle  2. Raise gripper to lift handle up  3. Pull up the handle 
+    We'll need to lift the handle up to get underneath it, so we start by putting the gripper beneath the handle.
+    - When the robot's gripper is not underneath handle, the robot should put gripper beneath handle.
+    Once the gripper is underneath the handle, try to lift up the gripper to lift the handle up.
+    - When the robot's gripper is underneath handle, the robot should raise gripper to lift handle up.
+    Once the handle is above the frame, try to pull up the handle.
+    - When handle is above frame, the robot should pull handle up.
+
+    Steps:  1. Put gripper below handle  2. Close gripper around handle  3. Pull handle up
+    First, the robot should put its gripper below the handle.
+    - When the robot's gripper is not above the handle and the robot's gripper is not below the handle, the robot should put gripper below handle.
+    Once the robot's gripper is below the handle, close the gripper around it.
+    - When the robot's gripper is below handle and the robot's gripper is open, the robot should close gripper around handle.
+    Now that the gripper is closed around the handle, the robot can pull it up.
+    - When the robot's gripper is below handle and the robot's gripper is closed, the robot should pull handle up.
+
+    Steps:  1. Put gripper above handle  2. Grab handle  3. Pull up handle
+    First, put the gripper above the handle.
+    - When the robot's gripper is not vertically aligned with handle, the robot should put gripper above handle.
+    Next, grab the handle.
+    - When the robot's gripper is not around handle and the robot's gripper is open, the robot should grab handle.
+    Now that the handle is in the gripper, the robot can pull the handle up.
+    - When the robot's gripper is closed and the robot's gripper is above handle, the robot should pull up handle.
+
+
+Steps:  1. Put gripper below the handle  2. Grab the handle with the gripper  3. Pull the handle up with the gripper 
+    First, put the gripper below the handle.
+    - When the robot's gripper is not below the handle, the robot should put gripper below handle.
+    As long as the grippper is below the handle, we can probably grab it by moving the gripper up.
+    - When the robot's gripper is below the handle and the robot's gripper is open, the robot should grab handle.
+    If the gripper is now around the handle, we can just pull handle up. 
+    - When the robot's gripper is around handle, the robot should pull handle up.
+
+    Steps:  1. Place the gripper above the handle   2. Lower the gripper onto the handle  3. Start to pull the handle up
+    First, put the gripper above the handle.
+    - When the robot's gripper is not vertically aligned with the handle, the robot should place gripper above the handle.
+    If the gripper is aligned with the handle, we can move it down onto it and start pulling.
+    - When the robot's gripper is vertically aligned with the handle and the robot's gripper is not on the handle, the robot should lower gripper onto handle.
+    If the gripper is on the handle, we are ready to start pulling it.
+    - When the robot's gripper is on the handle, the robot should pull handle up.

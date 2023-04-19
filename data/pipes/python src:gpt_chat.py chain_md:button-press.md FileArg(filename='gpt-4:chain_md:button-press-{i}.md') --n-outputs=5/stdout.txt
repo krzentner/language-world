@@ -1,0 +1,37 @@
+Using model: gpt-3.5-turbo
+For the `button-press` task, the robot should perform the following steps:
+    Steps:  1. Put gripper in front of button  2. Close gripper around button  3. Push down on button
+    Move the gripper in front of the button.
+    - When the robot's gripper is not in front of button, the robot should move gripper in front of button.
+    Close the gripper around the button.
+    - When the robot's gripper is in front of button and open, the robot should close gripper around button.
+    Push down on the button.
+    - When the robot's gripper is closed around button, the robot should push down on button.
+The task `button-press` requires the robot to push the button from the front.
+To push the button from the front reliably, the robot should perform the following steps:
+    Steps:  1. Line up gripper with button from the front  2. Push gripper into button to press it
+    Since this is not "topdown", the robot needs to line up the gripper with the button from the front.
+    - When the robot's gripper is not horizontally aligned with the button, the robot should move gripper in front of button.
+    Now that the gripper is lined up with the button from the front, push the gripper into the button to press it.
+    - When the robot's gripper is horizontally aligned with the button, the robot should push gripper into button to press it.
+The task `button-press` which involves pressing the button from the front can be achieved by following the below steps:
+    
+    Steps:  1. Align gripper horizontally with the button  2. Move the gripper towards the button to press
+    First, put the gripper in front of the button and line it up horizontally.
+    - When the robot's gripper is not horizontally aligned with button, the robot should align gripper horizontally with the button.
+    Once the gripper is horizontally aligned with the button, move the gripper towards the button to press it.
+    - When the robot's gripper is horizontally aligned with the button and is not near the button, the robot should move gripper towards the button to press it.
+For the task `button-press`, if the robot needs to push the button from the front, it should perform the following steps:
+
+Steps:  1. Put gripper in front of the button  2. Push forward on the button
+The gripper should be lined up centered in front of the button.
+- When the robot's gripper is not centered in front of the button, the robot should put gripper in front of the button.
+Now that the gripper is lined up, just push forward on the button.
+- When the robot's gripper is centered in front of the button, the robot should push forward on the button.
+The task `button-press` requires the robot to push the button from the front.
+To push the button from the front reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper in front of the button  2. Push gripper towards the button to press it
+    Since this is not "topdown" but "frontal", the gripper needs to be positioned in front of the button instead of above it.
+    - When the robot's gripper is not in front of the button, the robot should place gripper in front of button.
+    Once the gripper is positioned in front of the button, press the button by pushing the gripper towards it.
+    - When the robot's gripper is in front of the button, the robot should push the gripper towards the button to press it.

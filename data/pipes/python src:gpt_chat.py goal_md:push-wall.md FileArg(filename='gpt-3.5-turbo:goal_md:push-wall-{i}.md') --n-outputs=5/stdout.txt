@@ -1,0 +1,76 @@
+Using model: gpt-3.5-turbo
+To slide the puck to the target location with a small wall in the way reliably, the robot should perform the following steps:
+
+1. Put the gripper above the puck.
+    - When the robot's gripper is not above the puck, move the robot's gripper until the robot's gripper is above the puck
+2. Drop the gripper around the puck.
+    - When the robot's gripper is not around the puck and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the puck and the robot's gripper is closed
+3. Move the gripper towards the target location, checking for obstacles along the way.
+    - If the gripper encounters an obstacle, adjust the gripper's position and orientation accordingly until it can continue moving towards the target location.
+4. If the gripper is near the wall, move the gripper to the side of the wall.
+    - When the robot's gripper is near the wall, move the robot's gripper to the left or right depending on which direction leads to the target location and adjust the orientation accordingly.
+5. Slide the puck towards the target location, carefully avoiding hitting the wall.
+    - When the robot's gripper is not near the target location, move the robot's gripper until the robot's gripper is above the target location.
+    - Slowly slide the puck towards the target location, keeping a close eye on the position of the wall to ensure the puck doesn't hit it.
+6. Release the puck at the target location.
+    - When the robot's gripper is above the target location with the puck, release the gripper to drop the puck at the target location.
+To slide the puck to the target location with a small wall in the way reliably, the robot should perform the following steps:
+
+1. Put gripper above puck
+2. Push gripper into top of puck
+3. Move the gripper to align with the opening in the small wall
+4. Slide the puck through the opening and towards the target location
+5. Once the puck is on the other side of the wall, move the gripper to align with the puck
+6. If the gripper is not near the puck, move the gripper down to the puck to slide it forward
+7. When the gripper is near the puck and the puck is below the gripper, move the gripper until the gripper is above the target location.
+To slide the puck to the target location with a small wall in the way reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above puck  2. Push gripper into top of puck  3. Slide puck to wall  4. Move gripper up and over the wall  5. Slide puck to target
+    The robot can slide the puck by trapping it by pushing down on it from above and moving the gripper. If the puck isn't below the gripper as seen from above, move the gripper above the puck.
+    - When the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck, move the robot's gripper until the robot's gripper is vertically aligned with the puck
+    If the gripper is aligned with the puck but not near it, move the gripper down to the puck to slide it.
+    - When the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck, move the robot's gripper until the robot's gripper is above the puck and the robot's gripper is closed
+    If the gripper is near the puck, we've probably trapped the puck and can slide it to the wall. Close the gripper to make sure we keep control of the puck.
+    - When the robot's gripper is near the puck and the puck is below the robot's gripper, move the robot's gripper until the puck is at the wall and the robot's gripper is closed
+    Once the puck is at the wall, we need to move the gripper up and over it.
+    - When the robot's gripper is holding the puck against the wall, move the robot's gripper until the robot's gripper is above the wall and the robot's gripper is still holding the puck
+    Finally, we can slide the puck to the target location.
+    - When the robot's gripper is above the wall and the puck is lined up with the target location, move the robot's gripper until the robot's gripper is above the target location
+To slide the puck to the target location with a small wall in the way, the robot should perform the following steps:
+
+1. Put gripper above puck
+2. Push gripper into top of puck
+3. Slide puck towards wall
+4. Stop 1-2 cm before wall
+5. Turn gripper 90 degrees, so gripper is parallel to the wall
+6. Move gripper sideways along the wall, until it clears the wall and is aligned with the target location
+7. Turn gripper back 90 degrees, so gripper is perpendicular to the wall
+8. Slide puck towards the target location
+
+If the gripper is not above the puck, put it above the puck.
+- When the robot's gripper is not above the puck, move the robot's gripper until the robot's gripper is above the puck
+If the gripper is above the puck but not around it, put it around the puck.
+- When the robot's gripper is not around puck and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the puck and the robot's gripper is closed
+If the gripper is near the puck and closed, maybe we can grab it by sliding it towards the wall. 
+- When the robot's gripper is above the puck and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the wall, stopping 1-2 cm before the wall
+Turn the gripper parallel to the wall
+- When the gripper's orientation is not parallel to the wall, turn the gripper 90 degrees
+Move the gripper along the wall until it clears the wall and is aligned with the target location
+- When the gripper is not aligned with the target location, move the robot's gripper sideways along the wall until it clears the wall and is aligned with the target location
+Turn the gripper back perpendicular to the wall
+- When the gripper's orientation is not perpendicular to the wall, turn the gripper back 90 degrees
+Slide the puck toward the target location.
+- When the robot's gripper is above the puck and is perpendicular to the wall, move the robot's gripper until the robot's gripper is above the target location.
+To slide the puck to the target location with a small wall in the way, the robot should perform the following steps:
+
+1. Put gripper above puck
+   - When the robot's gripper is not above the puck, move the robot's gripper until it's above the puck
+2. Drop gripper around puck
+   - When the robot's gripper is not around the puck and the robot's gripper is open, move the robot's gripper until it's near the puck and then close the gripper
+3. Move gripper towards the wall until it touches the wall
+   - When the robot's gripper is not touching the wall, move the robot's gripper towards the wall until it touches the wall
+4. Slide the puck to the right until it is clear of the wall
+   - When the puck is not clear of the wall, move the robot's gripper to the right while pushing the puck until it clears the wall and is close to the target location
+5. Move the gripper above the puck
+   - When the robot's gripper is not above the puck, move it above the puck
+6. Slide the puck to the target location
+   - When the robot's gripper is above the puck and the puck is clear of obstacles, move the gripper and the puck to the target location.

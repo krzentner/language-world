@@ -1,0 +1,37 @@
+Using model: gpt-3.5-turbo
+The robot should perform the following steps to push the button down from above:
+1. Line up the gripper as viewed from above
+2. Push down on the button from the top
+
+To elaborate on these steps:
+- First, the robot needs to position the gripper so that it is directly above the button to be pressed.
+- To achieve this, the robot should move the gripper until it is vertically aligned with the button.
+- Once the gripper is aligned, the robot can close it around the button and press down from above to activate it.
+The robot should perform the following steps to push the button down from above reliably:
+1. Line up the gripper as viewed from above
+- When the robot's gripper is not vertically aligned with button, move the robot's gripper until the robot's gripper is vertically aligned with the button and the robot's gripper is closed
+2. Push down on the button from the top
+- When the robot's gripper is vertically aligned with button, move the robot's gripper until the robot's gripper is near the button.
+The robot should perform the following steps:
+    
+    Steps:  1. Line up the gripper as viewed from above  2. Push down on the button from the top
+    
+Because this is "topdown", we just need to line up the gripper from above. Line up the robot's gripper from above.
+
+    - When the robot's gripper is not vertically aligned with button, move the robot's gripper until the robot's gripper is vertically aligned with the button and the robot's gripper is closed
+    
+Now that the gripper is lined up, just push down on the button.
+
+    - When the robot's gripper is vertically aligned with button, move the robot's gripper until the robot's gripper is near the button
+To push the button down from above reliably, the robot should perform the following steps:
+
+1. Line up the gripper as viewed from above
+    - When the robot's gripper is not vertically aligned with button, move the robot's gripper until the robot's gripper is vertically aligned with the button and the robot's gripper is closed
+2. Push down on the button from the top
+    - When the robot's gripper is vertically aligned with the button, move the robot's gripper until the robot's gripper is near the button
+To push the button down from above reliably, the robot should perform the following steps:
+    Steps:  1. Line up the gripper as viewed from above  2. Push down on the button from the top
+    Because this is "topdown", we just need to line up the gripper from above. Line up the robot's gripper from above.
+    - When the robot's gripper is not vertically aligned with button, move the robot's gripper until the robot's gripper is vertically aligned with the button and the robot's gripper is closed
+    Now that the gripper is lined up, just push down on the button.
+    - When the robot's gripper is vertically aligned with button, move the robot's gripper until the robot's gripper is near the button.

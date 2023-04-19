@@ -1,0 +1,56 @@
+Using model: gpt-3.5-turbo
+# door-unlock: turn the dial on the door
+# def door_unlock(robot):
+    if check("the robot's gripper is not close to the door handle"):
+        robot.reach("to the door handle")
+    if check("the robot's gripper is not almost vertically aligned with the door handle"):
+        robot.put("gripper above door handle")
+    if check("the robot's gripper is almost vertically aligned with the door handle and the robot's gripper is not closed"):
+        robot.close("gripper around door handle")
+    if check("the robot's gripper is closed around the door handle and the dial is not set to the correct combination"):
+        robot.turn("dial to the correct combination")
+    if check("the dial is set to the correct combination"):
+        robot.pull("the door open")
+# door-unlock: turn the dial on the door
+# def door_unlock(robot):
+    if check("the robot's gripper is not above the dial"):
+        robot.place("gripper above dial")
+    if check("the robot's gripper is above the dial and the robot's gripper is not around the dial"):
+        robot.drop("gripper around the dial")
+    if check("the robot's gripper is around the dial and the robot's gripper is not gripping the dial tightly"):
+        robot.close("gripper around the dial tightly")
+    if check("the robot's gripper is gripping the dial tightly and the dial is not unlocked"):
+        robot.rotate("dial to the correct combination")
+        robot.open("door")
+# door-unlock: turn the dial on the door
+# def door_unlock(robot):
+    if check("the robot's gripper is not on the dial"):
+        robot.move("gripper to the dial")
+    if check("the robot's gripper is on the dial and the dial is not in the correct position"):
+        robot.grab("the dial")
+        robot.rotate("the dial to the correct position")
+        robot.release("the dial")
+    if check("the dial is in the correct position"):
+        robot.push("the door open")
+# door-unlock: turn the dial on the door
+# def door_unlock(robot):
+    if check("the robot's gripper is not near the door handle"):
+        robot.move("gripper to the right of the door handle")
+    if check("the robot's gripper is almost vertically aligned with the door handle and the robot's gripper is open"):
+        robot.put("gripper around door handle")
+    if check("the robot's gripper is vertically aligned with the door handle"):
+        robot.turn("dial clockwise")
+    if check("the dial has turned fully"):
+        robot.release("door handle")
+# door-unlock: turn the dial on the door
+# def door_unlock(robot):
+if check("the robot is not facing the dial or is too far from the dial"):
+    robot.turn("to face the dial")
+if check("the robot's gripper is not near the dial"):
+    robot.move("closer to the dial")
+if check("the robot's gripper is near the dial"):
+    robot.grab("the dial")
+if check("the dial is not in the correct starting position"):
+    robot.turn("the dial to the correct starting position")
+if check("the dial is not unlocked"):
+    robot.turn("the dial to the right until the dial is unlocked")

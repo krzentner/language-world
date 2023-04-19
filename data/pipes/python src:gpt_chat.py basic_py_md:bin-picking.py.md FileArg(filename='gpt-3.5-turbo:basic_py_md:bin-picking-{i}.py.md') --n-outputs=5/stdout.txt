@@ -1,0 +1,71 @@
+Using model: gpt-3.5-turbo
+# bin-picking: pick up the cube and place it in the target bin
+# def bin_picking(robot):
+
+def bin_picking(robot):
+    if check("the robot's gripper is not above the cube"):
+        robot.place("gripper above cube")
+    if check("the robot's gripper is not around cube and the robot's gripper is open"):
+        robot.drop("gripper around cube")
+    if check("the robot's gripper is near cube and the robot's gripper is open"):
+        robot.close("gripper around cube")
+    if check("the robot's gripper is above cube and the robot's gripper is closed"):
+        robot.reach("to bin")
+    if check("the robot's gripper is above bin and the robot's gripper is closed"):
+        robot.drop("cube in bin")
+# bin-picking: pick up the cube and place it in the target bin
+# def bin_picking(robot):
+# The robot first moves its gripper to the bin location
+    if check("the robot's gripper is not near the bin location"):
+        robot.reach("to bin location")
+# The robot then moves its gripper to the cube location
+    if check("the robot's gripper is not near the cube location"):
+        robot.reach("to cube location")
+# The robot then picks up the cube
+    if check("the robot's gripper is not around the cube and the robot's gripper is open"):
+        robot.drop("gripper around cube")
+    if check("the robot's gripper is not near cube and the robot's gripper is open"):
+        robot.close("gripper around cube")
+# The robot then moves its gripper to the bin location
+    if check("the robot's gripper is not near the bin location"):
+        robot.reach("to bin location")
+# The robot then places the cube in the bin
+    if check("the robot's gripper is near the bin location and the robot's gripper is closed"):
+        robot.place("the cube in the bin")
+# bin-picking: pick up the cube and place it in the target bin
+# def bin_picking(robot):
+def bin_picking(robot):
+    if check("the robot's gripper is not above the cube"):
+        robot.place("gripper above cube")
+    if check("the robot's gripper is not around cube and the robot's gripper is open"):
+        robot.drop("gripper around cube")
+    if check("the robot's gripper is near cube and the robot's gripper is open"):
+        robot.close("gripper around cube")
+    if check("the robot's gripper is above cube and the robot's gripper is closed"):
+        robot.place("cube in bin")
+# bin-picking: pick up the cube and place it in the target bin
+# def bin_picking(robot):
+    if check("the robot's gripper is not above the cube"):
+        robot.place("gripper above cube")
+    if check("the robot's gripper is not around cube and the robot's gripper is open"):
+        robot.drop("gripper around cube")
+    if check("the robot's gripper is near cube and the robot's gripper is open"):
+        robot.close("gripper around cube")
+    if check("the robot's gripper is above cube and the robot's gripper is closed"):
+        if check("the robot's gripper is not above the target bin"):
+            robot.place("gripper above target bin")
+        if check("the robot's gripper is not around the target bin and the robot's gripper is closed"):
+            robot.drop("gripper around target bin")
+        if check("the robot's gripper is near the target bin and the robot's gripper is closed"):
+            robot.drop("gripper open and drop cube into target bin")
+# bin-picking: pick up the cube and place it in the target bin
+# def bin_picking(robot):
+def bin_picking(robot):
+    if check("cube is not in the gripper and the gripper is not above the cube"):
+        robot.reach("to cube")
+    if check("the gripper is above the cube and the gripper is not closed"):
+        robot.close("gripper around cube")
+    if check("the cube is in the gripper and the gripper is not above the target bin"):
+        robot.reach("to bin")
+    if check("the gripper is above the target bin"):
+        robot.place("cube in bin")

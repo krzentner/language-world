@@ -1,0 +1,21 @@
+Using model: gpt-3.5-turbo
+To pull up the handle from the side reliably, the robot should perform the following steps:
+- When the robot's gripper is not vertically aligned with the handle, the robot should put the gripper above the handle.
+- When the handle is not to the left of the robot's gripper and the robot's gripper is not already holding the handle, the robot should grab the handle.
+- When the robot's gripper is positioned to the side of the handle, the robot should pull up on the handle.
+To reliably pull up the handle from the side, the robot should perform the following steps:
+- When the robot's gripper is not vertically aligned with the handle, the robot should move the gripper above the handle.
+- When the robot's gripper is vertically aligned with the handle and the gripper is not gripping the handle, the robot should grip the handle.
+- When the robot's gripper is gripping the handle and the handle is not in the upright position, the robot should pull the handle up to the upright position.
+To pull up the handle from the side reliably, the robot should perform the following steps:
+- When the robot's gripper is not vertically aligned with the handle, the robot should put gripper above handle.
+- When the robot's gripper is vertically aligned with the handle and the robot's gripper is not around the handle, the robot should put gripper around handle.
+- When the robot's gripper is around the handle and the handle is facing to the side, the robot should pull the handle up while moving the gripper to the side.
+To pull up the handle from the side reliably, the robot should perform the following steps:
+- When the robot's gripper is not vertically aligned with the handle, the robot should position gripper above the handle.
+- When the handle is not left of the robot's gripper and the handle is not forward aligned with the robot's gripper, the robot should grab the handle.
+- When the robot's gripper is forward aligned with the handle and the handle is not vertically aligned, the robot should lift the handle up from the side.
+To pull up the handle from the side reliably, the robot should perform the following steps:
+- When the robot's gripper is not vertically aligned with the handle, put gripper above the handle.
+- When the handle is not forward aligned with the robot's gripper, move gripper to the side of the handle.
+- When the robot's gripper is around the handle, pull up on the handle.

@@ -1,0 +1,68 @@
+Using model: text-davinci-003
+
+    # Steps:
+    #  1. Put gripper above cube
+    #  2. Grab cube with gripper
+    #  3. Move sideways to the target location
+    # First, put the gripper above the cube in order to grab it.
+    if check("the robot's gripper is not above the cube"):
+        robot.move_gripper("above the cube")
+    # If the gripper isn't close to the cube, close it to the cube to capture it.
+    if check("the robot's gripper is not near the cube and the gripper is open"):
+        robot.move_gripper("near the cube", close_gripper=True)
+    # Now, with the cube in hand, move sideways to the target location.
+    if check("the robot's gripper is near the cube and the cube is below the robot's gripper"):
+        robot.move_gripper("right of the target location")
+
+    # Steps:
+    #  1. Put gripper roughly above cube
+    #  2. Drop gripper around cube
+    #  3. Slide cube sideways
+    #  4. Move cube to goal
+    # First, put the gripper nowhere near the cube. We don't want to bump the cube
+    # while trying to grab it.
+    if check("the robot's gripper is not above the cube"):
+        robot.move_gripper("above the cube")
+    # If the gripper isn't around the cube yet, let go of the cube.
+    # Again, because the cube is small, don't worry about the direction.
+    if check("the robot's gripper is not around the cube and the robot's gripper is open"):
+        robot.move_gripper("near the cube", close_gripper=True)
+    # As long as the gripper is still low down, slide the cube sideways.
+    # Don't move the gripper up too high, as that can bump the cube.
+    if check("the robot's gripper is near the cube and the robot's gripper is not high above the cube"):
+        robot.move_gripper("horizontally aligned with the target location")
+
+    # Steps:
+    #  1. Put gripper above cube
+    #  2. Drop gripper around cube
+    #  3. Close gripper around cube
+    #  4. Move cube sideways to target location
+    # First, put the gripper roughly above cube, so that we don't bump it while
+    # trying to grab it.
+    if check("the robot's gripper is not above cube"):
+        robot.move_gripper("above the cube")
+    # If the gripper isn't around the cube, put it around the cube.
+    if check("the robot's gripper is not around cube and the robot's gripper is open"):
+        robot.move_gripper("near the cube", close_gripper=True)
+    # If the gripper is near the cube and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is above cube and the robot's gripper is closed"):
+        robot.move_gripper("near the target location")
+
+    # Steps:
+    #  1. Move gripper above the cube
+    #  2. Grab the cube
+    #  3. Move the cube sideways to the target location
+    # First, move the gripper above the cube, if it isn't already.
+    if check("the robot's gripper is not above the cube"):
+        robot.move_gripper("above the cube", close_gripper=True)
+    # If the cube is still above the gripper but the gripper is open, maybe
+    # we can grab it by closing the gripper.
+    if check("the robot's gripper is above the cube and the robot's gripper is open"):
+        robot.move_gripper("above the cube", close_gripper=True)
+    # Now that the cube is in the gripper, we can move the cube sideways to
+    # the target position.
+    if check("the robot's gripper is above the cube and the robot's gripper is closed"):
+        robot.move_gripper("above the target location")
+
+

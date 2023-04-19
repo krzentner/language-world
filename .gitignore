@@ -7,4 +7,5 @@ src/language_to_policies.egg-info/
 *.pth
 notebooks/.ipynb_checkpoints/
 notebooks/image_path_v2/
-data/
+/data_tmp/
+/old/

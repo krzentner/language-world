@@ -1,0 +1,8 @@
+Using engine: text-davinci-003
+
+
+If check("the robot's gripper is not vertically aligned with the button"):
+    robot.put("gripper above button")
+if check("the robot's gripper is vertically aligned with the button"):
+    robot.push("down on button")
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_py_md/coffee-button-3.py.md'

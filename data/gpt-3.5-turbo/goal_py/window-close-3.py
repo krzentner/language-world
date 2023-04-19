@@ -1,0 +1,1 @@
+Apologies, it looks like the "window-close" function was already defined above. Please let me know if you need any further assistance.

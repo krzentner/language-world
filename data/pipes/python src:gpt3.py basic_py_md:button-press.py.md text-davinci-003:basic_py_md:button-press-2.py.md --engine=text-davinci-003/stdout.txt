@@ -1,0 +1,8 @@
+Using engine: text-davinci-003
+
+
+If check("the robot's gripper is not vertically aligned with button"):
+    robot.put("gripper in front of button")
+if check("the robot's gripper is vertically aligned with button"):
+    robot.push("button down")
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_py_md/button-press-2.py.md'

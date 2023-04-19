@@ -1,0 +1,27 @@
+Using model: gpt-3.5-turbo
+if check("the robot's gripper is not near the handle"):
+        robot.move("gripper near handle")
+    if check("the robot's gripper is next to the handle and the robot's gripper is not around the handle"):
+        robot.grab("handle")
+    if check("the robot's gripper is around the handle and the handle is not in the down position"):
+        robot.push("down on handle")
+    if check("the robot's gripper is not vertically aligned with the handle"):
+        robot.put("gripper next to handle")
+    if check("the robot's gripper is near the handle"):
+        robot.push("down on handle")
+    if check("the robot's gripper is not vertically aligned with the handle"):
+        robot.put("gripper above handle")
+    if check("the robot's gripper is not around the handle"):
+        robot.grab("handle")
+    if check("the robot's gripper is not forward aligned with the handle"):
+        robot.align("gripper to handle")
+    if check("the robot's gripper is forward aligned with the handle"):
+        robot.push("down on handle from side")
+    if check("the robot's gripper is not near the handle"):
+        robot.move("gripper to side of handle")
+    if check("the robot's gripper is horizontally aligned with the handle"):
+        robot.push("down on handle from the side")
+if check("the robot's gripper is not vertically aligned with the handle"):
+        robot.put("gripper next to handle")
+    if check("the robot's gripper is next to the handle"):
+        robot.push("down on handle")

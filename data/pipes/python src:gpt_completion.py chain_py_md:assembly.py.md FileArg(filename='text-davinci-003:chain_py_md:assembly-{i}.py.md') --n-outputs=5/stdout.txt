@@ -1,0 +1,158 @@
+Using model: text-davinci-003
+
+
+This program should do the following: 
+
+1. Put gripper to the left of the peg 
+2. Grab the wrench and move it so that it’s aligned with the peg
+3. Drop the wrench on the peg 
+4. Close the gripper to grasp the wrench and peg 
+5. Move the wrench around the peg 
+
+```
+# assembly: put the wrench around the peg
+# def assembly(robot):
+    # Steps:
+    #  1. Put gripper to the left of the peg
+    #  2. Grab the wrench and move it so that it's aligned with the peg
+    #  3. Drop the wrench on the peg
+    #  4. Close the gripper to grasp the wrench and peg
+    #  5. Move the wrench around the peg
+    if check("the robot's gripper is not to the left of the peg"):
+        robot.put("gripper to the left of the peg")
+    if check("the robot's gripper is to the left of the peg and the wrench is not forward aligned with the peg"):
+        robot.grab("wrench")
+        robot.align("wrench with peg")
+    if check("the robot's gripper is to the left of the peg and the wrench is forward aligned with the peg and the wrench is not on the peg"):
+        robot.drop("wrench onto the peg")
+    if check("the robot's gripper is to the left of the peg and the wrench is forward aligned with the peg and the wrench is above the peg"):
+        robot.close("gripper around wrench and peg")
+    if check("the robot's gripper is to the left of the peg and the wrench is forward aligned with the peg and the wrench is below the peg"):
+        robot.move("wrench around the peg")
+```
+
+
+Then, continue with the following steps:
+
+1. Put gripper above wrench
+2. Grab wrench with gripper
+3. Put gripper around peg
+4. Put wrench around peg
+5. Push peg and wrench together
+
+```
+# assembly: put the wrench around the peg
+# def assembly(robot):
+    # Steps:
+    #  1. Put gripper above wrench
+    #  2. Grab wrench with gripper
+    #  3. Put gripper around peg
+    #  4. Put wrench around peg
+    #  5. Push peg and wrench together
+    # First, move the gripper so that it is above the wrench.
+    if check("the robot's gripper is not above the wrench"):
+        robot.put("gripper above wrench")
+    # Now, if the wrench is left of the robot's gripper, grab it.
+    if check("wrench is left of the robot's gripper and the robot's gripper is not around the wrench"):
+        robot.grab("wrench")
+    # If the robot's gripper and the wrench are aligned, move the grip to around the peg.
+    if check("the robot's gripper is forward aligned with the wrench and the robot's gripper is not around the peg"):
+        robot.put("gripper around peg")
+    # Now that the gripper is around the peg, line the wrench up with it.
+    if check("the robot's gripper is around the peg and the wrench is not horizontally aligned with the peg"):
+        robot.align("wrench to peg")
+    # Finally, push the peg and wrench together.
+    if check("the wrench is horizontally aligned with the peg"):
+        robot.push("peg and wrench together")
+```
+
+
+The program for the `assembly` task would look like this:
+
+```
+# assembly: put the wrench around the peg
+# def assembly(robot):
+    # Steps:
+    #  1. Put the gripper above the wrench
+    #  2. Grab the wrench with the gripper
+    #  3. Put the wrench around the peg
+    #  4. Move the wrench around the peg
+    # First, put the gripper above the wrench.
+    if check("the robot's gripper is not vertically aligned with the wrench"):
+        robot.put("gripper above wrench")
+    # If the wrench becomes left of the gripper, go back to putting the gripper
+    # above the wrench.
+    # Because the wrench is a long object, check if the gripper is lined up with
+    # it from the front instead of around it.
+    if check("wrench is not left of the robot's gripper and wrench is not aligned with the robot's gripper forward"):
+        robot.grab("wrench")
+    # As long the gripper is still mostly around the wrench and the wrench isn't
+    # lined up with the peg, line up the wrench with the peg.
+    if check("the robot's gripper is aligned with the wrench forward and the wrench is not in line with the peg"):
+        robot.align("wrench to peg")
+    # If the peg is lined up with the wrench from the side, move the wrench
+    # around the peg.
+    if check("wrench is in line with the peg"):
+        robot.move("wrench around peg")
+```
+
+
+Here's the program:
+```
+# assembly: put the wrench around the peg
+# def assembly(robot):
+    # Steps:
+    #  1. Put gripper above wrench
+    #  2. Grab wrench with gripper
+    #  3. Line up wrench with peg
+    #  4. Drop wrench around peg
+    # First, put the gripper above the wrench.
+    if check("the robot's gripper is not vertically aligned with the wrench"):
+        robot.put("gripper above wrench")
+    # Once the gripper is above the wrench, grab it.
+    if check("the robot's gripper is vertically aligned with wrench and the robot's gripper is open"):
+        robot.grab("wrench")
+    # Align wrench with peg
+    if check("the robot's gripper is above peg and wrench is not horizontally aligned with peg"):
+        robot.align("wrench to peg")
+    # Drop wrench around peg.
+    if check("the robot's gripper is horizontally aligned with peg and the robot's gripper is open"):
+        robot.drop("wrench around peg")
+```
+
+
+Then your code should look something like this:
+
+```
+# assembly: put the wrench around the peg
+# def assembly(robot):
+    # Steps:
+    # 1. Put gripper above the wrench handle
+    # 2. Drop the gripper around the wrench handle
+    # 3. Line up the wrench with the peg, as seen from above
+    # 4. Close the gripper around the handle of the wrench
+    # 5. Place the wrench around the peg
+
+    # First, put the gripper above the wrench handle.
+    if check("the robot's gripper is not above the wrench handle"):
+        robot.put("gripper above wrench handle")
+
+    # Once the gripper is lined up above the wrench handle, we can drop it around
+    # the handle so that we can gain control of the wrench.
+    if check("the robot's gripper is above the wrench handle and the robot's gripper is not around the wrench handle"):
+        robot.drop("gripper around wrench handle")
+    
+    # When the gripper is around the wrench handle and the gripper is closed, we 
+    # can line up the wrench with the peg.
+    if check("the robot's gripper is around the wrench handle and the robot's gripper is closed"):
+        robot.align("wrench with peg, as seen from above")
+
+    # Once the wrench is lined up with the peg, close the gripper so we can keep
+    # control of it.
+    if check("the wrench is vertically aligned with the peg"):
+        robot.close("gripper around handle of wrench")
+
+    # Finally, we can place the wrench around the peg.
+    if check("the robot's gripper is closed and the wrench is aligned with the peg"):
+        robot.place("wrench around peg")
+```

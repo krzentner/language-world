@@ -1,0 +1,1 @@
+This function has already been defined above. Please see the function `drawer_close(robot)`.

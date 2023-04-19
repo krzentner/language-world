@@ -1,0 +1,92 @@
+Using model: gpt-3.5-turbo
+```
+# plate-slide-back: slide the plate back into the target location
+# def plate_slide_back(robot):
+    # Steps:
+    #  1. Put gripper above plate
+    #  2. Push gripper into plate
+    #  3. Slide plate back to goal
+    # The robot can slide the plate by trapping it by pushing down on it from
+    # above and moving the gripper.
+    # If the plate isn't below the gripper as seen from above, move the gripper
+    # above the plate.
+    if check("the robot's gripper is not above plate and the robot's gripper is not vertically aligned with the plate"):
+        robot.put("the gripper above the plate")
+    # If the gripper is aligned with the plate but not near it, move the gripper
+    # down to the plate to slide it.
+    if check("the robot's gripper is vertically aligned with the plate and the robot's gripper is not near plate"):
+        robot.push("the gripper into the plate")
+    # If the gripper is near the plate, we've probably trapped the plate and can
+    # slide it back to the target location.
+    # Close the gripper to make sure we keep control of the plate.
+    if check("the robot's gripper is near the plate and the plate is below the robot's gripper"):
+        robot.slide("the plate back to the goal")
+```
+# plate-slide-back: slide the plate back into the target location
+# def plate_slide_back(robot):
+    # Steps:
+    #  1. Put gripper above the plate
+    #  2. Grab the plate with the gripper
+    #  3. Slide the plate back to the target location
+    # First, put the gripper above the plate.
+    if check("the robot's gripper is not vertically aligned with the plate"):
+        robot.put("gripper above plate")
+    # If the gripper is above the plate but not around it, grab the plate.
+    if check("the robot's gripper is above plate and the gripper is not around plate and the gripper is open"):
+        robot.drop("gripper around plate")
+    # If the gripper is around the plate, slide the plate back to the target location.
+    if check("the robot's gripper is around plate and the plate is not in target location"):
+        robot.slide("the plate back to the target location")
+# plate-slide-back: slide the plate back into the target location
+# def plate_slide_back(robot):
+    # Steps:
+    #  1. Put gripper above plate
+    #  2. Drop gripper around plate
+    #  3. Slide plate back to goal
+    # First, put the gripper roughly above the plate, so that we don't bump it
+    # while trying to grab it.
+    if check("the robot's gripper is not above the plate"):
+        robot.place("gripper above plate")
+    # If the gripper isn't around the plate, put it around the plate.
+    if check("the robot's gripper is not around plate and the robot's gripper is open"):
+        robot.drop("gripper around plate")
+    # If the gripper is near the plate and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near the plate and the robot's gripper is open"):
+        robot.close("gripper around plate")
+    # If we grabbed the plate, we can slide it back to the goal. If not, we'll
+    # go back to an earlier step.
+    if check("the robot's gripper is above plate and the robot's gripper is closed"):
+        robot.slide("the plate back to the goal")
+# plate-slide-back: slide the plate back into the target location
+# def plate_slide_back(robot):
+    # Steps:
+    #  1. Put gripper above plate
+    #  2. Grab the plate with the gripper
+    #  3. Slide the plate back to the target location
+    # First, put the gripper roughly above the plate.
+    if check("the robot's gripper is not above the plate"):
+        robot.place("gripper above plate")
+    # Once the gripper is above the plate, grab it.
+    if check("the robot's gripper is above the plate and the robot's gripper is open"):
+        robot.drop("gripper around plate")
+    # If the gripper is near the plate and closed, slide it back to the target location.
+    # Ensure that the plate doesn't fall off the gripper.
+    if check("the robot's gripper is near the plate and the robot's gripper is closed"):
+        robot.slide("the plate back to its target location")
+# plate-slide-back: slide the plate back into the target location
+# def plate_slide_back(robot):
+    # Steps:
+    #  1. Put gripper above the plate
+    #  2. Grab the plate with the gripper
+    #  3. Slide the plate back to the target location
+    # First, put the gripper above the plate.
+    if check("the robot's gripper is not vertically aligned with the plate"):
+        robot.put("gripper above plate")
+    # If the plate becomes left of the gripper, go back to putting the gripper
+    # above the plate.
+    if check("plate is not left of the robot's gripper and plate is not forward aligned with the robot's gripper"):
+        robot.grab("plate")
+    # Move the plate back until it reaches the target location.
+    while check("plate is not at target location"):
+        robot.move("plate back to target location")

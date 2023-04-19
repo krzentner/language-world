@@ -1,0 +1,53 @@
+Using model: gpt-3.5-turbo
+To slide the plate sideways into the target location reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the plate  2. Grab the plate with the gripper  3. Move the gripper towards the target location till it's above the target location  4. Move the gripper to the side and slide the plate into the target location
+    First, put the gripper above the plate.
+    - When the robot's gripper is not vertically aligned with the plate, move the robot's gripper until the robot's gripper is vertically aligned with the plate
+    Once the gripper is above the plate, grab it with the gripper.
+    - When the robot's gripper is above the plate and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the plate and the robot's gripper is closed
+    Once the gripper is closed around the plate, move the gripper towards the target location till it is above the target location.
+    - When the robot's gripper is above the plate and the robot's gripper is closed, move the robot's gripper until the robot's gripper is above the target location
+    Once the gripper is above the target location, move the gripper to the side and slide the plate into the target location.
+    - When the robot's gripper is above the target location, move the robot's gripper to the side and slide the plate to the target location.
+To slide the plate sideways into the target location reliably, the robot should perform the following steps:
+- Put the gripper above the plate
+- Move the gripper to be parallel to the plate and grasp it
+- Move the gripper and plate together towards the target location
+- If the plate is not aligned with the target location, slide the plate sideways until it is fully within the target location
+- Release the plate by opening the gripper once it is in the target location
+The robot should perform the following steps:
+
+Steps: 1. Put gripper above plate, closer to the edge facing the target location
+       We need to make sure the gripper is positioned on top of the plate, closer to the edge facing the target location. 
+       - When the robot's gripper is not vertically aligned with the plate, move the robot's gripper until the robot's gripper is vertically aligned with the plate
+       - When the robot's gripper is not above the plate, move the robot's gripper until the robot's gripper is above the plate
+       - When the robot's gripper is not closer to the edge facing the target location, move the robot's gripper until the robot's gripper is closer to the edge facing the target location
+       
+     2. Close gripper around plate
+        Once the gripper is positioned above the plate, close the gripper around the plate to hold it securely.
+       - When the robot's gripper is not around the plate and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the plate and the robot's gripper is closed
+       
+     3. Slide plate to target location
+        With the plate securely held by the gripper, slide it to the target location by moving the robot's arm sideways. 
+       - When the robot's gripper is not near the target location, move the robot's gripper until the robot's gripper is above the target location 
+       - When the robot's gripper is above the target location, move the robot's gripper sideways until the plate is at the target location
+To slide the plate sideways into the target location reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above plate  2. Grab the plate with the gripper  3. Line the plate up with the target location  4. Slide the plate sideways into the target location
+    First, put the gripper above the plate.
+    - When the robot's gripper is not vertically aligned with the plate, move the robot's gripper until the robot's gripper is vertically aligned with the plate and the robot's gripper is closed
+    Once the gripper is closed, check if the plate is left of the gripper. If yes, move the gripper back above the plate.
+    - When the plate is left of the robot's gripper, move the robot's gripper until the robot's gripper is forward aligned with the plate
+    As long as the plate isn't lined up with the target location, line it up.
+    - When the plate is horizontally aligned with the target location, move the robot's gripper until the robot's gripper is above the plate
+    If the plate is lined up with the target location to the side, insert it.
+    - When the robot's gripper is forward aligned with the plate and the plate is not horizontally aligned with the target location, move the robot's gripper until the robot's gripper is horizontally aligned with the target location.
+To slide the plate sideways into the target location reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above plate  2. Grab the plate with the gripper  3. Move the gripper to the target location  4. Slide the plate sideways into the target location
+    First, put the gripper above the plate.
+    - When the robot's gripper is not vertically aligned with the plate, move the robot's gripper until the robot's gripper is vertically aligned with the plate and the robot's gripper is closed
+    If the gripper is not near the plate, move it to the plate.
+    - When the robot's gripper is not near the plate, move the robot's gripper until the robot's gripper is near the plate and the robot's gripper is closed
+    Once the gripper is holding the plate, move the gripper to the target location.
+    - When the robot's gripper is holding the plate and the robot's gripper is not above the target location, move the robot's gripper until the robot's gripper is above the target location
+    If the gripper is aligned with the target location but not near it, move the gripper towards the target location to slide the plate into the target location.
+    - When the robot's gripper is above the target location and the plate is not in the target location, move the robot's gripper until the plate is in the target location

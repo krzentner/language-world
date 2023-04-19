@@ -1,0 +1,37 @@
+Using model: gpt-3.5-turbo
+if check("the plate is not near the robot's gripper"):
+        robot.move("gripper near the plate")
+    if check("the robot's gripper is not above the plate and the robot's gripper is not vertically aligned with the plate"):
+        robot.put("gripper above the plate")
+    if check("the robot's gripper is vertically aligned with the plate and the robot's gripper is not holding the plate"):
+        robot.grab("plate")
+    if check("the plate is not at the target location"):
+        robot.slide("plate to the target location")
+if check("the robot's gripper is not near the plate"):
+        robot.move("gripper above the plate")
+    if check("the robot's gripper is not around the plate and the robot's gripper is open"):
+        robot.drop("gripper around the plate")
+    if check("the robot's gripper is around the plate and the plate is not at the target location"):
+        robot.slide("plate towards the target location")
+if check("the robot's gripper is not above the plate"):
+        robot.place("gripper above the plate")
+    if check("the robot's gripper is not around the plate and the robot's gripper is open"):
+        robot.drop("gripper around the plate")
+    if check("the robot's gripper is not vertically aligned with the target location"):
+        robot.move("gripper to the side of target location")
+    if check("the robot's gripper is vertically aligned with the target location"):
+        robot.slide("the plate to the target location")
+if check("the plate is not aligned with the robot"):
+        robot.align("the plate with the robot")
+    if check("the robot's gripper is not near the plate"):
+        robot.move("gripper near the plate")
+    if check("the plate is not aligned with the target location"):
+        robot.align("the plate with the target location")
+    if check("the robot's gripper is above the plate and holding it"):
+        robot.slide("the plate sideways to the target location")
+if check("the robot's gripper is not above the plate and the robot's gripper is not horizontally aligned with the plate"):
+        robot.move("gripper to the side of the plate")
+    if check("the robot's gripper is horizontally aligned with the plate and the robot's gripper is not near the plate"):
+        robot.move("gripper towards the plate")
+    if check("the robot's gripper is near the plate and the plate is not in the target location"):
+        robot.slide("plate to the target location")

@@ -1,0 +1,65 @@
+Using model: gpt-3.5-turbo
+# stick-push: use the stick to push the thermos to the target location
+# def stick_push(robot):
+    if check("the end of the stick is not near the thermos and the robot's gripper is not gripping the stick"):
+        robot.grab("stick")
+        robot.move("stick to thermos")
+    if check("the end of the stick is near the thermos and the robot's gripper is not gripping the thermos"):
+        robot.grab("stick and thermos")
+    if check("the end of the stick is near the target location"):
+        robot.move("stick to the target location")
+    if check("the end of the stick is at the target location"):
+        robot.push("the thermos to the target location")
+    if check("the thermos is at the target location"):
+        robot.drop("the thermos")
+        robot.drop("the stick")
+```
+# stick-push: use the stick to push the thermos to the target location
+# def stick_push(robot):
+    if check("the stick is not near the thermos"):
+        robot.reach("the stick to the thermos")
+    if check("the stick is near the thermos and the stick is not above the thermos"):
+        robot.put("the stick above the thermos")
+    if check("the stick is above the thermos and the stick is not aligned with the thermos horizontally"):
+        robot.align("the stick with the thermos horizontally")
+    if check("the stick is aligned with the thermos horizontally and the stick is not touching the thermos"):
+        robot.touch("the thermos with the stick")
+    if check("the stick is touching the thermos and the stick is not aligned with the target location horizontally"):
+        robot.align("the stick with the target location horizontally")
+    if check("the stick is aligned with the target location horizontally and the thermos is not touching the target location"):
+        robot.push("the thermos to the target location using the stick")
+``` 
+
+Note that `check()` is a function that returns True or False, depending on whether a condition is met. It is not defined in the given code, so you will need to define it or use a different method to check whether a certain condition is met.
+# stick-push: use the stick to push the thermos to the target location
+# def stick_push(robot):
+    if check("the robot's gripper doesn't hold the stick"):
+        robot.grab("the stick")
+    if check("the robot's gripper is not above the thermos and the stick is not pointing towards the thermos"):
+        robot.rotate("the stick towards the thermos")
+    if check("the stick is pointing towards the thermos and the robot's gripper is not above the thermos"):
+        robot.move("the gripper above the thermos")
+    if check("the robot's gripper is above the thermos and the stick is pointing at the thermos"):
+        robot.push("the stick towards the target")
+    if check("the thermos has reached the target location"):
+        robot.drop("the stick")
+# stick-push: use the stick to push the thermos to the target location
+# def stick_push(robot):
+    if check("the robot's gripper is not holding the stick and the robot's gripper is not near the stick"):
+        robot.pick("the stick")
+    if check("the robot's gripper is holding the stick and the stick is not near the thermos"):
+        robot.move("the stick to the thermos")
+    if check("the robot's gripper is holding the stick and the stick is near the thermos"):
+        robot.push("the thermos to the goal location using the stick")
+# stick-push: use the stick to push the thermos to the target location
+# def stick_push(robot):
+    if check("the stick is not near the thermos"):
+        robot.reach("to the stick")
+        robot.grab("the stick")
+    if check("the robot's gripper is not above the thermos and the stick is not vertical"):
+        robot.put("the gripper above the stick and the stick vertically")
+    if check("the robot's gripper is not above the thermos and the stick is vertical"):
+        robot.put("the gripper above the thermos")
+        robot.push("the stick towards the thermos")
+    if check("the robot's gripper is above the thermos and the stick is vertical"):
+        robot.push("the stick towards the goal")

@@ -1,0 +1,94 @@
+Using model: text-davinci-003
+
+    # Steps:
+    #  1. Put gripper in front of the puck
+    #  2. Push gripper into puck
+    #  3. Slide the puck backwards to the target
+    # The robot can try to slide the puck backwards by trapping it with the
+    # gripper and moving the gripper back.
+    # First, we need to get the gripper in front of the puck.
+    if check("the robot's gripper is not in front of the puck and the robot's gripper is not vertically aligned with the puck"):
+        robot.put("gripper in front of puck")
+    # Once the gripper is in front of the puck, the gripper should be close
+    # enough that the gripper can grab it.
+    # The gripper needs to be open, otherwise we won't be able to move it.
+    if check("the robot's gripper is in front of pudding and the robot's gripper is open"):
+        robot.push("gripper into the puck")
+    # Once we've trapped the puck, we can slide it back to the target location.
+    if check("the robot's gripper and the puck are in front of the target location"):
+        robot.slide("the puck to the goal")
+
+    # Steps:
+    #  1. Put gripper behind puck
+    #  2. Push gripper into top of puck
+    #  3. Slide puck back to goal
+    # The robot can slide the puck by trapping it by pushing down on it from
+    # behind and moving the gripper.
+    # If the puck isn't behind the gripper as seen from behind, move the gripper
+    # behind the puck.
+    if check("the robot's gripper is not behind the puck and the robot's gripper is not vertically aligned with the puck"):
+        robot.put("the gripper behind the puck")
+    # If the gripper is aligned with the puck but not near it, move the gripper
+    # down to the puck to slide it.
+    if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck"):
+        robot.push("the gripper into the puck")
+    # If the gripper is near the puck, we've probably trapped the puck and can
+    # slide it to the target location.
+    # Close the gripper to make sure we keep control of the puck.
+    if check("the robot's gripper is near the puck and the puck is behind the robot's gripper"):
+        robot.slide("the puck back to the goal")
+
+    # Steps:
+    #  1. Put gripper below puck
+    #  2. Push gripper into top of puck
+    #  3. Slide puck to goal
+    # Since we're pushing the puck backwards, we need to move the gripper below
+    # the puck to get traction.
+    # We'll have to move the gripper over the puck from the top.
+    if check("the robot's gripper is not above puck and the robot's gripper is not near puck"):
+        robot.move("gripper below puck")
+    # If the gripper is above the puck and not near it, we should move the
+    # gripper down to the puck to slide it.
+    if check("the robot's gripper is above puck and the robot's gripper is not near puck"):
+        robot.push("gripper into puck")
+    # If the gripper is near the puck, we've probably trapped the puck and can
+    # slide it to the target location.
+    if check("the robot's gripper is near the puck and the puck is below the robot's gripper"):
+        robot.slide("the puck to the goal")
+
+    # Steps:
+    #  1. Put gripper above puck
+    #  2. Push gripper into top of puck
+    #  3. Slide puck backwards to goal
+    # We need to trap the puck by pushing down on it from above, but first need to
+    # get the gripper above the puck.
+    if check("the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck"):
+        robot.put("the gripper above the puck")
+    # If the gripper is aligned with the puck but not near it, move the gripper
+    # down to the puck to slide it.
+    if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck"):
+        robot.push("the gripper into the puck")
+    # If the gripper is near the puck, we've probably trapped the puck and can
+    # slide it to the target location.
+   if check("the robot's gripper is near the puck and the puck is below the robot's gripper"):
+        robot.slide("the puck to the goal backwards")
+
+    # Steps:
+    #  1. Put gripper above puck
+    #  2. Push gripper downwards to hold the puck
+    #  3. Slide the puck backwards to the target location
+    # First, place the gripper above the puck.
+    if check("the robot's gripper is not above puck"):
+        robot.put("the gripper above the puck")
+    # If the gripper is not near the puck, move it closer.
+    if check("the robot's gripper is not near puck and the robot's gripper is open"):
+        robot.push("the gripper into the puck")
+    # Once the gripper is near the puck, we can trap it by pushing the gripper
+    # downwards.
+    # We need to close the gripper to make sure we keep control of the puck.
+    if check("the robot's gripper is near the puck and the puck is below the robot's gripper"):
+        robot.close("gripper around puck")
+    # Now that the puck is trapped in the gripper, arrow slide it backwards to the
+    # target location.
+    if check("the robot's gripper is near the puck and the puck is below the robot's gripper and the puck is not at goal"):
+        robot.slide("the puck backward to the goal")

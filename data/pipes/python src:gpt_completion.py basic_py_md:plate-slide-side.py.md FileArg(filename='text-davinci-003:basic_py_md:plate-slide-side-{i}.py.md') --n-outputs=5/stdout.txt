@@ -1,0 +1,64 @@
+Using model: text-davinci-003
+
+
+if check("the robot's gripper is not vertically aligned with the plate and the robot's gripper is below the plate"):
+    robot.put("gripper above plate")
+if check("the robot's gripper is vertically aligned with the plate and the plate is not left of the robot's gripper"):
+    robot.grab("plate")
+if check("the robot's gripper is near right of the plate and the plate is not horizontally aligned with goal"):
+    robot.align("plate to goal")
+if check("the robot's gripper is near left of the plate and the plate is horizontally aligned with goal"):
+    robot.slide("plate left into goal")
+
+
+if check("the robot's gripper is not vertically aligned with the plate and the robot's gripper is not above the plate"):
+    robot.put("gripper above plate")
+if check("the robot's gripper is above the plate and the robot's gripper is not horizontally aligned with plate"):
+    robot.align("gripper to plate")
+if check("the robot's gripper is horizontally aligned with plate and the robot's gripper is not near plate"):
+    robot.grab("plate")
+if check("the robot's gripper is near plate and the plate is not near target"):
+    robot.slide("plate to target")
+
+
+Here is the program:
+
+```
+# plate-slide-side: slide the plate sideways into the target location
+# def plate_slide_side(robot):
+    if check("the robot's gripper is not above the plate and the robot's gripper is not vertically aligned with the plate"):
+        robot.put("gripper above plate")
+    if check("the robot's gripper is vertically aligned with the plate and the robot's gripper is not forward aligned with the plate"):
+        robot.align("gripper forward with plate")
+    if check("the robot's gripper is forward aligned with the plate and the plate is not near the goal"):
+        robot.slide("plate to goal")
+    if check("the robot's gripper is near the goal and the robot's gripper is forward aligned with the plate"):
+        robot.push("plate into goal")
+```
+
+
+Solution:
+```
+# plate-slide-side: slide the plate sideways into the target location
+# def plate_slide_side(robot):
+    if check("the robot's gripper is not vertically aligned with the plate"):
+        robot.put("gripper over the plate")
+    if check("the plate is not forward aligned with the robot's gripper"):
+        robot.grab("plate")
+    if check("the robot's gripper is forward aligned with the plate and the plate is not horizontally aligned with goal"):
+        robot.align("plate to goal")
+    if check("the plate is horizontally aligned with goal"):
+        robot.slide("plate to goal")
+```
+
+
+Then, 
+
+if check("the robot's gripper is not above the plate and the robot's gripper is not horizontally aligned with the plate"):
+    robot.place("gripper above plate")
+if check("the robot's gripper is horizontally aligned with the plate and the robot's gripper is not near the plate"):
+    robot.grab("gripper around plate")
+if check("the robot's gripper is near the plate and the plate is to the left of the robot's gripper"):
+    robot.slide("plate to the right")
+if check("the robot's gripper is near the plate and the plate is to the right of the robot's gripper"):
+    robot.slide("plate to the left")

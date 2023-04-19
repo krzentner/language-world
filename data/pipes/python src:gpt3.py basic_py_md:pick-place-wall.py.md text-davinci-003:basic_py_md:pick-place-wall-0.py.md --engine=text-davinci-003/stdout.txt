@@ -1,0 +1,14 @@
+Using engine: text-davinci-003
+
+
+If check("the robot's gripper is not above the puck"):
+    robot.place("gripper above puck")
+if check("the robot's gripper is not around puck and the robot's gripper is open"):
+    robot.drop("gripper around puck")
+if check("the robot's gripper is near puck and the robot's gripper is open"):
+    robot.close("gripper around puck")
+if check("the robot's gripper is above puck and the robot's gripper is closed and the puck is not behind the wall"):
+    robot.push("puck over wall")
+if check("the robot's gripper is above puck and the robot's gripper is closed and the puck is behind the wall"):
+    robot.place("puck at goal")
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_py_md/pick-place-wall-0.py.md'

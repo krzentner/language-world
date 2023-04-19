@@ -1,0 +1,102 @@
+Using model: gpt-3.5-turbo
+# sweep: grab the cube and move it sideways to the target location
+# def sweep(robot):
+    # Steps:
+    #  1. Put gripper above cube
+    #  2. Grab cube with the gripper
+    #  3. Move sideways while holding the cube
+    #  4. Move the cube to the target location
+    # First, put the gripper roughly above the cube.
+    if check("the robot's gripper is not above the cube"):
+        robot.move_gripper("above the cube")
+    # If the gripper isn't around the cube, put it around the cube.
+    if check("the robot's gripper is not around cube and the robot's gripper is open"):
+        robot.move_gripper("near the cube", close_gripper=True)
+    # If the gripper is around the cube, move the cube sideways.
+    if check("the robot's gripper is around the cube"):
+        robot.move_gripper("left of the cube")
+    # If the gripper, and therefore the cube, is left of the target location,
+    # move it to the target location.
+    if check("the robot's gripper is left of the target location"):
+        robot.move_gripper("near the target location")
+# sweep: grab the cube and move it sideways to the target location
+# def sweep(robot):
+    # Steps:
+    #  1. Put gripper above cube
+    #  2. Drop gripper around cube
+    #  3. Close gripper around cube
+    #  4. Move cube sideways to goal
+    # First, put the gripper above the cube.
+    if check("the robot's gripper is not above the cube"):
+        robot.move_gripper("above the cube")
+    # If the gripper isn't around the cube, put it around the cube.
+    if check("the robot's gripper is not around cube and the robot's gripper is open"):
+        robot.move_gripper("near the cube", close_gripper=True)
+    # If the gripper is near the cube and closed, grab the cube and lift it
+    # slightly.
+    if check("the robot's gripper is near the cube and the robot's gripper is closed"):
+        robot.move_gripper("above the cube", lift_cube=True)
+    # If the cube is lifted and the gripper is left of the target, move the
+    # gripper to above the target and lower the cube onto the target.
+    if check("the robot's gripper has lifted the cube and the robot's gripper is left of the target"):
+        robot.move_gripper("above the target location", lower_cube=True)
+    # If the cube and gripper are above the target, move the gripper sideways
+    # to deposit the cube at the target location.
+    if check("the robot's gripper has lowered the cube onto the target"):
+        robot.move_gripper("sideways to the target location")
+# sweep: grab the cube and move it sideways to the target location
+# def sweep(robot):
+    # Steps:
+    # 1. Put the gripper above the cube
+    # 2. Close the gripper around the cube
+    # 3. Move the gripper in a sideways direction to the target location
+    # First, we need to put the gripper above the cube.
+    if check("the robot's gripper is not above the cube"):
+        robot.move_gripper("above the cube")
+    # If the gripper isn't around the cube, put it around the cube.
+    if check("the robot's gripper is not around the cube and the robot's gripper is open"):
+        robot.move_gripper("near the cube", close_gripper=True)
+    # If the gripper is around the cube, we can move it to the target location.
+    if check("the robot's gripper is around the cube and the robot's gripper is not near the target location"):
+        robot.move_gripper("left of the target location") # Move the gripper to the left of the target location
+        if check("the robot's gripper is not near the target location"): # Check if the gripper has reached the target location
+            robot.move_gripper("above the target location") # Move the gripper above the target location
+    # Once the gripper is near the target location, release the cube.
+    if check("the robot's gripper is near the target location and the gripper is closed around the cube"):
+        robot.move_gripper("near the cube", close_gripper=False)
+# sweep: grab the cube and move it sideways to the target location
+# def sweep(robot):
+    # Steps:
+    #  1. Put gripper above cube
+    #  2. Grab the cube with the gripper
+    #  3. Move gripper to the left until at the target location
+    #  4. Release the cube
+    # First we need to put the gripper above the cube.
+    if check("the robot's gripper is not above the cube"):
+        robot.move_gripper("above the cube")
+    # If the gripper isn't around the cube, put it around the cube.
+    if check("the robot's gripper is not around cube and the robot's gripper is open"):
+        robot.move_gripper("near the cube", close_gripper=True)
+    # Once the gripper is around the cube, we need to move it to the left
+    # until it is at the target location.
+    if check("the robot's gripper is around the cube and the gripper is not at the target location"):
+        robot.move_gripper("to the left of the target location")
+    # Once the gripper is at the target location, we can release the cube.
+    if check("the robot's gripper is at the target location"):
+        robot.move_gripper("above the target location", close_gripper=False)
+# sweep: grab the cube and move it sideways to the target location
+# def sweep(robot):
+    # Steps:
+    #  1. Put gripper above cube
+    #  2. Close gripper around cube
+    #  3. Move the cube sideways to the target location
+    # First, put the gripper above the cube.
+    if check("the robot's gripper is not above the cube"):
+        robot.move_gripper("above the cube")
+    # If the gripper isn't around the cube, put it around the cube.
+    if check("the robot's gripper is not around the cube and the robot's gripper is open"):
+        robot.move_gripper("near the cube", close_gripper=True)
+    # If the gripper is near the cube and closed, we can move the cube
+    # sideways to the target location.
+    if check("the robot's gripper is near the cube and the robot's gripper is closed"):
+        robot.move_gripper("left of the target location")

@@ -1,0 +1,1 @@
+I believe you accidentally copied the function signature and didn't write any steps for the window_close function! Can I help you with that?

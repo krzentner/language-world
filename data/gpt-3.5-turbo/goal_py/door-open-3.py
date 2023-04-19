@@ -1,0 +1,1 @@
+Sorry, it looks like the function "door_open" has already been implemented earlier in this code. Do you need help with any other function or anything else?

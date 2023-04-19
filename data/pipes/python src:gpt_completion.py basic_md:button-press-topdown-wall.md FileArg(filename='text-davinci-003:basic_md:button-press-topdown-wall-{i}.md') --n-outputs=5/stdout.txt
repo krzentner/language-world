@@ -1,0 +1,23 @@
+Using model: text-davinci-003
+
+    - When the robot's gripper is not vertically aligned with the button, the robot should put gripper above button.
+    - When the robot's gripper is above the button and the gripper is not horizontally aligned with the button, the robot should push gripper into wall.
+    - When gripper is horizontally aligned with button and the gripper is not pressing on the button, the robot should push down on button.
+
+    - When the robot's gripper is not vertically aligned with the button, the robot should move the gripper to the right of button.
+    - When the short wall is blocking the robot's gripper, then the robot should move up to get above the wall and remain above the wall.
+    - When the robot's gripper is vertically aligned with the button, the robot should push down on the button.
+
+    - When the robot's gripper is not almost vertically aligned with the door handle and the robot's gripper is below the wall, the robot should put gripper above the wall.
+    - When the robot's gripper is in front of the button, the robot should move the gripper so it is above the button.
+    - When the robot's gripper is almost vertically aligned with the button, the robot should push down on button.
+
+    - When the robot's gripper is not vertically aligned with button and the robot's gripper is not above wall, the robot should place gripper above wall in line with button.
+    - When the robot's gripper is above wall and the robot's gripper is not above button, the robot should place gripper above button.
+    - When the robot's gripper is above the button, the robot should push down on button.
+
+
+The robot should perform the following steps:
+    - When the robot's gripper is not vertically aligned with the button and the robot's gripper is not above the wall, the robot should move gripper above wall.
+    - When the robot's gripper is above the wall, the robot should move gripper above button.
+    - When the robot's gripper is vertically aligned with button, the robot should push down on button.

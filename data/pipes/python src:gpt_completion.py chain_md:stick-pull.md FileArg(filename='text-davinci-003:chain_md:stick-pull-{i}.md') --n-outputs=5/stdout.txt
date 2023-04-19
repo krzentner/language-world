@@ -1,0 +1,47 @@
+Using model: text-davinci-003
+
+    Steps:  1. Put gripper on stick handle  2. Grip stick handle firmly  3. Push the stick towards the thermos  4. When stick is close, pull the thermos to desired location
+    First, put the gripper below the stick handle. To be able to pull the thermos, this stick handle must be securely in the robot's gripper.
+    - When the robot's gripper is not below stick handle, the robot should put gripper below stick handle.
+    If the stick handle is below the robot's gripper, grip the stick handle tightly with the gripper before pushing it.
+    - When the stick handle is below the robot's gripper and the robot's gripper is not gripping the stick handle, the robot should grip stick handle.
+    If the gripper is gripping the stick handle and the stick is near the thermos, we can start to pull the thermos.
+    - When the robot's gripper is gripping stick handle and the stick is near the thermos, the robot should pull the thermos to desired location.
+
+    Steps: 1. Put gripper above the stick  2. Push the stick towards the thermos  3. Push the stick against the thermos  4. Pull the thermos towards the goal
+    First, line up the gripper above the stick, so we have something to grab to try to push it.
+    - When the robot's gripper is not above the stick, the robot should put gripper above stick.
+    As long as the gripper is near the stick, we should be able to make contact with the Thermos.
+    - When the robot's gripper is near the stick, the robot should push the stick towards the thermos.
+    If the stick is near the Thermos we can push on it and the Thermos will start to move.
+    - When the robot's gripper is near the stick and the stick is near the thermos, the robot should push the stick against the thermos.
+    Finally, we can pull the Thermos towards the goal by pushing the stick and the Thermos.
+    - When the robot's gripper is near the stick and the stick is near the thermos, the robot should pull the thermos towards goal.
+
+    Steps:  1. Put the gripper above the stick  2. Grab the stick with the robot's gripper  3. Move the robot's gripper to near the thermos  4. Place the stick against the thermos and pull the thermos to the target location
+    First, put the gripper above the stick to ensure that the robot can grab it.
+    - When the robot's gripper is not above the stick, the robot should put the gripper above stick.
+    If the the stick becomes right of the gripper, go back to putting the gripper above the stick.
+    - When stick is not right of the robot's gripper and stick is not forward aligned with the robot's gripper, the robot should grab stick.
+    Once the stick is grabbed, move the gripper near the thermos.
+    - When the robot's gripper is near the thermos and the stick is below the robot's gripper, the robot should put the stick against thermos. 
+    Move the robot's gripper back and use the stick to pull the thermos to the target location.
+    - When the robot's gripper is away from the thermos and the stick is touching the thermos, the robot should pull the thermos using the stick to the target location.
+
+    Steps:  1. Put gripper on stick  2. Place the tip of the stick near the thermos  3. Pull the thermos with the stick
+    First, put the gripper on the stick. We want the stick to be in contact with the thermos.
+    - When the robot's gripper is not on the stick, the robot should put gripper on stick.
+    Now that the gripper is on the stick we need to place or tip near the thermos to start pulling it.
+    - When the robot's gripper is on the stick and the stick is not near thermos, the robot should move stick near thermos.
+    Once the tip of the stick is near the thermos, pull the thermos with the stick.
+    - When the stick is near the thermos, the robot should pull thermos with stick.
+
+    Steps:  1. Put the gripper around the stick  2. Line up the stick with the thermos  3. Push the stick towards the thermos until the thermos is slightly touching the stick  4. Pull the thermos by the stick
+    First, put the gripper around the stick.
+    - When the robot's gripper is not around the stick, the robot should grab stick.
+    Then line up the stick with the thermos.
+    - When the robot's gripper is around stick and the stick is not horizontally aligned with Thermos, the robot should align stick with Thermos.
+    Once the stick is lined up with the Thermos, push the stick towards the Thermos until the Thermos is touching the stick.
+    - When the robot's gripper is around stick and the stick is horizontally aligned with Thermos and the Thermos is not touching stick, the robot should push stick towards Thermos.
+    Finally, pull the Thermos by the stick.
+    - When the robot's gripper is around stick and the stick is horizontally aligned with Thermos and the Thermos is touching stick, the robot should pull Thermos with stick.

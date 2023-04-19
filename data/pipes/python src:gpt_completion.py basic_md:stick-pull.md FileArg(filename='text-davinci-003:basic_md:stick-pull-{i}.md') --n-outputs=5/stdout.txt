@@ -1,0 +1,25 @@
+Using model: text-davinci-003
+
+
+The robot should perform the following steps to use the stick to pull the thermos to the target location reliably: 
+    - When the robot's gripper is not above the stick, the robot should place gripper above the stick.
+    - When the robot's gripper is around the stick and the robot's gripper is open, the robot should close gripper around stick.
+    - When the robot's gripper is below the thermos and the robot's gripper is around the stick, the robot should lift the thermos horizontally.
+    - When the robot's gripper is near the thermos, the robot should pull the thermos to the goal.
+
+    - When the Thermos is far from the robot's gripper and the robot's gripper is not near the stick, the robot should move gripper to the stick.
+    - When the Robot's gripper is near the stick, the robot should move the stick to the thermos.
+    - When the robot's gripper is above the thermos and the thermos is below the stick, the robot should pull the thermos toward the desired location.
+
+    - When the robot's gripper is not above the stick, the robot should pick up the stick with its gripper.
+    - When the robot's gripper is forward aligned with the thermos, the robot should pull the thermos with the stick.
+    - When the thermos is near target location, the robot should place the thermos at the target location.
+
+    - When the robot's gripper is not above the stick or the robot's gripper is not in lined up with the stick, the robot should move gripper to above the stick and line it up with the stick.
+    - When the robot's gripper is above the stick and the robot's gripper is aligned with the stick, the robot should grab or attach the stick with gripper.
+    - When the robot's gripper is attached to the stick, the robot should move the stick to near thermos.
+    - When the thermos is near the stick, the robot should pull the thermos to the goal.
+
+    - When the robot's gripper is not above the stick and the stick is not below the robot's gripper, the robot should grab the stick.
+    - When the robot's gripper is above the stick and the stick is below the robot's gripper, the robot should pull the stick towards the goal.
+    - When the stick is near the goal, the robot should gently pull the thermos towards the goal.

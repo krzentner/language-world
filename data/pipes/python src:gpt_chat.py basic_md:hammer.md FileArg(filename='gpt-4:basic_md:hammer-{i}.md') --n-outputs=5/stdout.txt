@@ -1,0 +1,30 @@
+Using model: gpt-3.5-turbo
+To hit the nail with the hammer reliably, the robot should perform the following steps:
+- When the robot's gripper is not above the hammer, the robot should put the gripper above the hammer.
+- When the robot's gripper is above the hammer and the robot's gripper is not holding the hammer, the robot should grab the hammer.
+- When the robot's gripper is holding the hammer and the hammer is not above the nail, the robot should move the gripper and hammer above the nail.
+- When the robot's gripper and hammer are above the nail, the robot should lower the hammer onto the nail.
+- When the hammer hits the nail, the robot should lift the hammer and repeat the lowering action until the nail has been fully driven in.
+To hit the nail with the hammer reliably, the robot should perform the following steps:
+- When the robot's gripper is not near the nail, the robot should position itself above the nail.
+- When the hammer is not in the robot's gripper, the robot should pick up the hammer.
+- When the hammer is in the robot's gripper, the robot should position the hammer above the nail.
+- When the hammer is above the nail and the robot's gripper is closed, the robot should swing the hammer down onto the nail.
+- When the robot's gripper is open and the hammer is above the nail, the robot should drop the hammer.
+To hit the nail with the hammer reliably, the robot should perform the following steps:
+    - When the robot's gripper is not vertically aligned with the hammer, the robot should put gripper above the hammer.
+    - When the robot's gripper is vertically aligned with the hammer and the hammer is not in the robot's gripper, the robot should grab the hammer.
+    - When the robot's gripper is holding the hammer and the hammer is not above the nail, the robot should place the hammer above the nail.
+    - When the hammer is above the nail, the robot should swing the hammer down onto the nail.
+    - When the hammer has hit the nail, the robot should release the hammer.
+To hit the nail with the hammer reliably, the robot should perform the following steps:
+- When the hammer is not in the robot's gripper, the robot should pick it up.
+- When the robot's gripper is not above the nail, the robot should position the gripper above the nail.
+- When the hammer is above the nail, the robot should align the hammer to hit the nail.
+- When the hammer is aligned and the gripper is closed, the robot should hit the nail with the hammer.
+To hit the nail with the hammer reliably, the robot should perform the following steps:
+- When the robot's gripper is not above the hammer, the robot should put the gripper above the hammer.
+- When the robot's gripper is above the hammer and the robot's gripper is open, the robot should grab the hammer.
+- When the robot's gripper is holding the hammer and the robot is not above the nail, the robot should move the hammer above the nail.
+- When the hammer is above the nail, the robot should swing the hammer down onto the nail.
+- When the hammer hits the nail, the robot should release the grip and move the gripper away from the hammer and the nail.

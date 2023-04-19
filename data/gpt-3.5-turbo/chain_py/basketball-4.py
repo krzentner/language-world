@@ -1,0 +1,1 @@
+I apologize, this task cannot be completed due to the lack of instructions on how to complete it. Please provide more information on how the robot should achieve the task.

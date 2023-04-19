@@ -1,0 +1,113 @@
+Using model: text-davinci-003
+
+
+Next, the steps: 
+
+1. Put the gripper above the dial
+2. Drop the gripper around the dial
+3. Turn the dial clockwise to lock the door
+
+Assuming the correct code is written for the `check()` function: 
+
+```
+# door-lock: turn the dial on the door
+# def door_lock(robot):
+    # Steps:
+    #  1. Put gripper above the dial
+    #  2. Drop gripper around the dial
+    #  3. Turn the dial clockwise to lock the door
+    # Put the gripper near the dial 
+    if check("the robot's gripper is not above the dial"):
+        robot.put("gripper above the dial")
+    # If the gripper is lined up above the dial, we can grab the dial by moving
+    # the gripper down around it.
+    if check("the robot's gripper is above the dial and the robot's gripper is not around the dial"):
+        robot.drop("gripper around the dial")
+    # Once the gripper is around the dial, turn it clockwise to lock the door.
+    if check("the robot's gripper is around the dial"):
+        robot.turn("clockwise")
+```
+
+
+The steps for this task are as follows:
+1. Put the gripper above the door lock
+2. Drop the gripper around the door lock
+3. Turn the door lock with the gripper
+
+```
+# door-lock: turn the dial on the door
+# def door_lock(robot):
+    # Steps:
+    #  1. Put gripper above door lock
+    #  2. Drop gripper around door lock
+    #  3. Turn the door lock with the gripper 
+    if check("the robot's gripper is not above the door lock"):
+        robot.put("gripper above door lock")
+    # As long as the gripper is above, but not around the door lock, put it around the door lock
+    if check("the robot's gripper is above the door lock and the robot's gripper is not around the door lock"): 
+        robot.drop("gripper around door lock")
+    # If the gripper is around the door lock, try to turn it with the gripper
+    if check("the robot's gripper is around the door lock"):
+        robot.turn("door lock clockwise with gripper")
+```
+
+
+Here's the program:
+
+```
+# door-lock: turn the dial on the door
+# def door_lock(robot):
+    # Steps:
+    #  1. Put gripper near the dial
+    #  2. Place gripper on the dial
+    #  3. Turn the dial to lock or unlock the door
+    # First, put the gripper near the dial.
+    if check("the robot's gripper is not near the dial"):
+        robot.move("gripper near the dial")
+    # Once the gripper is near the dial, put the gripper on the dial.
+    if check("the robot's gripper is near the dial"):
+        robot.grab("the dial")
+    # Once the gripper is on the dial, turn the dial to lock/unlock the door.
+    if check("the robot's gripper is on the dial"):
+        robot.turn("dial to lock or unlock door")
+``
+
+
+The program will be: 
+``` 
+# door-lock: turn the dial on the door
+#def door_lock(robot):
+    # Steps:
+    #  1. Put gripper above dial
+    #  2. Drop gripper around dial
+    #  3. Turn dial to the desired position
+    # First, put the gripper roughly above the dial.
+    if check("the robot's gripper is not vertically aligned with dial"):
+        robot.put("gripper above dial")
+    # Once the gripper is lined up above the dial, we should be able to
+    # grab the dial by moving the gripper down around it.
+    if check("the robot's gripper is not around dial and the robot's gripper is open"):
+        robot.drop("gripper around dial")
+    # Once the gripper is around the dial, turn dial to the desired position.
+    if check("the robot's gripper is around dial"):
+        robot.turn("dial to desired position")
+```
+
+
+The robot should turn the dial on the door in order to lock it.
+
+# door-lock: turn the dial on the door
+# def door_lock(robot):
+    # Steps: 
+    #  1. Put gripper above the dial
+    #  2. Drop gripper around the dial
+    #  3. Turn the dial to the left
+    # First, put the gripper roughly above the dial. 
+    if check("the robot's gripper is not above the dial"):
+        robot.put("gripper above dial")
+    # Move the gripper around the dial so that it can properly grip the dial.
+    if check("the robot's gripper is not around dial"):
+        robot.drop("gripper around dial")
+    # Finally, turn the dial to the left to lock it in place.    
+    if check("the robot's gripper is around dial"):
+         robot.turn("dial left")

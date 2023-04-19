@@ -1,0 +1,80 @@
+Using model: text-davinci-003
+
+    # Steps:
+    #  1. Put gripper above basketball
+    #  2. Drop gripper behind basketball
+    #  3. Slide basketball forward into hoop
+    # First, put the gripper above the basketball.
+    if check("the robot's gripper is not above basketball"):
+        robot.put("gripper above basketball")
+    # Next, drop the gripper behind the basketball.
+    if check("the robot's gripper is not behind basketball and the robot's gripper is open"):
+        robot.drop("gripper behind basketball")
+    # After the gripper is behind the basketball, and the basketball is in front
+    # of the gripper, we can slide the basketball forward into the hoop.
+    if check("the robot's gripper is behind basketball and the basketball is in front of the gripper"):
+        robot.slide("basketball forward into hoop")
+
+    # Steps:
+    #  1. Put gripper above ball
+    #  2. Grab ball with gripper
+    #  3. Move the ball to the hoop
+    #  4. Line up the ball with the hoop
+    #  5. Throw the ball into the hoop
+    # First, put the gripper roughly above the ball.
+    if check("the robot's gripper is not above the ball"):
+        robot.put("gripper above ball")
+    # The robot needs to grab the ball to move it, so move the gripper to the
+    # ball and close the gripper.
+    if check("the robot's gripper is near the ball and the robot's gripper is open"):
+        robot.close("gripper around ball")
+    # Now that the gripper has the ball, move the ball to the hoop.
+    if check("the ball is in the robot's gripper"):
+        robot.move("gripper to goal")
+    # We need to line up the ball with the hoop, so move the gripper to the side.
+    if check("the ball is near the hoop and the ball is not aligned with the hoop"):
+        robot.align("ball to goal")
+    # Now that the gripper is lined up with the hoop, try to throw the ball into
+    # the hoop.
+    if check("the ball is aligned with the hoop"):
+        robot.throw("ball into goal")
+
+    # Steps:
+    #  1. Move the gripper directly under the hoop
+    #  2. Drop the ball into the hoop
+    # First, move the gripper directly under the hoop.
+    if check("the robot's gripper is not below the hoop"):
+        robot.move("gripper below hoop")
+    # Once the gripper is under the hoop, we can just drop the ball into it.
+    if check("the robot's gripper is below the hoop"):
+        robot.drop("ball into hoop")
+
+    # Steps:
+    #  1. Put the gripper above the hoop
+    #  2. Move gripper downwards in front of the hoop
+    #  3. Drop the ball into the hoop
+    # Put the gripper roughly above the hoop, as that should be close enough to
+    # catch the ball.
+    if check("the robot's gripper is not above the hoop"):
+        robot.put("gripper above hoop")
+    # When the gripper is above the hoop, move it just slightly below the hoop
+    # so that when we drop the ball in, it has room to fall into the hoop.
+    if check("the robot's gripper is above the hoop and the robot's gripper is not below the hoop"):
+        robot.move("gripper downwards in front of the hoop")
+    # When the gripper is below the hoop, we can drop the ball into the hoop.
+    if check("the robot's gripper is below the hoop"):
+        robot.drop("ball into hoop")
+
+    # Steps:
+    #  1. Put gripper above ball
+    #  2. Drop gripper around ball
+    #  3. Put ball towards the hoop
+    # First, put the gripper above the ball 
+    if check("the robot's gripper is not above the ball"):
+        robot.put("gripper above the ball")
+    # Once the gripper is above the ball, grab the ball 
+    if check("the robot's gripper is above the ball and the robot's gripper is not around the ball"):
+        robot.drop("gripper around the ball")
+    # Now that the gripper is around the ball, shoot the ball towards the hoop 
+    if check("the robot's gripper is around the ball"):
+        robot.put("ball towards the hoop")

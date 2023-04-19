@@ -1,0 +1,29 @@
+Using model: gpt-3.5-turbo
+To grab the mug and pull it to the target location reliably, the robot should perform the following steps:
+- When the robot's gripper is not above the mug, the robot should place the gripper above the mug.
+- When the robot's gripper is not around the handle of the mug and the robot's gripper is open, the robot should drop the gripper around the handle of the mug.
+- When the robot's gripper is around the handle of the mug and the robot's gripper is open, the robot should close the gripper around the handle of the mug.
+- When the robot's gripper is above the target location and the mug is below the robot's gripper, the robot should pull the mug towards the target location while maintaining a secure grip on the handle with the gripper.
+To grab the mug and pull it to the target location reliably, the robot should perform the following steps:
+- When the robot's gripper is not above the mug, the robot should place the gripper above the mug.
+- When the robot's gripper is open and not around the mug, the robot should grab the mug.
+- When the robot's gripper is closed around the mug and not above the target location, the robot should move towards the target location while holding the mug.
+- When the robot's gripper is above the target location and still holding the mug, the robot should release the mug at the target location.
+To grab the mug and pull it to the target location reliably, the robot should perform the following steps:
+- When the robot's gripper is not above the mug, the robot should place the gripper above the mug.
+- When the gripper is not around the mug and the robot's gripper is open, the robot should drop the gripper around the mug.
+- When the robot's gripper is near the mug and the robot's gripper is closed, the robot should lift the mug.
+- When the robot's gripper is near the target location, the robot should slide the mug to the location while keeping it lifted. 
+- When the mug is over the target location, the robot should lower the mug and release the gripper.
+To grab the mug and pull it to the target location reliably, the robot should perform the following steps:
+
+- When the robot's gripper is not above the mug, the robot should place the gripper above the mug.
+- When the robot's gripper is near the mug and the gripper is open, the robot should close the gripper around the mug.
+- When the robot's gripper is holding on to the mug, the robot should pull the mug towards the target location.
+- When the mug is at the target location, the robot should release the gripper to let go of the mug.
+To grab the mug and pull it to the target location reliably, the robot should perform the following steps:
+- When the robot's gripper is not above the mug and the robot's gripper is not vertically aligned with the center of the mug, the robot should put the gripper above the center of the mug.
+- When the robot's gripper is vertically aligned with the center of the mug and the robot's gripper is not around the mug, the robot should drop the gripper around the handle of the mug.
+- When the robot's gripper is around the handle of the mug and the mug is below the robot's gripper, the robot should close the gripper around the handle of the mug.
+- When the robot's gripper is above the target location and the mug is in front of the robot's gripper, the robot should pull the mug to the target location.
+- When the mug reaches the target location, the robot should open the gripper to release the mug.

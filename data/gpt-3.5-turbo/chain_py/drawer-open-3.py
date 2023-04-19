@@ -1,0 +1,1 @@
+Oops, looks like there's a duplicate function definition here. The `drawer_open` function was defined earlier in the code. Did you want me to re-write it or add new steps to it?

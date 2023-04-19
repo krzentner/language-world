@@ -1,0 +1,109 @@
+Using model: text-davinci-003
+
+    # Steps:
+    #  1. Line up the gripper as viewed from above
+    #  2. Push down on the button from the top with the wall in the way
+    # If the wall is preventing the gripper from seeing the button, first move the
+    # gripper around the wall until it can be seen.
+    if check("the wall is preventing the robot's gripper from seeing the button"):
+        robot.navigate("around wall")
+    # Once the gripper can see the button, line it up from above.
+    if check("the robot's gripper can see the button and the robot's gripper is not vertically aligned with the button"):
+        robot.put("gripper above button")
+    # Now that the gripper is lined up, Just push down on the button.
+    if check("the robot's gripper is vertically aligned with the button"):
+        robot.push("down on button")
+
+    # Steps:
+    #  1. Put gripper on top of the wall
+    #  2. Align the gripper with the button, taking the wall into consideration
+    #  3. Push down on the button from the top
+    # First, move the gripper to the top of the wall.
+    if check("the robot's gripper is not near the wall"):
+        robot.move("gripper to top of wall")
+    # Now that the gripper is above the wall, we can align it with the button,
+    # but take the wall into account.
+    if check("the robot's gripper is above the wall and the robot's gripper is not vertically aligned with button"):
+        robot.align("gripper around wall with button")
+    # Now that the gripper and button are aligned, we can push it down.
+    if check("the robot's gripper is vertically aligned with button and the robot's gripper is above the button"):
+        robot.push("down on button")
+
+    # Steps:
+    #  1. Put the gripper over the top of the wall
+    #  2. Line the gripper up with the button as viewed from above
+    #  3. Put the gripper around the button
+    #  4. Push down on the button
+    # Put the gripper over the top of the wall but near the button, so that we can
+    # sink the gripper down to the button over the wall.
+    if check("the robot's gripper is not above the wall and the robot's gripper is below the button"):
+        robot.put("gripper above the wall")
+    # Once the gripper is above the wall, line up the gripper as viewed from
+    # above with the button.
+    if check("the robot's gripper is above the wall and the robot's gripper is not vertically aligned with the button from above"):
+        robot.align("gripper to button from above")
+    # Once the gripper is aligned with the button, lower the gripper so that it's
+    # around the button.
+    if check("the robot's gripper is vertically aligned with the button from above and the robot's gripper is not around the button"):
+        robot.alight("gripper to button from above")
+    # If the button is in the gripper, sink the gripper down and press the
+    # button.
+    if check("the robot's gripper is around the button"):
+        robot.push("down on button")
+
+    # Steps:
+    #  1. Move the robot's gripper to the right of the wall
+    #  2. Put the gripper above the button
+    #  3. Align the gripper with the button
+    #  4. Push down on the button from above
+     # We need to move the robot's gripper next to the short wall first.
+    if check("the robot's gripper is not to the right of the wall"):
+        robot.move("gripper to right of wall")
+    # We should now have the gripper above the button.
+    if check("the robot's gripper is above the button"):
+        robot.put("above button")
+    # We should now be able to align the gripper with the button.
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.align("gripper with button")
+    # We can now press the button down from above.
+    if check("the robot's gripper is vertically aligned with button"):
+        robot.push("down on button")
+
+# lightswitch-on: turn the light switch on
+# def lightswitch_on(robot):
+    # Steps:
+    #  1. Put gripper above lightswitch
+    #  2. Line up gripper with wall switch
+    #  3. Push up on lightswitch
+    # Put the robot's gripper above the light switch before lining it up with the
+    # wall switch.
+    if check("the robot's gripper is not vertically aligned with Light switch"):
+        robot.put("gripper above light switch")
+    # Line up the gripper with the wall switch.
+    # Be careful to align the gripper from the front.
+    if check("the robot's gripper is not forward aligned with wall switch"):
+        robot.align("gripper with wall switch")
+    # We should be able to push the light switch up now.
+    if check("the robot's gripper is forward aligned with wall switch"):
+        robot.push("up on light switch")
+
+    # Steps:
+    #  1. Move gripper towards button
+    #  2. Push against wall
+    #  3. Push down on button from top
+    # If the gripper is not near the button, move it to the button.
+    if check("the robot's gripper is not near the button"):
+        robot.move("gripper to button")
+    # If the gripper touches the wall, push against the wall in order to move the
+    # wall further away from the button.
+    # If the button is close enough to the wall, this push should move the wall
+    # enough to line up the gripper vertically with the button.
+    if check("the robot's gripper is touching wall"):
+        robot.push("wall")
+    # If the gripper is almost lined up with the button, push down on the
+    # button.
+    if check("the robot's gripper is almost vertically aligned with button"):
+        robot.push("down on button")
+    # If the gripper is not lined up with the button and the robot's gripper
+    # is not touching the wall, move the robot's gripper to the button and
+    # repeat the previous steps.

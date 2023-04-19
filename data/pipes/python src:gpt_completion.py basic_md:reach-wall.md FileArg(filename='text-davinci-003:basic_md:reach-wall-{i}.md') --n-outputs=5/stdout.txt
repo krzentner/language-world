@@ -1,0 +1,19 @@
+Using model: text-davinci-003
+
+    - When the robot's gripper is not near the wall, the robot should move close to the wall.
+    - When the robot's gripper is near the wall and the target location is also near the wall, the robot should move around the wall to reach the target location.
+
+    - When the robot's gripper is not near the wall edge and the robot's gripper is not facing the wall, the robot should move gripper towards the wall.
+    - When the robot's gripper is facing the wall, the robot should rotate gripper to make sure it is horizontally aligned with the wall edge.
+    - When the robot's gripper is horizontally aligned with the wall edge, the robot should move the gripper forward until it is near the target location.
+
+    - When the robot's gripper is not near the wall, the robot should reach to wall.
+    - When the robot's gripper is near the wall and the robot's gripper is below the top of the wall, the robot should reach over the wall.
+    - When the robot's gripper is over the wall, the robot should reach to goal.
+
+    - When the target location is more than 5 cm away from the wall, the robot should move toward the wall.
+    - When the target location is between 5 cm and 2 cm away from the wall, the robot should move parallel to the wall.
+    - When the target location is within 2 cm of the wall, the robot should move around the wall.
+
+    - When the robot's gripper is not almost vertically aligned with the wall, the robot should move the gripper to right of wall.
+    - When the robot's gripper is almost vertically aligned with the wall and the robot's gripper is not near wall, the robot should move the gripper to goal, past the wall.

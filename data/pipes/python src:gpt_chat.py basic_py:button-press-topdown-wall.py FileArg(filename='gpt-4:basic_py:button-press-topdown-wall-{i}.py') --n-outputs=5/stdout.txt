@@ -1,0 +1,33 @@
+Using model: gpt-3.5-turbo
+if check("the robot's gripper is not vertically aligned with button and the robot's gripper is not above the wall"):
+        robot.move("gripper above wall")
+    if check("the robot's gripper is above the button and the robot's gripper is not aligned with the button"):
+        robot.move("gripper to align with button")
+    if check("the robot's gripper is aligned with the button and the gripper is not pushing down"):
+        robot.push("down on button with the help of the wall")
+If check("robot's gripper is not vertically aligned with button"):
+        robot.move("above the button")
+    if check("there is a wall between the robot's gripper and the button"):
+        robot.move("to a position where the gripper is not obstructed by the wall")
+    if check("the robot's gripper is vertically aligned with the button and not obstructed by the wall"):
+        robot.push("down on button")
+if check("the robot's gripper is not vertically aligned with button"):
+        robot.put("gripper above button")
+    if check("the robot's gripper is not above the wall"):
+        robot.lift("gripper above wall")
+    if check("the robot's gripper is above the button"):
+        robot.push("down on button while avoiding wall")
+if check("the robot's gripper is not vertically aligned with button"):
+        robot.put("gripper above button")
+    if check("the robot's gripper is not above the wall"):
+        robot.lift("gripper above the wall")
+    if check("the robot's gripper is above the button"):
+        robot.drop("gripper onto button and push down")
+if check("the robot's gripper is not above the button"):
+        robot.move("gripper to the side of the button")
+    if check("the robot's gripper is aligned with the button"):
+        robot.move("gripper close to the button")
+    if check("the wall is blocking the robot's gripper from pushing the button"):
+        robot.move("gripper above the wall")
+    if check("the robot's gripper is above the wall and aligned with the button"):
+        robot.push("down on button")

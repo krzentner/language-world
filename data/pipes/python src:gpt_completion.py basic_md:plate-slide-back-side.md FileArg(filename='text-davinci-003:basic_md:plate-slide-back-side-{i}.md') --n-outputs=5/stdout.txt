@@ -1,0 +1,24 @@
+Using model: text-davinci-003
+
+
+The robot should perform the following steps:
+    - When the robot's gripper is not vertically aligned with the plate, the robot should put gripper above plate.
+    - When the plate is not left of the robot's gripper and plate is not forward aligned with the robot's gripper, the robot should grab plate.
+    - When the robot's gripper is forward aligned with the plate and the plate is not horizontally aligned with target, the robot should align plate to target.
+    - When plate is horizontally aligned with target, the robot should move plate to target.
+
+    - When the robot's gripper is not horizontally aligned with the plate, the robot should put the gripper horizontally aligned with the plate.
+    - When the robot's gripper is horizontally aligned with the plate, the robot should push the plate gently into the goal.
+    - When the robot's gripper is not near the plate and the robot's gripper is left of the plate, the robot should push the plate towards the goal.
+
+    - When the robot's gripper is not vertically aligned with plate, the robot should put gripper above plate.
+    - When the robot's gripper is vertically aligned with plate and the plate is not near the target location, the robot should move plate.
+    - When the robot's gripper is near the target location, the robot should slide plate back sideways.
+
+    - When the robot's gripper is not in front of the plate, the robot should move gripper in front of plate.
+    - When the robot's gripper is in front of the plate and the robot's gripper is not to the side of the plate, the robot should move gripper to the side of plate.
+    - When the robot's gripper is to the side of the plate, the robot should slide plate back.
+
+   - When the robot's gripper is not vertically aligned with the plate, the robot should put the gripper at the edge of the plate.
+   - When the robot's gripper is at the edge of the plate and the plate is not near the target location, the robot should move plate sideways towards goal.
+   - When the plate is near the target location, the robot should slide plate back into goal.

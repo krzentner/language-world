@@ -1,0 +1,58 @@
+Using model: gpt-3.5-turbo
+if check("the robot's gripper is not above the puck"):
+    robot.place("gripper above puck")
+if check("the robot's gripper is not around puck and the robot's gripper is open"):
+    robot.drop("gripper around puck")
+if check("the robot's gripper is near puck and the robot's gripper is open"):
+    robot.close("gripper around puck")
+if check("the robot's gripper is clear of the short wall"):
+    robot.move("gripper over the wall")
+if check("the robot's gripper is near the goal and the robot's gripper is closed"):
+    robot.place("puck at goal")
+# Assuming that the robot needs to move around the wall to reach the target location.
+
+    if check("the robot's gripper is not above the puck"):
+        robot.place("gripper above puck")
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.drop("gripper around puck")
+    if check("the robot's gripper is near puck and the robot's gripper is open"):
+        robot.close("gripper around puck")
+    if check("the robot's gripper is above puck and the robot's gripper is closed"):
+        robot.move("to a position where it can move around the wall")
+        robot.move("around the wall")
+        robot.move("to goal")
+        robot.place("puck at goal")
+if check("the robot's gripper is not above the puck"):
+        robot.place("gripper above puck")
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.drop("gripper around puck")
+    if check("the robot's gripper is near the puck and the robot's gripper is open"):
+        robot.close("gripper around puck")
+    if check("the robot's gripper is above the puck and the robot's gripper is closed"):
+        if check("the wall is between the robot's gripper and the goal"):
+            robot.move("gripper to the side of the wall")
+        if check("the gripper is beside the wall and the gripper is not above the goal"):
+            robot.move("gripper above the goal")
+        if check("the gripper is above the goal and the gripper is not touching the wall"):
+            robot.move("gripper to the wall")
+        if check("the gripper is against the wall and the gripper is above the goal"):
+            robot.place("puck at goal")
+if check("the robot's gripper is not above the puck"):
+        robot.place("gripper above puck")
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.drop("gripper around puck")
+    if check("the robot's gripper is near puck and the robot's gripper is open"):
+        robot.close("gripper around puck")
+    if check("the robot's gripper is above puck and the robot's gripper is closed"):
+        robot.move("puck over the wall")
+        robot.place("puck at goal")
+if check("the robot's gripper is not above the puck"):
+        robot.place("gripper above puck")
+    if check("the gripper cannot move straight down to reach the puck"):
+        robot.move("gripper to the side of the wall")
+    if check("the gripper can move straight down to grasp the puck and the gripper is open"):
+        robot.drop("gripper around puck")
+    if check("the gripper has grasped the puck and can move it above the wall"):
+        robot.lift("gripper and puck above the wall")
+    if check("the gripper is above the target location and can drop the puck"):
+        robot.place("puck at goal")

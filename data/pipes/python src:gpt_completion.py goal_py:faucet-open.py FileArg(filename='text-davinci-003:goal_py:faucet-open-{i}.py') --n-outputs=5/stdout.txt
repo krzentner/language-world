@@ -1,0 +1,76 @@
+Using model: text-davinci-003
+
+    # Steps:
+    #  1. Put gripper above faucet handle
+    #  2. Drop gripper around faucet handle
+    #  3. Turn the faucet left
+    # First, put the gripper above the faucet handle.
+    if check("the robot's gripper is not vertically aligned with faucet handle"):
+        robot.move_gripper("vertically aligned with the faucet handle")
+    # Once the gripper is above the faucet handle, move it around the faucet
+    # handle to grab it.
+    if check("the robot's gripper is not around faucet handle"):
+        robot.move_gripper("around the faucet handle")
+    # Once the gripper is around the faucet handle, we can start turning it.
+    if check("the robot's gripper is around faucet handle"):
+        robot.move_gripper("left of the faucet handle")
+
+    # Steps:
+    #  1. Gripper above the faucet
+    #  2. Grasp the faucet handle
+    #  3. Push the faucet handle left
+    # First, line up the gripper with the faucet handle.
+    if check("the robot's gripper is not vertically aligned with the faucet handle"):
+        robot.move_gripper("vertically aligned with the faucet handle")
+    # To grasp the faucet handle, the robot needs to move the gripper down.
+    if check("the robot's gripper is vertically aligned with the faucet handle and the robot's gripper is not around the faucet handle and the robot's gripper is open"):
+        robot.move_gripper("around the faucet handle", close_gripper=True)
+    # If the gripper is around the faucet handle, the robot can push it open.
+    if check("the robot's gripper is around the faucet handle"):
+        robot.move_gripper("left of the faucet handle")
+
+    # Steps:
+    #  1. Put gripper near the faucet
+    #  2. Turn the faucet to the left
+    # We need to start with the gripper near the faucet.
+    if check("the robot's gripper is not near the faucet"):
+        robot.move_gripper("near the faucet")
+    # If the gripper is near the faucet, but the faucet hasn't been turned all
+    # the way to the left, keep turning until it's there.
+    if check("faucet is not fully left"):
+        robot.move_gripper("left of the faucet")
+
+    # Steps:
+    #  1. Put gripper above the faucet knob
+    #  2. Grab the faucet knob with gripper
+    #  3. Start turning the faucet knob
+    #  4. Turn the faucet knob harder
+    # If the robot's gripper is not above the faucet knob, we should move the
+    # gripper above the faucet knob.
+    if check("the robot's gripper is not vertically aligned with the faucet knob"):
+        robot.move_gripper("vertically aligned with the faucet knob")
+    # If the robot's gripper is above the faucet knob, we can grab it by moving
+    # the gripper around it.
+    if check("the robot's gripper is vertically aligned with the faucet knob and the robot's gripper is not around the faucet knob"):
+        robot.move_gripper("around the faucet knob", close_gripper=True)
+    # Once the gripper is around the knob, start turning it to the left.
+    if check("the robot's gripper is around the faucet knob"):
+        robot.move_gripper("left of the faucet knob")
+    # If the faucet is almost open, it probably won't open all the way with
+    # gentle turning, push harder and hold for a bit to make sure it's open.
+    if check("the faucet knob is not left of the robot's gripper and the faucet knob is not straight up"):
+        robot.move_gripper("straight up")
+
+    # Steps:
+    #  1. Put the gripper above the handle
+    #  2. Put the gripper around the handle
+    #  3. Twist the handle to the left
+    # First, put the gripper slightly above the handle.
+    if check("the robot's gripper is not above the handle"):
+        robot.move_gripper("above the handle", close_gripper=True)
+    # If the gripper is still not around the handle, center it with the handle.
+    if check("the robot's gripper is not around handle and the robot's gripper is open"):
+        robot.move_gripper("around the handle")
+    # Once the gripper is around the handle, turn it left.
+    if check("the robot's gripper is around the handle"):
+        robot.move_gripper("near the handle")

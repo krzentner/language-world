@@ -1,0 +1,43 @@
+Using model: text-davinci-003
+
+    Steps:  1. Put gripper above the plate  2. Grab the plate with the gripper  3. Line the plate up with the target location  4. Slide the plate sideways into the target location
+    First, put the gripper above the plate.
+    - When the robot's gripper is not above the plate, the robot should put gripper above plate.
+    If the gripper is Forward aligned with the plate move the gripper down to grab the plate.
+    - When the robot's gripper is forward aligned with the plate and the robot's gripper is not around the plate, the robot should grab plate.
+    Now that the gripper is around the plate, try to line it up with the target location. Move the gripper one side or the other until it's lined up.
+    - When the robot's gripper is around the plate and the plate is not horizontally aligned with the target location, the robot should line plate up with target location.
+    If it's lined up, slide it into the target location.
+    - When the plate is horizontally aligned with target location, the robot should slide plate into target location.
+
+    Steps:  1. Put gripper slightly in front of the plate.  2. Line up the plate horizontally with the target.  3. Slide the plate into target location.
+    First, the robot puts the gripper slightly in front of the plate to keep it in view. 
+    - When the plate is not in front of the robot's gripper, the robot should place gripper in front of plate.
+    We have to make sure it is lined up before pushing it, so the robot should align the plate horizontally with the target.
+    - When the plate is not horizontally aligned with the target location, the robot should align plate with target location.
+    Once the plate is aligned with the target we can just slide it into the target location. 
+    - When the plate is horizontally aligned with the target location, the robot should slide plate into target location.
+
+    Steps:  1. Put gripper above plate  2. Trap plate with gripper  3. Slide plate to goal
+    First, place the gripper above the plate.
+    - When the robot's gripper is not vertically aligned with plate, the robot should put gripper above plate.
+    As long as the gripper is aligned with the plate and not near it, trapping the plate should be possible by pushing down on top.
+    - When the robot's gripper is vertically aligned with plate and the robot's gripper is not near plate, the robot should trap plate with gripper.
+    If we can trap the plate with the gripper, we can slide it sideways to the goal.
+    - When the robot's gripper is near plate, the robot should slide plate to goal.
+
+    Steps:  1. Grab the plate from the side of the plate  2. Push the plate sideways until it aligns with the target  3. Slide the plate away from the gripper until it's at the target location
+    First, grab the plate from the side.
+    - When the robot's gripper is not near the plate, the robot should put gripper near plate.
+    If the plate isn't aligned with the target, we should move it.
+    - When the plate is not aligned with target, the robot should push plate sideways until it is aligned with target.
+    Once the plate is aligned with the target, we can slide it away.
+    - When the plate is aligned with target and the robot's gripper is near plate, the robot should slide plate away from gripper until it is at target location.
+
+   Steps:  1. Put gripper over the plate  2. Grab the plate with the gripper  3. Slide the plate to the target location 
+   First, the robot should put the gripper above the plate and make sure it's aligned with the plate from the top-down view. 
+   - When the robot's gripper is not above the plate, the robot should put gripper above the plate.
+   If the gripper is above the plate, the robot can grab the plate by moving the gripper around it. 
+   - When the robot's gripper is not around the plate and the robot's gripper is open, the robot should drop gripper around the plate.
+   Once the gripper has the plate, the robot can slide the plate to the target location. 
+   - When the robot's gripper is near the plate and the robot's gripper is closed, the robot should slide plate to the target location.

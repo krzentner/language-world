@@ -1,0 +1,45 @@
+Using model: text-davinci-003
+
+    if check("the robot's gripper is not above the box lid"):
+        robot.place("gripper above box lid")
+
+    if check("the robot's gripper is above the box lid and the robot's gripper is open"):
+        robot.drop("gripper around box lid")
+
+    if check("the robot's gripper is near the box lid and the robot's gripper is open"):
+        robot.close("gripper around box lid")
+
+    if check("the robot's gripper is above the box lid and the lid is right of the box"):
+        robot.place("lid on box")
+
+    if check("the robot's gripper is not above the box lid"):
+        robot.place("gripper above box lid")
+    if check("the robot's gripper is above the box lid and the robot's gripper is not around the box lid"):
+        robot.drop("gripper around box lid")
+    if check("the robot's gripper is above the box lid and the robot's gripper is around the box lid"):
+        robot.drop("box lid on box")
+
+    if check("the robot's gripper is not over the lid"):
+        robot.put("gripper over the lid")
+    if check(" the robot's gripper is around the lid and the robot's gripper is open"):
+        robot.close("gripper around the lid")
+    if check("the robot's gripper is over the lid and the robot's gripper is closed"):
+        robot.place("lid on box")
+
+    if check("the robot's gripper is not above the lid"):
+        robot.place("gripper above lid")
+    if check("the robot's gripper is above the lid and the robot's gripper is not around the lid"):
+        robot.drop("gripper around lid")
+    if check("the robot's gripper is near the lid and the lid is below the robot's gripper"):
+        robot.pick("up lid")
+    if check("the robot is holding the lid and the lid is not touching the box"):
+        robot.place("lid on box")
+
+    if check("the robot's gripper is not above lid"):
+        robot.place("gripper above lid")
+    if check("lid is not right of the robot's gripper and lid is not forward aligned with the robot's gripper"):
+        robot.grab("lid")
+    if check("the robot's gripper is above the box and robot's gripper is forward aligned with box"):
+        robot.place("lid onto box")
+    if check("lid is on box"):
+        robot.release("lid")

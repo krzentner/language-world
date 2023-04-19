@@ -1,0 +1,4 @@
+Using engine: text-davinci-003
+
+Steps:  1. Put gripper left of the window handle  2. Start pushing against the window handle to close the window  3. Push the window closed harder
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/chain_md/window-close-2.md'

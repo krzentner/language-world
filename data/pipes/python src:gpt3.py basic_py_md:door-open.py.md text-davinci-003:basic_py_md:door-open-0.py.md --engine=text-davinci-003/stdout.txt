@@ -1,0 +1,15 @@
+Using engine: text-davinci-003
+
+
+Answer:
+```
+# door-open: pull the door open
+# def door_open(robot):
+    if check("the robot's gripper is not almost vertically aligned with door handle"):
+        robot.put("gripper above door handle")
+    if check("the robot's gripper is almost vertically aligned with the door handle and the robot's gripper is open"):
+        robot.put("gripper around door handle")
+    if check("the robot's gripper is vertically aligned with the door handle"):
+        robot.pull("away from door")
+```
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_py_md/door-open-0.py.md'

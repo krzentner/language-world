@@ -1,0 +1,117 @@
+Using model: text-davinci-003
+
+    # Steps:
+    #  1. Put gripper horizontally above hole
+    #  2. Drop gripper vertically into hole
+    #  3. Align the gripper with the peg
+    #  4. Grab the peg with the gripper
+    #  5. Lift the peg up out of the hole
+    # First, put the gripper above the hole, so that we don't bump it while
+    # trying to grab the peg.
+    if check("the robot's gripper is not horizontally aligned with hole"):
+        robot.put("gripper above hole")
+    # If the gripper is lined up with the hole from above, drop the gripper into
+    # the hole.
+    if check("the robot's gripper is horizontally aligned with the hole and the robot's gripper is not in the hole"):
+        robot.drop("gripper into the hole")
+    # Once the gripper is in the hole, move it around until it's lined up with
+    # the peg.
+    if check("the robot's gripper is in the hole and the robot's gripper is not aligned with the peg"):
+        robot.align("gripper with peg")
+    # If the peg is aligned with the gripper, grab it.
+    if check("the robot's gripper is aligned with the peg"):
+        robot.grab("peg")
+    # Now that we have the peg, raise the gripper out of the hole.
+    if check("the robot's gripper is aligned with the peg and the robot's gripper is in the hole"):
+        robot.lift("peg out of hole")
+
+    # Steps:
+    #  1. Put the gripper near the peg
+    #  2. Lower the gripper enough to pick the peg up
+    #  3. Close the gripper
+    #  4. Move the peg to the target location
+    #  5. Release the peg at the target location
+
+    # First, put the gripper near the peg.
+    if check("the robot's gripper is not near the peg"):
+        robot.put("gripper near peg")
+    # If the robot's gripper is near the peg but not low enough, lower the
+    # gripper so it can grab the peg.
+    if check("the robot's gripper is near the peg and the robot's gripper is not low enough to pick up peg"):
+        robot.lower("gripper to pick up peg")
+    # When the gripper is low enough, close the gripper to grab the peg.
+    if check("the robot's gripper is low enough to pick up peg and the robot's gripper is open"):
+        robot.close("gripper around peg")
+    # Now that the gripper is closed and still near the peg, it's probably
+    # holding the peg.
+    # Move the peg to the target location.
+    if check("the robot's gripper is near peg and the robot's gripper is closed"):
+        robot.move("peg to goal")
+    # When the peg is at the target location, open the gripper to
+    # release the peg.
+    if check("the peg is at the goal"):
+        robot.open("gripper around peg")
+
+    # Steps:
+    #  1. Put gripper above peg
+    #  2. Grab peg with gripper
+    #  3. Lift peg out of hole
+    # We need to put the gripper above the peg before we can grab it, because of
+    # the angle of the robot's gripper.
+    if check("the robot's gripper is not vertically aligned with peg"):
+        robot.put("gripper above peg")
+    # Once the gripper is lined up above the peg, we should be able to grab the
+    # peg by moving the gripper down around it.
+    if check("the robot's gripper is vertically aligned with peg and the robot's gripper is not around peg"):
+        robot.put("gripper around peg")
+    # Once the gripper is around the peg, try to lift it out of the hole.
+    # If we can't, the gripper either isn't around the peg well enough or the
+    # peg isn't able to be lifted out, so go back to an earlier step.
+    if check("the robot's gripper is around peg and the robot's gripper is closed"):
+        robot.lift("peg out of hole")
+
+    # Steps:
+    #  1. Line up gripper above hole
+    #  2. Drop gripper around peg
+    #  3. Close gripper around peg
+    #  4. Lift peg out of hole
+    # First, we need to get the gripper above the hole, so it can drop down and
+    # trap the peg.
+    if check("the robot's gripper is not above hole"):
+        robot.put("gripper above hole")
+    # Once the gripper is roughly above the hole, it should drop around the peg if the 
+    # peg is there.
+    if check("the robot's gripper is above hole and the robot's gripper is open"):
+        robot.drop("gripper around peg")
+    # If the gripper is already around the peg, it can just close around the peg.
+    if check("the robot's gripper is around peg and the robot's gripper is open"):
+        robot.close("gripper around peg")
+    # Once the gripper is closed, we can lift the peg out of the hole.
+    if check("the robot's gripper is closed and the peg is cleared from the hole"):
+        robot.lift("peg from hole")
+
+    # Steps:
+    #  1. Put gripper above the peg
+    #  2. Drop gripper down the hole
+    #  3. Push peg up out of hole
+    #  4. Grab peg with gripper
+    #  5. Move peg to goal
+    # First, put the gripper mostly above the peg, so that we don't push it down
+    # while trying to grab it.
+    if check("the robot's gripper is not above the peg"):
+        robot.put("gripper above peg")
+    # If the gripper isn't above the hole, drop it down the hole.
+    if check("the robot's gripper is not above hole"):
+        robot.drop("gripper down hole")
+    # If the gripper is near the peg, we might be able to push the peg out of the
+    # hole.
+    if check("the robot's gripper is near peg and the peg is below the robot's gripper"):
+        robot.push("peg up out of hole")
+    # If the peg is above the gripper, we might be able to grab the peg with the
+    # gripper.
+    if check("the peg is above the robot's gripper and the robot's gripper is open"):
+        robot.close("gripper around peg")     
+    # Close the gripper to make sure we keep control of the peg.
+    # Then we can move the peg to the goal.
+    if check("the robot gripper is above the peg and the robot's gripper is closed"):
+        robot.move("peg to goal")

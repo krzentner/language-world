@@ -1,0 +1,105 @@
+Using model: gpt-3.5-turbo
+# hand-insert: pick up the object and move it to the target location
+# def hand_insert(robot):
+    # Steps:
+    #  1. Put gripper roughly above the object
+    #  2. Drop gripper around the object
+    #  3. Close gripper around the object
+    #  4. Move the object to the target location
+    # First, put the gripper roughly above the object so that we minimize the
+    # chances of bumping into it while closing the gripper.
+    if check("the robot's gripper is not above the object"):
+        robot.move_gripper("above the object")
+    # If the gripper isn't around the object, put it around the object.
+    if check("the robot's gripper is not around object and the robot's gripper is open"):
+        robot.move_gripper("near the object", close_gripper=True)
+    # If the gripper is around the object, we can move the object to the target
+    # location.
+    if check("the robot's gripper is around object"):
+        robot.move_gripper("above the target location")
+# hand-insert: pick up the puck and move it to the target location
+# def hand_insert(robot):
+    # Steps:
+    #  1. Put gripper above puck
+    #  2. Drop gripper around puck
+    #  3. Close gripper around puck
+    #  4. Move puck to target location by moving the robot arm
+    # First, put the gripper roughly above the puck.
+    if check("the robot's gripper is not above the puck"):
+        robot.move_gripper("above the puck")
+    # If the gripper isn't around the puck, put it around the puck.
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.move_gripper("near the puck", close_gripper=True)
+    # If the gripper is around the puck and closed, move the robot arm to the
+    # target location while holding the puck.
+    if check("the robot's gripper is around puck and closed"):
+        robot.move_arm("to the target location")
+# hand-insert: pick up the puck and move it to the target location
+# def hand_insert(robot):
+    # Steps:
+    #  1. Put gripper above puck
+    #  2. Drop gripper around puck
+    #  3. Close gripper around puck
+    #  4. Move puck to the target location
+    # This task is similar to 'pick-place', but we don't need to align the puck
+    # with any particular object, only move it to a target location afterwards.
+    
+    # First, put the gripper roughly above the puck
+    if check("the robot's gripper is not above the puck"):
+        robot.move_gripper("above the puck")
+    
+    # If the gripper is not around the puck, move it into position
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.move_gripper("near the puck", close_gripper=True)
+    
+    # Once the gripper is around the puck, grab it by closing the gripper
+    if check("the robot's gripper is above puck and the robot's gripper is closed"):
+        robot.move_gripper("above the target location", open_gripper=True)
+    
+    # Once we're above the target location, drop the puck
+    if check("the robot's gripper is above the target location and the robot's gripper is open"):
+        robot.move_gripper("above the target location", close_gripper=True)
+# hand-insert: pick up the puck and move it to the target location
+# def hand_insert(robot):
+    # Steps:
+    #  1. Put gripper above puck
+    #  2. Drop gripper around puck, didnot close the gripper
+    #  3. Move the puck to the target location
+    #  4. Release the puck
+    # First, put the gripper above the puck.
+    if check("the robot's gripper is not above the puck"):
+        robot.move_gripper("above the puck")
+    # If the gripper isn't around the puck, move it near the puck but don't close
+    # the gripper.
+    if check("the robot's gripper is not around the puck"):
+        robot.move_gripper("near the puck")
+    # Once the gripper is around the puck, move the puck to the target location
+    # by lifting the gripper and moving it to the target location.
+    if check("the robot's gripper is around the puck and the robot's gripper is not near the target location"):
+        robot.move_gripper("above the target location")
+    # Release the puck by opening the gripper.
+    if check("the robot's gripper is near the target location and the robot's gripper is closed"):
+        robot.move_gripper("near the target location", close_gripper=False)
+# hand-insert: pick up the puck and move it to the target location
+# def hand_insert(robot):
+    # Steps:
+    #  1. Put gripper roughly above puck, but slightly off center
+    #  2. Drop gripper around puck
+    #  3. Close gripper around puck
+    #  4. Move puck to target location
+    #  5. Move gripper away from puck
+    # First, put the gripper roughly above the puck, but slightly off center so
+    # that we can later move the puck and still have a grip on it.
+    if check("the robot's gripper is not slightly off center with the puck"):
+        robot.move_gripper("slightly off center with the puck")
+    # If the gripper isn't around the puck, put it around the puck.
+    if check("the robot's gripper is not around the puck and the robot's gripper is open"):
+        robot.move_gripper("near the puck", close_gripper=True)
+    # If the gripper is near the puck and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is around the puck and the robot's gripper is closed"):
+        robot.move_gripper("above the target location")
+    # If we've grabbed the puck, move it to the target location.
+    # We can move the puck by just moving the gripper directly.
+    if check("the robot's gripper is above the target location"):
+        robot.move_gripper("away from the puck")

@@ -1,0 +1,57 @@
+Using model: text-davinci-003
+
+
+If check("the robot's gripper is not vertically aligned with the door knob"):
+    robot.put("gripper above door knob")
+if check("the robot's gripper is vertically aligned with the door knob"):
+    robot.grab("door knob")
+if check("the robot's gripper is around the door knob"):
+    robot.turn("dial in clockwise direction") 
+if check("the dial is turned and pulled open"):
+    robot.open("Door")
+
+
+Below is the code for the door unlocking task:
+
+```
+# door-unlock: turn the dial on the door
+# def door_unlock(robot):
+    if check("the robot's gripper is not above the door handle"):
+        robot.put("gripper above door handle")
+    if check("the robot's gripper is not around the door handle"):
+        robot.drop("gripper around door handle")
+    if check("the robot's gripper is around the door handle and the robot's gripper is not pointing at the dial"):
+        robot.move("gripper to face the dial")
+    if check("the robot's gripper is pointing at the dial and the robot's gripper is open"):
+        robot.close("gripper around dial")
+    if check("the robot's gripper is pointing at the dial and the robot's gripper is closed"):
+        robot.rotate("dial to unlock door")
+```
+
+
+If check("the robot's gripper is not vertically aligned with the keyhole"):
+    robot.put("gripper above keyhole")
+if check("the robot's gripper is vertically aligned with the keyhole"):
+    robot.turn("dial right")
+if check("the door is not unlocked"):
+    robot.turn("dial left")
+if check("the door is now unlocked"):
+    robot.release("gripper")
+
+
+If check("the robot's gripper is not vertically aligned with the door handle"):
+    robot.put("gripper above door handle")
+if check("the robot's gripper is vertically aligned with the door handle and the robot's gripper is not near door handle"):
+    robot.move("gripper next to the door handle")
+if check("the robot's gripper is near the door handle"):
+    robot.rotate("dial on the door")
+
+
+If check("the robot's gripper is not near the dial and the robot's gripper is not horizontally aligned with the dial"):
+    robot.put("gripper above the dial")
+if check("the robot's gripper is horizontally aligned with the dial and the robot's gripper is not around the dial"):
+    robot.grab("gripper around dial")
+if check("the robot's gripper is near the dial and the robot's gripper is open"):
+    robot.close("gripper around dial")
+if check("the robot's gripper is around the dial"):
+    robot.turn("dial to unlock")

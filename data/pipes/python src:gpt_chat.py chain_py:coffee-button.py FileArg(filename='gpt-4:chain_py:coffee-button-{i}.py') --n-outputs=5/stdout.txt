@@ -1,0 +1,47 @@
+Using model: gpt-3.5-turbo
+# Steps:
+    #  1. Put gripper above button
+    #  2. Push down on button
+    # First, put the gripper above the button.
+    if check("the robot's gripper is not vertically aligned with the coffee button"):
+        robot.put("gripper above coffee button")
+    # Once the gripper is above the button, push down on the button.
+    if check("the robot's gripper is vertically aligned with the coffee button"):
+        robot.push("down on coffee button")
+# Steps:
+    #  1. Align the gripper with the button
+    #  2. Push down on the button
+    # First, put the gripper in the position to push the button.
+    if check("the robot's gripper is not aligned with the button"):
+        robot.align("gripper with button")
+    # Once the gripper is aligned with the button, push down on the button.
+    if check("the robot's gripper is aligned with the button"):
+        robot.push("down on button")
+# Steps:
+    #  1. Put gripper above coffee button
+    #  2. Push down on the coffee button
+    # First, put the gripper roughly above the coffee button
+    if check("the robot's gripper is not above the coffee button"):
+        robot.place("gripper above coffee button")
+    # Once the gripper is lined up above the coffee button, just push down on
+    # the button.
+    if check("the robot's gripper is above the coffee button"):
+        robot.push("down on coffee button")
+# Steps:
+    #  1. Put gripper in front of the button
+    #  2. Push the button down
+    # First, put the gripper in front of the button.
+    if check("the robot's gripper is not in front of the coffee machine button"):
+        robot.move("gripper to coffee machine button")
+    # Once the gripper is in front of the button, push it down.
+    if check("the robot's gripper is in front of the coffee machine button"):
+        robot.push("coffee machine button")
+# Steps:
+#  1. Put the gripper in front of the button
+#  2. Push down on the button
+# Move the gripper in front of the button.
+if check("the robot's gripper is not almost horizontally aligned with the coffee machine button"):
+    robot.move("gripper in front of the coffee machine button")
+# Push down on the button.
+if check("the robot's gripper is almost horizontally aligned with the coffee machine button"):
+    robot.push("down on the coffee machine button")

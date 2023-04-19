@@ -1,0 +1,40 @@
+Using model: gpt-3.5-turbo
+To use the stick to push the thermos to the target location reliably, the robot should perform the following steps:
+
+    Steps:  1. Position the stick above the thermos  2. Place the stick on the thermos  3. Push the thermos to the goal with the stick
+    First, position the stick above the thermos.
+    - When the robot's stick is not above the thermos, the robot should position the stick above the thermos.
+    Next, place the stick on the thermos.
+    - When the robot's stick is above the thermos and the stick is not on the thermos, the robot should place the stick on the thermos.
+    Finally, push the thermos to the goal with the stick.
+    - When the stick is on the thermos, the robot should push the thermos to the goal with the stick.
+To use the stick to push the thermos to the target location reliably, the robot should perform the following steps:
+    Steps:  1. Position the stick so that it can push the thermos  2. Push the thermos towards the goal
+    First, position the stick so that it can push the thermos. This involves aligning the stick with the thermos and making sure the gripper of the stick is near the thermos.
+    - When the stick's gripper is not near the thermos and the stick is not aligned with the thermos, the robot should move the stick into position.
+    Once the stick is in position, push the thermos towards the goal. This involves making sure the stick is pushing the thermos and moving the stick towards the goal.
+    - When the stick is not pushing the thermos and the stick is not near the goal, the robot should push the thermos towards the goal using the stick.
+To push the thermos to the target location with the stick reliably, the robot should perform the following steps:
+
+Steps: 1. Position the stick right next to the thermos 2. Push the thermos with the stick towards the target location
+
+First, position the stick right next to the thermos.
+- When the robot's gripper is not near the thermos, the robot should move the gripper near the thermos while keeping the stick right next to it.
+If the stick is not in contact with the thermos yet, move the stick slightly to touch the thermos.
+- When the stick is not touching the thermos, the robot should move the stick slightly to touch the thermos.
+Once the stick is touching the thermos, start pushing it towards the target location with the stick.
+- When the robot's gripper is near the thermos and the stick is touching the thermos, the robot should push the thermos towards the target location with the stick.
+To use the stick to push the thermos to the target location reliably, the robot should perform the following steps:
+    Steps:  1. Place the stick to the right of the thermos and position it horizontally  2. Move the stick towards the thermos until it makes contact  3. Push the thermos to the goal location with the stick
+    First, place the stick to the right of the thermos and position it horizontally.
+    - When the robot's gripper is not to the right of the thermos, the robot should place the stick to the right of the thermos and position it horizontally.
+    Once the stick is positioned correctly, move it towards the thermos until it makes contact.
+    - When the robot's gripper is not making contact with the thermos, the robot should move the stick towards the thermos until it makes contact.
+    Once the stick is making contact with the thermos, push the thermos to the goal location with the stick.
+    - When the robot's gripper is making contact with the thermos, the robot should push the thermos to the goal location with the stick.
+To use the stick to push the thermos to the target location reliably, the robot should perform the following steps:
+    Steps:  1. Position stick near the thermos  2. Push the thermos towards the target location with the stick
+    First, position the stick near the thermos.
+    - When the robot's stick is not near the thermos, the robot should move the stick close to the thermos.
+    Use the stick to push the thermos towards the target location.
+    - When the robot's stick is near the thermos, the robot should push the thermos with the stick towards the target location.

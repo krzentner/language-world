@@ -1,0 +1,64 @@
+Using model: gpt-3.5-turbo
+```
+# hand-insert: pick up the small object and move it to the target location
+# def hand_insert(robot):
+    if check("the robot's gripper is not above the small object"):
+        robot.place("gripper above small object")
+    if check("the robot's gripper is not around the small object and the robot's gripper is open"):
+        robot.drop("gripper around small object")
+    if check("the robot's gripper is near the small object and the robot's gripper is open"):
+        robot.close("gripper around small object")
+    if check("the robot's gripper is above the small object and the robot's gripper is closed"):
+        robot.move("the small object to the target location")
+
+# Note: You may need to replace "small object" and "target location" with the specific object and location names in your task.
+# hand-insert: pick up the object and move it to the target location
+# def hand_insert(robot):
+    if check("the robot's gripper is not above the object"):
+        robot.place("gripper above object")
+    if check("the robot's gripper is not around object and the robot's gripper is open"):
+        robot.drop("gripper around object")
+    if check("the robot's gripper is near object and the robot's gripper is open"):
+        robot.close("gripper around object")
+    if check("the robot's gripper is above object and the object is not aligned with the target location"):
+        robot.move("the object to the target location")
+Here's the program to perform the `hand-insert` task:
+
+```
+# hand-insert: pick up the object and insert it into the hole
+# def hand_insert(robot):
+    if check("the robot's gripper is not above the object"):
+        robot.place("gripper above object")
+    if check("the robot's gripper is not around the object and the robot's gripper is open"):
+        robot.drop("gripper around object")
+    if check("the robot's gripper is near the hole and the robot's gripper is closed"):
+        robot.move("gripper towards the hole")
+    if check("the object is aligned with the hole and the robot's gripper is below the hole"):
+        robot.lift("the object and insert it into the hole")
+```
+
+This program first checks if the gripper is positioned correctly above the object. If not, it places the gripper above the object. Then, it checks if the gripper is already holding the object. If not, it drops the gripper around the object. Once the gripper is holding the object, it moves the gripper towards the hole. Finally, the program checks if the object is lined up with the hole and if the gripper is below the hole. If so, it lifts the object and inserts it into the hole.
+# hand-insert: pick up the puck and move it to the target location
+# def hand_insert(robot):
+    if check("the robot's gripper is not above the puck"):
+        robot.place("gripper above puck")
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.drop("gripper around puck")
+    if check("the robot's gripper is near puck and the robot's gripper is open"):
+        robot.close("gripper around puck")
+    if check("the robot's gripper is above puck and the robot's gripper is closed"):
+        robot.move("puck to the target location")
+```
+# hand-insert: pick up the object and move it to the target location
+# def hand_insert(robot):
+    if check("the robot's gripper is not above the object"):
+        robot.place("gripper above object")
+    if check("the robot's gripper is not around object and the robot's gripper is open"):
+        robot.drop("gripper around object")
+    if check("the robot's gripper is near object and the robot's gripper is open"):
+        robot.close("gripper around object")
+    if check("the robot's gripper is above object and the robot's gripper is closed"):
+        robot.move("object to target location")
+``` 
+
+Note that you'll need to replace "object" and "target location" with more specific names or directions, depending on what you're actually trying to do with the robot.

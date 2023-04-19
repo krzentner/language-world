@@ -1,0 +1,93 @@
+Using model: text-davinci-003
+
+
+Steps:
+1. Put gripper left of the handle
+2. Push down the handle from the side
+
+If the robot's gripper is not near the handle, move it near the handle. We don't need to be careful about direction, since the handle is larger than the gripper.
+```
+# handle-press-side: push down the handle from the side
+# def handle_press_side(robot):
+    # Steps:
+    #  1. Put gripper left of the handle
+    #  2. Push down the handle from the side
+    if check("the robot's gripper is not near the handle"):
+        robot.move_gripper("near the handle")
+    # If the handle is left of the robot's gripper, just push down the handle.
+    if check("the handle is left of the robot's gripper"):
+        robot.move_gripper("left of the handle")
+
+
+# handle-press-side: push down the handle from the side
+# def handle_press_side(robot):
+    # Steps:
+    #  1. Put gripper above handle
+    #  2. Push gripper sideways against handle 
+    #  3. Push handle down
+    # Put the gripper roughly aligned above the handle.
+    if check("the robot's gripper is not almost vertically aligned with handle"):
+        robot.move_gripper("almost vertically aligned with the handle", close_gripper=True)
+    # With the gripper still aligned, move the gripper to the side of the handle.
+    if check("the robot's gripper is vertically aligned with handle and the robot's gripper is not close to handle"):
+        robot.move_gripper("close to handle")
+    # Now the gripper should be position correctly to push the handle down.
+    if check("the robot's gripper is close to handle"):
+        robot.move_gripper("below the handle")
+
+
+Solution:
+
+```
+# handle-press-side: push down the handle from the side
+# def handle_press_side(robot):
+    # Steps:
+    #  1. Put gripper left/right of the handle
+    #  2. Push down on the handle
+    # To press the handle down from the side, we need to move the gripper to the
+    # side of the handle.
+    if check("the robot's gripper is not left/right of the handle"):
+        robot.move_gripper("left/right of the handle")
+    # Once the gripper is lined up with the handle from the side, just push
+    # down.
+    if check("the robot's gripper is left/right of the handle"):
+        robot.move_gripper("near the handle")
+```
+
+
+Then write the program: 
+
+```
+# handle-press-side: push down the handle from the side
+# def handle_press_side(robot):
+    # Steps:
+    #  1. Put gripper to the left of the handle
+    #  2. Push down on the handle
+    # First, put the gripper to the left of the handle.
+    if check("the robot's gripper is not to the left of the handle"):
+        robot.move_gripper("to the left of the handle")
+    # If the gripper isn't aligned with the handle, line it up from the side.
+    if check("the robot's gripper is not side-aligned with handle"):
+        robot.move_gripper("side-aligned with handle", close_gripper=True)
+    # Once the handle is lined up with the gripper, just push down on it.
+    if check("the robot's gripper is side-aligned with handle"):
+        robot.move_gripper("below the handle")
+``
+
+
+The program should look like this:
+
+```
+# handle-press-side: push down the handle from the side
+# def handle_press_side(robot):
+    # Steps:
+    #  1. Put gripper to the side of the handle
+    #  2. Push against the handle to press it down
+    # Put the gripper to the side of the handle.
+    if check("the robot's gripper is not left of the handle"):
+        robot.move_gripper("left of the handle")
+    # Now that the gripper is near the handle, we should be able to push against
+    # it to press it down.
+    if check("the robot's gripper is left of the handle"):
+        robot.move_gripper("near the handle")
+```

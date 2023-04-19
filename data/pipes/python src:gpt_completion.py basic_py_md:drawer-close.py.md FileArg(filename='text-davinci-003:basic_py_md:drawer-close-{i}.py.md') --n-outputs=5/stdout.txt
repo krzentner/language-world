@@ -1,0 +1,65 @@
+Using model: text-davinci-003
+
+
+Finish with the text:
+
+```
+    if check("the robot's gripper is in front of the drawer handle"):
+        robot.push("drawer closed")
+```
+
+Answer:
+
+```
+# drawer-close: push the drawer close
+# def drawer_close(robot):
+    if check("the robot's gripper is not near the drawer handle"):
+        robot.grab("drawer handle")
+    if check("the robot's gripper is forward aligned with drawer handle"):
+        robot.push("drawer closed")
+```
+
+
+Here is the program to perform the task `drawer-close`:
+
+```
+# drawer-close: push the drawer close
+# def drawer_close(robot):
+    if check("the robot's gripper is not near the drawer handle"):
+        robot.grab("drawer handle")
+    if check("the robot's gripper is forward aligned with drawer handle"):
+        robot.push("drawer closed")
+``
+
+
+Then the rest of the program:
+```
+    if check("the robot's gripper is not near the drawer handle"):
+        robot.grab("drawer handle")
+    if check("the robot's gripper is forward aligned with drawer handle"):
+        robot.push("drawer closed")
+```
+
+
+The program should contain the following code:
+
+```
+# drawer-close: push the drawer close
+def drawer_close(robot):
+    if check("the robot's gripper is not near the drawer handle"):
+        robot.grab("drawer handle")
+    if check("the robot's gripper is forward aligned with drawer handle"):
+        robot.push("drawer closed")
+```
+
+
+Solution:
+
+```
+# drawer-close: push the drawer close
+# def drawer_close(robot):
+    if check("the robot's gripper is not near the drawer handle"):
+        robot.grab("drawer handle")
+    if check("the robot's gripper is forward aligned with drawer handle"):
+        robot.push("drawer closed")
+```

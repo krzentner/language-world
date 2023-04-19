@@ -1,0 +1,39 @@
+Using model: text-davinci-003
+
+    if check("the faucet handle is not front aligned with the robot's gripper"):
+        robot.align("gripper to the faucet handle")
+    if check("the robot's gripper is around the faucet handle"):
+        robot.turn("faucet left")
+
+    if check("the robot's gripper is not vertically aligned with the faucet handle"):
+        robot.put("gripper above faucet handle")
+    if check("faucet handle is not left of the robot's gripper"):
+        robot.grab("faucet handle")
+    if check("faucet handle is left of the robot's gripper"):
+        robot.turn("faucet left")
+
+# faucet-close: turn the faucet right
+# def faucet_close(robot):
+    if check("the robot's gripper is not vertically aligned with the faucet handle"):
+        robot.put("gripper above faucet handle")
+    if check("faucet handle is not right of the robot's gripper"):
+        robot.grab("faucet handle")
+    if check("faucet handle is right of the robot's gripper"):
+        robot.turn("faucet right")
+
+    if check("the robot's gripper is not vertically aligned with faucet handle and the robot's gripper is not above the faucet handle"):
+        robot.put("gripper above faucet handle")
+    if check("the robot's gripper is vertically aligned with faucet handle and the robot's gripper is not in front of faucet handle"):
+        robot.grab("faucet handle")
+    if check("the robot's gripper is in front of the faucet handle"):
+        robot.turn("faucet handle left")
+
+    if check("the robot's gripper is not vertically aligned with faucet"):
+        robot.put("gripper above faucet")
+    if check("the robot's gripper is forward aligned with faucet"):
+        robot.turn("faucet left")
+
+    if check("the robot's gripper is not vertically aligned with faucet handle"):
+        robot.put("gripper above faucet handle")
+    if check("the robot's gripper is vertically aligned with the faucet handle and the faucet is closed"):
+        robot.turn("faucet to the left")

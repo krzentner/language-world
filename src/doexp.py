@@ -12,13 +12,18 @@ import sys
 
 
 @dataclass(frozen=True)
-class In:
+class FileArg:
     filename: str
 
 
 @dataclass(frozen=True)
-class Out:
-    filename: str
+class In(FileArg):
+    pass
+
+
+@dataclass(frozen=True)
+class Out(FileArg):
+    pass
 
 
 @dataclass(frozen=True)
@@ -116,16 +121,17 @@ def _sort_cmds(commands):
     return sorted(list(commands), key=key)
 
 
-def _cmd_to_args(cmd, data_dir):
+def _cmd_to_args(cmd, data_dir, tmp_data_dir):
     args = []
     for arg in cmd.args:
         if isinstance(arg, In):
             assert not arg.filename.startswith("/")
             arg = os.path.join(data_dir, arg.filename)
             os.makedirs(os.path.split(arg)[0], exist_ok=True)
-        if isinstance(arg, Out):
+        elif isinstance(arg, (Out, FileArg)):
             assert not arg.filename.startswith("/")
-            arg = os.path.join(data_dir, "tmp", arg.filename)
+            # Use temprorary directory here
+            arg = os.path.join(tmp_data_dir, arg.filename)
             os.makedirs(os.path.split(arg)[0], exist_ok=True)
         args.append(str(arg))
     return args
@@ -172,11 +178,15 @@ class Context:
     commands: set = field(default_factory=set)
     running: list = field(default_factory=list)
     # data_dir: str = os.path.expanduser("~/exp_data")
-    data_dir: str = f"{os.getcwd()}/data/experiments"
+    data_dir: str = f"{os.getcwd()}/data"
     _vm_percent_cap: float = 90.0
     max_concurrent_jobs: int or None = psutil.cpu_count()
     warmup_deadline: float = time.monotonic()
     reserved_ram_gb: float = _ram_in_use_gb()
+
+    @property
+    def _tmp_data_dir(self):
+        return f"{self.data_dir}_tmp"
 
     @property
     def ram_gb_cap(self):
@@ -231,13 +241,16 @@ class Context:
         self.commands = set()
         try:
             with open(filename) as f:
-                exec(f.read())
+                content = f.read()
+                exec(content, {})
         except Exception as exc:
             if isinstance(exc, KeyboardInterrupt):
                 raise exc
             else:
-                print("Error in exps.py:")
+                line_num = sys.exc_info()[2].tb_next.tb_lineno
+                print(f"Error in exps.py (line {line_num}):")
                 print(exc)
+                print(">>", content.split("\n")[line_num - 1])
         ready, done = self._filter_commands(self.commands)
         return _sort_cmds(ready), done
 
@@ -278,7 +291,7 @@ class Context:
         os.makedirs(cmd_dir, exist_ok=True)
         stdout = open(os.path.join(cmd_dir, "stdout.txt"), "w")
         stderr = open(os.path.join(cmd_dir, "stderr.txt"), "w")
-        args = _cmd_to_args(cmd, self.data_dir)
+        args = _cmd_to_args(cmd, self.data_dir, self._tmp_data_dir)
         print(" ".join(args))
         proc = _run_process(
             args, gpus=cmd.gpus, ram_gb=cmd.ram_gb, stdout=stdout, stderr=stderr
@@ -333,7 +346,7 @@ class Context:
                 print(f"Command complete: {cmd}")
                 for arg in cmd.args + cmd.extra_outputs:
                     if isinstance(arg, Out):
-                        tmp = os.path.join(self.data_dir, "tmp", arg.filename)
+                        tmp = os.path.join(self._tmp_data_dir, arg.filename)
                         final = os.path.join(self.data_dir, arg.filename)
                         os.makedirs(os.path.split(final)[0], exist_ok=True)
                         try:

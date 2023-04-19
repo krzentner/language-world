@@ -1,0 +1,42 @@
+Using model: text-davinci-003
+
+    if check("the robot's gripper is not near the hammer"):
+        robot.grab("hammer")
+    if check("the robot's gripper is near the hammer and the hammer is not near the nail"):
+        robot.move("hammer near nail")
+    if check("the hammer is near the nail and the hammer is not above the nail"):
+        robot.raise("hammer above nail")
+    if check("the hammer is near the nail and the hammer is above the nail"):
+        robot.strike("hammer onto nail")
+
+    if check("the robot's gripper is not near the hammer and the hammer is not above the nail"):
+        robot.grasp("hammer")
+    if check("the robot's gripper is near the hammer and the hammer is not above the nail"):
+        robot.put("hammer above the nail")
+    if check("the hammer is above the nail"):
+        robot.hit("the hammer")
+
+    if check("the robot's gripper is not vertically aligned with the nail"):
+        robot.put("gripper near the nail")
+    if check("the robot's gripper is vertically aligned with nail and the robot's gripper is not near hammer"):
+        robot.pick_up("hammer")
+    if check("the robot's gripper is above hammer and the robot's gripper is not near nail"):
+        robot.put("hammer near nail")
+    if check("the hammer is near the nail"):
+        robot.hammer("nail")
+
+    if check("the robot's gripper is not below the hammer"):
+        robot.put("gripper above hammer")
+    if check("the robot's gripper is above the hammer and the robot's gripper is open"):
+        robot.drop("gripper around hammer")
+    if check("the robot's gripper is below the hammer and the robot's gripper is closed"):
+        robot.move("hammer above the nail")
+    if check("the hammer is above the nail"):
+        robot.push("hammer down onto nail")
+
+    if check("the robot's gripper is not vertically aligned with the hammer handle"):
+        robot.put("gripper above hammer handle")
+    if check("the robot's gripper is vertically aligned with the hammer handle and the robot's gripper is not above nail"):
+        robot.grab("hammer handle")
+    if check("the robot's gripper is vertically aligned with nail"):
+        robot.strike("hammer into nail")

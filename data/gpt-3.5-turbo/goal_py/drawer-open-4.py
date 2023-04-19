@@ -1,0 +1,1 @@
+I think there is a duplicate function in this code. The `drawer-open` function is already defined above. Maybe you meant to write `drawer-close` function?

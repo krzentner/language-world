@@ -1,0 +1,109 @@
+Using model: text-davinci-003
+
+
+Steps:
+  1. Put the gripper above the faucet handle
+  2. Rotate the handle to the right
+
+```
+# faucet-close: turn the faucet right
+# def faucet_close(robot):
+    # Steps:
+    #  1. Put gripper above the faucet handle
+    #  2. Rotate the handle to the right
+    if check("the robot's gripper is not vertically aligned with the faucet handle"):
+        robot.put("gripper above faucet handle")
+    # Now that the gripper is lined up, just rotate the handle to the right.
+    if check("the robot's gripper is vertically aligned with the faucet handle"):
+        robot.turn("right")
+```
+
+
+Steps:
+  1. Put gripper above faucet
+  2. Turn faucet to the right
+
+# faucet-close: turn the faucet to the right
+# def faucet_close(robot):
+    # Steps:
+    #  1. Put gripper above faucet
+    #  2. Turn faucet to the right
+    # We need to put the gripper above the faucet before we can grab it, because
+    # of the angle of the robot's gripper.
+    if check("the robot's gripper is not vertically aligned with faucet"):
+        robot.put("gripper above faucet")
+    # Once the gripper is lined up above the faucet, we should be able to grab
+    # the faucet by moving the gripper around it.
+    if check("the robot's gripper is vertically aligned with faucet and the robot's gripper is not around faucet"):
+        robot.put("gripper around faucet")
+    # Try to turn the faucet to the right.
+    if check("the robot's gripper is around faucet"):
+        robot.turn("faucet to the right")
+
+
+Steps:
+  1. Put the gripper above the faucet
+  2. Lower the gripper down around the faucet, making sure the gripper is not pressing down too hard
+  3. Wind the faucet to the right, making sure to not exert too much pressure
+  4. Check that the faucet is in the closed position
+
+Robot Code:
+```
+# faucet-close: turn the faucet right
+# def faucet_close(robot):
+    # Steps:
+    #  1. Put the gripper above the faucet
+    if check("the robot's gripper is not vertically aligned with faucet"):
+        robot.put("gripper above faucet")
+    #  2. Lower the gripper down around the faucet, making sure the gripper is not pressing down too hard
+    if check("the robot's gripper is not around faucet and the robot's gripper is open"):
+        robot.grab("faucet")
+    # 3. Wind the faucet to the right, making sure to not exert too much pressure
+    if check("the robot's gripper is around faucet"):
+        robot.wind("faucet right")
+    #  4. Check that the faucet is in the closed position
+    if check("the faucet is not fully closed"):
+        robot.check("faucet closed")
+```
+
+
+Steps:
+1. Put gripper above the faucet handle
+2. Grab the faucet handle with the gripper
+3. Rotate the faucet handle clockwise
+
+```
+# faucet-close: turn the faucet right
+# def faucet_close(robot):
+    # Steps:
+    #  1. Put gripper above the faucet handle
+    #  2. Grab the faucet handle with the gripper
+    #  3. Rotate the faucet handle clockwise
+    if check("the robot's gripper is not above the faucet handle"):
+        robot.put("gripper above faucet handle")
+    if check("the robot's gripper is not around the faucet handle and the robot's gripper is open"):
+        robot.grab("faucet handle")
+    if check("the robot's gripper is around the faucet handle and the robot's gripper is closed"):
+        robot.rotate("faucet handle clockwise")
+```
+
+
+Steps:
+  1. Put gripper above the faucet handle
+  2. Line up the gripper with the faucet handle
+  3. Turn the faucet right
+
+```
+# faucet-close: turn the faucet right
+# def faucet_close(robot):
+    # Steps:
+    #  1. Put gripper above the faucet handle
+    if check("the robot's gripper is not vertically aligned with faucet handle"):
+        robot.put("gripper above faucet handle")
+    #  2. Line up the gripper with the faucet handle
+    if check("the robot's gripper is not vertically aligned with faucet handle"):
+        robot.align("gripper with faucet handle")
+    #  3. Turn the faucet right
+    if check("the robot's gripper is vertically aligned with faucet handle"):
+        robot.turn("faucet right")
+```

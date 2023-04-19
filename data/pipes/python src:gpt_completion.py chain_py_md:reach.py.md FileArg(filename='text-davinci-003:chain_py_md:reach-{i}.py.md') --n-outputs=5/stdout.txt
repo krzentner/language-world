@@ -1,0 +1,69 @@
+Using model: text-davinci-003
+
+
+Here's the program:
+
+```
+# reach: reach to the target location
+# def reach(robot):
+    # Steps:
+    #  1. Reach towards the target
+    # We don't have any objects to manipulate, so we can just move the robot's
+    # gripper directly to the target location
+    if check("the robot's gripper is not near reach target"):
+        robot.reach("to goal")
+```
+
+
+Then add the following code:
+
+```
+    # Steps:
+    #  1. Reach towards the target
+    # We don't have any objects to manipulate, 
+    # so we can just move the robot's gripper directly to the target location
+    if check("the robot's gripper is not near reach target"):
+        robot.reach("to goal")
+```
+
+
+The code to complete the task would look like this:
+
+```
+# reach: reach to the target location
+# def reach(robot):
+    # Steps:
+    #  1. Reach towards the target
+    # We don't have any objects to manipulate, so we can just move the robot's
+    # gripper directly to the target location
+    if check("the robot's gripper is not near reach target"):
+        robot.reach("to goal")
+```
+
+
+Then, the code to do the reach task is as follows:
+
+```
+# reach: reach to the target location
+# def reach(robot):
+    # Steps:
+    #  1. Reach towards the target
+    # We don't have any objects to manipulate, so we can just move the robot's
+    # gripper directly to the target location
+    if check("the robot's gripper is not near reach target"):
+        robot.reach("to goal")
+```
+
+
+The code for reach would look like this:
+
+```
+# reach: reach to the target location
+# def reach(robot):
+    # Steps:
+    #  1. Reach towards the target
+    # We don't have any objects to manipulate, so we can just move the robot's
+    # gripper directly to the target location
+    if check("the robot's gripper is not near reach target"):
+        robot.reach("to goal")
+```

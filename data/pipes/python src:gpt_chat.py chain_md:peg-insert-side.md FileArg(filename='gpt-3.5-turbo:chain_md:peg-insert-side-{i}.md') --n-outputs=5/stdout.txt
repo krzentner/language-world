@@ -1,0 +1,59 @@
+Using model: gpt-3.5-turbo
+To insert the peg into the hole from the side, the robot should perform the following steps:
+
+1. Put the gripper above the peg.
+   - When the robot's gripper is not vertically aligned with the peg, the robot should put the gripper above the peg.
+2. Grab the peg with the gripper.
+   - When the gripper is above the peg and is open, the robot should close the gripper to grab the peg.
+3. Line up the peg with the hole.
+   - If the peg is not lined up with the hole, the robot should move the gripper sideways to align the peg with the hole.
+4. Slide the peg sideways into the hole.
+   - When the peg is lined up with the hole, the robot should slide the peg into the hole sideways using the gripper.
+To insert the peg into the hole from the side reliably, the robot should perform the following steps:
+
+1. Put gripper above the peg
+2. Grab the peg with the gripper
+3. Line the peg up with the hole
+4. Slide the peg sideways into the hole
+
+More specifically:
+1. First, the robot should position its gripper above the peg.
+   - When the robot's gripper is not vertically aligned with the peg, the robot should put the gripper above the peg.
+2. Next, the robot should grab the peg with the gripper.
+   - When the gripper is not around the peg, the robot should drop the gripper around the peg.
+3. Then, the robot should line up the peg with the hole.
+   - When the peg is not left of the robot's gripper and the peg is not forward aligned with the robot's gripper, the robot should align the peg with the hole.
+4. Finally, the robot should slide the peg sideways into the hole.
+   - When the peg is horizontally aligned with the hole, the robot should slide the peg into the hole.
+To insert the peg into the hole from the side reliably, the robot should perform the following steps:
+1. Place the gripper above the peg.
+- When the robot's gripper is not vertically aligned with the peg, the robot should put the gripper above the peg.
+2. Grab the peg with the gripper.
+- When the robot's gripper is aligned with the peg, the robot should close the gripper to grab the peg.
+3. Line up the peg with the hole.
+- When the gripper is holding the peg, align the peg sideways with the hole.
+4. Slide the peg sideways into the hole.
+- When the peg is aligned with the hole, slide it sideways into the hole while holding it with gripper.
+5. Release the gripper to place the peg inside the hole.
+- After inserting the peg into the hole, release the gripper to let go of the peg. It should be in place inside the hole now.
+The robot should perform the following steps to reliably insert the peg into the hole from the side:
+- Put the gripper above the peg
+- Grab the peg with the gripper
+- Line the peg up with the hole
+- Slide the peg sideways into the hole
+
+If the robot's gripper is not vertically aligned with the peg, the first step should be to put the gripper above the peg. Once the gripper is above the peg, the robot should grab the peg with the gripper. If the peg is not horizontally aligned with the hole, the robot should line up the peg with the hole. Finally, the robot should slide the peg sideways into the hole. If the peg becomes left of the gripper, the robot should go back to putting the gripper above the peg. Because the peg is a long object, the robot should check if the gripper is lined up with it from the front instead of around it.
+To insert the peg into the hole from the side reliably, the robot should perform the following steps:
+1. Put gripper above the peg
+2. Grab the peg with the gripper
+3. Line the peg up with the hole
+4. Slide the peg sideways into the hole
+
+First, put the gripper above the peg.
+- When the robot's gripper is not vertically aligned with the peg, the robot should put gripper above peg.
+If the peg becomes left of the gripper, go back to putting the gripper above the peg. Because the peg is a long object, check if the gripper is lined up with it from the front instead of around it.
+- When peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper, the robot should grab peg.
+As long the gripper is still mostly around the peg and the peg isn't lined up with the hole, line up the peg with the hole.
+- When the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole, the robot should align peg to hole.
+If the peg is lined up with the hole to the side, insert it.
+- When peg is horizontally aligned with hole, the robot should insert peg into hole.

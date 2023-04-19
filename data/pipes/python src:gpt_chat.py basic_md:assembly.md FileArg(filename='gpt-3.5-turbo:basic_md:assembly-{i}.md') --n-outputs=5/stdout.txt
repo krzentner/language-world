@@ -1,0 +1,32 @@
+Using model: gpt-3.5-turbo
+To put the wrench around the peg reliably, the robot should perform the following steps:
+- When the robot's gripper is not vertically aligned with the wrench and the wrench is not left of the robot's gripper, the robot should move gripper to left of the wrench.
+- When the robot's gripper is near the wrench, the robot should grab the wrench.
+- When the robot's gripper is holding the wrench and the robot's gripper is not around the peg, the robot should put the wrench around the peg.
+To put the wrench around the peg reliably, the robot should perform the following steps:
+- When the robot's gripper is not vertically aligned with the wrench and the wrench is not near the peg, the robot should move the gripper above the wrench.
+- When the robot's gripper is near the wrench and the robot's gripper is not around the wrench, the robot should open the gripper.
+- When the robot's gripper is around the wrench and the robot's gripper is not near the peg, the robot should move the gripper above the peg.
+- When the robot's gripper is above the peg and the wrench is not aligned with the peg, the robot should maneuver the wrench to align it with the peg.
+- When the wrench is aligned with the peg, the robot should close the gripper around the wrench to hold it in place around the peg.
+To put the wrench around the peg reliably, the robot should perform the following steps:
+- When the robot's gripper is not vertically aligned with the peg, the robot should put gripper above peg.
+- When the robot's gripper is near the peg, the robot should open gripper.
+- When the robot's gripper is around the peg, the robot should close gripper and hold the peg.
+- When the robot's grip is holding the peg, the robot should move the gripper towards the wrench.
+- When the robot's gripper is near the wrench, the robot should open gripper to release the peg.
+- When the robot's gripper is around the wrench, the robot should close the gripper and pick up the wrench.
+- When the robot's gripper is holding the wrench, the robot should move the gripper towards the peg.
+- When the robot's gripper is near the peg, the robot should slide the wrench around the peg.
+- When the wrench is around the peg, the robot should release the gripper to let go of the wrench.
+To put the wrench around the peg reliably, the robot should perform the following steps:
+- When the robot's gripper is not vertically aligned with the wrench, the robot should put gripper above wrench.
+- When the robot's gripper is vertically aligned with the wrench and the wrench is not almost horizontally aligned with the peg, the robot should align wrench with the peg.
+- When the wrench is almost horizontally aligned with the peg, the robot should grab the wrench.
+- When the wrench is gripped and the robot's gripper is not almost horizontally aligned with the peg, the robot should align the wrench with the peg.
+- When the wrench is vertically and horizontally aligned with the peg, the robot should release the wrench around the peg.
+To put the wrench around the peg reliably, the robot should perform the following steps:
+ - When the robot's gripper is not vertically aligned with the peg, the robot should put the gripper above the peg.
+ - When the robot's gripper is above the peg and the wrench is near the peg, the robot should position the gripper so that it surrounds the wrench and peg.
+ - When the gripper surrounds the wrench and peg, the robot should close the gripper to hold the wrench in place.
+ - When the gripper is holding the wrench and peg, the robot should move the gripper and the wrench to the desired location.

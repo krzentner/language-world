@@ -1,0 +1,38 @@
+Using engine: text-davinci-003
+
+
+Then, include the following steps:
+
+1. Put gripper above the hole
+2. Drop gripper around the peg
+3. Close gripper around the peg
+4. Lift the peg out of the hole
+5. Move the peg to the target location
+
+```
+# pick-out-of-hole: pick up the peg out of the hole and hold it at the target location
+# def pick_out_of_hole(robot):
+    # Steps:
+    #  1. Put gripper above the hole
+    #  2. Drop gripper around the peg
+    #  3. Close gripper around the peg
+    #  4. Lift the peg out of the hole
+    #  5. Move the peg to the target location
+    # First, put the gripper above the hole.
+    if check("the robot's gripper is not above the hole"):
+        robot.put("gripper above hole")
+    # If the gripper isn't around the peg, put it around the peg.
+    if check("the robot's gripper is not around peg and the robot's gripper is open"):
+        robot.drop("gripper around peg")
+    # If the gripper is near the peg and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near peg and the robot's gripper is open"):
+        robot.close("gripper around peg")
+    # We need to lift the peg out of the hole, so move the gripper up until the
+    # peg is clear of the hole.
+    if check("the peg is still in the hole"):
+        robot.lift("peg out of hole")
+    # Once the peg is out of the hole, we can move it to the target location.
+    if check("the robot's gripper is above peg and the robot's gripper is closed"):
+        robot.place("peg at goal")
+```

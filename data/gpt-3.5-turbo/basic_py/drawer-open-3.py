@@ -1,0 +1,1 @@
+Sorry, it looks like we already defined the `drawer_open()` function earlier in this code snippet. Maybe you meant to define a different function instead?

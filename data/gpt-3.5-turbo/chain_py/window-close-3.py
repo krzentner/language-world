@@ -1,0 +1,1 @@
+Oops, there seems to be a mistake here - we already have a function for window_close above. Did you mean to add an additional function or modify the existing one?

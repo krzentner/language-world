@@ -1,0 +1,139 @@
+Using model: text-davinci-003
+
+
+The steps for performing the `button-press-wall` task are as follows:
+
+1. Put gripper above the button 
+2. Line up the gripper with the button as viewed from the side 
+3. Drop gripper around the button 
+4. Push the button down
+
+The code for performing the `button-press-wall` task would then be as follows:
+
+```
+# button-press-wall: push the button from the front with a short wall in the way
+# def button_press_wall(robot):
+    # Steps:
+    #  1. Put gripper above the button
+    #  2. Line up the gripper with the button as viewed from the side
+    #  3. Drop gripper around the button 
+    #  4. Push the button down
+    # First, put the gripper above the button.
+    if check("the robot's gripper is not vertically aligned with the button"):
+        robot.move_gripper("vertically aligned with the button")
+    # If the button is not left of the gripper, move the gripper slightly
+    # so the button is left of the gripper.
+    if check("the button is not left of the robot's gripper"):
+        robot.move_gripper("left of the button")
+    # If the gripper is near the button but not around it, enclose it.
+    if check("the robot's gripper is around the button"):
+        robot.move_gripper("near the button", close_gripper=True)
+    # Once the gripper is around the button, just push it down to press the button.
+    if check("the robot's gripper is around the button"):
+        robot.move_gripper("forward aligned with the button")
+
+
+Steps:
+  1. Put gripper left of the button
+  2. Push the wall away with the gripper
+  3. Line the gripper up with the button
+  4. Push down on the button from the front
+
+If the robot's gripper is not left of the button, it should move it there.
+We’re working around the wall, so make sure the robot’s gripper is in front of the wall.
+
+```
+# button-press-wall: push the button from the front with a short wall in the way
+# def button_press_wall(robot):
+    # Steps:
+    #  1. Put gripper left of the button
+    #  2. Push the wall away with the gripper
+    #  3. Line the gripper up with the button
+    #  4. Push down on the button from the front
+    # If the robot's gripper is not left of the button, it should move it there.
+    if check("the robot's gripper is not left of the button"):
+        robot.move_gripper("left of the button and in front of the wall")
+    # We’re working around the wall, so make sure the robot’s gripper is in front of the wall.
+    if check("the robot's gripper is in front of the wall and the robot's gripper is not forward aligned with button"):
+        robot.move_gripper("forward aligned with the button", close_gripper=True)
+    # Once the gripper is lined up with the button, we can push the button down.
+    if check("the robot's gripper is forward aligned with the button"):
+        robot.move_gripper("near the button")
+```
+
+
+Steps:
+1. Put gripper in front of the button
+2. Drop gripper slightly above the top of the short wall
+3. Push down through the wall to push the button
+
+```
+# button-press-wall: push the button from the front with a short wall in the way
+# def button_press_wall(robot):
+    # Steps:
+    #  1. Put gripper in front of the button
+    #  2. Drop gripper slightly above the top of the short wall
+    #  3. Push down through the wall to push the button
+    # Put the gripper directly in front of the button.
+    if check("the robot's gripper is not forward aligned with button"):
+        robot.move_gripper("forward aligned with the button")
+    # Drop the gripper slightly above the top of the wall.
+    if check("the robot's gripper is not above wall"):
+        robot.move_gripper("above the wall", close_gripper=True)
+    # Push down through the wall to push the button.
+    if check("the robot's gripper is above the wall"):
+        robot.move_gripper("near the button")
+
+
+The robot needs to push a button from the front, but the button is blocked by a short wall.
+
+The steps required to complete this task would be:
+
+1. Put gripper forward of the wall at the same level as the button
+2. Move gripper towards the wall and lower it to the level of the button
+3. Push the button from the side
+
+```
+# button-press-wall: push the button from the front with a short wall in the way
+# def button_press_wall(robot):
+    # Steps:
+    #  1. Put gripper in front of the wall directly above the button
+    #  2. Move the gripper towards the wall and lower it to the level of the button
+    #  3. Push the button from the side
+    # Put the gripper forward of the wall at the same level as the button
+    if check("the robot's gripper is not above the button"):
+        robot.move_gripper("above the button")
+    # Move the gripper towards the wall and lower it to the level of the button
+    if check("the robot's gripper is not aligned with the button"):
+        robot.move_gripper("towards the wall")
+    # Now that the gripper is aligned with the button, close the gripper around
+    # it and push it from the side.
+    if check("the robot's gripper is aligned with the button"):
+        robot.move_gripper("near the button", close_gripper=True)
+        robot.move_gripper("left of the button")
+```
+
+
+Steps: 
+1. Move the gripper to the short wall that is near the button
+2. Lower the gripper to the wall in line with the button
+3. Push the button from the side of the short wall
+
+Solution:
+```
+# button-press-wall: push the button from the front with a short wall in the way
+# def button_press_wall(robot):
+    # Steps:
+    #  1. Move the gripper to the short wall that is near the button
+    #  2. Lower the gripper to the wall in line with the button
+    #  3. Push the button from the side of the short wall
+    if check("the robot's gripper is not near the short wall"):
+        robot.move_gripper("near the short wall")
+    # If the gripper is near the short wall, lower it to the wall in line with
+    # the button.
+    if check("the robot's gripper is in line with the button"):
+        robot.move_gripper("in line with the button", close_gripper=True)
+    # If the gripper is in line with the button (as viewed from the side) we
+    # can push the buton by moving the gripper left.
+    if check("the robot's gripper is in line with the button and the robot's gripper is not near the button"):
+        robot.move_gripper("left of the button")

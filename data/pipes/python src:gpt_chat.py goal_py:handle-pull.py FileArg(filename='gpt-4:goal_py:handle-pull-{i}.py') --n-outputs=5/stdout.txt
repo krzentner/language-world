@@ -1,0 +1,51 @@
+Using model: gpt-3.5-turbo
+# Steps:
+    #  1. Put gripper around the handle
+    #  2. Lift the handle up
+    # First, put the gripper around the handle.
+    if check("the robot's gripper is not around the handle and the robot's gripper is open"):
+        robot.move_gripper("around the handle", close_gripper=True)
+    # Once the gripper is around the handle, we can lift it up.
+    if check("the robot's gripper is around the handle"):
+        robot.move_gripper("above the handle")
+# Steps:
+    #  1. Put gripper above handle
+    #  2. Drop gripper around handle
+    #  3. Pull up on the handle
+    # First, put the gripper mostly above the handle.
+    if check("the robot's gripper is not vertically aligned with the handle"):
+        robot.move_gripper("vertically aligned with the handle")
+    # If the gripper isn't around the handle, put it around the handle.
+    if check("the robot's gripper is not around handle"):
+        robot.move_gripper("around the handle")
+    # If the gripper is around the handle, pull up on the handle.
+    if check("the robot's gripper is around handle"):
+        robot.move_gripper("above the handle")
+# Steps:
+    # 1. Put gripper around the handle
+    # 2. Pull up on the handle
+    # First, put the gripper around the handle.
+    if check("the robot's gripper is not around the handle and the robot's gripper is open"):
+        robot.move_gripper("around the handle", close_gripper=True)
+    # Once the gripper is around the handle, just pull up on it.
+    if check("the robot's gripper is around the handle"):
+        robot.move_gripper("above the handle")
+# Steps:
+    #  1. Put gripper around the handle
+    #  2. Pull up the handle
+    # First, put the gripper around the handle.
+    if check("the robot's gripper is not around the handle"):
+        robot.move_gripper("around the handle")
+    # Once the gripper is around the handle, we can just pull up on it.
+    if check("the robot's gripper is around the handle"):
+        robot.move_gripper("vertically aligned with the handle")
+# Steps:
+    #  1. Put gripper around the handle
+    #  2. Lift up on the handle
+    # Because this is "pull", we just need to put the gripper around the handle.
+    # Line up the robot's gripper with the handle.
+    if check("the robot's gripper is not vertically aligned with handle"):
+        robot.move_gripper("vertically aligned with the handle")
+    # Now that the gripper is lined up with the handle, grab the handle.
+    if check("the robot's gripper is around the handle"):
+        robot.move_gripper("lifted up the handle")

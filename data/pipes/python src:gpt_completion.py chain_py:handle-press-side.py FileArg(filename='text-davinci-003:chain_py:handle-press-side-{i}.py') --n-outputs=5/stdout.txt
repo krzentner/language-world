@@ -1,0 +1,61 @@
+Using model: text-davinci-003
+
+    # Steps:
+    #  1. Put gripper left of the handle
+    #  2. Push down on the handle
+    # We need to put the gripper left of the handle before pushing it.
+    # This is so the robot can push down on the handle from the side.
+    if check("the robot's gripper is not left of handle"):
+        robot.put("gripper left of handle")
+    # Once the gripper is lined up, just push down on the handle.
+    if check("the robot's gripper is left of handle"):
+        robot.push("down on handle")
+
+    # Steps:
+    #  1. Line up the gripper as viewed from the side
+    #  2. Push down on the handle
+    # Because this is "side", we just need to line up the gripper from the side.
+    # Line up the robot's gripper from the side.
+    if check("the robot's gripper is not horizontally aligned with handle"):
+        robot.put("gripper aside of handle")
+    # Now that the gripper is lined up, just push down on the handle.
+    if check("the robot's gripper is horizontally aligned with handle"):
+        robot.push("down on handle")
+
+    # Steps:
+    #  1. Line up the gripper from the side
+    #  2. Push down on the handle from the side
+    # First, line up the robot's gripper from the side by moving it so it
+    # becomes parallel with the handle.
+    # Note that we don't need to line up the robot's gripper with the handle
+    # down to the millimeter.
+    if check("the robot's gripper is not side aligned with the handle"):
+        robot.put("gripper side aligned with handle")
+    # Once the robot's gripper is perpendicular with the handle, we can just
+    # push down on the handle.
+    if check("the robot's gripper is side aligned with the handle"):
+        robot.push("down handle")
+
+    # Steps:
+    #  1. Put gripper to the side of the handle
+    #  2. Push down on the handle
+    # To press the handle from the side, we need to move the robot's gripper to the side of the handle.
+    if check("the robot's gripper is not horizontally aligned with the handle"):
+        robot.put("gripper to the side of the handle")
+    # Now that the gripper is near the handle, we can press down on it.
+    if check("the robot's gripper is horizontal aligned with the handle"):
+        robot.push("down on the handle")
+
+    # Steps:
+    #  1. Put gripper roughly above the handle
+    #  2. Move the gripper right so that it is lined up with the handle
+    #  3. Push down on the handle
+    # First, we need to put the activator roughly above the handle.
+    if check("the robot's gripper is not above the handle"):
+        robot.put("gripper above handle")
+    # If the gripper is currently above the handle, line it up with the handle.
+    if check("the robot's gripper is above the handle and the robot's gripper is not right of the handle"):
+        robot.align("gripper with handle")
+    # When it's lined up, push down on the handle.
+    if check("the robot's gripper is right of the handle"):
+        robot.push("down on handle")

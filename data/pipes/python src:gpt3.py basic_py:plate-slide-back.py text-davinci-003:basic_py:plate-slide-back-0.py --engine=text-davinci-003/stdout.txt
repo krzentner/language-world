@@ -1,0 +1,9 @@
+Using engine: text-davinci-003
+
+    if check("the robot's gripper is not above the plate"):
+        robot.put("gripper above the plate")
+    if check("the robot's gripper is above the plate and the plate is not aligned with target"):
+        robot.align("plate to target")
+    if check("the plate is aligned with target and the plate is not near target"):
+        robot.slide("plate to target")
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_py/plate-slide-back-0.py'

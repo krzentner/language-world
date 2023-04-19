@@ -1,0 +1,9 @@
+Using engine: text-davinci-003
+
+    if check("the robot's gripper is not above the stick"):
+        robot.grab("stick")
+    if check("the robot's gripper is above the stick"):
+        robot.put("tip of stick below thermos")
+    if check("the stick is below the thermos"):
+        robot.push("thermos to goal")
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_py/stick-push-4.py'

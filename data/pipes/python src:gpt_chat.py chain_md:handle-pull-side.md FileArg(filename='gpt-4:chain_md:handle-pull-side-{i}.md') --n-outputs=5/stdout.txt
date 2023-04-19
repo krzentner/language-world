@@ -1,0 +1,38 @@
+Using model: gpt-3.5-turbo
+To pull up the handle from the side reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the handle  2. Grab the handle with the gripper  3. Pull the handle up from the side
+    First, put the gripper above the handle.
+    - When the robot's gripper is not vertically aligned with the handle, the robot should put gripper above the handle.
+    If the handle becomes left of the gripper, go back to putting the gripper above the handle. Because the handle is a long object, check if the gripper is lined up with it from the front instead of around it.
+    - When handle is not left of the robot's gripper and handle is not forward aligned with the robot's gripper, the robot should grab handle.
+    As long the gripper is still mostly around the handle and the handle isn't pulled up from the side, pull the handle up from the side.
+    - When the robot's gripper is forward aligned with the handle and the handle is not pulled up from the side, the robot should pull the handle up from the side.
+To pull up the handle from the side reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the handle  2. Grab the handle with the gripper  3. Pull the handle up from the side
+    First, put the gripper above the handle.
+    - When the robot's gripper is not vertically aligned with the handle, the robot should put gripper above handle.
+    Once the gripper is around the handle, we can pull the handle up from the side using a pulling motion.
+    - When the robot's gripper is around the handle, the robot should pull handle up from the side.
+To pull up the handle from the side reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper around handle  2. Pull handle up
+    First, put the gripper around the handle from the side.
+    - When the robot's gripper is not around the handle, the robot should move gripper to side of handle and close gripper around handle.
+    Once the gripper is around the handle, pull the handle up.
+    - When the robot's gripper is around the handle, the robot should pull handle up.
+To pull up the handle from the side reliably, the robot should perform the following steps:
+
+  Steps:  1. Put gripper around the handle  2. Pull the handle up from the side
+  First, put the gripper around the handle.
+  - When the robot's gripper is not around the handle and the robot's gripper is not vertically aligned with the handle, the robot should put gripper around handle.
+  If the gripper is fully around the handle, pull up on the handle from the side.
+  - When the robot's gripper is around the handle, the robot should pull handle up from the side.
+To pull up the handle from the side reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the handle  2. Move gripper to one side of the handle  3. Grab the handle with the gripper  4. Pull up on the handle from the side
+    First, put the gripper above the handle.
+    - When the robot's gripper is not vertically aligned with handle, the robot should put gripper above handle.
+    Move the gripper to one side of the handle.
+    - When the robot's gripper is above handle and the robot's gripper is not near the side of the handle, the robot should move gripper to one side of the handle.
+    Grab the handle with the gripper.
+    - When the robot's gripper is near the handle and the robot's gripper is open, the robot should grab handle.
+    Finally, pull up on the handle from the side.
+    - When the robot's gripper is around the handle, the robot should pull handle up from the side.

@@ -1,0 +1,40 @@
+Using model: text-davinci-003
+
+Steps:  1. Put gripper above dial  2. Drop gripper around dial  3. Rotate dial to unlock the door
+    We need to put the gripper above the dial before we can grab it, because of the angle of the robot's gripper.
+    - When the robot's gripper is not above the dial, move the robot's gripper until the robot's gripper is above the dial
+    Once the gripper is above the dial, we should be able to grab the dial by moving the gripper down around it.
+    - When the robot's gripper is above dial and the robot's gripper is not around dial, move the robot's gripper until the robot's gripper is around the dial
+    Once the gripper is around the dial, rotate the dial to unlock the door.
+    - When the robot's gripper is around dial, move the robot's gripper until the dial is unlocked
+
+    Steps:  1. Put gripper near the dial  2. Move the gripper in a circular motion around the dial  3. Turn the dial to unlock the door
+    We need to put the gripper near the dial before we can move it.
+    - When the robot's gripper is not near the dial, move the robot's gripper until the robot's gripper is near the dial and the robot's gripper is closed
+    Once the gripper is in place, turn the dial in a circle to unlock the door.
+    - When the robot's gripper is near the dial, move the robot's gripper in a circular motion until the robot's gripper has turned the dial to the correct position to unlock the door
+
+    Steps:  1. Put gripper above the handle  2. Close the gripper around the door handle  3. Move the door handle counter-clockwise in small increments  4. Continue turning the handle until it unlocks
+    First, put the gripper at the top of the door handle.
+    -When the robot's gripper is not above the handle, move the robot's gripper until the robot's gripper is above the handle
+    Then, close the gripper around the door handle.
+    -When the robot's gripper is not around the handle and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the handle and the gripper is closed
+    Once the gripper is around the handle, we can start turning it.
+    -When the robot's gripper is around the handle and the handle is not in its starting position, move the robot's gripper in small increments to turn the handle counter-clockwise
+    Continue moving it until the door unlocks.
+    -When the robot's gripper is around the handle and the door is not unlocked, move the robot's gripper in small increments to turn the handle counter-clockwise until the door unlocks
+
+    Steps:  1. Put gripper above dial 2. Move gripper down around the dial  3. Rotate the dial to the appropriate direction
+    First, put the gripper above the dial, so that we don't slip off of it.
+
+    - When the robot's gripper is not above the dial, move the robot's gripper until the robot's gripper is above the dial
+    If the dial isn't below the gripper, move the gripper above the dial.
+    - When the robot's gripper is above the dial and the robot's gripper is not around the dial, move the robot's gripper until the robot's gripper is around the dial and the robot's gripper is closed
+    Once the gripper is around the dial, we can rotate it to the appropriate direction
+    - When the robot's gripper is around the dial and the robot's gripper is closed, move the robot's gripper until the robot's gripper is rotated to the appropriate direction
+
+
+Steps: 1. Put gripper around dial 2. Turn dial to the left or right depending on what the door requires 3. When the dial reaches the unlocked position, stop turning 
+- When the robot's gripper is not around the dial, move the robot's gripper until the robot's gripper is around the dial
+- When the robot's gripper is around the dial, move the robot's gripper until the robot's gripper is closed 
+- When the robot's gripper is closed, move the robot's gripper in the required direction to rotate the dial until it reaches the unlocked position.

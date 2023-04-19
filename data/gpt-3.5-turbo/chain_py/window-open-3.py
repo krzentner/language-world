@@ -1,0 +1,1 @@
+I believe we already have a function for sliding the window open to the left named `window_open`. Did you mean to ask me for something else?

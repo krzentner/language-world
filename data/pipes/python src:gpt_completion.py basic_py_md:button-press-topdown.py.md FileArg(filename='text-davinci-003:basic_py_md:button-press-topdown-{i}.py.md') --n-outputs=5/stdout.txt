@@ -1,0 +1,44 @@
+Using model: text-davinci-003
+
+
+# def button_press_topdown(robot):
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.put("gripper above button")
+    if check("the robot's gripper is vertically aligned with button"):
+        robot.push("down on button")
+
+
+Great, here is the program: 
+
+```
+# button-press-topdown: push the button down from above
+# def button_press_topdown(robot):
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.put("gripper above button")
+    if check("the robot's gripper is vertically aligned with button"):
+        robot.push("down on button")
+```
+
+
+if check("the robot's gripper is not vertically aligned with button"):
+    robot.put("gripper above button")
+if check("the robot's gripper is vertically aligned with button"):
+    robot.push("down on button")
+
+
+If check("the robot's gripper is not vertically aligned with button"):
+    robot.put("gripper above button")
+if check("the robot's gripper is vertically aligned with button"):
+    robot.push("down on button")
+
+
+The code would look like this:
+
+```
+# button-press-topdown: push the button down from above
+# def button_press_topdown(robot):
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.put("gripper above button")
+    if check("the robot's gripper is vertically aligned with button"):
+        robot.push("down on button")
+```

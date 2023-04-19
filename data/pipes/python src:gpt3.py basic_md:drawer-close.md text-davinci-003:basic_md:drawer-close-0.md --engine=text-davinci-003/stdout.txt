@@ -1,0 +1,6 @@
+Using engine: text-davinci-003
+
+
+- When the robot's gripper is not near the drawer handle, the robot should grab drawer handle.
+- When the robot's gripper is forward aligned with drawer handle, the robot should push drawer closed.
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_md/drawer-close-0.md'

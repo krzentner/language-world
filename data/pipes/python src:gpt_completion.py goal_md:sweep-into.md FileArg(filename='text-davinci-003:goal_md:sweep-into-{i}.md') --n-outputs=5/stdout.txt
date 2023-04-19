@@ -1,0 +1,46 @@
+Using model: text-davinci-003
+ 
+
+Steps:  1. Put gripper above cube  2. Drop gripper around cube  3. Close gripper around cube  4. Move cube to goal
+    First, put the gripper above the cube so that we don't bump it while trying to grab it.
+    - When the robot's gripper is not above the cube, move the robot's gripper until the robot's gripper is above the cube
+    If the gripper isn't around the cube, put it around the cube.
+    - When the robot's gripper is not around cube and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the cube and the robot's gripper is closed
+    If the gripper is near the cube and open, maybe we can grab it by closing the gripper.
+    - When the robot's gripper is above cube and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the target location
+
+    Steps:  1. Put gripper above cube  2. Drop gripper around cube  3. Close gripper around cube  4. Move the cube to the target location
+    First, put the gripper above the cube, so that we don't bump it while trying to grab it.
+    - When the robot's gripper is not above the cube, move the robot's gripper until the robot's gripper is above the cube
+    If the gripper isn't around the cube, put it around the cube.
+    - When the robot's gripper is not around cube and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the cube and the robot's gripper is closed
+    If the gripper is near the cube and open, maybe we can grab it by closing the gripper.
+    - When the robot's gripper is above cube and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the target location
+
+    Steps:  1. Put gripper above the cube  2. Drop gripper around the cube  3. Close gripper around cube  4. Sweep the cube to the target location
+    We need to put the gripper above the cube before we can grab it.
+    - When the robot's gripper is not above the cube, move the robot's gripper until the robot's gripper is above the cube
+    Once the robot's gripper is above the cube, the robot should drop it around the cube.
+    - When the robot's gripper is not around the cube and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the cube and the robot's gripper is closed
+    When the gripper is near the cube and closed, sweep the cube to the target location.
+    - When the robot's gripper is near the cube and the robot's gripper is closed, move the robot's gripper until the robot's gripper is above the target location
+
+
+    Steps:  1. Put gripper below cube  2. Lift the cube  3. Slide cube to the target location 
+    First, put the gripper below the cube so it can grab it.
+    - When the robot's gripper is not below the cube, move the robot's gripper until the robot's gripper is below the cube and the robot's gripper is closed
+    If the gripper is below the cube and open, close it to keep the cube in it's grasp.
+    - When the robot's gripper is below the cube and the robot's gripper is closed, move the robot's gripper until the robot's gripper is above the cube
+    If the cube is in the gripper, lift it.
+    - When the robot's gripper is above the cube and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the target location
+    Once the robot's gripper is near the target location, the goal is to slide the cube to the target location. 
+    - When the robot's gripper is near the target location and the cube is below the robot's gripper, move the robot's gripper until the cube is above the target location
+
+
+Steps: 1. Put gripper above cube  2. Drop gripper around cube  3. Close gripper around cube  4. Move cube to goal
+    The steps to move the cube to the target location is similar to the pick-place task, but with the addition of the sweeping step. We still need the initial steps of putting the gripper above the cube.
+    - When the robot's gripper is not above the cube, move the robot's gripper until the robot's gripper is above the cube
+    If the cube is left of the gripper, go back to putting the gripper above the cube.
+    - When the robot's gripper is not around cube and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the cube and the robot's gripper is closed
+    After the gripper gets close to the cube, the robot may still need to adjust the position. At this point the robot should begin sweeping the cube until it is aligned with the target location.
+    - When the robot's gripper is near the cube, move the robot's gripper until the cube is forward aligned with the target location

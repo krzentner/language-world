@@ -1,0 +1,51 @@
+Using model: text-davinci-003
+
+    # Steps:
+    #  1. Put gripper near the soccer ball
+    #  2. Push soccer ball towards target
+    # If the ball is not near the robot's gripper, move the gripper near the
+    # ball.
+    if check("the robot's gripper is not near soccer ball"):
+        robot.move("gripper near soccer ball")
+    # If the gripper is near the ball, start pushing it towards the target.
+    if check("the robot's gripper is near soccer ball"):
+        robot.push("soccer ball to target")
+
+    # Steps:
+    #  1. Put gripper in front of soccer ball
+    #  2. Push soccer ball to goal
+    # If the soccer ball is not within reach of the robot's gripper, move the 
+    # gripper in front of the soccer ball.
+    if check("the soccer ball is not near robot's gripper"):
+        robot.put("gripper in front of soccer ball")
+    # If the robot's gripper is near the soccer ball, we can push it to the goal.
+    if check("the robot's gripper is near the soccer ball"):
+        robot.push("soccer ball to goal")
+
+    # Steps:
+    #  1. Put gripper just above soccer ball
+    #  2. Push soccer ball towards goal
+    # First, put the gripper slightly above the soccer ball.
+    # We don't want the robot's gripper to bang the soccer ball away, because
+    # that would be sloppy.
+    if check("the robot's gripper is not slightly above soccer ball"):
+        robot.put("gripper slightly above soccer ball")
+    # If the gripper is above the soccer ball, we can start pushing the ball
+    # towards the goal.
+    # Push it in the direction of the goal.
+    if check("the robot's gripper is looking down at soccer ball and the robot's gripper is not near the goal"):
+        robot.push("soccer ball towards goal")
+
+    # Steps:
+    #  1. Put gripper above the soccer ball
+    #  2. Push the soccer into the goal
+    # The robot needs to place its gripper right over the soccer ball so it can
+    # trap it.
+    if check("the robot's gripper is not above soccer ball"):
+        robot.put("gripper above ball")
+    # Once the robot's gripper is over the soccer ball, it can push it towards
+    # the target location.
+    if check("the robot's gripper is above soccer ball"):
+        robot.push("ball to goal")
+
+

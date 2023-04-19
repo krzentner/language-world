@@ -1,0 +1,1 @@
+Looks like the code for window-open was already written, did you mean to ask for something else?

@@ -1,0 +1,120 @@
+Using model: text-davinci-003
+
+
+Steps:
+1. Put gripper above the handle
+2. Line up the gripper vertically with the handle
+3. Push the handle downwards
+
+```
+# handle-press: push down the handle
+# def handle_press(robot):
+    # Steps:
+    #  1. Put gripper above the handle
+    #  2. Line up the gripper vertically with the handle
+    #  3. Push the handle downwards
+    # If the gripper is not above the handle yet, put the gripper above it.
+    if check("the robot's gripper is not above the handle"):
+        robot.put("gripper above the handle")
+    # If the gripper is above the handle and not vertically aligned, move the
+    # gripper vertically.
+    if check("the robot's gripper is above the handle and the robot's gripper is not vertically aligned with the handle"):
+        robot.align("gripper with handle")
+    # After the gripper is vertically aligned with the handle, push down on it.
+    if check("the robot's gripper is vertically aligned with the handle"):
+        robot.push("handle downwards")
+```
+
+
+Then, our program can look like this: 
+
+```
+# handle-press: push down the handle
+# def handle_press(robot):
+    # Steps:
+    #  1. Put the gripper above the handle
+    #  2. Drop down the gripper around the handle
+    #  3. Push down on the handle
+    # First, put the gripper roughly above the handle.
+    if check("the robot's gripper is not above the handle"):
+        robot.put("gripper above handle")
+    # We can see the handle from above, so if the gripper is near it but not
+    # around it, drop the gripper around it.
+    if check("the robot's gripper is not around the handle and the robot's gripper is near the handle"):
+        robot.drop("gripper around handle")
+    # Once the gripper is around the handle, we can just push down on the
+    # handle.
+    if check("the robot's gripper is around handle"):
+        robot.push("down on handle")
+```
+
+
+The program would look like this:
+
+```
+# handle-press: push down the handle
+# def handle_press(robot):
+    # Steps:
+    #  1. Put gripper above handle
+    #  2. Drop gripper around handle
+    #  3. Push down the handle
+    # We need to put the gripper above the handle before we can grab it, 
+    # because of the angle of the robot's gripper.
+    if check("the robot's gripper is not vertically aligned with handle"):
+        robot.put("gripper above handle")
+    # Once the gripper is lined up above the handle, we should be able to 
+    # grab the handle by moving the gripper down around it.
+    if check("the robot's gripper is vertically aligned with handle and the robot's gripper is not around handle"):
+        robot.drop("gripper around handle")
+    # Once the gripper is around the handle, we can just push down on the handle.
+    if check("the robot's gripper is around handle"):
+        robot.push("down on handle")
+```
+
+
+Steps:
+1. Put the gripper above the handle
+2. Drop the gripper around the handle
+3. Push down on the handle
+
+```
+# handle-press: push down the handle
+# def handle_press(robot):
+    # Steps:
+    #  1. Put gripper above handle
+    #  2. Drop gripper around handle
+    #  3. Push down on handle
+    # First, put the gripper roughly above handle, so that we don't bump it
+    # while trying to grab it.
+    if check("the robot's gripper is not above handle"):
+        robot.put("gripper above handle")
+    # If the gripper isn't around the handle, put it around the handle.
+    if check("the robot's gripper is not around handle and the robot's gripper is open"):
+        robot.drop("gripper around handle")
+    # If the gripper is near the handle and open, maybe we can grab it by
+    # closing the gripper.
+    if check("the robot's gripper is near handle and the robot's gripper is open"):
+        robot.close("gripper around handle")
+    # We closed the gripper, and the handle is still near the gripper, so maybe
+    # we grabbed it.
+    # Try to push the handle down.
+    # If we didn't grab it, we'll just go back to an earlier step.
+    if check("the robot's gripper is above handle and the robot's gripper is closed"):
+        robot.push("down on handle")
+
+
+We'll need to put the gripper near the handle, since it's just pushing down.
+
+```
+# handle-press: push down the handle
+# def handle_press(robot):
+    # Steps:
+    #  1. Put gripper near the handle
+    #  2. Push down on the handle
+    # Put the gripper near the handle.
+    if check("the robot's gripper is not near the handle"):
+        robot.put("gripper near the handle")
+    # Once the gripper is near the handle, push down on it.
+    if check("the robot's gripper is near the handle"):
+        robot.push("down on the handle")
+```

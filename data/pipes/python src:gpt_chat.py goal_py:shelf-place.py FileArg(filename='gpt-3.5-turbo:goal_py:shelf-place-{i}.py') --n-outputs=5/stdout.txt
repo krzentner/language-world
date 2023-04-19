@@ -1,0 +1,88 @@
+Using model: gpt-3.5-turbo
+# Steps:
+    #  1. Put gripper above the block
+    #  2. Grab the block with the gripper
+    #  3. Lift the block off the shelf
+    #  4. Move the block to above the target location
+    #  5. Lower the block onto the target location
+    # First, put the gripper above the block.
+    if check("the robot's gripper is not above the block"):
+        robot.move_gripper("above the block")
+    # If the gripper is not around the block and is above the block, put it around the block.
+    if check("the robot's gripper is above the block and the robot's gripper is not around the block and the robot's gripper is open"):
+        robot.move_gripper("almost vertically aligned with the block", close_gripper=True)
+    # If the gripper is around the block and the block is still on the shelf, lift the block off the shelf.
+    if check("the robot's gripper is around the block and the block is still on the shelf"):
+        robot.move_gripper("above the target location")
+    # If the gripper is above the target location, place the block there by lowering the gripper.
+    if check("the robot's gripper is above the target location and the robot's gripper is holding the block"):
+        robot.move_gripper("above the target location", close_gripper=False)
+# Steps:
+    #  1. Put gripper above the block
+    #  2. Grab the block with the gripper
+    #  3. Lift the block up
+    #  4. Move the block to the target location
+    #  5. Lower the block down
+    # First, put the gripper above the block.
+    if check("the robot's gripper is not vertically aligned with the block"):
+        robot.move_gripper("vertically aligned with the block")
+    # If the gripper isn't around the block, put it around the block.
+    if check("the robot's gripper is not around block and the robot's gripper is open"):
+        robot.move_gripper("near the block", close_gripper=True)
+    # If the gripper is around the block and closed, lift the block up.
+    if check("the robot's gripper is around block and the robot's gripper is not near the shelf"):
+        robot.move_gripper("above the shelf")
+    # If the gripper is above the shelf, move it to the target location.
+    if check("the robot's gripper is above the shelf and the robot's gripper is not almost vertically aligned with the target location"):
+        robot.move_gripper("almost vertically aligned with the target location")
+    # Once the gripper is almost vertically aligned with the target location,
+    # lower the block down.
+    if check("the robot's gripper is almost vertically aligned with the target location"):
+        robot.move_gripper("above the target location")
+# Steps:
+    # 1. Put gripper roughly above the block
+    # 2. Grab the block with the gripper
+    # 3. Move gripper to target location above shelf
+    # 4. Release the block
+    # First, put the gripper roughly above the block
+    if check("the robot's gripper is not above the block"):
+        robot.move_gripper("above the block")
+    # Move the gripper to the target location above the shelf
+    if check("the robot's gripper is not near the target location above the shelf"):
+        robot.move_gripper("near the target location above the shelf", close_gripper=True)
+    # Once the gripper is near the target location, release the block.
+    if check("the robot's gripper is near the target location above the shelf"):
+        robot.move_gripper("above the target location above the shelf", close_gripper=False)
+# Steps:
+    #  1. Put gripper above block
+    #  2. Grab the block with the gripper
+    #  3. Move the block to the target location
+    #  4. Open the gripper to release the block
+    # First, put the gripper above the block.
+    if check("the robot's gripper is not above the block"):
+        robot.move_gripper("above the block")
+    # If the gripper isn't around the block, put it around the block.
+    if check("the robot's gripper is not around block and the robot's gripper is open"):
+        robot.move_gripper("near the block", close_gripper=True)
+    # If the gripper is near the block, move it to the target location.
+    if check("the robot's gripper is around the block and the robot's gripper is not above the target location"):
+        robot.move_gripper("above the target location")
+    # If the gripper is above the target location, open the gripper to release
+    # the block.
+    if check("the robot's gripper is above the target location"):
+        robot.move_gripper("above the block", open_gripper=True)
+# Steps:
+    #  1. Put gripper roughly above the block
+    #  2. Drop gripper around the block
+    #  3. Close gripper around the block
+    #  4. Move block to target location
+    # First, put the gripper roughly above the block.
+    if check("the robot's gripper is not above the block"):
+        robot.move_gripper("above the block")
+    # If the gripper isn't around the block, put it around the block.
+    if check("the robot's gripper is not around block and the robot's gripper is open"):
+        robot.move_gripper("near the block", close_gripper=True)
+    # If the gripper is near the block and closed, lift it up and move it to the
+    # target location.
+    if check("the robot's gripper is around block"):
+        robot.move_gripper("near the target location")

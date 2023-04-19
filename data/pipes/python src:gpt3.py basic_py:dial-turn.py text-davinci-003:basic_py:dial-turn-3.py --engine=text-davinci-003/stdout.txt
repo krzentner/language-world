@@ -1,0 +1,7 @@
+Using engine: text-davinci-003
+
+    if check("the robot's gripper is not above the dial"):
+        robot.place("gripper above dial")
+    if check("the robot's gripper is above the dial"):
+        robot.turn("dial")
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_py/dial-turn-3.py'

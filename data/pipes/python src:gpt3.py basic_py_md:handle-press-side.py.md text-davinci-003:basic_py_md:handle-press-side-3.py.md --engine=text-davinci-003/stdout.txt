@@ -1,0 +1,8 @@
+Using engine: text-davinci-003
+
+
+if check("the robot's gripper is not horizontally aligned with the handle"):
+    robot.put("gripper in front of the handle")
+if check("the robot's gripper is horizontally aligned with the handle"):
+    robot.push("gripper down on the handle")
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_py_md/handle-press-side-3.py.md'

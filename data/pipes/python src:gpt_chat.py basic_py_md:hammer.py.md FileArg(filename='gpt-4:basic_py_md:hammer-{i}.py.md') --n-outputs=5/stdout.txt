@@ -1,0 +1,56 @@
+Using model: gpt-3.5-turbo
+# hammer: hit the nail with the hammer
+# def hammer(robot):
+    if check("the hammer is not in the robot's gripper"):
+        robot.grab("hammer")
+    if check("the robot's gripper is not above the nail"):
+        robot.put("gripper above nail")
+    if check("the robot's gripper is above the nail and the robot's gripper is not vertically aligned with the nail"):
+        robot.rotate("gripper to align with nail")
+    if check("the robot's gripper is vertically aligned with the nail"):
+        robot.hit("the nail with the hammer")
+Here's a program to perform `hammer` task:
+
+```
+# hammer: hit the nail with the hammer
+# def hammer(robot):
+    if check("the hammer is not near the nail"):
+        robot.reach("to the hammer")
+        robot.grab("the hammer")
+        robot.reach("to the nail")
+    robot.swing("the hammer")
+    robot.release("the hammer")
+```
+
+Explanation:
+- First, we check if the hammer is not near the nail. If so, we reach for the hammer, grab it, and then reach for the nail.
+- Next, we swing the hammer towards the nail to hit it.
+- Finally, we release the hammer to let it go back to its original position.
+# hammer: hit the nail with the hammer
+# def hammer(robot):
+if check("the hammer is not held in the robot's gripper"):
+    robot.grab("the hammer")
+if check("the robot's gripper is not above the nail"):
+    robot.move("the gripper above the nail")
+if check("the hammer is not aligned with the nail"):
+    robot.align("the hammer with the nail")
+if check("the hammer is not hitting the nail"):
+    robot.push("the hammer onto the nail")
+# hammer: hit the nail with the hammer
+# def hammer(robot):
+if check("the robot's gripper is not above the hammer and the hammer is not close to the nail"):
+    robot.move("gripper above the hammer")
+    robot.grab("the hammer")
+    robot.move("gripper above the nail")
+if check("the hammer is above the nail and the robot's gripper is holding the hammer"):
+    robot.push("hammer to hit the nail")
+    robot.move("gripper away from the nail and the hammer")
+    robot.drop("the hammer")
+# hammer: hit the nail with the hammer
+# def hammer(robot):
+if check("the hammer is not in the robot's gripper"):
+    robot.grab("the hammer")
+if check("the hammer is in the robot's gripper and the robot's gripper is not above the nail"):
+    robot.reach("the nail")
+if check("the nail is in front of the robot's gripper and the hammer is above the nail"):
+    robot.push("the hammer down onto the nail")

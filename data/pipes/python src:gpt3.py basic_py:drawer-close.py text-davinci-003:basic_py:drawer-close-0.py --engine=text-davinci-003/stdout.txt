@@ -1,0 +1,7 @@
+Using engine: text-davinci-003
+
+    if check("the robot's gripper is not near the drawer handle"):
+        robot.grab("drawer handle")
+    if check("the robot's gripper is forward aligned with drawer handle"):
+        robot.push("drawer closed")
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_py/drawer-close-0.py'

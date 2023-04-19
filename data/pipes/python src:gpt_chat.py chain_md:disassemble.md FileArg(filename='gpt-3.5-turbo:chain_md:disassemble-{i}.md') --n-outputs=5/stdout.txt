@@ -1,0 +1,42 @@
+Using model: gpt-3.5-turbo
+To pull the wrench off the peg reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the wrench handle  2. Grab the wrench with the gripper  3. Pull the wrench off the peg
+    First, put the gripper above the wrench handle.
+    - When the robot's gripper is not vertically aligned with the wrench handle, the robot should put gripper above wrench handle.
+    If the gripper isn't around the wrench, grab the wrench with the gripper.
+    - When the robot's gripper is not around the wrench and the robot's gripper is open, the robot should grab wrench.
+    Once the gripper is around the wrench, just pull the wrench up and off the peg.
+    - When the robot's gripper is around wrench, the robot should pull wrench off the peg.
+To pull the wrench off the peg reliably, the robot should perform the following steps:
+
+    Steps:  1. Put gripper above the wrench  2. Grab the wrench with the gripper  3. Pull the wrench upwards and away from the peg
+    First, put the gripper above the wrench.
+    - When the robot's gripper is not vertically aligned with the wrench, the robot should put gripper above wrench.
+    If the gripper isn't around the wrench, put it around the wrench.
+    - When the robot's gripper is not around wrench and the robot's gripper is open, the robot should drop gripper around wrench.
+    If the gripper is near the wrench and closed, we've probably grabbed it. Try to pull the wrench up and away from the peg.
+    - When the robot's gripper is around the wrench and the robot's gripper is closed, the robot should pull the wrench upward and away from the peg.
+To pull the wrench off the peg reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the wrench  2. Grab the wrench with the gripper  3. Pull wrench off the peg
+    First, put the gripper above the wrench.
+    - When the robot's gripper is not vertically aligned with the wrench, the robot should put gripper above wrench.
+    Once the gripper is around the wrench, try to pull it off the peg.
+    - When the robot's gripper is around the wrench, the robot should pull wrench off the peg.
+For the `disassemble` task, the robot should perform the following steps:
+    
+    Steps:  1. Put gripper above the wrench handle  2. Grab the wrench handle with the gripper  3. Forcefully pull the wrench off the peg
+    
+    First, put the gripper above the wrench handle.
+    - When the robot's gripper is not vertically aligned with the wrench handle, the robot should put gripper above wrench handle.
+    When the gripper is above the wrench handle, grab it with the gripper.
+    - When the robot's gripper is above the wrench handle and the robot's gripper is open, the robot should grab the wrench handle.
+    Once the wrench is gripped, forcefully pull it off the peg.
+    - When the wrench is gripped and the wrench is still on the peg, the robot should forcefully pull the wrench off the peg.
+To pull the wrench off the peg reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the wrench  2. Grab the wrench with the gripper  3. Lift the wrench off the peg
+    First, put the gripper above the wrench.
+    - When the robot's gripper is not vertically aligned with the wrench, the robot should put gripper above wrench.
+    Once the gripper is around the wrench, we can try to lift it off the peg.
+    - When the robot's gripper is around wrench, the robot should grab wrench.
+    Now that we've grabbed the wrench, lift it upwards to remove it from the peg.
+    - When the robot's gripper is holding the wrench, the robot should lift the wrench off the peg.

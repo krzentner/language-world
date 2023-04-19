@@ -1,0 +1,23 @@
+Using model: gpt-3.5-turbo
+To reach to the target location with a short wall in the way reliably, the robot should perform the following steps:
+- If the robot's gripper is not near the wall, the robot should move towards the wall.
+- If the robot's gripper is near the wall, but the wall is blocking the path to the target, the robot should move around the wall to reach the target location.
+- Once the robot has a clear path to the target, it should perform the steps as mentioned in the `reach` task, which includes reaching towards the goal.
+To reach to the target location with a short wall in the way reliably, the robot should perform the following steps:
+- When the robot's gripper is not near reach target, the robot should first move to a position where it can see the target location and the short wall.
+- The robot should then move its gripper to a position above the short wall, without touching the wall.
+- From this position, the robot should reach towards the target location and move its gripper to the target location.
+To reach to the target location with a short wall in the way reliably, the robot should perform the following steps:
+- When the robot's gripper is not close to the wall, the robot should move towards the wall.
+- When the robot's sensors detect the wall, the robot should move along the wall until it reaches the goal location.
+- If the robot encounters any obstacle while moving along the wall towards the goal, it should move away from the wall and try to navigate around the obstacle to reach the goal location.
+To reach to the target location with a short wall in the way reliably, the robot should perform the following steps:
+- When the robot's gripper is not near reach target and there is a short wall in the way, the robot should try to reach above the wall.
+- If the robot's gripper cannot reach above the wall, the robot should move to a different location to try to reach the target from a different angle or position.
+- Once the robot's gripper is above the wall, the robot should then reach to the goal normally.
+To reach to the target location with a short wall in the way, the robot should perform the following steps:
+
+- When the robot's gripper is not near the reach target, the robot should navigate to a point next to the wall, but with a clear line of sight to the target.
+- When the robot is next to the wall with a clear line of sight to the target, the robot should reach over the wall to grab the target, using its gripper's full range of motion to reach as far as possible.
+- When the robot has grabbed the target, it should lift it up and move it over the wall to the target location on the other side of the wall.
+- When the robot is over the target location, the robot should lower its gripper to place the target in its designated spot.

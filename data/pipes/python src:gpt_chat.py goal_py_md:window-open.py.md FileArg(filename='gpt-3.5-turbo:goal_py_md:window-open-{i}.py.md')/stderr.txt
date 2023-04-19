@@ -1,0 +1,2 @@
+src/gpt_chat.py: Missing required arguments: --n-outputs
+Usage: src/gpt_chat.py [OPTIONS] infile outfile-template

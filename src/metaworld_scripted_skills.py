@@ -1,9 +1,11 @@
 from dataclasses import dataclass
 from typing import Dict, Optional, Union
 import numpy as np
+import difflib
 
 from metaworld.envs.mujoco.env_dict import MT10_V2, ALL_V2_ENVIRONMENTS
 from metaworld.policies.policy import Policy, assert_fully_parsed
+from generate_metaworld_scene_dataset import OBJECT_NAMES
 
 
 def move(from_xyz, to_xyz, p):
@@ -554,6 +556,43 @@ def test_universal_scripted_policy(env_name, act_noise_pct, iters=100):
     print(successes)
     expected_success_rate = 0.8
     assert successes >= expected_success_rate * iters
+
+
+STR_PROJ_CACHE = {}
+
+
+def str_project(src, targets):
+    cache_key = (src, tuple(targets))
+    if cache_key in STR_PROJ_CACHE:
+        return STR_PROJ_CACHE[cache_key]
+    matches = sorted(
+        targets,
+        key=lambda tgt: difflib.SequenceMatcher(None, tgt, src).ratio(),
+        reverse=True,
+    )
+    STR_PROJ_CACHE[cache_key] = matches
+    return matches
+
+
+def rename_skill(*, base_task: str, target_task: str, skill: str) -> str:
+    for k in ["obj1_pos", "obj2_pos", "goal_pos"]:
+        base_name = OBJECT_NAMES[base_task].get(k, k)
+        target_name = OBJECT_NAMES[target_task].get(k, k)
+        skill = skill.replace(base_name, target_name)
+    return skill
+
+
+def nearest_skill(*, target_task: str, skill: str) -> str:
+    skill_names_in_target_task = []
+    target_skill_to_base_skill = {}
+    for base_skill, data in SCRIPTED_SKILLS.items():
+        target_skill = rename_skill(
+            base_task=data["env-name"], target_task=target_task, skill=base_skill
+        )
+        target_skill_to_base_skill[target_skill] = base_skill
+        skill_names_in_target_task.append(target_skill)
+    matches = str_project(skill, skill_names_in_target_task)
+    return target_skill_to_base_skill[matches[0]]
 
 
 if __name__ == "__main__":

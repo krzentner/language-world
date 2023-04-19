@@ -1,0 +1,1 @@
+Oops, it looks like the function for opening the door was already defined earlier. Do you want me to write a new function or modify the existing one?

@@ -1,0 +1,36 @@
+Using model: gpt-3.5-turbo
+To reach the target location with a short wall in the way, the robot should perform the following steps:
+    Steps:  1. Move the gripper along the top of the wall until it's above the target location  2. Move the gripper down to the target location
+    If the gripper can't reach the target location due to the wall, first move the gripper along the top of the wall until it's above the target location.
+    - When the robot's gripper is not above the target location, move the robot's gripper along the top of the wall until the robot's gripper is above the target location
+    Then, move the gripper down to the target location.
+    - When the robot's gripper is above the target location, move the robot's gripper until the robot's gripper is at the target location
+To reach the target location with a short wall in the way, the robot should perform the following steps:
+    Steps:  1. Check if the wall is in the way of the gripper's straight line toward the target location
+    If the wall is not in the way, execute the regular steps for the `reach` task.
+    If the wall is in the way, move the robot's gripper to the closest point where the gripper's straight line is not obstructed by the wall. This point is found by extending a line from the gripper to the target location and finding where the line intersects the edge of the wall.
+    - When the robot's gripper is obstructed by the wall, move the robot's gripper until the robot's gripper is at the closest point where the gripper's straight line is not obstructed by the wall.
+    Once the gripper is at the closest point, proceed with the regular steps for the `reach` task by moving the gripper towards the target location until the robot's gripper is near the reach target.
+To reach to the target location with a short wall in the way, the robot should perform the following steps:
+    Steps:  1. Move gripper above the wall  2. Move gripper to the target location
+    First, move the robot's gripper above the wall.
+    - When the robot's gripper is not vertically aligned with the top of the wall, move the robot's gripper until the robot's gripper is vertically aligned with the top of the wall
+    Once the gripper is above the wall, move it towards the target location.
+    - When the robot's gripper is not near the target location, move the robot's gripper until the robot's gripper is near the target location
+To reach the target location with a short wall in the way, the robot should perform the following steps:
+
+    Steps:  1. Move the robot's gripper to the wall
+    The robot needs to get near the wall to try to peek over it.
+    - When the robot's gripper is not near the wall, move the robot's gripper until the robot's gripper is near the wall
+    Now the robot can peek over the wall to see where the target is.
+    - When the robot is peeking over the wall, move the robot's gripper towards the target
+    If the robot can't see the target, it should move towards the expected position of the target.
+    - When the robot's gripper is not near the expected position, move the robot's gripper until the robot's gripper is near the expected position
+    Finally, the robot can move towards the target location, possibly using the wall to keep track of its position.
+    - When the robot's gripper is not near the target location, move the robot's gripper until the robot's gripper is near the target location.
+To reach the target location with a short wall in the way, the robot should perform the following steps:
+    Steps:  1. Move the robot's gripper to the top of the wall  2. Reach towards the target
+    First, the robot needs to position its gripper at the top of the wall.
+    - When the robot's gripper is not above the wall, move the robot's gripper until the robot's gripper is above the wall
+    Once the gripper is positioned at the top of the wall, the robot can reach towards the target location.
+    - When the robot's gripper is above the wall and not near the target, move the robot's gripper until it's near the target location.

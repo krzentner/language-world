@@ -1,0 +1,69 @@
+Using model: text-davinci-003
+
+    # Steps:
+    #  1. Put gripper below handle
+    #  2. Grab handle with gripper
+    #  3. Pull handle up
+    # First, put the gripper under the handle.
+    if check("the robot's gripper is not below the handle"):
+        robot.put("gripper below handle")
+    # If the handle is left of the robot's gripper, we should move the gripper
+    # near the handle to start grabbing it.
+    if check("the handle is left of the robot's gripper and the robot's gripper is not near the handle"):
+        robot.grab("handle")
+    # Now that the gripper is roughly around the handle, pull it up.
+    if check("the robot's gripper is around the handle"):
+        robot.pull("handle up")
+
+    # Steps:
+    #  1. Put gripper near handle
+    #  2. Close the gripper around handle
+    #  3. Pull upward with the handle
+    # If the gripper is not near the handle, move it to the handle.
+    if check("the robot's gripper is not near the handle"):
+        robot.move("gripper near handle")
+    # If the gripper is near the handle, close the gripper around it.
+    if check("the robot's gripper is near the handle and the robot's gripper is open"):
+        robot.close("gripper around handle")
+    # Now that the gripper is closed around the handle, pull it upward.
+    if check("the robot's gripper is closed around the handle"):
+        robot.pull("handle up")
+
+    # Steps:
+    #  1. Grab the handle from above
+    #  2. Pull the handle up
+    # To pull the handle, we first need to grab it from above.
+    if check("the robot's gripper is not vertically aligned with the handle"):
+        robot.put("gripper above the handle")
+    # When the gripper is above the handle, close the gripper to grab it.
+    if check("the robot's gripper is vertically aligned with the handle and the gripper is open"):
+        robot.close("gripper around the handle")
+    # Now that the gripper is closed around the handle, we can pull the handle.
+    if check("the robot's gripper is around the handle and the gripper is closed"):
+        robot.pull("handle up")
+
+    # Steps:
+    #  1. Put gripper around the handle
+    #  2. Pull the handle up
+    # We need to change the robot's gripper's position before it can grab the
+    # handle.
+    if check("the robot's gripper is not around the handle"):
+        robot.grab("handle")
+    # Once the robot has the handle, it can pull up on it.
+    if check("the robot's gripper is around the handle"):
+        robot.pull("handle up")
+
+    # Steps:
+    #  1. Put gripper above handle
+    #  2. Lift the handle
+    #  3. Pull the handle
+    # First, thread the robotic arm above the handle, then lower the arm down
+    # towards the handle.
+    if check("the robot's gripper is not vertically aligned with the handle"):
+        robot.put("gripper above handle")
+    # Once the gripper is roughly above the handle, start lifting it up.
+    if check("the robot's gripper is vertically aligned with the handle"):
+        robot.lift("handle")
+    # Once the handle is lifted a bit, pull the handle up.
+    if check("the robot's gripper is near the handle"):
+        robot.pull("handle up")

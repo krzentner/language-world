@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/home/kr/language-to-policies/src/gpt3.py", line 2, in <module>
+    import openai
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/openai/__init__.py", line 9, in <module>
+    from openai.api_resources import (
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/openai/api_resources/__init__.py", line 7, in <module>
+    from openai.api_resources.embedding import Embedding  # noqa: F401
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/openai/api_resources/embedding.py", line 7, in <module>
+    from openai.datalib import numpy as np, assert_has_numpy
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/openai/datalib.py", line 17, in <module>
+    import numpy
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/numpy/__init__.py", line 141, in <module>
+    from . import core
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/numpy/core/__init__.py", line 23, in <module>
+    from . import multiarray
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/numpy/core/multiarray.py", line 10, in <module>
+    from . import overrides
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/numpy/core/overrides.py", line 6, in <module>
+    from numpy.core._multiarray_umath import (
+KeyboardInterrupt

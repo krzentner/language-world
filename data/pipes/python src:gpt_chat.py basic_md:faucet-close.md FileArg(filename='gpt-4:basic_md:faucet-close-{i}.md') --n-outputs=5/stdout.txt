@@ -1,0 +1,23 @@
+Using model: gpt-3.5-turbo
+To turn the faucet right reliably, the robot should perform the following steps:
+- When the robot's gripper is not near the faucet handle, the robot should move gripper closer to the faucet handle.
+- When the robot's gripper is near the faucet handle and the handle is turned on, the robot should turn the handle to the right.
+- When the handle is fully turned to the right, the robot should stop turning the handle.
+To turn the faucet right reliably, the robot should perform the following steps:
+- When the robot's gripper is not above the faucet handle, the robot should position the gripper above the faucet handle.
+- When the robot's gripper is positioned above the faucet handle and the faucet is not closed, the robot should grab the handle.
+- When the robot's gripper has grasped the handle, the robot should turn the handle to the right to close the faucet.
+- When the faucet is closed, the robot should release the handle.
+To turn the faucet right reliably, the robot should perform the following steps:
+- When the robot's gripper is not aligned with the faucet knob, the robot should align the gripper with the knob.
+- When the robot's gripper is aligned with the knob and the knob is turned counterclockwise, the robot should turn the knob clockwise until it stops.
+To turn the faucet right reliably, the robot should perform the following steps:
+- When the robot's gripper is not near the faucet knob, the robot should move gripper to the faucet knob.
+- When the robot's gripper is at the faucet knob and the faucet knob is in the open position, the robot should grab the knob.
+- When the robot's gripper is holding the knob and the knob is not in the fully closed position, the robot should turn the knob to the right until it is fully closed.
+- When the knob is fully closed, the robot should release the knob with its gripper.
+To turn the faucet right reliably, the robot should perform the following steps:
+- When the robot's gripper is not near the faucet handle, the robot should move gripper to the faucet handle.
+- When the robot's gripper is near the faucet handle and the robot's gripper is not around the faucet handle, the robot should grab the faucet handle.
+- When the robot's gripper is around the faucet handle, the robot should turn the handle towards the right direction.
+- When the faucet is fully closed, the robot should release the handle.

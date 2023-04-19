@@ -525,6 +525,8 @@ MT10_STEP_REASONS: dict[str, list[str]] = {
     ],
 }
 
+ALL_SAVED = {}
+
 
 def save(plan_str: str, filename: str):
     assert "\n" not in filename
@@ -532,6 +534,7 @@ def save(plan_str: str, filename: str):
         os.makedirs(filename.rsplit("/", maxsplit=1)[0], exist_ok=True)
     with open(filename, "w") as f:
         f.write(plan_str)
+    ALL_SAVED[filename] = plan_str
 
 
 def convert(
@@ -547,32 +550,34 @@ def convert(
         save(encoded, out_file)
 
 
-def generate_all_plans():
+def generate_all_plans(directory: str = "data"):
     mt10_basic = load_plan_file("plans/mt10_basic.json")
     mt10_goal = load_plan_file("plans/mt10_goal.json")
     for task in MT50_ENV_NAMES:
         basic_py = encode_py(task, mt10_basic)
-        save(basic_py, f"data/basic_py/{task}.py")
+        save(basic_py, f"{directory}/basic_py/{task}.py")
         chain_py = encode_py(task, mt10_basic, chain_of_thought=True)
-        save(chain_py, f"data/chain_py/{task}.py")
+        save(chain_py, f"{directory}/chain_py/{task}.py")
         goal_py = encode_py(
             task, mt10_goal, chain_of_thought=True, use_goal_conditioning=True
         )
-        save(goal_py, f"data/goal_py/{task}.py")
-        save(wrap_in_markdown(basic_py, task), f"data/basic_py_md/{task}.py.md")
-        save(wrap_in_markdown(chain_py, task), f"data/chain_py_md/{task}.py.md")
-        save(wrap_in_markdown(goal_py, task), f"data/goal_py_md/{task}.py.md")
-        save(encode_md(task, mt10_basic), f"data/basic_md/{task}.md")
+        save(goal_py, f"{directory}/goal_py/{task}.py")
+        save(wrap_in_markdown(basic_py, task), f"{directory}/basic_py_md/{task}.py.md")
+        save(wrap_in_markdown(chain_py, task), f"{directory}/chain_py_md/{task}.py.md")
+        save(wrap_in_markdown(goal_py, task), f"{directory}/goal_py_md/{task}.py.md")
+        save(encode_md(task, mt10_basic), f"{directory}/basic_md/{task}.md")
         save(
             encode_md(task, mt10_basic, chain_of_thought=True),
-            f"data/chain_md/{task}.md",
+            f"{directory}/chain_md/{task}.md",
         )
         save(
             encode_md(
                 task, mt10_goal, chain_of_thought=True, use_goal_conditioning=True
             ),
-            f"data/goal_md/{task}.md",
+            f"{directory}/goal_md/{task}.md",
         )
+    with open(f"{directory}/all_prompts.json", "w") as f:
+        json.dump(ALL_SAVED, f, indent=True)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,91 @@
+Using model: text-davinci-003
+
+    # Steps:
+    #  1. Orient gripper so that it is horizontally aligned with the best place to grab the stick
+    #  2. Grasp the stick
+    #  3. Put the stick underneath the thermos
+    #  4. Push the thermos to the goal
+    # First, the robot needs to orient its gripper so that it is horizontally
+    # aligned with the best place to grab the stick.
+    if check("the robot's gripper is not horizontally aligned with the best place to grab the stick"):
+        robot.orient("gripper to the stick")
+    # Once the gripper is aligned with the stick, try to grab it.
+    if check("the robot's gripper is horizontally aligned with the best place to grab the stick"):
+        robot.grasp("the stick")
+    # If the robot has a stick in its gripper, put it underneath the thermos.
+    if check("the robot has the stick in its gripper"):
+        robot.put("stick underneath thermos")
+    # Now that the stick is underneath the thermos, try pushing the thermos to
+    # the goal.
+    if check("the stick is underneath the thermos"):
+        robot.push("thermos to goal")
+
+    # Steps:
+    #  1. Place the stick in front of the thermos
+    #  2. Push the thermos with the stick
+    #  3. Pull the stick toward the goal
+    # If the robot does not have the stick, pick it up off the ground.
+    if check("the robot does not have the stick"):
+        robot.grab("stick")
+    # If the stick is not lined up with the thermos, place the stick in front of
+    # the thermos.
+    if check("the stick is not lined up with the thermos"):
+        robot.place("stick in front of the thermos")
+    # If the robot has the stick and the thermos is now in front of the stick,
+    # start pushing.
+    if check("the stick is lined up with the thermos and the thermos is in front of the stick"):
+        robot.push("the thermos with the stick")
+    # If the thermos is still in front of the stick, pull the stick toward the
+    # goal.
+    if check("the thermos is still in front of the stick"):
+        robot.pull("stick towards the goal")
+
+    # Steps:
+    #  1. Put the stick against the back of the thermos
+    #  2. Push the stick forward, pushing the thermos with it
+    # First, put the stick against the back of the thermos.
+    if check("the stick is not behind the thermos"):
+        robot.push("stick against back of thermos")
+    # If the stick is in place, we can try to move the thermos forward.
+    if check("the stick is behind the thermos and the robot's gripper is open"):
+        robot.push("stick forward, pushing thermos")
+    # If the thermos was pushed far enough away, we can move it to the target
+    # location by pushing the stick against it again.
+    if check("the thermos is far enough away"):
+        robot.push("stick again, pushing thermos to goal")
+
+    # Steps:
+    #  1. Put the stick in front of the thermos
+    #  2. Put the robot's gripper above the stick
+    #  3. Lower the robot's gripper onto the stick
+    #  4. Push the stick so that it pushes the thermos to the target location
+    # Put the stick in front of the thermos.
+    if check("the stick is not in front of the thermos"):
+        robot.move("stick in front of thermos")
+    # Put the robot's gripper above the stick.
+    if check("the robot's gripper is not above the stick"):
+        robot.move("gripper above stick")
+    # Lower the robot's gripper onto the stick
+    if check("the robot's gripper is not around the stick"):
+        robot.slide("gripper onto stick")
+    # Push the stick so that it pushes the thermos to the target location.
+    if check("the robot's gripper is around the stick"):
+        robot.push("stick towards target location")
+
+    # Steps:
+    #  1. Put the stick in front of the thermos
+    #  2. Push the stick into the thermos
+    #  3. Push the thermos to the target location
+    # First, put the stick the thermos.
+    # Because the thermos might be on a slant, the stick needs to be in front of
+    # the thermos.
+    if check("the stick is not near thermos"):
+        robot.place("stick in front of thermos")
+    # If the stick isn't pushing against the thermos, reposition the stick
+    # roughly above the thermos and then push it into the thermos.
+    if check("the stick is not pushing against the thermos"):
+        robot.push("stick into thermos")
+    # Now that the stick is pushing against the thermos, push the thermos to the
+    # target location.
+    if check("the stick is pushing against the thermos"):
+        robot.push("thermos to goal")

@@ -1,0 +1,55 @@
+Using model: text-davinci-003
+
+    Steps:  1. Reach towards the cube  2. Grab the cube with the gripper  3. Reach towards the target bin  4. Place the cube into the bin
+    To reach for the cube, move the gripper above the cube.
+    - When the robot's gripper is not near the cube, the robot should reach towards cube.
+    When the gripper is near the cube, close it so it can grip the cube.
+    - When the robot's gripper is near the cube and the robot's gripper is open, the robot should grab cube.
+    To reach for the target bin, move the gripper above the bin.
+    - When the robot's gripper is not near target bin, the robot should reach towards target bin.
+    Once the gripper is above the bin, open it so it can place the cube into the bin.
+    - When the robot's gripper is near target bin and the robot's gripper is closed, the robot should place cube into bin.
+
+Steps:  1. Put gripper above cube  2. Open gripper around cube  3. Grab cube with gripper  4. Lift cube up  5. Align cube with bin  6. Insert cube into bin
+    First, we need to find the cube and put the gripper above it.
+    - When the robot's gripper is not above the cube, the robot should put gripper above cube.
+    Now that the gripper is above the cube, we should be able to open it and grab it by moving the gripper around the cube.
+    - When the robot's gripper is not around cube and the robot's gripper is not closed, the robot should open gripper around cube.
+    If the gripper is still around the cube after opening it, then we can just close the gripper around it to grab the cube.
+    - When the robot's gripper is around the cube and the robot's gripper is open, the robot should close gripper around cube.
+ 
+Now that the cube is grabbed by the gripper, we'll need to lift it up.
+    - When the robot's gripper has the cube, the robot should lift cube up.
+    Once the cube is lifted up, we'll need to align it with the bin that we're trying to put it into.
+    - When the cube is not aligned with the bin, the robot should align cube with bin.
+    Finally, we just need to insert the cube into the bin.
+    - When the robot's gripper is aligned with the bin and not inside the bin, the robot should insert cube into bin.
+
+    Steps:  1. Put gripper above cube  2. Close gripper around cube  3. Move cube to target bin  4. Let go of cube at target bin
+    First, put the gripper above the cube. This way, it won't knock it over when it moves down.
+    - When the robot's gripper is not above the cube, the robot should put gripper above cube.
+    If the gripper isn't around the cube yet, put it around the cube and make sure you close it so we can pick up the cube.
+    - When the robot's gripper is not around cube and the robot's gripper is open, the robot should close gripper around cube.
+    We don't want to dump the cube in the bin yet, so move it above the bin and pick the cube let go when we're directly above the bin.
+    - When the robot's gripper is above cube and the robot's gripper is closed, the robot should move cube to target bin.
+    When we're aligned with the bin, let go of the cube in the target bin.
+    - When the robot's gripper is above bin and the robot's gripper is closed, the robot should let go of cube at target bin.
+
+    Steps:  1. Put gripper above cube  2. Drop gripper to cube  3. Close gripper around cube  4. Raise gripper to clear bin  5. Move gripper to bin  6. Open gripper and put cube in bin
+    If the gripper is not aligned with the cube as seen from above, move it above the cube.
+    - When the robot's gripper is not above cube and the robot's gripper is open, the robot should put gripper above cube.
+    If the gripper is lined up above the cube and open, move it down around the cube and close it.
+    - When the robot's gripper is above cube and the robot's gripper is open, the robot should drop gripper around cube.
+    Now that the gripper is around the cube, raise it off the ground and move it over the target bin.
+    - When the robot's gripper is around cube and the robot's gripper is closed and the robot's gripper is not above bin, the robot should move gripper to bin.
+    Move the cube above the target bin, open the gripper and put the cube in the bin.
+    - When the robot's gripper is above bin and the robot's gripper is closed, the robot should open gripper and put cube in bin.
+
+
+First, the robot should bring its gripper as close as possible to the object. The smallest distance and angle between the robot and the object will improve accuracy of the robot’s movements. 
+
+Steps:  1. Move the robot's gripper as close as possible to the object  2. Grab the object  3. Move the object towards the bin  4. Release the object into the bin
+- When the robot's gripper is not near the object, the robot should move gripper as close as possible to the object. 
+- When the robot's gripper is near the object and the gripper is still open, the robot should grab the object. 
+- When the robot's gripper is closed and the object is still near the gripper, the robot should move object towards bin. 
+- When the robot's gripper is near the bin and the object is close to the bin, the robot should release object into the bin.

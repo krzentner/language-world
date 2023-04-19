@@ -1,0 +1,51 @@
+Using model: gpt-3.5-turbo
+The task `door-lock` requires the robot to turn the dial on the door.
+To turn the dial on the door reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper around the dial  2. Turn the dial in the correct direction by applying torque to the dial  3. Continue turning the dial until it reaches the target position
+    First, put the gripper around the dial.
+    - When the robot's gripper is not around the dial, move the robot's gripper until the robot's gripper is around the dial and the robot's gripper is closed
+    Determine the direction to turn the dial and apply enough torque to turn it.
+    - Determine the direction to turn the dial based on the lock and turn the dial
+    Continue turning the dial until it reaches the target position.
+    - When the dial is not in the target position, turn the dial until it reaches the target position.
+To turn the dial on the door reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the dial  2. Grab the dial with the gripper  3. Turn the dial to lock or unlock the door
+    First, put the gripper above the dial.
+    - When the robot's gripper is not vertically aligned with the dial, move the robot's gripper until the robot's gripper is vertically aligned with the dial
+    If the dial is not yet in the gripper, grab it with the gripper.
+    - When the robot's gripper is above the dial and the gripper is not closed, move the robot's gripper until the robot's gripper is closed around the dial
+    If the dial is not yet in the desired locked or unlocked position, turn the dial.
+    - When the robot's gripper is closed around the dial, turn the dial until the door is locked or unlocked.
+The steps the robot should perform to turn the dial on the door reliably are:
+
+1. Put gripper near the dial handle
+If the robot's gripper is not near the dial handle, move the gripper near the dial handle.
+
+2. Grab the dial handle with the gripper
+When the robot's gripper is near the dial handle, close the gripper around the handle to grab it.
+
+3. Turn the dial handle to the correct position
+Move the gripper handle to turn the dial to the correct position. The direction and number of turns will depend on the lock mechanism.
+
+4. Release the dial handle
+After the dial is turned to the correct position, release the dial handle by opening the gripper.
+The steps the robot should perform to turn the dial on the door reliably are:
+
+    1. Put gripper roughly around the dial
+    We need to put the gripper around the dial first to be able to turn it. 
+    - When the robot's gripper is not around the dial, move the robot's gripper until the robot's gripper is around the dial
+    Once the gripper is around the dial, position the gripper's fingers in the correct position around the dial, so that we can turn it easily without slipping off.
+    - When the robot's gripper is around the dial and the gripper's fingers are not in the correct position, adjust the position of the gripper's fingers
+    
+    2. Turn the dial
+    Once the gripper is in position, we can turn the dial. We need to determine the direction of rotation based on the current position of the dial and the desired lock position.
+    - Determine the direction of rotation based on the current position of the dial and the desired lock position
+    - Turn the dial the necessary amount in the determined direction to reach the desired lock position. 
+    This can be done by rotating the gripper, or by moving the robot's whole arm if necessary.
+    - When the dial reaches the desired lock position, release the dial with the gripper.
+To turn the dial on the door reliably, the robot should perform the following steps:
+    Steps: 1. Put gripper on the dial  2. Turn the dial to the desired combination
+    First, we need to position the gripper on the dial.
+    - When the robot's gripper is not above the dial, move the robot's gripper until the robot's gripper is above the dial and the robot's gripper is closed
+    Once the gripper is above the dial and closed, we can try turning the dial to the desired combination.
+    - Turn the dial until the desired combination is reached. This may require multiple attempts with different directions and turn strengths.

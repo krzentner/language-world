@@ -1,0 +1,1 @@
+I believe you accidentally repeated the function for window-open. Did you mean to write a different function or update the existing one?

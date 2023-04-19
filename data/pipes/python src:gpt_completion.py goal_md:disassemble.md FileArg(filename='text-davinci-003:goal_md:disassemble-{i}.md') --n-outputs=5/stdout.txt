@@ -1,0 +1,42 @@
+Using model: text-davinci-003
+
+    Steps:  1. Put gripper above wrench  2. Grab edge of wrench  3. Pull wrench off the peg
+    First, put the gripper above the wrench to get friction.
+    - When the robot's gripper is not above the wrench, move the robot's gripper until the robot's gripper is above the wrench
+    If the robot's gripper is above the wrench but not lined up, line up the robot's gripper with the wrench and and grip it tight.
+    - When the robot's gripper is not forward aligned with the wrench, move the robot's gripper until the robot's gripper is forward aligned with the wrench and the robot's gripper is closed
+    Now that the gripper has a firm grip, we can pull it off the peg.
+    - When the robot's gripper is above the wrench and the robot's gripper is closed, move the robot's gripper until the robot's gripper is away from the peg.
+
+    Steps:  1. Place the gripper above the peg  2. Grab the wrench  3. Pull the wrench back with the gripper
+    The robot should put the gripper above the peg and try to grab the wrench with the gripper.
+    - When the robot's gripper is not above the peg, move the robot's gripper until the robot's gripper is above the peg
+    If the gripper is already around the wrench, let's start pulling the wrench off with the gripper.
+    - When the robot's gripper is not around the wrench and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the wrench and the robot's gripper is closed
+    If the gripper is near the wrench and closed, we've probably trapped the wrench and can pull it back.
+    - When the robot's gripper is near the wrench and the robot's gripper is closed, move the robot's gripper until the robot's gripper is behind the peg
+
+    Steps:  1. Move robot's gripper above the wrench  2. Grab the wrench with the gripper  3. Push the wrench off the peg 
+    First, move the gripper above the wrench so that it can grab it.
+    - When the robot's gripper is not above the wrench, move the robot's gripper until the robot's gripper is above the wrench and the robot's gripper is closed
+    Now, grab the wrench by closing the gripper.
+    - When the robot's gripper is not closed and the wrench is above the robot's gripper, move the robot's gripper until the robot's gripper is around the wrench and the robot's gripper is closed
+    If the gripper is closed and the wrench is above it, we can push the wrench off the peg. 
+    - When the wrench is below the robot's gripper and the robot's gripper is closed, move the robot's gripper until the wrench is pushed off the peg
+
+
+Steps:  1. Line up gripper above the wrench  2. Move gripper down to wedge the wrench  3. Pull the wrench up 
+    First, line up the gripper as seen from above. This Gripper should be directly over the wrench.
+    - When the robot's gripper is not vertically aligned with the wrench, move the robot's gripper until the robot's gripper is vertically aligned with the wrench 
+    Now that we have the gripper above the wrench, move the gripper down to wedge the wrench and pull it up.
+    - When the robot's gripper is vertically aligned with the wrench and the robot's gripper is not around the wrench, move the robot's gripper until the robot's gripper is around the wrench 
+    Once the wrench is wedged between the gripper and the peg, pull the wrench up.
+    - When the robot's gripper is around wrench, move the robot's gripper until the robot's gripper is some distance away from the peg
+
+    Steps: 1. Put the robot's gripper just below the wrench  2. Close the robot's gripper around the wrench 3. Pull the wrench off the peg
+    The robot should put its gripper below the wrench.
+    - When the robot's gripper is not near the wrench, move the robot's gripper until the robot's gripper is near the wrench
+    If the wrench is not below the gripper vertically, move the gripper down until it is. 
+    - When the robot's gripper is not below wrench, move the robot's gripper until the robot's gripper is below the wrench and the robot's gripper is closed
+    If the gripper is closed, it's ready to be pulled of the peg.
+    - When the robot's gripper is below wrench and the robot's gripper is closed, move the robot's gripper away from the peg until the robot's gripper is clear of the peg

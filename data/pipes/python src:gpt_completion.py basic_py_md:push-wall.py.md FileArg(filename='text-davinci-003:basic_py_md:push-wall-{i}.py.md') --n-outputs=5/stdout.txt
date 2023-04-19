@@ -1,0 +1,72 @@
+Using model: text-davinci-003
+
+
+Answer: 
+```
+# push-wall: slide the puck to the target location with a small wall in the way
+# def push_wall(robot):
+    if check("the robot's gripper is not above puck and the wall and the robot's gripper is not vertically aligned with the puck and the wall"):
+        robot.put("gripper above puck and wall")
+    if check("the robot's gripper is vertically aligned with the puck and the wall and the robot's gripper is not near puck and wall"):
+        robot.push("gripper into puck and wall")
+    if check("the robot's gripper is near the puck and wall and the puck and wall are below the robot's gripper"):
+        robot.slide("puck and wall to the goal")
+```
+
+
+The code should look like this:
+
+```
+# push-wall: slide the puck to the target location with a small wall in the way
+# def push_wall(robot):
+    if check("the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck"):
+        robot.put("the gripper above the puck")
+    if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck"):
+        robot.push("the gripper into the puck")
+    if check("the robot's gripper is near the puck and the puck is below robot's gripper and a wall is in the way"):
+        robot.slide("the puck along the wall to the goal")
+```
+
+
+Solution:
+
+```
+# push-wall: slide the puck to the target location with a small wall in the way
+# def push_wall(robot):
+    if check("the robot's gripper is not above the wall"):
+        robot.put("gripper above wall")
+    if check("the robot's gripper is not above the puck and the robot's gripper is vertically aligned with the wall"):
+        robot.put("gripper above puck")
+    if check("the robot's gripper is above the puck and the robot's gripper is not near puck"):
+        robot.push("gripper into the puck and then against the wall")
+    if check("the robot's gripper is pushing the puck against the wall"):
+        robot.push("the puck and the wall until the puck is on the other side of the wall")
+    if check("the robot's gripper is on the other side of the wall and the puck is above the robot's gripper"):
+        robot.slide("the puck to the goal")
+```
+
+
+Then add the code:
+
+```
+    if check("the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck"):
+        robot.put("the gripper above the puck")
+    if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck"):
+        robot.push("the gripper into the puck")
+    if check("the robot's gripper is near the puck and the puck is below the robot and there is a wall on the right of the puck"):
+        robot.slide("the puck to the left of the wall")
+    if check("the wall is now on the left of the puck"):
+        robot.push("the puck to the goal")
+```
+
+
+Solution: 
+```
+# push-wall: slide the puck to the target location with a small wall in the way
+# def push_wall(robot):
+    if check("the robot's gripper is not above the puck and the robot's gripper is not vertically aligned with the puck"):
+        robot.put("the gripper above the puck")
+    if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not near the puck"):
+        robot.push("the gripper into the puck")
+    if check("the robot's gripper is near the puck and the puck is below the robot's gripper"):
+        robot.slide("the puck around the wall to the goal")

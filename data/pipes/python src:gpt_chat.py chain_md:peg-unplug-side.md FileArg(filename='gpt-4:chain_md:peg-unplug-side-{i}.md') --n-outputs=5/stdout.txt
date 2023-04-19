@@ -1,0 +1,38 @@
+Using model: gpt-3.5-turbo
+To pull the peg out from the side, the robot should perform the following steps:
+    Steps:  1. Put gripper around the peg  2. Pull the peg straight out
+    First, put the gripper around the peg.
+    - When the robot's gripper is not around the peg, the robot should move gripper around peg.
+    Then, pull the peg straight out.
+    - When the robot's gripper is around the peg, the robot should pull the peg straight out.
+The robot should perform the following steps:
+    Steps:  1. Put gripper around the peg  2. Pull out the peg sideways
+    First, put the gripper around the peg.
+    - When the robot's gripper is not around the peg, the robot should grab the peg.
+    Once the gripper is around the peg, pull the peg sideways to remove it from the hole.
+    - When the robot's gripper is around the peg, the robot should pull the peg out sideways.
+To pull the peg out from the side, the robot should perform the following steps:
+
+    Steps:  1. Put gripper above the peg  2. Grab the peg with the gripper  3. Move the peg out of the hole sideways  4. Pull the peg out of the hole
+    First, put the gripper above the peg.
+    - When the robot's gripper is not vertically aligned with the peg, the robot should put gripper above peg.
+    If the peg becomes left of the gripper, go back to putting the gripper above the peg. Because the peg is a long object, check if the gripper is lined up with it from the front instead of around it.
+    - When the peg is not left of the robot's gripper and the peg is not forward aligned with the robot's gripper, the robot should grab the peg.
+    As long as the gripper is still mostly around the peg, move the peg out of the hole to the side.
+    - When the robot's gripper is forward aligned with the peg and the peg is still in the hole, the robot should move peg out of the hole sideways.
+    If the peg is out of the hole, release the grip on the peg to pull it out completely.
+    - When the peg is out of the hole, the robot should release the grip on the peg to pull it out completely.
+To pull the peg out from the side reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the peg  2. Grab the peg with the gripper  3. Pull the peg out from the hole sideways
+    First, put the gripper above the peg.
+    - When the robot's gripper is not vertically aligned with the peg, the robot should put gripper above the peg.
+    Grab the peg with the gripper.
+    - When the robot's gripper is not around the peg and the robot's gripper is open, the robot should drop gripper around the peg.
+    Once the gripper is around the peg, we can pull it out sideways from the hole.
+    - When the robot's gripper is around the peg, the robot should pull the peg out sideways from the hole.
+To pull the peg out from the side reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper around the peg  2. Pull the peg out from the side
+    First, put the gripper around the peg.
+    - When the robot's gripper is not around the peg, the robot should put gripper around the peg.
+    Once the gripper is around the peg, the robot should pull the peg out from the side.
+    - When the robot's gripper is around the peg, the robot should pull the peg out sideways.

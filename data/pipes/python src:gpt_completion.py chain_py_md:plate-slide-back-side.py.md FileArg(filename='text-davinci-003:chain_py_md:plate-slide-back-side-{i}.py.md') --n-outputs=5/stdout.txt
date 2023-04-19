@@ -1,0 +1,135 @@
+Using model: text-davinci-003
+
+
+Steps: 
+1. Put gripper above plate
+2. Grab the plate with the gripper
+3. Line up the plate with the target location
+4. Slide the plate backwards and to the side
+
+```
+# plate-slide-back-side: slide the plate back sideways into the target location
+# def plate_slide_back_side(robot):
+    # Steps: 
+    #  1. Put gripper above plate 
+    # We don't need to be super precise here, just roughly above the plate.
+    if check("the robot's gripper is not above the plate"):
+        robot.put("gripper above plate")
+    # If the plate isn't below the gripper as seen from above, move the gripper 
+    # above the plate.
+    if check("the robot's gripper is not under the plate and the robot's gripper is not vertically aligned with the plate"):
+        robot.put("gripper above the plate")
+    # If the gripper is aligned with the plate but not near it, move the gripper 
+    # down to the plate to grab it.
+    if check("the robot's gripper is vertically aligned with the plate and the robot's gripper is not near plate"):
+        robot.grab("the plate")
+    # If the gripper is above the plate and the plate is below the gripper (we 
+    # have control of the plate) we need to line up the plate with the target 
+    # location. 
+    if check("the robot's gripper is above the plate and the plate is below the robot's gripper"):
+        robot.align("the plate with the target location")
+    # Once the plate is aligned, we can slide it backwards and to the side towards
+    # the target location. 
+    if check("the plate is aligned with the target location"):
+        robot.slide("plate backwards and to the side")
+```
+
+
+Steps:
+1. Put gripper left of the plate
+2. Grab the plate with the gripper 
+3. Align the plate back with the target location 
+4. Slide the plate back towards the target 
+
+```
+# plate-slide-back-side: slide the plate back sideways into the target location
+# def plate_slide_back_side(robot):
+    # Steps:
+    #  1. Put gripper left of the plate
+    #  2. Grab the plate with the gripper
+    #  3. Align the plate back with the target location
+    #  4. Slide the plate back towards the target
+    # Put the gripper left of the plate.
+    if check("the robot's gripper is not left of the plate"):
+        robot.put("gripper left of plate")
+    # If the plate isn't still left of the gripper, grab it.
+    if check("the plate is not left of the robot's gripper and the robot's gripper is open"):
+        robot.grab("plate")
+    # Now that the gripper is around the plate, line the back of the plate up
+    # with the target location.
+    if check("the robot's gripper is forward aligned with the plate"):
+        robot.align("plate back with target location")
+    # Once the back of the plate is aligned, slide the plate back towards the
+    # target.
+    if check("plate is back aligned with the target location"):
+        robot.slide("plate back towards target")
+
+
+The program should look like this:
+```
+# plate-slide-back-side: slide the plate back sideways into the target location
+# def plate_slide_back_side(robot):
+    # Steps:
+    #  1. Put gripper left of the plate
+    #  2. Grab the plate with the gripper
+    #  3. Push the plate backwards
+    #  4. Slide the plate sideways to the target location
+    # First, move the gripper to the left of the plate. 
+    if check("the robot's gripper is not left of the plate"):
+        robot.put("gripper to left of plate")
+    # Then, grab the plate with the gripper.
+    if check("the robot's gripper is not around plate"):
+        robot.grab("plate")
+    # If the plate is aligned with the gripper as seen from in front, we can 
+    # push the plate backwards.
+    if check("the robot's gripper is forward aligned with plate"):
+        robot.push("plate back")
+    # Then, slide the plate sideways to its target location. 
+    if check("the robot's gripper is laterally aligned with plate"):
+        robot.slide("plate to target")
+```
+
+
+Steps: 
+1. Put gripper behind the plate
+2. Put gripper around the plate
+3. Slide the plate sideways towards the target location
+
+```
+# plate-slide-back-side: slide the plate back sideways into the target location
+# def plate_slide_back_side(robot):
+    # Steps:
+    #  1. Put gripper behind the plate
+    #  2. Put gripper around the plate
+    #  3. Slide the plate sideways towards the target location
+    # To slide the plate, we need to first move the gripper behind the plate.
+    if check("the robot's gripper is not behind the plate"):
+        robot.put("gripper behind plate")
+    # Move the gripper around the plate.
+    if check("the robot's gripper is not around the plate"):
+        robot.grab("plate")
+    # Now that it's around the plate, we can slide it sideways towards the goal.
+    if check("the robot's gripper is around the plate"):
+        robot.slide("plate towards goal")
+```
+
+
+Then write the code using the techniques you've seen above:
+
+```
+# plate-slide-back-side: slide the plate back sideways into the target location
+# def plate_slide_back_side(robot):
+    # Steps:
+    #  1. Move gripper left of the plate
+    #  2. Trap the plate with the gripper
+    #  3. Slide the plate back into the target location
+    # First, move the robot's gripper left of the plate. 
+    if check("the robot's gripper is not left of the plate"):
+        robot.move("gripper to the left of the plate")
+    # If the gripper is left of the plate, try to grab the plate. 
+    if check("the robot's gripper is left of the plate and the robot's gripper is open"):
+        robot.grab("plate with the gripper")
+    # If the gripper is around the plate, we can slide it back into the goal. 
+    if check("the robot's gripper is around the plate and the robot's gripper is closed"):
+        robot.slide("plate into goal")
+```

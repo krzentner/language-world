@@ -1,0 +1,5 @@
+Using engine: text-davinci-003
+
+    - When the robot's gripper is not vertically aligned with the lever, the robot should put gripper above lever.
+    - When the robot's gripper is vertically aligned with the lever, the robot should pull lever up.
+writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_md/lever-pull-3.md'

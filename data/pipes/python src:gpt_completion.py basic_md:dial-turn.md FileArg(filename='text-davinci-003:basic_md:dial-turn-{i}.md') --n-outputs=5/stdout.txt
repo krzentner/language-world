@@ -1,0 +1,21 @@
+Using model: text-davinci-003
+
+    - When the robot's gripper is not near the dial, the robot should move gripper above dial.
+    - When the robot's gripper is above dial and the robot's gripper is open, the robot should put gripper around the dial.
+    - When the robot's gripper is around the dial, the robot should turn the dial.
+
+    - When the robot's gripper is not above the dial, the robot should put gripper above dial.
+    - When the robot's gripper is directly above the dial, the robot should grab dial.
+    - When the robot's gripper is holding the dial, the robot should turn dial to the desired position.
+
+    - When the robot's gripper is not vertically aligned with the dial, the robot should put its gripper above the dial.
+    - When the robot's gripper is in contact with the dial, the robot should turn the dial in the desired direction. 
+    - When the desired angle of the dial is reached, the robot should stop turning the dial.
+
+    - When the robot's gripper is not above the dial, the robot should put the gripper above the dial.
+    - When the robot's gripper is above the dial and the robot's gripper is not around dial, the robot should put the gripper around the dial.
+    - When the robot's gripper is around the dial, the robot should turn the dial.
+
+    - When the robot's gripper is not above the dial, the robot should place gripper above dial.
+    - When the robot's gripper is above the dial, the robot should grip the dial.
+    - When the robot's gripper is gripping the dial, the robot should turn the dial in the desired direction.

@@ -1,0 +1,44 @@
+Using model: text-davinci-003
+
+
+Steps:  1. Put gripper near front of plate  2. Push gripper into plate  3. Slide plate backward 
+    We need to push the plate backward, so put the gripper near the front of the plate.
+    - When the robot's gripper is not near front of plate, the robot should put gripper near front of plate.
+    Now that we have the gripper in place near the front of the plate, we can push the gripper into the plate.
+    - When the robot's gripper is not inside plate and the robot's gripper is not pushing against plate, the robot should push gripper into plate.
+    Once we have the gripper pushing against the plate, we will be able to slide it backward as we move the gripper backward.
+    - When the robot's gripper is inside plate, the robot should slide plate backward.
+
+    Steps:  1. Put gripper above plate  2. Push plate back  3. Place plate at target
+    We need to place the gripper above the plate, in order to be able to grab the plate and slide it.
+    - When the robot's gripper is not above the plate, the robot should put gripper above the plate.
+    Once the gripper is above the plate, the robot should push the plate back.
+    - When the robot's gripper is above the plate and the plate is not closer to target, the robot should push plate back.
+    When the plate is close to the target location, place the plate with the gripper.
+    - When the robot's gripper is above the plate and the plate is closer the target, the robot should place plate at target.
+
+    Steps:  1. Put gripper above the plate  2. Grab the plate with the gripper  3. Line the plate up with the target location  4. Slide the plate back into the target location
+    First, put the gripper above the plate so that we don't bump it while trying to grab it.
+    - When the robot's gripper is not above the plate, the robot should put gripper above plate.
+    Now that the gripper is above the plate, we should be able to grab the plate by moving the gripper down.
+    - When the robot's gripper is not around the plate and the robot's gripper is open, the robot should drop gripper around plate.
+    Once the gripper is around the plate, we can start pushing it back towards the target location.
+    - When the robot's gripper is around plate and the plate is not aligned with target, the robot should align plate to target.
+    Once the plate is aligned with the target, we can slide it back.
+    - When the plate is aligned with the target, the robot should slide back plate into the target.
+
+    Steps:  1. Put gripper on top of the plate  2.Get shaped fingers or suction cup onto the plate  3. Slide the plate towards the target location
+    To get the gripper onto the plate, put the gripper onto the edge of the plate so that the gripper has a hold of the plate.
+    -When the robot's gripper is not on top of plate and the plate is away from the target location, the robot should put gripper on top of plate.
+    If the gripper is on the plate and it's still far from target location, use shaped fingers or suction cup to get grip on the plate.
+    -When the robot's gripper is on top of plate and the plate is not gripped, the robot should get shaped fingers or suction cup onto plate. 
+    Once the plate is being gripped, slide the plate back towards the target location.
+    -When the robot's gripper is on top of plate and the plate is gripped, the robot should slide plate towards target location.
+
+Steps:  1. Put gripper behind the plate  2. Push the plate back  3. Slide the plate
+    If the robot's gripper is not behind the plate, we should move the gripper near the back side of the plate.
+    - When the robot's gripper is not behind the plate and the robot's gripper is below the plate, the robot should move gripper behind plate.
+    If the robot's gripper is at the back side of the plate, we should be able to slide the plate.
+    - When the robot's gripper is behind the plate, the robot should push plate back.
+    If the plate has moved back a bit, the robot can slide it into place.
+    - When the plate is pushed back, the robot should slide plate.

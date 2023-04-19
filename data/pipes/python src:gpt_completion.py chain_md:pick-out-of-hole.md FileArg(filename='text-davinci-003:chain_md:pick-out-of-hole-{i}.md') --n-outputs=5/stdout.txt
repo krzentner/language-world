@@ -1,0 +1,54 @@
+Using model: text-davinci-003
+
+    Steps:  1. Put the gripper above the hole  2. Drop the gripper around the peg  3. Close the gripper around the peg  4. Move the peg to the target location
+    First, put the gripper above the hole.
+    - When the robot's gripper is not above the hole, the robot should put gripper above hole.
+    Once the gripper is above the hole, the robot should drop it down around the peg.
+    - When the robot's gripper is not around the peg and the robot's gripper is open, the robot should drop gripper around peg.
+    If the gripper is near the peg and open, maybe we can grab it by closing the gripper.
+    - When the robot's gripper is near the peg and the robot's gripper is open, the robot should close gripper around peg.
+    We closed the gripper, and the peg is still near the gripper, so maybe we grabbed it. Try to move the peg to the target location. If we didn't grab it, we'll just go back to an earlier step.
+    - When the robot's gripper is above the peg and the robot's gripper is closed, the robot should place peg at target location.
+ 
+    Steps:  1. Put the gripper in front of the peg  2. Lift up the peg  3. Close the gripper 4. Move the peg to the desired location
+    First, put the gripper in front of the peg as seen from the side. The hole can make this a bit tricky, since we have to put it just right.
+    - When the robot's gripper is not in front of the peg, the robot should put the gripper in front of the peg.
+    If the peg is above or below the gripper, we can try lifting it.
+    - When the peg is not above or below the robot's gripper, the robot should lift up the peg.
+    After the peg is lifted, try to close the gripper around it.
+    - When the robot's gripper is not closed around peg, the robot should close the gripper around peg.
+    We grabbed the peg, so we can now move it to the desired location.
+    - When the robot's gripper is closed around the peg, the robot should move the peg to the desired location.
+
+    Steps:  1. Put gripper above the hole  2. Drop gripper around the peg  3. Close gripper around the peg  4. Lift the peg out of the hole  5. Place peg at goal
+    First, orient the gripper above the hole, so that we don't knock the peg when trying to grab it.
+    - When the robot's gripper is not above the hole, the robot should put gripper above the hole.
+    Once the gripper is above the hole, we should be able to grab the peg by putting the gripper around it.
+    - When the robot's gripper is not around the peg and the robot's gripper is open, the robot should drop gripper around the peg.
+    If the gripper is around the peg and open, maybe we can grab it by closing the gripper.
+    - When the robot's gripper is around the peg and the robot's gripper is open, the robot should close gripper around peg.
+    Once we've got the peg, we should be able to lift it out of the hole.
+    - When the robot's gripper is around the peg and the robot's gripper is closed, the robot should lift peg out of hole.
+    After the peg is clear of the hole, move the peg to the target location.
+    - When the robot's gripper is near the peg and the peg is clear of the hole, the robot should place peg at goal.
+
+    Steps:  1. Put gripper above the hole  2. Reach with gripper into the hole  3. Grab the peg  4. Lift peg and move to goal
+    First, the robot should place the gripper above the hole.
+    - When the robot's gripper is not above the hole, the robot should put gripper above hole.
+    Then, the robot should reach with the gripper into the hole to grab the peg.
+    - When the robot's gripper is above the hole and the robot's gripper is not in the hole, the robot should reach with gripper into hole.
+    If the gripper is in the hole, close it around the peg to pick it up. 
+    - When the robot's gripper is in the hole and the robot's gripper is open, the robot should close gripper around peg.
+    Now that the robot has the peg, it can lift it and move the peg to the target goal.
+    - When the robot's gripper is closed around peg, the robot should move peg to goal.
+
+
+Steps:  1. Put gripper near the top of the peg  2. Push the peg down with the gripper  3. Grab the peg with the gripper  4. Move the peg to the target location
+    Start by positioning the gripper near the top of the peg.
+    - When the robot's gripper is not near the top of the peg, the robot should put gripper near top of peg.
+    Then, push the peg down to the bottom of the hole.
+    - When the robot's gripper is near the top of the peg, the robot should push down on the peg.
+    Once the peg is at the bottom of the hole, grab it with the gripper.
+    - When the robot's gripper is near the peg, the robot should grab peg.
+    With the peg held in the gripper, move it to the target location.
+    - When the robot's gripper is holding the peg, the robot should move peg to target location.

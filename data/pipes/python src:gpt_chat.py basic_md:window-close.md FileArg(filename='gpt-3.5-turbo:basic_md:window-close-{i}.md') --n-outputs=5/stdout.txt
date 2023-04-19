@@ -1,0 +1,24 @@
+Using model: gpt-3.5-turbo
+To slide the window closed to the right reliably, the robot should perform the following steps:
+- When the window handle is right of the robot's gripper and the robot's gripper is not near the window handle, the robot should move gripper to left of window handle.
+- When the robot's gripper is near the window handle, the robot should slide window right.
+- When the robot's gripper is in front of the window handle, the robot should push window right harder.
+To slide the window closed to the right reliably, the robot should perform the following steps:
+
+- First, if the window handle is not right of the robot's gripper, the robot should move the gripper to the left of the window handle.
+- Once the gripper is near the window handle, the robot should slide the window to the right.
+- Finally, if the window is not completely closed, the robot should push the window right harder until it is closed.
+To slide the window closed to the right reliably, the robot should perform the following steps:
+
+- When the window handle is right of the robot's gripper and the robot's gripper is not near the window handle, the robot should move gripper to left of window handle.
+- When the robot's gripper is near the window handle, the robot should slide window right.
+- When the robot's gripper is in front of the window handle, the robot should push window right harder.
+To slide the window closed to the right reliably, the robot should perform the following steps:
+    - When the window handle is right of the robot's gripper and the robot's gripper is not near the window handle, the robot should move gripper to left of window handle.
+    - When the robot's gripper is near the window handle, the robot should slide window right.
+    - When the robot's gripper is in front of the window handle, the robot should push window right harder.
+To slide the window closed to the right reliably, the robot should perform the following steps:
+
+    - When the window handle is right of the robot's gripper and the robot's gripper is not near the window handle, the robot should move gripper to left of window handle.
+    - When the robot's gripper is near the window handle, the robot should slide window right.
+    - When the robot's gripper is in front of the window handle, the robot should push window right harder.

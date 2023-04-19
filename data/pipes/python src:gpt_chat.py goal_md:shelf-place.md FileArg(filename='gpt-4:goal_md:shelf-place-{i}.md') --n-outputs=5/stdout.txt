@@ -1,0 +1,66 @@
+Using model: gpt-3.5-turbo
+To pick up the block and place it at the target location reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the block  2. Grab the block with the gripper  3. Lift the block off the shelf  4. Move the block towards the target location  5. Release the block above the target location
+    First, put the gripper above the block.
+    - When the robot's gripper is not vertically aligned with the block, move the robot's gripper until the robot's gripper is vertically aligned with the block
+    If the gripper is not around the block, put it around the block.
+    - When the robot's gripper is not around the block and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the block and the robot's gripper is closed
+    Once the gripper is around the block and the gripper is closed, lift the block off the shelf.
+    - When the robot's gripper is around the block and the grip is closed, move the robot's gripper up until the block is clear of the shelf
+    Once the block is clear of the shelf, move it towards the target location and line it up.
+    - When the block is not over target location, move the robot's gripper until the block is over the target location
+    Finally, release the block above the target location.
+    - When the robot's gripper is over target location and the grip is closed, release the block by opening the gripper
+The task `shelf-place` requires the robot to pick up the block and place it at the target location. To pick up the block and place it at the target location reliably, the robot should perform the following steps:
+
+Steps:
+1. Put the gripper above the block
+2. Lower the gripper around the block
+3. Close the gripper around the block
+4. Lift up the block
+5. Move the gripper to the target location
+6. Lower the gripper to place the block at the target location
+
+First, put the gripper above the block.
+- When the robot's gripper is not above the block, move the robot's gripper until the robot's gripper is above the block
+Next, lower the gripper around the block and close the gripper to hold the block.
+- When the robot's gripper is not around the block and the gripper is open, move the robot's gripper until the robot's gripper is near the block and the gripper is closed
+Lift up the block by moving the gripper up.
+- When the robot's gripper is closed around the block, move the robot's gripper until the robot's gripper is above the floor
+Move the gripper to the target location.
+- When the robot's gripper is above the floor and not near the target location, move the robot's gripper until the robot's gripper is near the target location
+Lower the block to place it at the target location.
+- When the robot's gripper is near the target location, move the robot's gripper until the robot's gripper is above the target location and the gripper is open
+- When the robot's gripper is above the target location and the gripper is open, move the robot's gripper until the block is placed at the target location.
+To pick up the block and place it at the target location reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the block  2. Grab the block with the gripper  3. Raise the gripper off the shelf  4. Move the gripper to the target location  5. Lower the gripper to place the block at the target location
+    First, put the gripper above the block.
+    - When the robot's gripper is not vertically aligned with the block, move the robot's gripper until the robot's gripper is vertically aligned with the block
+    If the gripper isn't around the block, put it around the block.
+    - When the robot's gripper is not around the block and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the block and the robot's gripper is closed
+    Once the gripper is gripping the block, raise the gripper off the shelf to avoid collisions.
+    - When the robot's gripper is around the block, raise the robot's gripper until the robot's gripper is clear of the shelf
+    Move the gripper to the target location.
+    - When the robot's gripper is clear of the shelf, move the robot's gripper until the robot's gripper is above the target location
+    Lower the gripper to place the block at the target location.
+    - When the robot's gripper is above the target location, move the robot's gripper until the robot's gripper is touching the target location and the robot's gripper is open
+To pick up the block and place it at the target location reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the block  2. Grab the block with the gripper  3. Move gripper to target location  4. Release the block
+    First, put the gripper above the block.
+    - When the robot's gripper is not vertically aligned with the block, move the robot's gripper until the robot's gripper is vertically aligned with the block
+    If the gripper isn't around the block, put it around the block.
+    - When the robot's gripper is not around the block and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the block and the robot's gripper is closed
+    If the gripper is near the block and the gripper is closed, move the gripper to the target location.
+    - When the robot's gripper is closed and the block is gripped securely, move the robot's gripper until the robot's gripper is above the target location
+    Once the gripper is above the target location, release the block.
+    - When the robot's gripper is above the target location, release the block by opening the gripper.
+To pick up the block and place it at the target location, the robot should perform the following steps:
+    Steps:  1. Put gripper above block  2. Drop gripper around block  3. Close gripper around block  4. Move block to goal location  5. Open gripper to release the block
+    First, put the gripper above the block so that we don't bump into it while trying to grab it.
+    - When the robot's gripper is not above the block, move the robot's gripper until it is above the block
+    If the gripper is not around the block, put it around the block.
+    - When the robot's gripper is not around the block and the robot's gripper is open, move the robot's gripper until it is near the block and the robot's gripper is closed
+    If the gripper is near the block and closed, grab it by holding the block securely in the gripper.
+    - When the robot's gripper is above the block and the gripper is closed, move the robot's gripper until it is near the target location
+    If the gripper is near the target location, place the block by opening the gripper to release the block.
+    - When the robot's gripper is near the target location and the gripper is closed around the block, move the robot's gripper until it is above the target location and the gripper is open

@@ -1,0 +1,49 @@
+Using model: gpt-3.5-turbo
+To pull the drawer open reliably, the robot should perform the following steps:
+    
+    1. Put gripper above drawer handle
+    First, put the gripper mostly above the drawer handle.
+    - When the robot's gripper is not vertically aligned with drawer handle, move the robot's gripper until the robot's gripper is vertically aligned with the drawer handle
+    
+    2. Drop gripper around drawer handle
+    Once the gripper is lined up above the drawer handle, we should be able to grab the drawer handle by moving the gripper down around it.
+    - When the robot's gripper is vertically aligned with drawer handle and the robot's gripper is not around drawer handle, move the robot's gripper until the robot's gripper is around the drawer handle
+    
+    3. Pull open the drawer
+    Once the gripper is around the drawer handle, we can just pull the drawer open.
+    - When the robot's gripper is around drawer handle, move the robot's gripper until the robot's gripper is horizontally aligned with the drawer handle
+To pull the drawer open reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above drawer handle  2. Drop gripper around drawer handle  3. Pull open the drawer
+    We need to put the gripper above the drawer handle before we can grab it, because of the angle of the robot's gripper.
+    - When the robot's gripper is not vertically aligned with drawer handle, move the robot's gripper until the robot's gripper is vertically aligned with the drawer handle
+    Once the gripper is lined up above the drawer handle, we should be able to grab the drawer handle by moving the gripper down around it.
+    - When the robot's gripper is vertically aligned with drawer handle and the robot's gripper is not around drawer handle, move the robot's gripper until the robot's gripper is around the drawer handle
+    Once the gripper is around the drawer handle, we can just pull the drawer open.
+    - When the robot's gripper is around drawer handle, move the robot's gripper until the robot's gripper is horizontally aligned with the drawer handle
+The robot should perform the following steps to pull the drawer open reliably:
+
+1. Put the gripper above the drawer handle.
+2. Drop the gripper around the drawer handle.
+3. Pull open the drawer.
+
+First, the robot needs to put the gripper above the drawer handle, so that it can grab the handle without accidentally bumping into the drawer. 
+- When the robot's gripper is not vertically aligned with drawer handle, move the robot's gripper until the robot's gripper is vertically aligned with the drawer handle.
+
+Once the gripper is properly aligned, the robot should be able to grab the drawer handle by moving the gripper down around it. 
+- When the robot's gripper is vertically aligned with drawer handle and the robot's gripper is not around drawer handle, move the robot's gripper until the robot's gripper is around the drawer handle.
+
+Once the gripper is around the drawer handle, the robot can simply pull the drawer open.
+- When the robot's gripper is around drawer handle, move the robot's gripper until the robot's gripper is horizontally aligned with the drawer handle.
+The robot should perform the following steps to pull the drawer open reliably:
+
+1. Put gripper above drawer handle.
+2. Drop gripper around drawer handle.
+3. Pull open the drawer.
+
+To put the gripper above the drawer handle, the robot should move its gripper until it is vertically aligned with the drawer handle. Once the gripper is lined up above the drawer handle, the robot can grab it by moving the gripper down around it. To drop the gripper around the drawer handle, the robot should move its gripper until it is around the drawer handle. Finally, to pull open the drawer, the robot should move its gripper until it is horizontally aligned with the drawer handle, and then pull the drawer open.
+The robot should perform the following steps to pull the drawer open:
+1. Put the gripper above the drawer handle,
+2. Drop the gripper around the drawer handle,
+3. Pull open the drawer.
+
+The robot needs to align the gripper vertically with the drawer handle to be able to grab it. So, the robot should first move the gripper until it's vertically aligned with the drawer handle. Then, the robot should move the gripper down around the handle to grab it. Finally, the robot should pull the drawer open by moving the gripper in the opposite direction of the drawer until the drawer is fully open.

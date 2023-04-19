@@ -1,0 +1,69 @@
+Using model: gpt-3.5-turbo
+# Steps:
+    #  1. Position the stick so that it can reach the thermos from the target location
+    #  2. Use the hook at the end of the stick to grab onto the thermos
+    #  3. Slowly pull the thermos towards the target location
+    # First, position the stick so that it can reach the thermos from the target location
+    if check("the stick is not in position to reach the thermos from the target location"):
+        robot.move_stick("in position")
+    # If the hook is not around the thermos, use the hook to grab onto it
+    if check("the hook is not around the thermos"):
+        robot.use_hook("to grab the thermos")
+    # Once the hook is secure, slowly pull the thermos towards the target location
+    if check("the thermos has not been pulled to the target location yet"):
+        robot.move_thermos("towards the target location")
+# Steps:
+    #  1. Pick up the stick 
+    #  2. Move the stick towards the thermos
+    #  3. Hook the stick around the handle of the thermos
+    #  4. Drag the thermos to the target location
+    # First, make sure the gripper is above the stick and close it to grab it.
+    if check("the robot's gripper is not above the stick and the robot's gripper is open"):
+        robot.move_gripper("above the stick", close_gripper=True)
+    # Move the stick roughly above the thermos' handle.
+    if check("the stick is not roughly above the thermos' handle"):
+        robot.move_gripper("above the thermos' handle")
+    # Hook the stick around the handle of the thermos.
+    if check("the stick is not hooked around the handle of the thermos"):
+        robot.move_gripper("around the handle of the thermos")
+    # Move the thermos towards the destination
+    if check("the thermos is not at the target location"):
+        robot.move_gripper("near the target location")
+# Steps:
+#  1. Lift the stick to be above the thermos
+#  2. Move the stick to grab the handle of the thermos
+#  3. Pull the stick towards the target location to slide the thermos
+# First, lift the stick above the thermos
+if check("the stick is not lifted above the thermos"):
+    robot.move_stick("lifted above the thermos")
+# Move the stick to grab the handle of the thermos
+if check("the stick is not holding the handle of the thermos"):
+    robot.move_stick("holding the handle of the thermos")
+# Once the stick is holding the handle of the thermos, pull it towards the target
+if check("the stick is holding the handle of the thermos and the stick is not near the target location"):
+    robot.move_stick("near the target location")
+# Steps:
+    #  1. Put the gripper on one end of the stick
+    #  2. Hold the other end of the stick to slide the thermos
+    # First, put the gripper on one end of the stick.
+    if check("the robot's gripper is not on one end of the stick"):
+        robot.move_gripper("on one end of the stick")
+    # If the gripper is on one end of the stick, we can hold the other end of the
+    # stick and slide the thermos.
+    if check("the robot is not holding the other end of the stick and the thermos is not at the target location"):
+        robot.move_gripper("near the thermos handle", close_gripper=True)
+        robot.move_gripper("near the target location")
+# Steps:
+    #  1. Put the gripper on the stick
+    #  2. Put the stick in the thermos handle
+    #  3. Pull the stick towards the target location
+    # First, put the gripper around the stick.
+    if check("the robot's gripper is not around the stick, and the robot's gripper is open"):
+        robot.move_gripper("around the stick", close_gripper=True)
+    # If the gripper is around the stick, put the stick into the thermos handle.
+    if check("the robot's gripper is around the stick, and the stick is not in the thermos handle"):
+        robot.move_gripper("in the thermos handle")
+    # Once the stick is in the thermos handle, pull the stick towards the target
+    # location.
+    if check("the stick is in the thermos handle, and the robot's gripper is at the target location"):
+        robot.move_gripper("pull the stick")

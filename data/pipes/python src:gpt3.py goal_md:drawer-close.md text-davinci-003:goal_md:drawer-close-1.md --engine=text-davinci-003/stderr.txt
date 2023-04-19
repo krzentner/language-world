@@ -1,0 +1,34 @@
+Traceback (most recent call last):
+  File "/home/kr/language-to-policies/src/gpt3.py", line 4, in <module>
+    import clize
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/clize/__init__.py", line 7, in <module>
+    from clize.parser import Parameter
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/clize/parser.py", line 19, in <module>
+    from sigtools import modifiers, signature
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/sigtools/__init__.py", line 28, in <module>
+    from sigtools.specifiers import signature
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/sigtools/specifiers.py", line 42, in <module>
+    from sigtools import _util, modifiers, signatures, _specifiers
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/sigtools/modifiers.py", line 36, in <module>
+    from sigtools import _util, _specifiers, _signatures
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/sigtools/_specifiers.py", line 23, in <module>
+    from sigtools import _signatures, _util
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/sigtools/_signatures.py", line 116, in <module>
+    class _PreEvaluatedAnnotation(UpgradedAnnotation):
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/attr/_next_gen.py", line 146, in wrap
+    return do_it(cls, True)
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/attr/_next_gen.py", line 90, in do_it
+    return attrs(
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/attr/_make.py", line 1595, in attrs
+    return wrap(maybe_cls)
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/attr/_make.py", line 1516, in wrap
+    builder.add_repr(repr_ns)
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/attr/_make.py", line 904, in add_repr
+    _make_repr(self._attrs, ns, self._cls)
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/attr/_make.py", line 1885, in _make_repr
+    return _make_method(
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/attr/_make.py", line 322, in _make_method
+    _compile_and_eval(script, globs, locs, filename)
+  File "/home/kr/language-to-policies/venv/lib/python3.9/site-packages/attr/_make.py", line 294, in _compile_and_eval
+    bytecode = compile(script, filename, "exec")
+KeyboardInterrupt
