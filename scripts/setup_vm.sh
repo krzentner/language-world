@@ -1,21 +1,17 @@
 #!/usr/bin/bash -xe
 sudo apt-get -y -q update
-
+DEBIAN_FRONTEND=noninteractive sudo apt-get upgrade -y
 DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
-    # Dockerfile deps
     git \
     curl \
-    python3.9 \
-    python3.9-venv \
-    python3.9-dev \
-    # mujoco_py
-    # See https://github.com/openai/mujoco-py/blob/master/Dockerfile
+    python3 \
+    python3-pip \
+    python3-venv \
+    python3-dev \
     libglew-dev \
     libosmesa6-dev \
     patchelf \
-    # OpenAI baselines
     libopenmpi-dev \
-    # virtualenv
     libbz2-dev \
     libreadline-dev \
     libssl-dev \
@@ -33,3 +29,6 @@ tar xf mujoco210-linux-x86_64.tar.gz --directory $HOME/.mujoco
 
 echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.mujoco/mujoco210/bin' >> ~/.bashrc
 echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.mujoco/mujoco210/bin' >> ~/.profile
+source ~/.bashrc
+pip install --upgrade --user pip
+poetry install
