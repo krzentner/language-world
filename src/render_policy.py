@@ -11,13 +11,15 @@ from tqdm import tqdm
 
 import sample_utils
 from gaussian_noise_process import GaussianNoiseProcess
+from run_utils import str_list
 
 FRAME_WIDTH = 800
 FRAME_HEIGHT = 600
 
+CAMERA_NAME = "corner4"
 
 def render_frame(env, tmpdirname, frame):
-    img = env.sim.render(FRAME_WIDTH, FRAME_HEIGHT, camera_name="corner4", depth=False)
+    img = env.sim.render(FRAME_WIDTH, FRAME_HEIGHT, camera_name=CAMERA_NAME, depth=False)
     img = np.flip(img, axis=0)
     img = np.flip(img, axis=1)
     cv2.imwrite(f"{tmpdirname}/{frame:04d}.png", img[:, :, [2, 1, 0]])
@@ -48,6 +50,9 @@ def render_policy(
             action, agent_info = policy.get_action(observation)
             action_noisy = action + noise_process.simulate()
             next_obs, reward, done, info = env.step(action_noisy)
+            if info["success"] > 0 and not success:
+                shutil.copy(f"{tmpdirname}/{frame - 1:04d}.png",
+                            filename.replace(".webm", ".png"))
             success = success | (info["success"] > 0)
             total_reward += reward
             observation = next_obs
@@ -73,7 +78,7 @@ def render_policy(
                 f"{tmpdirname}/*.png",
                 "-filter_complex",
                 "[0:v] fps=15,scale=w=200:h=-1",
-                filename.replace(".mp4", ".gif"),
+                filename.replace(".webm", ".gif"),
             ]
         )
         print("Done rendering video")
@@ -90,21 +95,21 @@ def render_successful_episode(
     noise_process=None,
     frame_skip=2,
     freeze_on_success=False,
-    retries=20,
+    retries=100,
 ):
     for i in range(retries):
         render_success, _ = render_policy(
             env,
             policy,
-            f"{render_output_dir}/{env_name}-{policy_name}-{i}.mp4",
+            f"{render_output_dir}/{env_name}-{policy_name}-{i}.webm",
             noise_process=noise_process,
             frame_skip=frame_skip,
             freeze_on_success=freeze_on_success,
         )
         if render_success:
             shutil.copy(
-                f"{render_output_dir}/{env_name}-{policy_name}-{i}.mp4",
-                f"{render_output_dir}//{env_name}-{policy_name}-success.mp4",
+                f"{render_output_dir}/{env_name}-{policy_name}-{i}.webm",
+                f"{render_output_dir}//{env_name}-{policy_name}-success.webm",
             )
             print(f"Rendered successful episode for {env_name}")
             break
@@ -118,7 +123,7 @@ def render_successful_episode(
 def test_smoke():
     render_universal_policy(
         env_name="pick-place",
-        out_file=expanduser(f"~/data/{env_name}-universal-policy.mp4"),
+        out_file=expanduser(f"~/data/{env_name}-universal-policy.webm"),
     )
 
 
@@ -127,7 +132,32 @@ def render_universal_policy(*, seed=100, env_name, out_file):
     policy = SawyerUniversalV2Policy(env_name)
     noise_process = GaussianNoiseProcess(dimensions=4)
     render_policy(env, policy, out_file, noise_process)
+    # render_successful_episode(env_name, 'scripted-policy',
+
+
+def render_successful_episodes(
+    *,
+    env_names: str_list = sample_utils.MT50_ENV_NAMES,
+    seed: int = 1111,
+    render_dir: str = "videos",
+    camera_name: str = CAMERA_NAME,
+):
+    global CAMERA_NAME
+    CAMERA_NAME = camera_name
+    for env_name in env_names:
+        env = make_env(env_name, seed=seed)
+        policy = SawyerUniversalV2Policy(env_name)
+        noise_process = GaussianNoiseProcess(dimensions=4)
+        render_successful_episode(
+            env_name,
+            "scripted-policy",
+            render_dir,
+            env=env,
+            policy=policy,
+            noise_process=noise_process,
+            freeze_on_success=False,
+        )
 
 
 if __name__ == "__main__":
-    clize.run(render_universal_policy)
+    clize.run(render_universal_policy, render_successful_episodes)
