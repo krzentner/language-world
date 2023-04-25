@@ -30,12 +30,14 @@ def load_plan_file(
 def decode_plans(
     contents: str, encoding: str, default_task: Optional[str]
 ) -> Dict[str, List[Tuple[str, str]]]:
-    if encoding in ("py"):
+    if encoding == "py":
         return decode_plans_py(contents, default_task=default_task)
-    elif encoding in ("json"):
+    elif encoding == "json":
         return json.loads(contents)
-    if encoding in ("py.md"):
+    elif encoding == "py.md":
         return decode_plans_py(contents, default_task=default_task)
+    elif encoding == "md":
+        return decode_plans_md(contents, default_task=default_task)
     else:
         raise ValueError(f"Uknown encoding {encoding!r}")
 
@@ -52,13 +54,6 @@ def encode_plans(plans: Dict[str, List[Tuple[str, str]]], encoding: str) -> str:
 def decode_plans_py(
     contents: str, default_task: Optional[str] = None
 ) -> Dict[str, List[Tuple[str, str]]]:
-    # without_comments = []
-    # for line in contents.split("\n"):
-    #     if "#" in line:
-    #         without_comments.append(line.split("#")[0])
-    #     else:
-    #         without_comments.append(line)
-    # contents = "\n".join(without_comments)
     plans_parsed = {}
     name_matches = list(FN_NAME.finditer(contents))
     for i, name_match in enumerate(name_matches):
@@ -81,15 +76,15 @@ def decode_plans_py(
 
 def decode_plan_content_py(plan_content: str) -> List[Tuple[str, str]]:
     clause_map = []
-    for (cond, action) in CLAUSES.findall(plan_content):
-        verb_details = VERB_DETAILS.findall(action)
+    for (cond, skill) in CLAUSES.findall(plan_content):
+        verb_details = VERB_DETAILS.findall(skill)
         if verb_details and verb_details[0][0] != "move_gripper":
             clause_map.append((cond, " ".join(verb_details[0])))
-        close_gripper = CLOSE_GRIPPER.findall(action)
+        close_gripper = CLOSE_GRIPPER.findall(skill)
         if close_gripper:
             loc = preprocess_location(close_gripper[0])
             clause_map.append((cond, f"{loc} and the robot's gripper is closed"))
-        open_gripper = OPEN_GRIPPER.findall(action)
+        open_gripper = OPEN_GRIPPER.findall(skill)
         if open_gripper:
             loc = preprocess_location(open_gripper[0])
             clause_map.append((cond, f"{loc} and the robot's gripper is open"))
@@ -99,18 +94,28 @@ def decode_plan_content_py(plan_content: str) -> List[Tuple[str, str]]:
                     f"the robot's gripper is {loc}" " and the robot's gripper is open",
                 )
             )
-        move_gripper = MOVE_GRIPPER.findall(action)
+        move_gripper = MOVE_GRIPPER.findall(skill)
         if move_gripper:
             clause_map.append((cond, preprocess_location(move_gripper[0])))
     return clause_map
+
+
+def decode_plans_md(
+    contents: str, default_task: Optional[str] = None
+) -> Dict[str, List[Tuple[str, str]]]:
+    assert default_task
+    clause_map: List[Tuple[str, str]] = []
+    for (cond, skill) in CLAUSE_MD.findall(contents):
+        clause_map.append((cond, skill))
+    return {default_task: clause_map}
 
 
 def encode_plan_json(plan: Dict[str, List[Tuple[str, str]]]) -> str:
     return json.dumps(plan, indent=True)
 
 
-def preprocess_location(action: str) -> str:
-    locs = action.split(" and ")
+def preprocess_location(skill: str) -> str:
+    locs = skill.split(" and ")
     goals = []
     for loc in locs:
         found_relation = False
@@ -161,6 +166,11 @@ MOVE_GRIPPER = re.compile(f'robot.move_gripper\("([^"]+)"\)')
 CLOSE_GRIPPER = re.compile(f'robot.move_gripper\("([^"]+)", close_gripper=True\)')
 OPEN_GRIPPER = re.compile(f'robot.move_gripper\("([^"]+)", open_gripper=True\)')
 
+CLAUSE_MD = re.compile(
+    r"When ([^,\n]+), (?:the robot should|move the robot's gripper until) ([^\n]+)",
+    flags=re.MULTILINE,
+)
+
 
 def encode_py(env_name, plan, chain_of_thought=False, use_goal_conditioning=False):
     contents = []
@@ -186,7 +196,7 @@ def plan_str_py(env_name, steps, *, chain_of_thought, use_goal_conditioning):
         # def {env_name.replace('-', '_')}(robot):"""
     )
     clauses = [
-        clause_str_py(cond, action, use_goal_conditioning) for (cond, action) in steps
+        clause_str_py(cond, skill, use_goal_conditioning) for (cond, skill) in steps
     ]
     if chain_of_thought:
         new_clauses = [dedent(MT10_STEPS[env_name]).strip()]
@@ -197,16 +207,16 @@ def plan_str_py(env_name, steps, *, chain_of_thought, use_goal_conditioning):
     return "\n".join([header] + [indent(clause, " " * 4) for clause in clauses])
 
 
-def clause_str_py(cond, action, use_goal_conditioning):
-    if action.startswith("the robot's gripper is ") and use_goal_conditioning:
+def clause_str_py(cond, skill, use_goal_conditioning):
+    if skill.startswith("the robot's gripper is ") and use_goal_conditioning:
         gripper_state = None
-        if action.endswith(" and the robot's gripper is open"):
+        if skill.endswith(" and the robot's gripper is open"):
             gripper_state = "open"
-            action = action.split(" and ")[0]
-        elif action.endswith(" and the robot's gripper is closed"):
+            skill = skill.split(" and ")[0]
+        elif skill.endswith(" and the robot's gripper is closed"):
             gripper_state = "close"
-            action = action.split(" and ")[0]
-        target = action.split("the robot's gripper is ", 1)[1]
+            skill = skill.split(" and ")[0]
+        target = skill.split("the robot's gripper is ", 1)[1]
         if gripper_state is None:
             return dedent(
                 f"""\
@@ -231,7 +241,7 @@ def clause_str_py(cond, action, use_goal_conditioning):
         return dedent(
             f"""\
             if check("{cond}"):
-                robot.{action.split(' ')[0]}("{' '.join(action.split(' ')[1:])}")"""
+                robot.{skill.split(' ')[0]}("{' '.join(skill.split(' ')[1:])}")"""
         )
 
 
@@ -265,7 +275,7 @@ def plan_str_md(env_name, steps, *, chain_of_thought, use_goal_conditioning):
         To {MT50_TASK_DESCRIPTIONS[env_name]} reliably, the robot should perform the following steps:"""
     )
     clauses = [
-        clause_str_md(cond, action, use_goal_conditioning) for (cond, action) in steps
+        clause_str_md(cond, skill, use_goal_conditioning) for (cond, skill) in steps
     ]
     if chain_of_thought:
         new_clauses = [
@@ -283,16 +293,16 @@ def plan_str_md(env_name, steps, *, chain_of_thought, use_goal_conditioning):
     return "\n".join([header] + [indent(clause, " " * 4) for clause in clauses])
 
 
-def clause_str_md(cond, action, use_goal_conditioning):
+def clause_str_md(cond, skill, use_goal_conditioning):
     if use_goal_conditioning:
         return dedent(
             f"""\
-            - When {cond}, move the robot's gripper until {action}"""
+            - When {cond}, move the robot's gripper until {skill}"""
         )
     else:
         return dedent(
             f"""\
-            - When {cond}, the robot should {action}."""
+            - When {cond}, the robot should {skill}."""
         )
 
 
@@ -582,6 +592,7 @@ def decode(filename: str, *, encoding: str = "guess", task: str = None):
     else:
         plans = load_plan_file(filename, encoding, default_task=task)
     print(plans)
+    return plans
 
 
 def generate_all_plans(directory: str = "data"):

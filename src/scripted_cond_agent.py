@@ -3,8 +3,13 @@ from typing import Dict, List, Tuple, Union
 import random
 import numpy as np
 
-from metaworld_scripted_skills import parse_obs, run_scripted_skill
-from generate_metaworld_scene_dataset import eval_conditions
+from metaworld_scripted_skills import (
+    parse_obs,
+    run_scripted_skill,
+    nearest_skill,
+    str_project,
+)
+from generate_metaworld_scene_dataset import eval_conditions, enumerate_descriptors
 
 
 @dataclass
@@ -69,20 +74,29 @@ class ScriptedCondAgent:
         }
 
 
-def run_plan_file(plan_file, out_file, *, seed=1111):
-    from plan_encoding import load_plan_file
+def project_plan(plan: List[Tuple[str, str]], task: str) -> List[Tuple[str, str]]:
+    out = []
+    possible_conditions = enumerate_descriptors(task)
+    for (cond, skill) in plan:
+        cond_projected = str_project(cond, possible_conditions)[0]
+        out.append((cond_projected, nearest_skill(target_task=task, skill=skill)))
+    return out
+
+
+def run_plan_file(plan_file, out_file, *, task: str, seed=1111):
+    from plan_encoding import decode
     from sample_utils import eval_policy
     from tqdm import tqdm
     import json
 
-    plans = load_plan_file(plan_file)
+    plans = decode(plan_file, encoding=guess, task=task)
     success_rates = {}
     rewards = {}
-    for env_name, plan in tqdm(plans.items()):
-        policy = ScriptedCondAgent(env_name=env_name, cond_to_scripted_skill=plan)
-        success_rates[env_name], rewards[env_name] = eval_policy(
-            policy, env_name, seed=seed
-        )
+    plan = plans.get(task, None)
+    if plan is not None:
+        plan_projected = project_plan(plan, task)
+        policy = ScriptedCondAgent(env_name=task, cond_to_scripted_skill=plan_projected)
+        success_rates[task], rewards[task] = eval_policy(policy, task, seed=seed)
     success_rates_json = json.dumps(success_rates, indent=True)
     print("Success rates:")
     print(success_rates_json)
