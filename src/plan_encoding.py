@@ -4,27 +4,38 @@ import json
 from typing import Dict, List, Optional, Tuple
 import os
 
+
 import generate_metaworld_scene_dataset
-from generate_metaworld_scene_dataset import eval_conditions
 
 from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES
 
 
 def load_plan_file(
-    filename: str, encoding: Optional[str] = None
+    filename: str, encoding: Optional[str] = None, default_task: Optional[str] = None
 ) -> Dict[str, List[Tuple[str, str]]]:
     if encoding is None:
-        _, encoding = filename.rsplit(".", maxsplit=1)
+        if filename.endswith(".py.md"):
+            encoding = "py.md"
+        elif filename.endswith(".py"):
+            encoding = "py"
+        elif filename.endswith(".md"):
+            encoding = "md"
     with open(filename, "r") as f:
         contents = f.read()
-    return decode_plans(contents, encoding)
+    print(encoding)
+    print(contents)
+    return decode_plans(contents, encoding, default_task)
 
 
-def decode_plans(contents: str, encoding: str) -> Dict[str, List[Tuple[str, str]]]:
-    if encoding in ("py", "naive-py-if"):
-        return decode_plans_py(contents)
+def decode_plans(
+    contents: str, encoding: str, default_task: Optional[str]
+) -> Dict[str, List[Tuple[str, str]]]:
+    if encoding in ("py"):
+        return decode_plans_py(contents, default_task=default_task)
     elif encoding in ("json"):
         return json.loads(contents)
+    if encoding in ("py.md"):
+        return decode_plans_py(contents, default_task=default_task)
     else:
         raise ValueError(f"Uknown encoding {encoding!r}")
 
@@ -38,45 +49,60 @@ def encode_plans(plans: Dict[str, List[Tuple[str, str]]], encoding: str) -> str:
         raise ValueError(f"Uknown encoding {encoding!r}")
 
 
-def decode_plans_py(contents: str) -> Dict[str, List[Tuple[str, str]]]:
-    without_comments = []
-    for line in contents.split("\n"):
-        if "#" in line:
-            without_comments.append(line.split("#")[0])
-        else:
-            without_comments.append(line)
-    contents = "\n".join(without_comments)
+def decode_plans_py(
+    contents: str, default_task: Optional[str] = None
+) -> Dict[str, List[Tuple[str, str]]]:
+    # without_comments = []
+    # for line in contents.split("\n"):
+    #     if "#" in line:
+    #         without_comments.append(line.split("#")[0])
+    #     else:
+    #         without_comments.append(line)
+    # contents = "\n".join(without_comments)
     plans_parsed = {}
-    for plan in contents.split("\n\n"):
-        names = FN_NAME.findall(plan)
-        if names:
-            clause_map = []
-            for (cond, action) in CLAUSES.findall(plan):
-                verb_details = VERB_DETAILS.findall(action)
-                if verb_details and verb_details[0][0] != "move_gripper":
-                    clause_map.append((cond, " ".join(verb_details[0])))
-                close_gripper = CLOSE_GRIPPER.findall(action)
-                if close_gripper:
-                    loc = preprocess_location(close_gripper[0])
-                    clause_map.append(
-                        (cond, f"{loc} and the robot's gripper is closed")
-                    )
-                open_gripper = OPEN_GRIPPER.findall(action)
-                if open_gripper:
-                    loc = preprocess_location(open_gripper[0])
-                    clause_map.append((cond, f"{loc} and the robot's gripper is open"))
-                    clause_map.append(
-                        (
-                            cond,
-                            f"the robot's gripper is {loc}"
-                            " and the robot's gripper is open",
-                        )
-                    )
-                move_gripper = MOVE_GRIPPER.findall(action)
-                if move_gripper:
-                    clause_map.append((cond, preprocess_location(move_gripper[0])))
-            plans_parsed[names[0].replace("_", "-")] = clause_map
+    name_matches = list(FN_NAME.finditer(contents))
+    for i, name_match in enumerate(name_matches):
+        if i == len(name_matches) - 1:
+            plan_content = contents[name_match.end() :]
+        else:
+            plan_content = contents[name_match.end() : name_matches[i + 1].start()]
+        name = name_match.group(1)
+        plans_parsed[name.replace("_", "-")] = decode_plan_content_py(plan_content)
+    if default_task is not None:
+        default_task = default_task.replace("_", "-")
+        if len(name_matches) == 0:
+            plans_parsed[default_task] = decode_plan_content_py(contents)
+        elif default_task not in plans_parsed:
+            plans_parsed[default_task] = decode_plan_content_py(
+                contents[: name_matches[0].start()]
+            )
     return plans_parsed
+
+
+def decode_plan_content_py(plan_content: str) -> List[Tuple[str, str]]:
+    clause_map = []
+    for (cond, action) in CLAUSES.findall(plan_content):
+        verb_details = VERB_DETAILS.findall(action)
+        if verb_details and verb_details[0][0] != "move_gripper":
+            clause_map.append((cond, " ".join(verb_details[0])))
+        close_gripper = CLOSE_GRIPPER.findall(action)
+        if close_gripper:
+            loc = preprocess_location(close_gripper[0])
+            clause_map.append((cond, f"{loc} and the robot's gripper is closed"))
+        open_gripper = OPEN_GRIPPER.findall(action)
+        if open_gripper:
+            loc = preprocess_location(open_gripper[0])
+            clause_map.append((cond, f"{loc} and the robot's gripper is open"))
+            clause_map.append(
+                (
+                    cond,
+                    f"the robot's gripper is {loc}" " and the robot's gripper is open",
+                )
+            )
+        move_gripper = MOVE_GRIPPER.findall(action)
+        if move_gripper:
+            clause_map.append((cond, preprocess_location(move_gripper[0])))
+    return clause_map
 
 
 def encode_plan_json(plan: Dict[str, List[Tuple[str, str]]]) -> str:
@@ -550,6 +576,14 @@ def convert(
         save(encoded, out_file)
 
 
+def decode(filename: str, *, encoding: str = "guess", task: str = None):
+    if encoding == "guess":
+        plans = load_plan_file(filename, default_task=task)
+    else:
+        plans = load_plan_file(filename, encoding, default_task=task)
+    print(plans)
+
+
 def generate_all_plans(directory: str = "data"):
     mt10_basic = load_plan_file("plans/mt10_basic.json")
     mt10_goal = load_plan_file("plans/mt10_goal.json")
@@ -583,4 +617,4 @@ def generate_all_plans(directory: str = "data"):
 if __name__ == "__main__":
     import clize
 
-    clize.run(convert, generate_all_plans)
+    clize.run(convert, generate_all_plans, decode)

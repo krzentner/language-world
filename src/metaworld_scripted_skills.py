@@ -5,7 +5,7 @@ import difflib
 
 from metaworld.envs.mujoco.env_dict import MT10_V2, ALL_V2_ENVIRONMENTS
 from metaworld.policies.policy import Policy, assert_fully_parsed
-from generate_metaworld_scene_dataset import OBJECT_NAMES
+import generate_metaworld_scene_dataset
 
 
 def move(from_xyz, to_xyz, p):
@@ -576,8 +576,10 @@ def str_project(src, targets):
 
 def rename_skill(*, base_task: str, target_task: str, skill: str) -> str:
     for k in ["obj1_pos", "obj2_pos", "goal_pos"]:
-        base_name = OBJECT_NAMES[base_task].get(k, k)
-        target_name = OBJECT_NAMES[target_task].get(k, k)
+        base_name = generate_metaworld_scene_dataset.OBJECT_NAMES[base_task].get(k, k)
+        target_name = generate_metaworld_scene_dataset.OBJECT_NAMES[target_task].get(
+            k, k
+        )
         skill = skill.replace(base_name, target_name)
     return skill
 
