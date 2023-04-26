@@ -1,5 +1,5 @@
 # reach: reach to the target location
-# def reach(robot):
+def reach(robot):
     # Steps:
     #  1. Reach towards the target
     # We don't have any objects to manipulate, so we can just move the robot's
@@ -8,7 +8,7 @@
         robot.move_gripper("near the reach target")
 
 # push: slide the puck to the target location
-# def push(robot):
+def push(robot):
     # Steps:
     #  1. Put gripper above puck
     #  2. Push gripper into top of puck
@@ -30,7 +30,7 @@
         robot.move_gripper("above the target location")
 
 # pick-place: pick up the puck and hold it at the target location
-# def pick_place(robot):
+def pick_place(robot):
     # Steps:
     #  1. Put gripper above puck
     #  2. Drop gripper around puck
@@ -49,7 +49,7 @@
         robot.move_gripper("near the target location")
 
 # door-open: pull the door open
-# def door_open(robot):
+def door_open(robot):
     # Steps:
     #  1. Put gripper above door handle
     #  2. Drop gripper around door handle
@@ -63,7 +63,7 @@
         robot.move_gripper("left of the door handle")
 
 # drawer-open: pull the drawer open
-# def drawer_open(robot):
+def drawer_open(robot):
     # Steps:
     #  1. Put gripper above drawer handle
     #  2. Drop gripper around drawer handle
@@ -82,7 +82,7 @@
         robot.move_gripper("horizontally aligned with the drawer handle")
 
 # drawer-close: push the drawer close
-# def drawer_close(robot):
+def drawer_close(robot):
     # Steps:
     #  1. Put gripper roughly around the drawer handle
     #  2. Push the drawer closed
@@ -98,7 +98,7 @@
         robot.move_gripper("around the drawer handle")
 
 # button-press-topdown: push the button down from above
-# def button_press_topdown(robot):
+def button_press_topdown(robot):
     # Steps:
     #  1. Line up the gripper as viewed from above
     #  2. Push down on the button from the top
@@ -111,7 +111,7 @@
         robot.move_gripper("near the button")
 
 # peg-insert-side: insert the peg into the hole from the side
-# def peg_insert_side(robot):
+def peg_insert_side(robot):
     # Steps:
     #  1. Put gripper above the peg
     #  2. Grab the peg with the gripper
@@ -135,7 +135,7 @@
         robot.move_gripper("horizontally aligned with hole")
 
 # window-open: slide the window open to the left
-# def window_open(robot):
+def window_open(robot):
     # Steps:
     #  1. Put gripper right of the window handle
     #  2. Start pushing against the window handle to open the window
@@ -150,7 +150,7 @@
         robot.move_gripper("vertically aligned with the window handle")
 
 # window-close: slide the window closed to the right
-# def window_close(robot):
+def window_close(robot):
     # Steps:
     #  1. Put gripper left of the window handle
     #  2. Start pushing against the window handle to close the window
@@ -169,4 +169,4 @@
         robot.move_gripper("forward aligned with the window handle")
 
 # stick-push: use the stick to push the thermos to the target location
-# def stick_push(robot):
+def stick_push(robot):

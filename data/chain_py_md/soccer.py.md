@@ -4,7 +4,7 @@ Here's some code that demonstrates how the robot can do a variety of tasks:
 
 ```
 # reach: reach to the target location
-# def reach(robot):
+def reach(robot):
     # Steps:
     #  1. Reach towards the target
     # We don't have any objects to manipulate, so we can just move the robot's
@@ -13,7 +13,7 @@ Here's some code that demonstrates how the robot can do a variety of tasks:
         robot.reach("to goal")
 
 # push: slide the puck to the target location
-# def push(robot):
+def push(robot):
     # Steps:
     #  1. Put gripper above puck
     #  2. Push gripper into top of puck
@@ -35,7 +35,7 @@ Here's some code that demonstrates how the robot can do a variety of tasks:
         robot.slide("the puck to the goal")
 
 # pick-place: pick up the puck and hold it at the target location
-# def pick_place(robot):
+def pick_place(robot):
     # Steps:
     #  1. Put gripper above puck
     #  2. Drop gripper around puck
@@ -60,7 +60,7 @@ Here's some code that demonstrates how the robot can do a variety of tasks:
         robot.place("puck at goal")
 
 # door-open: pull the door open
-# def door_open(robot):
+def door_open(robot):
     # Steps:
     #  1. Put gripper above door handle
     #  2. Drop gripper around door handle
@@ -78,7 +78,7 @@ Here's some code that demonstrates how the robot can do a variety of tasks:
         robot.pull("door open")
 
 # drawer-open: pull the drawer open
-# def drawer_open(robot):
+def drawer_open(robot):
     # Steps:
     #  1. Put gripper above drawer handle
     #  2. Drop gripper around drawer handle
@@ -97,7 +97,7 @@ Here's some code that demonstrates how the robot can do a variety of tasks:
         robot.pull("away from drawer")
 
 # drawer-close: push the drawer close
-# def drawer_close(robot):
+def drawer_close(robot):
     # Steps:
     #  1. Put gripper roughly around the drawer handle
     #  2. Push the drawer closed
@@ -113,7 +113,7 @@ Here's some code that demonstrates how the robot can do a variety of tasks:
         robot.push("drawer closed")
 
 # button-press-topdown: push the button down from above
-# def button_press_topdown(robot):
+def button_press_topdown(robot):
     # Steps:
     #  1. Line up the gripper as viewed from above
     #  2. Push down on the button from the top
@@ -126,7 +126,7 @@ Here's some code that demonstrates how the robot can do a variety of tasks:
         robot.push("down on button")
 
 # peg-insert-side: insert the peg into the hole from the side
-# def peg_insert_side(robot):
+def peg_insert_side(robot):
     # Steps:
     #  1. Put gripper above the peg
     #  2. Grab the peg with the gripper
@@ -150,7 +150,7 @@ Here's some code that demonstrates how the robot can do a variety of tasks:
         robot.insert("peg into hole")
 
 # window-open: slide the window open to the left
-# def window_open(robot):
+def window_open(robot):
     # Steps:
     #  1. Put gripper right of the window handle
     #  2. Start pushing against the window handle to open the window
@@ -169,7 +169,7 @@ Here's some code that demonstrates how the robot can do a variety of tasks:
         robot.push("window left harder")
 
 # window-close: slide the window closed to the right
-# def window_close(robot):
+def window_close(robot):
     # Steps:
     #  1. Put gripper left of the window handle
     #  2. Start pushing against the window handle to close the window
@@ -193,5 +193,5 @@ Begin with the text:
 
 ```
 # soccer: push the soccer ball into the target location
-# def soccer(robot):
+def soccer(robot):
 ```
