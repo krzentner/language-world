@@ -81,6 +81,11 @@ GPT3_ENGINES = [
     "text-davinci-003",
 ]
 
+GPT_CHAT_MODELS = [
+    # "gpt-4",
+    "gpt-3.5-turbo"
+]
+
 PLAN_ENCODINGS = [
     "basic_py",
     "chain_py",
@@ -138,10 +143,7 @@ for plan_enc in PLAN_ENCODINGS:
                 ram_gb=0.3,
                 priority=0,
             )
-        for gpt_model in [
-            # "gpt-4",
-            "gpt-3.5-turbo"
-        ]:
+        for gpt_model in GPT_CHAT_MODELS:
             cmd(
                 "python",
                 "src/gpt_chat.py",
@@ -156,6 +158,15 @@ for plan_enc in PLAN_ENCODINGS:
                 ram_gb=0.3,
                 priority=1,
             )
+        for model in GPT3_ENGINES + GPT_CHAT_MODELS:
+            for i in range(LLM_ATTEMPTS):
+                cmd(
+                    "python",
+                    "src/scripted_cond_agent.py",
+                    f"--task={task}",
+                    In("{model}/{plan_enc}/{task}-{i}{ext}"),
+                    Out("{model}/{plan_enc}/{task}-{i}-perf.json"),
+                )
 
 # print(GLOBAL_CONTEXT.commands)
 # cmd('python', 'src/find_most_likely_plans.py', Out('controller_map.pkl'))

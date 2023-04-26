@@ -3,13 +3,13 @@ from typing import Dict, List, Tuple, Union
 import random
 import numpy as np
 
+from generate_metaworld_scene_dataset import eval_conditions, enumerate_descriptors
 from metaworld_scripted_skills import (
     parse_obs,
     run_scripted_skill,
     nearest_skill,
     str_project,
 )
-from generate_metaworld_scene_dataset import eval_conditions, enumerate_descriptors
 
 
 @dataclass
@@ -89,7 +89,7 @@ def run_plan_file(plan_file, out_file, *, task: str, seed=1111):
     from tqdm import tqdm
     import json
 
-    plans = decode(plan_file, encoding=guess, task=task)
+    plans = decode(plan_file, encoding="guess", task=task)
     success_rates = {}
     rewards = {}
     plan = plans.get(task, None)

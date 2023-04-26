@@ -20,6 +20,8 @@ def load_plan_file(
             encoding = "py"
         elif filename.endswith(".md"):
             encoding = "md"
+        elif filename.endswith(".json"):
+            encoding = "json"
     with open(filename, "r") as f:
         contents = f.read()
     print(encoding)
