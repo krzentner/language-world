@@ -190,10 +190,11 @@ def encode_py(env_name, plan, chain_of_thought=False, use_goal_conditioning=Fals
 
 
 def plan_str_py(env_name, steps, *, chain_of_thought, use_goal_conditioning):
+    # TODO: Remove the # before the def
     header = dedent(
         f"""\
         # {env_name}: {MT50_TASK_DESCRIPTIONS[env_name]}
-        # def {env_name.replace('-', '_')}(robot):"""
+        def {env_name.replace('-', '_')}(robot):"""
     )
     clauses = [
         clause_str_py(cond, skill, use_goal_conditioning) for (cond, skill) in steps
