@@ -1,0 +1,24 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# window-open: slide the window open to the left
+# def window_open(robot):
+    # Steps:
+    #  1. Put gripper right of the window handle
+    #  2. Start pushing against the window handle to open the window
+    #  3. Push the window open harder
+    # If the robot's gripper is not vertically lined up with the window handle,
+    # we should move the gripper near the window handle to start pushing
+    if check("the robot's gripper is near the window handle"):
+        robot.move_gripper("forward aligned with the window handle")
+    # If the gripper is in position to start pushing, we'll simply slide it to the left to open the window
+    if check("the robot's gripper is vertically aligned with the window handle"):
+        robot.move_gripper("left of the window handle")
+{'window-open': [("the robot's gripper is near the window handle", "the robot's gripper is forward aligned with the window handle"), ("the robot's gripper is vertically aligned with the window handle", "the robot's gripper is left of the window handle")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is near the window handle", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the window handle", 'push the gripper into the puck')], env_name='window-open', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is near the window handle", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the window handle", 'push the gripper into the puck')], env_name='window-open', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is near the window handle", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the window handle", 'push the gripper into the puck')], env_name='window-open', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.6394189429569972
+Success rates:
+{
+ "window-open": 0.0
+}

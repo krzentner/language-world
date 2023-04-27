@@ -1,0 +1,27 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put gripper above hammer and nail
+    #  2. Put gripper forwardly aligned with handle of hammer
+    #  3. Push hammer straight down onto nail
+    # First, put the gripper above the nail and the hammer.
+    if check("the robot's gripper is not above the hammer and the nail"):
+        robot.place("gripper above hammer and nail")
+    # If the gripper is lined up from above, and the gripper is not forwardly
+    # aligned, align the gripper with the handle of the hammer.
+    if check("the robot's gripper is above the hammer and the nail and the robot's gripper is not forwardly aligned with the handle of the hammer"):
+        robot.align("gripper with the handle of the hammer")
+    # If the gripper is lined up with the handle of the hammer, we can just push
+    # it straight down onto the nail.
+    if check("the robot's gripper is forwardly aligned with the handle of the hammer"):
+        robot.push("hammer straight down onto nail")
+{'hammer': [("the robot's gripper is not above the hammer and the nail", 'place gripper above hammer and nail'), ("the robot's gripper is above the hammer and the nail and the robot's gripper is not forwardly aligned with the handle of the hammer", 'align gripper with the handle of the hammer'), ("the robot's gripper is forwardly aligned with the handle of the hammer", 'push hammer straight down onto nail')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the hammer", 'place gripper above puck'), ("the robot's gripper is above the hammer and the robot's gripper is not forward aligned with the hammer", 'move gripper to left of window handle'), ("the robot's gripper is forward aligned with the hammer", 'place puck at goal')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the hammer", 'place gripper above puck'), ("the robot's gripper is above the hammer and the robot's gripper is not forward aligned with the hammer", 'move gripper to left of window handle'), ("the robot's gripper is forward aligned with the hammer", 'place puck at goal')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the hammer", 'place gripper above puck'), ("the robot's gripper is above the hammer and the robot's gripper is not forward aligned with the hammer", 'move gripper to left of window handle'), ("the robot's gripper is forward aligned with the hammer", 'place puck at goal')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.9727808373359274
+Success rates:
+{
+ "hammer": 0.0
+}

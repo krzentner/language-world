@@ -1,0 +1,22 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To pick up the puck and hold it at the target location with a short wall in the way reliably, the robot should perform the following steps:
+
+Steps:  1. Put gripper above puck  2. Move gripper over wall  3. Drop gripper around puck  4. Close gripper around puck  5. Move puck to goal
+First, put the gripper above the puck, like in the pick-place task.
+- When the robot's gripper is not above the puck, the robot should place gripper above puck.
+Now, move the gripper over the wall. This might involve some movement in multiple dimensions to get the gripper over the wall while still being properly aligned with the puck.
+- When the robot's gripper is not over the wall, the robot should carefully move the gripper over the wall.
+Once the gripper is over the wall, drop the gripper around the puck and close it around the puck.
+- When the robot's gripper is over the wall and not around the puck and the robot's gripper is open, the robot should drop gripper around puck and close gripper around puck.
+Once the puck is grabbed, move it to the target location.
+- When the robot's gripper is holding the puck and above the top of the wall, the robot should move puck to goal.
+{'pick-place-wall': [("the robot's gripper is not above the puck", 'place gripper above puck.'), ("the robot's gripper is not over the wall", 'carefully move the gripper over the wall.'), ("the robot's gripper is over the wall and not around the puck and the robot's gripper is open", 'drop gripper around puck and close gripper around puck.'), ("the robot's gripper is holding the puck and above the top of the wall", 'move puck to goal.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'place gripper above puck'), ("the robot's gripper is not above wall", 'put the gripper above the puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is behind the puck and the puck is near wall", 'place puck at goal')], env_name='pick-place-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'place gripper above puck'), ("the robot's gripper is not above wall", 'put the gripper above the puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is behind the puck and the puck is near wall", 'place puck at goal')], env_name='pick-place-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'place gripper above puck'), ("the robot's gripper is not above wall", 'put the gripper above the puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is behind the puck and the puck is near wall", 'place puck at goal')], env_name='pick-place-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Success rates:
+{
+ "pick-place-wall": 0.0
+}

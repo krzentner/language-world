@@ -1,0 +1,27 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put the gripper right of the peg
+    #  2. Start to pull the peg out
+    #  3. Pull the peg harder
+    # First, make sure the side of the peg that is sticking out of the hole is
+    # right of the gripper.
+    if check("the side of the peg that is sticking out of the hole is not right of the robot's gripper"):
+        robot.move("gripper to the right of the peg")
+    # As long as the gripper is still lined up with the peg from the side, start
+    # to pull it out.
+    if check("the robot's gripper is side aligned with the peg"):
+        robot.pull("peg out")
+    # If the peg isn't moving, it's probably stuck, so pull harder.
+    if check("the peg is not coming out"):
+        robot.pull("peg out harder")
+{'peg-unplug-side': [("the side of the peg that is sticking out of the hole is not right of the robot's gripper", 'move gripper to the right of the peg'), ("the robot's gripper is side aligned with the peg", 'pull peg out'), ('the peg is not coming out', 'pull peg out harder')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is left of the peg and the peg is not right of the robot's gripper", 'move gripper to right of window handle'), ("the robot's gripper is forward aligned with the peg", 'place puck at goal'), ('peg is not touching the table', 'push window left harder')], env_name='peg-unplug-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is left of the peg and the peg is not right of the robot's gripper", 'move gripper to right of window handle'), ("the robot's gripper is forward aligned with the peg", 'place puck at goal'), ('peg is not touching the table', 'push window left harder')], env_name='peg-unplug-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is left of the peg and the peg is not right of the robot's gripper", 'move gripper to right of window handle'), ("the robot's gripper is forward aligned with the peg", 'place puck at goal'), ('peg is not touching the table', 'push window left harder')], env_name='peg-unplug-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.06954989311979641
+Success rates:
+{
+ "peg-unplug-side": 0.0
+}

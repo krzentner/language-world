@@ -1,0 +1,26 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    #  1. Move hand above the puck, open fingers
+    #  2. Close fingers around puck
+    #  3. Move hand to target location, open fingers
+    # First, put the hand above the puck with fingers open.
+    if check("the robot's hand is not above the puck"):
+        robot.move_hand("above the puck", open_fingers=True)
+    # If the hand is above the puck with fingers open, close the fingers around
+    # the puck to pick it up.
+    if check("the robot's hand is above the puck and the fingers are open"):
+        robot.move_hand("around the puck", close_fingers=True)
+    # Once the hand is around the puck, move it to the target location and open
+    # the fingers to place it.
+    if check("the robot's hand is around the puck"):
+        robot.move_hand("above the target location", open_fingers=True)
+{'hand-insert': []}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[], env_name='hand-insert', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='hand-insert', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='hand-insert', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.026546100592505072
+Success rates:
+{
+ "hand-insert": 0.0
+}

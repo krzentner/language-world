@@ -1,0 +1,22 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+Here are the steps the robot should follow for the `bin-picking` task:
+
+1. Put the gripper above the cube
+- When the robot's gripper is not above the cube, move the robot's gripper until the robot's gripper is above the cube
+2. Open the gripper and drop it around the cube
+- When the robot's gripper is not around the cube and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the cube and the robot's gripper is open
+3. Close the gripper and lift the cube
+- When the robot's gripper is around the cube and the robot's gripper is open, close the robot's gripper around the cube and lift the cube
+4. Move the gripper above the target bin and release the cube
+- When the robot's gripper is not above the target bin, move the robot's gripper until the robot's gripper is above the target bin
+- When the robot's gripper is above the target bin and the robot's gripper is closed around the cube, release the cube into the target bin
+{'bin-picking': [("the robot's gripper is not above the cube", "the robot's gripper is above the cube"), ("the robot's gripper is not around the cube and the robot's gripper is closed", "the robot's gripper is near the cube and the robot's gripper is open"), ("the robot's gripper is not above the target bin", "the robot's gripper is above the target bin")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'put the gripper above the puck'), ("the robot's gripper is not around the cube and the robot's gripper is closed", 'push the gripper into the puck'), ("the robot's gripper is not above the cube", 'put the gripper above the puck')], env_name='bin-picking', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'put the gripper above the puck'), ("the robot's gripper is not around the cube and the robot's gripper is closed", 'push the gripper into the puck'), ("the robot's gripper is not above the cube", 'put the gripper above the puck')], env_name='bin-picking', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'put the gripper above the puck'), ("the robot's gripper is not around the cube and the robot's gripper is closed", 'push the gripper into the puck'), ("the robot's gripper is not above the cube", 'put the gripper above the puck')], env_name='bin-picking', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.07043179427831897
+Success rates:
+{
+ "bin-picking": 0.0
+}

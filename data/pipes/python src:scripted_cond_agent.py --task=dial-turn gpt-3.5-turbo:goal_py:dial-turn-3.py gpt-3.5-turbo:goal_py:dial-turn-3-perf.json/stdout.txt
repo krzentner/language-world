@@ -1,0 +1,26 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    #  1. Put the gripper above the dial
+    #  2. Place the gripper on the dial
+    #  3. Rotate the gripper to turn the dial
+    # First, put the gripper roughly above the dial.
+    if check("the robot's gripper is not above the dial"):
+        robot.move_gripper("above the dial")
+    # If the gripper is above the dial but not gripping it, move the gripper
+    # down onto the dial.
+    if check("the robot's gripper is above the dial and the robot's gripper is not gripping the dial"):
+        robot.move_gripper("on the dial", close_gripper=True)
+    # Now that the gripper is gripping the dial, we can rotate it to turn the
+    # dial.
+    if check("the robot's gripper is gripping the dial and the dial is not turned to the desired position"):
+        robot.move_gripper("near the desired position")
+{'dial-turn': [("the robot's gripper is not above the dial", "the robot's gripper is above the dial"), ("the robot's gripper is above the dial and the robot's gripper is not gripping the dial", "the robot's gripper is near on the dial and the robot's gripper is closed"), ("the robot's gripper is gripping the dial and the dial is not turned to the desired position", "the robot's gripper is near the desired position")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the dial", 'put the gripper above the puck'), ("the robot's gripper is above the dial and the robot's gripper is not right of the dial", 'put the gripper in front of the drawer'), ("the robot's gripper is right of the dial and the dial is not near the robot's gripper", 'push the gripper into the puck')], env_name='dial-turn', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the dial", 'put the gripper above the puck'), ("the robot's gripper is above the dial and the robot's gripper is not right of the dial", 'put the gripper in front of the drawer'), ("the robot's gripper is right of the dial and the dial is not near the robot's gripper", 'push the gripper into the puck')], env_name='dial-turn', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the dial", 'put the gripper above the puck'), ("the robot's gripper is above the dial and the robot's gripper is not right of the dial", 'put the gripper in front of the drawer'), ("the robot's gripper is right of the dial and the dial is not near the robot's gripper", 'push the gripper into the puck')], env_name='dial-turn', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.05417459319125927
+Success rates:
+{
+ "dial-turn": 0.0
+}

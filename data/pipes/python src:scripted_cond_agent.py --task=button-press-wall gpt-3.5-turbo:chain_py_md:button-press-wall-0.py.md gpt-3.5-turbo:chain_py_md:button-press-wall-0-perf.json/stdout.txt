@@ -1,0 +1,26 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# button-press-wall: push the button from the front with a short wall in the way
+# def button_press_wall(robot):
+    # Steps:
+    #  1. Put gripper in front of the button and the wall
+    #  2. Move gripper forward to push the button
+    # The wall obstructs the line of sight of the robot's gripper, so we have to
+    # push the button from the front instead.
+    # We need to make sure the gripper is aligned with the button despite the
+    # wall obstructing the view.
+    if check("the robot's gripper is not horizontally aligned with the button and wall"):
+        robot.put("gripper in front of the button and the wall")
+    # Now that the gripper is roughly aligned with the button, move it forward
+    # to push the button.
+    if check("the robot's gripper is horizontally aligned with the button and wall"):
+        robot.push("forward to push the button")
+{'button-press-wall': [("the robot's gripper is not horizontally aligned with the button and wall", 'put gripper in front of the button and the wall'), ("the robot's gripper is horizontally aligned with the button and wall", 'push forward to push the button')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not horizontally aligned with the button", 'put the gripper in front of the drawer'), ("the robot's gripper is horizontally aligned with the button", 'push the gripper into the puck')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not horizontally aligned with the button", 'put the gripper in front of the drawer'), ("the robot's gripper is horizontally aligned with the button", 'push the gripper into the puck')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not horizontally aligned with the button", 'put the gripper in front of the drawer'), ("the robot's gripper is horizontally aligned with the button", 'push the gripper into the puck')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.09546858278365036
+Success rates:
+{
+ "button-press-wall": 0.0
+}

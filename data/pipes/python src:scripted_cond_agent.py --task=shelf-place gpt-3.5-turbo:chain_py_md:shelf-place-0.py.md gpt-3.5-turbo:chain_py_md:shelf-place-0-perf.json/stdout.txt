@@ -1,0 +1,30 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# shelf-place: pick up the block and place it at the target location
+# def shelf_place(robot):
+    # Steps:
+    #  1. Put gripper above the block
+    #  2. Grab the block with the gripper
+    #  3. Line up the block with the target location
+    #  4. Release the block at the target location
+    # First, put the gripper above the block.
+    if check("the robot's gripper is not vertically aligned with the block"):
+        robot.put("gripper above block")
+    # If the gripper is not around the block, grab it.
+    if check("the robot's gripper is not around block and the robot's gripper is open"):
+        robot.grab("block")
+    # If the gripper is around the block, move to target location while lining up the block with it.
+    if check("the robot's gripper is around block"):
+        robot.move("to target location while aligning block")
+    # Place the block at the target location.
+    if check("the robot has reached the target location while the block is still in the gripper"):
+        robot.release("block at target location")
+{'shelf-place': [("the robot's gripper is not vertically aligned with the block", 'put gripper above block'), ("the robot's gripper is not around block and the robot's gripper is open", 'grab block'), ("the robot's gripper is around block", 'move to target location while aligning block'), ('the robot has reached the target location while the block is still in the gripper', 'release block at target location')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the block", 'put gripper above button'), ("the robot's gripper is not around the block and the robot's gripper is open", 'grab peg'), ("the robot's gripper is around the block", 'move gripper to left of window handle'), ("the robot's gripper is above the block and the block is not behind the robot's gripper", 'place puck at goal')], env_name='shelf-place', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the block", 'put gripper above button'), ("the robot's gripper is not around the block and the robot's gripper is open", 'grab peg'), ("the robot's gripper is around the block", 'move gripper to left of window handle'), ("the robot's gripper is above the block and the block is not behind the robot's gripper", 'place puck at goal')], env_name='shelf-place', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the block", 'put gripper above button'), ("the robot's gripper is not around the block and the robot's gripper is open", 'grab peg'), ("the robot's gripper is around the block", 'move gripper to left of window handle'), ("the robot's gripper is above the block and the block is not behind the robot's gripper", 'place puck at goal')], env_name='shelf-place', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.00027458985005241235
+Success rates:
+{
+ "shelf-place": 0.0
+}

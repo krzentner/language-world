@@ -1,0 +1,38 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+Here is the program:
+
+```
+# box-close: pick up the box lid and place it on the box
+# def box_close(robot):
+    # Steps:
+    #  1. Put gripper above box lid
+    #  2. Grab the box lid with the gripper
+    #  3. Line the box lid up with the box
+    #  4. Place the box lid down on the box
+    # First, put the gripper above the box lid.
+    if check("the robot's gripper is not above the box lid"):
+        robot.move_gripper("above the box lid")
+    # If the box lid becomes left of the gripper, go back to putting the gripper
+    # above the box lid.
+    if check("the box lid is not left of the robot's gripper and box lid is not forward aligned with the robot's gripper"):
+        robot.move_gripper("forward aligned with the box lid", close_gripper=True)
+    # As long the gripper is still mostly around the box lid, line up the box
+    # lid with the box.
+    if check("box lid is horizontally aligned with box"):
+        robot.move_gripper("above the box lid")
+    # If the box lid is lined up with the box to the side, place it down on the
+    # box.
+    if check("the robot's gripper is forward aligned with the box lid and the box lid is not horizontally aligned with box"):
+        robot.move_gripper("horizontally aligned with box", close_gripper=False)
+{'box-close': [("the robot's gripper is not above the box lid", "the robot's gripper is above the box lid"), ("the box lid is not left of the robot's gripper and box lid is not forward aligned with the robot's gripper", "the robot's gripper is forward aligned with the box lid and the robot's gripper is closed"), ('box lid is horizontally aligned with box', "the robot's gripper is above the box lid")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the lid", 'put the gripper above the puck'), ("the lid is not left of the robot's gripper and the lid is not forward aligned with the robot's gripper", 'put the gripper in front of the drawer'), ('the lid is horizontally aligned with the box', 'put the gripper above the puck')], env_name='box-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the lid", 'put the gripper above the puck'), ("the lid is not left of the robot's gripper and the lid is not forward aligned with the robot's gripper", 'put the gripper in front of the drawer'), ('the lid is horizontally aligned with the box', 'put the gripper above the puck')], env_name='box-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the lid", 'put the gripper above the puck'), ("the lid is not left of the robot's gripper and the lid is not forward aligned with the robot's gripper", 'put the gripper in front of the drawer'), ('the lid is horizontally aligned with the box', 'put the gripper above the puck')], env_name='box-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.6827019532154037
+Success rates:
+{
+ "box-close": 0.0
+}

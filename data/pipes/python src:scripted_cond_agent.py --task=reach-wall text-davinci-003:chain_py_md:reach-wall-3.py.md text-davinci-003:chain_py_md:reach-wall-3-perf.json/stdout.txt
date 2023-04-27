@@ -1,0 +1,43 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+The robot should then reach the target location with a short wall in the way.
+
+Steps: 
+1. Put Gripper Left of the wall
+2. Reach over wall towards target location
+3. Push against wall to line up the robot's gripper with the wall
+4. Reach towards target location
+
+```
+# reach-wall: reach to the target location with a short wall in the way
+# def reach_wall(robot):
+    # Steps:
+    #  1. Put gripper left of the wall
+    #  2. Reach over wall towards target location
+    #  3. Push against wall to line up the robot's gripper with the wall
+    #  4. Reach towards target location
+    # Put the gripper left of the wall
+    if check("the robot's gripper is not left of the wall"):
+        robot.put("gripper left of wall")
+    # Reach over the wall towards the target.
+    if check("the robot's gripper is left of the wall"):
+        robot.reach("over wall to target")
+    # Push against the wall to line up the gripper with it. 
+    if check("the robot's gripper is not aligned with the wall"):
+        robot.push("against wall")
+    # Once the gripper is aligned with the wall, we can reach towards the 
+    # target again.
+    if check("the robot's gripper is aligned with the wall"): 
+        robot.reach("towards target")
+``
+{'reach-wall': [("the robot's gripper is not left of the wall", 'put gripper left of wall'), ("the robot's gripper is left of the wall", 'reach over wall to target'), ("the robot's gripper is not aligned with the wall", 'push against wall'), ("the robot's gripper is aligned with the wall", 'reach towards target')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of wall", 'put the gripper in front of the drawer'), ("the robot's gripper is left of wall", 'reach to goal'), ("the robot's gripper is not forward aligned with wall", 'push window left harder'), ("the robot's gripper is forward aligned with wall", 'reach to goal')], env_name='reach-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of wall", 'put the gripper in front of the drawer'), ("the robot's gripper is left of wall", 'reach to goal'), ("the robot's gripper is not forward aligned with wall", 'push window left harder'), ("the robot's gripper is forward aligned with wall", 'reach to goal')], env_name='reach-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of wall", 'put the gripper in front of the drawer'), ("the robot's gripper is left of wall", 'reach to goal'), ("the robot's gripper is not forward aligned with wall", 'push window left harder'), ("the robot's gripper is forward aligned with wall", 'reach to goal')], env_name='reach-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.5309827355064671
+Success rates:
+{
+ "reach-wall": 0.0
+}

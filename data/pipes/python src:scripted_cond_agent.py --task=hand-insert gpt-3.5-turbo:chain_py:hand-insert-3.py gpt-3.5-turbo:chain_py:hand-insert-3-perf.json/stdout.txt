@@ -1,0 +1,28 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+#  1. Move hand to the puck
+#  2. Grab the puck with the hand
+#  3. Move the hand to the target location
+#  4. Release the puck
+# First, move the hand towards the location of the puck
+if check("the hand is not near the puck"):
+    robot.move("hand to puck")
+# If the hand is near the puck, grab it with the hand
+if check("the hand is near the puck and the hand is open"):
+    robot.grab("puck with hand")
+# Now that the hand has hold of the puck, move it to the target location
+if check("the hand is holding the puck and is not at the target location"):
+    robot.move("hand to target location with the puck")
+# Finally, release the puck once the hand is at the target location
+if check("the hand is holding the puck and is at the target location"):
+    robot.release("puck from hand")
+{'hand-insert': [('the hand is not near the puck', 'move hand to puck'), ('the hand is near the puck and the hand is open', 'grab puck with hand'), ('the hand is holding the puck and is not at the target location', 'move hand to target location with the puck'), ('the hand is holding the puck and is at the target location', 'release puck from hand')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[('the target location is not near the puck', 'move gripper to left of window handle'), ("the target location is near the puck and the robot's gripper is open", 'grab peg'), ('the target location is behind the puck and the puck is not near the target location', 'move gripper to right of window handle'), ('the target location is behind the puck and the puck is near the target location', 'insert peg into hole')], env_name='hand-insert', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[('the target location is not near the puck', 'move gripper to left of window handle'), ("the target location is near the puck and the robot's gripper is open", 'grab peg'), ('the target location is behind the puck and the puck is not near the target location', 'move gripper to right of window handle'), ('the target location is behind the puck and the puck is near the target location', 'insert peg into hole')], env_name='hand-insert', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[('the target location is not near the puck', 'move gripper to left of window handle'), ("the target location is near the puck and the robot's gripper is open", 'grab peg'), ('the target location is behind the puck and the puck is not near the target location', 'move gripper to right of window handle'), ('the target location is behind the puck and the puck is near the target location', 'insert peg into hole')], env_name='hand-insert', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.033252043106649185
+Success rates:
+{
+ "hand-insert": 0.0
+}

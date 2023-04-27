@@ -1,0 +1,15 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    - When the robot's gripper is not above faucet handle, the robot should put gripper above faucet handle.
+    - When the robot's gripper is above faucet handle and the robot's gripper is not around faucet handle, the robot should put gripper around faucet handle.
+    - When the robot's gripper is around faucet handle and the faucet is not completely right, the robot should turn right faucet handle.
+{'faucet-close': [("the robot's gripper is not above faucet handle", 'put gripper above faucet handle.'), ("the robot's gripper is above faucet handle and the robot's gripper is not around faucet handle", 'put gripper around faucet handle.'), ("the robot's gripper is around faucet handle and the faucet is not completely right", 'turn right faucet handle.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the faucet", 'put gripper above button'), ("the robot's gripper is above the faucet and the robot's gripper is not around the faucet", 'put gripper around door handle'), ("the robot's gripper is around the faucet and the faucet is not above the robot's gripper", 'align peg to hole')], env_name='faucet-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the faucet", 'put gripper above button'), ("the robot's gripper is above the faucet and the robot's gripper is not around the faucet", 'put gripper around door handle'), ("the robot's gripper is around the faucet and the faucet is not above the robot's gripper", 'align peg to hole')], env_name='faucet-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the faucet", 'put gripper above button'), ("the robot's gripper is above the faucet and the robot's gripper is not around the faucet", 'put gripper around door handle'), ("the robot's gripper is around the faucet and the faucet is not above the robot's gripper", 'align peg to hole')], env_name='faucet-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 7.0835449502591885
+Success rates:
+{
+ "faucet-close": 1.0
+}

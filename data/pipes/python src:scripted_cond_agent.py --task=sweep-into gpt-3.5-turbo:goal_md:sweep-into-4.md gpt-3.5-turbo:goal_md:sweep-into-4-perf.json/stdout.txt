@@ -1,0 +1,12 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+Unfortunately, the given task `sweep-into` does not specify what type of objects the robot is dealing with or what actions it needs to perform in order to complete the task. Without more information, it is difficult to provide specific steps for the robot to follow. Can you please provide more details about the task and what the robot needs to do to perform it successfully?
+{'sweep-into': []}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[], env_name='sweep-into', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='sweep-into', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='sweep-into', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0023629633030884255
+Success rates:
+{
+ "sweep-into": 0.0
+}

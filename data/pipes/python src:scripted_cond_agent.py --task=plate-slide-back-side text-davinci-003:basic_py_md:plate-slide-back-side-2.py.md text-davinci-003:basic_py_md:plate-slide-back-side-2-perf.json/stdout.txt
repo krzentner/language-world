@@ -1,0 +1,23 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+if check("the robot's gripper is not above plate"):
+    robot.put("gripper above plate")
+if check("the plate is not to the left of the robot's gripper and the plate is not forward aligned with the gripper"):
+    robot.grab("plate")
+if check("the plate is forward aligned with the gripper and the plate is not way to the right of the target location"):
+    robot.move("plate to the right")
+if check("the plate is almost way to the right of the target location"):
+    robot.slide("plate towards target location")
+if check("the plate is near the target location"):
+    robot.slide("plate backwards")
+{'plate-slide-back-side': [("the robot's gripper is not above plate", 'put gripper above plate'), ("the plate is not to the left of the robot's gripper and the plate is not forward aligned with the gripper", 'grab plate'), ('the plate is forward aligned with the gripper and the plate is not way to the right of the target location', 'move plate to the right'), ('the plate is almost way to the right of the target location', 'slide plate towards target location'), ('the plate is near the target location', 'slide plate backwards')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate", 'put gripper above button'), ("the plate is not left of the robot's gripper and the plate is not forward aligned with the robot's gripper", 'grab peg'), ("the plate is forward aligned with the robot's gripper and the plate is not right of the robot's gripper", 'slide the puck to the goal'), ("the plate is not right of the robot's gripper", 'slide the puck to the goal'), ("the plate is near the robot's gripper", 'place puck at goal')], env_name='plate-slide-back-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate", 'put gripper above button'), ("the plate is not left of the robot's gripper and the plate is not forward aligned with the robot's gripper", 'grab peg'), ("the plate is forward aligned with the robot's gripper and the plate is not right of the robot's gripper", 'slide the puck to the goal'), ("the plate is not right of the robot's gripper", 'slide the puck to the goal'), ("the plate is near the robot's gripper", 'place puck at goal')], env_name='plate-slide-back-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.99
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate", 'put gripper above button'), ("the plate is not left of the robot's gripper and the plate is not forward aligned with the robot's gripper", 'grab peg'), ("the plate is forward aligned with the robot's gripper and the plate is not right of the robot's gripper", 'slide the puck to the goal'), ("the plate is not right of the robot's gripper", 'slide the puck to the goal'), ("the plate is near the robot's gripper", 'place puck at goal')], env_name='plate-slide-back-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 7.75408488993729
+Success rates:
+{
+ "plate-slide-back-side": 0.99
+}

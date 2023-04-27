@@ -1,0 +1,34 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# basketball: put the ball into the hoop
+# def basketball(robot):
+    # Steps:
+    #  1. Put gripper above the ball
+    #  2. Grab the ball with the gripper
+    #  3. Line up the gripper with the hoop
+    #  4. Raise the gripper to the height of the hoop
+    #  5. Move gripper forward to shoot the ball into the hoop
+    # First, put the gripper above the ball.
+    if check("the robot's gripper is not vertically aligned with the ball"):
+        robot.move_gripper("vertically aligned with the ball")
+    # If the gripper isn't around the ball, put it around the ball.
+    if check("the robot's gripper is not around ball and the robot's gripper is open"):
+        robot.move_gripper("near the ball", close_gripper=True)
+    # If the gripper is around the ball, line up the gripper with the hoop.
+    if check("the robot's gripper is around the ball"):
+        robot.move_gripper("vertically aligned with the hoop")
+    # After the gripper is lined up with the hoop, raise the gripper to the height of the hoop.
+    if check("the robot's gripper is vertically aligned with the hoop and the robot's gripper is not at the height of the hoop"):
+        robot.move_gripper("at the height of the hoop")
+    # Finally, move the gripper forward to shoot the ball into the hoop.
+    if check("the robot's gripper is at the height of the hoop and the robot's gripper is not near the hoop"):
+        robot.move_gripper("near the hoop")
+{'basketball': [("the robot's gripper is not vertically aligned with the ball", "the robot's gripper is vertically aligned with the ball"), ("the robot's gripper is not around ball and the robot's gripper is open", "the robot's gripper is near the ball and the robot's gripper is closed"), ("the robot's gripper is around the ball", "the robot's gripper is vertically aligned with the hoop"), ("the robot's gripper is vertically aligned with the hoop and the robot's gripper is not at the height of the hoop", "the robot's gripper is near at the height of the hoop"), ("the robot's gripper is at the height of the hoop and the robot's gripper is not near the hoop", "the robot's gripper is near the hoop")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the ball", 'push the gripper into the puck'), ("the robot's gripper is not around the ball and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is around the ball", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the hoop and the robot's gripper is not right of the hoop", 'put the gripper in front of the drawer'), ("the robot's gripper is not right of the hoop and the robot's gripper is not near the hoop", 'push the gripper into the puck')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the ball", 'push the gripper into the puck'), ("the robot's gripper is not around the ball and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is around the ball", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the hoop and the robot's gripper is not right of the hoop", 'put the gripper in front of the drawer'), ("the robot's gripper is not right of the hoop and the robot's gripper is not near the hoop", 'push the gripper into the puck')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the ball", 'push the gripper into the puck'), ("the robot's gripper is not around the ball and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is around the ball", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the hoop and the robot's gripper is not right of the hoop", 'put the gripper in front of the drawer'), ("the robot's gripper is not right of the hoop and the robot's gripper is not near the hoop", 'push the gripper into the puck')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.11063997563366085
+Success rates:
+{
+ "basketball": 0.0
+}

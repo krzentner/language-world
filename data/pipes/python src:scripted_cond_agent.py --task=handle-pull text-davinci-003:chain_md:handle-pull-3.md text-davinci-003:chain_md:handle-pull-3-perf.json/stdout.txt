@@ -1,0 +1,20 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+
+Steps:  1. Put gripper below the handle  2. Grab the handle with the gripper  3. Pull the handle up with the gripper 
+    First, put the gripper below the handle.
+    - When the robot's gripper is not below the handle, the robot should put gripper below handle.
+    As long as the grippper is below the handle, we can probably grab it by moving the gripper up.
+    - When the robot's gripper is below the handle and the robot's gripper is open, the robot should grab handle.
+    If the gripper is now around the handle, we can just pull handle up. 
+    - When the robot's gripper is around handle, the robot should pull handle up.
+{'handle-pull': [("the robot's gripper is not below the handle", 'put gripper below handle.'), ("the robot's gripper is below the handle and the robot's gripper is open", 'grab handle.'), ("the robot's gripper is around handle", 'pull handle up.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not below the handle", 'put gripper above button'), ("the robot's gripper is below the handle and the robot's gripper is open", 'grab peg'), ("the robot's gripper is around the handle", 'place puck at goal')], env_name='handle-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not below the handle", 'put gripper above button'), ("the robot's gripper is below the handle and the robot's gripper is open", 'grab peg'), ("the robot's gripper is around the handle", 'place puck at goal')], env_name='handle-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not below the handle", 'put gripper above button'), ("the robot's gripper is below the handle and the robot's gripper is open", 'grab peg'), ("the robot's gripper is around the handle", 'place puck at goal')], env_name='handle-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.21818967500774594
+Success rates:
+{
+ "handle-pull": 0.0
+}

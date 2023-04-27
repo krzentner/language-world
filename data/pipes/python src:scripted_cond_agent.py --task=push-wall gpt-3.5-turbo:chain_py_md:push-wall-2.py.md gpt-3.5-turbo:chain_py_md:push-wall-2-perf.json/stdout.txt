@@ -1,0 +1,30 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# push-wall: slide the puck to the target location with a small wall in the way
+# def push_wall(robot):
+    # Steps:
+    #  1. Put gripper above puck
+    #  2. Push gripper into top of puck
+    #  3. Slide puck to goal
+    # First, put the gripper above the puck, so that we don't bump into the wall
+    # while trying to move the puck later.
+    if check("the robot's gripper is not above the puck and the puck is not behind the wall"):
+        robot.place("gripper above puck")
+    # If the gripper is above the puck but not gripping it, put it around the puck
+    if check("the robot's gripper is above the puck and the robot's gripper is not gripping it"):
+        robot.drop("gripper around puck")
+    # While the puck is gripping the gripper, try to push the puck towards the
+    # goal. If the puck hits the wall, nudge it over and try again.
+    while check("the robot's gripper is gripping the puck and the puck is not at the goal"):
+        if check("the puck is behind the wall or has hit the wall"):
+            robot.push("puck away from the wall")
+        robot.slide("puck to the goal")
+{'push-wall': [("the robot's gripper is not above the puck and the puck is not behind the wall", 'place gripper above puck'), ("the robot's gripper is above the puck and the robot's gripper is not gripping it", 'drop gripper around puck'), ('the puck is behind the wall or has hit the wall', 'push puck away from the wall')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck and the puck is not behind wall", 'place gripper above puck'), ("the robot's gripper is above the puck and the robot's gripper is open", 'drop gripper around puck'), ('the puck is behind wall and puck is touching the table', 'slide the puck to the goal')], env_name='push-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck and the puck is not behind wall", 'place gripper above puck'), ("the robot's gripper is above the puck and the robot's gripper is open", 'drop gripper around puck'), ('the puck is behind wall and puck is touching the table', 'slide the puck to the goal')], env_name='push-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck and the puck is not behind wall", 'place gripper above puck'), ("the robot's gripper is above the puck and the robot's gripper is open", 'drop gripper around puck'), ('the puck is behind wall and puck is touching the table', 'slide the puck to the goal')], env_name='push-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.7452777120642673
+Success rates:
+{
+ "push-wall": 0.0
+}

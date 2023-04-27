@@ -1,0 +1,28 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    # 1. Put gripper above button but not too high due to wall
+    # 2. Move forward until gripper touches the wall
+    # 3. Move gripper towards button to press it down
+    # Because there's a wall blocking the path, we need to be careful about how
+    # we approach the button.
+    # First, line up the gripper above the button, but make sure it's not too
+    # high to avoid hitting the wall.
+    if check("the robot's gripper is not almost vertically aligned with button"):
+        robot.move_gripper("almost vertically aligned with the button", close_gripper=True)
+    # Now we can move forward until we hit the wall.
+    if check("the robot's gripper is not touching the wall"):
+        robot.move_forward_until_touch("the wall")
+    # Once we're touching the wall, we can move the gripper forward to press
+    # the button.
+    if check("the robot's gripper is touching the wall and is not near the button"):
+        robot.move_gripper("near the button")
+{'button-press-topdown-wall': [("the robot's gripper is not almost vertically aligned with button", "the robot's gripper is almost vertically aligned with the button and the robot's gripper is closed"), ("the robot's gripper is not touching the wall", 'move_forward_until_touch the wall'), ("the robot's gripper is touching the wall and is not near the button", "the robot's gripper is near the button")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not almost vertically aligned with the button", 'put the gripper above the puck'), ("the robot's gripper is not around wall", 'reach to goal'), ("the robot's gripper is around wall and wall is not near the button", 'push the gripper into the puck')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not almost vertically aligned with the button", 'put the gripper above the puck'), ("the robot's gripper is not around wall", 'reach to goal'), ("the robot's gripper is around wall and wall is not near the button", 'push the gripper into the puck')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.53
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not almost vertically aligned with the button", 'put the gripper above the puck'), ("the robot's gripper is not around wall", 'reach to goal'), ("the robot's gripper is around wall and wall is not near the button", 'push the gripper into the puck')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.610239293743514
+Success rates:
+{
+ "button-press-topdown-wall": 0.53
+}

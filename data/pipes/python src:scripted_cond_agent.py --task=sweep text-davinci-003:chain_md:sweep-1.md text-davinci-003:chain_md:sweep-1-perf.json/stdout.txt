@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put gripper above cube  2. Drop gripper around cube  3. Close gripper around cube  4. Move cube sideways to the goal
+    We need to put the gripper above the cube first, so that we don't bump it while trying to grab it.
+    - When the robot's gripper is not above cube, the robot should put gripper above cube.
+    As long as the gripper is above the cube, closing it should trap the cube.
+    - When the robot's gripper is above cube and the robot's gripper is open, the robot should drop gripper around cube.
+    Once the gripper is around the cube, we can just move it sideways to the goal area.
+    - When the robot's gripper is around the cube, the robot should move cube sideways to goal.
+{'sweep': [("the robot's gripper is not above cube", 'put gripper above cube.'), ("the robot's gripper is above cube and the robot's gripper is open", 'drop gripper around cube.'), ("the robot's gripper is around the cube", 'move cube sideways to goal.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'put gripper above button'), ("the robot's gripper is above the cube and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the cube", 'place puck at goal')], env_name='sweep', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'put gripper above button'), ("the robot's gripper is above the cube and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the cube", 'place puck at goal')], env_name='sweep', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'put gripper above button'), ("the robot's gripper is above the cube and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the cube", 'place puck at goal')], env_name='sweep', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.7234513942328833
+Success rates:
+{
+ "sweep": 0.0
+}

@@ -1,0 +1,17 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+if check("the plate is not in the robot's gripper and the gripper is not above the plate"):
+        robot.put("gripper above plate")
+    if check("the gripper is above the plate and the gripper is not closed"):
+        robot.close("gripper around plate")
+    if check("the gripper is above the plate and the plate is inside the gripper"):
+        robot.slide("plate to goal location")
+{'plate-slide': [("the plate is not in the robot's gripper and the gripper is not above the plate", 'put gripper above plate'), ('the gripper is above the plate and the gripper is not closed', 'close gripper around plate'), ('the gripper is above the plate and the plate is inside the gripper', 'slide plate to goal location')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the plate is not behind the robot's gripper and the robot's gripper is not above the plate", 'put gripper above button'), ("the robot's gripper is above the plate and the robot's gripper is closed", 'close gripper around puck'), ("the robot's gripper is above the plate and the plate is behind the robot's gripper", 'slide the puck to the goal')], env_name='plate-slide', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the plate is not behind the robot's gripper and the robot's gripper is not above the plate", 'put gripper above button'), ("the robot's gripper is above the plate and the robot's gripper is closed", 'close gripper around puck'), ("the robot's gripper is above the plate and the plate is behind the robot's gripper", 'slide the puck to the goal')], env_name='plate-slide', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the plate is not behind the robot's gripper and the robot's gripper is not above the plate", 'put gripper above button'), ("the robot's gripper is above the plate and the robot's gripper is closed", 'close gripper around puck'), ("the robot's gripper is above the plate and the plate is behind the robot's gripper", 'slide the puck to the goal')], env_name='plate-slide', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.14169338732277
+Success rates:
+{
+ "plate-slide": 0.0
+}

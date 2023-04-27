@@ -1,0 +1,21 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put gripper above block  2. Grab the block with the gripper  3. Move the block to the target location  4. Place the block
+    First, put the gripper above the block.
+    - When the robot's gripper is not vertically aligned with block, the robot should put gripper above block.
+    If the block isn't grabbed by the gripper, grab the block by closing the gripper around it.
+    - When the robot's gripper is vertically aligned with block and the robot's gripper is not around block, the robot should close gripper around block.
+    Now that the block is grabbed by the gripper, move the block to the target location.
+    - When the robot's gripper is around block, the robot should move block to target location.
+    Once the block is above the target location, release the block.
+    - When the block is above target location and the robot's gripper is holding block, the robot should place block.
+{'shelf-place': [("the robot's gripper is not vertically aligned with block", 'put gripper above block.'), ("the robot's gripper is vertically aligned with block and the robot's gripper is not around block", 'close gripper around block.'), ("the robot's gripper is around block", 'move block to target location.'), ("the block is above target location and the robot's gripper is holding block", 'place block.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the block", 'put gripper above button'), ("the robot's gripper is vertically aligned with the block and the robot's gripper is not around the block", 'close gripper around puck'), ("the robot's gripper is around the block", 'slide the puck to the goal'), ("the block is above the shelf and the robot's gripper is behind the block", 'place puck at goal')], env_name='shelf-place', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the block", 'put gripper above button'), ("the robot's gripper is vertically aligned with the block and the robot's gripper is not around the block", 'close gripper around puck'), ("the robot's gripper is around the block", 'slide the puck to the goal'), ("the block is above the shelf and the robot's gripper is behind the block", 'place puck at goal')], env_name='shelf-place', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the block", 'put gripper above button'), ("the robot's gripper is vertically aligned with the block and the robot's gripper is not around the block", 'close gripper around puck'), ("the robot's gripper is around the block", 'slide the puck to the goal'), ("the block is above the shelf and the robot's gripper is behind the block", 'place puck at goal')], env_name='shelf-place', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Success rates:
+{
+ "shelf-place": 0.0
+}

@@ -1,0 +1,36 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put gripper horizontally above hole
+    #  2. Drop gripper vertically into hole
+    #  3. Align the gripper with the peg
+    #  4. Grab the peg with the gripper
+    #  5. Lift the peg up out of the hole
+    # First, put the gripper above the hole, so that we don't bump it while
+    # trying to grab the peg.
+    if check("the robot's gripper is not horizontally aligned with hole"):
+        robot.put("gripper above hole")
+    # If the gripper is lined up with the hole from above, drop the gripper into
+    # the hole.
+    if check("the robot's gripper is horizontally aligned with the hole and the robot's gripper is not in the hole"):
+        robot.drop("gripper into the hole")
+    # Once the gripper is in the hole, move it around until it's lined up with
+    # the peg.
+    if check("the robot's gripper is in the hole and the robot's gripper is not aligned with the peg"):
+        robot.align("gripper with peg")
+    # If the peg is aligned with the gripper, grab it.
+    if check("the robot's gripper is aligned with the peg"):
+        robot.grab("peg")
+    # Now that we have the peg, raise the gripper out of the hole.
+    if check("the robot's gripper is aligned with the peg and the robot's gripper is in the hole"):
+        robot.lift("peg out of hole")
+{'pick-out-of-hole': [("the robot's gripper is not horizontally aligned with hole", 'put gripper above hole'), ("the robot's gripper is horizontally aligned with the hole and the robot's gripper is not in the hole", 'drop gripper into the hole'), ("the robot's gripper is in the hole and the robot's gripper is not aligned with the peg", 'align gripper with peg'), ("the robot's gripper is aligned with the peg", 'grab peg'), ("the robot's gripper is aligned with the peg and the robot's gripper is in the hole", 'lift peg out of hole')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not horizontally aligned with the puck", 'put gripper above button'), ("the robot's gripper is horizontally aligned with the puck and the robot's gripper is not behind the puck", 'push the gripper into the puck'), ("the robot's gripper is behind the puck and the robot's gripper is not forward aligned with the puck", 'align peg to hole'), ("the robot's gripper is forward aligned with the puck", 'grab peg'), ("the robot's gripper is forward aligned with the puck and the robot's gripper is behind the puck", 'align peg to hole')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not horizontally aligned with the puck", 'put gripper above button'), ("the robot's gripper is horizontally aligned with the puck and the robot's gripper is not behind the puck", 'push the gripper into the puck'), ("the robot's gripper is behind the puck and the robot's gripper is not forward aligned with the puck", 'align peg to hole'), ("the robot's gripper is forward aligned with the puck", 'grab peg'), ("the robot's gripper is forward aligned with the puck and the robot's gripper is behind the puck", 'align peg to hole')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not horizontally aligned with the puck", 'put gripper above button'), ("the robot's gripper is horizontally aligned with the puck and the robot's gripper is not behind the puck", 'push the gripper into the puck'), ("the robot's gripper is behind the puck and the robot's gripper is not forward aligned with the puck", 'align peg to hole'), ("the robot's gripper is forward aligned with the puck", 'grab peg'), ("the robot's gripper is forward aligned with the puck and the robot's gripper is behind the puck", 'align peg to hole')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.05315980052649289
+Success rates:
+{
+ "pick-out-of-hole": 0.0
+}

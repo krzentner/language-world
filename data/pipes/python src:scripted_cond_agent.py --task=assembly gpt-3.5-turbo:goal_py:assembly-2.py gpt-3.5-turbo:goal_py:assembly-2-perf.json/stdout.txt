@@ -1,0 +1,25 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    #  1. Put gripper above wrench and peg
+    #  2. Position the gripper around the wrench and the peg
+    #  3. Tighten the wrench around the peg by rotating the gripper
+    # First, put the gripper above the wrench and the peg
+    if check("the robot's gripper is not above the wrench and peg"):
+        robot.move_gripper("above the wrench and peg")
+    # If the gripper isn't around the wrench and peg, position it there.
+    if check("the robot's gripper is not around the wrench and peg"):
+        robot.move_gripper("around the wrench and peg")
+    # If the gripper is around the wrench and peg, tighten the wrench by rotating
+    # the gripper.
+    if check("the robot's gripper is around the wrench and peg"):
+        robot.rotate_gripper("tighten")
+{'assembly': [("the robot's gripper is not above the wrench and peg", "the robot's gripper is above the wrench and the robot's gripper is near peg"), ("the robot's gripper is not around the wrench and peg", "the robot's gripper is around the wrench and the robot's gripper is near peg"), ("the robot's gripper is around the wrench and peg", 'rotate_gripper tighten')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the wrench", 'put the gripper above the puck'), ("the robot's gripper is not around the wrench", 'drop gripper around puck'), ("the robot's gripper is around the wrench", 'move gripper to right of window handle')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the wrench", 'put the gripper above the puck'), ("the robot's gripper is not around the wrench", 'drop gripper around puck'), ("the robot's gripper is around the wrench", 'move gripper to right of window handle')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the wrench", 'put the gripper above the puck'), ("the robot's gripper is not around the wrench", 'drop gripper around puck'), ("the robot's gripper is around the wrench", 'move gripper to right of window handle')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.4053339618166691
+Success rates:
+{
+ "assembly": 0.0
+}

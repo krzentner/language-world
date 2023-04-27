@@ -1,0 +1,32 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+The program will be: 
+``` 
+# door-lock: turn the dial on the door
+#def door_lock(robot):
+    # Steps:
+    #  1. Put gripper above dial
+    #  2. Drop gripper around dial
+    #  3. Turn dial to the desired position
+    # First, put the gripper roughly above the dial.
+    if check("the robot's gripper is not vertically aligned with dial"):
+        robot.put("gripper above dial")
+    # Once the gripper is lined up above the dial, we should be able to
+    # grab the dial by moving the gripper down around it.
+    if check("the robot's gripper is not around dial and the robot's gripper is open"):
+        robot.drop("gripper around dial")
+    # Once the gripper is around the dial, turn dial to the desired position.
+    if check("the robot's gripper is around dial"):
+        robot.turn("dial to desired position")
+```
+{'door-lock': [("the robot's gripper is not vertically aligned with dial", 'put gripper above dial'), ("the robot's gripper is not around dial and the robot's gripper is open", 'drop gripper around dial'), ("the robot's gripper is around dial", 'turn dial to desired position')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the door's lock", 'put gripper above button'), ("the robot's gripper is not around the door's lock and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is open", 'push drawer closed')], env_name='door-lock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the door's lock", 'put gripper above button'), ("the robot's gripper is not around the door's lock and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is open", 'push drawer closed')], env_name='door-lock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.7
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the door's lock", 'put gripper above button'), ("the robot's gripper is not around the door's lock and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is open", 'push drawer closed')], env_name='door-lock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.606316255278279
+Success rates:
+{
+ "door-lock": 0.7
+}

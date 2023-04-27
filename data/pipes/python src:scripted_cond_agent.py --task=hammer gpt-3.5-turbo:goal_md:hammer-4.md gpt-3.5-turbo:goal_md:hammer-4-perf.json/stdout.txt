@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To hit the nail with the hammer reliably, the robot should perform the following steps:
+    Steps:  1. Pick up hammer by handle  2. Put hammer over the nail head with a good amount of clearance  3. Move hammer downward and hit the nail
+    First, position the gripper around the handle of the hammer and pick it up.
+    - When the robot's gripper is not around the handle of the hammer and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the handle of the hammer and the robot's gripper is closed
+    Next, position the hammer over the nail head with enough clearance to swing and hit the nail.
+    - When the robot's gripper is not above the nail with a good amount of clearance, move the robot's gripper until the robot's gripper is above the nail with a good amount of clearance
+    Finally, move the hammer downward and hit the nail.
+    - Move the robot's gripper downward until the hammer hits the nail
+{'hammer': [("the robot's gripper is not around the handle of the hammer and the robot's gripper is open", "the robot's gripper is near the handle of the hammer and the robot's gripper is closed"), ("the robot's gripper is not above the nail with a good amount of clearance", "the robot's gripper is above the nail with a good amount of clearance")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the hammer and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is not above the hammer", 'put the gripper above the puck')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the hammer and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is not above the hammer", 'put the gripper above the puck')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the hammer and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is not above the hammer", 'put the gripper above the puck')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.9576385833673896
+Success rates:
+{
+ "hammer": 0.0
+}

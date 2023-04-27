@@ -1,0 +1,29 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+Complete Code:
+
+```
+# pick-out-of-hole: pick up the peg out of the hole and hold it at the target location
+# def pick_out_of_hole(robot):
+    if check("the robot's gripper is not vertically aligned with the hole"):
+        robot.put("gripper above hole")
+    if check("the peg is not left of the robot's gripper and the peg is not forward aligned with the robot's gripper"):
+        robot.grab("peg")
+    if check("the robot's gripper is not forward aligned with the peg"):
+        robot.pull("peg out of hole")
+    if check("the robot's gripper is near the peg"):
+        robot.close("gripper around peg")
+    if check("the robot's gripper is above peg and the robot's gripper is closed"):
+        robot.place("peg at goal")
+```
+{'pick-out-of-hole': [("the robot's gripper is not vertically aligned with the hole", 'put gripper above hole'), ("the peg is not left of the robot's gripper and the peg is not forward aligned with the robot's gripper", 'grab peg'), ("the robot's gripper is not forward aligned with the peg", 'pull peg out of hole'), ("the robot's gripper is near the peg", 'close gripper around peg'), ("the robot's gripper is above peg and the robot's gripper is closed", 'place peg at goal')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the puck", 'put gripper above button'), ("the puck is not left of the robot's gripper and the puck is not forward aligned with the robot's gripper", 'grab peg'), ("the robot's gripper is not forward aligned with the puck", 'align peg to hole'), ("the robot's gripper is near the puck", 'close gripper around puck'), ("the robot's gripper is open and the robot's gripper is closed", 'place puck at goal')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the puck", 'put gripper above button'), ("the puck is not left of the robot's gripper and the puck is not forward aligned with the robot's gripper", 'grab peg'), ("the robot's gripper is not forward aligned with the puck", 'align peg to hole'), ("the robot's gripper is near the puck", 'close gripper around puck'), ("the robot's gripper is open and the robot's gripper is closed", 'place puck at goal')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the puck", 'put gripper above button'), ("the puck is not left of the robot's gripper and the puck is not forward aligned with the robot's gripper", 'grab peg'), ("the robot's gripper is not forward aligned with the puck", 'align peg to hole'), ("the robot's gripper is near the puck", 'close gripper around puck'), ("the robot's gripper is open and the robot's gripper is closed", 'place puck at goal')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.036503830124142864
+Success rates:
+{
+ "pick-out-of-hole": 0.0
+}

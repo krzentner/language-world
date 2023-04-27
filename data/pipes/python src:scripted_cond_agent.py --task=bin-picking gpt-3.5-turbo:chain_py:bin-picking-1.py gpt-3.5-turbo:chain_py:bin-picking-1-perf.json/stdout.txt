@@ -1,0 +1,37 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+#  1. Scan the bin to locate the cube
+#  2. Put the gripper above the cube
+#  3. Grab the cube with the gripper
+#  4. Move the cube to the target bin
+#  5. Release the cube into the target bin
+# First, the robot needs to scan the bin to locate the cube. This can be done through
+# a combination of visual recognition and movement planning.
+if check("the robot has not scanned the bin to locate the cube"):
+    robot.scan("the bin to locate the cube")
+    
+# Once the cube is located, move the gripper above the cube.
+if check("the robot's gripper is not above the cube"):
+    robot.move("the gripper above the cube")
+    
+# Next, grab the cube with the gripper.
+if check("the robot's gripper is not holding the cube"):
+    robot.grab("the cube")
+    
+# Now, move the cube to the target bin.
+if check("the robot has not moved the cube to the target bin"):
+    robot.move("the cube to the target bin")
+    
+# Finally, release the cube into the target bin.
+if check("the cube has not been released into the target bin"):
+    robot.release("the cube into the target bin")
+{'bin-picking': [('the robot has not scanned the bin to locate the cube', 'scan the bin to locate the cube'), ("the robot's gripper is not above the cube", 'move the gripper above the cube'), ("the robot's gripper is not holding the cube", 'grab the cube'), ('the robot has not moved the cube to the target bin', 'move the cube to the target bin'), ('the cube has not been released into the target bin', 'release the cube into the target bin')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'push the gripper into the puck'), ("the robot's gripper is not above the cube", 'put the gripper above the puck'), ("the robot's gripper is not behind the cube", 'grab peg'), ("the robot's gripper is not above the cube and cube is touching the table", 'slide the puck to the goal'), ("the cube is not below the robot's gripper", 'slide the puck to the goal')], env_name='bin-picking', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'push the gripper into the puck'), ("the robot's gripper is not above the cube", 'put the gripper above the puck'), ("the robot's gripper is not behind the cube", 'grab peg'), ("the robot's gripper is not above the cube and cube is touching the table", 'slide the puck to the goal'), ("the cube is not below the robot's gripper", 'slide the puck to the goal')], env_name='bin-picking', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'push the gripper into the puck'), ("the robot's gripper is not above the cube", 'put the gripper above the puck'), ("the robot's gripper is not behind the cube", 'grab peg'), ("the robot's gripper is not above the cube and cube is touching the table", 'slide the puck to the goal'), ("the cube is not below the robot's gripper", 'slide the puck to the goal')], env_name='bin-picking', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.11932563857263602
+Success rates:
+{
+ "bin-picking": 0.0
+}

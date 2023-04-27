@@ -1,0 +1,17 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To turn the dial reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper around dial handle  2. Turn the dial to the desired position
+    First, put the gripper around the dial handle.
+    - When the robot's gripper is not around the dial handle and the robot's gripper is lined up with the dial handle, the robot should drop gripper around dial handle.
+    Once the gripper is around the dial handle, turn the dial to the desired position. Check the current position of the dial before turning it and make sure it turns in the right direction and to the correct amount.
+    - When the robot's gripper is around dial handle, the robot should turn the dial to the desired position.
+{'dial-turn': [("the robot's gripper is not around the dial handle and the robot's gripper is lined up with the dial handle", 'drop gripper around dial handle.'), ("the robot's gripper is around dial handle", 'turn the dial to the desired position.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the dial and the robot's gripper is forward aligned with the dial", 'drop gripper around puck'), ("the robot's gripper is around the dial", 'slide the puck to the goal')], env_name='dial-turn', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the dial and the robot's gripper is forward aligned with the dial", 'drop gripper around puck'), ("the robot's gripper is around the dial", 'slide the puck to the goal')], env_name='dial-turn', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the dial and the robot's gripper is forward aligned with the dial", 'drop gripper around puck'), ("the robot's gripper is around the dial", 'slide the puck to the goal')], env_name='dial-turn', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.657053968997679
+Success rates:
+{
+ "dial-turn": 1.0
+}

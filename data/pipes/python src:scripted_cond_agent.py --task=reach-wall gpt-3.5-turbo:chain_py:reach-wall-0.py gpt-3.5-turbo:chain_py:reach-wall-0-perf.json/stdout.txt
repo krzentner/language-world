@@ -1,0 +1,22 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    #  1. Move gripper to just above the wall
+    #  2. Move gripper over the wall to the target
+    # To reach the target with a wall in the way, we need to move the gripper
+    # above the wall and then over it.
+    # First, move the gripper above the wall.
+    if check("the robot's gripper is not above the wall"):
+        robot.move("gripper above wall")
+    # Once the gripper is above the wall, move it over the wall to the target.
+    if check("the robot's gripper is above the wall and not at the target location"):
+        robot.slide("gripper over wall to reach target")
+{'reach-wall': [("the robot's gripper is not above the wall", 'move gripper above wall'), ("the robot's gripper is above the wall and not at the target location", 'slide gripper over wall to reach target')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above wall", 'place gripper above puck'), ("the robot's gripper is above wall and wall is not near the target location", 'place gripper above puck')], env_name='reach-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above wall", 'place gripper above puck'), ("the robot's gripper is above wall and wall is not near the target location", 'place gripper above puck')], env_name='reach-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above wall", 'place gripper above puck'), ("the robot's gripper is above wall and wall is not near the target location", 'place gripper above puck')], env_name='reach-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.360988485773413
+Success rates:
+{
+ "reach-wall": 0.0
+}

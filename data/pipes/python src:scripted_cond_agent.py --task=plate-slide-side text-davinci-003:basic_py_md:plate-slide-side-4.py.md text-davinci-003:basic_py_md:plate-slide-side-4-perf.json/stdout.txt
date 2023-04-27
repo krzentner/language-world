@@ -1,0 +1,23 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+Then, 
+
+if check("the robot's gripper is not above the plate and the robot's gripper is not horizontally aligned with the plate"):
+    robot.place("gripper above plate")
+if check("the robot's gripper is horizontally aligned with the plate and the robot's gripper is not near the plate"):
+    robot.grab("gripper around plate")
+if check("the robot's gripper is near the plate and the plate is to the left of the robot's gripper"):
+    robot.slide("plate to the right")
+if check("the robot's gripper is near the plate and the plate is to the right of the robot's gripper"):
+    robot.slide("plate to the left")
+{'plate-slide-side': [("the robot's gripper is not above the plate and the robot's gripper is not horizontally aligned with the plate", 'place gripper above plate'), ("the robot's gripper is horizontally aligned with the plate and the robot's gripper is not near the plate", 'grab gripper around plate'), ("the robot's gripper is near the plate and the plate is to the left of the robot's gripper", 'slide plate to the right'), ("the robot's gripper is near the plate and the plate is to the right of the robot's gripper", 'slide plate to the left')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate and the robot's gripper is not horizontally aligned with the plate", 'place gripper above puck'), ("the robot's gripper is horizontally aligned with the plate and the robot's gripper is not near the plate", 'drop gripper around puck'), ("the robot's gripper is near the plate and the plate is not left of the robot's gripper", 'slide the puck to the goal'), ("the robot's gripper is near the plate and the plate is not right of the robot's gripper", 'slide the puck to the goal')], env_name='plate-slide-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate and the robot's gripper is not horizontally aligned with the plate", 'place gripper above puck'), ("the robot's gripper is horizontally aligned with the plate and the robot's gripper is not near the plate", 'drop gripper around puck'), ("the robot's gripper is near the plate and the plate is not left of the robot's gripper", 'slide the puck to the goal'), ("the robot's gripper is near the plate and the plate is not right of the robot's gripper", 'slide the puck to the goal')], env_name='plate-slide-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.02
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate and the robot's gripper is not horizontally aligned with the plate", 'place gripper above puck'), ("the robot's gripper is horizontally aligned with the plate and the robot's gripper is not near the plate", 'drop gripper around puck'), ("the robot's gripper is near the plate and the plate is not left of the robot's gripper", 'slide the puck to the goal'), ("the robot's gripper is near the plate and the plate is not right of the robot's gripper", 'slide the puck to the goal')], env_name='plate-slide-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.517578810944599
+Success rates:
+{
+ "plate-slide-side": 0.02
+}

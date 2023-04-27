@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put gripper roughly horizontal above the nail  2. Closing the gripper  3. Swinging the hammer by moving the robot's arm  4. Hitting the nail with the hammer
+    First, put the gripper above the nail, but keep it kind of horizontal.
+    - When the robot's gripper is not horizontally aligned with nail, the robot should place gripper above nail.
+    Now that the gripper is roughly aligned with the nail, close the gripper.
+    - When the robot's gripper is horizontally aligned with the nail and the robot's gripper is open, the robot should close gripper.
+    We closed the gripper, so we can now swing the hammer. Move the robot's arm to swing the hammer.
+    - When the robot's gripper is horizontally aligned with the nail and the robot's gripper is closed, the robot should swing arm to hit nail with hammer.
+{'hammer': [("the robot's gripper is not horizontally aligned with nail", 'place gripper above nail.'), ("the robot's gripper is horizontally aligned with the nail and the robot's gripper is open", 'close gripper.'), ("the robot's gripper is horizontally aligned with the nail and the robot's gripper is closed", 'swing arm to hit nail with hammer.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not horizontally aligned with the hammer", 'place gripper above puck'), ("the robot's gripper is horizontally aligned with the hammer and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is horizontally aligned with the hammer and the robot's gripper is closed", 'move gripper to right of window handle')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not horizontally aligned with the hammer", 'place gripper above puck'), ("the robot's gripper is horizontally aligned with the hammer and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is horizontally aligned with the hammer and the robot's gripper is closed", 'move gripper to right of window handle')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not horizontally aligned with the hammer", 'place gripper above puck'), ("the robot's gripper is horizontally aligned with the hammer and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is horizontally aligned with the hammer and the robot's gripper is closed", 'move gripper to right of window handle')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.956098202843615
+Success rates:
+{
+ "hammer": 0.0
+}

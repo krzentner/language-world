@@ -1,0 +1,28 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    #  1. Pick up the hammer
+    #  2. Position the hammer above the nail
+    #  3. Swing the hammer down onto the nail
+    #  4. Pick up the hammer again
+    # First, pick up the hammer if it's not already in the robot's gripper.
+    if check("the hammer is not in the robot's gripper"):
+        robot.grab("the hammer")
+    # Position the gripper above the nail.
+    if check("the robot's gripper is not above the nail"):
+        robot.put("gripper above the nail")
+    # Swing the hammer down onto the nail.
+    if check("the robot's gripper is above the nail"):
+        robot.swing("the hammer onto the nail")
+    # Pick up the hammer again.
+    if check("the hammer is not in the robot's gripper"):
+        robot.grab("the hammer")
+{'hammer': [("the hammer is not in the robot's gripper", 'grab the hammer'), ("the robot's gripper is not above the nail", 'put gripper above the nail'), ("the robot's gripper is above the nail", 'swing the hammer onto the nail'), ("the hammer is not in the robot's gripper", 'grab the hammer')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the hammer is not behind the robot's gripper", 'grab peg'), ("the robot's gripper is not above the hammer", 'put gripper above button'), ("the robot's gripper is above the hammer", 'slide the puck to the goal'), ("the hammer is not behind the robot's gripper", 'grab peg')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the hammer is not behind the robot's gripper", 'grab peg'), ("the robot's gripper is not above the hammer", 'put gripper above button'), ("the robot's gripper is above the hammer", 'slide the puck to the goal'), ("the hammer is not behind the robot's gripper", 'grab peg')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the hammer is not behind the robot's gripper", 'grab peg'), ("the robot's gripper is not above the hammer", 'put gripper above button'), ("the robot's gripper is above the hammer", 'slide the puck to the goal'), ("the hammer is not behind the robot's gripper", 'grab peg')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.7116031316691658
+Success rates:
+{
+ "hammer": 0.0
+}

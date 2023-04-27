@@ -1,0 +1,22 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+
+Steps:  1. Put gripper near hammer  2. Grab the hammer  3. Put the hammer close to the nail  4. Swing hammer in a downwards direction to hit the nail
+    First, we need to put the gripper near the hammer in order to grab it.
+    - When the robot's gripper is not near the hammer, the robot should put gripper near hammer.
+    Once the gripper is near the hammer, close the gripper to grab the hammer.
+    - When the robot's gripper is near the hammer and the robot's gripper is open, the robot should grab the hammer.
+    Now that the robot has the hammer, put the hammer close to the nail.
+    - When the robot's gripper is near the nail and the robot's gripper is closed, the robot should put hammer near nail.
+    Finally, swing the hammer in a downwards direction to hit the nail.
+    - When the robot's gripper is near the nail and the hammer is below the nail, the robot should swing hammer downwards.
+{'hammer': [("the robot's gripper is not near the hammer", 'put gripper near hammer.'), ("the robot's gripper is near the hammer and the robot's gripper is open", 'grab the hammer.'), ("the robot's gripper is near the nail and the robot's gripper is closed", 'put hammer near nail.'), ("the robot's gripper is near the nail and the hammer is below the nail", 'swing hammer downwards.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the hammer", 'put gripper around door handle'), ("the robot's gripper is near the hammer and the robot's gripper is open", 'grab peg'), ("the robot's gripper is near the hammer and the robot's gripper is closed", 'place puck at goal'), ("the robot's gripper is near the hammer and the hammer is below the robot's gripper", 'align peg to hole')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the hammer", 'put gripper around door handle'), ("the robot's gripper is near the hammer and the robot's gripper is open", 'grab peg'), ("the robot's gripper is near the hammer and the robot's gripper is closed", 'place puck at goal'), ("the robot's gripper is near the hammer and the hammer is below the robot's gripper", 'align peg to hole')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the hammer", 'put gripper around door handle'), ("the robot's gripper is near the hammer and the robot's gripper is open", 'grab peg'), ("the robot's gripper is near the hammer and the robot's gripper is closed", 'place puck at goal'), ("the robot's gripper is near the hammer and the hammer is below the robot's gripper", 'align peg to hole')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.4856506671826557
+Success rates:
+{
+ "hammer": 0.0
+}

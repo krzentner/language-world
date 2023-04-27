@@ -1,0 +1,23 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+if check("the robot's gripper is not above plate"):
+        robot.put("gripper above plate")
+    if check("the robot's gripper is above plate and the robot's gripper is not near plate"):
+        robot.move("gripper near plate")
+    if check("the robot's gripper is near plate and the robot's gripper is not around plate"):
+        robot.grab("gripper around plate")
+    if check("the robot's gripper is around plate and the robot's gripper is not gripping firmly"):
+        robot.tighten("gripper to grip plate")
+    if check("the robot's gripper is holding plate firmly"):
+        robot.slide("plate to the goal")
+{'plate-slide': [("the robot's gripper is not above plate", 'put gripper above plate'), ("the robot's gripper is above plate and the robot's gripper is not near plate", 'move gripper near plate'), ("the robot's gripper is near plate and the robot's gripper is not around plate", 'grab gripper around plate'), ("the robot's gripper is around plate and the robot's gripper is not gripping firmly", 'tighten gripper to grip plate'), ("the robot's gripper is holding plate firmly", 'slide plate to the goal')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate", 'put gripper above button'), ("the robot's gripper is above the plate and the robot's gripper is not near the plate", 'close gripper around puck'), ("the robot's gripper is near the plate and the robot's gripper is not around the plate", 'drop gripper around puck'), ("the robot's gripper is around the plate and the robot's gripper is open", 'move gripper to right of window handle'), ("the robot's gripper is behind the plate", 'slide the puck to the goal')], env_name='plate-slide', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate", 'put gripper above button'), ("the robot's gripper is above the plate and the robot's gripper is not near the plate", 'close gripper around puck'), ("the robot's gripper is near the plate and the robot's gripper is not around the plate", 'drop gripper around puck'), ("the robot's gripper is around the plate and the robot's gripper is open", 'move gripper to right of window handle'), ("the robot's gripper is behind the plate", 'slide the puck to the goal')], env_name='plate-slide', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate", 'put gripper above button'), ("the robot's gripper is above the plate and the robot's gripper is not near the plate", 'close gripper around puck'), ("the robot's gripper is near the plate and the robot's gripper is not around the plate", 'drop gripper around puck'), ("the robot's gripper is around the plate and the robot's gripper is open", 'move gripper to right of window handle'), ("the robot's gripper is behind the plate", 'slide the puck to the goal')], env_name='plate-slide', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.8152187574949156
+Success rates:
+{
+ "plate-slide": 0.0
+}

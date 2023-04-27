@@ -1,0 +1,38 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+Steps:
+1. Put gripper above wrench
+2. Grab wrench with gripper
+3. Pull wrench off of the peg
+
+If the robot's gripper is not near the wrench, move it near the wrench.
+
+```
+# disassemble: pull the wrench off of the peg
+# def disassemble(robot):
+    # Steps:
+    #  1. Put gripper above wrench
+    #  2. Grab wrench with gripper
+    #  3. Pull wrench off of the peg
+    # If the robot's gripper is not near the wrench, move it near the wrench.
+    if check("the robot's gripper is not near the wrench"):
+        robot.move_gripper("near the wrench")
+    # Once the gripper is near the wrench, grab the wrench by closing the
+    # gripper.
+    if check("the robot's gripper is near the wrench and the robot's gripper is open"):
+        robot.move_gripper("above the wrench", close_gripper=True)
+    # If the robot has the wrench, pull it off the peg.
+    if check("the robot's gripper is closed and the wrench is facing the peg"):
+        robot.move_gripper("away from the peg")
+```
+{'disassemble': [("the robot's gripper is not near the wrench", "the robot's gripper is near the wrench"), ("the robot's gripper is near the wrench and the robot's gripper is open", "the robot's gripper is above the wrench and the robot's gripper is closed"), ("the robot's gripper is closed and the wrench is facing the peg", "the robot's gripper is near away from the peg")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the wrench", 'push the gripper into the puck'), ("the robot's gripper is near the wrench and the robot's gripper is open", 'put the gripper above the puck'), ("the robot's gripper is closed and the wrench is behind the peg", 'put the gripper in front of the drawer')], env_name='disassemble', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the wrench", 'push the gripper into the puck'), ("the robot's gripper is near the wrench and the robot's gripper is open", 'put the gripper above the puck'), ("the robot's gripper is closed and the wrench is behind the peg", 'put the gripper in front of the drawer')], env_name='disassemble', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the wrench", 'push the gripper into the puck'), ("the robot's gripper is near the wrench and the robot's gripper is open", 'put the gripper above the puck'), ("the robot's gripper is closed and the wrench is behind the peg", 'put the gripper in front of the drawer')], env_name='disassemble', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0384774015914646
+Success rates:
+{
+ "disassemble": 0.0
+}

@@ -1,0 +1,28 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put gripper almost directly above the peg
+    #  2. Drop gripper down around the peg 
+    #  3. Close gripper around peg 
+    #  4. Move peg to goal 
+    # First, put the gripper roughly above the peg, so that we don't miss it
+    # while trying to grab it
+    if check("the robot's gripper is not above peg"):
+        robot.move_gripper("above the peg")
+    # If the gripper isn't around the peg, put it around the peg.
+    if check("the robot's gripper is not around peg and the robot's gripper is open"):
+        robot.move_gripper("around the peg", close_gripper=True)
+    # If the gripper is around the peg, we should be able to grab it by closing
+    # the gripper.
+    if check("the robot's gripper is around peg and the robot's gripper is closed"):
+        robot.move_gripper("near the target location")
+{'pick-out-of-hole': [("the robot's gripper is not above peg", "the robot's gripper is above the peg"), ("the robot's gripper is not around peg and the robot's gripper is open", "the robot's gripper is around the peg and the robot's gripper is closed"), ("the robot's gripper is around peg and the robot's gripper is closed", "the robot's gripper is near the target location")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'put the gripper above the puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'put the gripper in front of the drawer'), ("the robot's gripper is open and the robot's gripper is closed", 'push the gripper into the puck')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'put the gripper above the puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'put the gripper in front of the drawer'), ("the robot's gripper is open and the robot's gripper is closed", 'push the gripper into the puck')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'put the gripper above the puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'put the gripper in front of the drawer'), ("the robot's gripper is open and the robot's gripper is closed", 'push the gripper into the puck')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.021519437421398595
+Success rates:
+{
+ "pick-out-of-hole": 0.0
+}

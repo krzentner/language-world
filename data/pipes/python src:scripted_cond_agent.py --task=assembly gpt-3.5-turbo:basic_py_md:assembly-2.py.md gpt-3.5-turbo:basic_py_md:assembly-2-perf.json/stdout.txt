@@ -1,0 +1,23 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# assembly: put the wrench around the peg
+# def assembly(robot):
+    if check("the robot's gripper is not vertically aligned with the wrench"):
+        robot.put("gripper above wrench")
+    if check("the wrench is not between the robot's gripper and the peg and the robot's gripper is open"):
+        robot.drop("gripper around wrench")
+    if check("the wrench is not between the robot's gripper and the peg and the robot's gripper is closed"):
+        robot.open("gripper")
+    if check("the wrench is not near the peg and the robot's gripper is open"):
+        robot.put("gripper near peg and wrench")
+    if check("the wrench is between the robot's gripper and the peg and the robot's gripper is open"):
+        robot.close("gripper around wrench and peg")
+{'assembly': [("the robot's gripper is not vertically aligned with the wrench", 'put gripper above wrench'), ("the wrench is not between the robot's gripper and the peg and the robot's gripper is open", 'drop gripper around wrench'), ("the wrench is not between the robot's gripper and the peg and the robot's gripper is closed", 'open gripper'), ("the wrench is not near the peg and the robot's gripper is open", 'put gripper near peg and wrench'), ("the wrench is between the robot's gripper and the peg and the robot's gripper is open", 'close gripper around wrench and peg')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the wrench", 'put gripper above button'), ("the wrench is not below the robot's gripper and the robot's gripper is open", 'drop gripper around puck'), ("the wrench is not below the robot's gripper and the robot's gripper is closed", 'place gripper above puck'), ("the wrench is not near the peg and the robot's gripper is open", 'put gripper around door handle'), ("the wrench is below the robot's gripper and the robot's gripper is open", 'close gripper around puck')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the wrench", 'put gripper above button'), ("the wrench is not below the robot's gripper and the robot's gripper is open", 'drop gripper around puck'), ("the wrench is not below the robot's gripper and the robot's gripper is closed", 'place gripper above puck'), ("the wrench is not near the peg and the robot's gripper is open", 'put gripper around door handle'), ("the wrench is below the robot's gripper and the robot's gripper is open", 'close gripper around puck')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the wrench", 'put gripper above button'), ("the wrench is not below the robot's gripper and the robot's gripper is open", 'drop gripper around puck'), ("the wrench is not below the robot's gripper and the robot's gripper is closed", 'place gripper above puck'), ("the wrench is not near the peg and the robot's gripper is open", 'put gripper around door handle'), ("the wrench is below the robot's gripper and the robot's gripper is open", 'close gripper around puck')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.2067599305042396
+Success rates:
+{
+ "assembly": 0.0
+}

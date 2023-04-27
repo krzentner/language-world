@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put the gripper above the dial  2.Grab the dial with the gripper  3.Adjust the dial to the correct position 
+    First, put the gripper above the dial.
+    - When the robot's gripper is not vertically aligned with the dial, the robot should put gripper above dial.
+    If the dial isn't to the left of the gripper, rotate it left so it is.
+    - When the robot's gripper is vertically aligned with dial and dial is not left of robot's gripper, the robot should move gripper over dial.
+    Once the gripper is over the dial, grab it by closing the gripper. Then adjust the dial to the right position.
+    - When the robot's gripper is over the dial and the gripper is closed, the robot should adjust the dial to the correct position.
+{'door-unlock': [("the robot's gripper is not vertically aligned with the dial", 'put gripper above dial.'), ("the robot's gripper is vertically aligned with dial and dial is not left of robot's gripper", 'move gripper over dial.'), ("the robot's gripper is over the dial and the gripper is closed", 'adjust the dial to the correct position.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the door's lock", 'put gripper above button'), ("the robot's gripper is vertically aligned with the door's lock and the door's lock is not left of the robot's gripper", 'move gripper to left of window handle'), ("the robot's gripper is above the door's lock and the robot's gripper is closed", 'push the gripper into the puck')], env_name='door-unlock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the door's lock", 'put gripper above button'), ("the robot's gripper is vertically aligned with the door's lock and the door's lock is not left of the robot's gripper", 'move gripper to left of window handle'), ("the robot's gripper is above the door's lock and the robot's gripper is closed", 'push the gripper into the puck')], env_name='door-unlock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the door's lock", 'put gripper above button'), ("the robot's gripper is vertically aligned with the door's lock and the door's lock is not left of the robot's gripper", 'move gripper to left of window handle'), ("the robot's gripper is above the door's lock and the robot's gripper is closed", 'push the gripper into the puck')], env_name='door-unlock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.8521138621691001
+Success rates:
+{
+ "door-unlock": 0.0
+}

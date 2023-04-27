@@ -1,0 +1,49 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+Steps:
+1. Put gripper above and slightly to the left of pin
+2. Drop gripper around the pin
+3. Push pin to the left by gently pushing on the left side of the pin
+4. Lift pin out of hole
+5. Move pin to target location
+
+If the robot's gripper is not almost above and slightly to the left of the pin, move it there.
+```
+if check("the robot's gripper is not almost above and slightly to the left of the pin"):
+    robot.move_gripper("almost above and slightly to the left of the pin")
+```
+
+If the robot's gripper is almost above and slightly to the left of the pin, but not around it, move it around the pin.
+```
+if check("the robot's gripper is almost above and slightly to the left of the pin and the robot's gripper is not around the pin"):
+    robot.move_gripper("around the pin", close_gripper=True)
+```
+
+If the robot's gripper is around the pin, push the pin to the left.
+```
+if check("the robot's gripper is almost above and slightly to the left of the pin and the robot's gripper is around the pin"):
+    robot.move_gripper("to the left of the hole")
+```
+
+If the pin is off to the left of the hole, lift it out of the hole.
+```
+if check("the pin is to the left of the hole"):
+    robot.move_gripper("above the pin")
+```
+
+Finally, move the pin to the target location.
+```
+if check("the robot's gripper is above the pin"):
+    robot.move_gripper("near the target location")
+```
+{'pick-out-of-hole': [("the robot's gripper is not almost above and slightly to the left of the pin", "the robot's gripper is near almost above and the robot's gripper is slightly to the left of the pin"), ("the robot's gripper is almost above and slightly to the left of the pin and the robot's gripper is not around the pin", "the robot's gripper is around the pin and the robot's gripper is closed"), ("the robot's gripper is almost above and slightly to the left of the pin and the robot's gripper is around the pin", "the robot's gripper is to the left of the hole"), ('the pin is to the left of the hole', "the robot's gripper is above the pin"), ("the robot's gripper is above the pin", "the robot's gripper is near the target location")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not mostly below the target location", 'put the gripper in front of the drawer'), ("the robot's gripper is not left of the puck and the robot's gripper is not around the puck", 'put the gripper in front of the drawer'), ("the robot's gripper is not left of the puck and the robot's gripper is around the puck", 'put the gripper in front of the drawer'), ("the puck is not left of the robot's gripper", 'put the gripper above the puck'), ("the robot's gripper is above the puck", 'push the gripper into the puck')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not mostly below the target location", 'put the gripper in front of the drawer'), ("the robot's gripper is not left of the puck and the robot's gripper is not around the puck", 'put the gripper in front of the drawer'), ("the robot's gripper is not left of the puck and the robot's gripper is around the puck", 'put the gripper in front of the drawer'), ("the puck is not left of the robot's gripper", 'put the gripper above the puck'), ("the robot's gripper is above the puck", 'push the gripper into the puck')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not mostly below the target location", 'put the gripper in front of the drawer'), ("the robot's gripper is not left of the puck and the robot's gripper is not around the puck", 'put the gripper in front of the drawer'), ("the robot's gripper is not left of the puck and the robot's gripper is around the puck", 'put the gripper in front of the drawer'), ("the puck is not left of the robot's gripper", 'put the gripper above the puck'), ("the robot's gripper is above the puck", 'push the gripper into the puck')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.021286045100607873
+Success rates:
+{
+ "pick-out-of-hole": 0.0
+}

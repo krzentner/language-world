@@ -1,0 +1,18 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+
+Steps: 1. Put the gripper in front of the puck  2. Push against the front of the puck in the opposite direction of desired movement  3. Push the puck backwards  4. Slide the puck into desired position
+- When the robot's gripper is not in front of the puck, the robot should put the gripper in front of the puck.
+- When the robot's gripper is in front of the puck, the robot should push against the front of the puck in the opposite direction of desired movement.
+- When the robot is pushing against the front of the puck, the robot should push the puck backwards.
+- When the robot's gripper is pushing the puck backwards, the robot should slide the puck into desired position.
+{'push-back': [("the robot's gripper is not in front of the puck", 'put the gripper in front of the puck.'), ("the robot's gripper is in front of the puck", 'push against the front of the puck in the opposite direction of desired movement.'), ('the robot is pushing against the front of the puck', 'push the puck backwards.'), ("the robot's gripper is pushing the puck backwards", 'slide the puck into desired position.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not in front of the puck", 'put the gripper in front of the drawer'), ("the robot's gripper is in front of the puck", 'put the gripper in front of the drawer'), ("the robot's gripper is in front of the puck", 'push down on button'), ("the robot's gripper is behind the puck", 'slide the puck to the goal')], env_name='push-back', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not in front of the puck", 'put the gripper in front of the drawer'), ("the robot's gripper is in front of the puck", 'put the gripper in front of the drawer'), ("the robot's gripper is in front of the puck", 'push down on button'), ("the robot's gripper is behind the puck", 'slide the puck to the goal')], env_name='push-back', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not in front of the puck", 'put the gripper in front of the drawer'), ("the robot's gripper is in front of the puck", 'put the gripper in front of the drawer'), ("the robot's gripper is in front of the puck", 'push down on button'), ("the robot's gripper is behind the puck", 'slide the puck to the goal')], env_name='push-back', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.004971322312819635
+Success rates:
+{
+ "push-back": 0.0
+}

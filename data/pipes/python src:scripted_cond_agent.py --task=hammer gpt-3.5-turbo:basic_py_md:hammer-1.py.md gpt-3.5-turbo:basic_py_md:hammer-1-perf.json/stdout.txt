@@ -1,0 +1,28 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+Here's a program to perform `hammer` task:
+
+```
+# hammer: hit the nail with the hammer
+# def hammer(robot):
+    if check("the hammer is not near the nail"):
+        robot.reach("to the hammer")
+        robot.grab("the hammer")
+        robot.reach("to the nail")
+    robot.swing("the hammer")
+    robot.release("the hammer")
+```
+
+Explanation:
+- First, we check if the hammer is not near the nail. If so, we reach for the hammer, grab it, and then reach for the nail.
+- Next, we swing the hammer towards the nail to hit it.
+- Finally, we release the hammer to let it go back to its original position.
+{'hammer': [('the hammer is not near the nail', 'reach to the hammer')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the hammer is not near the robot's gripper", 'reach to goal')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the hammer is not near the robot's gripper", 'reach to goal')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the hammer is not near the robot's gripper", 'reach to goal')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.928599134897256
+Success rates:
+{
+ "hammer": 0.0
+}

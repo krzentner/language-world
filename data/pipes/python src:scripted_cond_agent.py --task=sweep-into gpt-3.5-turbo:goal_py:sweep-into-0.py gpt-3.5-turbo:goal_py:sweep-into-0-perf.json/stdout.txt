@@ -1,0 +1,29 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    #  1. Put gripper above the cube
+    #  2. Move the gripper down around the cube from the side
+    #  3. Close the gripper around the cube
+    #  4. Lift the gripper and move it to the target location
+    #  5. Drop the cube at the target location
+    # First, put the gripper above the cube.
+    if check("the robot's gripper is not vertically aligned with the cube"):
+        robot.move_gripper("vertically aligned with the cube")
+    # Then, move the gripper down around the cube from the side.
+    if check("the robot's gripper is not around cube"):
+        robot.move_gripper("near the cube", "horizontally aligned with the cube", close_gripper=True)
+    # Once the gripper is around the cube, lift and move it to the target location.
+    if check("the robot's gripper is around cube and the robot's gripper is not vertically aligned with the target location"):
+        robot.move_gripper("vertically aligned with the target location", close_gripper=True)
+    # Finally, drop the cube at the target location.
+    if check("the robot's gripper is vertically aligned with the target location and the robot's gripper is closed"):
+        robot.move_gripper("above the target location")
+{'sweep-into': [("the robot's gripper is not vertically aligned with the cube", "the robot's gripper is vertically aligned with the cube"), ("the robot's gripper is around cube and the robot's gripper is not vertically aligned with the target location", "the robot's gripper is vertically aligned with the target location and the robot's gripper is closed"), ("the robot's gripper is vertically aligned with the target location and the robot's gripper is closed", "the robot's gripper is above the target location")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the cube", 'push the gripper into the puck'), ("the robot's gripper is around the cube and the robot's gripper is not vertically aligned with the target location", 'put the gripper in front of the drawer'), ("the robot's gripper is vertically aligned with the target location and the robot's gripper is closed", 'put the gripper above the puck')], env_name='sweep-into', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the cube", 'push the gripper into the puck'), ("the robot's gripper is around the cube and the robot's gripper is not vertically aligned with the target location", 'put the gripper in front of the drawer'), ("the robot's gripper is vertically aligned with the target location and the robot's gripper is closed", 'put the gripper above the puck')], env_name='sweep-into', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the cube", 'push the gripper into the puck'), ("the robot's gripper is around the cube and the robot's gripper is not vertically aligned with the target location", 'put the gripper in front of the drawer'), ("the robot's gripper is vertically aligned with the target location and the robot's gripper is closed", 'put the gripper above the puck')], env_name='sweep-into', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.2445934197553986
+Success rates:
+{
+ "sweep-into": 0.0
+}

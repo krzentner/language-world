@@ -1,0 +1,21 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To slide the puck to the target location reliably, the robot should perform the following steps:
+
+1. Put gripper above the puck.
+2. Drop gripper around the puck.
+3. If the gripper is not vertically aligned with the puck, align the gripper with the puck.
+4. If the gripper is not close to the puck, move the gripper down to the puck to slide it.
+5. If the gripper is not yet grasping the puck, push the gripper into the top of the puck to trap it.
+6. Close the gripper to ensure control over the puck.
+7. Move the gripper and the puck to the target location.
+8. If necessary, release the gripper to release the puck.
+{'push': []}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[], env_name='push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.05274676569032297
+Success rates:
+{
+ "push": 0.0
+}

@@ -1,0 +1,27 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# faucet-close: turn the faucet right
+# def faucet_close(robot):
+    # Steps:
+    #  1. Put gripper above faucet handle
+    #  2. Drop gripper around faucet handle
+    #  3. Turn handle to the right
+    # First, put the gripper above the faucet handle.
+    if check("the robot's gripper is not vertically aligned with the faucet handle"):
+        robot.move_gripper("vertically aligned with the faucet handle")
+    # Once the gripper is above the faucet handle, put it around the handle.
+    if check("the robot's gripper is not around faucet handle" and "the robot's gripper is open"):
+        robot.move_gripper("around the faucet handle", close_gripper=True)
+    # If the gripper is around the faucet handle, turn it to the right by moving it
+    # to the right.
+    if check("the robot's gripper is around faucet handle"):
+        robot.move_gripper("turned right")
+{'faucet-close': [("the robot's gripper is not vertically aligned with the faucet handle", "the robot's gripper is vertically aligned with the faucet handle"), ("the robot's gripper is around faucet handle", "the robot's gripper is near turned right")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the faucet", 'push the gripper into the puck'), ("the robot's gripper is around the faucet", 'drop gripper around puck')], env_name='faucet-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the faucet", 'push the gripper into the puck'), ("the robot's gripper is around the faucet", 'drop gripper around puck')], env_name='faucet-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the faucet", 'push the gripper into the puck'), ("the robot's gripper is around the faucet", 'drop gripper around puck')], env_name='faucet-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 9.116974628123003
+Success rates:
+{
+ "faucet-close": 1.0
+}

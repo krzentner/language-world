@@ -1,0 +1,28 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+#  1. Put gripper around the dial
+#  2. Turn the dial to the correct combination
+#  3. Pull on the handle to unlock the door
+# First, put the gripper around the dial.
+if check("the robot's gripper is not around the dial and the robot's gripper is open"):
+    robot.move_gripper("around the dial", close_gripper=True)
+# Turn the dial to the correct combination.
+# This can vary based on the specific locking mechanism of the door, but let's
+# assume we need to turn it to the left three times to the number 47, then turn
+# it to the right two times to the number 12.
+if check("the dial is not correctly set"):
+    robot.turn_dial("left", 3, 47)
+    robot.turn_dial("right", 2, 12)
+# Finally, pull on the handle to unlock the door.
+if check("the robot's gripper is around the dial and the door is not unlocked"):
+    robot.move_gripper("near the handle")
+{'door-lock': [("the robot's gripper is not around the dial and the robot's gripper is open", "the robot's gripper is around the dial and the robot's gripper is closed"), ("the robot's gripper is around the dial and the door is not unlocked", "the robot's gripper is near the handle")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the door's lock and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the door's lock", 'put the gripper in front of the drawer')], env_name='door-lock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the door's lock and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the door's lock", 'put the gripper in front of the drawer')], env_name='door-lock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the door's lock and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the door's lock", 'put the gripper in front of the drawer')], env_name='door-lock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.9908433132075259
+Success rates:
+{
+ "door-lock": 0.0
+}

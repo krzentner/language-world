@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+if check("the robot's gripper is not vertically aligned with the wrench and the robot's gripper is above the wrench"):
+        robot.move("gripper to the right of the wrench")
+    if check("the robot's gripper is near the wrench"):
+        robot.grab("the wrench")
+    if check("the robot's gripper is vertically aligned with the peg and the peg is not between the jaws of the wrench"):
+        robot.move("gripper to the left of the peg")
+    if check("the peg is between the jaws of the wrench"):
+        robot.rotate("the wrench to tighten the peg")
+{'assembly': [("the robot's gripper is not vertically aligned with the wrench and the robot's gripper is above the wrench", 'move gripper to the right of the wrench'), ("the robot's gripper is near the wrench", 'grab the wrench'), ("the robot's gripper is vertically aligned with the peg and the peg is not between the jaws of the wrench", 'move gripper to the left of the peg'), ('the peg is between the jaws of the wrench', 'rotate the wrench to tighten the peg')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the wrench and the robot's gripper is above the wrench", 'move gripper to right of window handle'), ("the robot's gripper is near the wrench", 'grab peg'), ("the robot's gripper is vertically aligned with the peg and the peg is not left of the wrench", 'move gripper to left of window handle'), ('the peg is left of the wrench', 'slide the puck to the goal')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the wrench and the robot's gripper is above the wrench", 'move gripper to right of window handle'), ("the robot's gripper is near the wrench", 'grab peg'), ("the robot's gripper is vertically aligned with the peg and the peg is not left of the wrench", 'move gripper to left of window handle'), ('the peg is left of the wrench', 'slide the puck to the goal')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the wrench and the robot's gripper is above the wrench", 'move gripper to right of window handle'), ("the robot's gripper is near the wrench", 'grab peg'), ("the robot's gripper is vertically aligned with the peg and the peg is not left of the wrench", 'move gripper to left of window handle'), ('the peg is left of the wrench', 'slide the puck to the goal')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.6503609388233437
+Success rates:
+{
+ "assembly": 0.0
+}

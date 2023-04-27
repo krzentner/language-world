@@ -1,0 +1,43 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+Steps:
+1. Put gripper above faucet handle
+2. Grab faucet handle with the gripper
+3. Start turning the faucet right to close it
+4. Turn the faucet harder to close it
+
+```
+# faucet-close: turn the faucet right
+# def faucet_close(robot):
+    # Steps:
+    #  1. Put gripper above faucet handle
+    #  2. Grab faucet handle with the gripper
+    #  3. Start turning the faucet right to close it
+    #  4. turn the faucet harder to close it
+    # First, we need to the put the gripper above the faucet handle.
+    if check("the robot's gripper is not above the faucet handle"):
+        robot.move_gripper("above the faucet handle")
+    # If we've got the gripper above the faucet handle, grab it by moving the
+    # gripper around it and closing the gripper.
+    if check("the robot's gripper is above the faucet handle"):
+        robot.move_gripper("around the faucet handle", close_gripper=True)
+    # Now that the gripper is above the handle and grabbing it, we can start to
+    # turn the faucet right.
+    if check("the robot's gripper is around the faucet handle"):
+        robot.move_gripper("right of the faucet handle")
+    # Once the faucet is lined up, we have to push a bit harder to turn it all
+    # the way.
+    if check("the robot's gripper is right of the faucet handle"):
+        robot.move_gripper("behind the faucet handle")
+```
+{'faucet-close': [("the robot's gripper is not above the faucet handle", "the robot's gripper is above the faucet handle"), ("the robot's gripper is above the faucet handle", "the robot's gripper is around the faucet handle and the robot's gripper is closed"), ("the robot's gripper is around the faucet handle", "the robot's gripper is right of the faucet handle"), ("the robot's gripper is right of the faucet handle", "the robot's gripper is behind the faucet handle")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the faucet", 'put the gripper above the puck'), ("the robot's gripper is above the faucet", 'drop gripper around puck'), ("the robot's gripper is around the faucet", 'move gripper to right of window handle'), ("the robot's gripper is right of the faucet", 'put the gripper above the puck')], env_name='faucet-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the faucet", 'put the gripper above the puck'), ("the robot's gripper is above the faucet", 'drop gripper around puck'), ("the robot's gripper is around the faucet", 'move gripper to right of window handle'), ("the robot's gripper is right of the faucet", 'put the gripper above the puck')], env_name='faucet-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the faucet", 'put the gripper above the puck'), ("the robot's gripper is above the faucet", 'drop gripper around puck'), ("the robot's gripper is around the faucet", 'move gripper to right of window handle'), ("the robot's gripper is right of the faucet", 'put the gripper above the puck')], env_name='faucet-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 7.439452272397011
+Success rates:
+{
+ "faucet-close": 0.0
+}

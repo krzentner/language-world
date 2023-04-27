@@ -1,0 +1,35 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# push: slide the puck to the target location
+def push(robot):
+    # Steps:
+    #  1. Put gripper above puck
+    #  2. Push gripper into top of puck
+    #  3. Slide puck to goal
+    
+    # First, check if the robot's gripper is not above the puck and not
+    # vertically aligned with the puck.
+    if check("the robot's gripper is not above the puck and the robot's gripper is not vertically aligned with the puck"):
+        # If not, move the gripper to be above the puck.
+        robot.move_gripper("above the puck")
+    
+    # Check if the gripper is not near the puck, but is vertically aligned
+    # with the puck.
+    if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not near the puck"):
+        # If so, move the gripper down to grab the puck.
+        robot.move_gripper("near the puck", close_gripper=True)
+    
+    # Check if the gripper is near the puck and if the puck is below the
+    # gripper.
+    if check("the robot's gripper is near the puck and the puck is below the robot's gripper"):
+        # If so, move the gripper to the target location.
+        robot.move_gripper("above the target location")
+{'push': []}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[], env_name='push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.05274676569032297
+Success rates:
+{
+ "push": 0.0
+}

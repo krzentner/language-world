@@ -1,0 +1,29 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put the stick in front of the thermos
+    #  2. Push the stick into the thermos
+    #  3. Push the thermos to the target location
+    # First, put the stick the thermos.
+    # Because the thermos might be on a slant, the stick needs to be in front of
+    # the thermos.
+    if check("the stick is not near thermos"):
+        robot.place("stick in front of thermos")
+    # If the stick isn't pushing against the thermos, reposition the stick
+    # roughly above the thermos and then push it into the thermos.
+    if check("the stick is not pushing against the thermos"):
+        robot.push("stick into thermos")
+    # Now that the stick is pushing against the thermos, push the thermos to the
+    # target location.
+    if check("the stick is pushing against the thermos"):
+        robot.push("thermos to goal")
+{'stick-push': [('the stick is not near thermos', 'place stick in front of thermos'), ('the stick is not pushing against the thermos', 'push stick into thermos'), ('the stick is pushing against the thermos', 'push thermos to goal')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not near the thermos', 'put the gripper in front of the drawer'), ('the stick is not behind the thermos', 'insert peg into hole'), ('the stick is in front of the thermos', 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not near the thermos', 'put the gripper in front of the drawer'), ('the stick is not behind the thermos', 'insert peg into hole'), ('the stick is in front of the thermos', 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not near the thermos', 'put the gripper in front of the drawer'), ('the stick is not behind the thermos', 'insert peg into hole'), ('the stick is in front of the thermos', 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.008451697718175446
+Success rates:
+{
+ "stick-push": 0.0
+}

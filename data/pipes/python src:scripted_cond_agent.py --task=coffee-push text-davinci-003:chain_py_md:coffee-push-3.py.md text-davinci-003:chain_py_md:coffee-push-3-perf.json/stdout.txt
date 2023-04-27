@@ -1,0 +1,39 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+Solution:
+
+```
+# coffee-push: grab the mug and move it to the target location
+# def coffee_push(robot):
+    # Steps:
+    #  1. Put gripper above mug handle
+    #  2. Drop gripper around mug handle
+    #  3. Close gripper around mug handle
+    #  4. Move mug to goal
+    # First, get the robot's gripper into a position where it can grab the mug
+    # handle.
+    if check("the robot's gripper is not above the mug handle"):
+        robot.put("gripper above mug handle")
+    # Now that the gripper is above the mug handle, move the gripper to grab it.
+    if check("the robot's gripper is above the mug handle and the robot's gripper is not around mug handle"):
+        robot.drop("gripper around mug handle")
+    # Once the gripper is around the mug handle, close the gripper to grab the
+    # mug.
+    if check("the robot's gripper is around the mug handle and the robot's gripper is open"):
+        robot.close("gripper around mug handle")
+    # Now that the mug is securely in the robot's gripper, move the mug to the
+    # goal.
+    if check("the robot's gripper is around the mug handle and the robot's gripper is closed"):
+        robot.move("mug to goal")
+```
+{'coffee-push': [("the robot's gripper is not above the mug handle", 'put gripper above mug handle'), ("the robot's gripper is above the mug handle and the robot's gripper is not around mug handle", 'drop gripper around mug handle'), ("the robot's gripper is around the mug handle and the robot's gripper is open", 'close gripper around mug handle'), ("the robot's gripper is around the mug handle and the robot's gripper is closed", 'move mug to goal')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the mug", 'put gripper above button'), ("the robot's gripper is above the mug and the robot's gripper is not around the mug", 'drop gripper around puck'), ("the robot's gripper is around the mug and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the mug and the robot's gripper is closed", 'place puck at goal')], env_name='coffee-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the mug", 'put gripper above button'), ("the robot's gripper is above the mug and the robot's gripper is not around the mug", 'drop gripper around puck'), ("the robot's gripper is around the mug and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the mug and the robot's gripper is closed", 'place puck at goal')], env_name='coffee-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the mug", 'put gripper above button'), ("the robot's gripper is above the mug and the robot's gripper is not around the mug", 'drop gripper around puck'), ("the robot's gripper is around the mug and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the mug and the robot's gripper is closed", 'place puck at goal')], env_name='coffee-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 4.87985400585621
+Success rates:
+{
+ "coffee-push": 1.0
+}

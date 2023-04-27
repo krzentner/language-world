@@ -1,0 +1,20 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To push the soccer ball into the target location reliably, the robot should perform the following steps:
+
+Steps:  1. Put gripper above the soccer ball  2. Grab the soccer ball with the gripper  3. Push the ball towards the target location
+First, put the gripper above the soccer ball.
+- When the robot's gripper is not vertically aligned with the soccer ball, the robot should put gripper above soccer ball.
+If the soccer ball is not inside the gripper, the robot should grab the soccer ball with the gripper.
+- When the soccer ball is not inside the gripper, the robot should grab soccer ball with the gripper.
+Once the soccer ball is grabbed, move the gripper to push the ball towards the target location.
+- When the robot's gripper is holding the ball, the robot should push the ball towards the target location.
+{'soccer': [("the robot's gripper is not vertically aligned with the soccer ball", 'put gripper above soccer ball.'), ('the soccer ball is not inside the gripper', 'grab soccer ball with the gripper.'), ("the robot's gripper is holding the ball", 'push the ball towards the target location.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the ball", 'put gripper above button'), ("the ball is not behind the robot's gripper", 'insert peg into hole'), ("the robot's gripper is behind the ball", 'slide the puck to the goal')], env_name='soccer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the ball", 'put gripper above button'), ("the ball is not behind the robot's gripper", 'insert peg into hole'), ("the robot's gripper is behind the ball", 'slide the puck to the goal')], env_name='soccer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the ball", 'put gripper above button'), ("the ball is not behind the robot's gripper", 'insert peg into hole'), ("the robot's gripper is behind the ball", 'slide the puck to the goal')], env_name='soccer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.02395079516386603
+Success rates:
+{
+ "soccer": 0.0
+}

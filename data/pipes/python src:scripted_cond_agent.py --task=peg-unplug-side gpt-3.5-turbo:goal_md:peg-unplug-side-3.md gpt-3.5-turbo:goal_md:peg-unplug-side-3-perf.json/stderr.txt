@@ -1,0 +1,12 @@
+/home/kr/language-to-policies/.venv/lib/python3.8/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/kr/language-to-policies/.venv/lib/python3.8/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/kr/language-to-policies/metaworld/metaworld/envs/mujoco/mujoco_env.py:122: RuntimeWarning: Got MuJoCo Warning: Nan, Inf or huge value in QACC at DOF 9. The simulation is unstable. Time = 5.4950.
+  warnings.warn(str(err), category=RuntimeWarning)
+/home/kr/language-to-policies/metaworld/metaworld/envs/mujoco/mujoco_env.py:122: RuntimeWarning: Got MuJoCo Warning: Nan, Inf or huge value in QACC at DOF 10. The simulation is unstable. Time = 2.5075.
+  warnings.warn(str(err), category=RuntimeWarning)
+/home/kr/language-to-policies/metaworld/metaworld/envs/mujoco/mujoco_env.py:122: RuntimeWarning: Got MuJoCo Warning: Nan, Inf or huge value in QACC at DOF 9. The simulation is unstable. Time = 2.8425.
+  warnings.warn(str(err), category=RuntimeWarning)
+/home/kr/language-to-policies/metaworld/metaworld/envs/mujoco/mujoco_env.py:122: RuntimeWarning: Got MuJoCo Warning: Nan, Inf or huge value in QACC at DOF 9. The simulation is unstable. Time = 2.9925.
+  warnings.warn(str(err), category=RuntimeWarning)

@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To push the button on the coffee machine reliably, the robot should perform the following steps:
+    Steps:  1. Position the gripper above the coffee machine button  2. Move the gripper down to touch the button  3. Push the button down to activate the coffee maker
+First, position the gripper above the coffee machine button.
+    - When the robot's gripper is not vertically aligned with the button, move the robot's gripper until the robot's gripper is vertically aligned with the button and the robot's gripper is closed
+Once the gripper is aligned with the button, move the gripper down to touch the button.
+    - When the robot's gripper is above the button but not touching it, move the robot's gripper until the robot's gripper is touching the button
+Finally, push down on the button to activate the coffee machine.
+    - When the robot's gripper is touching the button, push down on the button to activate the coffee machine.
+{'coffee-button': [("the robot's gripper is not vertically aligned with the button", "the robot's gripper is vertically aligned with the button and the robot's gripper is closed"), ("the robot's gripper is above the button but not touching it", "the robot's gripper is touching the button")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the button", 'push the gripper into the puck'), ("the robot's gripper is above the button and button is not touching the table", 'push the gripper into the puck')], env_name='coffee-button', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the button", 'push the gripper into the puck'), ("the robot's gripper is above the button and button is not touching the table", 'push the gripper into the puck')], env_name='coffee-button', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the button", 'push the gripper into the puck'), ("the robot's gripper is above the button and button is not touching the table", 'push the gripper into the puck')], env_name='coffee-button', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 6.997237056793122
+Success rates:
+{
+ "coffee-button": 1.0
+}

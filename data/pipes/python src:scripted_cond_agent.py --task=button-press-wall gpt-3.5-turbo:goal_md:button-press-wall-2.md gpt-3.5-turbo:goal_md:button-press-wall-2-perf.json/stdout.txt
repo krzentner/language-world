@@ -1,0 +1,23 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To push the button from the front with a short wall in the way reliably, the robot should perform the following steps:
+
+    Steps:  1. Put gripper near the button on the open side of the wall 2. Line up the gripper with the button from the front  3. Push the button from the front
+
+First, put the gripper near the button on the open side of the wall, where there is enough space to reach the button.
+	- When the robot's gripper is not near the button on the open side of the wall, move the robot's gripper until it's near the button on the open side of the wall
+
+Next, line up the gripper with the button from the front by moving it to a position where it can push the button.
+	- When the robot's gripper is not horizontally aligned with the button, move the robot's gripper until it is aligned with the button from the front
+
+Finally, push the button from the front until the button is fully pressed or the task is complete.
+	- While pushing the button, check if the button is fully pressed. If not, continue pushing until it is fully pressed.
+{'button-press-wall': [("the robot's gripper is not near the button on the open side of the wall", "it's near the button on the open side of the wall"), ("the robot's gripper is not horizontally aligned with the button", 'it is aligned with the button from the front')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the button and the button is left of wall", 'slide the puck to the goal'), ("the robot's gripper is not horizontally aligned with the button", 'slide the puck to the goal')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the button and the button is left of wall", 'slide the puck to the goal'), ("the robot's gripper is not horizontally aligned with the button", 'slide the puck to the goal')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the button and the button is left of wall", 'slide the puck to the goal'), ("the robot's gripper is not horizontally aligned with the button", 'slide the puck to the goal')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 7.794680569078728
+Success rates:
+{
+ "button-press-wall": 1.0
+}

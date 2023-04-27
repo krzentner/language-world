@@ -1,0 +1,18 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    if check("the stick is not near thermos"):
+        robot.grab("stick")
+    if check("the stick is near thermos but the stick is not attached to thermos"):
+        robot.attach("stick to thermos")
+    if check("the stick is attached to thermos but the robot's gripper is not pulling "):
+        robot.pull("stick back to goal")
+{'stick-pull': [('the stick is not near thermos', 'grab stick'), ('the stick is near thermos but the stick is not attached to thermos', 'attach stick to thermos'), ("the stick is attached to thermos but the robot's gripper is not pulling ", 'pull stick back to goal')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not near the thermos', 'grab peg'), ('the stick is near the thermos and the stick is not above the thermos', 'slide the puck to the goal'), ("the stick is above the thermos and the robot's gripper is open", 'place puck at goal')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not near the thermos', 'grab peg'), ('the stick is near the thermos and the stick is not above the thermos', 'slide the puck to the goal'), ("the stick is above the thermos and the robot's gripper is open", 'place puck at goal')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not near the thermos', 'grab peg'), ('the stick is near the thermos and the stick is not above the thermos', 'slide the puck to the goal'), ("the stick is above the thermos and the robot's gripper is open", 'place puck at goal')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0844705179944093
+Success rates:
+{
+ "stick-pull": 0.0
+}

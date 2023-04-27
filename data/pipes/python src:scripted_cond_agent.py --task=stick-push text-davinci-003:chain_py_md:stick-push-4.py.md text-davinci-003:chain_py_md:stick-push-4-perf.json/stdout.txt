@@ -1,0 +1,49 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+Then, proceed with the following steps:
+
+1. Put the gripper above the stick
+2. Drop the gripper around the stick
+3. Close the gripper around the stick
+4. Put the stick below the thermos 
+5. Push the thermos to the target location 
+
+```
+# stick-push: use the stick to push the thermos to the target location
+# def stick_push(robot):
+    # Steps: 
+    #  1. Put the gripper above the stick
+    #  2. Drop the gripper around the stick
+    #  3. Close the gripper around the stick
+    #  4. Put the stick below the thermos
+    #  5. Push the thermos to the target location
+    # Put the gripper above the stick.
+    if check("the robot's gripper is not above the stick"):
+        robot.place("gripper above stick")
+    # If the gripper isn't around the stick, put it around the stick.
+    if check("the robot's gripper is not around stick and the robot's gripper is open"):
+        robot.drop("gripper around stick")
+    # If the gripper is near the stick and open, grab the stick by closing the
+    # gripper.
+    if check("the robot's gripper is near stick and the robot's gripper is open"):
+        robot.close("gripper around stick")
+    # We closed the gripper, and the stick is still near the gripper, so maybe
+    # we grabbed it.
+    # Try to move the stick to below the thermos.
+    if check("the robot's gripper is above the stick and the robot's gripper is closed"):
+        robot.place("stick below thermos")
+    # Now that the stick is below the thermos, try to push the thermos to the
+    # target location.
+    if check("the thermos is above the stick"):
+        robot.push("thermos to goal")
+{'stick-push': [("the robot's gripper is not above the stick", 'place gripper above stick'), ("the robot's gripper is not around stick and the robot's gripper is open", 'drop gripper around stick'), ("the robot's gripper is near stick and the robot's gripper is open", 'close gripper around stick'), ("the robot's gripper is above the stick and the robot's gripper is closed", 'place stick below thermos'), ('the thermos is above the stick', 'push thermos to goal')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the stick", 'place gripper above puck'), ("the robot's gripper is not around the stick and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the stick and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is above the stick and the robot's gripper is closed", 'place puck at goal'), ('the thermos is above the stick', 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the stick", 'place gripper above puck'), ("the robot's gripper is not around the stick and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the stick and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is above the stick and the robot's gripper is closed", 'place puck at goal'), ('the thermos is above the stick', 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the stick", 'place gripper above puck'), ("the robot's gripper is not around the stick and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the stick and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is above the stick and the robot's gripper is closed", 'place puck at goal'), ('the thermos is above the stick', 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 3.599978719717066
+Success rates:
+{
+ "stick-push": 1.0
+}

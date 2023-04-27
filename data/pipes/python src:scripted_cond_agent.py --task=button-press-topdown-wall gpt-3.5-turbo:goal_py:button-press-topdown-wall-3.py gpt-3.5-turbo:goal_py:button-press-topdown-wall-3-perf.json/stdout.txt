@@ -1,0 +1,29 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    #  1. Put gripper above button and wall
+    #  2. Move gripper forward to touch the wall
+    #  3. Move gripper down to push button
+    # Because there is a wall in the way, we need to carefully position the
+    # gripper to avoid hitting the wall. First, put the gripper above the button
+    # and wall.
+    if check("the robot's gripper is not above the button and wall"):
+        robot.move_gripper("above the button and the wall")
+    # If the gripper is not touching the wall, move it forward until it touches.
+    # Because we don't know how far away the wall is, we need to move the gripper
+    # forward very slowly and check frequently.
+    if check("the robot's gripper is not touching the wall and the robot's gripper is not near the button"):
+        robot.move_gripper("almost touching the wall")
+    # Once the gripper is touching the wall, push down on the button by moving
+    # the gripper down.
+    if check("the robot's gripper is touching the wall"):
+        robot.move_gripper("near the button")
+{'button-press-topdown-wall': [("the robot's gripper is not above the button and wall", "the robot's gripper is above the button and the robot's gripper is near the wall"), ("the robot's gripper is not touching the wall and the robot's gripper is not near the button", "the robot's gripper is almost touching the wall"), ("the robot's gripper is touching the wall", "the robot's gripper is near the button")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the button", 'put the gripper above the puck'), ("the robot's gripper is not around wall and the robot's gripper is not near the button", 'put the gripper in front of the drawer'), ("the robot's gripper is around wall", 'push the gripper into the puck')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the button", 'put the gripper above the puck'), ("the robot's gripper is not around wall and the robot's gripper is not near the button", 'put the gripper in front of the drawer'), ("the robot's gripper is around wall", 'push the gripper into the puck')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the button", 'put the gripper above the puck'), ("the robot's gripper is not around wall and the robot's gripper is not near the button", 'put the gripper in front of the drawer'), ("the robot's gripper is around wall", 'push the gripper into the puck')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.6167078708672027
+Success rates:
+{
+ "button-press-topdown-wall": 0.0
+}

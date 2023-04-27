@@ -1,0 +1,26 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+Here is a program to perform the `button-press-topdown-wall` task:
+
+```
+# button-press-topdown-wall: push the button down from above with a short wall in the way
+# def button_press_topdown_wall(robot):
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.move("gripper above button")
+    if check("the robot's gripper is not over the wall"):
+        robot.move("gripper to the side of the wall")
+    if check("the robot's gripper is over the wall"):
+        robot.move("gripper down to the button")
+        robot.push("down on button")
+```
+
+The program first checks if the gripper is not already vertically aligned with the button, and if so, moves it to the correct position. Then it checks if the gripper is not over the wall, and if not, moves it to the side of the wall. Finally, when the gripper is over the wall, the program moves it down to the button and pushes the button down.
+{'button-press-topdown-wall': [("the robot's gripper is not vertically aligned with button", 'move gripper above button'), ("the robot's gripper is not over the wall", 'move gripper to the side of the wall'), ("the robot's gripper is over the wall", 'move gripper down to the button')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the button", 'place gripper above puck'), ("the robot's gripper is not above wall", 'move gripper to left of window handle'), ("the robot's gripper is above wall", 'move gripper to left of window handle')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the button", 'place gripper above puck'), ("the robot's gripper is not above wall", 'move gripper to left of window handle'), ("the robot's gripper is above wall", 'move gripper to left of window handle')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the button", 'place gripper above puck'), ("the robot's gripper is not above wall", 'move gripper to left of window handle'), ("the robot's gripper is above wall", 'move gripper to left of window handle')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.7081549545015355
+Success rates:
+{
+ "button-press-topdown-wall": 0.0
+}

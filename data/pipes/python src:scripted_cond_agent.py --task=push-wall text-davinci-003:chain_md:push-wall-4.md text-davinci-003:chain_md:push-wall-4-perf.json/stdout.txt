@@ -1,0 +1,17 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put gripper behind the wall, aligned with the puck  2. Push the wall to the side
+    If the robot's gripper is behind the wall, align it with the puck.
+    - When the robot's gripper is not behind wall and the puck is not forward aligned with the robot's gripper, the robot should put gripper behind wall.
+    If the gripper is lined up with the puck, push the wall to the side.
+    - When the robot's gripper is behind wall and the puck is forward aligned with the robot's gripper, the robot should push wall aside.
+{'push-wall': [("the robot's gripper is not behind wall and the puck is not forward aligned with the robot's gripper", 'put gripper behind wall.'), ("the robot's gripper is behind wall and the puck is forward aligned with the robot's gripper", 'push wall aside.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not behind wall and the puck is not forward aligned with the robot's gripper", 'put gripper around door handle'), ("the robot's gripper is behind wall and the puck is forward aligned with the robot's gripper", 'pull door open')], env_name='push-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not behind wall and the puck is not forward aligned with the robot's gripper", 'put gripper around door handle'), ("the robot's gripper is behind wall and the puck is forward aligned with the robot's gripper", 'pull door open')], env_name='push-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not behind wall and the puck is not forward aligned with the robot's gripper", 'put gripper around door handle'), ("the robot's gripper is behind wall and the puck is forward aligned with the robot's gripper", 'pull door open')], env_name='push-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.8066468170762563
+Success rates:
+{
+ "push-wall": 0.0
+}

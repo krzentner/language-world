@@ -1,0 +1,32 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+Then write the code using the techniques you've seen above:
+
+```
+# plate-slide-back-side: slide the plate back sideways into the target location
+# def plate_slide_back_side(robot):
+    # Steps:
+    #  1. Move gripper left of the plate
+    #  2. Trap the plate with the gripper
+    #  3. Slide the plate back into the target location
+    # First, move the robot's gripper left of the plate. 
+    if check("the robot's gripper is not left of the plate"):
+        robot.move("gripper to the left of the plate")
+    # If the gripper is left of the plate, try to grab the plate. 
+    if check("the robot's gripper is left of the plate and the robot's gripper is open"):
+        robot.grab("plate with the gripper")
+    # If the gripper is around the plate, we can slide it back into the goal. 
+    if check("the robot's gripper is around the plate and the robot's gripper is closed"):
+        robot.slide("plate into goal")
+```
+{'plate-slide-back-side': [("the robot's gripper is not left of the plate", 'move gripper to the left of the plate'), ("the robot's gripper is left of the plate and the robot's gripper is open", 'grab plate with the gripper'), ("the robot's gripper is around the plate and the robot's gripper is closed", 'slide plate into goal')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of the plate", 'move gripper to left of window handle'), ("the robot's gripper is left of the plate and the robot's gripper is open", 'grab peg'), ("the robot's gripper is around the plate and the robot's gripper is closed", 'slide the puck to the goal')], env_name='plate-slide-back-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of the plate", 'move gripper to left of window handle'), ("the robot's gripper is left of the plate and the robot's gripper is open", 'grab peg'), ("the robot's gripper is around the plate and the robot's gripper is closed", 'slide the puck to the goal')], env_name='plate-slide-back-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of the plate", 'move gripper to left of window handle'), ("the robot's gripper is left of the plate and the robot's gripper is open", 'grab peg'), ("the robot's gripper is around the plate and the robot's gripper is closed", 'slide the puck to the goal')], env_name='plate-slide-back-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.7782199860818817
+Success rates:
+{
+ "plate-slide-back-side": 0.0
+}

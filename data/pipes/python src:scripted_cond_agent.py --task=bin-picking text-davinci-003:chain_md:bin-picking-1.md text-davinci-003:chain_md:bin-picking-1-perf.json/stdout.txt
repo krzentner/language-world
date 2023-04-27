@@ -1,0 +1,26 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+Steps:  1. Put gripper above cube  2. Open gripper around cube  3. Grab cube with gripper  4. Lift cube up  5. Align cube with bin  6. Insert cube into bin
+    First, we need to find the cube and put the gripper above it.
+    - When the robot's gripper is not above the cube, the robot should put gripper above cube.
+    Now that the gripper is above the cube, we should be able to open it and grab it by moving the gripper around the cube.
+    - When the robot's gripper is not around cube and the robot's gripper is not closed, the robot should open gripper around cube.
+    If the gripper is still around the cube after opening it, then we can just close the gripper around it to grab the cube.
+    - When the robot's gripper is around the cube and the robot's gripper is open, the robot should close gripper around cube.
+ 
+Now that the cube is grabbed by the gripper, we'll need to lift it up.
+    - When the robot's gripper has the cube, the robot should lift cube up.
+    Once the cube is lifted up, we'll need to align it with the bin that we're trying to put it into.
+    - When the cube is not aligned with the bin, the robot should align cube with bin.
+    Finally, we just need to insert the cube into the bin.
+    - When the robot's gripper is aligned with the bin and not inside the bin, the robot should insert cube into bin.
+{'bin-picking': [("the robot's gripper is not above the cube", 'put gripper above cube.'), ("the robot's gripper is not around cube and the robot's gripper is not closed", 'open gripper around cube.'), ("the robot's gripper is around the cube and the robot's gripper is open", 'close gripper around cube.'), ("the robot's gripper has the cube", 'lift cube up.'), ('the cube is not aligned with the bin', 'align cube with bin.'), ("the robot's gripper is aligned with the bin and not inside the bin", 'insert cube into bin.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'put gripper above button'), ("the robot's gripper is not around the cube and the robot's gripper is closed", 'drop gripper around puck'), ("the robot's gripper is around the cube and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is near the cube", 'align peg to hole'), ("the cube is not forward aligned with the robot's gripper", 'align peg to hole'), ("the robot's gripper is forward aligned with the cube and cube is not touching the table", 'insert peg into hole')], env_name='bin-picking', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'put gripper above button'), ("the robot's gripper is not around the cube and the robot's gripper is closed", 'drop gripper around puck'), ("the robot's gripper is around the cube and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is near the cube", 'align peg to hole'), ("the cube is not forward aligned with the robot's gripper", 'align peg to hole'), ("the robot's gripper is forward aligned with the cube and cube is not touching the table", 'insert peg into hole')], env_name='bin-picking', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'put gripper above button'), ("the robot's gripper is not around the cube and the robot's gripper is closed", 'drop gripper around puck'), ("the robot's gripper is around the cube and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is near the cube", 'align peg to hole'), ("the cube is not forward aligned with the robot's gripper", 'align peg to hole'), ("the robot's gripper is forward aligned with the cube and cube is not touching the table", 'insert peg into hole')], env_name='bin-picking', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.09336692222548486
+Success rates:
+{
+ "bin-picking": 0.0
+}

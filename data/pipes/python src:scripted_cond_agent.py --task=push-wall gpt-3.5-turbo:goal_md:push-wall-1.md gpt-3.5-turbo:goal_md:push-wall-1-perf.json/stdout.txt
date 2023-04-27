@@ -1,0 +1,20 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To slide the puck to the target location with a small wall in the way reliably, the robot should perform the following steps:
+
+1. Put gripper above puck
+2. Push gripper into top of puck
+3. Move the gripper to align with the opening in the small wall
+4. Slide the puck through the opening and towards the target location
+5. Once the puck is on the other side of the wall, move the gripper to align with the puck
+6. If the gripper is not near the puck, move the gripper down to the puck to slide it forward
+7. When the gripper is near the puck and the puck is below the gripper, move the gripper until the gripper is above the target location.
+{'push-wall': []}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[], env_name='push-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='push-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='push-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.05059984450036751
+Success rates:
+{
+ "push-wall": 0.0
+}

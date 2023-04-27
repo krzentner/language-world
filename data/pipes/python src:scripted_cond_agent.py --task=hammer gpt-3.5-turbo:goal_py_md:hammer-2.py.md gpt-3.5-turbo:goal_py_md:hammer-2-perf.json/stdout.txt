@@ -1,0 +1,35 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# hammer: hit the nail with the hammer
+# def hammer(robot):
+    # Steps:
+    #  1. Put gripper above hammer
+    #  2. Drop gripper around handle
+    #  3. Close gripper around handle
+    #  4. Put gripper above the nail
+    #  5. Open gripper to release hammer onto nail
+    #  6. Move gripper away from the nail to lift the hammer
+    # First, put the gripper roughly above the hammer handle so we don't knock the hammer over.
+    if check("the robot's gripper is not above the hammer"):
+        robot.move_gripper("above the hammer")
+    # Once the gripper is above the handle, put it around the hammer handle.
+    if check("the robot's gripper is not around the hammer handle and the robot's gripper is open"):
+        robot.move_gripper("near the hammer handle", close_gripper=True)
+    # Once the gripper is around the handle, move it above the nail.
+    if check("the robot's gripper is around the hammer handle"):
+        robot.move_gripper("above the nail", close_gripper=False)
+    # Once the gripper is above the nail, open the gripper to release the hammer.
+    if check("the robot's gripper is above the nail and the gripper is closed around the hammer handle"):
+        robot.move_gripper("above the nail", close_gripper=False)
+    # Once the gripper is no longer holding the hammer, move the gripper away from the nail.
+    if check("the robot's gripper is not near the hammer handle"):
+        robot.move_gripper("above the hammer")
+{'hammer': [("the robot's gripper is not above the hammer", "the robot's gripper is above the hammer"), ("the robot's gripper is not around the hammer handle and the robot's gripper is open", "the robot's gripper is near the hammer handle and the robot's gripper is closed"), ("the robot's gripper is not near the hammer handle", "the robot's gripper is above the hammer")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the hammer", 'put the gripper above the puck'), ("the robot's gripper is not around the hammer and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is not near the hammer", 'put the gripper above the puck')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the hammer", 'put the gripper above the puck'), ("the robot's gripper is not around the hammer and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is not near the hammer", 'put the gripper above the puck')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the hammer", 'put the gripper above the puck'), ("the robot's gripper is not around the hammer and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is not near the hammer", 'put the gripper above the puck')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.9544588689917306
+Success rates:
+{
+ "hammer": 0.0
+}

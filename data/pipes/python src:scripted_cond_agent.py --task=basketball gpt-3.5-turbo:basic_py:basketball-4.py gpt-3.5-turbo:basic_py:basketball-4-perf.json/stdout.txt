@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+if check("the robot's gripper is not above the ball"):
+        robot.put("gripper above ball")
+    if check("the robot's gripper is open and not around the ball"):
+        robot.drop("gripper around ball")
+    if check("the robot's gripper is around the ball and the ball is not aligned with the hoop"):
+        robot.move("the ball towards the hoop")
+    if check("the ball is aligned with the hoop and the robot's gripper is around the ball"):
+        robot.push("the ball into the hoop")
+{'basketball': [("the robot's gripper is not above the ball", 'put gripper above ball'), ("the robot's gripper is open and not around the ball", 'drop gripper around ball'), ("the robot's gripper is around the ball and the ball is not aligned with the hoop", 'move the ball towards the hoop'), ("the ball is aligned with the hoop and the robot's gripper is around the ball", 'push the ball into the hoop')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the ball", 'put gripper above button'), ("the robot's gripper is not around the ball", 'drop gripper around puck'), ("the robot's gripper is around the ball and the ball is not forward aligned with the hoop", 'slide the puck to the goal'), ("the ball is forward aligned with the hoop and the robot's gripper is around the ball", 'slide the puck to the goal')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the ball", 'put gripper above button'), ("the robot's gripper is not around the ball", 'drop gripper around puck'), ("the robot's gripper is around the ball and the ball is not forward aligned with the hoop", 'slide the puck to the goal'), ("the ball is forward aligned with the hoop and the robot's gripper is around the ball", 'slide the puck to the goal')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the ball", 'put gripper above button'), ("the robot's gripper is not around the ball", 'drop gripper around puck'), ("the robot's gripper is around the ball and the ball is not forward aligned with the hoop", 'slide the puck to the goal'), ("the ball is forward aligned with the hoop and the robot's gripper is around the ball", 'slide the puck to the goal')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.13447612404860235
+Success rates:
+{
+ "basketball": 0.0
+}

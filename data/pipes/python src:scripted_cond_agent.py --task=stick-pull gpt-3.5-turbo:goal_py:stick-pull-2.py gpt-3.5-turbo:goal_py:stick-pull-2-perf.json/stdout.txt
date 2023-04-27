@@ -1,0 +1,24 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+#  1. Lift the stick to be above the thermos
+#  2. Move the stick to grab the handle of the thermos
+#  3. Pull the stick towards the target location to slide the thermos
+# First, lift the stick above the thermos
+if check("the stick is not lifted above the thermos"):
+    robot.move_stick("lifted above the thermos")
+# Move the stick to grab the handle of the thermos
+if check("the stick is not holding the handle of the thermos"):
+    robot.move_stick("holding the handle of the thermos")
+# Once the stick is holding the handle of the thermos, pull it towards the target
+if check("the stick is holding the handle of the thermos and the stick is not near the target location"):
+    robot.move_stick("near the target location")
+{'stick-pull': [('the stick is not lifted above the thermos', 'move_stick lifted above the thermos'), ('the stick is not holding the handle of the thermos', 'move_stick holding the handle of the thermos'), ('the stick is holding the handle of the thermos and the stick is not near the target location', 'move_stick near the target location')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not above the thermos', 'put the gripper above the puck'), ('the stick is not right of the thermos', 'push the gripper into the puck'), ('the stick is not left of the thermos and the stick is not near the target location', 'slide the puck to the goal')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not above the thermos', 'put the gripper above the puck'), ('the stick is not right of the thermos', 'push the gripper into the puck'), ('the stick is not left of the thermos and the stick is not near the target location', 'slide the puck to the goal')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not above the thermos', 'put the gripper above the puck'), ('the stick is not right of the thermos', 'push the gripper into the puck'), ('the stick is not left of the thermos and the stick is not near the target location', 'slide the puck to the goal')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.007459111012388366
+Success rates:
+{
+ "stick-pull": 0.0
+}

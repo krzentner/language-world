@@ -1,0 +1,32 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    #  1. Put gripper above the plate
+    #  2. Grab the plate with the gripper
+    #  3. Move the gripper to the target location
+    #  4. Slide the plate sideways to the target location
+    # First, put the gripper above the plate.
+    if check("the robot's gripper is not vertically aligned with the plate"):
+        robot.put("gripper above plate")
+    # If the plate becomes left of the gripper, go back to putting the gripper
+    # above the plate.
+    # Because the plate is a flat object, we need to check if the gripper is
+    # around it and not just above it.
+    if check("plate is not left of the gripper and the plate is not grasped by the gripper"):
+        robot.grab("plate")
+    # Once the gripper has the plate, move it to the target location.
+    if check("the plate is grasped by the gripper and the gripper is not at the target location"):
+        robot.move("gripper to target location")
+    # If the plate is at the target location and not already slid to the side,
+    # slide it sideways.
+    if check("the plate is at the target location but not horizontally aligned with the target location"):
+        robot.slide("plate sideways to target location")
+{'plate-slide-side': [("the robot's gripper is not vertically aligned with the plate", 'put gripper above plate'), ('plate is not left of the gripper and the plate is not grasped by the gripper', 'grab plate'), ('the plate is grasped by the gripper and the gripper is not at the target location', 'move gripper to target location'), ('the plate is at the target location but not horizontally aligned with the target location', 'slide plate sideways to target location')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the plate", 'put gripper above button'), ("the plate is not left of the robot's gripper and the plate is not above the robot's gripper", 'grab peg'), ("the plate is above the robot's gripper and the robot's gripper is not near the plate", 'move gripper to right of window handle'), ("the plate is not horizontally aligned with the robot's gripper", 'slide the puck to the goal')], env_name='plate-slide-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the plate", 'put gripper above button'), ("the plate is not left of the robot's gripper and the plate is not above the robot's gripper", 'grab peg'), ("the plate is above the robot's gripper and the robot's gripper is not near the plate", 'move gripper to right of window handle'), ("the plate is not horizontally aligned with the robot's gripper", 'slide the puck to the goal')], env_name='plate-slide-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.45
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the plate", 'put gripper above button'), ("the plate is not left of the robot's gripper and the plate is not above the robot's gripper", 'grab peg'), ("the plate is above the robot's gripper and the robot's gripper is not near the plate", 'move gripper to right of window handle'), ("the plate is not horizontally aligned with the robot's gripper", 'slide the puck to the goal')], env_name='plate-slide-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 3.318858388418015
+Success rates:
+{
+ "plate-slide-side": 0.45
+}

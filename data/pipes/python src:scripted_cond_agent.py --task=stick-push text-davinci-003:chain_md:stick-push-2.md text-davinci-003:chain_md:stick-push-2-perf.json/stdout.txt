@@ -1,0 +1,20 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+
+Steps:  1. Place the stick in front of the thermos close to the ground  2. Grab the stick with the gripper from the other side of the thermos  3. Push the stick forward and slide the thermos to the target
+    First, we should put the stick in front of the thermos close to the ground. We want to make sure the stick is pointing towards the thermos and the gripper is near the stick.
+    - When the stick is not in front of the thermos, the robot should put the stick in front of the thermos close to the ground.
+    If the stick can be grabbed without bumping against the thermos, grab the stick.
+    - When the robot's gripper is not around the stick and the robot's gripper can reach the stick without bumping against the thermos, the robot should grab the stick with the gripper.
+    Once the stick is grasped, push the stick towards the target while moving the gripper back to keep the stick against the thermos.
+    - When the robot's gripper is around the stick and the stick is pushing across the thermos, the robot should push the stick forward and slide the thermos to the target.
+{'stick-push': [('the stick is not in front of the thermos', 'put the stick in front of the thermos close to the ground.'), ("the robot's gripper is not around the stick and the robot's gripper can reach the stick without bumping against the thermos", 'grab the stick with the gripper.'), ("the robot's gripper is around the stick and the stick is pushing across the thermos", 'push the stick forward and slide the thermos to the target.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not in front of the thermos', 'put the gripper in front of the drawer'), ("the robot's gripper is not around the stick and the robot's gripper is not behind the thermos", 'slide the puck to the goal'), ("the robot's gripper is around the stick and the stick is near the thermos", 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not in front of the thermos', 'put the gripper in front of the drawer'), ("the robot's gripper is not around the stick and the robot's gripper is not behind the thermos", 'slide the puck to the goal'), ("the robot's gripper is around the stick and the stick is near the thermos", 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not in front of the thermos', 'put the gripper in front of the drawer'), ("the robot's gripper is not around the stick and the robot's gripper is not behind the thermos", 'slide the puck to the goal'), ("the robot's gripper is around the stick and the stick is near the thermos", 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.005326433127807919
+Success rates:
+{
+ "stick-push": 0.0
+}

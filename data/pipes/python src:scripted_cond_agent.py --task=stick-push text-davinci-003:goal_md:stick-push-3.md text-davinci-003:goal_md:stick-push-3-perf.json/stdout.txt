@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Line up the stick with the edge of the thermos  2. Push the stick along the edge of the thermos  3. Push the thermos to the target location
+    First, line up the stick with the edge of the thermos.
+    - When the stick is not left of the robot's gripper and stick is not forward aligned with the robot's gripper, move the robot's gripper until the robot's gripper is forward aligned with the left edge of the thermos
+    Once the stick is lined up, it should be ready to push the thermos.
+    - When the stick is forward aligned with thermos, move the robot's gripper until the stick is left of the robot's gripper and the robot's gripper is above the target location
+    Now, we can use the stick to push the thermos by slowly moving it along the edge.
+    - When the stick is left of the robot's grip and the thermos is not near the target location, move the robot's gripper until the thermos is near the target location
+{'stick-push': [("the stick is not left of the robot's gripper and stick is not forward aligned with the robot's gripper", "the robot's gripper is forward aligned with the left edge of the thermos"), ('the stick is forward aligned with thermos', "the stick is left of the robot's gripper and the robot's gripper is above the target location"), ("the stick is left of the robot's grip and the thermos is not near the target location", 'the thermos is near the target location')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the stick is not left of the robot's gripper and the stick is not forward aligned with the robot's gripper", 'put the gripper in front of the drawer'), ('the stick is forward aligned with the thermos', 'put the gripper above the puck'), ("the stick is left of the robot's gripper and the thermos is not near the target location", 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the stick is not left of the robot's gripper and the stick is not forward aligned with the robot's gripper", 'put the gripper in front of the drawer'), ('the stick is forward aligned with the thermos', 'put the gripper above the puck'), ("the stick is left of the robot's gripper and the thermos is not near the target location", 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the stick is not left of the robot's gripper and the stick is not forward aligned with the robot's gripper", 'put the gripper in front of the drawer'), ('the stick is forward aligned with the thermos', 'put the gripper above the puck'), ("the stick is left of the robot's gripper and the thermos is not near the target location", 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.00612466079609827
+Success rates:
+{
+ "stick-push": 0.0
+}

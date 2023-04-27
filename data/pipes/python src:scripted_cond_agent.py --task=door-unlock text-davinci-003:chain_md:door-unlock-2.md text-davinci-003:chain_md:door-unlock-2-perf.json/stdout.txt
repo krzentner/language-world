@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put gripper on top of dial  2. Rotate dial in a circular fashion  3. Check to see if the door locked
+    If the dial is a bit higher than the robot's gripper, we should move the gripper to the dial.
+    - When the robot's gripper is not above the dial and the dial is higher than the robot's gripper, the robot should put gripper above dial.
+    Once the gripper is placed on top of the dial, rotate it in a circular fashion to start turning the dial.
+    - When the robot's gripper is above the dial and the dial is not rotating, the robot should rotate dial.
+    If the dial is rotating, we might have already unlocked the door, so move the robot towards the door handle and check.
+    - When the robot's gripper is above the dial and the dial is rotating, the robot should check if the door is locked.
+{'door-unlock': [("the robot's gripper is not above the dial and the dial is higher than the robot's gripper", 'put gripper above dial.'), ("the robot's gripper is above the dial and the dial is not rotating", 'rotate dial.'), ("the robot's gripper is above the dial and the dial is rotating", 'check if the door is locked.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the door's lock and the door's lock is right of the robot's gripper", 'put gripper above button'), ("the robot's gripper is above the door's lock and the door's lock is near the robot's gripper", 'reach to goal'), ("the robot's gripper is above the door's lock and the robot's gripper is open", 'put the gripper above the puck')], env_name='door-unlock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the door's lock and the door's lock is right of the robot's gripper", 'put gripper above button'), ("the robot's gripper is above the door's lock and the door's lock is near the robot's gripper", 'reach to goal'), ("the robot's gripper is above the door's lock and the robot's gripper is open", 'put the gripper above the puck')], env_name='door-unlock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.48
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the door's lock and the door's lock is right of the robot's gripper", 'put gripper above button'), ("the robot's gripper is above the door's lock and the door's lock is near the robot's gripper", 'reach to goal'), ("the robot's gripper is above the door's lock and the robot's gripper is open", 'put the gripper above the puck')], env_name='door-unlock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.347713713666486
+Success rates:
+{
+ "door-unlock": 0.48
+}

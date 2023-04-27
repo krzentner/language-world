@@ -1,0 +1,31 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    #  1. Align gripper above ball
+    #  2. Grab ball with gripper
+    #  3. Align gripper and ball with hoop
+    #  4. Push ball towards hoop
+    #  5. Release ball into hoop
+    # First, put the gripper above the ball.
+    if check("the robot's gripper is not aligned with the ball"):
+        robot.move_gripper("above the ball")
+    # If the gripper is above the ball, we can probably grab it.
+    if check("the robot's gripper is above the ball and the robot's gripper is not holding the ball"):
+        robot.move_gripper("around the ball", close_gripper=True)
+    # If the ball is in the gripper and the gripper is not aligned with the hoop,
+    # align the gripper and ball with the hoop.
+    if check("the robot's gripper is holding the ball and the robot's gripper is not aligned with the hoop"):
+        robot.move_gripper("aligned with the hoop")
+    # If the gripper and ball are aligned with the hoop, push the ball towards the
+    # hoop.
+    if check("the robot's gripper is aligned with the hoop and the ball is in front of the hoop"):
+        robot.move_gripper("inside the hoop", close_gripper=False)
+{'basketball': [("the robot's gripper is not aligned with the ball", "the robot's gripper is above the ball"), ("the robot's gripper is above the ball and the robot's gripper is not holding the ball", "the robot's gripper is around the ball and the robot's gripper is closed"), ("the robot's gripper is holding the ball and the robot's gripper is not aligned with the hoop", "the robot's gripper is near aligned with the hoop")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not forward aligned with the ball", 'put the gripper above the puck'), ("the robot's gripper is above the ball and the robot's gripper is not behind the ball", 'put the gripper in front of the drawer'), ("the robot's gripper is behind the ball and the robot's gripper is not forward aligned with the hoop", 'push the gripper into the puck')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not forward aligned with the ball", 'put the gripper above the puck'), ("the robot's gripper is above the ball and the robot's gripper is not behind the ball", 'put the gripper in front of the drawer'), ("the robot's gripper is behind the ball and the robot's gripper is not forward aligned with the hoop", 'push the gripper into the puck')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not forward aligned with the ball", 'put the gripper above the puck'), ("the robot's gripper is above the ball and the robot's gripper is not behind the ball", 'put the gripper in front of the drawer'), ("the robot's gripper is behind the ball and the robot's gripper is not forward aligned with the hoop", 'push the gripper into the puck')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.012611096863705807
+Success rates:
+{
+ "basketball": 0.0
+}

@@ -1,0 +1,21 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+Steps: 
+    1. Put gripper right of the button and over the wall 
+    2. Push the button from the front 
+    3. Push the button harder.
+
+- When the robot's gripper is not vertically aligned with the button, the robot should put the gripper right of the button and over the wall.
+- When the robot's gripper is not near the button and the robot's gripper is not above the wall, the robot should move the gripper right of the button and over the wall.
+- When the robot's gripper is near the button and the robot's gripper is above the wall, the robot should push the button from the front.
+- When the robot's gripper is near the button and the robot's gripper is in front of the button, the robot should push the button harder.
+{'button-press-wall': [("the robot's gripper is not vertically aligned with the button", 'put the gripper right of the button and over the wall.'), ("the robot's gripper is not near the button and the robot's gripper is not above the wall", 'move the gripper right of the button and over the wall.'), ("the robot's gripper is near the button and the robot's gripper is above the wall", 'push the button from the front.'), ("the robot's gripper is near the button and the robot's gripper is in front of the button", 'push the button harder.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the button", 'push the gripper into the puck'), ("the robot's gripper is not near the button and the robot's gripper is not above wall", 'move gripper to right of window handle'), ("the robot's gripper is near the button and the robot's gripper is above wall", 'slide the puck to the goal'), ("the robot's gripper is near the button and the robot's gripper is in front of the button", 'slide the puck to the goal')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the button", 'push the gripper into the puck'), ("the robot's gripper is not near the button and the robot's gripper is not above wall", 'move gripper to right of window handle'), ("the robot's gripper is near the button and the robot's gripper is above wall", 'slide the puck to the goal'), ("the robot's gripper is near the button and the robot's gripper is in front of the button", 'slide the puck to the goal')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the button", 'push the gripper into the puck'), ("the robot's gripper is not near the button and the robot's gripper is not above wall", 'move gripper to right of window handle'), ("the robot's gripper is near the button and the robot's gripper is above wall", 'slide the puck to the goal'), ("the robot's gripper is near the button and the robot's gripper is in front of the button", 'slide the puck to the goal')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.3640131540426909
+Success rates:
+{
+ "button-press-wall": 0.0
+}

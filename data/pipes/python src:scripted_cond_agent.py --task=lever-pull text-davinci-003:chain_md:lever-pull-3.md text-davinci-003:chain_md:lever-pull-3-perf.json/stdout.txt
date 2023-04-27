@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put gripper near lever  2. Grasp lever close to the base  3. Pull lever up
+    We need to put the gripper near the lever before we can grab it, to have enough space to rotate.
+    - When the robot's gripper is not near the lever, the robot should place gripper near lever.
+    We need to grab the lever close to the base, because we're rotating it.
+    - When the robot's gripper is near the lever and the robot's gripper is not close to the base, the robot should grab lever close to base.
+    When the gripper is close to the base, pull it up.
+    - When the robot's gripper is close to the base, the robot should pull lever up.
+{'lever-pull': [("the robot's gripper is not near the lever", 'place gripper near lever.'), ("the robot's gripper is near the lever and the robot's gripper is not close to the base", 'grab lever close to base.'), ("the robot's gripper is close to the base", 'pull lever up.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the lever", 'place gripper above puck'), ("the robot's gripper is near the lever and the robot's gripper is not left of the lever", 'grab peg'), ("the robot's gripper is left of the lever", 'pull door open')], env_name='lever-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the lever", 'place gripper above puck'), ("the robot's gripper is near the lever and the robot's gripper is not left of the lever", 'grab peg'), ("the robot's gripper is left of the lever", 'pull door open')], env_name='lever-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the lever", 'place gripper above puck'), ("the robot's gripper is near the lever and the robot's gripper is not left of the lever", 'grab peg'), ("the robot's gripper is left of the lever", 'pull door open')], env_name='lever-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.13051503014594837
+Success rates:
+{
+ "lever-pull": 0.0
+}

@@ -1,0 +1,24 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+Steps:
+    1. Place the gripper below the short wall aligned to the button
+    2. Push upwards against the short wall
+    3. Push against the button from the front
+
+if check("the robot's gripper is not horizontally aligned with the button and the robot's gripper is not below the wall"):
+    robot.place("gripper below wall aligned to the button")
+if check("the robot's gripper is horizontally aligned with the button and the gripper is not pressing against the wall"):
+    robot.push("upward against the wall")
+if check("the robot's gripper is pressing against the wall and the robot's gripper is not pressing against the button"):
+    robot.push("against the button from the front")
+{'button-press-wall': [("the robot's gripper is not horizontally aligned with the button and the robot's gripper is not below the wall", 'place gripper below wall aligned to the button'), ("the robot's gripper is horizontally aligned with the button and the gripper is not pressing against the wall", 'push upward against the wall'), ("the robot's gripper is pressing against the wall and the robot's gripper is not pressing against the button", 'push against the button from the front')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not horizontally aligned with the button and the robot's gripper is not below wall", 'push the gripper into the puck'), ("the robot's gripper is horizontally aligned with the button and the robot's gripper is not right of wall", 'push the gripper into the puck'), ("the robot's gripper is right of wall and the robot's gripper is not right of the button", 'slide the puck to the goal')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not horizontally aligned with the button and the robot's gripper is not below wall", 'push the gripper into the puck'), ("the robot's gripper is horizontally aligned with the button and the robot's gripper is not right of wall", 'push the gripper into the puck'), ("the robot's gripper is right of wall and the robot's gripper is not right of the button", 'slide the puck to the goal')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not horizontally aligned with the button and the robot's gripper is not below wall", 'push the gripper into the puck'), ("the robot's gripper is horizontally aligned with the button and the robot's gripper is not right of wall", 'push the gripper into the puck'), ("the robot's gripper is right of wall and the robot's gripper is not right of the button", 'slide the puck to the goal')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 7.7623384503519075
+Success rates:
+{
+ "button-press-wall": 1.0
+}

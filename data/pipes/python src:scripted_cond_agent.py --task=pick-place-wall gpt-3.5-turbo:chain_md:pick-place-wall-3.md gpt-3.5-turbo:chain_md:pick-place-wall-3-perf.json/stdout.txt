@@ -1,0 +1,28 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To pick up the puck and hold it at the target location with a short wall in the way reliably, the robot should perform the following steps:
+
+1. Put gripper above puck on the near side of the wall
+   We need to put the gripper above the puck on the near side of the wall so that we can grab it.
+   - When the robot's gripper is not above the puck on the near side of the wall, the robot should place the gripper above the puck on the near side of the wall.
+
+2. Drop gripper around puck and lift it over the wall
+   Once we have the gripper above the puck, we need to drop the gripper around it and lift it up over the wall.
+   - When the robot's gripper is above the puck on the near side of the wall and the robot's gripper is open, the robot should drop the gripper around the puck and lift it up over the wall.
+
+3. Put gripper above target on the far side of the wall
+   Now that we have the puck on the far side of the wall, we need to put the gripper above the target.
+   - When the robot's gripper is not above the target on the far side of the wall, the robot should place the gripper above the target on the far side of the wall.
+
+4. Lower gripper and release puck at target location
+   Finally, we need to lower the gripper and release the puck at the target location.
+   - When the robot's gripper is above the target on the far side of the wall and the robot's gripper is closed, the robot should lower the gripper and release the puck at the target location.
+{'pick-place-wall': [("the robot's gripper is not above the puck on the near side of the wall", 'place the gripper above the puck on the near side of the wall.'), ("the robot's gripper is above the puck on the near side of the wall and the robot's gripper is open", 'drop the gripper around the puck and lift it up over the wall.'), ("the robot's gripper is not above the target on the far side of the wall", 'place the gripper above the target on the far side of the wall.'), ("the robot's gripper is above the target on the far side of the wall and the robot's gripper is closed", 'lower the gripper and release the puck at the target location.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck and the puck is left of wall", 'put the gripper above the puck'), ("the robot's gripper is above the puck and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is not above the target location and the puck is left of wall", 'put the gripper in front of the drawer'), ("the robot's gripper is above the target location and the robot's gripper is closed", 'put the gripper above the puck')], env_name='pick-place-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck and the puck is left of wall", 'put the gripper above the puck'), ("the robot's gripper is above the puck and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is not above the target location and the puck is left of wall", 'put the gripper in front of the drawer'), ("the robot's gripper is above the target location and the robot's gripper is closed", 'put the gripper above the puck')], env_name='pick-place-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck and the puck is left of wall", 'put the gripper above the puck'), ("the robot's gripper is above the puck and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is not above the target location and the puck is left of wall", 'put the gripper in front of the drawer'), ("the robot's gripper is above the target location and the robot's gripper is closed", 'put the gripper above the puck')], env_name='pick-place-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Success rates:
+{
+ "pick-place-wall": 0.0
+}

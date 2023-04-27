@@ -1,0 +1,31 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# assembly: put the wrench around the peg
+# def assembly(robot):
+    # Steps:
+    #  1. Put the gripper above the wrench
+    #  2. Move the gripper to an opening in the wrench
+    #  3. Close the gripper around the wrench opening
+    #  4. Lift the wrench and move it towards the peg
+    #  5. Put the gripper above the peg
+    #  6. Move the gripper down around the peg
+    #  7. Open the gripper to release the wrench around the peg
+    if check("the robot's gripper is not above the wrench"):
+        robot.move_gripper("above the wrench")
+    if check("the robot's gripper is above the wrench and the gripper is not in an opening in the wrench"):
+        robot.move_gripper("in an opening in the wrench", close_gripper=True)
+    if check("the gripper is in an opening in the wrench and the gripper is open"):
+        robot.move_gripper("above the peg", close_gripper=True)
+    if check("the robot's gripper is above the peg and the gripper is closed"):
+        robot.move_gripper("around the peg")
+    if check("the robot's gripper is around the peg"):
+        robot.move_gripper("above the peg", close_gripper=False)
+{'assembly': [("the robot's gripper is not above the wrench", "the robot's gripper is above the wrench"), ("the robot's gripper is above the wrench and the gripper is not in an opening in the wrench", "the robot's gripper is near in an opening in the wrench and the robot's gripper is closed"), ('the gripper is in an opening in the wrench and the gripper is open', "the robot's gripper is above the peg and the robot's gripper is closed"), ("the robot's gripper is above the peg and the gripper is closed", "the robot's gripper is around the peg")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the wrench", 'put the gripper above the puck'), ("the robot's gripper is above the wrench and the peg is not in front of the wrench", 'put the gripper above the puck'), ("the robot's gripper is in front of the wrench and the robot's gripper is open", 'put the gripper above the puck'), ("the robot's gripper is above the peg and the robot's gripper is closed", 'put the gripper in front of the drawer')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the wrench", 'put the gripper above the puck'), ("the robot's gripper is above the wrench and the peg is not in front of the wrench", 'put the gripper above the puck'), ("the robot's gripper is in front of the wrench and the robot's gripper is open", 'put the gripper above the puck'), ("the robot's gripper is above the peg and the robot's gripper is closed", 'put the gripper in front of the drawer')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the wrench", 'put the gripper above the puck'), ("the robot's gripper is above the wrench and the peg is not in front of the wrench", 'put the gripper above the puck'), ("the robot's gripper is in front of the wrench and the robot's gripper is open", 'put the gripper above the puck'), ("the robot's gripper is above the peg and the robot's gripper is closed", 'put the gripper in front of the drawer')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.5345964132227639
+Success rates:
+{
+ "assembly": 0.0
+}

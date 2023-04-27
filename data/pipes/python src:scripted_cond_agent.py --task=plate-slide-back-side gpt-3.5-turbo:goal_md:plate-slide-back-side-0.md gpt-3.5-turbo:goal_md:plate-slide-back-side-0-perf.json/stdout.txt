@@ -1,0 +1,21 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To slide the plate back sideways into the target location reliably, the robot should perform the following steps:
+
+1. Put gripper above the plate
+2. Grab the plate with the gripper
+3. Bring the gripper over the plate so that it is positioned near the back edge of the plate
+4. Move gripper sideways towards the target location while keeping the gripper parallel to the table surface
+5. When the plate is almost at the target location, straighten the gripper to make sure the plate is in place
+6. Release the plate by opening the gripper
+
+It's important to ensure that the gripper is parallel to the table surface while moving sideways to prevent the plate from tipping over. Also, the gripper needs to be straightened towards the end to make sure that the plate is in place before releasing it.
+{'plate-slide-back-side': []}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[], env_name='plate-slide-back-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='plate-slide-back-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='plate-slide-back-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.3370903436894023
+Success rates:
+{
+ "plate-slide-back-side": 0.0
+}

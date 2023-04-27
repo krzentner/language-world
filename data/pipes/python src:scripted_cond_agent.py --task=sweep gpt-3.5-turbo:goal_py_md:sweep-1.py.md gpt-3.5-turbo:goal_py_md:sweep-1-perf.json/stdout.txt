@@ -1,0 +1,36 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# sweep: grab the cube and move it sideways to the target location
+# def sweep(robot):
+    # Steps:
+    #  1. Put gripper above cube
+    #  2. Drop gripper around cube
+    #  3. Close gripper around cube
+    #  4. Move cube sideways to goal
+    # First, put the gripper above the cube.
+    if check("the robot's gripper is not above the cube"):
+        robot.move_gripper("above the cube")
+    # If the gripper isn't around the cube, put it around the cube.
+    if check("the robot's gripper is not around cube and the robot's gripper is open"):
+        robot.move_gripper("near the cube", close_gripper=True)
+    # If the gripper is near the cube and closed, grab the cube and lift it
+    # slightly.
+    if check("the robot's gripper is near the cube and the robot's gripper is closed"):
+        robot.move_gripper("above the cube", lift_cube=True)
+    # If the cube is lifted and the gripper is left of the target, move the
+    # gripper to above the target and lower the cube onto the target.
+    if check("the robot's gripper has lifted the cube and the robot's gripper is left of the target"):
+        robot.move_gripper("above the target location", lower_cube=True)
+    # If the cube and gripper are above the target, move the gripper sideways
+    # to deposit the cube at the target location.
+    if check("the robot's gripper has lowered the cube onto the target"):
+        robot.move_gripper("sideways to the target location")
+{'sweep': [("the robot's gripper is not above the cube", "the robot's gripper is above the cube"), ("the robot's gripper is not around cube and the robot's gripper is open", "the robot's gripper is near the cube and the robot's gripper is closed"), ("the robot's gripper has lowered the cube onto the target", "the robot's gripper is near sideways to the target location")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'put the gripper above the puck'), ("the robot's gripper is not around the cube and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is closed and the cube is in front of the target location", 'push the gripper into the puck')], env_name='sweep', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'put the gripper above the puck'), ("the robot's gripper is not around the cube and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is closed and the cube is in front of the target location", 'push the gripper into the puck')], env_name='sweep', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'put the gripper above the puck'), ("the robot's gripper is not around the cube and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is closed and the cube is in front of the target location", 'push the gripper into the puck')], env_name='sweep', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.4980298269086478
+Success rates:
+{
+ "sweep": 0.0
+}

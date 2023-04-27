@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put gripper above dial  2. Turn dial with gripper  3. Push dial to goal
+    First, the robot should put the gripper roughly above the dial.
+    - When the robot's gripper is not above the dial, the robot should put gripper above dial.
+    If the gripper is above the dial, rotate the gripper to turn the dial.
+    - When the robot's gripper is above the dial, the robot should turn dial with gripper.
+    We've turned the dial, so push the dial to the goal.
+    - When the robot's gripper is above the dial, the robot should push dial to goal.
+{'dial-turn': [("the robot's gripper is not above the dial", 'put gripper above dial.'), ("the robot's gripper is above the dial", 'turn dial with gripper.'), ("the robot's gripper is above the dial", 'push dial to goal.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the dial", 'put gripper above button'), ("the robot's gripper is above the dial", 'insert peg into hole'), ("the robot's gripper is above the dial", 'place puck at goal')], env_name='dial-turn', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the dial", 'put gripper above button'), ("the robot's gripper is above the dial", 'insert peg into hole'), ("the robot's gripper is above the dial", 'place puck at goal')], env_name='dial-turn', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.96
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the dial", 'put gripper above button'), ("the robot's gripper is above the dial", 'insert peg into hole'), ("the robot's gripper is above the dial", 'place puck at goal')], env_name='dial-turn', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 5.429309540852484
+Success rates:
+{
+ "dial-turn": 0.96
+}

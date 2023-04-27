@@ -1,0 +1,42 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+```
+# plate-slide-back-side: slide the plate back sideways into the target location
+# def plate_slide_back_side(robot):
+    # Steps:
+    # 1. Move gripper towards the plate
+    # 2. Put gripper above plate
+    # 3. Drop gripper around the plate
+    # 4. Close gripper around plate
+    # 5. Move the plate back sideway
+    # 6. Slide the plate into the target location
+    # First, move the robot's gripper towards the plate
+    if check("the robot's gripper is not near the plate"):
+        robot.move("gripper towards plate")
+    # Put the gripper above the plate to prepare for grabbing it
+    if check("the robot's gripper is not above the plate"):
+        robot.place("gripper above plate")
+    # Drop the gripper around the plate
+    if check("the robot's gripper is not around the plate and the robot's gripper is open"):
+        robot.drop("gripper around plate")
+    # Close the gripper around the plate
+    if check("the robot's gripper is near the plate and the robot's gripper is open"):
+        robot.close("gripper around plate")
+    # Move the plate back sideways
+    if check("the gripper is closed around plate"):
+        robot.move("plate back sideways")
+    # Slide the plate into the target location
+    if check("the plate is moved back sideways"):
+        robot.slide("plate into the target location")
+```
+
+This code assumes that the robot can detect the state of the gripper and the position of the plate. You may need to modify the code or add additional instructions to the robot to properly implement the `plate-slide-back-side` task.
+{'plate-slide-back-side': [("the robot's gripper is not near the plate", 'move gripper towards plate'), ("the robot's gripper is not above the plate", 'place gripper above plate'), ("the robot's gripper is not around the plate and the robot's gripper is open", 'drop gripper around plate'), ("the robot's gripper is near the plate and the robot's gripper is open", 'close gripper around plate'), ('the gripper is closed around plate', 'move plate back sideways'), ('the plate is moved back sideways', 'slide plate into the target location')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the plate", 'move gripper to right of window handle'), ("the robot's gripper is not above the plate", 'place gripper above puck'), ("the robot's gripper is not around the plate and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the plate and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is not around the plate", 'place puck at goal'), ("the plate is above the robot's gripper", 'slide the puck to the goal')], env_name='plate-slide-back-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the plate", 'move gripper to right of window handle'), ("the robot's gripper is not above the plate", 'place gripper above puck'), ("the robot's gripper is not around the plate and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the plate and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is not around the plate", 'place puck at goal'), ("the plate is above the robot's gripper", 'slide the puck to the goal')], env_name='plate-slide-back-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the plate", 'move gripper to right of window handle'), ("the robot's gripper is not above the plate", 'place gripper above puck'), ("the robot's gripper is not around the plate and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the plate and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is not around the plate", 'place puck at goal'), ("the plate is above the robot's gripper", 'slide the puck to the goal')], env_name='plate-slide-back-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.3285170785906748
+Success rates:
+{
+ "plate-slide-back-side": 0.0
+}

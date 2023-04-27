@@ -1,0 +1,18 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    if check("the robot's gripper is not behind the short wall"):
+        robot.put("gripper to the left of the wall")
+    if check("the robot's gripper is behind the short wall and the wall is not vertically aligned with the button"):
+        robot.snap("wall in place against button")
+    if check("the robot's gripper is behind the short wall and the wall is in place"):
+        robot.push("wall forward to press button")
+{'button-press-wall': [("the robot's gripper is not behind the short wall", 'put gripper to the left of the wall'), ("the robot's gripper is behind the short wall and the wall is not vertically aligned with the button", 'snap wall in place against button'), ("the robot's gripper is behind the short wall and the wall is in place", 'push wall forward to press button')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not behind wall", 'put the gripper in front of the drawer'), ("the robot's gripper is behind wall and wall is not vertically aligned with the button", 'put gripper around door handle'), ("the robot's gripper is behind wall and the button is behind wall", 'push the gripper into the puck')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not behind wall", 'put the gripper in front of the drawer'), ("the robot's gripper is behind wall and wall is not vertically aligned with the button", 'put gripper around door handle'), ("the robot's gripper is behind wall and the button is behind wall", 'push the gripper into the puck')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not behind wall", 'put the gripper in front of the drawer'), ("the robot's gripper is behind wall and wall is not vertically aligned with the button", 'put gripper around door handle'), ("the robot's gripper is behind wall and the button is behind wall", 'push the gripper into the puck')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.09546858278365036
+Success rates:
+{
+ "button-press-wall": 0.0
+}

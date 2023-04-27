@@ -1,0 +1,31 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put gripper above wrench
+    #  2. Drop gripper down around wrench
+    #  3. Line up wrench with peg
+    #  4. Put wrench around peg
+    # First, move the gripper above the wrench.
+    if check("the robot's gripper is not above the wrench"):
+        robot.put("gripper above wrench")
+    # Then, put the gripper around the wrench.
+    if check("the robot's gripper is not around wrench and the robot's gripper is open"):
+        robot.drop("gripper around wrench")
+    # Now, move the gripper with the wrench to the left or right to line up the
+    # wrench with the peg.
+    if check("the wrench is not horizontally lined up with the peg and the robot's gripper is around the wrench"):
+        robot.align("gripper to peg")
+    # Finally, move the robot's gripper toward the peg so that the wrench goes
+    # around the peg.
+    if check("the robot's gripper is forward aligned with the peg and the robot's gripper is around the wrench"):
+        robot.push("wrench around peg")
+{'assembly': [("the robot's gripper is not above the wrench", 'put gripper above wrench'), ("the robot's gripper is not around wrench and the robot's gripper is open", 'drop gripper around wrench'), ("the wrench is not horizontally lined up with the peg and the robot's gripper is around the wrench", 'align gripper to peg'), ("the robot's gripper is forward aligned with the peg and the robot's gripper is around the wrench", 'push wrench around peg')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the wrench", 'put gripper above button'), ("the robot's gripper is not around the wrench and the robot's gripper is open", 'drop gripper around puck'), ("the wrench is not horizontally aligned with the peg and the robot's gripper is around the wrench", 'align peg to hole'), ("the robot's gripper is forward aligned with the peg and the robot's gripper is around the wrench", 'put gripper around door handle')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the wrench", 'put gripper above button'), ("the robot's gripper is not around the wrench and the robot's gripper is open", 'drop gripper around puck'), ("the wrench is not horizontally aligned with the peg and the robot's gripper is around the wrench", 'align peg to hole'), ("the robot's gripper is forward aligned with the peg and the robot's gripper is around the wrench", 'put gripper around door handle')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the wrench", 'put gripper above button'), ("the robot's gripper is not around the wrench and the robot's gripper is open", 'drop gripper around puck'), ("the wrench is not horizontally aligned with the peg and the robot's gripper is around the wrench", 'align peg to hole'), ("the robot's gripper is forward aligned with the peg and the robot's gripper is around the wrench", 'put gripper around door handle')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.0906616230011972
+Success rates:
+{
+ "assembly": 0.0
+}

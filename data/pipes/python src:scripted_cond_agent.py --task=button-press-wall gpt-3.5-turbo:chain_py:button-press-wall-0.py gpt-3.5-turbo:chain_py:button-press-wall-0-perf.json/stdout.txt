@@ -1,0 +1,29 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    #  1. Turn gripper sideways to fit through gap in wall
+    #  2. Move gripper towards button
+    #  3. Line up gripper with button
+    #  4. Push the button
+    # To start, turn the gripper sideways so it can fit through the gap in the wall.
+    if check("the gripper is not sideways and there is a wall blocking the gripper's path to the button"):
+        robot.turn("gripper sideways")
+    # Once the gripper is sideways and can fit through the gap in the wall, move
+    # the gripper towards the button.
+    if check("the gripper is sideways and is not near the button"):
+        robot.move("gripper towards button")
+    # When the gripper is close, line it up with the button.
+    if check("the gripper is near the button and is not vertically aligned with the button"):
+        robot.put("gripper in line with button")
+    # Finally, push the button.
+    if check("the gripper is vertically aligned with the button"):
+        robot.push("button")
+{'button-press-wall': [("the gripper is not sideways and there is a wall blocking the gripper's path to the button", 'turn gripper sideways'), ('the gripper is sideways and is not near the button', 'move gripper towards button'), ('the gripper is near the button and is not vertically aligned with the button', 'put gripper in line with button'), ('the gripper is vertically aligned with the button', 'push button')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near wall and the robot's gripper is left of the button", 'put gripper above button'), ("the robot's gripper is closed and wall is not near the button", 'move gripper to right of window handle'), ("the robot's gripper is near the button and wall is not vertically aligned with the button", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the button", 'push down on button')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near wall and the robot's gripper is left of the button", 'put gripper above button'), ("the robot's gripper is closed and wall is not near the button", 'move gripper to right of window handle'), ("the robot's gripper is near the button and wall is not vertically aligned with the button", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the button", 'push down on button')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.56
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near wall and the robot's gripper is left of the button", 'put gripper above button'), ("the robot's gripper is closed and wall is not near the button", 'move gripper to right of window handle'), ("the robot's gripper is near the button and wall is not vertically aligned with the button", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the button", 'push down on button')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.2180872240677147
+Success rates:
+{
+ "button-press-wall": 0.56
+}

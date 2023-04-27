@@ -1,0 +1,17 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Line up the gripper as viewed from above  2. Push down on the button from the top, pushing the wall downwards
+    We should line the gripper up from above, just like with the other button press task, and then push down on the button against the wall.
+    - When the robot's gripper is not almost vertically aligned with button, move the robot's gripper until the robot's gripper is almost vertically aligned with button and the robot's gripper is closed
+    Now that the gripper is lined up, push down on the button while pushing the wall downwards.
+    - When the robot's gripper is vertically aligned with button and the wall is not downwards, move the robot's gripper until the wall is downwards
+{'button-press-topdown-wall': [("the robot's gripper is not almost vertically aligned with button", "the robot's gripper is almost vertically aligned with button and the robot's gripper is closed"), ("the robot's gripper is vertically aligned with button and the wall is not downwards", 'the wall is downwards')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not almost vertically aligned with the button", 'put the gripper above the puck'), ("the robot's gripper is vertically aligned with the button and the button is not below wall", 'push window left harder')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not almost vertically aligned with the button", 'put the gripper above the puck'), ("the robot's gripper is vertically aligned with the button and the button is not below wall", 'push window left harder')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not almost vertically aligned with the button", 'put the gripper above the puck'), ("the robot's gripper is vertically aligned with the button and the button is not below wall", 'push window left harder')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.608936455137552
+Success rates:
+{
+ "button-press-topdown-wall": 0.0
+}

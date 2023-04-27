@@ -1,0 +1,23 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+
+Steps:  1. Put gripper over the peg  2. Grab the peg with the gripper  3. Pull the peg out of the hole  4. Slide the peg sideways to the left
+    
+Firstly, put the gripper over the peg. 
+- When the robot's gripper is not almost vertically aligned with the peg, move the robot's gripper until the robot's gripper is almost vertically aligned with the peg and the robot's gripper is closed
+Secondly, if the peg isn't caught by the gripper yet, lower the gripper until the peg is trapped. 
+- When the robot's gripper is vertically aligned with the peg and the robot's gripper is not closed, move the robot's gripper until the robot's gripper is almost closed
+Now that the peg is trapped in the gripper, pull the peg out of the hole. 
+- When the robot's gripper is almost closed, move the robot's gripper until the peg is no longer near the hole
+Finally, slide the peg sideways to the left. 
+- When the peg is no longer near the hole, move the robot's gripper until the peg is left of the robot's gripper
+{'peg-unplug-side': [("the robot's gripper is not almost vertically aligned with the peg", "the robot's gripper is almost vertically aligned with the peg and the robot's gripper is closed"), ("the robot's gripper is vertically aligned with the peg and the robot's gripper is not closed", "the robot's gripper is almost closed"), ("the robot's gripper is almost closed", 'the peg is no longer near the hole'), ('the peg is no longer near the hole', "the peg is left of the robot's gripper")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not almost vertically aligned with the peg", 'put the gripper in front of the drawer'), ("the robot's gripper is vertically aligned with the peg and the robot's gripper is closed", 'put the gripper in front of the drawer'), ("the robot's gripper is closed", 'slide the puck to the goal'), ("the peg is not near the robot's gripper", 'put the gripper in front of the drawer')], env_name='peg-unplug-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not almost vertically aligned with the peg", 'put the gripper in front of the drawer'), ("the robot's gripper is vertically aligned with the peg and the robot's gripper is closed", 'put the gripper in front of the drawer'), ("the robot's gripper is closed", 'slide the puck to the goal'), ("the peg is not near the robot's gripper", 'put the gripper in front of the drawer')], env_name='peg-unplug-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not almost vertically aligned with the peg", 'put the gripper in front of the drawer'), ("the robot's gripper is vertically aligned with the peg and the robot's gripper is closed", 'put the gripper in front of the drawer'), ("the robot's gripper is closed", 'slide the puck to the goal'), ("the peg is not near the robot's gripper", 'put the gripper in front of the drawer')], env_name='peg-unplug-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.04966958886526409
+Success rates:
+{
+ "peg-unplug-side": 0.0
+}

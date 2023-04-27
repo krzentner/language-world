@@ -1,0 +1,25 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To grab the cube and move it sideways to the target location reliably, the robot should perform the following steps:
+
+Steps: 1. Put gripper above the cube 2. Grab the cube with the gripper 3. Lift the cube slightly off the ground 4. Move sideways to the target location while holding the cube 5. Lower the cube at the target location
+
+First, put the gripper above the cube.
+- When the robot's gripper is not vertically aligned with the cube, the robot should put gripper above the cube. 
+As long as the gripper is still mostly around the cube and the cube isn't lifted off the ground, grab the cube with the gripper.
+- When the robot's gripper is around the cube and the cube is not lifted from the ground, the robot should grab the cube. 
+Lift the cube slightly off the ground so that it can move smoothly.
+- When the robot's gripper is holding the cube, the robot should lift the cube slightly off the ground. 
+While holding the cube, move the robot sideways towards the target location.
+- When the robot is holding the cube, the robot should move sideways towards the target location. 
+At the target location, lower the cube to the ground.
+- When the robot reaches the target location with the cube, the robot should lower the cube at the target location.
+{'sweep': [("the robot's gripper is not vertically aligned with the cube", 'put gripper above the cube. '), ("the robot's gripper is around the cube and the cube is not lifted from the ground", 'grab the cube. '), ("the robot's gripper is holding the cube", 'lift the cube slightly off the ground. '), ('the robot is holding the cube', 'move sideways towards the target location. '), ('the robot reaches the target location with the cube', 'lower the cube at the target location.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the cube", 'put the gripper above the puck'), ("the robot's gripper is around the cube and the cube is not left of the target location", 'grab peg'), ("the robot's gripper is behind the cube", 'slide the puck to the goal'), ("the robot's gripper is behind the cube", 'move gripper to right of window handle'), ("the robot's gripper is near the cube and the target location is behind the cube", 'slide the puck to the goal')], env_name='sweep', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the cube", 'put the gripper above the puck'), ("the robot's gripper is around the cube and the cube is not left of the target location", 'grab peg'), ("the robot's gripper is behind the cube", 'slide the puck to the goal'), ("the robot's gripper is behind the cube", 'move gripper to right of window handle'), ("the robot's gripper is near the cube and the target location is behind the cube", 'slide the puck to the goal')], env_name='sweep', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the cube", 'put the gripper above the puck'), ("the robot's gripper is around the cube and the cube is not left of the target location", 'grab peg'), ("the robot's gripper is behind the cube", 'slide the puck to the goal'), ("the robot's gripper is behind the cube", 'move gripper to right of window handle'), ("the robot's gripper is near the cube and the target location is behind the cube", 'slide the puck to the goal')], env_name='sweep', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.6524535888490856
+Success rates:
+{
+ "sweep": 0.0
+}

@@ -1,0 +1,44 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# reach-wall: reach to the target location with a short wall in the way
+# def reach_wall(robot):
+# Steps:
+#   1. Move the gripper to the edge of the wall
+#   2. Reach as close as possible to the target location
+#   3. Move around the wall to the target location
+# First, move the gripper so that it is at the edge of the wall.
+# To move the gripper, we need to know the initial position of the gripper,
+# the position of the wall, and the position of the target location.
+# We also need to know the length of the wall (which is assumed to be along
+# x-axis) and the gripper's range of motion (which is assumed to be along y-axis).
+def reach_wall(robot, wall_position, target_position, gripper_position, wall_length=0.2, gripper_range=0.2):
+    wall_center = wall_position[1]
+    target_center = target_position[1]
+    gripper_center = gripper_position[1]
+    # Check if the gripper is already on the correct side of the wall.
+    if gripper_center <= wall_center:
+        # Check if we can reach the target location directly.
+        if abs(target_center - gripper_center) <= gripper_range:
+            robot.reach(target_position)
+        else:
+            # Move the gripper as close to the target location as possible.
+            if target_center > gripper_center:
+                robot.reach((target_position[0], gripper_center + gripper_range))
+            else:
+                robot.reach((target_position[0], gripper_center - gripper_range))
+            # Move around the wall to the target location.
+            if target_center > wall_center:
+                robot.move((wall_position[0], target_center - wall_length/2 - gripper_range))
+                robot.move((target_position[0], target_position[1]))
+            else:
+                robot.move((wall_position[0], target_center + wall_length/2 + gripper_range))
+                robot.move((target_position[0], target_position[1]))
+{'reach-wall': []}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[], env_name='reach-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='reach-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='reach-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.5975166647215249
+Success rates:
+{
+ "reach-wall": 0.0
+}

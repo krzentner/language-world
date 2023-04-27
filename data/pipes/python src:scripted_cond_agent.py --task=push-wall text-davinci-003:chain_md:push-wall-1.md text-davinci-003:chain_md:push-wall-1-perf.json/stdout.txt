@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put gripper to the left of the wall  2. Push the wall so that the puck is visible  3. Grab the puck and slide it to the target location
+    First, move the gripper to the left of the wall, so that it is visible and the puck is clear of the wall.
+    - When the robot's gripper is not left of the wall, the robot should put gripper to left of wall.
+    Once the gripper is left of the wall, we should be able to see the puck. Now we can push the wall to the right, exposing the puck.
+    - When the robot's gripper is left of the wall, the robot should push wall right.
+    When the wall is pushed enough, we can grab the puck and slide it to the target location.
+    - When the robot's gripper is left of the wall and the puck is exposed, the robot should grab puck and slide it to goal.
+{'push-wall': [("the robot's gripper is not left of the wall", 'put gripper to left of wall.'), ("the robot's gripper is left of the wall", 'push wall right.'), ("the robot's gripper is left of the wall and the puck is exposed", 'grab puck and slide it to goal.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of wall", 'move gripper to left of window handle'), ("the robot's gripper is left of wall", 'push window right harder'), ("the robot's gripper is left of wall and the puck is above wall", 'place puck at goal')], env_name='push-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of wall", 'move gripper to left of window handle'), ("the robot's gripper is left of wall", 'push window right harder'), ("the robot's gripper is left of wall and the puck is above wall", 'place puck at goal')], env_name='push-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of wall", 'move gripper to left of window handle'), ("the robot's gripper is left of wall", 'push window right harder'), ("the robot's gripper is left of wall and the puck is above wall", 'place puck at goal')], env_name='push-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.11186929483386622
+Success rates:
+{
+ "push-wall": 0.0
+}

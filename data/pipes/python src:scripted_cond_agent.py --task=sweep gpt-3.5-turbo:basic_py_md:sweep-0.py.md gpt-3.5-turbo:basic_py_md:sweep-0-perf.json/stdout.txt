@@ -1,0 +1,31 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+Here's the program to perform the `sweep` task:
+
+```
+# sweep: grab the cube and move sideways it to the target location
+# def sweep(robot):
+    if check("the gripper is not open"):
+        robot.open("the gripper")
+    if check("the gripper is not near the cube"):
+        robot.reach("the cube")
+    if check("the gripper is not around the cube"):
+        robot.grab("the cube")
+    if check("the gripper is not above the goal location"):
+        robot.move("to the goal location sideways")
+    if check("the gripper is above the goal location"):
+        robot.slide("cube to the goal location")
+    if check("the gripper is not open yet"):
+        robot.open("the gripper")
+```
+
+This program first checks if the gripper is open, and if it's not, it opens it. Then it checks if the gripper is near the cube, and if it's not, it reaches for the cube. Once the gripper is close enough to the cube, it checks if the gripper is around the cube, and if it's not, it grabs the cube. Then it checks if the gripper is above the goal location, and if it's not, it moves sideways to get there. Once the gripper is in position above the goal location, it slides the cube to the goal location. Finally, it checks if the gripper is still closed, and if it is, it opens it so that the cube is released.
+{'sweep': [('the gripper is not open', 'open the gripper'), ('the gripper is not near the cube', 'reach the cube'), ('the gripper is not around the cube', 'grab the cube'), ('the gripper is not above the goal location', 'move to the goal location sideways'), ('the gripper is above the goal location', 'slide cube to the goal location'), ('the gripper is not open yet', 'open the gripper')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is open", 'put the gripper above the puck'), ("the robot's gripper is not near the cube", 'grab peg'), ("the robot's gripper is not around the cube", 'grab peg'), ("the robot's gripper is not above the target location", 'slide the puck to the goal'), ("the robot's gripper is above the target location", 'slide the puck to the goal'), ("the robot's gripper is open", 'put the gripper above the puck')], env_name='sweep', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is open", 'put the gripper above the puck'), ("the robot's gripper is not near the cube", 'grab peg'), ("the robot's gripper is not around the cube", 'grab peg'), ("the robot's gripper is not above the target location", 'slide the puck to the goal'), ("the robot's gripper is above the target location", 'slide the puck to the goal'), ("the robot's gripper is open", 'put the gripper above the puck')], env_name='sweep', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.01
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is open", 'put the gripper above the puck'), ("the robot's gripper is not near the cube", 'grab peg'), ("the robot's gripper is not around the cube", 'grab peg'), ("the robot's gripper is not above the target location", 'slide the puck to the goal'), ("the robot's gripper is above the target location", 'slide the puck to the goal'), ("the robot's gripper is open", 'put the gripper above the puck')], env_name='sweep', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.5856915422192492
+Success rates:
+{
+ "sweep": 0.01
+}

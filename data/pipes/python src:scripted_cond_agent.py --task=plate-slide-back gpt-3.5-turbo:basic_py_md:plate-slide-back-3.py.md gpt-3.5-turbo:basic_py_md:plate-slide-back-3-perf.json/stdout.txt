@@ -1,0 +1,23 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+```
+# plate-slide-back: slide the plate back into the target location
+# def plate_slide_back(robot):
+    if check("the robot's gripper is not above plate and the plate is not at the target location"):
+        robot.put("the gripper above the plate")
+    if check("the robot's gripper is vertically aligned with the plate and the plate is not at the target location"):
+        robot.push("the gripper into the plate")
+    if check("the robot's gripper is near the plate and the plate is not at the target location"):
+        robot.slide("the plate back to the target location")
+``` 
+
+Note: The `check` function referred to in the code is not defined in the given code snippet. It might be a custom function to check the state of the robot or the environment. The code in each section is executed only if the specified condition is met i.e., if the check returns true.
+{'plate-slide-back': [("the robot's gripper is not above plate and the plate is not at the target location", 'put the gripper above the plate'), ("the robot's gripper is vertically aligned with the plate and the plate is not at the target location", 'push the gripper into the plate'), ("the robot's gripper is near the plate and the plate is not at the target location", 'slide the plate back to the target location')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate and plate is not touching the table", 'put the gripper above the puck'), ("the robot's gripper is vertically aligned with the plate and plate is not touching the table", 'push the gripper into the puck'), ("the robot's gripper is near the plate and plate is not touching the table", 'slide the puck to the goal')], env_name='plate-slide-back', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate and plate is not touching the table", 'put the gripper above the puck'), ("the robot's gripper is vertically aligned with the plate and plate is not touching the table", 'push the gripper into the puck'), ("the robot's gripper is near the plate and plate is not touching the table", 'slide the puck to the goal')], env_name='plate-slide-back', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.1
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate and plate is not touching the table", 'put the gripper above the puck'), ("the robot's gripper is vertically aligned with the plate and plate is not touching the table", 'push the gripper into the puck'), ("the robot's gripper is near the plate and plate is not touching the table", 'slide the puck to the goal')], env_name='plate-slide-back', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.1053289227359886
+Success rates:
+{
+ "plate-slide-back": 0.1
+}

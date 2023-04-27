@@ -1,0 +1,31 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    #  1. Put gripper in front of the button
+    #  2. Grab the button with the gripper
+    #  3. Push the gripper forward to press the button
+    # First, put the gripper in front of the button.
+    if check("the robot's gripper is not in front of the button"):
+        robot.place("gripper in front of button")
+    # If the gripper isn't around the button, put it around the button.
+    if check("the robot's gripper is not around button and the robot's gripper is open"):
+        robot.drop("gripper around button")
+    # If the gripper is near the button and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near button and the robot's gripper is open"):
+        robot.close("gripper around button")
+    # We closed the gripper, and the button is still near the gripper, so maybe we
+    # grabbed it.
+    # Try to push the gripper forward to press the button.
+    # If we didn't grab it, we'll just go back to an earlier step.
+    if check("the robot's gripper is around button"):
+        robot.push("forward to press button")
+{'button-press': [("the robot's gripper is not in front of the button", 'place gripper in front of button'), ("the robot's gripper is not around button and the robot's gripper is open", 'drop gripper around button'), ("the robot's gripper is near button and the robot's gripper is open", 'close gripper around button'), ("the robot's gripper is around button", 'push forward to press button')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not in front of the button", 'place gripper above puck'), ("the robot's gripper is not around the button and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the button and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the button", 'push down on button')], env_name='button-press', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not in front of the button", 'place gripper above puck'), ("the robot's gripper is not around the button and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the button and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the button", 'push down on button')], env_name='button-press', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.01
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not in front of the button", 'place gripper above puck'), ("the robot's gripper is not around the button and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the button and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the button", 'push down on button')], env_name='button-press', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 4.103487455036201
+Success rates:
+{
+ "button-press": 0.01
+}

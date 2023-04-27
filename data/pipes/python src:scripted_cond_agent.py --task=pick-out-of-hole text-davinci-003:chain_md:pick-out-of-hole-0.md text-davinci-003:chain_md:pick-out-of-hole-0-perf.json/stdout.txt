@@ -1,0 +1,21 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put the gripper above the hole  2. Drop the gripper around the peg  3. Close the gripper around the peg  4. Move the peg to the target location
+    First, put the gripper above the hole.
+    - When the robot's gripper is not above the hole, the robot should put gripper above hole.
+    Once the gripper is above the hole, the robot should drop it down around the peg.
+    - When the robot's gripper is not around the peg and the robot's gripper is open, the robot should drop gripper around peg.
+    If the gripper is near the peg and open, maybe we can grab it by closing the gripper.
+    - When the robot's gripper is near the peg and the robot's gripper is open, the robot should close gripper around peg.
+    We closed the gripper, and the peg is still near the gripper, so maybe we grabbed it. Try to move the peg to the target location. If we didn't grab it, we'll just go back to an earlier step.
+    - When the robot's gripper is above the peg and the robot's gripper is closed, the robot should place peg at target location.
+{'pick-out-of-hole': [("the robot's gripper is not above the hole", 'put gripper above hole.'), ("the robot's gripper is not around the peg and the robot's gripper is open", 'drop gripper around peg.'), ("the robot's gripper is near the peg and the robot's gripper is open", 'close gripper around peg.'), ("the robot's gripper is above the peg and the robot's gripper is closed", 'place peg at target location.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'put gripper above button'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the puck and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is above the puck and the robot's gripper is closed", 'place puck at goal')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'put gripper above button'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the puck and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is above the puck and the robot's gripper is closed", 'place puck at goal')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'put gripper above button'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the puck and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is above the puck and the robot's gripper is closed", 'place puck at goal')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.03669107332717312
+Success rates:
+{
+ "pick-out-of-hole": 0.0
+}

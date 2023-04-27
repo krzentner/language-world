@@ -1,0 +1,21 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To push the button down from above with a short wall in the way reliably, the robot should perform the following steps:
+
+    Steps:  1. Line up the gripper as viewed from above, taking the wall into account  2. Move the gripper over the wall  3. Push down on the button from the top
+    
+    First, line up the gripper as viewed from above, taking the wall into account. The gripper should be positioned to the side of the wall, where it has a clear view of the button.
+    - When the robot's gripper is not vertically aligned with button and the robot's gripper is not positioned above the wall, the robot should put gripper above button from a position that is on the side of the wall.
+    Once the gripper is lined up with the button from the side of the wall, move the gripper over the wall.
+    - When the robot's gripper is not positioned over the wall, the robot should move gripper over the wall.
+    Now that the gripper is above the button and the wall, push down on the button.
+    - When the robot's gripper is positioned over the wall and vertically aligned with the button, the robot should push down on the button from the top.
+{'button-press-topdown-wall': [("the robot's gripper is not vertically aligned with button and the robot's gripper is not positioned above the wall", 'put gripper above button from a position that is on the side of the wall.'), ("the robot's gripper is not positioned over the wall", 'move gripper over the wall.'), ("the robot's gripper is positioned over the wall and vertically aligned with the button", 'push down on the button from the top.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the button and the robot's gripper is not above wall", 'put the gripper in front of the drawer'), ("the robot's gripper is not near wall", 'put the gripper above the puck'), ("the robot's gripper is not near wall and wall is vertically aligned with the button", 'push down on button')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the button and the robot's gripper is not above wall", 'put the gripper in front of the drawer'), ("the robot's gripper is not near wall", 'put the gripper above the puck'), ("the robot's gripper is not near wall and wall is vertically aligned with the button", 'push down on button')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the button and the robot's gripper is not above wall", 'put the gripper in front of the drawer'), ("the robot's gripper is not near wall", 'put the gripper above the puck'), ("the robot's gripper is not near wall and wall is vertically aligned with the button", 'push down on button')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.4713530485057142
+Success rates:
+{
+ "button-press-topdown-wall": 0.0
+}

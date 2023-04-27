@@ -1,0 +1,28 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put the forked end of the stick underneath the thermos
+    #  2. Push down the stick until it is securely holding the thermos
+    #  3. Pull the thermos to the target location
+    # First, the robot needs to put the forked end of the stick under the
+    # thermos.
+    if check("the stick is not underneath the thermos"):
+        robot.place("stick underneath thermos")
+    # Once the stick is underneath the thermos, the robot should press down
+    #  until it is securely holding the thermos.
+    if check("the stick is underneath thermos and the thermos is not securely held by the stick"):
+        robot.push("down stick")
+    # Once the stick is securing the thermos, the robot can pull the thermos
+    # to the target location.
+    if check("the the thermos is securely held by the stick"):
+        robot.pull("thermos to target location")
+{'stick-pull': [('the stick is not underneath the thermos', 'place stick underneath thermos'), ('the stick is underneath thermos and the thermos is not securely held by the stick', 'push down stick'), ('the the thermos is securely held by the stick', 'pull thermos to target location')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not near the thermos', 'place puck at goal'), ('the stick is near the thermos and the thermos is not mostly below the stick', 'push down on button'), ('the thermos is mostly below the stick', 'slide the puck to the goal')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not near the thermos', 'place puck at goal'), ('the stick is near the thermos and the thermos is not mostly below the stick', 'push down on button'), ('the thermos is mostly below the stick', 'slide the puck to the goal')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not near the thermos', 'place puck at goal'), ('the stick is near the thermos and the thermos is not mostly below the stick', 'push down on button'), ('the thermos is mostly below the stick', 'slide the puck to the goal')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.006339600809106783
+Success rates:
+{
+ "stick-pull": 0.0
+}

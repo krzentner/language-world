@@ -1,0 +1,30 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# handle-pull: pull up the handle
+# def handle_pull(robot):
+    # Steps:
+    #  1. Put gripper below the handle
+    #  2. Grab the handle with the gripper
+    #  3. Pull upward on the handle
+    #  4. Release the handle
+    # First, put the gripper below the handle.
+    if check("the robot's gripper is not below the handle"):
+        robot.move("gripper to below handle")
+    # Once the gripper is below the handle, grab the handle.
+    if check("the robot's gripper is below the handle and the robot's gripper is open"):
+        robot.grab("handle")
+    # Pull upward on the handle while it is grabbed by the gripper.
+    if check("the robot's gripper has grabbed the handle and the handle is not above the robot's gripper"):
+        robot.pull("handle upward")
+    # Release the handle from the gripper.
+    if check("the robot's gripper is holding the handle and the handle is above the robot's gripper"):
+        robot.release("handle")
+{'handle-pull': [("the robot's gripper is not below the handle", 'move gripper to below handle'), ("the robot's gripper is below the handle and the robot's gripper is open", 'grab handle'), ("the robot's gripper has grabbed the handle and the handle is not above the robot's gripper", 'pull handle upward'), ("the robot's gripper is holding the handle and the handle is above the robot's gripper", 'release handle')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not below the handle", 'move gripper to left of window handle'), ("the robot's gripper is below the handle and the robot's gripper is open", 'grab peg'), ("the robot's gripper is above the handle and the handle is not above the robot's gripper", 'place puck at goal'), ("the robot's gripper is behind the handle and the handle is above the robot's gripper", 'grab peg')], env_name='handle-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not below the handle", 'move gripper to left of window handle'), ("the robot's gripper is below the handle and the robot's gripper is open", 'grab peg'), ("the robot's gripper is above the handle and the handle is not above the robot's gripper", 'place puck at goal'), ("the robot's gripper is behind the handle and the handle is above the robot's gripper", 'grab peg')], env_name='handle-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not below the handle", 'move gripper to left of window handle'), ("the robot's gripper is below the handle and the robot's gripper is open", 'grab peg'), ("the robot's gripper is above the handle and the handle is not above the robot's gripper", 'place puck at goal'), ("the robot's gripper is behind the handle and the handle is above the robot's gripper", 'grab peg')], env_name='handle-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.07955408203597733
+Success rates:
+{
+ "handle-pull": 0.0
+}

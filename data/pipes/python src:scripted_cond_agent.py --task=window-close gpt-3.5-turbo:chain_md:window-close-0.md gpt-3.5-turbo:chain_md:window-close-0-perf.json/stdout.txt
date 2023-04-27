@@ -1,0 +1,23 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+Here are the steps that the robot should perform to slide the window closed to the right reliably:
+
+1. Put gripper left of the window handle.
+If the the window handle is right of the robot's gripper, the gripper should be moved near the window handle to start pushing.
+
+2. Start pushing against the window handle to close the window.
+The robot should start pushing against the window handle to slide the window closed.
+
+3. Push the window closed harder.
+If the robot's gripper is starting to be in front of the window handle, the robot should push harder to slide the window closed.
+
+We have also provided similar steps for other tasks in this list.
+{'window-close': []}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[], env_name='window-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='window-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='window-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.5195904560360426
+Success rates:
+{
+ "window-close": 0.0
+}

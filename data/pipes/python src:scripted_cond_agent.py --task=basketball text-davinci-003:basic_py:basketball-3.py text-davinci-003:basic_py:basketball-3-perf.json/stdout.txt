@@ -1,0 +1,20 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    if check("the robot's gripper is not above the basketball"):
+        robot.place("gripper above basketball")
+    if check("the robot's gripper is not forward aligned with hoop"):
+        robot.align("gripper to hoop")
+    if check("the robot's gripper is not horizontally aligned with hoop"):
+        robot.align("basketball to hoop")
+    if check("basketball is horizontally aligned with hoop and the robot's gripper is closed"):
+        robot.push("basketball into hoop")
+{'basketball': [("the robot's gripper is not above the basketball", 'place gripper above basketball'), ("the robot's gripper is not forward aligned with hoop", 'align gripper to hoop'), ("the robot's gripper is not horizontally aligned with hoop", 'align basketball to hoop'), ("basketball is horizontally aligned with hoop and the robot's gripper is closed", 'push basketball into hoop')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the ball", 'place gripper above puck'), ("the robot's gripper is not forward aligned with the hoop", 'align peg to hole'), ("the robot's gripper is not horizontally aligned with the hoop", 'align peg to hole'), ("the ball is horizontally aligned with the hoop and the robot's gripper is closed", 'insert peg into hole')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the ball", 'place gripper above puck'), ("the robot's gripper is not forward aligned with the hoop", 'align peg to hole'), ("the robot's gripper is not horizontally aligned with the hoop", 'align peg to hole'), ("the ball is horizontally aligned with the hoop and the robot's gripper is closed", 'insert peg into hole')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the ball", 'place gripper above puck'), ("the robot's gripper is not forward aligned with the hoop", 'align peg to hole'), ("the robot's gripper is not horizontally aligned with the hoop", 'align peg to hole'), ("the ball is horizontally aligned with the hoop and the robot's gripper is closed", 'insert peg into hole')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.003993493188430052
+Success rates:
+{
+ "basketball": 0.0
+}

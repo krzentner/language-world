@@ -1,0 +1,33 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# drawer-close: push the drawer close
+# def drawer_close(robot):
+    # Steps:
+    #  1. Put gripper roughly around the drawer handle
+    #  2. Push the drawer closed
+    # If the gripper is not near the drawer handle, move it to the drawer handle.
+    # We don't need to be careful about the direction, since the drawer is large
+    # and we're just pushing it (unlike when opening the drawer).
+    if check('the robot\'s gripper is not near the drawer handle'):
+        robot.move_gripper('near the drawer handle')
+    # If the drawer is aligned with the gripper as seen from in front, we can
+    # push the drawer closed.
+    if check('the robot\'s gripper is behind the drawer handle and the drawer is not fully closed'):
+        robot.move_gripper('slightly above the drawer handle')
+    if check('the robot\'s gripper is almost horizontally aligned with the drawer handle and the drawer is not fully closed'):
+        robot.move_gripper('almost vertically aligned with the drawer handle')
+    if check('the robot\'s gripper is vertically aligned with the drawer handle and the drawer is not fully closed'):
+        robot.move_gripper('around the drawer handle')
+    #Once the gripper is around the drawer handle, we can just push the drawer
+    # closed.
+    if check('the robot\'s gripper is horizontally aligned with the drawer handle and the drawer is not fully closed'):
+        robot.move_gripper('behind the drawer handle')
+{'drawer-close': []}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[], env_name='drawer-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='drawer-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='drawer-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Success rates:
+{
+ "drawer-close": 0.0
+}

@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put gripper aside of the peg  2. Pull peg sideways away from the hole  3. Move peg away from the hole
+    First, move the gripper towards the side of the peg to grab it.
+    - When the robot's gripper is not beside peg, the robot should put gripper aside of peg.
+    Now that the gripper is beside the peg, pull sideways to unplug the peg.
+    - When the robot's gripper is beside peg and the peg is still in the hole, the robot should pull peg sideways away from hole.
+    Once the peg is out of the hole, move it away.
+    - When the peg is out of the hole, the robot should move peg away from hole.
+{'peg-unplug-side': [("the robot's gripper is not beside peg", 'put gripper aside of peg.'), ("the robot's gripper is beside peg and the peg is still in the hole", 'pull peg sideways away from hole.'), ('the peg is out of the hole', 'move peg away from hole.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not behind the peg", 'put gripper above button'), ("the robot's gripper is behind the peg and the peg is not behind the robot's gripper", 'pull away from drawer'), ("the peg is left of the robot's gripper", 'pull away from drawer')], env_name='peg-unplug-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not behind the peg", 'put gripper above button'), ("the robot's gripper is behind the peg and the peg is not behind the robot's gripper", 'pull away from drawer'), ("the peg is left of the robot's gripper", 'pull away from drawer')], env_name='peg-unplug-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not behind the peg", 'put gripper above button'), ("the robot's gripper is behind the peg and the peg is not behind the robot's gripper", 'pull away from drawer'), ("the peg is left of the robot's gripper", 'pull away from drawer')], env_name='peg-unplug-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.24146077869528015
+Success rates:
+{
+ "peg-unplug-side": 0.0
+}

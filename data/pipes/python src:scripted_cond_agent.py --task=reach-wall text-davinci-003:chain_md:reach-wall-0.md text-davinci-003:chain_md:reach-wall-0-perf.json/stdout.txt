@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Reach towards the wall  2. Line up the gripper with the top of the wall  3. Reach the gripper over the wall  4. Move the gripper to the target location
+    Before actually getting to the target, the gripper needs to get around the wall first. Move the gripper to the wall and put the gripper below the top of the wall.
+    - When the robot's gripper is not near wall and the robot's gripper is not below top of wall, the robot should put gripper towards wall.
+    As long as the gripper is below the top of the wall, move it to the other side.
+    - When the robot's gripper is near wall and the robot's gripper is below top of the wall, the robot should reach the gripper over wall.
+    Once the robot's gripper is over the wall, move it to the target location.
+    - When the robot's gripper is not at the target location and the robot's gripper is over wall, the robot should move gripper to target location.
+{'reach-wall': [("the robot's gripper is not near wall and the robot's gripper is not below top of wall", 'put gripper towards wall.'), ("the robot's gripper is near wall and the robot's gripper is below top of the wall", 'reach the gripper over wall.'), ("the robot's gripper is not at the target location and the robot's gripper is over wall", 'move gripper to target location.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near wall and the robot's gripper is not below wall", 'put gripper around door handle'), ("the robot's gripper is near wall and the robot's gripper is below wall", 'reach to goal'), ("the robot's gripper is not near the target location and the robot's gripper is above wall", 'move gripper to right of window handle')], env_name='reach-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near wall and the robot's gripper is not below wall", 'put gripper around door handle'), ("the robot's gripper is near wall and the robot's gripper is below wall", 'reach to goal'), ("the robot's gripper is not near the target location and the robot's gripper is above wall", 'move gripper to right of window handle')], env_name='reach-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near wall and the robot's gripper is not below wall", 'put gripper around door handle'), ("the robot's gripper is near wall and the robot's gripper is below wall", 'reach to goal'), ("the robot's gripper is not near the target location and the robot's gripper is above wall", 'move gripper to right of window handle')], env_name='reach-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.2792879145337452
+Success rates:
+{
+ "reach-wall": 0.0
+}

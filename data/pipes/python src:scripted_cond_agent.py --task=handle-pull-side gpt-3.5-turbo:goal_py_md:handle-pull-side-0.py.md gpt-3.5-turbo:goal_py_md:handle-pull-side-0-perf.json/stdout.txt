@@ -1,0 +1,26 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# handle-pull-side: pull up the handle from the side
+# def handle_pull_side(robot):
+    # Steps:
+    #  1. Put gripper to the right of the handle
+    #  2. Drop gripper around handle
+    #  3. Lift gripper while holding the handle until it's in the "up" position
+    # First, put the gripper to the right of the handle
+    if check("the robot's gripper is not right of the handle"):
+        robot.move_gripper("right of the handle")
+    # If the gripper is right of the handle, drop the gripper around it
+    if check("the robot's gripper is right of the handle and the robot's gripper is not around the handle and the robot's gripper is not vertically aligned with the handle"):
+        robot.move_gripper("around the handle")
+    # If the gripper is around the handle, lift the gripper while holding the handle to pull it up
+    if check("the robot's gripper is around the handle"):
+        robot.move_gripper("above the handle")
+{'handle-pull-side': [("the robot's gripper is not right of the handle", "the robot's gripper is right of the handle"), ("the robot's gripper is right of the handle and the robot's gripper is not around the handle and the robot's gripper is not vertically aligned with the handle", "the robot's gripper is around the handle"), ("the robot's gripper is around the handle", "the robot's gripper is above the handle")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not right of the handle", 'move gripper to right of window handle'), ("the robot's gripper is right of the handle and the robot's gripper is not almost vertically aligned with the handle", 'drop gripper around puck'), ("the robot's gripper is around the handle", 'put the gripper above the puck')], env_name='handle-pull-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not right of the handle", 'move gripper to right of window handle'), ("the robot's gripper is right of the handle and the robot's gripper is not almost vertically aligned with the handle", 'drop gripper around puck'), ("the robot's gripper is around the handle", 'put the gripper above the puck')], env_name='handle-pull-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not right of the handle", 'move gripper to right of window handle'), ("the robot's gripper is right of the handle and the robot's gripper is not almost vertically aligned with the handle", 'drop gripper around puck'), ("the robot's gripper is around the handle", 'put the gripper above the puck')], env_name='handle-pull-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.04463233254614003
+Success rates:
+{
+ "handle-pull-side": 0.0
+}

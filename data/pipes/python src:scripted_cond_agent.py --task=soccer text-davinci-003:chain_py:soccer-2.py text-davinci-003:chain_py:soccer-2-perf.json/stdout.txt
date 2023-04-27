@@ -1,0 +1,25 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put gripper just above soccer ball
+    #  2. Push soccer ball towards goal
+    # First, put the gripper slightly above the soccer ball.
+    # We don't want the robot's gripper to bang the soccer ball away, because
+    # that would be sloppy.
+    if check("the robot's gripper is not slightly above soccer ball"):
+        robot.put("gripper slightly above soccer ball")
+    # If the gripper is above the soccer ball, we can start pushing the ball
+    # towards the goal.
+    # Push it in the direction of the goal.
+    if check("the robot's gripper is looking down at soccer ball and the robot's gripper is not near the goal"):
+        robot.push("soccer ball towards goal")
+{'soccer': [("the robot's gripper is not slightly above soccer ball", 'put gripper slightly above soccer ball'), ("the robot's gripper is looking down at soccer ball and the robot's gripper is not near the goal", 'push soccer ball towards goal')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the ball", 'put gripper above button'), ("the robot's gripper is in front of the ball and the robot's gripper is not near the goal", 'place puck at goal')], env_name='soccer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the ball", 'put gripper above button'), ("the robot's gripper is in front of the ball and the robot's gripper is not near the goal", 'place puck at goal')], env_name='soccer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the ball", 'put gripper above button'), ("the robot's gripper is in front of the ball and the robot's gripper is not near the goal", 'place puck at goal')], env_name='soccer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.3880687935090426
+Success rates:
+{
+ "soccer": 0.0
+}

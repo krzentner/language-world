@@ -1,0 +1,41 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# stick-pull: use the stick to pull the thermos to the target location
+# def stick_pull(robot):
+```
+
+To complete the `stick_pull` function, we need to first check that the robot is near the stick and that the robot's gripper is not currently holding anything.
+
+Once we have done this, we can then use the gripper to grab the stick and turn it around so that the hook is facing the thermos.
+
+We can then move the robot's gripper to be next to the thermos and lower the hook so that it grabs onto the handle of the thermos.
+
+Finally, we can use the stick as a lever to pull the thermos towards the target location.
+
+Here is one possible implementation:
+
+```
+# stick-pull: use the stick to pull the thermos to the target location
+# def stick_pull(robot):
+    if check("the robot is not near the stick and the gripper is not holding anything"):
+        robot.move("to the stick")
+    if check("the gripper is open and the gripper is not around the stick"):
+        robot.grab("the stick")
+    if check("the gripper is around the stick and the hook is not facing the thermos"):
+        robot.turn("the stick towards the thermos")
+    if check("the gripper is near the thermos and the hook is facing the thermos"):
+        robot.lower("the hook onto the thermos handle")
+    if check("the hook is holding onto the thermos"):
+        robot.pull("the stick to pull the thermos towards the goal")
+``` 
+
+This implementation assumes that the robot has the ability to move in any direction and that it can turn the stick around by rotating its wrist. If these assumptions are not correct, the implementation will need to be modified accordingly.
+{'stick-pull': [('the robot is not near the stick and the gripper is not holding anything', 'move to the stick'), ('the gripper is open and the gripper is not around the stick', 'grab the stick'), ('the gripper is around the stick and the hook is not facing the thermos', 'turn the stick towards the thermos'), ('the gripper is near the thermos and the hook is facing the thermos', 'lower the hook onto the thermos handle'), ('the hook is holding onto the thermos', 'pull the stick to pull the thermos towards the goal')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the stick and the robot's gripper is not near the stick", 'move gripper to left of window handle'), ("the robot's gripper is open and the robot's gripper is not around the stick", 'grab peg'), ("the robot's gripper is around the stick and the stick is not behind the thermos", 'slide the puck to the goal'), ("the robot's gripper is near the thermos and the stick is behind the thermos", 'slide the puck to the goal'), ('the stick is in front of the thermos', 'slide the puck to the goal')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the stick and the robot's gripper is not near the stick", 'move gripper to left of window handle'), ("the robot's gripper is open and the robot's gripper is not around the stick", 'grab peg'), ("the robot's gripper is around the stick and the stick is not behind the thermos", 'slide the puck to the goal'), ("the robot's gripper is near the thermos and the stick is behind the thermos", 'slide the puck to the goal'), ('the stick is in front of the thermos', 'slide the puck to the goal')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the stick and the robot's gripper is not near the stick", 'move gripper to left of window handle'), ("the robot's gripper is open and the robot's gripper is not around the stick", 'grab peg'), ("the robot's gripper is around the stick and the stick is not behind the thermos", 'slide the puck to the goal'), ("the robot's gripper is near the thermos and the stick is behind the thermos", 'slide the puck to the goal'), ('the stick is in front of the thermos', 'slide the puck to the goal')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.06005717119787415
+Success rates:
+{
+ "stick-pull": 0.0
+}

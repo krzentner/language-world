@@ -1,0 +1,21 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+The task `door-lock` requires the robot to turn the dial on the door. To turn the dial on the door reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper near the dial  2. Grab the dial with the gripper  3. Turn the dial in the desired direction  4. Release the dial
+    First, put the gripper near the dial.
+    - When the robot's gripper is not near the dial, the robot should move gripper near the dial.
+    Next, grab the dial with the gripper.
+    - When the robot's gripper is near the dial and the gripper is open, the robot should grab the dial.
+    Turn the dial in the desired direction to unlock the door.
+    - When the robot has the dial in the grip, the robot should turn the dial in the desired direction.
+    Finally, release the dial when the desired position is achieved.
+    - When the dial is in the desired position, the robot should release the dial.
+{'door-lock': [("the robot's gripper is not near the dial", 'move gripper near the dial.'), ("the robot's gripper is near the dial and the gripper is open", 'grab the dial.'), ('the robot has the dial in the grip', 'turn the dial in the desired direction.'), ('the dial is in the desired position', 'release the dial.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the door's lock", 'put the gripper in front of the drawer'), ("the robot's gripper is near the door's lock and the robot's gripper is open", 'reach to goal'), ("the robot's gripper is open and the door's lock is near the robot's gripper", 'slide the puck to the goal'), ("the door's lock is behind the robot's gripper", 'reach to goal')], env_name='door-lock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the door's lock", 'put the gripper in front of the drawer'), ("the robot's gripper is near the door's lock and the robot's gripper is open", 'reach to goal'), ("the robot's gripper is open and the door's lock is near the robot's gripper", 'slide the puck to the goal'), ("the door's lock is behind the robot's gripper", 'reach to goal')], env_name='door-lock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the door's lock", 'put the gripper in front of the drawer'), ("the robot's gripper is near the door's lock and the robot's gripper is open", 'reach to goal'), ("the robot's gripper is open and the door's lock is near the robot's gripper", 'slide the puck to the goal'), ("the door's lock is behind the robot's gripper", 'reach to goal')], env_name='door-lock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.918491431055965
+Success rates:
+{
+ "door-lock": 0.0
+}

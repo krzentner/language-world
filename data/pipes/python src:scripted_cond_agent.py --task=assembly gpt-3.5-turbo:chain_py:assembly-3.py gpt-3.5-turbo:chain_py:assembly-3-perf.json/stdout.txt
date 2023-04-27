@@ -1,0 +1,33 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+#  1. Put the gripper above the wrench
+#  2. Grab the wrench with the gripper
+#  3. Put the gripper above the peg
+#  4. Move the gripper down to place the wrench around the peg
+#  5. Release the wrench
+# First, put the gripper above the wrench.
+if check("the robot's gripper is not above the wrench"):
+    robot.place("gripper above wrench")
+# If the gripper is above the wrench, we can grab it.
+if check("the robot's gripper is above the wrench and the robot's gripper is open"):
+    robot.grab("wrench")
+# If the wrench is grabbed, we can place the gripper above the peg.
+if check("the robot's gripper is holding the wrench and the robot's gripper is not above the peg"):
+    robot.put("gripper above peg")
+# If the gripper is above the peg, we can move it down to place the wrench around
+# the peg.
+if check("the robot's gripper is above the peg"):
+    robot.move("gripper down to place wrench")
+# If the gripper is around the peg, we can release the wrench.
+if check("the robot's gripper is around the peg"):
+    robot.release("wrench")
+{'assembly': [("the robot's gripper is not above the wrench", 'place gripper above wrench'), ("the robot's gripper is above the wrench and the robot's gripper is open", 'grab wrench'), ("the robot's gripper is holding the wrench and the robot's gripper is not above the peg", 'put gripper above peg'), ("the robot's gripper is above the peg", 'move gripper down to place wrench'), ("the robot's gripper is around the peg", 'release wrench')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the wrench", 'place gripper above puck'), ("the robot's gripper is above the wrench and the robot's gripper is open", 'grab peg'), ("the robot's gripper is behind the wrench and the robot's gripper is not above the peg", 'put gripper above button'), ("the robot's gripper is above the peg", 'move gripper to left of window handle'), ("the robot's gripper is around the peg", 'grab peg')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the wrench", 'place gripper above puck'), ("the robot's gripper is above the wrench and the robot's gripper is open", 'grab peg'), ("the robot's gripper is behind the wrench and the robot's gripper is not above the peg", 'put gripper above button'), ("the robot's gripper is above the peg", 'move gripper to left of window handle'), ("the robot's gripper is around the peg", 'grab peg')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the wrench", 'place gripper above puck'), ("the robot's gripper is above the wrench and the robot's gripper is open", 'grab peg'), ("the robot's gripper is behind the wrench and the robot's gripper is not above the peg", 'put gripper above button'), ("the robot's gripper is above the peg", 'move gripper to left of window handle'), ("the robot's gripper is around the peg", 'grab peg')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.5835558828147092
+Success rates:
+{
+ "assembly": 0.0
+}

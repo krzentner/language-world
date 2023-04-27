@@ -1,0 +1,40 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+Then, complete the function:
+
+```
+# lever-pull: rotate the lever up
+# def lever_pull(robot):
+    # Steps:
+    #  1. Put the gripper above the lever
+    #  2. Grab the lever with the gripper
+    #  3. Rotate the lever up
+    # First, put the gripper roughly above the lever, so that we don't bump
+    # it while trying to grab it.
+    if check("the robot's gripper is not above lever"):
+        robot.put("gripper above lever")
+    # If the gripper isn't around the lever, put it around the lever.
+    if check("the robot's gripper is not around lever and the robot's gripper is open"):
+        robot.drop("gripper around lever")
+    # If the gripper is near the lever and open, maybe we can grab it by
+    # closing the gripper.
+    if check("the robot's gripper is near lever and the robot's gripper is open"):
+        robot.close("gripper around lever")
+    # We closed the gripper, and the lever is still near the gripper, so maybe
+    # we grabbed it.
+    # Try to rotate the lever up.
+    # If we didn't grab it, we'll just go back to an earlier step.
+    if check("the robot's gripper is above lever and the robot's gripper is closed"):
+        robot.rotate("lever up")
+```
+{'lever-pull': [("the robot's gripper is not above lever", 'put gripper above lever'), ("the robot's gripper is not around lever and the robot's gripper is open", 'drop gripper around lever'), ("the robot's gripper is near lever and the robot's gripper is open", 'close gripper around lever'), ("the robot's gripper is above lever and the robot's gripper is closed", 'rotate lever up')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the lever", 'put gripper above button'), ("the robot's gripper is not around the lever and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the lever and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is above the lever and the robot's gripper is closed", 'grab peg')], env_name='lever-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the lever", 'put gripper above button'), ("the robot's gripper is not around the lever and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the lever and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is above the lever and the robot's gripper is closed", 'grab peg')], env_name='lever-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.53
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the lever", 'put gripper above button'), ("the robot's gripper is not around the lever and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the lever and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is above the lever and the robot's gripper is closed", 'grab peg')], env_name='lever-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.4023944919529127
+Success rates:
+{
+ "lever-pull": 0.53
+}

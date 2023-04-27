@@ -1,0 +1,23 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To put the wrench around the peg reliably, the robot should perform the following steps:
+
+1. Place the gripper near the wrench and the peg.
+- When the robot's gripper is not near the wrench and the peg, the robot should move the gripper to the area.
+2. Position the gripper to grab the wrench.
+- When the robot's gripper is not positioned to grab the wrench, the robot should align the gripper correctly.
+3. Close the gripper around the wrench to pick it up.
+- When the robot's gripper is open and around the wrench, the robot should close the gripper.
+4. Move the gripper towards the peg and position it to insert the wrench around the peg.
+- When the robot's gripper is not near the peg or the wrench is not aligned with the peg, the robot should move and align the gripper.
+5. Slide the wrench around the peg until it clicks in place.
+- When the wrench is not around the peg or the gripper is not holding the wrench securely, the robot should slide the wrench until it clicks in place around the peg.
+{'assembly': [("the robot's gripper is not near the wrench and the peg", 'move the gripper to the area.'), ("the robot's gripper is not positioned to grab the wrench", 'align the gripper correctly.'), ("the robot's gripper is open and around the wrench", 'close the gripper.'), ("the robot's gripper is not near the peg or the wrench is not aligned with the peg", 'move and align the gripper.'), ('the wrench is not around the peg or the gripper is not holding the wrench securely', 'slide the wrench until it clicks in place around the peg.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the wrench", 'push the gripper into the puck'), ("the robot's gripper is not near the wrench", 'put the gripper above the puck'), ("the robot's gripper is not around the wrench", 'close gripper around puck'), ("the robot's gripper is not near the peg and the wrench is not forward aligned with the peg", 'move gripper to left of window handle'), ("the wrench is not near the peg and the robot's gripper is not behind the wrench", 'slide the puck to the goal')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the wrench", 'push the gripper into the puck'), ("the robot's gripper is not near the wrench", 'put the gripper above the puck'), ("the robot's gripper is not around the wrench", 'close gripper around puck'), ("the robot's gripper is not near the peg and the wrench is not forward aligned with the peg", 'move gripper to left of window handle'), ("the wrench is not near the peg and the robot's gripper is not behind the wrench", 'slide the puck to the goal')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the wrench", 'push the gripper into the puck'), ("the robot's gripper is not near the wrench", 'put the gripper above the puck'), ("the robot's gripper is not around the wrench", 'close gripper around puck'), ("the robot's gripper is not near the peg and the wrench is not forward aligned with the peg", 'move gripper to left of window handle'), ("the wrench is not near the peg and the robot's gripper is not behind the wrench", 'slide the puck to the goal')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.6614029018381761
+Success rates:
+{
+ "assembly": 0.0
+}

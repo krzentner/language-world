@@ -1,0 +1,21 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# button-press-wall: push the button from the front with a short wall in the way
+# def button_press_wall(robot):
+    if check("the robot's gripper is not facing the button"):
+        robot.rotate("to face the button")
+    if check("the robot's gripper is not near the button"):
+        robot.move("towards the button")
+    if check("the robot's gripper is near the button and the short wall obstructs the path to the button"):
+        robot.move("alongside the wall")
+    if check("the robot's gripper is in front of the button and the wall is no longer in the way"):
+        robot.push("the button")
+{'button-press-wall': [("the robot's gripper is not facing the button", 'rotate to face the button'), ("the robot's gripper is not near the button", 'move towards the button'), ("the robot's gripper is near the button and the short wall obstructs the path to the button", 'move alongside the wall'), ("the robot's gripper is in front of the button and the wall is no longer in the way", 'push the button')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the button", 'put the gripper above the puck'), ("the robot's gripper is not near the button", 'move gripper to left of window handle'), ("the robot's gripper is near the button and wall is left of the button", 'move gripper to left of window handle'), ("the robot's gripper is in front of the button and wall is not near the button", 'push down on button')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the button", 'put the gripper above the puck'), ("the robot's gripper is not near the button", 'move gripper to left of window handle'), ("the robot's gripper is near the button and wall is left of the button", 'move gripper to left of window handle'), ("the robot's gripper is in front of the button and wall is not near the button", 'push down on button')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the button", 'put the gripper above the puck'), ("the robot's gripper is not near the button", 'move gripper to left of window handle'), ("the robot's gripper is near the button and wall is left of the button", 'move gripper to left of window handle'), ("the robot's gripper is in front of the button and wall is not near the button", 'push down on button')], env_name='button-press-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.4444155970124847
+Success rates:
+{
+ "button-press-wall": 0.0
+}

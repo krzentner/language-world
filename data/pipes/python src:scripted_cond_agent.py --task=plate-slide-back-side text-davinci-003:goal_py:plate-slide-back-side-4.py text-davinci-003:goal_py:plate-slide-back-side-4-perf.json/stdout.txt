@@ -1,0 +1,33 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put gripper above plate
+    #  2. Grab plate with gripper
+    #  3. Move plate to target location
+    #  4. Slide plate sideways into target location
+    # We need to put the gripper roughly above the plate, so that we don't bump
+    # it while trying to grab it.
+    if check("the robot's gripper is not above plate"):
+        robot.move_gripper("above plate", close_gripper=True)
+    # Once the gripper is above the plate, we should be able to grab the plate
+    # by lining up the gripper and the plate.
+    if check("the robot's gripper is above plate and the robot's gripper is not around plate"):
+        robot.move_gripper("around plate")
+    # Now that the gripper has the plate, move the gripper until the plate is
+    # near the target location.
+    if check("the robot's gripper is around plate and the plate is not near the target location"):
+        robot.move_gripper("near the target location")
+    # Once the plate is near the target location, slide it sideways into the
+    # target location.
+    if check("the robot's gripper is near the target location and the plate is not horizontally aligned with the target location"):
+        robot.move_gripper("horizontally aligned with the target location")
+{'plate-slide-back-side': [("the robot's gripper is not above plate", "the robot's gripper is above plate and the robot's gripper is closed"), ("the robot's gripper is above plate and the robot's gripper is not around plate", "the robot's gripper is around plate"), ("the robot's gripper is around plate and the plate is not near the target location", "the robot's gripper is near the target location"), ("the robot's gripper is near the target location and the plate is not horizontally aligned with the target location", "the robot's gripper is horizontally aligned with the target location")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate", 'put the gripper above the puck'), ("the robot's gripper is above the plate and the robot's gripper is not around the plate", 'drop gripper around puck'), ("the robot's gripper is around the plate and the plate is not near the robot's gripper", 'push the gripper into the puck'), ("the robot's gripper is near the plate and the plate is not horizontally aligned with the robot's gripper", 'put the gripper in front of the drawer')], env_name='plate-slide-back-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate", 'put the gripper above the puck'), ("the robot's gripper is above the plate and the robot's gripper is not around the plate", 'drop gripper around puck'), ("the robot's gripper is around the plate and the plate is not near the robot's gripper", 'push the gripper into the puck'), ("the robot's gripper is near the plate and the plate is not horizontally aligned with the robot's gripper", 'put the gripper in front of the drawer')], env_name='plate-slide-back-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate", 'put the gripper above the puck'), ("the robot's gripper is above the plate and the robot's gripper is not around the plate", 'drop gripper around puck'), ("the robot's gripper is around the plate and the plate is not near the robot's gripper", 'push the gripper into the puck'), ("the robot's gripper is near the plate and the plate is not horizontally aligned with the robot's gripper", 'put the gripper in front of the drawer')], env_name='plate-slide-back-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 5.035387523726551
+Success rates:
+{
+ "plate-slide-back-side": 1.0
+}

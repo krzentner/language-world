@@ -1,0 +1,26 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# coffee-push: grab the mug and move it to the target location
+# def coffee_push(robot):
+    # Steps:
+    # 1. Put gripper above the coffee mug
+    # 2. Grab the coffee mug with the gripper
+    # 3. Move the coffee mug to the target location
+    # First, put the gripper above the coffee mug.
+    if check("the robot's gripper is not vertically aligned with the coffee mug"):
+        robot.put("gripper above coffee mug")
+    # If the gripper is not around the coffee mug, put it around the coffee mug
+    if check("the robot's gripper is not around coffee mug and the robot's gripper is open"):
+        robot.drop("gripper around coffee mug")
+    # If the gripper is close and around the coffee mug, move the coffee mug to the target location
+    if check("the robot's gripper is around coffee mug and the coffee mug is below the robot's gripper"):
+        robot.slide("the coffee mug to the target location")
+{'coffee-push': [("the robot's gripper is not vertically aligned with the coffee mug", 'put gripper above coffee mug'), ("the robot's gripper is not around coffee mug and the robot's gripper is open", 'drop gripper around coffee mug'), ("the robot's gripper is around coffee mug and the coffee mug is below the robot's gripper", 'slide the coffee mug to the target location')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the mug", 'put gripper above button'), ("the robot's gripper is not around the mug and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the mug and the mug is below the robot's gripper", 'slide the puck to the goal')], env_name='coffee-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the mug", 'put gripper above button'), ("the robot's gripper is not around the mug and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the mug and the mug is below the robot's gripper", 'slide the puck to the goal')], env_name='coffee-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.96
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the mug", 'put gripper above button'), ("the robot's gripper is not around the mug and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the mug and the mug is below the robot's gripper", 'slide the puck to the goal')], env_name='coffee-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.6038884603492125
+Success rates:
+{
+ "coffee-push": 0.96
+}

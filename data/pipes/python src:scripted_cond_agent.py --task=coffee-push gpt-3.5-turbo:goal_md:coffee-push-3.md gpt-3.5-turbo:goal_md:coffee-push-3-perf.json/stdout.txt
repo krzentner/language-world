@@ -1,0 +1,28 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To grab the mug and move it to the target location reliably, the robot should perform the following steps:
+
+Steps: 1. Put the gripper above the mug
+2. Lower the gripper onto the mug and close the gripper around the mug to grasp it
+3. Lift the mug and move it towards the target location
+4. When the mug is above the target location, lower the gripper and release the mug
+
+First, put the gripper above the mug.
+- When the robot's gripper is not vertically aligned with the mug, move the robot's gripper until the robot's gripper is vertically aligned with the mug
+If the gripper is not near the mug, move the gripper near the mug.
+- When the robot's gripper is vertically aligned with the mug and the robot's gripper is not near the mug, move the robot's gripper until the robot's gripper is close enough to the mug to pick it up
+When the gripper is close enough to the mug to pick it up, grasp the mug by closing the gripper around it.
+- When the robot's gripper is above the mug and the robot's gripper is open, move the robot's gripper down onto the mug and close the gripper around it
+After grasping the mug with the gripper, lift it and move it towards the target location.
+- While the mug is not above the target location, move the robot's gripper and the mug together towards the target location
+When the mug is above the target location, lower the gripper and release the mug.
+- When the robot's gripper is above the target location and the robot's gripper is closed around the mug, move the robot's gripper down onto the target location and release the mug by opening the gripper
+{'coffee-push': [("the robot's gripper is not vertically aligned with the mug", "the robot's gripper is vertically aligned with the mug"), ("the robot's gripper is vertically aligned with the mug and the robot's gripper is not near the mug", "the robot's gripper is close enough to the mug to pick it up")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the mug", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the mug and the robot's gripper is not near the mug", 'push the gripper into the puck')], env_name='coffee-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the mug", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the mug and the robot's gripper is not near the mug", 'push the gripper into the puck')], env_name='coffee-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the mug", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the mug and the robot's gripper is not near the mug", 'push the gripper into the puck')], env_name='coffee-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.24708883031535744
+Success rates:
+{
+ "coffee-push": 1.0
+}

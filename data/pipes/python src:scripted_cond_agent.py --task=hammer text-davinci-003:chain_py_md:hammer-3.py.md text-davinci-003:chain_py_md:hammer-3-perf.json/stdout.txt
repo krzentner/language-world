@@ -1,0 +1,33 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+# hammer: hit the nail with the hammer
+# def hammer(robot):
+    # Steps:
+    #  1. Put gripper above hammer
+    #  2. Grab hammer with gripper
+    #  3. Put gripper above nail
+    #  4. Push hammer downward onto nail 
+    # First, put the gripper above the hammer to grab it.
+    if check("the robot's gripper is not above the hammer"):
+        robot.put("gripper above hammer")
+    # Now that the gripper is above the hammer, close the gripper
+    # to grab the hammer.
+    if check("the robot's gripper is above the hammer and the robot's gripper is open"):
+        robot.close("around hammer")
+    # Once we have the hammer, put the gripper above the nail.
+    if check("the robot's gripper is holding the hammer and the robot's gripper is not above nail"):
+        robot.put("gripper above nail")
+    # Finally, we can use the hammer to hit the nail.
+    if check("the robot's gripper is above the nail"):
+        robot.push("hammer downward onto nail")
+{'hammer': [("the robot's gripper is not above the hammer", 'put gripper above hammer'), ("the robot's gripper is above the hammer and the robot's gripper is open", 'close around hammer'), ("the robot's gripper is holding the hammer and the robot's gripper is not above nail", 'put gripper above nail'), ("the robot's gripper is above the nail", 'push hammer downward onto nail')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the hammer", 'put gripper above button'), ("the robot's gripper is above the hammer and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is behind the hammer and the robot's gripper is not above the hammer", 'put gripper above button'), ("the robot's gripper is above the hammer", 'place puck at goal')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the hammer", 'put gripper above button'), ("the robot's gripper is above the hammer and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is behind the hammer and the robot's gripper is not above the hammer", 'put gripper above button'), ("the robot's gripper is above the hammer", 'place puck at goal')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the hammer", 'put gripper above button'), ("the robot's gripper is above the hammer and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is behind the hammer and the robot's gripper is not above the hammer", 'put gripper above button'), ("the robot's gripper is above the hammer", 'place puck at goal')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.9879380175331214
+Success rates:
+{
+ "hammer": 0.0
+}

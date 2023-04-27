@@ -1,0 +1,28 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# peg-unplug-side: pull the peg out from the side
+# def peg_unplug_side(robot):
+    # Steps:
+    #  1. Put gripper above the peg
+    #  2. Grab the peg with the gripper
+    #  3. Align the peg in the unplugging position
+    #  4. Pull the peg out from the hole
+    # Put the gripper above the peg.
+    if check("the robot's gripper is not vertically aligned with the peg"):
+        robot.move_gripper("vertically aligned with the peg")
+    # If the peg is not in the correct position for unplugging, align it.
+    if check("the peg is not in unplugging position"):
+
+        robot.move_gripper("in unplugging position")
+    # Pull the peg out from the hole.
+    if check("the peg is in unplugging position and the robot's gripper is holding onto the peg"):
+        robot.move_gripper("above the peg and left of the hole")
+{'peg-unplug-side': [("the robot's gripper is not vertically aligned with the peg", "the robot's gripper is vertically aligned with the peg"), ('the peg is not in unplugging position', "the robot's gripper is near in unplugging position"), ("the peg is in unplugging position and the robot's gripper is holding onto the peg", "the robot's gripper is above the peg and the robot's gripper is left of the hole")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the peg", 'push the gripper into the puck'), ('peg is not touching the table', 'drop gripper around puck'), ("peg is not touching the table and the robot's gripper is in front of the peg", 'put the gripper above the puck')], env_name='peg-unplug-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the peg", 'push the gripper into the puck'), ('peg is not touching the table', 'drop gripper around puck'), ("peg is not touching the table and the robot's gripper is in front of the peg", 'put the gripper above the puck')], env_name='peg-unplug-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the peg", 'push the gripper into the puck'), ('peg is not touching the table', 'drop gripper around puck'), ("peg is not touching the table and the robot's gripper is in front of the peg", 'put the gripper above the puck')], env_name='peg-unplug-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.45421915877406627
+Success rates:
+{
+ "peg-unplug-side": 0.0
+}

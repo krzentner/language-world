@@ -1,0 +1,35 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+One way to complete this task is:
+
+```
+# drawer-open: pull the drawer open
+# def drawer_open(robot):
+    # Steps:
+    #  1. Put gripper above drawer handle
+    #  2. Drop gripper around drawer handle
+    #  3. Pull open the drawer
+    # We need to put the gripper above the drawer handle before we can grab it,
+    # because of the angle of the robot's gripper.
+    if check("the robot's gripper is not vertically aligned with drawer handle"):
+        robot.put("gripper above drawer handle")
+    # Once the gripper is lined up above the drawer handle, we should be able to
+    # grab the drawer handle by moving the gripper down around it.
+    if check("the robot's gripper is vertically aligned with drawer handle and the robot's gripper is not around drawer handle"):
+        robot.drop("gripper around drawer handle")
+    # Once the gripper is around the drawer handle, we can just pull the drawer
+    # open.
+    if check("the robot's gripper is around drawer handle"):
+        robot.pull("away from drawer")
+```
+{'drawer-open': [("the robot's gripper is not vertically aligned with drawer handle", 'put gripper above drawer handle'), ("the robot's gripper is vertically aligned with drawer handle and the robot's gripper is not around drawer handle", 'drop gripper around drawer handle'), ("the robot's gripper is around drawer handle", 'pull away from drawer')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the drawer handle", 'put gripper above button'), ("the robot's gripper is vertically aligned with the drawer handle and the robot's gripper is not around the drawer handle", 'drop gripper around puck'), ("the robot's gripper is around the drawer handle", 'pull away from drawer')], env_name='drawer-open', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the drawer handle", 'put gripper above button'), ("the robot's gripper is vertically aligned with the drawer handle and the robot's gripper is not around the drawer handle", 'drop gripper around puck'), ("the robot's gripper is around the drawer handle", 'pull away from drawer')], env_name='drawer-open', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the drawer handle", 'put gripper above button'), ("the robot's gripper is vertically aligned with the drawer handle and the robot's gripper is not around the drawer handle", 'drop gripper around puck'), ("the robot's gripper is around the drawer handle", 'pull away from drawer')], env_name='drawer-open', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 5.443352808847496
+Success rates:
+{
+ "drawer-open": 0.0
+}

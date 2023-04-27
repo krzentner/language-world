@@ -1,0 +1,22 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To reach the target location with a short wall in the way, the robot should perform the following steps:
+
+    Steps:  1. Move the robot's gripper to the wall
+    The robot needs to get near the wall to try to peek over it.
+    - When the robot's gripper is not near the wall, move the robot's gripper until the robot's gripper is near the wall
+    Now the robot can peek over the wall to see where the target is.
+    - When the robot is peeking over the wall, move the robot's gripper towards the target
+    If the robot can't see the target, it should move towards the expected position of the target.
+    - When the robot's gripper is not near the expected position, move the robot's gripper until the robot's gripper is near the expected position
+    Finally, the robot can move towards the target location, possibly using the wall to keep track of its position.
+    - When the robot's gripper is not near the target location, move the robot's gripper until the robot's gripper is near the target location.
+{'reach-wall': [("the robot's gripper is not near the wall", "the robot's gripper is near the wall"), ("the robot's gripper is not near the expected position", "the robot's gripper is near the expected position"), ("the robot's gripper is not near the target location", "the robot's gripper is near the target location.")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near wall", 'put the gripper in front of the drawer'), ("the robot's gripper is not near the target location", 'push the gripper into the puck'), ("the robot's gripper is not near the target location", 'push the gripper into the puck')], env_name='reach-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near wall", 'put the gripper in front of the drawer'), ("the robot's gripper is not near the target location", 'push the gripper into the puck'), ("the robot's gripper is not near the target location", 'push the gripper into the puck')], env_name='reach-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near wall", 'put the gripper in front of the drawer'), ("the robot's gripper is not near the target location", 'push the gripper into the puck'), ("the robot's gripper is not near the target location", 'push the gripper into the puck')], env_name='reach-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.3792858245357547
+Success rates:
+{
+ "reach-wall": 0.0
+}

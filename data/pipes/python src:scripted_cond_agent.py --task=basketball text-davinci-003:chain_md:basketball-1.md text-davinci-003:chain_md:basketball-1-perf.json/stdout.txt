@@ -1,0 +1,23 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put gripper above the ball  2. Drop gripper around the ball  3. Reach forward with the gripper to start the ball moving  4. Swoop the ball up and move toward the goal  5. Slam dunk the ball into the hoop
+    First, put the gripper above the ball.
+    - When the robot's gripper is not above the ball, the robot should place gripper above the ball.
+    Then, drop the gripper around the ball.
+    - When the robot's gripper is not around the ball and the robot's gripper is open, the robot should drop gripper around the ball.
+    Start pushing the ball with the gripper forward.
+    - When robot's gripper is around the ball and the robot's gripper is pushing forward, the robot should start the ball moving.
+    Then, scoop up the ball and move toward the goal.
+    - When robot's gripper is pushing the ball forward, the robot should move the ball toward goal.
+    Finally, slam dunk the ball into the hoop. Confirm that the ball went in.
+    - When the ball is near the hoop, the robot should slam the ball into the hoop.
+{'basketball': [("the robot's gripper is not above the ball", 'place gripper above the ball.'), ("the robot's gripper is not around the ball and the robot's gripper is open", 'drop gripper around the ball.'), ("robot's gripper is around the ball and the robot's gripper is pushing forward", 'start the ball moving.'), ("robot's gripper is pushing the ball forward", 'move the ball toward goal.'), ('the ball is near the hoop', 'slam the ball into the hoop.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the ball", 'place gripper above puck'), ("the robot's gripper is not around the ball and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the ball and the robot's gripper is closed", 'slide the puck to the goal'), ("the robot's gripper is behind the ball", 'slide the puck to the goal'), ('the ball is near the hoop', 'slide the puck to the goal')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the ball", 'place gripper above puck'), ("the robot's gripper is not around the ball and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the ball and the robot's gripper is closed", 'slide the puck to the goal'), ("the robot's gripper is behind the ball", 'slide the puck to the goal'), ('the ball is near the hoop', 'slide the puck to the goal')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the ball", 'place gripper above puck'), ("the robot's gripper is not around the ball and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the ball and the robot's gripper is closed", 'slide the puck to the goal'), ("the robot's gripper is behind the ball", 'slide the puck to the goal'), ('the ball is near the hoop', 'slide the puck to the goal')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.10669319363723453
+Success rates:
+{
+ "basketball": 0.0
+}

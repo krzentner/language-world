@@ -1,0 +1,25 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+if check("the robot's gripper is not near the basketball"):
+    robot.move("gripper to ball")
+if check("the robot's gripper is above the basketball and the robot's gripper is not around the basketball"):
+    robot.drop("gripper around basketball")
+if check("the robot's gripper is around the basketball and the robot's gripper is not near the hoop"):
+    robot.move("gripper to hoop")
+if check("the basketball is near the hoop and the robot's gripper is open"):
+    robot.close("gripper around ball")
+if check("the robot's gripper is around the basketball and the hoop is below the robot's gripper"):
+    robot.lift("ball to hoop")
+if check("the hoop is above the robot's gripper and the robot's gripper is closed"):
+    robot.drop("ball into hoop")
+{'basketball': [("the robot's gripper is not near the basketball", 'move gripper to ball'), ("the robot's gripper is above the basketball and the robot's gripper is not around the basketball", 'drop gripper around basketball'), ("the robot's gripper is around the basketball and the robot's gripper is not near the hoop", 'move gripper to hoop'), ("the basketball is near the hoop and the robot's gripper is open", 'close gripper around ball'), ("the robot's gripper is around the basketball and the hoop is below the robot's gripper", 'lift ball to hoop'), ("the hoop is above the robot's gripper and the robot's gripper is closed", 'drop ball into hoop')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the ball", 'move gripper to left of window handle'), ("the robot's gripper is above the ball and the robot's gripper is not around the ball", 'drop gripper around puck'), ("the robot's gripper is around the ball and the robot's gripper is not near the hoop", 'move gripper to right of window handle'), ("the ball is near the hoop and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the ball and the hoop is below the robot's gripper", 'align peg to hole'), ("the hoop is above the robot's gripper and the robot's gripper is closed", 'insert peg into hole')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the ball", 'move gripper to left of window handle'), ("the robot's gripper is above the ball and the robot's gripper is not around the ball", 'drop gripper around puck'), ("the robot's gripper is around the ball and the robot's gripper is not near the hoop", 'move gripper to right of window handle'), ("the ball is near the hoop and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the ball and the hoop is below the robot's gripper", 'align peg to hole'), ("the hoop is above the robot's gripper and the robot's gripper is closed", 'insert peg into hole')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the ball", 'move gripper to left of window handle'), ("the robot's gripper is above the ball and the robot's gripper is not around the ball", 'drop gripper around puck'), ("the robot's gripper is around the ball and the robot's gripper is not near the hoop", 'move gripper to right of window handle'), ("the ball is near the hoop and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the ball and the hoop is below the robot's gripper", 'align peg to hole'), ("the hoop is above the robot's gripper and the robot's gripper is closed", 'insert peg into hole')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.04162266247833648
+Success rates:
+{
+ "basketball": 0.0
+}

@@ -1,0 +1,32 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# door-unlock: turn the dial on the door
+# def door_unlock(robot):
+    # Steps:
+    #  1. Move gripper to the dial handle
+    #  2. Grab the handle with the gripper
+    #  3. Turn the handle to the right
+    #  4. Stop turning when the handle clicks
+    # First, move the gripper to the dial handle.
+    if check("the robot's gripper is not near the dial handle"):
+        robot.move("gripper to the dial handle")
+    # If the gripper is near the handle and the gripper is open, close it to
+    # grab the handle.
+    if check("the robot's gripper is near the dial handle and the robot's gripper is open"):
+        robot.grab("the dial handle")
+    # Once the handle is grabbed, turn it slowly to the right.
+    # We don't want to apply too much force or overshoot the correct position.
+    if check("the robot's gripper is holding the dial handle"):
+        robot.turn("the dial to the right slowly")
+    # Listen for the audible click that indicates the correct combination has been entered.
+    if check("the robot's gripper is holding the dial handle and the lock has clicked"):
+        robot.stop("turning the dial")
+{'door-unlock': [("the robot's gripper is not near the dial handle", 'move gripper to the dial handle'), ("the robot's gripper is near the dial handle and the robot's gripper is open", 'grab the dial handle'), ("the robot's gripper is holding the dial handle", 'turn the dial to the right slowly'), ("the robot's gripper is holding the dial handle and the lock has clicked", 'stop turning the dial')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the door's lock", 'move gripper to right of window handle'), ("the robot's gripper is near the door's lock and the robot's gripper is open", 'grab peg'), ("the robot's gripper is behind the door's lock", 'slide the puck to the goal'), ("the robot's gripper is behind the door's lock and the robot's gripper is closed", 'push the gripper into the puck')], env_name='door-unlock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the door's lock", 'move gripper to right of window handle'), ("the robot's gripper is near the door's lock and the robot's gripper is open", 'grab peg'), ("the robot's gripper is behind the door's lock", 'slide the puck to the goal'), ("the robot's gripper is behind the door's lock and the robot's gripper is closed", 'push the gripper into the puck')], env_name='door-unlock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the door's lock", 'move gripper to right of window handle'), ("the robot's gripper is near the door's lock and the robot's gripper is open", 'grab peg'), ("the robot's gripper is behind the door's lock", 'slide the puck to the goal'), ("the robot's gripper is behind the door's lock and the robot's gripper is closed", 'push the gripper into the puck')], env_name='door-unlock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.8201248979394802
+Success rates:
+{
+ "door-unlock": 0.0
+}

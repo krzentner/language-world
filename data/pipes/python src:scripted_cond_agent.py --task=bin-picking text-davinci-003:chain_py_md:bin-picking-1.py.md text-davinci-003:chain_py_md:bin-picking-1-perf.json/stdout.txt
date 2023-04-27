@@ -1,0 +1,44 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+The code should do the following:
+
+1. Put gripper above cube
+2. Drop gripper around cube
+3. Close gripper around cube
+4. Move cube to target bin
+
+# bin-picking: pick up the cube and place it in the target bin
+# def bin_picking(robot):
+    # Steps:
+    #  1. Put gripper above cube
+    #  2. Drop gripper around cube
+    #  3. Close gripper around cube
+    #  4. Move cube to target bin
+    # First, put the gripper roughly above cube, so that we don't bump it while
+    # trying to grab it.
+    if check("the robot's gripper is not above the cube"):
+        robot.place("gripper above cube")
+    # If the gripper isn't around the cube, put it around the cube.
+    if check("the robot's gripper is not around cube and the robot's gripper is open"):
+        robot.drop("gripper around cube")
+    # If the gripper is near the cube and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near cube and the robot's gripper is open"):
+        robot.close("gripper around cube")
+    # We closed the gripper, and the cube is still near the gripper, so maybe we
+    # grabbed it.
+    # Try to move the cube to the target bin.
+    # If we didn't grab it, we'll just go back to an earlier step.
+    if check("the robot's gripper is around cube and the cube is below the robot's gripper"):
+        robot.place("cube in target bin")
+{'bin-picking': [("the robot's gripper is not above the cube", 'place gripper above cube'), ("the robot's gripper is not around cube and the robot's gripper is open", 'drop gripper around cube'), ("the robot's gripper is near cube and the robot's gripper is open", 'close gripper around cube'), ("the robot's gripper is around cube and the cube is below the robot's gripper", 'place cube in target bin')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'place gripper above puck'), ("the robot's gripper is not around the cube and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the cube and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the cube and the cube is below the robot's gripper", 'place puck at goal')], env_name='bin-picking', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'place gripper above puck'), ("the robot's gripper is not around the cube and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the cube and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the cube and the cube is below the robot's gripper", 'place puck at goal')], env_name='bin-picking', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.02
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'place gripper above puck'), ("the robot's gripper is not around the cube and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the cube and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the cube and the cube is below the robot's gripper", 'place puck at goal')], env_name='bin-picking', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.4633390118455549
+Success rates:
+{
+ "bin-picking": 0.02
+}

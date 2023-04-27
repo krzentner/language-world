@@ -1,0 +1,23 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+The task `pick-out-of-hole` requires the robot to pick up the peg out of the hole and hold it at the target location. To pick up the peg out of the hole and hold it at the target location reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the peg  2. Grab the peg with the gripper  3. Lift the peg out of the hole  4. Move the peg to the target location  5. Release the gripper to drop the peg
+    First, put the gripper above the peg.
+    - When the robot's gripper is not vertically aligned with the peg, move the robot's gripper until the robot's gripper is vertically aligned with the peg
+    If the gripper is not around the peg, put gripper around the peg.
+    - When the robot's gripper is not around the peg, move the robot's gripper until the robot's gripper is above the peg and the robot's gripper is closed
+    Once the gripper is around the peg and closed, lift the peg out of the hole.
+    - When the robot's gripper is around the peg and closed, move the robot's gripper upwards to lift the peg out of the hole
+    Once the peg is out of the hole, move the peg to the target location.
+    - When the peg is lifted out of the hole, move the robot's gripper to the target location while holding the peg
+    Once the robot's gripper is at the target location, release the gripper to drop the peg.
+    - When the robot's gripper is at the target location, release the gripper to drop the peg.
+{'pick-out-of-hole': [("the robot's gripper is not vertically aligned with the peg", "the robot's gripper is vertically aligned with the peg"), ("the robot's gripper is not around the peg", "the robot's gripper is above the peg and the robot's gripper is closed")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the puck", 'push the gripper into the puck'), ("the robot's gripper is not around the puck", 'put the gripper above the puck')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the puck", 'push the gripper into the puck'), ("the robot's gripper is not around the puck", 'put the gripper above the puck')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the puck", 'push the gripper into the puck'), ("the robot's gripper is not around the puck", 'put the gripper above the puck')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.013733672823238372
+Success rates:
+{
+ "pick-out-of-hole": 0.0
+}

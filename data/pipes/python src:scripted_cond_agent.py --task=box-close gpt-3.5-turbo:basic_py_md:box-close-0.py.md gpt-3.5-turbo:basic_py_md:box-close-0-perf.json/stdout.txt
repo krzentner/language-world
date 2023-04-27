@@ -1,0 +1,28 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+Sure, here's the program to perform `box-close` task:
+
+```
+# box-close: pick up the box lid and place it on the box
+# def box_close(robot):
+    if check("the robot's gripper is not above the box lid"):
+        robot.reach("the gripper above the box lid")
+    if check("the robot's gripper is not around the box lid and the robot's gripper is open"):
+        robot.drop("the gripper around the box lid")
+    if check("the robot's gripper is near the box lid and the robot's gripper is open"):
+        robot.close("the gripper around the box lid")
+        robot.lift("the box lid")
+    if check("the box lid is lifted and the robot's gripper is vertically aligned with the box"):
+        robot.put("the box lid on the box")
+```
+
+This program first checks if the gripper is above the box lid, and then checks if it is around the lid and is open. If both conditions are met, the gripper closes and lifts the lid. Then, the program checks if the lifted lid and the gripper are vertically aligned with the box. If the conditions are met, the gripper places the lid on that box.
+{'box-close': [("the robot's gripper is not above the box lid", 'reach the gripper above the box lid'), ("the robot's gripper is not around the box lid and the robot's gripper is open", 'drop the gripper around the box lid'), ("the robot's gripper is near the box lid and the robot's gripper is open", 'close the gripper around the box lid'), ("the box lid is lifted and the robot's gripper is vertically aligned with the box", 'put the box lid on the box')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the lid", 'put the gripper above the puck'), ("the robot's gripper is not around the lid and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the lid and the robot's gripper is open", 'close gripper around puck'), ("the box is left of the lid and the robot's gripper is vertically aligned with the box", 'slide the puck to the goal')], env_name='box-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the lid", 'put the gripper above the puck'), ("the robot's gripper is not around the lid and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the lid and the robot's gripper is open", 'close gripper around puck'), ("the box is left of the lid and the robot's gripper is vertically aligned with the box", 'slide the puck to the goal')], env_name='box-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the lid", 'put the gripper above the puck'), ("the robot's gripper is not around the lid and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is near the lid and the robot's gripper is open", 'close gripper around puck'), ("the box is left of the lid and the robot's gripper is vertically aligned with the box", 'slide the puck to the goal')], env_name='box-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.308530021772526
+Success rates:
+{
+ "box-close": 0.0
+}

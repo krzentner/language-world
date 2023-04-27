@@ -1,0 +1,23 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# stick-push: use the stick to push the thermos to the target location
+# def stick_push(robot):
+    if check("the stick is not near the thermos"):
+        robot.reach("to the stick")
+        robot.grab("the stick")
+    if check("the robot's gripper is not above the thermos and the stick is not vertical"):
+        robot.put("the gripper above the stick and the stick vertically")
+    if check("the robot's gripper is not above the thermos and the stick is vertical"):
+        robot.put("the gripper above the thermos")
+        robot.push("the stick towards the thermos")
+    if check("the robot's gripper is above the thermos and the stick is vertical"):
+        robot.push("the stick towards the goal")
+{'stick-push': [('the stick is not near the thermos', 'reach to the stick'), ("the robot's gripper is not above the thermos and the stick is not vertical", 'put the gripper above the stick and the stick vertically'), ("the robot's gripper is not above the thermos and the stick is vertical", 'put the gripper above the thermos'), ("the robot's gripper is above the thermos and the stick is vertical", 'push the stick towards the goal')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not near the thermos', 'reach to goal'), ("the robot's gripper is not above the thermos and the stick is not above the thermos", 'put the gripper above the puck'), ("the robot's gripper is not above the thermos and the stick is above the thermos", 'put the gripper above the puck'), ("the robot's gripper is above the thermos and the stick is above the thermos", 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not near the thermos', 'reach to goal'), ("the robot's gripper is not above the thermos and the stick is not above the thermos", 'put the gripper above the puck'), ("the robot's gripper is not above the thermos and the stick is above the thermos", 'put the gripper above the puck'), ("the robot's gripper is above the thermos and the stick is above the thermos", 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not near the thermos', 'reach to goal'), ("the robot's gripper is not above the thermos and the stick is not above the thermos", 'put the gripper above the puck'), ("the robot's gripper is not above the thermos and the stick is above the thermos", 'put the gripper above the puck'), ("the robot's gripper is above the thermos and the stick is above the thermos", 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.018969010192500767
+Success rates:
+{
+ "stick-push": 0.0
+}

@@ -1,0 +1,23 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put gripper above the hole  2. Drop gripper around the peg  3. Close gripper around the peg  4. Lift the peg out of the hole  5. Place peg at goal
+    First, orient the gripper above the hole, so that we don't knock the peg when trying to grab it.
+    - When the robot's gripper is not above the hole, the robot should put gripper above the hole.
+    Once the gripper is above the hole, we should be able to grab the peg by putting the gripper around it.
+    - When the robot's gripper is not around the peg and the robot's gripper is open, the robot should drop gripper around the peg.
+    If the gripper is around the peg and open, maybe we can grab it by closing the gripper.
+    - When the robot's gripper is around the peg and the robot's gripper is open, the robot should close gripper around peg.
+    Once we've got the peg, we should be able to lift it out of the hole.
+    - When the robot's gripper is around the peg and the robot's gripper is closed, the robot should lift peg out of hole.
+    After the peg is clear of the hole, move the peg to the target location.
+    - When the robot's gripper is near the peg and the peg is clear of the hole, the robot should place peg at goal.
+{'pick-out-of-hole': [("the robot's gripper is not above the hole", 'put gripper above the hole.'), ("the robot's gripper is not around the peg and the robot's gripper is open", 'drop gripper around the peg.'), ("the robot's gripper is around the peg and the robot's gripper is open", 'close gripper around peg.'), ("the robot's gripper is around the peg and the robot's gripper is closed", 'lift peg out of hole.'), ("the robot's gripper is near the peg and the peg is clear of the hole", 'place peg at goal.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'put the gripper above the puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the puck and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the puck and the robot's gripper is closed", 'align peg to hole'), ("the robot's gripper is near the puck and the puck is left of the robot's gripper", 'place puck at goal')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'put the gripper above the puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the puck and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the puck and the robot's gripper is closed", 'align peg to hole'), ("the robot's gripper is near the puck and the puck is left of the robot's gripper", 'place puck at goal')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'put the gripper above the puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the puck and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the puck and the robot's gripper is closed", 'align peg to hole'), ("the robot's gripper is near the puck and the puck is left of the robot's gripper", 'place puck at goal')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.02169486733277662
+Success rates:
+{
+ "pick-out-of-hole": 0.0
+}

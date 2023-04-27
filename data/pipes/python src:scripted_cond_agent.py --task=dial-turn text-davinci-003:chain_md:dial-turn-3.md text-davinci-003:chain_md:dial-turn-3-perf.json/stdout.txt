@@ -1,0 +1,21 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put gripper near the dial  2. Line up the gripper with the dial  3. Start turning the dial to the desired position  4. Check to make sure dial is moving
+    To turn the dial, we need to first put the gripper near the dial.
+    - When the robot's gripper is not near the dial, the robot should put gripper near dial.
+    Then, we need to align the gripper with the dial.
+    - When the robot's gripper is near the dial and the robot's gripper is not horizontally aligned with dial, the robot should align gripper with dial.
+    Now, start turning the dial to the desired position.
+    - When the robot's gripper is horizontally aligned with dial, the robot should start turning dial.
+    Keep turning it and checking to make sure it is still turning.
+    - When the robot's gripper is still horizontally aligned with dial, the robot should check to make sure dial is still moving.
+{'dial-turn': [("the robot's gripper is not near the dial", 'put gripper near dial.'), ("the robot's gripper is near the dial and the robot's gripper is not horizontally aligned with dial", 'align gripper with dial.'), ("the robot's gripper is horizontally aligned with dial", 'start turning dial.'), ("the robot's gripper is still horizontally aligned with dial", 'check to make sure dial is still moving.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the dial", 'put gripper around door handle'), ("the robot's gripper is near the dial and the robot's gripper is not horizontally aligned with the dial", 'push the gripper into the puck'), ("the robot's gripper is horizontally aligned with the dial", 'move gripper to right of window handle'), ("the robot's gripper is not horizontally aligned with the dial", 'place puck at goal')], env_name='dial-turn', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the dial", 'put gripper around door handle'), ("the robot's gripper is near the dial and the robot's gripper is not horizontally aligned with the dial", 'push the gripper into the puck'), ("the robot's gripper is horizontally aligned with the dial", 'move gripper to right of window handle'), ("the robot's gripper is not horizontally aligned with the dial", 'place puck at goal')], env_name='dial-turn', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.94
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the dial", 'put gripper around door handle'), ("the robot's gripper is near the dial and the robot's gripper is not horizontally aligned with the dial", 'push the gripper into the puck'), ("the robot's gripper is horizontally aligned with the dial", 'move gripper to right of window handle'), ("the robot's gripper is not horizontally aligned with the dial", 'place puck at goal')], env_name='dial-turn', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 5.030958874977462
+Success rates:
+{
+ "dial-turn": 0.94
+}

@@ -1,0 +1,35 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# peg-insert-side: insert the peg into the hole from the side
+def peg_insert_side(robot):
+    if check("the robot's gripper is not vertically aligned with the peg"):
+        robot.put("gripper above peg")
+    if check("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper"):
+        robot.grab("peg")
+    if check("the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole"):
+        robot.align("peg to hole")
+    if check("peg is horizontally aligned with hole"):
+        robot.insert("peg into hole") 
+
+# The code defines a function `peg_insert_side` that takes a robot as its argument.
+#
+# The first `if` statement checks if the gripper is not vertically aligned with the peg.
+# If that is the case, it moves the gripper above the peg using the `put` method of the robot.
+#
+# The second `if` statement checks if the peg is not left of the gripper and is not forward aligned with the gripper.
+# If that is the case, it grabs the peg using the `grab` method of the robot.
+#
+# The third `if` statement checks if the gripper is forward aligned with the peg and the peg is not horizontally aligned with the hole.
+# If that is the case, it aligns the peg with the hole using the `align` method of the robot.
+#
+# The final `if` statement checks if the peg is horizontally aligned with the hole.
+# If that is the case, it inserts the peg into the hole using the `insert` method of the robot.
+{'peg-insert-side': [("the robot's gripper is not vertically aligned with the peg", 'put gripper above peg'), ("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper", 'grab peg'), ("the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole", 'align peg to hole'), ('peg is horizontally aligned with hole', 'insert peg into hole')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the peg", 'put gripper above button'), ("the peg is not left of the robot's gripper and the peg is not forward aligned with the robot's gripper", 'grab peg'), ("the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole", 'align peg to hole'), ('the peg is horizontally aligned with hole', 'insert peg into hole')], env_name='peg-insert-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the peg", 'put gripper above button'), ("the peg is not left of the robot's gripper and the peg is not forward aligned with the robot's gripper", 'grab peg'), ("the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole", 'align peg to hole'), ('the peg is horizontally aligned with hole', 'insert peg into hole')], env_name='peg-insert-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.07
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the peg", 'put gripper above button'), ("the peg is not left of the robot's gripper and the peg is not forward aligned with the robot's gripper", 'grab peg'), ("the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole", 'align peg to hole'), ('the peg is horizontally aligned with hole', 'insert peg into hole')], env_name='peg-insert-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.8100412895214282
+Success rates:
+{
+ "peg-insert-side": 0.07
+}

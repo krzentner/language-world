@@ -1,0 +1,15 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+ 
+    - When the robot's gripper is not near the dial, the robot should move gripper near and above the dial. 
+    - When the robot's gripper is near the dial, the robot should grip the dial. 
+    - When the robot's gripper is gripping the dial, the robot should rotate the dial.
+{'door-unlock': [("the robot's gripper is not near the dial", 'move gripper near and above the dial. '), ("the robot's gripper is near the dial", 'grip the dial. '), ("the robot's gripper is gripping the dial", 'rotate the dial.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the door's lock", 'put the gripper above the puck'), ("the robot's gripper is near the door's lock", 'reach to goal'), ("the robot's gripper is right of the door's lock", 'reach to goal')], env_name='door-unlock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the door's lock", 'put the gripper above the puck'), ("the robot's gripper is near the door's lock", 'reach to goal'), ("the robot's gripper is right of the door's lock", 'reach to goal')], env_name='door-unlock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the door's lock", 'put the gripper above the puck'), ("the robot's gripper is near the door's lock", 'reach to goal'), ("the robot's gripper is right of the door's lock", 'reach to goal')], env_name='door-unlock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.0853953559417613
+Success rates:
+{
+ "door-unlock": 0.0
+}

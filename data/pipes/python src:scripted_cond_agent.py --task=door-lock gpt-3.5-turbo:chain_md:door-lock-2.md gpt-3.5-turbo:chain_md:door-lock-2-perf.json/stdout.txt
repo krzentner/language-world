@@ -1,0 +1,17 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To turn the dial on the door reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper around dial  2. Turn dial to the desired combination
+    First, put the gripper around the dial and make sure it's gripped firmly.
+    - When the robot's gripper is not around the dial, the robot should put gripper around dial.
+    Turn the dial to the desired combination by rotating it in the correct direction(s) and number of clicks.
+    - When the dial is not set to the desired combination, the robot should turn the dial to the desired combination.
+{'door-lock': [("the robot's gripper is not around the dial", 'put gripper around dial.'), ('the dial is not set to the desired combination', 'turn the dial to the desired combination.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the door's lock", 'put gripper around door handle'), ("the door's lock is not left of the robot's gripper", 'push the gripper into the puck')], env_name='door-lock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the door's lock", 'put gripper around door handle'), ("the door's lock is not left of the robot's gripper", 'push the gripper into the puck')], env_name='door-lock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.09
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the door's lock", 'put gripper around door handle'), ("the door's lock is not left of the robot's gripper", 'push the gripper into the puck')], env_name='door-lock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.9673629131950823
+Success rates:
+{
+ "door-lock": 0.09
+}

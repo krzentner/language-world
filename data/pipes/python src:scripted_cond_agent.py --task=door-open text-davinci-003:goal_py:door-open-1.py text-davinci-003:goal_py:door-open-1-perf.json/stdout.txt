@@ -1,0 +1,28 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put gripper above door handle
+    #  2. Drop gripper around door handle
+    #  3. Pull open the door
+    # To open the door, we must first line up the gripper with the door handle.
+    # This is more difficult than with regular handles as the door handle is at
+    # an angle.
+    if check("the robot's gripper is not almost vertically aligned with door handle"):
+        robot.move_gripper("almost vertically aligned with the door handle", close_gripper=True)
+    # Now that the gripper is lined up from above, we need to make sure it's
+    # lined up horizontally in front of the door handle as well.
+    if check("the robot's gripper is not horizontally aligned with the door handle"):
+        robot.move_gripper("horizontally aligned with the door handle")
+    # Now that it's lined up in front, we can just pull open the door.
+    if check("the robot's gripper is horizontally aligned with the door handle"):
+        robot.move_gripper("horizontally aligned with the door handle")
+{'door-open': [("the robot's gripper is not almost vertically aligned with door handle", "the robot's gripper is almost vertically aligned with the door handle and the robot's gripper is closed"), ("the robot's gripper is not horizontally aligned with the door handle", "the robot's gripper is horizontally aligned with the door handle"), ("the robot's gripper is horizontally aligned with the door handle", "the robot's gripper is horizontally aligned with the door handle")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not almost vertically aligned with the door handle", 'put the gripper above the puck'), ("the robot's gripper is not horizontally aligned with the door handle", 'push the gripper into the puck'), ("the robot's gripper is horizontally aligned with the door handle", 'push the gripper into the puck')], env_name='door-open', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not almost vertically aligned with the door handle", 'put the gripper above the puck'), ("the robot's gripper is not horizontally aligned with the door handle", 'push the gripper into the puck'), ("the robot's gripper is horizontally aligned with the door handle", 'push the gripper into the puck')], env_name='door-open', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not almost vertically aligned with the door handle", 'put the gripper above the puck'), ("the robot's gripper is not horizontally aligned with the door handle", 'push the gripper into the puck'), ("the robot's gripper is horizontally aligned with the door handle", 'push the gripper into the puck')], env_name='door-open', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.279439084332289
+Success rates:
+{
+ "door-open": 0.0
+}

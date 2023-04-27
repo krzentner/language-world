@@ -1,0 +1,20 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+
+Steps:  1. Put gripper on the left side of the door handle  2. Move the gripper to the target location  3. Push hard against the door to close it
+    First, put the gripper on the left side of the door handle.
+    - When the robot's gripper is not on the left side of the door handle, move the robot's gripper until the robot's gripper is on the left side of the door handle
+    Move the robot's gripper to the target location.
+    - When the robot's gripper is not near the target location, move the robot's gripper until the robot's gripper is near the target location
+    Once the robot's gripper is near the target location, push hard against the door to close it.
+    - When the robot's gripper is near the target location, move the robot's gripper until it is pushing hard against the door
+{'door-close': [("the robot's gripper is not on the left side of the door handle", "the robot's gripper is on the left side of the door handle"), ("the robot's gripper is not near the target location", "the robot's gripper is near the target location"), ("the robot's gripper is near the target location", 'it is pushing hard against the door')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of the door", 'put the gripper in front of the drawer'), ("the robot's gripper is not near the target location", 'push the gripper into the puck'), ("the robot's gripper is near the target location", 'push down on button')], env_name='door-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of the door", 'put the gripper in front of the drawer'), ("the robot's gripper is not near the target location", 'push the gripper into the puck'), ("the robot's gripper is near the target location", 'push down on button')], env_name='door-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of the door", 'put the gripper in front of the drawer'), ("the robot's gripper is not near the target location", 'push the gripper into the puck'), ("the robot's gripper is near the target location", 'push down on button')], env_name='door-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.20046376602064175
+Success rates:
+{
+ "door-close": 0.0
+}

@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Place gripper behind puck  2. Push gripper into puck  3. Slide puck to goal
+    First, put the gripper behind the puck, so that we don't push it away from us when trying to grab it.
+    - When the robot's gripper is not behind puck, the robot should place gripper behind puck.
+    If the gripper isn't around the puck, put it behind the puck.
+    - When the robot's gripper is not around puck and the robot's gripper is open, the robot should drop gripper behind puck.
+    Once the gripper is behind the puck, we can just push back to slide it.
+    - When the robot's gripper is behind puck and the robot's gripper is open the robot should push back on puck.
+{'push-back': [("the robot's gripper is not behind puck", 'place gripper behind puck.'), ("the robot's gripper is not around puck and the robot's gripper is open", 'drop gripper behind puck.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not behind the puck", 'place gripper above puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around puck')], env_name='push-back', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not behind the puck", 'place gripper above puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around puck')], env_name='push-back', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not behind the puck", 'place gripper above puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around puck')], env_name='push-back', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.09429960825471319
+Success rates:
+{
+ "push-back": 0.0
+}

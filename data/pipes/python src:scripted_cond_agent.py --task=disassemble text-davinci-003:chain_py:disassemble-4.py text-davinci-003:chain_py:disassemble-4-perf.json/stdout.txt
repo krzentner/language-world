@@ -1,0 +1,32 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put gripper above handle of wrench
+    #  2. Move gripper towards peg
+    #  3. Grab handle of wrench
+    #  4. Pull wrench off the peg
+    # First, put the gripper above the handle of the wrench.
+    if check("the robot's gripper is not above handle of wrench"):
+        robot.put("gripper above handle of wrench")
+    # If the handle of the wrench is above the gripper, we should move the
+    # gripper towards the peg to grab it.
+    if check("the handle of the wrench is above the robot's gripper and the robot's gripper is open"):
+        robot.move("gripper towards peg")
+    # If the handle of the wrench is below the gripper and the gripper is open,
+    # try to grab it.
+    if check("the handle of the wrench is below the robot's gripper and the robot's gripper is open"):
+        robot.grab("handle of wrench")
+    # If our gripper is below the handle of the wrench and the gripper is closed,
+    # pull the wrench off the peg.
+    if check("the robot's gripper is below the handle of the wrench and the robot's gripper is closed"):
+        robot.pull("wrench off peg")
+{'disassemble': [("the robot's gripper is not above handle of wrench", 'put gripper above handle of wrench'), ("the handle of the wrench is above the robot's gripper and the robot's gripper is open", 'move gripper towards peg'), ("the handle of the wrench is below the robot's gripper and the robot's gripper is open", 'grab handle of wrench'), ("the robot's gripper is below the handle of the wrench and the robot's gripper is closed", 'pull wrench off peg')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the wrench", 'put gripper above button'), ("the wrench is above the robot's gripper and the robot's gripper is open", 'move gripper to left of window handle'), ("the wrench is below the robot's gripper and the robot's gripper is open", 'grab peg'), ("the robot's gripper is below the wrench and the robot's gripper is closed", 'align peg to hole')], env_name='disassemble', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the wrench", 'put gripper above button'), ("the wrench is above the robot's gripper and the robot's gripper is open", 'move gripper to left of window handle'), ("the wrench is below the robot's gripper and the robot's gripper is open", 'grab peg'), ("the robot's gripper is below the wrench and the robot's gripper is closed", 'align peg to hole')], env_name='disassemble', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the wrench", 'put gripper above button'), ("the wrench is above the robot's gripper and the robot's gripper is open", 'move gripper to left of window handle'), ("the wrench is below the robot's gripper and the robot's gripper is open", 'grab peg'), ("the robot's gripper is below the wrench and the robot's gripper is closed", 'align peg to hole')], env_name='disassemble', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.550209448603732
+Success rates:
+{
+ "disassemble": 0.0
+}

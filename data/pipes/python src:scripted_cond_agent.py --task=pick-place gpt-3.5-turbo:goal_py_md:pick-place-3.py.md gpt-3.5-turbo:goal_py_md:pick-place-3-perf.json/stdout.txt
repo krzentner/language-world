@@ -1,0 +1,30 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# pick-place: pick up the object and hold it at the target location
+def pick_place(robot, object_location, target_location):
+    # Steps:
+    #  1. Move gripper above object
+    #  2. Move gripper around object and close gripper to pick it up
+    #  3. Move gripper to target location and open gripper to place object
+    
+    # First, put the gripper roughly above the object, so that we don't bump into it
+    if check(f"the robot's gripper is not above {object_location}"):
+        robot.move_gripper(f"above {object_location}")
+    # If the gripper isn't around the object, put it around the object
+    if check(f"the robot's gripper is not around {object_location} and the robot's gripper is open"):
+        robot.move_gripper(f"near {object_location}", close_gripper=True)
+    # If the gripper is around the object and closed, move it to the target location
+    if check(f"the robot's gripper is around {object_location} and the robot's gripper is closed and the robot's gripper is not above {target_location}"):
+        robot.move_gripper(f"above {target_location}")
+    # If the gripper is above the target location, open the gripper to release the object
+    if check(f"the robot's gripper is above {target_location} and the robot's gripper is closed"):
+        robot.move_gripper(f"near {target_location}", close_gripper=False)
+{'pick-place': []}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[], env_name='pick-place', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='pick-place', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[], env_name='pick-place', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.010131308381759406
+Success rates:
+{
+ "pick-place": 0.0
+}

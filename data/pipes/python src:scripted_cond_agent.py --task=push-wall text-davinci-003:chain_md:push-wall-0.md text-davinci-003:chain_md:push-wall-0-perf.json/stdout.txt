@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Place the robot's gripper above the wall  2. Push the wall to the side  3. Reach the target location using the gripper
+    First, place the gripper above the wall and make sure it is in the right spot.
+    - When the robot's gripper is not above wall, the robot should place gripper above wall.
+    If the gripper is over the wall, the robot should push the wall aside to open the gap.
+    - When the robot's gripper is above wall and gap size between wall and target location is not big enough for gripper, the robot should push wall to side.
+    Once the gap size between wall and target location is big enough for the robot's gripper to fit, reach for the target location with the gripper.
+    - When gap size between wall and target location is big enough for gripper, the robot should reach for the target location with the gripper.
+{'push-wall': [("the robot's gripper is not above wall", 'place gripper above wall.'), ("the robot's gripper is above wall and gap size between wall and target location is not big enough for gripper", 'push wall to side.'), ('gap size between wall and target location is big enough for gripper', 'reach for the target location with the gripper.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above wall", 'place gripper above puck'), ("the robot's gripper is above wall and the target location is not below the robot's gripper", 'push window left harder'), ("the puck is below wall and the target location is right of the robot's gripper", 'slide the puck to the goal')], env_name='push-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above wall", 'place gripper above puck'), ("the robot's gripper is above wall and the target location is not below the robot's gripper", 'push window left harder'), ("the puck is below wall and the target location is right of the robot's gripper", 'slide the puck to the goal')], env_name='push-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above wall", 'place gripper above puck'), ("the robot's gripper is above wall and the target location is not below the robot's gripper", 'push window left harder'), ("the puck is below wall and the target location is right of the robot's gripper", 'slide the puck to the goal')], env_name='push-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.4231690017837834
+Success rates:
+{
+ "push-wall": 0.0
+}

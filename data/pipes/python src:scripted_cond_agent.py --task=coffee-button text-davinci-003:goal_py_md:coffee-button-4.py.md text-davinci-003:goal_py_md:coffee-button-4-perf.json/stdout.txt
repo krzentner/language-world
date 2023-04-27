@@ -1,0 +1,36 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+Here's the solution:
+
+```
+# coffee-button: push the button on the coffee machine
+# def coffee_button(robot):
+    # Steps:
+    #  1. Put gripper above button
+    #  2. Drop gripper around button
+    #  3. Push the button
+    # First, put the gripper roughly above the button.
+    if check("the robot's gripper is not above the button"):
+        robot.move_gripper("above the button")
+    # If the button isn't below the gripper as seen from above, move the gripper
+    # above the button.
+    if check("the robot's gripper is not directly above the button and the robot's gripper is not vertically aligned with the button"):
+        robot.move_gripper("vertically aligned with the button")
+    # If the gripper is aligned with the button but not near it, move the gripper
+    # down to the button to push it.
+    if check("the robot's gripper is vertically aligned with the button and the robot's gripper is not near the button"):
+        robot.move_gripper("just above the button", close_gripper=True)
+    # If the gripper is near the button, close the gripper and push the button.
+    if check("the robot's gripper is near the button and the button is below the robot's gripper"):
+        robot.move_gripper("just above the button")
+{'coffee-button': [("the robot's gripper is not above the button", "the robot's gripper is above the button"), ("the robot's gripper is not directly above the button and the robot's gripper is not vertically aligned with the button", "the robot's gripper is vertically aligned with the button"), ("the robot's gripper is vertically aligned with the button and the robot's gripper is not near the button", "the robot's gripper is just above the button and the robot's gripper is closed"), ("the robot's gripper is near the button and the button is below the robot's gripper", "the robot's gripper is just above the button")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the button", 'put the gripper above the puck'), ("the robot's gripper is not above the button and the robot's gripper is not vertically aligned with the button", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the button and the robot's gripper is not near the button", 'put the gripper above the puck'), ("the robot's gripper is near the button and the button is below the robot's gripper", 'put the gripper above the puck')], env_name='coffee-button', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the button", 'put the gripper above the puck'), ("the robot's gripper is not above the button and the robot's gripper is not vertically aligned with the button", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the button and the robot's gripper is not near the button", 'put the gripper above the puck'), ("the robot's gripper is near the button and the button is below the robot's gripper", 'put the gripper above the puck')], env_name='coffee-button', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.64
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the button", 'put the gripper above the puck'), ("the robot's gripper is not above the button and the robot's gripper is not vertically aligned with the button", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the button and the robot's gripper is not near the button", 'put the gripper above the puck'), ("the robot's gripper is near the button and the button is below the robot's gripper", 'put the gripper above the puck')], env_name='coffee-button', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.075522257214266
+Success rates:
+{
+ "coffee-button": 0.64
+}

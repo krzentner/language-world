@@ -1,0 +1,50 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+The following steps should be included:
+
+1. Put the gripper above the hammer handle.
+2. Drop the gripper around the hammer handle.
+3. Apply force to the hammer handle by pushing the gripper against the nail. 
+4. Close the gripper, ensuring a secure grip on the hammer handle. 
+5. Pull the gripper away, guiding the hammer towards the nail head. 
+6. Strike the nail by driving the hammer towards it with a firm grip.
+
+```
+# hammer: hit the nail with the hammer
+# def hammer(robot):
+    # Steps:
+    #  1. Put gripper above the hammer handle
+    #  2. Drop the gripper around the hammer handle
+    #  3. Apply force to the hammer handle by pushing the gripper against the nail
+    #  4. Close the gripper, ensuring a secure grip on the hammer handle 
+    #  5. Pull the gripper away, guiding the hammer towards the nail head 
+    #  6. Strike the nail by driving the hammer towards it with a firm grip 
+    # First, put the gripper above the hammer handle to get it in the right place.
+    if check("the robot's gripper is not vertically aligned with the hammer handle"):
+        robot.move_gripper("vertically aligned with the hammer handle", close_gripper=True)
+    # Now that the gripper is lined up, grab the hammer handle by moving the
+    # gripper around it.
+    if check("the robot's gripper is vertically aligned with the hammer handle and the robot's gripper is not around the hammer handle"):
+        robot.move_gripper("around the hammer handle")
+    # With the gripper securely around the hammer handle, push the handle towards
+    # the nail.
+    if check("the robot's gripper is around the hammer handle"):
+        robot.move_gripper("near the nail")
+    # Now that the hammer head is close to the nail, pull the gripper away to guide
+    # the hammer. This will give the hammer more direction when it hits the nail.
+    if check("the robot's gripper is near the nail"):
+        robot.move_gripper("away from the nail head")
+    # Finally, drive the hammer towards the nail with a firm grip.
+    if check("the robot's gripper is away from the nail head"):
+        robot.move_gripper("forward aligned with the nail")
+{'hammer': [("the robot's gripper is not vertically aligned with the hammer handle", "the robot's gripper is vertically aligned with the hammer handle and the robot's gripper is closed"), ("the robot's gripper is vertically aligned with the hammer handle and the robot's gripper is not around the hammer handle", "the robot's gripper is around the hammer handle"), ("the robot's gripper is around the hammer handle", "the robot's gripper is near the nail"), ("the robot's gripper is near the nail", "the robot's gripper is near away from the nail head"), ("the robot's gripper is away from the nail head", "the robot's gripper is forward aligned with the nail")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the hammer", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the hammer and the robot's gripper is not around the hammer", 'drop gripper around puck'), ("the robot's gripper is around the hammer", 'push the gripper into the puck'), ("the robot's gripper is near the hammer", 'put the gripper in front of the drawer'), ("the robot's gripper is around the hammer", 'put the gripper in front of the drawer')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the hammer", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the hammer and the robot's gripper is not around the hammer", 'drop gripper around puck'), ("the robot's gripper is around the hammer", 'push the gripper into the puck'), ("the robot's gripper is near the hammer", 'put the gripper in front of the drawer'), ("the robot's gripper is around the hammer", 'put the gripper in front of the drawer')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the hammer", 'push the gripper into the puck'), ("the robot's gripper is vertically aligned with the hammer and the robot's gripper is not around the hammer", 'drop gripper around puck'), ("the robot's gripper is around the hammer", 'push the gripper into the puck'), ("the robot's gripper is near the hammer", 'put the gripper in front of the drawer'), ("the robot's gripper is around the hammer", 'put the gripper in front of the drawer')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.9291393691516043
+Success rates:
+{
+ "hammer": 0.0
+}

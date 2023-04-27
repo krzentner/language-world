@@ -1,0 +1,28 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put gripper above puck
+    #  2. Drop gripper around puck
+    #  3. Close gripper around puck
+    #  4. Move puck to goal
+    # First, move the gripper above the puck. This helps us to avoid bumping it
+    # while trying to grab it.
+    if check("the robot's gripper is not above the puck"):
+        robot.move_gripper("above the puck")
+    # If the gripper is still very far away from the puck, move the gripper
+    # directly towards the puck until it is in front of the gripper.
+    if check("the robot's gripper is not near the puck and the robot's gripper is not forward aligned with puck"):
+        robot.move_gripper("forward aligned with the puck", close_gripper=True)
+    # Now, close the gripper to trap the puck.
+    if check("the robot's gripper is forward aligned with puck and the robot's gripper is open"):
+        robot.move_gripper("to the target location")
+{'hand-insert': [("the robot's gripper is not above the puck", "the robot's gripper is above the puck"), ("the robot's gripper is not near the puck and the robot's gripper is not forward aligned with puck", "the robot's gripper is forward aligned with the puck and the robot's gripper is closed"), ("the robot's gripper is forward aligned with puck and the robot's gripper is open", "the robot's gripper is near to the target location")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'put the gripper above the puck'), ("the robot's gripper is not near the puck and the robot's gripper is not forward aligned with the puck", 'put the gripper in front of the drawer'), ("the robot's gripper is forward aligned with the puck and the robot's gripper is open", 'push the gripper into the puck')], env_name='hand-insert', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'put the gripper above the puck'), ("the robot's gripper is not near the puck and the robot's gripper is not forward aligned with the puck", 'put the gripper in front of the drawer'), ("the robot's gripper is forward aligned with the puck and the robot's gripper is open", 'push the gripper into the puck')], env_name='hand-insert', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'put the gripper above the puck'), ("the robot's gripper is not near the puck and the robot's gripper is not forward aligned with the puck", 'put the gripper in front of the drawer'), ("the robot's gripper is forward aligned with the puck and the robot's gripper is open", 'push the gripper into the puck')], env_name='hand-insert', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.005493791735991678
+Success rates:
+{
+ "hand-insert": 0.0
+}

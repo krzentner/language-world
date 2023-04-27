@@ -1,0 +1,21 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To grab the mug and pull it to the target location reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the mug handle  2. Grab the handle with the gripper  3. Lift the mug up  4. Move the mug to the target location  5. Lower the mug to the target location
+    First, put the gripper above the mug handle.
+    - When the robot's gripper is not vertically aligned with the mug handle, the robot should put gripper above mug handle.
+    Once the gripper is around the mug handle, lift the mug up.
+    - When the robot's gripper is around mug handle and the robot's gripper is not holding the mug, the robot should grab handle and lift mug up.
+    Move the mug to the target location.
+    - When the robot's gripper is holding the mug and is not near the target location, the robot should move the mug to the target location.
+    Finally, lower the mug to the target location.
+    - When the robot's gripper is above the target location and is holding the mug, the robot should lower the mug to the target location.
+{'coffee-pull': [("the robot's gripper is not vertically aligned with the mug handle", 'put gripper above mug handle.'), ("the robot's gripper is around mug handle and the robot's gripper is not holding the mug", 'grab handle and lift mug up.'), ("the robot's gripper is holding the mug and is not near the target location", 'move the mug to the target location.'), ("the robot's gripper is above the target location and is holding the mug", 'lower the mug to the target location.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the mug", 'put gripper above button'), ("the robot's gripper is around the mug and the robot's gripper is not behind the mug", 'grab peg'), ("the robot's gripper is behind the mug and the mug is not near the target location", 'slide the puck to the goal'), ("the robot's gripper is above the target location and mug is touching the table", 'slide the puck to the goal')], env_name='coffee-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the mug", 'put gripper above button'), ("the robot's gripper is around the mug and the robot's gripper is not behind the mug", 'grab peg'), ("the robot's gripper is behind the mug and the mug is not near the target location", 'slide the puck to the goal'), ("the robot's gripper is above the target location and mug is touching the table", 'slide the puck to the goal')], env_name='coffee-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the mug", 'put gripper above button'), ("the robot's gripper is around the mug and the robot's gripper is not behind the mug", 'grab peg'), ("the robot's gripper is behind the mug and the mug is not near the target location", 'slide the puck to the goal'), ("the robot's gripper is above the target location and mug is touching the table", 'slide the puck to the goal')], env_name='coffee-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.19558231822221145
+Success rates:
+{
+ "coffee-pull": 0.0
+}

@@ -1,0 +1,23 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put gripper above the door handle  2. Grab the dial with the gripper  3. Line the dial up with the risk  4. Rotate dial to the right  5. Release the dial
+    First, put the gripper above the door handle so that we can grab the dial.
+    - When the robot's gripper is not vertically aligned with the dial, the robot should put gripper above the dial.
+    When the gripper is above the dial, we can close the gripper to grab the dial.
+    - When the robot's gripper is not above the dial and the robot's gripper is open, the robot should grab dial.
+    Now that we have the dial in the gripper, we can line up the dial with the risk.
+    - When the robot's gripper is above dial and the dial is not aligned with risk, the robot should align dial with risk.
+    Once the dial is lined up with the risk, rotates the dial to the right until it stops.
+    - When the dial is aligned with the risk, the robot should rotate dial right.
+    Finally, release the dial.
+    - When the robot's gripper is above the dial, the robot should release dial.
+{'door-unlock': [("the robot's gripper is not vertically aligned with the dial", 'put gripper above the dial.'), ("the robot's gripper is not above the dial and the robot's gripper is open", 'grab dial.'), ("the robot's gripper is above dial and the dial is not aligned with risk", 'align dial with risk.'), ('the dial is aligned with the risk', 'rotate dial right.'), ("the robot's gripper is above the dial", 'release dial.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the door's lock", 'put the gripper above the puck'), ("the robot's gripper is not above the door's lock and the robot's gripper is open", 'grab peg'), ("the robot's gripper is open and the robot's gripper is not forward aligned with the door's lock", 'slide window right'), ("the robot's gripper is forward aligned with the door's lock", 'slide window right'), ("the robot's gripper is above the door's lock", 'reach to goal')], env_name='door-unlock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the door's lock", 'put the gripper above the puck'), ("the robot's gripper is not above the door's lock and the robot's gripper is open", 'grab peg'), ("the robot's gripper is open and the robot's gripper is not forward aligned with the door's lock", 'slide window right'), ("the robot's gripper is forward aligned with the door's lock", 'slide window right'), ("the robot's gripper is above the door's lock", 'reach to goal')], env_name='door-unlock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.65
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the door's lock", 'put the gripper above the puck'), ("the robot's gripper is not above the door's lock and the robot's gripper is open", 'grab peg'), ("the robot's gripper is open and the robot's gripper is not forward aligned with the door's lock", 'slide window right'), ("the robot's gripper is forward aligned with the door's lock", 'slide window right'), ("the robot's gripper is above the door's lock", 'reach to goal')], env_name='door-unlock', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.1168702319426314
+Success rates:
+{
+ "door-unlock": 0.65
+}

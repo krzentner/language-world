@@ -1,0 +1,33 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+#  1. Put the gripper above the handle of the mug
+#  2. Drop the gripper around the handle
+#  3. Grab the handle
+#  4. Pull the mug towards the target location
+#  5. Release the handle
+# First, put the gripper above the handle of the mug.
+if check("the robot's gripper is not vertically aligned with the mug handle"):
+    robot.place("gripper above the mug handle")
+# Once the gripper is above the handle, we should drop it around the handle.
+if check("the robot's gripper is above the mug handle and the gripper is open"):
+    robot.drop("gripper around the mug handle")
+# If the gripper is around the handle, we can probably grab the handle.
+if check("the robot's gripper is around the mug handle"):
+    robot.grab("handle of the mug")
+# Now that we have a hold on the handle, we can pull the mug towards the target
+# location.
+if check("the robot's gripper is holding the mug and the mug is not near the target location"):
+    robot.pull("mug towards the target location")
+# Once the mug has reached the target location, we can release the handle.
+if check("the mug is at the target location and the robot's gripper is holding the mug"):
+    robot.release("handle of the mug")
+{'coffee-pull': [("the robot's gripper is not vertically aligned with the mug handle", 'place gripper above the mug handle'), ("the robot's gripper is above the mug handle and the gripper is open", 'drop gripper around the mug handle'), ("the robot's gripper is around the mug handle", 'grab handle of the mug'), ("the robot's gripper is holding the mug and the mug is not near the target location", 'pull mug towards the target location'), ("the mug is at the target location and the robot's gripper is holding the mug", 'release handle of the mug')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the mug", 'place gripper above puck'), ("the robot's gripper is above the mug and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the mug", 'grab peg'), ("the robot's gripper is behind the mug and the mug is not near the target location", 'slide the puck to the goal'), ("the mug is near the target location and the robot's gripper is behind the mug", 'push the gripper into the puck')], env_name='coffee-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the mug", 'place gripper above puck'), ("the robot's gripper is above the mug and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the mug", 'grab peg'), ("the robot's gripper is behind the mug and the mug is not near the target location", 'slide the puck to the goal'), ("the mug is near the target location and the robot's gripper is behind the mug", 'push the gripper into the puck')], env_name='coffee-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.02
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the mug", 'place gripper above puck'), ("the robot's gripper is above the mug and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the mug", 'grab peg'), ("the robot's gripper is behind the mug and the mug is not near the target location", 'slide the puck to the goal'), ("the mug is near the target location and the robot's gripper is behind the mug", 'push the gripper into the puck')], env_name='coffee-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.36448170925442175
+Success rates:
+{
+ "coffee-pull": 0.02
+}

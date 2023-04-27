@@ -1,0 +1,24 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    #  1. Put the gripper to the side of the handle
+    #  2. Grab the handle with the gripper
+    #  3. Pull up on the handle
+    # First, put the gripper to the side of the handle.
+    if check("the robot's gripper is not near the handle"):
+        robot.move("gripper to side of handle")
+    # Once the gripper is near the handle, grab the handle with the gripper.
+    if check("the robot's gripper is near the handle and the gripper is not closed around the handle"):
+        robot.grab("handle")
+    # With the handle now grabbed, pull up on it to open or lift the object it's attached to.
+    if check("the robot's gripper is closed around the handle"):
+        robot.pull("handle upwards")
+{'handle-pull-side': [("the robot's gripper is not near the handle", 'move gripper to side of handle'), ("the robot's gripper is near the handle and the gripper is not closed around the handle", 'grab handle'), ("the robot's gripper is closed around the handle", 'pull handle upwards')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the handle", 'move gripper to left of window handle'), ("the robot's gripper is near the handle and the robot's gripper is not around the handle", 'grab peg'), ("the robot's gripper is not around the handle", 'place puck at goal')], env_name='handle-pull-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the handle", 'move gripper to left of window handle'), ("the robot's gripper is near the handle and the robot's gripper is not around the handle", 'grab peg'), ("the robot's gripper is not around the handle", 'place puck at goal')], env_name='handle-pull-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the handle", 'move gripper to left of window handle'), ("the robot's gripper is near the handle and the robot's gripper is not around the handle", 'grab peg'), ("the robot's gripper is not around the handle", 'place puck at goal')], env_name='handle-pull-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.06265103045677585
+Success rates:
+{
+ "handle-pull-side": 0.0
+}

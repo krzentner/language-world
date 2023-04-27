@@ -1,0 +1,32 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+#   1. Put gripper above cube
+#   2. Drop gripper to grab cube
+#   3. Lift cube off surface
+#   4. Move gripper to target location
+#   5. Lower cube onto target location
+# First, position the gripper above the cube.
+if check("the robot's gripper is not above the cube"):
+    robot.place("gripper above cube")
+# If the gripper is above the cube, drop it to grab the cube.
+if check("the robot's gripper is above the cube and the robot's gripper is open"):
+    robot.drop("gripper onto cube")
+# Once the gripper has the cube, lift it off the surface.
+if check("the robot's gripper is holding the cube and the cube is on the surface"):
+    robot.lift("cube off surface")
+# Move the gripper to the target location.
+if check("the robot's gripper is holding the cube"):
+    robot.move("gripper to goal location")
+# Lower the cube onto the target location.
+if check("the cube is above the goal location"):
+    robot.put("cube onto goal location")
+{'sweep-into': [("the robot's gripper is not above the cube", 'place gripper above cube'), ("the robot's gripper is above the cube and the robot's gripper is open", 'drop gripper onto cube'), ("the robot's gripper is holding the cube and the cube is on the surface", 'lift cube off surface'), ("the robot's gripper is holding the cube", 'move gripper to goal location'), ('the cube is above the goal location', 'put cube onto goal location')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'place gripper above puck'), ("the robot's gripper is above the cube and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is behind the cube and cube is touching the table", 'align peg to hole'), ("the robot's gripper is behind the cube", 'move gripper to left of window handle'), ('the cube is above the target location', 'place puck at goal')], env_name='sweep-into', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'place gripper above puck'), ("the robot's gripper is above the cube and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is behind the cube and cube is touching the table", 'align peg to hole'), ("the robot's gripper is behind the cube", 'move gripper to left of window handle'), ('the cube is above the target location', 'place puck at goal')], env_name='sweep-into', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'place gripper above puck'), ("the robot's gripper is above the cube and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is behind the cube and cube is touching the table", 'align peg to hole'), ("the robot's gripper is behind the cube", 'move gripper to left of window handle'), ('the cube is above the target location', 'place puck at goal')], env_name='sweep-into', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.7590941143826948
+Success rates:
+{
+ "sweep-into": 0.0
+}

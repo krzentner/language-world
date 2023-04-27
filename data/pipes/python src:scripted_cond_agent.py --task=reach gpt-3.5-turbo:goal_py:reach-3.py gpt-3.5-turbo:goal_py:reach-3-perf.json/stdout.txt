@@ -1,0 +1,26 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+I see that the previous code was incomplete. Here is a completed version for the `reach` function:
+
+```
+def reach(robot):
+    # Steps:
+    #  1. Reach towards the target
+    # We don't have any objects to manipulate, so we can just move the robot's
+    # gripper directly to the target location
+    if check("the robot's gripper is not near reach target"):
+        robot.move_gripper("near the reach target")
+    if check("the robot's gripper is near reach target and closed"):
+        robot.move_gripper("above the reach target")
+``` 
+
+This function assumes that the robot's gripper is already closed before reaching the target. If it's not closed, you may need to add a step to close it before moving to the target location.
+{'reach': [("the robot's gripper is not near reach target", "the robot's gripper is near the reach target"), ("the robot's gripper is near reach target and closed", "the robot's gripper is above the reach target")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the reach target", 'put the gripper in front of the drawer'), ("the robot's gripper is near the reach target", 'put the gripper above the puck')], env_name='reach', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the reach target", 'put the gripper in front of the drawer'), ("the robot's gripper is near the reach target", 'put the gripper above the puck')], env_name='reach', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the reach target", 'put the gripper in front of the drawer'), ("the robot's gripper is near the reach target", 'put the gripper above the puck')], env_name='reach', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.684995455163584
+Success rates:
+{
+ "reach": 0.0
+}

@@ -1,0 +1,27 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To use the stick to pull the thermos to the target location reliably, the robot should perform the following steps:
+
+Steps: 
+1. Position the gripper above the stick.
+2. Grab the stick with the gripper.
+3. Move the stick towards the thermos until it comes in contact with it.
+4. Use the stick to hook onto the handle of the thermos.
+5. Pull the thermos towards the target location using the stick.
+6. Once the thermos reaches the target location, release the stick and drop the thermos.
+
+- When the robot's gripper is not above the stick, the robot should position gripper above the stick.
+- When the robot's gripper is above the stick and the gripper is open, the robot should grab the stick.
+- When the stick is not in contact with the thermos, the robot should move stick towards the thermos.
+- When the stick comes in contact with the thermos, the robot should use the stick to hook onto the handle of the thermos.
+- When the thermos is hooked, the robot should pull the thermos towards the target location using the stick.
+- When the thermos reaches the target location, the robot should release the stick and drop the thermos.
+{'stick-pull': [("the robot's gripper is not above the stick", 'position gripper above the stick.'), ("the robot's gripper is above the stick and the gripper is open", 'grab the stick.'), ('the stick is not in contact with the thermos', 'move stick towards the thermos.'), ('the stick comes in contact with the thermos', 'use the stick to hook onto the handle of the thermos.'), ('the thermos is hooked', 'pull the thermos towards the target location using the stick.'), ('the thermos reaches the target location', 'release the stick and drop the thermos.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the stick", 'put the gripper above the puck'), ("the robot's gripper is above the stick and the robot's gripper is open", 'grab peg'), ('the stick is not in front of the thermos', 'slide the puck to the goal'), ('the stick is in front of the thermos', 'slide the puck to the goal'), ('the thermos is right of the stick', 'put the gripper above the puck'), ('the thermos is near the target location', 'slide the puck to the goal')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the stick", 'put the gripper above the puck'), ("the robot's gripper is above the stick and the robot's gripper is open", 'grab peg'), ('the stick is not in front of the thermos', 'slide the puck to the goal'), ('the stick is in front of the thermos', 'slide the puck to the goal'), ('the thermos is right of the stick', 'put the gripper above the puck'), ('the thermos is near the target location', 'slide the puck to the goal')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the stick", 'put the gripper above the puck'), ("the robot's gripper is above the stick and the robot's gripper is open", 'grab peg'), ('the stick is not in front of the thermos', 'slide the puck to the goal'), ('the stick is in front of the thermos', 'slide the puck to the goal'), ('the thermos is right of the stick', 'put the gripper above the puck'), ('the thermos is near the target location', 'slide the puck to the goal')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.007818586549076972
+Success rates:
+{
+ "stick-pull": 0.0
+}

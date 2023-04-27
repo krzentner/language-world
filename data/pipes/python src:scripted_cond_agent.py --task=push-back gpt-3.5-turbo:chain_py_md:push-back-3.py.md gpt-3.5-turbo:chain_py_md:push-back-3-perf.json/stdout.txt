@@ -1,0 +1,39 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+```
+# push-back: slide the puck backwards to the target location
+# def push_back(robot):
+    # Steps:
+    #  1. Put gripper above puck
+    #  2. Push gripper into top of puck to lift it
+    #  3. Move gripper backwards towards target location
+    #  4. Lower gripper
+    #  5. Slide puck to goal
+    # First, put the gripper above the puck.
+    if check("the robot's gripper is not above the puck"):
+        robot.place("gripper above the puck")
+    # If the gripper isn't around the puck, put it around the puck.
+    if check("the robot's gripper is not around the puck and the robot's gripper is open"):
+        robot.drop("gripper around the puck")
+    # Close the gripper to lift the puck
+    if check("the robot's gripper is around the puck and the robot's gripper is open"):
+        robot.close("gripper around the puck")
+    # Back up while holding the puck
+    if check("the robot's gripper is holding the puck"):
+        robot.move("gripper backward to goal")
+    # Lower the gripper
+    if check("the robot's gripper is near the goal"):
+        robot.put("gripper down")
+    # Slide the puck to the goal
+    if check("the puck is below the gripper"):
+        robot.slide("the puck to the goal")
+```
+{'push-back': [("the robot's gripper is not above the puck", 'place gripper above the puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around the puck'), ("the robot's gripper is around the puck and the robot's gripper is open", 'close gripper around the puck'), ("the robot's gripper is holding the puck", 'move gripper backward to goal'), ("the robot's gripper is near the goal", 'put gripper down'), ('the puck is below the gripper', 'slide the puck to the goal')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'place gripper above puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the puck and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is behind the puck", 'move gripper to right of window handle'), ("the robot's gripper is near the puck", 'put gripper around door handle'), ("the puck is below the robot's gripper", 'slide the puck to the goal')], env_name='push-back', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'place gripper above puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the puck and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is behind the puck", 'move gripper to right of window handle'), ("the robot's gripper is near the puck", 'put gripper around door handle'), ("the puck is below the robot's gripper", 'slide the puck to the goal')], env_name='push-back', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.03
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'place gripper above puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is around the puck and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is behind the puck", 'move gripper to right of window handle'), ("the robot's gripper is near the puck", 'put gripper around door handle'), ("the puck is below the robot's gripper", 'slide the puck to the goal')], env_name='push-back', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.2833679009825493
+Success rates:
+{
+ "push-back": 0.03
+}

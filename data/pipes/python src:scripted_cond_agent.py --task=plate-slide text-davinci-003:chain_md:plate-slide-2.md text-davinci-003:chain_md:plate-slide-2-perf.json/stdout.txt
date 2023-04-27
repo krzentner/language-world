@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put gripper above the plate  2. Push down on the plate  3. Slide the plate to goal
+    First, put the gripper above the plate.
+    - When the robot's gripper is not above plate, the robot should put gripper above plate.
+    Now that the gripper is above the plate, push down to trap the plate, then move the plate.
+    - When the robot's gripper is above the plate, the robot should push down on the plate.
+    If the gripper is near the plate, we've probably trapped the plate and can slide it. Use the gripper to slowly move the plate to the target location.
+    - When the robot's gripper is near the plate and the plate is below the robot's gripper, the robot should slide the plate to the goal.
+{'plate-slide': [("the robot's gripper is not above plate", 'put gripper above plate.'), ("the robot's gripper is above the plate", 'push down on the plate.'), ("the robot's gripper is near the plate and the plate is below the robot's gripper", 'slide the plate to the goal.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate", 'put gripper above button'), ("the robot's gripper is above the plate", 'push down on button'), ("the robot's gripper is near the plate and the plate is below the robot's gripper", 'slide the puck to the goal')], env_name='plate-slide', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate", 'put gripper above button'), ("the robot's gripper is above the plate", 'push down on button'), ("the robot's gripper is near the plate and the plate is below the robot's gripper", 'slide the puck to the goal')], env_name='plate-slide', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the plate", 'put gripper above button'), ("the robot's gripper is above the plate", 'push down on button'), ("the robot's gripper is near the plate and the plate is below the robot's gripper", 'slide the puck to the goal')], env_name='plate-slide', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.005669928761538
+Success rates:
+{
+ "plate-slide": 0.0
+}

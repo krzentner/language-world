@@ -1,0 +1,22 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# door-close: push the door closed to the target location
+# def door_close(robot):
+    # Steps:
+    #  1. Put gripper near the door handle
+    #  2. Push the door closed
+    # First, put the gripper near the door handle.
+    if check("the robot's gripper is not near the door handle"):
+        robot.place("gripper near door handle")
+    # Once the gripper is near the handle, we can push the door closed.
+    if check("the robot's gripper is near the door handle"):
+        robot.push("door closed to target location")
+{'door-close': [("the robot's gripper is not near the door handle", 'place gripper near door handle'), ("the robot's gripper is near the door handle", 'push door closed to target location')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the door", 'place gripper above puck'), ("the robot's gripper is near the door", 'push drawer closed')], env_name='door-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the door", 'place gripper above puck'), ("the robot's gripper is near the door", 'push drawer closed')], env_name='door-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the door", 'place gripper above puck'), ("the robot's gripper is near the door", 'push drawer closed')], env_name='door-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.24570065652089024
+Success rates:
+{
+ "door-close": 0.0
+}

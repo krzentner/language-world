@@ -1,0 +1,25 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# plate-slide: slide the plate into the target location
+# def plate_slide(robot):
+    # Steps:
+    #  1. Put the gripper on one end of the plate
+    #  2. Push the plate towards the target
+    #  3. Repeat until the plate is at the target location
+    # First, we need to find out which end of the plate is closer to the target.
+    # If the robot's gripper is not on one end of the plate, move it to one end.
+    if check("the robot's gripper is not on the end of the plate"):
+        robot.put("gripper on one end of the plate")
+    # While the plate is not yet at the target location, keep pushing it towards
+    # the target.
+    while check("the plate is not yet at the target location"):
+        robot.push("the plate towards the target")
+{'plate-slide': [("the robot's gripper is not on the end of the plate", 'put gripper on one end of the plate')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not in front of the plate", 'put the gripper above the puck')], env_name='plate-slide', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not in front of the plate", 'put the gripper above the puck')], env_name='plate-slide', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not in front of the plate", 'put the gripper above the puck')], env_name='plate-slide', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.7118678636282699
+Success rates:
+{
+ "plate-slide": 0.0
+}

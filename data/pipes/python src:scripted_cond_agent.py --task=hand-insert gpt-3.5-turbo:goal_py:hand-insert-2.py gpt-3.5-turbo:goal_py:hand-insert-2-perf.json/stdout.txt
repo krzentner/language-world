@@ -1,0 +1,24 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    #  1. Put the hand above the puck
+    #  2. Grab the puck with the hand
+    #  3. Move the puck to the target location
+    # First, put the hand above the puck.
+    if check("the hand is not above the puck"):
+        robot.move_hand("above the puck")
+    # If the hand is roughly above the puck, grab the puck.
+    if check("the hand is above the puck and the hand is not holding the puck"):
+        robot.move_hand("around the puck", close_hand=True)
+    # If the hand is holding the puck, move the hand to the target location.
+    if check("the hand is holding the puck and the hand is not above the target location"):
+        robot.move_hand("above the target location")
+{'hand-insert': [('the hand is not above the puck', 'move_hand above the puck'), ('the hand is holding the puck and the hand is not above the target location', 'move_hand above the target location')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[('the target location is not above the puck', 'put the gripper above the puck'), ('the target location is behind the puck and the puck is not above the target location', 'move gripper to right of window handle')], env_name='hand-insert', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[('the target location is not above the puck', 'put the gripper above the puck'), ('the target location is behind the puck and the puck is not above the target location', 'move gripper to right of window handle')], env_name='hand-insert', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[('the target location is not above the puck', 'put the gripper above the puck'), ('the target location is behind the puck and the puck is not above the target location', 'move gripper to right of window handle')], env_name='hand-insert', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.024352994904036085
+Success rates:
+{
+ "hand-insert": 0.0
+}

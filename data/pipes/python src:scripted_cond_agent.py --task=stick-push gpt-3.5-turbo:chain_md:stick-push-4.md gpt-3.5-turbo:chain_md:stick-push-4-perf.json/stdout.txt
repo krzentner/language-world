@@ -1,0 +1,21 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To use the stick to push the thermos to the target location reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper near the stick  2. Grab the stick with the gripper  3. Line up the stick with the thermos  4. Push the thermos with the stick towards the goal
+    First, put the gripper near the stick.
+    - When the robot's gripper is not near the stick, the robot should move the gripper near the stick.
+    Once the gripper is near the stick, grab it.
+    - When the robot's gripper is near the stick and the gripper is open, the robot should grab the stick.
+    After grabbing the stick, line it up with the thermos by moving the gripper.
+    - When the robot's gripper is holding the stick and the stick is not lined up with the thermos, the robot should align the stick with the thermos.
+    Push the thermos towards the goal with the stick.
+    - When the robot's gripper is holding the stick and the stick is aligned with the thermos, the robot should push the thermos with the stick towards the goal.
+{'stick-push': [("the robot's gripper is not near the stick", 'move the gripper near the stick.'), ("the robot's gripper is near the stick and the gripper is open", 'grab the stick.'), ("the robot's gripper is holding the stick and the stick is not lined up with the thermos", 'align the stick with the thermos.'), ("the robot's gripper is holding the stick and the stick is aligned with the thermos", 'push the thermos with the stick towards the goal.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the stick", 'put the gripper above the puck'), ("the robot's gripper is near the stick and the robot's gripper is open", 'grab peg'), ("the robot's gripper is behind the stick and the stick is not forward aligned with the thermos", 'slide the puck to the goal'), ("the robot's gripper is behind the stick and the stick is forward aligned with the thermos", 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the stick", 'put the gripper above the puck'), ("the robot's gripper is near the stick and the robot's gripper is open", 'grab peg'), ("the robot's gripper is behind the stick and the stick is not forward aligned with the thermos", 'slide the puck to the goal'), ("the robot's gripper is behind the stick and the stick is forward aligned with the thermos", 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the stick", 'put the gripper above the puck'), ("the robot's gripper is near the stick and the robot's gripper is open", 'grab peg'), ("the robot's gripper is behind the stick and the stick is not forward aligned with the thermos", 'slide the puck to the goal'), ("the robot's gripper is behind the stick and the stick is forward aligned with the thermos", 'slide the puck to the goal')], env_name='stick-push', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.04708617310025844
+Success rates:
+{
+ "stick-push": 0.0
+}

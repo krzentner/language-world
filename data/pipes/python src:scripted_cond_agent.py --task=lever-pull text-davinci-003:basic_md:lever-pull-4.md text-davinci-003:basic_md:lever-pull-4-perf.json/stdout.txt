@@ -1,0 +1,15 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    - When the robot's gripper is not above the lever, the robot should put gripper above lever.
+    - When the lever is forward aligned with the robot's gripper and the robot's gripper is not around lever, the robot should put gripper around lever.
+    - When the robot's gripper is around lever, the robot should pull lever up.
+{'lever-pull': [("the robot's gripper is not above the lever", 'put gripper above lever.'), ("the lever is forward aligned with the robot's gripper and the robot's gripper is not around lever", 'put gripper around lever.'), ("the robot's gripper is around lever", 'pull lever up.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the lever", 'put gripper above button'), ("the lever is forward aligned with the robot's gripper and the robot's gripper is not around the lever", 'put gripper around door handle'), ("the robot's gripper is around the lever", 'pull door open')], env_name='lever-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the lever", 'put gripper above button'), ("the lever is forward aligned with the robot's gripper and the robot's gripper is not around the lever", 'put gripper around door handle'), ("the robot's gripper is around the lever", 'pull door open')], env_name='lever-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.01
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the lever", 'put gripper above button'), ("the lever is forward aligned with the robot's gripper and the robot's gripper is not around the lever", 'put gripper around door handle'), ("the robot's gripper is around the lever", 'pull door open')], env_name='lever-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.24674258816679903
+Success rates:
+{
+ "lever-pull": 0.01
+}

@@ -1,0 +1,21 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Put the gripper above the peg  2. Drop the gripper around the peg  3. Move the wrench around the peg  4. Close the robot's gripper
+    The robot needs to first put its gripper above the peg.
+    - When the robot's gripper is not above the peg, move the robot's gripper until the robot's gripper is above the peg
+    After the robot's gripper is above the peg, drop it around the peg.
+    - When the robot's gripper is not around the peg and the robot's gripper is open, move the robot's gripper until the robot's gripper is around the peg and the robot's gripper is closed
+    After the gripper is around the peg, move the wrench around the peg.
+    - When the wrench is not around the peg, move the robot's gripper until the robot's gripper is above the peg and the wrench is around the peg
+    Once the wrench is around the peg, close the robot's gripper.
+    - When the robot's gripper is near the peg and the wrench is around the peg, move the robot's gripper until the robot's gripper is closed
+{'assembly': [("the robot's gripper is not above the peg", "the robot's gripper is above the peg"), ("the robot's gripper is not around the peg and the robot's gripper is open", "the robot's gripper is around the peg and the robot's gripper is closed"), ('the wrench is not around the peg', "the robot's gripper is above the peg and the wrench is around the peg"), ("the robot's gripper is near the peg and the wrench is around the peg", "the robot's gripper is closed")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the peg", 'put the gripper above the puck'), ("the robot's gripper is not around the peg and the robot's gripper is open", 'put the gripper in front of the drawer'), ('the wrench is not near the peg', 'put the gripper above the puck'), ("the robot's gripper is near the peg and the wrench is near the peg", 'put the gripper in front of the drawer')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the peg", 'put the gripper above the puck'), ("the robot's gripper is not around the peg and the robot's gripper is open", 'put the gripper in front of the drawer'), ('the wrench is not near the peg', 'put the gripper above the puck'), ("the robot's gripper is near the peg and the wrench is near the peg", 'put the gripper in front of the drawer')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the peg", 'put the gripper above the puck'), ("the robot's gripper is not around the peg and the robot's gripper is open", 'put the gripper in front of the drawer'), ('the wrench is not near the peg', 'put the gripper above the puck'), ("the robot's gripper is near the peg and the wrench is near the peg", 'put the gripper in front of the drawer')], env_name='assembly', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.5328723095993518
+Success rates:
+{
+ "assembly": 0.0
+}

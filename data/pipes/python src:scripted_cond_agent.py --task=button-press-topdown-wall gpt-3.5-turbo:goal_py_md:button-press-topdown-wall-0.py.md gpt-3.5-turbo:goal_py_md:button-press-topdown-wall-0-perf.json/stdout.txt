@@ -1,0 +1,30 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# button-press-topdown-wall: push the button down from above with a short wall in the way
+# def button_press_topdown_wall(robot):
+    # Steps:
+    #  1. Move the gripper to the left of the button and close the gripper
+    #  2. Move the gripper above the button and the short wall
+    #  3. Open the gripper to pass the short wall
+    #  4. Push down on the button from above
+    # Move the gripper to the left of the button and close the gripper
+    if check("the robot's gripper is not left of the button"):
+        robot.move_gripper("left of the button", close_gripper=True)
+    # Move the gripper to be above the button and the short wall
+    if check("the robot's gripper is not vertically aligned with the button and is not above the short wall"):
+        robot.move_gripper("above the button and the short wall")
+    # Open the gripper to pass the short wall
+    if check("the robot's gripper is not open"):
+        robot.move_gripper("above the button")
+    # Push down on the button from above
+    if check("the robot's gripper is not near the button"):
+        robot.move_gripper("near the button")
+{'button-press-topdown-wall': [("the robot's gripper is not left of the button", "the robot's gripper is left of the button and the robot's gripper is closed"), ("the robot's gripper is not vertically aligned with the button and is not above the short wall", "the robot's gripper is above the button and the robot's gripper is near the short wall"), ("the robot's gripper is not open", "the robot's gripper is above the button"), ("the robot's gripper is not near the button", "the robot's gripper is near the button")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of the button", 'put the gripper in front of the drawer'), ("the robot's gripper is not vertically aligned with the button and wall is not above the button", 'put the gripper above the puck'), ("the robot's gripper is open", 'put the gripper above the puck'), ("the robot's gripper is not near the button", 'push the gripper into the puck')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of the button", 'put the gripper in front of the drawer'), ("the robot's gripper is not vertically aligned with the button and wall is not above the button", 'put the gripper above the puck'), ("the robot's gripper is open", 'put the gripper above the puck'), ("the robot's gripper is not near the button", 'push the gripper into the puck')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of the button", 'put the gripper in front of the drawer'), ("the robot's gripper is not vertically aligned with the button and wall is not above the button", 'put the gripper above the puck'), ("the robot's gripper is open", 'put the gripper above the puck'), ("the robot's gripper is not near the button", 'push the gripper into the puck')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.827556263559097
+Success rates:
+{
+ "button-press-topdown-wall": 0.0
+}

@@ -1,0 +1,35 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# hand-insert: pick up the object and move it to the target location
+# def hand_insert(robot):
+    # Steps:
+    #  1. Put gripper above object
+    #  2. Drop gripper around object
+    #  3. Close gripper around object
+    #  4. Move object to goal
+    # First, put the gripper roughly above the object so we don't bump it while
+    # trying to grab it.
+    if check("the robot's gripper is not above the object"):
+        robot.place("gripper above object")
+    # If the gripper isn't around the object, put it around the object.
+    if check("the robot's gripper is not around object and the robot's gripper is open"):
+        robot.drop("gripper around object")
+    # If the gripper is near the object and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near object and the robot's gripper is open"):
+        robot.close("gripper around object")
+    # We closed the gripper, and the object is still near the gripper, so maybe we
+    # grabbed it.
+    # Try to move the object to the goal.
+    # If we didn't grab it, we'll just go back to an earlier step.
+    if check("the robot's gripper is above object and the robot's gripper is closed"):
+        robot.place("object at goal")
+{'hand-insert': [("the robot's gripper is not above the object", 'place gripper above object'), ("the robot's gripper is not around object and the robot's gripper is open", 'drop gripper around object'), ("the robot's gripper is near object and the robot's gripper is open", 'close gripper around object'), ("the robot's gripper is above object and the robot's gripper is closed", 'place object at goal')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'place gripper above puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is open and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is above the puck and the robot's gripper is closed", 'place puck at goal')], env_name='hand-insert', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'place gripper above puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is open and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is above the puck and the robot's gripper is closed", 'place puck at goal')], env_name='hand-insert', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.05
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the puck", 'place gripper above puck'), ("the robot's gripper is not around the puck and the robot's gripper is open", 'drop gripper around puck'), ("the robot's gripper is open and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is above the puck and the robot's gripper is closed", 'place puck at goal')], env_name='hand-insert', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.31921441651654603
+Success rates:
+{
+ "hand-insert": 0.05
+}

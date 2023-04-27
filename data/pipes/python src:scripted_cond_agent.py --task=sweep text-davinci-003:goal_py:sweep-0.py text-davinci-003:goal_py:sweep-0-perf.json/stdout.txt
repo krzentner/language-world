@@ -1,0 +1,25 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put gripper above cube
+    #  2. Grab cube with gripper
+    #  3. Move sideways to the target location
+    # First, put the gripper above the cube in order to grab it.
+    if check("the robot's gripper is not above the cube"):
+        robot.move_gripper("above the cube")
+    # If the gripper isn't close to the cube, close it to the cube to capture it.
+    if check("the robot's gripper is not near the cube and the gripper is open"):
+        robot.move_gripper("near the cube", close_gripper=True)
+    # Now, with the cube in hand, move sideways to the target location.
+    if check("the robot's gripper is near the cube and the cube is below the robot's gripper"):
+        robot.move_gripper("right of the target location")
+{'sweep': [("the robot's gripper is not above the cube", "the robot's gripper is above the cube"), ("the robot's gripper is not near the cube and the gripper is open", "the robot's gripper is near the cube and the robot's gripper is closed"), ("the robot's gripper is near the cube and the cube is below the robot's gripper", "the robot's gripper is right of the target location")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'put the gripper above the puck'), ("the robot's gripper is not near the cube and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is near the cube and the cube is below the robot's gripper", 'put the gripper in front of the drawer')], env_name='sweep', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'put the gripper above the puck'), ("the robot's gripper is not near the cube and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is near the cube and the cube is below the robot's gripper", 'put the gripper in front of the drawer')], env_name='sweep', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the cube", 'put the gripper above the puck'), ("the robot's gripper is not near the cube and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is near the cube and the cube is below the robot's gripper", 'put the gripper in front of the drawer')], env_name='sweep', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.4975692318436444
+Success rates:
+{
+ "sweep": 0.0
+}

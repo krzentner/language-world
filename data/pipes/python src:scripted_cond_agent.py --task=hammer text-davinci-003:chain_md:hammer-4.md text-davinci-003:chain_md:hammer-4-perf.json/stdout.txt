@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Line up the tip of the hammer with the nail  2. Push the hammer into the nail  3. Push the hammer away to hit the nail
+    First, align the robot's gripper so that the tip of the hammer is lined up with the nail.
+    - When the robot's gripper is not lined up with the nail, the robot should line up the tip of the hammer with the nail.
+    As long as the gripper is lined up to the nail, press down on the hammer to push it into the nail.
+    - When the robot's gripper is lined up with the nail and the hammer is not in contact with the nail, the robot should push the hammer into the nail. 
+    If the nail is in contact with the hammer, push away from the nail to drive the nail.
+    - When the hammer is in contact with the nail, the robot should push the hammer away from the nail to hit the nail.
+{'hammer': [("the robot's gripper is not lined up with the nail", 'line up the tip of the hammer with the nail.'), ("the robot's gripper is lined up with the nail and the hammer is not in contact with the nail", 'push the hammer into the nail. '), ('the hammer is in contact with the nail', 'push the hammer away from the nail to hit the nail.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not forward aligned with the hammer", 'slide the puck to the goal'), ("the robot's gripper is forward aligned with the hammer and the hammer is not in front of the robot's gripper", 'slide the puck to the goal'), ('hammer is not touching the table', 'slide the puck to the goal')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not forward aligned with the hammer", 'slide the puck to the goal'), ("the robot's gripper is forward aligned with the hammer and the hammer is not in front of the robot's gripper", 'slide the puck to the goal'), ('hammer is not touching the table', 'slide the puck to the goal')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not forward aligned with the hammer", 'slide the puck to the goal'), ("the robot's gripper is forward aligned with the hammer and the hammer is not in front of the robot's gripper", 'slide the puck to the goal'), ('hammer is not touching the table', 'slide the puck to the goal')], env_name='hammer', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.9300043804440485
+Success rates:
+{
+ "hammer": 1.0
+}

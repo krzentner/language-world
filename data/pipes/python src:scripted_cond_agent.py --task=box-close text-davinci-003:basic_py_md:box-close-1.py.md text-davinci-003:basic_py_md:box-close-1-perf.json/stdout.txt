@@ -1,0 +1,21 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+if check("the robot's gripper is not near the box lid"):
+        robot.move("gripper above the box lid")
+    if check("the robot's gripper is not holding the box lid"):
+        robot.drop("gripper around the box lid")
+    if check("the robot's gripper is holding the box lid"):
+        robot.move("gripper above the box")
+    if check("the robot's gripper is above the box and the box lid is not in place"):
+        robot.place("box lid onto the box")
+{'box-close': [("the robot's gripper is not near the box lid", 'move gripper above the box lid'), ("the robot's gripper is not holding the box lid", 'drop gripper around the box lid'), ("the robot's gripper is holding the box lid", 'move gripper above the box'), ("the robot's gripper is above the box and the box lid is not in place", 'place box lid onto the box')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the lid", 'put the gripper above the puck'), ("the robot's gripper is not behind the lid", 'drop gripper around puck'), ("the robot's gripper is behind the lid", 'put the gripper above the puck'), ("the robot's gripper is above the box and the lid is not behind the box", 'slide the puck to the goal')], env_name='box-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the lid", 'put the gripper above the puck'), ("the robot's gripper is not behind the lid", 'drop gripper around puck'), ("the robot's gripper is behind the lid", 'put the gripper above the puck'), ("the robot's gripper is above the box and the lid is not behind the box", 'slide the puck to the goal')], env_name='box-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the lid", 'put the gripper above the puck'), ("the robot's gripper is not behind the lid", 'drop gripper around puck'), ("the robot's gripper is behind the lid", 'put the gripper above the puck'), ("the robot's gripper is above the box and the lid is not behind the box", 'slide the puck to the goal')], env_name='box-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.2633491622977575
+Success rates:
+{
+ "box-close": 0.0
+}

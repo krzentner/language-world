@@ -1,0 +1,32 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To pick up the block and place it at the target location reliably, the robot should perform the following steps:
+
+Steps:
+    1. Put gripper above block
+    2. Lower gripper around block
+    3. Lift block
+    4. Move gripper above target location
+    5. Lower block at target location
+
+First, put the gripper roughly above the block.
+- When the robot's gripper is not above the block, the robot should put gripper above the block.
+Move the gripper down to grab the block.
+- When the robot's gripper is above the block, the robot should move gripper down around the block.
+Close the gripper to hold the block securely.
+- When the robot's gripper is around the block and open, the robot should close gripper around block.
+Lift the block.
+- When the robot's gripper is around the block and closed, the robot should lift the block.
+Move the gripper to the target location.
+- When the robot's gripper is holding the block, the robot should move gripper above target location.
+Lower the block at the target location.
+- When the robot's gripper is above the target location, the robot should lower the block at target location.
+{'shelf-place': [("the robot's gripper is not above the block", 'put gripper above the block.'), ("the robot's gripper is above the block", 'move gripper down around the block.'), ("the robot's gripper is around the block and open", 'close gripper around block.'), ("the robot's gripper is around the block and closed", 'lift the block.'), ("the robot's gripper is holding the block", 'move gripper above target location.'), ("the robot's gripper is above the target location", 'lower the block at target location.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the block", 'put the gripper above the puck'), ("the robot's gripper is above the block", 'close gripper around puck'), ("the robot's gripper is around the block", 'close gripper around puck'), ("the robot's gripper is around the block", 'slide the puck to the goal'), ("the robot's gripper is behind the block", 'put the gripper above the puck'), ("the robot's gripper is above the block", 'slide the puck to the goal')], env_name='shelf-place', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the block", 'put the gripper above the puck'), ("the robot's gripper is above the block", 'close gripper around puck'), ("the robot's gripper is around the block", 'close gripper around puck'), ("the robot's gripper is around the block", 'slide the puck to the goal'), ("the robot's gripper is behind the block", 'put the gripper above the puck'), ("the robot's gripper is above the block", 'slide the puck to the goal')], env_name='shelf-place', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the block", 'put the gripper above the puck'), ("the robot's gripper is above the block", 'close gripper around puck'), ("the robot's gripper is around the block", 'close gripper around puck'), ("the robot's gripper is around the block", 'slide the puck to the goal'), ("the robot's gripper is behind the block", 'put the gripper above the puck'), ("the robot's gripper is above the block", 'slide the puck to the goal')], env_name='shelf-place', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Success rates:
+{
+ "shelf-place": 0.0
+}

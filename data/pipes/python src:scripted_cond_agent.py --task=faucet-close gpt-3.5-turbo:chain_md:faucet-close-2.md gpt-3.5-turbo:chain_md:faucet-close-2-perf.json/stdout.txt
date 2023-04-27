@@ -1,0 +1,17 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+To turn the faucet right reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above faucet handle  2. Grab the handle with gripper and turn it right
+    First, put the gripper above the faucet handle.
+    - When the robot's gripper is not vertically aligned with the faucet handle, the robot should put gripper above faucet handle.
+    Grab the handle with the gripper and turn it to the right to close it.
+    - When the robot's gripper is vertically aligned with the faucet handle, the robot should grab faucet handle and turn it to the right.
+{'faucet-close': [("the robot's gripper is not vertically aligned with the faucet handle", 'put gripper above faucet handle.'), ("the robot's gripper is vertically aligned with the faucet handle", 'grab faucet handle and turn it to the right.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the faucet", 'put gripper above button'), ("the robot's gripper is vertically aligned with the faucet", 'insert peg into hole')], env_name='faucet-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the faucet", 'put gripper above button'), ("the robot's gripper is vertically aligned with the faucet", 'insert peg into hole')], env_name='faucet-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the faucet", 'put gripper above button'), ("the robot's gripper is vertically aligned with the faucet", 'insert peg into hole')], env_name='faucet-close', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 4.182413487763002
+Success rates:
+{
+ "faucet-close": 0.0
+}

@@ -1,0 +1,26 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+
+
+Solution
+
+```
+# disassemble: pull the wrench off the peg
+# def disassemble(robot):
+    if check("the robot's gripper is not vertically aligned with the wrench"):
+        robot.put("gripper above wrench")
+    if check("the wrench is not slightly away from the robot's gripper and the robot's gripper is open"):
+        robot.grab("wrench")
+    if check("the wrench is slightly away from the robot's gripper and the robot's gripper is closed"):
+        robot.pull("wrench away from peg")
+    if check("the robot's gripper is not empty"):
+        robot.open("gripper to release wrench")
+{'disassemble': [("the robot's gripper is not vertically aligned with the wrench", 'put gripper above wrench'), ("the wrench is not slightly away from the robot's gripper and the robot's gripper is open", 'grab wrench'), ("the wrench is slightly away from the robot's gripper and the robot's gripper is closed", 'pull wrench away from peg'), ("the robot's gripper is not empty", 'open gripper to release wrench')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the wrench", 'put gripper above button'), ("the wrench is not right of the robot's gripper and the robot's gripper is open", 'grab peg'), ("the wrench is right of the robot's gripper and the robot's gripper is closed", 'pull away from drawer'), ("the robot's gripper is open", 'move gripper to left of window handle')], env_name='disassemble', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the wrench", 'put gripper above button'), ("the wrench is not right of the robot's gripper and the robot's gripper is open", 'grab peg'), ("the wrench is right of the robot's gripper and the robot's gripper is closed", 'pull away from drawer'), ("the robot's gripper is open", 'move gripper to left of window handle')], env_name='disassemble', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the wrench", 'put gripper above button'), ("the wrench is not right of the robot's gripper and the robot's gripper is open", 'grab peg'), ("the wrench is right of the robot's gripper and the robot's gripper is closed", 'pull away from drawer'), ("the robot's gripper is open", 'move gripper to left of window handle')], env_name='disassemble', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.5504791831118514
+Success rates:
+{
+ "disassemble": 0.0
+}

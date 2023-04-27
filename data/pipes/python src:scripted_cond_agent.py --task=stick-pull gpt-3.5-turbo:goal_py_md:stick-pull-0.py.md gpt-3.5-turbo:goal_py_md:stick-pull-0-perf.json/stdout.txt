@@ -1,0 +1,32 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# stick-pull: use the stick to pull the thermos to the target location
+def stick_pull(robot):
+    # Steps:
+    #  1. Put the end of the stick near the thermos handle
+    #  2. Pinch the thermos handle with the stick
+    #  3. Move the stick towards the target location
+    #  4. Release the thermos handle
+    # First, put the end of the stick near the thermos handle.
+    if check("the end of the stick is not near the thermos handle"):
+        robot.move_stick("near the thermos handle")
+    # If the end of the stick is near the thermos handle but not pinching it,
+    # pinch the thermos handle.
+    if check("the end of the stick is near the thermos handle and the thermos handle is not pinched by the stick"):
+        robot.move_stick("around the thermos handle")
+    # Once the thermos handle is pinched, move the stick towards the target
+    # location by moving the robot's arm.
+    if check("the thermos handle is pinched by the stick and the stick is not near the target location"):
+        robot.move_arm("near the target location")
+    # Once the stick is near the target location, release the thermos handle.
+    if check("the stick is near the target location"):
+        robot.release_stick()
+{'stick-pull': [('the end of the stick is not near the thermos handle', 'move_stick near the thermos handle'), ('the end of the stick is near the thermos handle and the thermos handle is not pinched by the stick', 'move_stick around the thermos handle'), ('the thermos handle is pinched by the stick and the stick is not near the target location', 'move_arm near the target location')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not near the thermos', 'insert peg into hole'), ('the stick is near the thermos and the thermos is not behind the stick', 'slide the puck to the goal'), ('the thermos is behind the stick and the stick is not near the target location', 'move gripper to right of window handle')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not near the thermos', 'insert peg into hole'), ('the stick is near the thermos and the thermos is not behind the stick', 'slide the puck to the goal'), ('the thermos is behind the stick and the stick is not near the target location', 'move gripper to right of window handle')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[('the stick is not near the thermos', 'insert peg into hole'), ('the stick is near the thermos and the thermos is not behind the stick', 'slide the puck to the goal'), ('the thermos is behind the stick and the stick is not near the target location', 'move gripper to right of window handle')], env_name='stick-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.008901311941672234
+Success rates:
+{
+ "stick-pull": 0.0
+}

@@ -1,0 +1,31 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py.md
+# basketball: put the ball into the hoop
+# def basketball(robot):
+    # Steps:
+    #  1. Put gripper above ball
+    #  2. Grab the ball
+    #  3. Bring gripper to the hoop
+    #  4. Release the ball
+    # First, put the gripper roughly above the ball, so that we don't bump it
+    # while trying to grab it.
+    if check("the robot's gripper is not above the ball"):
+        robot.move_gripper("above the ball")
+    # If the gripper isn't around the ball, put it around the ball.
+    if check("the robot's gripper is not around ball and the robot's gripper is open"):
+        robot.move_gripper("near the ball", close_gripper=True)
+    # If the gripper is around the ball, we can bring it over to the hoop
+    if check("the robot's gripper is around the ball and the robot's gripper is not near the hoop"):
+        robot.move_gripper("above the hoop")
+    # Once we're above the hoop, we can release the ball
+    if check("the robot's gripper is near the hoop"):
+        robot.move_gripper("above the hoop", close_gripper=False)
+{'basketball': [("the robot's gripper is not above the ball", "the robot's gripper is above the ball"), ("the robot's gripper is not around ball and the robot's gripper is open", "the robot's gripper is near the ball and the robot's gripper is closed"), ("the robot's gripper is around the ball and the robot's gripper is not near the hoop", "the robot's gripper is above the hoop")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the ball", 'put the gripper above the puck'), ("the robot's gripper is not around the ball and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is around the ball and the robot's gripper is not near the hoop", 'put the gripper above the puck')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the ball", 'put the gripper above the puck'), ("the robot's gripper is not around the ball and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is around the ball and the robot's gripper is not near the hoop", 'put the gripper above the puck')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the ball", 'put the gripper above the puck'), ("the robot's gripper is not around the ball and the robot's gripper is open", 'push the gripper into the puck'), ("the robot's gripper is around the ball and the robot's gripper is not near the hoop", 'put the gripper above the puck')], env_name='basketball', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.10512552979936379
+Success rates:
+{
+ "basketball": 0.0
+}

@@ -1,0 +1,27 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put gripper directly left of the faucet handle
+    #  2. Rotate the handle to the left
+    #  3. Open the faucet all the way
+    # If the gripper is too far right, move it directly to the left of the
+    # faucet handle.
+    if check("the robot's gripper is not directly left of the faucet handle"):
+        robot.move("gripper to left of faucet handle")
+    # Grab the faucet handle with the gripper and rotate it to the left.
+    # We don't need to grab the exit of the handle for this to work.
+    if check("the robot's gripper is near the faucet handle"):
+        robot.rotate("handle left")
+    # If the handle is still moving, keep rotating it.
+    if check("the handle is not in the open position"):
+        robot.rotate("handle left")
+{'faucet-open': [("the robot's gripper is not directly left of the faucet handle", 'move gripper to left of faucet handle'), ("the robot's gripper is near the faucet handle", 'rotate handle left'), ('the handle is not in the open position', 'rotate handle left')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of the faucet", 'move gripper to left of window handle'), ("the robot's gripper is near the faucet", 'slide window left'), ("the faucet is not behind the robot's gripper", 'slide window left')], env_name='faucet-open', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of the faucet", 'move gripper to left of window handle'), ("the robot's gripper is near the faucet", 'slide window left'), ("the faucet is not behind the robot's gripper", 'slide window left')], env_name='faucet-open', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.74
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not left of the faucet", 'move gripper to left of window handle'), ("the robot's gripper is near the faucet", 'slide window left'), ("the faucet is not behind the robot's gripper", 'slide window left')], env_name='faucet-open', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 6.275731473948404
+Success rates:
+{
+ "faucet-open": 0.74
+}

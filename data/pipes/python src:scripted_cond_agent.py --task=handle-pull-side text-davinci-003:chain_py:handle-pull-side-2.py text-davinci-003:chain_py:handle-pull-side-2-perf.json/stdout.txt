@@ -1,0 +1,27 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put gripper above handle
+    #  2. Grab handle
+    #  3. Pull up handle 
+    # We need to first put the gripper above the handle before we can grab it,
+    # because of the angle of the robot's gripper.
+    if check("the robot's gripper is not vertically aligned with handle"):
+        robot.put("gripper above handle")
+    # Once the gripper is lined up above the handle, we should be able to grab
+    # the handle by moving the gripper down around it.
+    if check("the robot's gripper is vertically aligned with handle and the robot's gripper is not around handle"):
+        robot.grab("handle")
+    # Once the gripper is around the handle, we can just pull up the handle.
+    if check("the robot's gripper is around handle"):
+        robot.pull("handle up")
+{'handle-pull-side': [("the robot's gripper is not vertically aligned with handle", 'put gripper above handle'), ("the robot's gripper is vertically aligned with handle and the robot's gripper is not around handle", 'grab handle'), ("the robot's gripper is around handle", 'pull handle up')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the handle", 'put gripper above button'), ("the robot's gripper is vertically aligned with the handle and the robot's gripper is not around the handle", 'grab peg'), ("the robot's gripper is around the handle", 'place puck at goal')], env_name='handle-pull-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the handle", 'put gripper above button'), ("the robot's gripper is vertically aligned with the handle and the robot's gripper is not around the handle", 'grab peg'), ("the robot's gripper is around the handle", 'place puck at goal')], env_name='handle-pull-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not vertically aligned with the handle", 'put gripper above button'), ("the robot's gripper is vertically aligned with the handle and the robot's gripper is not around the handle", 'grab peg'), ("the robot's gripper is around the handle", 'place puck at goal')], env_name='handle-pull-side', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.05528714794345996
+Success rates:
+{
+ "handle-pull-side": 0.0
+}

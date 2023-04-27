@@ -1,0 +1,26 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+
+    # Steps:
+    #  1. Put gripper around handle of mug
+    #  2. Grab handle of mug
+    #  3. Pull mug to target location
+    # The robot needs to put the gripper around the handle of the mug before it
+    # can start to pull the mug.
+    if check("the robot's gripper is not around handle of mug"):
+        robot.put("gripper around handle of mug")
+    # Once the gripper is around the handle, grab it and start to pull.
+    if check("the robot's gripper is around handle of mug"):
+        robot.grab("handle of mug")
+    # The robot can pull the mug to the target location.
+    if check("the robot's gripper is around mug handle and  robot's gripper is not near target location"):
+        robot.pull("mug to target location")
+{'coffee-pull': [("the robot's gripper is not around handle of mug", 'put gripper around handle of mug'), ("the robot's gripper is around handle of mug", 'grab handle of mug'), ("the robot's gripper is around mug handle and  robot's gripper is not near target location", 'pull mug to target location')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the mug", 'put gripper around door handle'), ("the robot's gripper is around the mug", 'grab peg'), ("the robot's gripper is around the mug and the robot's gripper is not near the target location", 'slide the puck to the goal')], env_name='coffee-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the mug", 'put gripper around door handle'), ("the robot's gripper is around the mug", 'grab peg'), ("the robot's gripper is around the mug and the robot's gripper is not near the target location", 'slide the puck to the goal')], env_name='coffee-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the mug", 'put gripper around door handle'), ("the robot's gripper is around the mug", 'grab peg'), ("the robot's gripper is around the mug and the robot's gripper is not near the target location", 'slide the puck to the goal')], env_name='coffee-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.06306176328602238
+Success rates:
+{
+ "coffee-pull": 0.0
+}

@@ -1,0 +1,25 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    #  1. Put gripper roughly around lever
+    #  2. Grab the lever with the gripper
+    #  3. Rotate the gripper upwards to pull the lever
+    # First, put the gripper roughly around the lever.
+    if check("the robot's gripper is not around lever"):
+        robot.put("gripper around lever")
+    # Once the gripper is around the lever, grab it.
+    if check("the robot's gripper is around lever and the robot's gripper is open"):
+        robot.close("gripper around lever")
+    # Once the gripper is around the lever and closed, rotate the gripper upwards
+    # to pull the lever.
+    if check("the robot's gripper is around lever and the robot's gripper is closed"):
+        robot.rotate("lever upwards")
+{'lever-pull': [("the robot's gripper is not around lever", 'put gripper around lever'), ("the robot's gripper is around lever and the robot's gripper is open", 'close gripper around lever'), ("the robot's gripper is around lever and the robot's gripper is closed", 'rotate lever upwards')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the lever", 'put gripper around door handle'), ("the robot's gripper is around the lever and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the lever and the robot's gripper is closed", 'grab peg')], env_name='lever-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the lever", 'put gripper around door handle'), ("the robot's gripper is around the lever and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the lever and the robot's gripper is closed", 'grab peg')], env_name='lever-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 1.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not around the lever", 'put gripper around door handle'), ("the robot's gripper is around the lever and the robot's gripper is open", 'close gripper around puck'), ("the robot's gripper is around the lever and the robot's gripper is closed", 'grab peg')], env_name='lever-pull', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.8735861829685883
+Success rates:
+{
+ "lever-pull": 1.0
+}

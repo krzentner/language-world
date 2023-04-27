@@ -1,0 +1,30 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+py
+# Steps:
+    #  1. Put gripper near the peg
+    #  2. Drop gripper around the peg
+    #  3. Lift the peg out of the hole
+    #  4. Move peg to target location
+
+    # First, move the gripper near the peg, so we can drop it around the peg.
+    if check("the robot's gripper is not near the peg"):
+        robot.move_gripper("near the peg")
+    # Once the gripper is near the peg, we can drop it around the peg and pick
+    # it up.
+    if check("the robot's gripper is near the peg and the robot's gripper is open"):
+        robot.move_gripper("around the peg", close_gripper=True)
+    # Now that we've grabbed the peg, lift it out of the hole.
+    if check("the robot's gripper is around the peg"):
+        robot.move_gripper("above the hole")
+    # Finally, move the peg to the target location.
+    if check("the robot's gripper is above the hole and the robot's gripper is not near the target location"):
+        robot.move_gripper("near the target location")
+{'pick-out-of-hole': [("the robot's gripper is not near the peg", "the robot's gripper is near the peg"), ("the robot's gripper is near the peg and the robot's gripper is open", "the robot's gripper is around the peg and the robot's gripper is closed"), ("the robot's gripper is around the peg", "the robot's gripper is above the hole"), ("the robot's gripper is above the hole and the robot's gripper is not near the target location", "the robot's gripper is near the target location")]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the puck", 'push the gripper into the puck'), ("the robot's gripper is near the puck and the robot's gripper is open", 'put the gripper in front of the drawer'), ("the robot's gripper is around the puck", 'put the gripper above the puck'), ("the robot's gripper is above the puck and the robot's gripper is not near the target location", 'push the gripper into the puck')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the puck", 'push the gripper into the puck'), ("the robot's gripper is near the puck and the robot's gripper is open", 'put the gripper in front of the drawer'), ("the robot's gripper is around the puck", 'put the gripper above the puck'), ("the robot's gripper is above the puck and the robot's gripper is not near the target location", 'push the gripper into the puck')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not near the puck", 'push the gripper into the puck'), ("the robot's gripper is near the puck and the robot's gripper is open", 'put the gripper in front of the drawer'), ("the robot's gripper is around the puck", 'put the gripper above the puck'), ("the robot's gripper is above the puck and the robot's gripper is not near the target location", 'push the gripper into the puck')], env_name='pick-out-of-hole', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.01972868953708697
+Success rates:
+{
+ "pick-out-of-hole": 0.0
+}

@@ -1,0 +1,19 @@
+['assembly', 'basketball', 'bin-picking', 'box-close', 'button-press-topdown', 'button-press-topdown-wall', 'button-press', 'button-press-wall', 'coffee-button', 'coffee-pull', 'coffee-push', 'dial-turn', 'disassemble', 'door-close', 'door-lock', 'door-open', 'door-unlock', 'hand-insert', 'drawer-close', 'drawer-open', 'faucet-open', 'faucet-close', 'hammer', 'handle-press-side', 'handle-press', 'handle-pull-side', 'handle-pull', 'lever-pull', 'peg-insert-side', 'pick-place-wall', 'pick-out-of-hole', 'reach', 'push-back', 'push', 'pick-place', 'plate-slide', 'plate-slide-side', 'plate-slide-back', 'plate-slide-back-side', 'peg-unplug-side', 'soccer', 'stick-push', 'stick-pull', 'push-wall', 'reach-wall', 'shelf-place', 'sweep-into', 'sweep', 'window-open', 'window-close']
+['reach', 'push', 'pick-place', 'door-open', 'drawer-open', 'drawer-close', 'button-press-topdown', 'peg-insert-side', 'window-open', 'window-close']
+md
+
+    Steps:  1. Line up the gripper as viewed from above  2. Re-align the gripper with the wall in the way  3. Push down on the button from the top
+    When we have a wall in the way, we need to line up the gripper with the wall first. Put the gripper so that it's at an angle above the button.
+    - When the robot's gripper is not angled above button, the robot should put gripper angled above button.
+    Then re-line up the gripper so that it's parallel to the wall in the way.
+    - When robot's gripper is not parallel with wall, the robot should align gripper to wall.
+    Now that the gripper is lined up, we can push down on the button.
+    - When the robot's gripper is parallel to the wall and is above button, the robot should push down on button.
+{'button-press-topdown-wall': [("the robot's gripper is not angled above button", 'put gripper angled above button.'), ("robot's gripper is not parallel with wall", 'align gripper to wall.'), ("the robot's gripper is parallel to the wall and is above button", 'push down on button.')]}
+Evaluating ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the button", 'put gripper above button'), ("the robot's gripper is not forward aligned with wall", 'align peg to hole'), ("the robot's gripper is left of wall and wall is above the button", 'push down on button')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None)
+Success rate for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the button", 'put gripper above button'), ("the robot's gripper is not forward aligned with wall", 'align peg to hole'), ("the robot's gripper is left of wall and wall is above the button", 'push down on button')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 0.0
+Avg timestep reward for ScriptedCondAgent(cond_to_scripted_skill=[("the robot's gripper is not above the button", 'put gripper above button'), ("the robot's gripper is not forward aligned with wall", 'align peg to hole'), ("the robot's gripper is left of wall and wall is above the button", 'push down on button')], env_name='button-press-topdown-wall', scripted_skill_choice_prob=1.0, skill_mix_base_weight=None) : 2.497913030147224
+Success rates:
+{
+ "button-press-topdown-wall": 0.0
+}
