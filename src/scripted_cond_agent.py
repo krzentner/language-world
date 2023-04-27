@@ -35,9 +35,12 @@ class ScriptedCondAgent:
         ):
             scripted_skill_name = random.choice(candidate_scripted_skills)
         else:
-            scripted_skill_name = random.choice(
-                [skill for (_, skill) in self.cond_to_scripted_skill]
-            )
+            if len(self.cond_to_scripted_skill) != 0:
+                scripted_skill_name = random.choice(
+                    [skill for (_, skill) in self.cond_to_scripted_skill]
+                )
+            else:
+                return np.array([0., 0., 0., 0.]), {}
         info = {}
         info["scripted_skill_name"] = scripted_skill_name
         info["candidate_scripted_skills"] = list(set(candidate_scripted_skills))

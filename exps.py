@@ -164,8 +164,8 @@ for plan_enc in PLAN_ENCODINGS:
                     "python",
                     "src/scripted_cond_agent.py",
                     f"--task={task}",
-                    In("{model}/{plan_enc}/{task}-{i}{ext}"),
-                    Out("{model}/{plan_enc}/{task}-{i}-perf.json"),
+                    In(f"{model}/{plan_enc}/{task}-{i}{ext}"),
+                    Out(f"{model}/{plan_enc}/{task}-{i}-perf.json"),
                 )
 
 # print(GLOBAL_CONTEXT.commands)
