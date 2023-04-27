@@ -1,17 +1,39 @@
-# button-press-topdown: push the button down from above
-def button_press_topdown(robot):
+# drawer-close: push the drawer close
+def drawer_close(robot):
     # Steps:
-    #  1. Line up the gripper as viewed from above
-    #  2. Push down on the button from the top
-    # Because this is "topdown", we just need to line up the gripper from above.
-    # Line up the robot's gripper from above.
-    if check("the robot's gripper is not vertically aligned with button"):
-        robot.move_gripper("vertically aligned with the button", close_gripper=True)
-    # Now that the gripper is lined up, just push down on the button.
-    if check("the robot's gripper is vertically aligned with button"):
-        robot.move_gripper("near the button")
+    #  1. Put gripper roughly around the drawer handle
+    #  2. Push the drawer closed
+    # If the gripper is not near the drawer handle, move it to the drawer
+    # handle.
+    # We don't need to be careful about the direction, since the drawer is large
+    # and we're just pushing it (unlike when opening the drawer).
+    if check("the robot's gripper is not near the drawer handle"):
+        robot.move_gripper("near the drawer handle")
+    # If the drawer is aligned with the gripper as seen from in front, we can
+    # push the drawer closed.
+    if check("the robot's gripper is forward aligned with drawer handle"):
+        robot.move_gripper("around the drawer handle")
 
-# peg-insert-side: insert the peg into the hole from the side
+# pick-place: pick up the puck and hold it at the target location
+def pick_place(robot):
+    # Steps:
+    #  1. Put gripper above puck
+    #  2. Drop gripper around puck
+    #  3. Close gripper around puck
+    #  4. Move puck to goal
+    # First, put the gripper roughly above puck, so that we don't bump it while
+    # trying to grab it.
+    if check("the robot's gripper is not above the puck"):
+        robot.move_gripper("above the puck")
+    # If the gripper isn't around the puck, put it around the puck.
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.move_gripper("near the puck", close_gripper=True)
+    # If the gripper is near the puck and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is above puck and the robot's gripper is closed"):
+        robot.move_gripper("near the target location")
+
+# peg-insert-side: grab the peg and insert it into the hole from the side
 def peg_insert_side(robot):
     # Steps:
     #  1. Put gripper above the peg
@@ -57,40 +79,18 @@ def push(robot):
     if check("the robot's gripper is near the puck and the puck is below the robot's gripper"):
         robot.move_gripper("above the target location")
 
-# pick-place: pick up the puck and hold it at the target location
-def pick_place(robot):
+# button-press-topdown: push the button down from above
+def button_press_topdown(robot):
     # Steps:
-    #  1. Put gripper above puck
-    #  2. Drop gripper around puck
-    #  3. Close gripper around puck
-    #  4. Move puck to goal
-    # First, put the gripper roughly above puck, so that we don't bump it while
-    # trying to grab it.
-    if check("the robot's gripper is not above the puck"):
-        robot.move_gripper("above the puck")
-    # If the gripper isn't around the puck, put it around the puck.
-    if check("the robot's gripper is not around puck and the robot's gripper is open"):
-        robot.move_gripper("near the puck", close_gripper=True)
-    # If the gripper is near the puck and open, maybe we can grab it by closing
-    # the gripper.
-    if check("the robot's gripper is above puck and the robot's gripper is closed"):
-        robot.move_gripper("near the target location")
-
-# drawer-close: push the drawer close
-def drawer_close(robot):
-    # Steps:
-    #  1. Put gripper roughly around the drawer handle
-    #  2. Push the drawer closed
-    # If the gripper is not near the drawer handle, move it to the drawer
-    # handle.
-    # We don't need to be careful about the direction, since the drawer is large
-    # and we're just pushing it (unlike when opening the drawer).
-    if check("the robot's gripper is not near the drawer handle"):
-        robot.move_gripper("near the drawer handle")
-    # If the drawer is aligned with the gripper as seen from in front, we can
-    # push the drawer closed.
-    if check("the robot's gripper is forward aligned with drawer handle"):
-        robot.move_gripper("around the drawer handle")
+    #  1. Line up the gripper as viewed from above
+    #  2. Push down on the button from the top
+    # Because this is "topdown", we just need to line up the gripper from above.
+    # Line up the robot's gripper from above.
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.move_gripper("vertically aligned with the button", close_gripper=True)
+    # Now that the gripper is lined up, just push down on the button.
+    if check("the robot's gripper is vertically aligned with button"):
+        robot.move_gripper("near the button")
 
 # button-press-wall: push the button from the front with a short wall in the way
 def button_press_wall(robot):

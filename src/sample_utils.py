@@ -283,7 +283,3 @@ def eval_policy(
         envs, policy, noise_scale, n_episodes=n_episodes
     )
     return evaluate_policy(policy, episodes)
-
-
-print(MT50_ENV_NAMES)
-print(MT10_ENV_NAMES)

@@ -10,7 +10,8 @@ import generate_metaworld_scene_dataset
 
 from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES, str_project
 
-MAX_LEN = ((1920 - 512) * 3.5)
+MAX_LEN = (1920 - 512) * 3.5
+
 
 def load_plan_file(
     filename: str, encoding: Optional[str] = None, default_task: Optional[str] = None
@@ -26,8 +27,8 @@ def load_plan_file(
             encoding = "json"
     with open(filename, "r") as f:
         contents = f.read()
-    print(encoding)
-    print(contents)
+    # print(encoding)
+    # print(contents)
     return decode_plans(contents, encoding, default_task)
 
 
@@ -175,19 +176,39 @@ CLAUSE_MD = re.compile(
     flags=re.MULTILINE,
 )
 
+
 def nearest_tasks_by_desc(target_task: str, base_tasks: Iterable[str]) -> List[str]:
-    base_task_descriptions = [MT50_TASK_DESCRIPTIONS[base_task] for base_task in base_tasks]
-    desc_by_edit_distance = str_project(MT50_TASK_DESCRIPTIONS[target_task], base_task_descriptions)
-    return [MT50_DESCRIPTIONS_TO_TASKS[desc] for desc in desc_by_edit_distance]
+    base_task_descriptions = [
+        MT50_TASK_DESCRIPTIONS[base_task] for base_task in base_tasks
+    ]
+    desc_by_edit_distance = str_project(
+        MT50_TASK_DESCRIPTIONS[target_task], base_task_descriptions
+    )
+    tasks = [MT50_DESCRIPTIONS_TO_TASKS[desc] for desc in desc_by_edit_distance]
+    if target_task == "pick-place":
+        pick_place_index = tasks.index("push")
+    else:
+        pick_place_index = tasks.index("pick-place")
+    max_pick_place_index = 3
+    if pick_place_index > max_pick_place_index:
+        tasks = (
+            tasks[:max_pick_place_index]
+            + [tasks[pick_place_index]]
+            + tasks[max_pick_place_index:pick_place_index]
+            + tasks[pick_place_index + 1 :]
+        )
+    assert tasks.index("pick-place") <= max_pick_place_index
+    return tasks
 
 
 def encode_py(env_name, plan, chain_of_thought=False, use_goal_conditioning=False):
-    contents = []
+    example_contents = []
     by_edit_distance = nearest_tasks_by_desc(env_name, plan.keys())
+    assert "pick-place" in by_edit_distance
     for base_task in by_edit_distance:
         steps = plan[base_task]
         if base_task != env_name:
-            contents.append(
+            example_contents.append(
                 plan_str_py(
                     base_task,
                     steps,
@@ -195,9 +216,11 @@ def encode_py(env_name, plan, chain_of_thought=False, use_goal_conditioning=Fals
                     use_goal_conditioning=use_goal_conditioning,
                 )
             )
-        if len("\n\n".join(contents)) > MAX_LEN:
+        if len("\n\n".join(example_contents)) > MAX_LEN:
             print(f"Dropping {base_task} example")
-            contents.pop()
+            example_contents.pop()
+            assert base_task != "pick-place"
+    contents = example_contents[::-1]
     contents.append(
         plan_str_py(env_name, [], chain_of_thought=False, use_goal_conditioning=False)
     )
@@ -265,11 +288,12 @@ def encode_md(env_name, plan, chain_of_thought=False, use_goal_conditioning=Fals
     contents = [
         """Hello. Today I would like you to help me control a robot. The robot has a single gripper that it can use to grab small objects.\n"""
     ]
+    example_contents = []
     by_edit_distance = nearest_tasks_by_desc(env_name, plan.keys())
     for base_task in by_edit_distance:
         steps = plan[base_task]
         if base_task != env_name:
-            contents.append(
+            example_contents.append(
                 plan_str_md(
                     base_task,
                     steps,
@@ -277,9 +301,12 @@ def encode_md(env_name, plan, chain_of_thought=False, use_goal_conditioning=Fals
                     use_goal_conditioning=use_goal_conditioning,
                 )
             )
-        if len("\n\n".join(contents)) > MAX_LEN:
+        if len("\n\n".join(example_contents)) > MAX_LEN:
             print(f"Dropping {base_task} example")
-            contents.pop()
+            example_contents.pop()
+    contents = [
+        """Hello. Today I would like you to help me control a robot. The robot has a single gripper that it can use to grab small objects.\n"""
+    ] + example_contents[::-1]
     contents.append(
         dedent(
             f"""\
@@ -331,7 +358,7 @@ def clause_str_md(cond, skill, use_goal_conditioning):
 MT50_TASK_DESCRIPTIONS = {
     "door-open": "open the door",
     "drawer-open": "open the drawer",
-    "assembly": "put the wrench around the peg",
+    "assembly": "grab the wrench and wrap it around the peg",
     "basketball": "put the ball into into the hoop",
     "button-press-topdown": "push the button down from above",
     "button-press-topdown-wall": "push the button down from above with a short wall in the way",
@@ -355,8 +382,8 @@ MT50_TASK_DESCRIPTIONS = {
     "handle-pull-side": "pull up the handle from the side",
     "handle-pull": "pull up the handle",
     "lever-pull": "rotate the lever up",
-    "peg-insert-side": "insert the peg into the hole from the side",
-    "peg-unplug-side": "pull the peg out from the side",
+    "peg-insert-side": "grab the peg and insert it into the hole from the side",
+    "peg-unplug-side": "grab the peg and pull the it out from the side",
     "pick-out-of-hole": "pick up the peg out of the hole and hold it at the target location",
     "pick-place": "pick up the puck and hold it at the target location",
     "door-lock": "turn the dial on the door",
@@ -373,8 +400,8 @@ MT50_TASK_DESCRIPTIONS = {
     "reach-wall": "reach to the target location with a short wall in the way",
     "shelf-place": "pick up the block and place it at the target location",
     "soccer": "push the soccer ball into the target location",
-    "stick-push": "use the stick to push the thermos to the target location",
-    "stick-pull": "use the stick to pull the thermos to the target location",
+    "stick-push": "grab the stick and use it to push the thermos to the target location",
+    "stick-pull": "grab the stick and use it to pull the thermos to the target location",
     "sweep-into": "grab the cube and move it to the target location",
     "sweep": "grab the cube and move sideways it to the target location",
     "window-open": "slide the window open to the left",
@@ -383,7 +410,9 @@ MT50_TASK_DESCRIPTIONS = {
     "door-close": "push the door closed to the target location",
 }
 
-MT50_DESCRIPTIONS_TO_TASKS = dict([(description, task) for (task, description) in MT50_TASK_DESCRIPTIONS.items()])
+MT50_DESCRIPTIONS_TO_TASKS = dict(
+    [(description, task) for (task, description) in MT50_TASK_DESCRIPTIONS.items()]
+)
 
 MT10_STEPS = {
     "reach": """
@@ -616,7 +645,7 @@ def decode(filename: str, *, encoding: str = "guess", task: str = None):
         plans = load_plan_file(filename, default_task=task)
     else:
         plans = load_plan_file(filename, encoding, default_task=task)
-    print(plans)
+    # print(plans)
     return plans
 
 

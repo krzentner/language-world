@@ -1,17 +1,38 @@
-# button-press-topdown: push the button down from above
-def button_press_topdown(robot):
+# reach: reach to the target location
+def reach(robot):
     # Steps:
-    #  1. Line up the gripper as viewed from above
-    #  2. Push down on the button from the top
-    # Because this is "topdown", we just need to line up the gripper from above.
-    # Line up the robot's gripper from above.
-    if check("the robot's gripper is not vertically aligned with button"):
-        robot.put("gripper above button")
-    # Now that the gripper is lined up, just push down on the button.
-    if check("the robot's gripper is vertically aligned with button"):
-        robot.push("down on button")
+    #  1. Reach towards the target
+    # We don't have any objects to manipulate, so we can just move the robot's
+    # gripper directly to the target location
+    if check("the robot's gripper is not near reach target"):
+        robot.reach("to goal")
 
-# peg-insert-side: insert the peg into the hole from the side
+# pick-place: pick up the puck and hold it at the target location
+def pick_place(robot):
+    # Steps:
+    #  1. Put gripper above puck
+    #  2. Drop gripper around puck
+    #  3. Close gripper around puck
+    #  4. Move puck to goal
+    # First, put the gripper roughly above puck, so that we don't bump it while
+    # trying to grab it.
+    if check("the robot's gripper is not above the puck"):
+        robot.place("gripper above puck")
+    # If the gripper isn't around the puck, put it around the puck.
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.drop("gripper around puck")
+    # If the gripper is near the puck and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near puck and the robot's gripper is open"):
+        robot.close("gripper around puck")
+    # We closed the gripper, and the puck is still near the gripper, so maybe we
+    # grabbed it.
+    # Try to move the puck to the goal.
+    # If we didn't grab it, we'll just go back to an earlier step.
+    if check("the robot's gripper is above puck and the robot's gripper is closed"):
+        robot.place("puck at goal")
+
+# peg-insert-side: grab the peg and insert it into the hole from the side
 def peg_insert_side(robot):
     # Steps:
     #  1. Put gripper above the peg
@@ -57,39 +78,18 @@ def push(robot):
     if check("the robot's gripper is near the puck and the puck is below the robot's gripper"):
         robot.slide("the puck to the goal")
 
-# pick-place: pick up the puck and hold it at the target location
-def pick_place(robot):
+# button-press-topdown: push the button down from above
+def button_press_topdown(robot):
     # Steps:
-    #  1. Put gripper above puck
-    #  2. Drop gripper around puck
-    #  3. Close gripper around puck
-    #  4. Move puck to goal
-    # First, put the gripper roughly above puck, so that we don't bump it while
-    # trying to grab it.
-    if check("the robot's gripper is not above the puck"):
-        robot.place("gripper above puck")
-    # If the gripper isn't around the puck, put it around the puck.
-    if check("the robot's gripper is not around puck and the robot's gripper is open"):
-        robot.drop("gripper around puck")
-    # If the gripper is near the puck and open, maybe we can grab it by closing
-    # the gripper.
-    if check("the robot's gripper is near puck and the robot's gripper is open"):
-        robot.close("gripper around puck")
-    # We closed the gripper, and the puck is still near the gripper, so maybe we
-    # grabbed it.
-    # Try to move the puck to the goal.
-    # If we didn't grab it, we'll just go back to an earlier step.
-    if check("the robot's gripper is above puck and the robot's gripper is closed"):
-        robot.place("puck at goal")
-
-# reach: reach to the target location
-def reach(robot):
-    # Steps:
-    #  1. Reach towards the target
-    # We don't have any objects to manipulate, so we can just move the robot's
-    # gripper directly to the target location
-    if check("the robot's gripper is not near reach target"):
-        robot.reach("to goal")
+    #  1. Line up the gripper as viewed from above
+    #  2. Push down on the button from the top
+    # Because this is "topdown", we just need to line up the gripper from above.
+    # Line up the robot's gripper from above.
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.put("gripper above button")
+    # Now that the gripper is lined up, just push down on the button.
+    if check("the robot's gripper is vertically aligned with button"):
+        robot.push("down on button")
 
 # button-press-wall: push the button from the front with a short wall in the way
 def button_press_wall(robot):

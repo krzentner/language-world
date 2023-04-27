@@ -3,21 +3,6 @@ Hello. Today I would like you to help me control a robot. The robot has a single
 Here's some code that demonstrates how the robot can do a variety of tasks:
 
 ```
-# window-open: slide the window open to the left
-def window_open(robot):
-    # Steps:
-    #  1. Put gripper right of the window handle
-    #  2. Start pushing against the window handle to open the window
-    #  3. Push the window open harder
-    # If the robot's gripper is not vertically lined up with the window handle,
-    # we should move the gripper near the window handle to start pushing
-    if check("the robot's gripper is near the window handle"):
-        robot.move_gripper("forward aligned with the window handle")
-    # If the robot's gripper is near the window handle we can probably slide the
-    # window open now by moving the gripper left.
-    if check("the robot's gripper is in front of the window handle"):
-        robot.move_gripper("vertically aligned with the window handle")
-
 # push: slide the puck to the target location
 def push(robot):
     # Steps:
@@ -72,6 +57,21 @@ def window_close(robot):
     if check("the robot's gripper is near the window handle"):
         robot.move_gripper("forward aligned with the window handle")
 
+# window-open: slide the window open to the left
+def window_open(robot):
+    # Steps:
+    #  1. Put gripper right of the window handle
+    #  2. Start pushing against the window handle to open the window
+    #  3. Push the window open harder
+    # If the robot's gripper is not vertically lined up with the window handle,
+    # we should move the gripper near the window handle to start pushing
+    if check("the robot's gripper is near the window handle"):
+        robot.move_gripper("forward aligned with the window handle")
+    # If the robot's gripper is near the window handle we can probably slide the
+    # window open now by moving the gripper left.
+    if check("the robot's gripper is in front of the window handle"):
+        robot.move_gripper("vertically aligned with the window handle")
+
 # pick-place: pick up the puck and hold it at the target location
 def pick_place(robot):
     # Steps:
@@ -96,6 +96,6 @@ Please write a program to perform the last task, `peg-insert-side`.
 Begin with the text:
 
 ```
-# peg-insert-side: insert the peg into the hole from the side
+# peg-insert-side: grab the peg and insert it into the hole from the side
 def peg_insert_side(robot):
 ```
