@@ -111,7 +111,7 @@ def _filter_cmds_ram(commands, *, reserved_ram_gb, ram_gb_cap):
 
 
 def _sort_cmds(commands):
-    def key(cmd) -> tuple[list[int], float, float]:
+    def key(cmd) -> Tuple[List[int], float, float]:
         priority_as_list = cmd.priority
         if not isinstance(priority_as_list, (list, tuple)):
             priority_as_list = [priority_as_list]

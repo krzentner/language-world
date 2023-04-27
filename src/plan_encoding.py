@@ -425,7 +425,7 @@ MT10_STEPS = {
     """,
 }
 
-MT10_STEP_REASONS: dict[str, list[str]] = {
+MT10_STEP_REASONS: Dict[str, List[str]] = {
     "reach": [
         """
     # We don't have any objects to manipulate, so we can just move the robot's
