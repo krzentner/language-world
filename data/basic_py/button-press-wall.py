@@ -1,7 +1,20 @@
-# reach: reach to the target location
-def reach(robot):
-    if check("the robot's gripper is not near reach target"):
-        robot.reach("to goal")
+# button-press-topdown: push the button down from above
+def button_press_topdown(robot):
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.put("gripper above button")
+    if check("the robot's gripper is vertically aligned with button"):
+        robot.push("down on button")
+
+# peg-insert-side: insert the peg into the hole from the side
+def peg_insert_side(robot):
+    if check("the robot's gripper is not vertically aligned with the peg"):
+        robot.put("gripper above peg")
+    if check("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper"):
+        robot.grab("peg")
+    if check("the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole"):
+        robot.align("peg to hole")
+    if check("peg is horizontally aligned with hole"):
+        robot.insert("peg into hole")
 
 # push: slide the puck to the target location
 def push(robot):
@@ -23,6 +36,13 @@ def pick_place(robot):
     if check("the robot's gripper is above puck and the robot's gripper is closed"):
         robot.place("puck at goal")
 
+# drawer-close: push the drawer close
+def drawer_close(robot):
+    if check("the robot's gripper is not near the drawer handle"):
+        robot.grab("drawer handle")
+    if check("the robot's gripper is forward aligned with drawer handle"):
+        robot.push("drawer closed")
+
 # door-open: pull the door open
 def door_open(robot):
     if check("the robot's gripper is not almost vertically aligned with door handle"):
@@ -41,30 +61,10 @@ def drawer_open(robot):
     if check("the robot's gripper is around drawer handle"):
         robot.pull("away from drawer")
 
-# drawer-close: push the drawer close
-def drawer_close(robot):
-    if check("the robot's gripper is not near the drawer handle"):
-        robot.grab("drawer handle")
-    if check("the robot's gripper is forward aligned with drawer handle"):
-        robot.push("drawer closed")
-
-# button-press-topdown: push the button down from above
-def button_press_topdown(robot):
-    if check("the robot's gripper is not vertically aligned with button"):
-        robot.put("gripper above button")
-    if check("the robot's gripper is vertically aligned with button"):
-        robot.push("down on button")
-
-# peg-insert-side: insert the peg into the hole from the side
-def peg_insert_side(robot):
-    if check("the robot's gripper is not vertically aligned with the peg"):
-        robot.put("gripper above peg")
-    if check("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper"):
-        robot.grab("peg")
-    if check("the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole"):
-        robot.align("peg to hole")
-    if check("peg is horizontally aligned with hole"):
-        robot.insert("peg into hole")
+# reach: reach to the target location
+def reach(robot):
+    if check("the robot's gripper is not near reach target"):
+        robot.reach("to goal")
 
 # window-open: slide the window open to the left
 def window_open(robot):

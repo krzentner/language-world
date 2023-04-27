@@ -1,14 +1,16 @@
 import re
 from textwrap import indent, dedent
 import json
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Iterable
 import os
+import random
 
 
 import generate_metaworld_scene_dataset
 
-from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES
+from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES, str_project
 
+MAX_LEN = ((1920 - 512) * 3.5)
 
 def load_plan_file(
     filename: str, encoding: Optional[str] = None, default_task: Optional[str] = None
@@ -173,18 +175,29 @@ CLAUSE_MD = re.compile(
     flags=re.MULTILINE,
 )
 
+def nearest_tasks_by_desc(target_task: str, base_tasks: Iterable[str]) -> List[str]:
+    base_task_descriptions = [MT50_TASK_DESCRIPTIONS[base_task] for base_task in base_tasks]
+    desc_by_edit_distance = str_project(MT50_TASK_DESCRIPTIONS[target_task], base_task_descriptions)
+    return [MT50_DESCRIPTIONS_TO_TASKS[desc] for desc in desc_by_edit_distance]
+
 
 def encode_py(env_name, plan, chain_of_thought=False, use_goal_conditioning=False):
     contents = []
-    for base_task, steps in plan.items():
-        contents.append(
-            plan_str_py(
-                base_task,
-                steps,
-                chain_of_thought=chain_of_thought,
-                use_goal_conditioning=use_goal_conditioning,
+    by_edit_distance = nearest_tasks_by_desc(env_name, plan.keys())
+    for base_task in by_edit_distance:
+        steps = plan[base_task]
+        if base_task != env_name:
+            contents.append(
+                plan_str_py(
+                    base_task,
+                    steps,
+                    chain_of_thought=chain_of_thought,
+                    use_goal_conditioning=use_goal_conditioning,
+                )
             )
-        )
+        if len("\n\n".join(contents)) > MAX_LEN:
+            print(f"Dropping {base_task} example")
+            contents.pop()
     contents.append(
         plan_str_py(env_name, [], chain_of_thought=False, use_goal_conditioning=False)
     )
@@ -252,15 +265,21 @@ def encode_md(env_name, plan, chain_of_thought=False, use_goal_conditioning=Fals
     contents = [
         """Hello. Today I would like you to help me control a robot. The robot has a single gripper that it can use to grab small objects.\n"""
     ]
-    for base_task, steps in plan.items():
-        contents.append(
-            plan_str_md(
-                base_task,
-                steps,
-                chain_of_thought=chain_of_thought,
-                use_goal_conditioning=use_goal_conditioning,
+    by_edit_distance = nearest_tasks_by_desc(env_name, plan.keys())
+    for base_task in by_edit_distance:
+        steps = plan[base_task]
+        if base_task != env_name:
+            contents.append(
+                plan_str_md(
+                    base_task,
+                    steps,
+                    chain_of_thought=chain_of_thought,
+                    use_goal_conditioning=use_goal_conditioning,
+                )
             )
-        )
+        if len("\n\n".join(contents)) > MAX_LEN:
+            print(f"Dropping {base_task} example")
+            contents.pop()
     contents.append(
         dedent(
             f"""\
@@ -363,6 +382,8 @@ MT50_TASK_DESCRIPTIONS = {
     "hand-insert": "pick up the puck and move it to the target location",
     "door-close": "push the door closed to the target location",
 }
+
+MT50_DESCRIPTIONS_TO_TASKS = dict([(description, task) for (task, description) in MT50_TASK_DESCRIPTIONS.items()])
 
 MT10_STEPS = {
     "reach": """
@@ -568,6 +589,7 @@ ALL_SAVED = {}
 
 
 def save(plan_str: str, filename: str):
+    print("Saving", filename)
     assert "\n" not in filename
     if "/" in filename:
         os.makedirs(filename.rsplit("/", maxsplit=1)[0], exist_ok=True)
