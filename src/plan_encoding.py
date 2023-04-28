@@ -10,7 +10,9 @@ import generate_metaworld_scene_dataset
 
 from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES, str_project
 
-MAX_LEN = (1920 - 512) * 3.5
+# Estimated basic PaLM limit
+# MAX_LEN = (1920 - 512) * 3.5
+MAX_LEN = 10000
 
 
 def load_plan_file(

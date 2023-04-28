@@ -1,6 +1,11 @@
 Hello. Today I would like you to help me control a robot. The robot has a single gripper that it can use to grab small objects.
 
 
+The task `button-press-topdown` requires the robot to push the button down from above.
+To push the button down from above reliably, the robot should perform the following steps:
+    - When the robot's gripper is not vertically aligned with button, the robot should put gripper above button.
+    - When the robot's gripper is vertically aligned with button, the robot should push down on button.
+
 The task `door-open` requires the robot to pull the door open.
 To pull the door open reliably, the robot should perform the following steps:
     - When the robot's gripper is not almost vertically aligned with door handle, the robot should put gripper above door handle.

@@ -1,6 +1,12 @@
 Hello. Today I would like you to help me control a robot. The robot has a single gripper that it can use to grab small objects.
 
 
+The task `drawer-open` requires the robot to pull the drawer open.
+To pull the drawer open reliably, the robot should perform the following steps:
+    - When the robot's gripper is not vertically aligned with drawer handle, the robot should put gripper above drawer handle.
+    - When the robot's gripper is vertically aligned with drawer handle and the robot's gripper is not around drawer handle, the robot should put gripper around drawer handle.
+    - When the robot's gripper is around drawer handle, the robot should pull away from drawer.
+
 The task `window-open` requires the robot to slide the window open to the left.
 To slide the window open to the left reliably, the robot should perform the following steps:
     - When the robot's gripper is not vertically aligned with the window handle and the robot's gripper is below the window handle, the robot should move gripper to right of window handle.

@@ -1,6 +1,11 @@
 Hello. Today I would like you to help me control a robot. The robot has a single gripper that it can use to grab small objects.
 
 
+The task `drawer-close` requires the robot to push the drawer close.
+To push the drawer close reliably, the robot should perform the following steps:
+    - When the robot's gripper is not near the drawer handle, the robot should grab drawer handle.
+    - When the robot's gripper is forward aligned with drawer handle, the robot should push drawer closed.
+
 The task `reach` requires the robot to reach to the target location.
 To reach to the target location reliably, the robot should perform the following steps:
     - When the robot's gripper is not near reach target, the robot should reach to goal.

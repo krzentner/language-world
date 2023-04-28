@@ -1,6 +1,12 @@
 Hello. Today I would like you to help me control a robot. The robot has a single gripper that it can use to grab small objects.
 
 
+The task `window-open` requires the robot to slide the window open to the left.
+To slide the window open to the left reliably, the robot should perform the following steps:
+    - When the robot's gripper is not vertically aligned with the window handle and the robot's gripper is below the window handle, the robot should move gripper to right of window handle.
+    - When the robot's gripper is near the window handle, the robot should slide window left.
+    - When the robot's gripper is in front of the window handle, the robot should push window left harder.
+
 The task `peg-insert-side` requires the robot to grab the peg and insert it into the hole from the side.
 To grab the peg and insert it into the hole from the side reliably, the robot should perform the following steps:
     - When the robot's gripper is not vertically aligned with the peg, the robot should put gripper above peg.

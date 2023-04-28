@@ -1,6 +1,11 @@
 Hello. Today I would like you to help me control a robot. The robot has a single gripper that it can use to grab small objects.
 
 
+The task `drawer-close` requires the robot to push the drawer close.
+To push the drawer close reliably, the robot should perform the following steps:
+    - When the robot's gripper is not near the drawer handle, the robot should grab drawer handle.
+    - When the robot's gripper is forward aligned with drawer handle, the robot should push drawer closed.
+
 The task `button-press-topdown` requires the robot to push the button down from above.
 To push the button down from above reliably, the robot should perform the following steps:
     - When the robot's gripper is not vertically aligned with button, the robot should put gripper above button.

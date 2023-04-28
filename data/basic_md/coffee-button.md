@@ -5,6 +5,12 @@ The task `reach` requires the robot to reach to the target location.
 To reach to the target location reliably, the robot should perform the following steps:
     - When the robot's gripper is not near reach target, the robot should reach to goal.
 
+The task `window-close` requires the robot to slide the window closed to the right.
+To slide the window closed to the right reliably, the robot should perform the following steps:
+    - When the window handle is right of the robot's gripper and the robot's gripper is not near the window handle, the robot should move gripper to left of window handle.
+    - When the robot's gripper is near the window handle, the robot should slide window right.
+    - When the robot's gripper is in front of the window handle, the robot should push window right harder.
+
 The task `drawer-open` requires the robot to pull the drawer open.
 To pull the drawer open reliably, the robot should perform the following steps:
     - When the robot's gripper is not vertically aligned with drawer handle, the robot should put gripper above drawer handle.

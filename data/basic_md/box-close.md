@@ -1,6 +1,12 @@
 Hello. Today I would like you to help me control a robot. The robot has a single gripper that it can use to grab small objects.
 
 
+The task `door-open` requires the robot to pull the door open.
+To pull the door open reliably, the robot should perform the following steps:
+    - When the robot's gripper is not almost vertically aligned with door handle, the robot should put gripper above door handle.
+    - When the robot's gripper is almost vertically aligned with the door handle and the robot's gripper is open, the robot should put gripper around door handle.
+    - When the robot's gripper is vertically aligned with the door handle, the robot should pull door open.
+
 The task `reach` requires the robot to reach to the target location.
 To reach to the target location reliably, the robot should perform the following steps:
     - When the robot's gripper is not near reach target, the robot should reach to goal.

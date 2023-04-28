@@ -1,3 +1,40 @@
+# door-open: pull the door open
+def door_open(robot):
+    # Steps:
+    #  1. Put gripper above door handle
+    #  2. Drop gripper around door handle
+    #  3. Pull open the door
+    # First, put the gripper mostly above the door handle.
+    if check("the robot's gripper is not almost vertically aligned with door handle"):
+        robot.put("gripper above door handle")
+    # As long as the gripper is almost lined up, closing it should line it up
+    # all the way.
+    if check("the robot's gripper is almost vertically aligned with the door handle and the robot's gripper is open"):
+        robot.put("gripper around door handle")
+    # As long as the gripper is still vertically aligned with the door handle,
+    # it's being opened, so keep pulling.
+    if check("the robot's gripper is vertically aligned with the door handle"):
+        robot.pull("door open")
+
+# drawer-open: pull the drawer open
+def drawer_open(robot):
+    # Steps:
+    #  1. Put gripper above drawer handle
+    #  2. Drop gripper around drawer handle
+    #  3. Pull open the drawer
+    # We need to put the gripper above the drawer handle before we can grab it,
+    # because of the angle of the robot's gripper.
+    if check("the robot's gripper is not vertically aligned with drawer handle"):
+        robot.put("gripper above drawer handle")
+    # Once the gripper is lined up above the drawer handle, we should be able to
+    # grab the drawer handle by moving the gripper down around it.
+    if check("the robot's gripper is vertically aligned with drawer handle and the robot's gripper is not around drawer handle"):
+        robot.put("gripper around drawer handle")
+    # Once the gripper is around the drawer handle, we can just pull the drawer
+    # open.
+    if check("the robot's gripper is around drawer handle"):
+        robot.pull("away from drawer")
+
 # drawer-close: push the drawer close
 def drawer_close(robot):
     # Steps:
@@ -22,6 +59,28 @@ def reach(robot):
     # gripper directly to the target location
     if check("the robot's gripper is not near reach target"):
         robot.reach("to goal")
+
+# push: slide the puck to the target location
+def push(robot):
+    # Steps:
+    #  1. Put gripper above puck
+    #  2. Push gripper into top of puck
+    #  3. Slide puck to goal
+    # The robot can slide the puck by trapping it by pushing down on it from
+    # above and moving the gripper.
+    # If the puck isn't below the gripper as seen from above, move the gripper
+    # above the puck.
+    if check("the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck"):
+        robot.put("the gripper above the puck")
+    # If the gripper is aligned with the puck but not near it, move the gripper
+    # down to the puck to slide it.
+    if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck"):
+        robot.push("the gripper into the puck")
+    # If the gripper is near the puck, we've probably trapped the puck and can
+    # slide it to the target location.
+    # Close the gripper to make sure we keep control of the puck.
+    if check("the robot's gripper is near the puck and the puck is below the robot's gripper"):
+        robot.slide("the puck to the goal")
 
 # button-press-topdown: push the button down from above
 def button_press_topdown(robot):
