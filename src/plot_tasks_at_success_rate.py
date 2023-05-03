@@ -1,7 +1,11 @@
+from typing import Dict, List
 import clize
 import plotly.graph_objects as go
 from run_utils import str_list
 from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES
+from tqdm import tqdm
+import warnings
+import re
 import os
 import json
 import sys
@@ -87,6 +91,71 @@ def load_result_files(filenames, metric="SuccessRate", n_evals=None, max_t=True)
             else:
                 print(exc, file=sys.stderr)
     return perf
+
+
+def merge_result_files(result_filenames: List[str]) -> Dict[str, float]:
+    perf = {}
+    for filename in result_filenames:
+        with open(filename) as f:
+            if filename.endswith(".json"):
+                data = json.load(f)
+            elif filename.endswith(".ndjson"):
+                content = f.read()
+                objects = re.split(r"\n{", content)
+                data = json.loads(objects[0])
+            else:
+                warnings.warn(f"Could not load file: {filename}")
+                data = {}
+        for k, v in data.items():
+            if k not in perf or v > perf[k]:
+                perf[k] = v
+    return perf
+
+
+GPT3_ENGINES = [
+    # "text-babbage-001",
+    # "text-curie-001",
+    "text-davinci-003",
+]
+
+GPT_CHAT_MODELS = [
+    # "gpt-4",
+    "gpt-3.5-turbo"
+]
+
+PLAN_ENCODINGS = [
+    "basic_py",
+    "chain_py",
+    "goal_py",
+    "basic_py_md",
+    "chain_py_md",
+    "goal_py_md",
+    "basic_md",
+    "chain_md",
+    "goal_md",
+]
+
+LLM_ATTEMPTS = 5
+
+MODEL_SHORT_NAME = {
+    "text-davinci-003": "GPT3",
+    "gpt-3.5-turbo": "GPT3.5",
+}
+
+
+def plot_llm_scripted_skill_evals():
+    performances = {}
+    for plan_enc in tqdm(PLAN_ENCODINGS):
+        for model in GPT3_ENGINES + GPT_CHAT_MODELS:
+            perf = merge_result_files(
+                [
+                    f"data/{model}/{plan_enc}/{task}-{i}-perf.json"
+                    for i in range(LLM_ATTEMPTS)
+                    for task in MT50_ENV_NAMES
+                ]
+            )
+            performances[f"{MODEL_SHORT_NAME[model]}/{plan_enc}"] = perf
+    plot_tasks_auc(performances, f"data/scripted_skills.html")
 
 
 def run(
@@ -607,4 +676,4 @@ def success_rate_results(result_set, max_t):
 
 
 if __name__ == "__main__":
-    clize.run(run)
+    clize.run(run, plot_llm_scripted_skill_evals)
