@@ -1,8 +1,6 @@
-Sorry, it seems like there is a duplicate `drawer_close` function in the provided code. Here's the corrected version:
-
-# drawer-close: push the drawer close
-# def drawer_close(robot):
-    if check("the robot's gripper is not near the drawer handle"):
-        robot.grab("drawer handle")
-    if check("the robot's gripper is forward aligned with drawer handle"):
-        robot.push("drawer closed")
+if check("the robot's gripper is not vertically aligned with drawer handle"):
+        robot.put("gripper above drawer handle")
+    if check("the robot's gripper is vertically aligned with drawer handle and the robot's gripper is not around drawer handle"):
+        robot.put("gripper around drawer handle")
+    if check("the robot's gripper is around drawer handle"):
+        robot.push("toward drawer")

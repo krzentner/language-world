@@ -1,0 +1,1 @@
+I think the "push" function is duplicated in the code. Can we rename one of them to avoid confusion?

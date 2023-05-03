@@ -1,19 +1,21 @@
 # Steps:
     #  1. Put gripper above the cube
-    #  2. Grab the cube with the gripper
-    #  3. Move the cube to the left or right of the robot
-    #  4. Move the cube to the target location
+    #  2. Drop gripper around cube
+    #  3. Close the gripper around cube
+    #  4. Move the gripper and cube to the target location
     # First, put the gripper above the cube.
     if check("the robot's gripper is not above the cube"):
-        robot.put("gripper above cube")
-    # If the gripper is above the cube, grab it.
-    if check("the robot's gripper is above the cube and the robot's gripper is open"):
-        robot.grab("cube")
-    # If the gripper is holding the cube, move it left or right based on the
-    # current location of the cube.
-    # Assume we want to move the cube to the right side of the robot first.
-    if check("the robot's gripper is holding the cube and the cube is not on the right side of the robot"):
-        robot.move("cube to the right of the robot")
-    # If the cube is on the right side of the robot, move it to the target location.
-    if check("the cube is on the right side of the robot"):
-        robot.slide("cube to the goal")
+        robot.place("gripper above the cube")
+    # If the gripper is not around the cube, put the gripper around it.
+    if check("the robot's gripper is not around cube and the robot's gripper is open"):
+        robot.drop("gripper around cube")
+    # If the gripper is near the cube and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near cube and the robot's gripper is open"):
+        robot.close("gripper around cube")
+    # We closed the gripper, and the cube is still near the gripper, so maybe we
+    # grabbed it.
+    # Move the gripper and cube to the target location by sliding it sideways.
+    # If we didn't grab the cube, we'll just go back to an earlier step.
+    if check("the robot's gripper is above cube and the robot's gripper is closed"):
+        robot.slide("gripper and cube to the goal")

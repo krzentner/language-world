@@ -1,16 +1,22 @@
 
     # Steps:
-    #  1. Put the gripper right of the peg
-    #  2. Start to pull the peg out
-    #  3. Pull the peg harder
-    # First, make sure the side of the peg that is sticking out of the hole is
-    # right of the gripper.
-    if check("the side of the peg that is sticking out of the hole is not right of the robot's gripper"):
-        robot.move("gripper to the right of the peg")
-    # As long as the gripper is still lined up with the peg from the side, start
-    # to pull it out.
-    if check("the robot's gripper is side aligned with the peg"):
-        robot.pull("peg out")
-    # If the peg isn't moving, it's probably stuck, so pull harder.
-    if check("the peg is not coming out"):
-        robot.pull("peg out harder")
+    #  1. Put gripper above the peg
+    #  2. Grab the peg with the gripper
+    #  3. Line the peg up with the hole
+    #  4. Pull the peg sideways to unplug it from the hole
+    # First, put the gripper above the peg.
+    if check("the robot's gripper is not vertically aligned with the peg"):
+        robot.put("gripper above peg")
+    # If the peg becomes left of the gripper, go back to putting the gripper
+    # above the peg.
+    # Because the peg is a long object, check if the gripper is lined up with it
+    # from the front instead of around it.
+    if check("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper"):
+        robot.grab("peg")
+    # As long the gripper is still mostly around the peg and the peg isn't lined
+    # up with the hole, line up the peg with the hole.
+    if check("the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole"):
+        robot.align("peg to hole")
+    # If the peg is lined up with the hole to the side, pull it out.
+    if check("peg is horizontally aligned with hole"):
+        robot.pull("peg unplug from hole")

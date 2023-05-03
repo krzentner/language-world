@@ -1,19 +1,30 @@
 # button-press-wall: push the button from the front with a short wall in the way
-# def button_press_wall(robot):
+def button_press_wall(robot):
     # Steps:
-    #  1. Put gripper near the button and aligned with it
-    #  2. Move gripper forward until it contacts the wall
-    #  3. Slide the gripper along the wall until it's above the button
-    #  4. Push down on the button
-    # First, align the gripper with the button
-    if check("the robot's gripper is not aligned with the button and is not positioned nearby"):
-        robot.place("gripper near button and aligned")
-    # Move gripper forward toward the wall
-    if check("the robot's gripper is not contacting the wall"):
-        robot.move("gripper forward until it contacts the wall")
-    # Slide the gripper along the wall toward the button
-    if check("the gripper is not above the button"):
-        robot.slide("gripper along the wall until it's above the button")
-    # Push down on the button
-    if check("the gripper is above the button and not pushed down"):
-        robot.push("down on the button")
+    #   1. Move the gripper to the left of the wall, facing the button
+    #   2. Move the gripper forward until it reaches the wall
+    #   3. Move the gripper slightly up to be above the button
+    #   4. Close the gripper around the button, pushing it at the wall
+    #   5. Move the gripper slightly down to release the button
+    
+    # Move the gripper left of the wall, facing the button
+    if check("the robot's gripper is not left of the wall"):
+        robot.move("gripper to left of wall")
+    
+    # Move the gripper forward until it reaches the wall
+    if check("the robot's gripper is not touching the wall"):
+        robot.slide("gripper towards the wall")
+    
+    # Move the gripper slightly up to be above the button
+    if check("the robot's gripper is not above the button"):
+        robot.move("gripper slightly up")
+    
+    # Close the gripper around the button, pushing it at the wall
+    if check("the robot's gripper is not holding the button"):
+        robot.close("gripper around button")
+        robot.push("button at the wall")
+    
+    # Move the gripper slightly down to release the button
+    if check("the robot's gripper is holding the button"):
+        robot.move("gripper slightly down")
+        robot.open("gripper")

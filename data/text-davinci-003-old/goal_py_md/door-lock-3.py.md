@@ -1,27 +1,22 @@
 
 
-Steps:
-1. Put gripper above the dial
-2. Drop gripper around the dial
-3. Turn the dial
+Here's the program to perform the task `door_lock`:
 
+```
 # door-lock: turn the dial on the door
 # def door_lock(robot):
     # Steps:
-    #  1. Put gripper above the dial
-    #  2. Drop gripper around the dial
-    #  3. Turn the dial
-    # First, put the gripper roughly above the dial, so that we don't bump it while
-    # trying to grab it.
-    if check("the robot's gripper is not above dial"):
-        robot.move_gripper("above the dial")
-    # If the gripper isn't around the dial, put it around the dial.
-    if check("the robot's gripper is not around dial and the robot's gripper is open"):
-        robot.move_gripper("near the dial", close_gripper=True)
-    # If the gripper is near the dial and open, maybe we can grab it by closing
-    # the gripper.
-    if check("the robot's gripper is above dial and the robot's gripper is closed"):
-        robot.move_gripper("around the dial")
-    # Once the gripper is around the dial, we can just turn the dial.
-    if check("the robot's gripper is around dial"):
-        robot.move_gripper("horizontally aligned with the dial")
+    #  1. Move the robot's gripper finish near the door lock
+    #  2. Turn the dial of the door lock in the required direction
+    # First, put the gripper near the door lock
+    if check("the robot's gripper is not near door lock"):
+        robot.move_gripper("near the door lock")
+    # Once the gripper is near the door lock, align it with the lock, closing it
+    # around the lock.
+    if check("the robot's gripper is near door lock and the robot's gripper is not vertically aligned with door lock"):
+        robot.move_gripper("vertically aligned with door lock", close_gripper=True)
+    # Once the gripper is lined up with the door lock, turn the dial in the
+    # required direction.
+    if check("the robot's gripper is vertically aligned with the door lock"):
+        robot.move_gripper("right or left of the door lock")
+```

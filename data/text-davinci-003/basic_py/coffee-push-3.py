@@ -1,7 +1,9 @@
 
-    if check("the robot's gripper is not above mug"):
-        robot.put("gripper above mug")
-    if check("the robot's gripper is above mug and the robot's gripper is open"):
+    if check("the robot's gripper is not vertically aligned with the mug"):
         robot.grab("mug")
-    if check("the robot's gripper is around mug and the mug is not at goal"):
-        robot.slide("mug to goal")
+    if check("the robot's gripper is below mug and the robot's gripper is open"):
+        robot.grab("mug")
+    if check("the robot's gripper is around the mug and the mug is not left of the robot's gripper"):
+        robot.push("mug left")
+    if check("the mug is left of the robot's gripper"):
+        robot.place("mug at goal")

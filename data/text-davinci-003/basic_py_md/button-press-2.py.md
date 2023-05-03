@@ -1,12 +1,6 @@
 
 
-The program should be:
-
-```
-# button-press: push the button from the front
-# def button_press(robot):
-    if check("the robot's gripper is not forward aligned with button and the robot's gripper is not above button"):
-        robot.put("gripper above button")
-    if check("the robot's gripper is forward aligned with button"):
-        robot.push("button")
-```
+If check("the robot's gripper is not horizontally aligned with the button"):
+    robot.put("gripper in front of button")
+if check("the robot's gripper is horizontally aligned with the button"):
+    robot.push("button")

@@ -14,4 +14,4 @@
     # If the robot's gripper is starting to be in front of the window handle,
     # push harder.
     if check("the robot's gripper is near the window handle"):
-        robot.move_gripper("forward aligned with the window handle")
+        robot.move_gripper("right of the window handle")

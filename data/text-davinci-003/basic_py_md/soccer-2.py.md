@@ -1,7 +1,9 @@
 
 
-if check("the robot's gripper is not above the soccer ball"):
-    robot.place("gripper above soccer ball")
+Once the `soccer` function is defined, the robot can move the soccer ball to the goal as follows:
+
+if check("the robot's gripper is not above soccer ball and the robot's gripper is not vertically aligned with soccer ball"):
+    robot.put("the gripper above the soccer ball")
 if check("the robot's gripper is vertically aligned with the soccer ball and the robot's gripper is not near soccer ball"):
     robot.push("the gripper into the soccer ball")
 if check("the robot's gripper is near the soccer ball and the soccer ball is below the robot's gripper"):

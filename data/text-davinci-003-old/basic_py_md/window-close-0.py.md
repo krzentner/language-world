@@ -1,6 +1,6 @@
 
 
-Solution:
+...then add your code:
 
 ```
 # window-close: slide the window closed to the right

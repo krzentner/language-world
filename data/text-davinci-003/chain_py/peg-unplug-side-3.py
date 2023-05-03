@@ -1,14 +1,15 @@
 
     # Steps:
-    #  1. Put gripper above peg
-    #  2. Grab peg
-    #  3. Pull peg out
-    # Put the gripper roughly above the peg
-    if check("the robot's gripper is not roughly above peg"):
-        robot.put("gripper above peg")
-    # Now that the robot's gripper is above the peg, grab it and hold it firmly.
-    if check("the robot's gripper is roughly above peg and the robot's gripper is open"):
-            robot.grab("peg")
-    # Pull the peg out.
-    if check("the robot's gripper is above peg and the robot's gripper is closed"):
-        robot.pull("peg out")
+    #  1. Put gripper above the peg
+    #  2. Grab the peg with the gripper
+    #  3. Pull the peg out to the side
+    # First, we need to move the gripper above the peg.
+    if check("the robot's gripper is not above the peg"):
+        robot.put("gripper above the peg")
+    # If the peg isn't left of the gripper, grab it.
+    if check("the peg is not left of the robot's gripper"):
+        robot.grab("peg")
+    # As long as the peg is left of the gripper and there's no obstruction, pull
+    # the peg out to the side.
+    if check("the robot's gripper is left of the peg and there is no obstruction"):
+        robot.pull("peg to the side")

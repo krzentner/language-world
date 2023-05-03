@@ -1,4 +1,5 @@
 
-    - When the robot's gripper is not horizontally aligned with the plate, the robot should move gripper to right of plate.
-    - When the robot's gripper is horizontally aligned with the plate, the robot should slide plate sideways to the goal.
-    - When the robot's gripper is in front of the plate, the robot should push plate sideways harder.
+    - When the robot's gripper is not near the plate and the robot's gripper is open, the robot should put the gripper above the plate.
+    - When the robot's gripper is near the plate and the robot's gripper is open, the robot should grab the plate.
+    - When the robot's gripper is around the plate and the plate is not horizontally aligned with goal, the robot should align plate to goal.
+    - When the plate is horizontally aligned with the goal, the robot should slide the plate sideways into the goal.

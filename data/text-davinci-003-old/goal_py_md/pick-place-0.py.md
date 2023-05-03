@@ -1,6 +1,6 @@
 
 
-Here's the program:
+Then write the code:
 
 ```
 # pick-place: pick up the puck and hold it at the target location
@@ -21,4 +21,4 @@ Here's the program:
     # the gripper.
     if check("the robot's gripper is above puck and the robot's gripper is closed"):
         robot.move_gripper("near the target location")
-``
+```

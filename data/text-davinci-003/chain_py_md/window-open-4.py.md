@@ -1,6 +1,6 @@
 
 
-Solution: 
+Here is a program to perform the task `window-open`:
 
 ```
 # window-open: slide the window open to the left
@@ -9,15 +9,19 @@ def window_open(robot):
     #  1. Put gripper right of the window handle
     #  2. Start pushing against the window handle to open the window
     #  3. Push the window open harder
-    # If the robot's gripper is not right of the window handle, move it there.
-    if check("the robot's gripper is not right of the window handle"):
-        robot.put("gripper right of the window handle")
-    # If the robot's gripper is near the window handle, we can attempt to slide
-    # the window open by pushing it from the side.
+  
+    # If the the window handle is left of the robot's gripper, we should move the
+    # gripper near the window handle to start pushing
+    if check("the window handle is left of the robot's gripper and the robot's gripper is not near the window handle"):
+        robot.move("gripper to right of window handle")
+        
+    # If the robot's gripper is near the window handle we can probably slide the
+    # window open now by moving the gripper left.
     if check("the robot's gripper is near the window handle"):
-        robot.push("window left")
+        robot.slide("window left")
+
     # If the robot's gripper is starting to be in front of the window handle,
-    # we need to push harder.
+    # push harder.
     if check("the robot's gripper is in front of the window handle"):
         robot.push("window left harder")
 ```

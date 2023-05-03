@@ -1,23 +1,17 @@
 # Steps:
-    #  1. Put gripper above plate
-    #  2. Grab the plate
-    #  3. Move plate to the target location horizontally
-    #  4. Align the plate with the target location vertically
-    #  5. Slide the plate into the target location
-    # First, put the gripper above the plate.
-    if check("the robot's gripper is not above the plate"):
-        robot.place("gripper above plate")
-    # If the gripper is not around the plate, put it around the plate.
-    if check("the robot's gripper is not around plate and the robot's gripper is open"):
-        robot.grab("the plate")
-    # Move the plate horizontally to the target location,
-    # if it is not aligned horizontally with the target location.
-    if check("the plate is not horizontally aligned with the target location"):
-        robot.move("plate to the target location horizontally")
-    # Align the plate with the target location vertically,
-    # if it is not aligned vertically with the target location.
-    if check("the plate is not vertically aligned with the target location"):
-        robot.align("plate to the target location vertically")
-    # Slide the plate into the target location.
-    if check("the plate is aligned with the target location"):
-        robot.slide("the plate into the target location")
+    #  1. Put gripper above the plate
+    #  2. Push the gripper down on the plate
+    #  3. Slide the plate into the target location
+    # To slide the plate, the robot needs to push down on the plate and move the
+    # gripper forward.
+    # If the gripper is not aligned with the plate from above, move it above the
+    # plate.
+    if check("the robot's gripper is not vertically aligned with the plate"):
+        robot.put("the gripper above the plate")
+    # Once the gripper is above the plate, push down on it.
+    if check("the robot's gripper is vertically aligned with the plate and the robot's gripper is not pushing down on the plate"):
+        robot.push("down on the plate")
+    # Once the gripper is pushing down on the plate, slide the plate forward
+    # into the target location.
+    if check("the robot's gripper is pushing down on the plate"):
+        robot.slide("the plate to the goal")

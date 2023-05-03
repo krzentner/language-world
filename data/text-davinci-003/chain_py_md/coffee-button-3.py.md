@@ -1,24 +1,18 @@
 
 
-Steps:
-  1. Put gripper above button
-  2. Drop gripper around button
-  3. Push down on button
-
 # coffee-button: push the button on the coffee machine
-# def coffee_button(robot):
+def coffee_button(robot):
     # Steps:
-    #  1. Put gripper above button
-    #  2. Drop gripper around button
-    #  3. Push down on button
-    # Put the gripper in the general area of the button to get it close enough.
-    if check("the robot's gripper is not near button"):
+    #  1. Put gripper above the button
+    #  2. Lower gripper onto the button
+    #  3. Push the button
+    # We need to put the gripper above the button before pushing it, so that we don't accidentally off-center it.
+    if check("the robot's gripper is not above button"):
         robot.put("gripper above button")
-    # As long as the gripper isn't quite around the button, drop it around the
-    # it.
-    if check("the robot's gripper is not around button"):
-        robot.drop("gripper around button")
-    # Now that the gripper is around the button, press down on it to push the
-    # button.
-    if check("the robot's gripper is around button"):
+    # If the gripper is not downward aligned with the button, lower the gripper
+    # onto the button.
+    if check("the robot's gripper is not downward aligned with the button"):
+        robot.put("gripper onto button")
+    # If the gripper is around the button, we should be able to push it.
+    if check("the robot's gripper is downward aligned with the button"):
         robot.push("down on button")

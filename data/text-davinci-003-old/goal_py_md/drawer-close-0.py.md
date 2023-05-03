@@ -1,8 +1,9 @@
 
 
-```
+Here's the program:
+
 # drawer-close: push the drawer close
-# def drawer_close(robot):
+def drawer_close(robot):
     # Steps:
     #  1. Put gripper roughly around the drawer handle
     #  2. Push the drawer closed
@@ -16,4 +17,3 @@
     # push the drawer closed.
     if check("the robot's gripper is forward aligned with drawer handle"):
         robot.move_gripper("around the drawer handle")
-```

@@ -1,8 +1,9 @@
 
-    Steps:  1. Put gripper near lever  2. Grasp lever close to the base  3. Pull lever up
-    We need to put the gripper near the lever before we can grab it, to have enough space to rotate.
-    - When the robot's gripper is not near the lever, the robot should place gripper near lever.
-    We need to grab the lever close to the base, because we're rotating it.
-    - When the robot's gripper is near the lever and the robot's gripper is not close to the base, the robot should grab lever close to base.
-    When the gripper is close to the base, pull it up.
-    - When the robot's gripper is close to the base, the robot should pull lever up.
+
+Steps:  1. Put gripper around the lever  2. Pull up on the lever  3. Rotate lever up
+    We need to put the gripper around the lever before we can grab it.
+    - When the robot's gripper is not around the lever, the robot should put gripper around lever.
+    Now that the gripper is around the lever, we can start pulling up.
+    - When the robot's gripper is around lever, the robot should pull up on lever.
+    As long as the lever is still up, keep rotating it.
+    - When the lever is up, the robot should rotate lever up.

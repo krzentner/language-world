@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above the handle  2. Grab the handle with the gripper  3. Lift the handle up  4. Pull the handle out to the side
-    First, put the robot's gripper above the handle, so that we can grab it without any obstacles.
-    - When the robot's gripper is not vertically aligned with the handle, move the robot's gripper until the robot's gripper is vertically aligned with the handle and the robot's gripper is closed
-    Now that the gripper is above the handle, we should be able to grab it by moving the gripper down.
-    - When the robot's gripper is vertically aligned with the handle and the robot's gripper is not around the handle, move the robot's gripper until the robot's gripper is around the handle and the robot's gripper is closed
-    Once gripping the handle with the gripper, lift the handle up and out to the side to take it out of the hole.
-    - When the robot's gripper is around the handle and the handle is not out of the hole, move the robot's gripper until the robot's gripper is horizontally aligned with the handle and the handle is out of the hole
+     Steps:  1. Put gripper around the handle  2. Pull the handle up to the top  3. Move the handle to the left
+    First, put the gripper around the handle.
+    - When the robot's gripper is not around the handle, move the robot's gripper until the robot's gripper is around the handle and the robot's gripper is closed
+    Once the gripper is around the handle evenly, we should be able to pull it up.
+    - When the robot's gripper is around the handle and the robot's gripper is not near top of handle, move the robot's gripper until the robot's gripper is above the top of the handle
+    Once the handle is near the top, move it to the left.
+    - When the robot's gripper is above top of handle and the handle is not horizontally aligned with the left side, move the robot's gripper until the handle is horizontally aligned with the left side

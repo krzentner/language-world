@@ -1,24 +1,15 @@
-Here's the code for the `drawer_open` task:
-
-```
 # drawer-open: pull the drawer open
-# def drawer_open(robot):
+def drawer_open(robot):
     # Steps:
-    #  1. Put gripper above drawer handle
-    #  2. Drop gripper around drawer handle
-    #  3. Pull open the drawer
-    # We need to put the gripper above the drawer handle before we can grab it,
-    # because of the angle of the robot's gripper.
-    if check("the robot's gripper is not vertically aligned with drawer handle"):
-        robot.move_gripper("vertically aligned with the drawer handle")
-    # Once the gripper is lined up above the drawer handle, we should be able to
-    # grab the drawer handle by moving the gripper down around it.
-    if check("the robot's gripper is vertically aligned with drawer handle and the robot's gripper is not around drawer handle"):
-        robot.move_gripper("around the drawer handle", close_gripper=True)
-    # Once the gripper is around the drawer handle, we can just pull the drawer
-    # open.
-    if check("the robot's gripper is around drawer handle and the drawer is not open"):
-        robot.move_gripper("horizontally aligned with the drawer handle")
-``` 
-
-Hope that helps!
+    #  1. Put gripper roughly around the drawer handle
+    #  2. Pull the drawer open
+    # First, put the gripper roughly around the drawer handle.
+    if check("the robot's gripper is not near the drawer handle"):
+        robot.move_gripper("near the drawer handle")
+    # If the drawer handle is to the right of the gripper, move the gripper
+    # slightly to the left of the handle so we can pull it open.
+    if check("the drawer handle is not left of the robot's gripper"):
+        robot.move_gripper("left of the drawer handle")
+    # Once the gripper is to the left of the handle, we can pull the drawer open.
+    if check("the robot's gripper is left of the drawer handle"):
+        robot.move_gripper("pull open the drawer")

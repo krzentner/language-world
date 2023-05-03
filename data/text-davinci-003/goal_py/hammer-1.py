@@ -1,19 +1,19 @@
 
     # Steps:
-    #  1. Put gripper slightly above the nail
-    #  2. Move the gripper down to the nail and close the gripper
-    #  3. Hit the nail
-    # Put the gripper slightly above the nail, so we can move down around it
-    # and close the gripper.
-    if check("the robot's gripper is not slightly above the nail"):
-        robot.move_gripper("slightly above the nail")
-    # Once the gripper is above the nail, move the gripper near it and close the
-    # gripper. This will grab the nail and keep it between the gripper and the
-    # hammer.
-    if check("the robot's gripper is slightly above the nail and the robot's gripper is not closed"):
-        robot.move_gripper("near the nail", close_gripper=True)
-    # Finally, hit the nail. The robot doesn't need to be precise with where
-    # it's hitting, so just move the gripper up and down.
-    if check("the robot's gripper is near the nail and the robot's gripper is closed"):
-        robot.move_gripper("above the nail")
-        robot.move_gripper("below the nail")
+    #  1. Put gripper above the hammer handle
+    #  2. Drop gripper on handle
+    #  3. Start swinging the hammer
+    #  4. Hit the nail
+    # First, put the gripper directly above the hammer handle.
+    if check("the robot's gripper is not vertically aligned with the hammer handle"):
+        robot.move_gripper("vertically aligned with the hammer handle")
+    # As long as the gripper is still lined up, closing it should line it up
+    # all the way.
+    if check("the robot's gripper is vertically aligned with hammer handle"):
+        robot.move_gripper("around the hammer handle")
+    # Once the gripper is on the handle, we can start swinging.
+    if check("the robot's gripper is around the hammer handle"):
+        robot.move_gripper("just above the nail")
+    # When the hammer is above the nail, we can start hitting it.
+    if check("the hammer is just above nail"):
+        robot.move_gripper("into the nail")

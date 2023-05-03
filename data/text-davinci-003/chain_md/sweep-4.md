@@ -1,12 +1,10 @@
 
-    Steps:  1. Move gripper above cube  2. Put gripper around cube  3. Close gripper around cube  4. Move cube sideways  5. Place cube at goal
-    First, move the gripper above the cube.
-    - When the robot's gripper is not above cube, the robot should move gripper above cube.
-    Once the gripper is above the cube, place it around the cube.
-    - When the robot's gripper is above cube and the robot's gripper is not around cube, the robot should put gripper around cube.
-    Once the gripper is around the cube, close it.
-    - When the robot's gripper is above cube and the robot's gripper is not closed, the robot should close gripper around cube.
-    Now that the gripper is closed, we can move the cube sideways.
-    - When the robot's gripper is closed, the robot should move cube sideways.
-    Lastly, place the cube at the goal.
-    - When the cube is sideways to the robot, the robot should place cube at goal.
+    Steps:  1. Put gripper above cube  2. Grab cube with gripper  3. Line up the cube with the goal  4. Slide cube sideways to the goal
+    First, put the gripper above the cube.
+    - When the robot's gripper is not vertically aligned with the cube, the robot should put gripper above cube.
+    If the cube is too far away, move the gripper until it's near the cube and then grab it.
+    - When the cube is not left of the robot's gripper and the robot's gripper is not around the cube, the robot should grab cube.
+    As long as the gripper is still around the cube and the cube is not lined up with the goal, line up the cube with the goal.
+    - When the robot's gripper is around the cube and the cube is not horizontally aligned with the goal, the robot should align cube to goal.
+    If the cube is lined up with the goal, slide it towards the goal.
+    - When the cube is horizontally aligned with the goal, the robot should slide cube sideways towards goal.

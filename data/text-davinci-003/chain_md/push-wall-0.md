@@ -1,8 +1,8 @@
 
-    Steps:  1. Place the robot's gripper above the wall  2. Push the wall to the side  3. Reach the target location using the gripper
-    First, place the gripper above the wall and make sure it is in the right spot.
-    - When the robot's gripper is not above wall, the robot should place gripper above wall.
-    If the gripper is over the wall, the robot should push the wall aside to open the gap.
-    - When the robot's gripper is above wall and gap size between wall and target location is not big enough for gripper, the robot should push wall to side.
-    Once the gap size between wall and target location is big enough for the robot's gripper to fit, reach for the target location with the gripper.
-    - When gap size between wall and target location is big enough for gripper, the robot should reach for the target location with the gripper.
+
+Steps:  1. Put gripper above puck  2. Push gripper into top of puck  3. Slide the puck along the wall until it is aligned with the target destination  4. Push the puck towards the target destination
+
+- When the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck, the robot should put the gripper above the puck.
+- When the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck, the robot should push the gripper into the puck.
+- When the robot's gripper is near the puck and the puck is below the robot's gripper, the robot should slide the puck along the wall until it is aligned with the target destination.
+- When the puck is lined up with the target destination and the wall is in the way, the robot should push the puck towards the target destination.

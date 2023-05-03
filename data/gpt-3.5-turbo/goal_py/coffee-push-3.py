@@ -1,19 +1,15 @@
 # Steps:
-    #  1. Put gripper above mug handle
-    #  2. Drop gripper around mug handle
-    #  3. Pull mug towards target location
-    #  4. Put mug down
-    # First, put the gripper roughly above the mug handle, so that we don't bump
-    # it while trying to grab it.
-    if check("the robot's gripper is not above the mug handle"):
-        robot.move_gripper("above the mug handle")
-    # If the gripper isn't around the mug handle, put it around the handle.
-    if check("the robot's gripper is not around the mug handle and the robot's gripper is open"):
-        robot.move_gripper("near the mug handle", close_gripper=True)
-    # If the gripper is near the mug handle and closed, we can grab it and move
-    # it to the target location.
+    #  1. Put gripper above the mug handle
+    #  2. Drop gripper around the mug handle
+    #  3. Close gripper around the mug handle
+    #  4. Move mug to the target location
+    # First, we need to put the gripper above the mug handle.
+    if check("the robot's gripper is not vertically aligned with mug handle"):
+        robot.move_gripper("vertically aligned with the mug handle", close_gripper=True)
+    # Once the gripper is lined up above the mug handle, we should be able to
+    # grab the handle by moving the gripper down around it.
+    if check("the robot's gripper is vertically aligned with mug handle and the robot's gripper is not around mug handle"):
+        robot.move_gripper("around the mug handle")
+    # Once the gripper is around the mug handle, we can lift up the mug and move it to the target location.
     if check("the robot's gripper is around the mug handle"):
-        robot.move_gripper("near the target location", close_gripper=False)
-    # If the gripper is near the target location, we can put the mug down.
-    if check("the robot's gripper is near the target location"):
-        robot.move_gripper("above the target location", close_gripper=True)
+        robot.move_gripper("near the target location")

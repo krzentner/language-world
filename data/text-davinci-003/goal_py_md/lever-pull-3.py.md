@@ -1,40 +1,22 @@
 
 
-Next, we want to go about performing the task. The robot has to pull the lever up, so we need to make sure the gripper is in a good position.
-First, we need to put the gripper above the lever.
-
+The code for this task is as follows:
 ```
 # lever-pull: rotate the lever up
-# def lever_pull(robot):
+def lever_pull(robot):
     # Steps:
-    #  1. Put gripper above lever 
-    if check("the robot's gripper is not vertically aligned with the lever"):
-        robot.move_gripper("vertically aligned with the lever")
+    #  1. Put gripper roughly above lever handle
+    #  2. Drop gripper around lever handle
+    #  3. Rotate the lever upwards
+    # We need to put the gripper roughly above the lever handle in order to line
+    # it up correctly.
+    if check("the robot's gripper is not almost vertically aligned with lever handle"):
+        robot.move_gripper("almost vertically aligned with the lever handle")
+    # Once the gripper is almost lined up, closing it should line it up all the
+    # way correctly.
+    if check("the robot's gripper is vertically aligned with the lever handle and the robot's gripper is not around lever handle"):
+        robot.move_gripper("around the lever handle", close_gripper=True)
+    # Once the gripper is around the lever handle, we can just rotate it upwards.
+    if check("the robot's gripper is around lever handle"):
+        robot.move_gripper("horizontally aligned with the lever handle")
 ```
-
-Next, we want to make sure the gripper is actually around the lever before we begin pulling.
-
-```
-# lever-pull: rotate the lever up
-# def lever_pull(robot):
-    # Steps:
-    #  1. Put gripper above lever 
-    #  2. Drop gripper around lever
-    if check("the robot's gripper is not around the lever"):
-        robot.move_gripper("around the lever")
-```
-
-Finally, we want to pull the lever. We can do this by moving the robot's gripper to the left of the lever.
-
-```
-# lever-pull: rotate the lever up
-# def lever_pull(robot):
-    # Steps:
-    #  1. Put gripper above lever 
-    #  2. Drop gripper around lever
-    #  3. Pull the lever up
-    if check("the robot's gripper is not left of the lever"):
-        robot.move_gripper("left of the lever")
-```
-
-And that's it! Now the robot should be able to pull the lever up.

@@ -1,11 +1,10 @@
 # bin-picking: pick up the cube and place it in the target bin
-# def bin_picking(robot):
 def bin_picking(robot):
-    if check("cube is not in the gripper and the gripper is not above the cube"):
-        robot.reach("to cube")
-    if check("the gripper is above the cube and the gripper is not closed"):
+    if check("the robot's gripper is not near the cube"):
+        robot.reach("to the cube")
+    if check("the robot's gripper is not around the cube and the robot's gripper is open"):
+        robot.drop("gripper around cube")
+    if check("the robot's gripper is near the cube and the robot's gripper is open"):
         robot.close("gripper around cube")
-    if check("the cube is in the gripper and the gripper is not above the target bin"):
-        robot.reach("to bin")
-    if check("the gripper is above the target bin"):
-        robot.place("cube in bin")
+    if check("the robot's gripper is above the target bin and the robot's gripper is closed"):
+        robot.place("cube in target bin")

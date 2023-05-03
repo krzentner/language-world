@@ -1,13 +1,14 @@
 # Steps:
-    #  1. Put the hand above the puck
-    #  2. Grab the puck with the hand
-    #  3. Move the puck to the target location
-    # First, put the hand above the puck.
-    if check("the hand is not above the puck"):
-        robot.move_hand("above the puck")
-    # If the hand is roughly above the puck, grab the puck.
-    if check("the hand is above the puck and the hand is not holding the puck"):
-        robot.move_hand("around the puck", close_hand=True)
-    # If the hand is holding the puck, move the hand to the target location.
-    if check("the hand is holding the puck and the hand is not above the target location"):
-        robot.move_hand("above the target location")
+    #  1. Place hand over puck
+    #  2. Pick up the puck with the hand
+    #  3. Hold the puck and move hand to target location
+    # We don't have a gripper in this scenario, so we'll be using the robot's hand.
+    # First, place the open hand over the puck.
+    if check("the robot's hand is not over the puck and the hand is open"):
+        robot.move_hand("over the puck")
+    # Close the hand around the puck.
+    if check("the robot's hand is over the puck and the hand is open"):
+        robot.move_hand("around the puck")
+    # Move the hand with the puck to the target location.
+    if check("the robot's hand is holding the puck and is not near the target location"):
+        robot.move_hand("near the target location")

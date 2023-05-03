@@ -1,4 +1,4 @@
 
-    - When the robot's gripper is not above mug, the robot should move gripper to above mug.
-    - When the robot's gripper is above mug and the robot's gripper is not around mug, the robot should drop gripper around mug.
-    - When the robot's gripper is around mug, the robot should pull mug to goal.
+    -When the robot's gripper is not near the mug, the robot should put gripper beside mug.
+    -When the robot's gripper is beside mug and the robot's gripper is not around mug, the robot should put gripper around mug.
+    -When the robot's gripper is around mug and the mug is not at the goal, the robot should pull the mug to the goal.

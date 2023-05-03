@@ -1,16 +1,20 @@
 
 
-After this, the code would look like: 
+Steps: 
+1. Put gripper above the block
+2. Drop gripper around the block
+3. Close gripper around block
+4. Move block to goal
 
 ```
 # shelf-place: pick up the block and place it at the target location
-# def shelf_place(robot):
+def shelf_place(robot):
     # Steps:
-    #  1. Put gripper above block
-    #  2. Drop gripper around block
+    #  1. Put gripper above the block
+    #  2. Drop gripper around the block
     #  3. Close gripper around block
     #  4. Move block to goal
-    # First, put the gripper above the block, so that we don't bump it while
+    # First, put the gripper roughly above block, so that we don't bump it while
     # trying to grab it.
     if check("the robot's gripper is not above the block"):
         robot.move_gripper("above the block")
@@ -21,4 +25,3 @@ After this, the code would look like:
     # the gripper.
     if check("the robot's gripper is above block and the robot's gripper is closed"):
         robot.move_gripper("near the target location")
-```

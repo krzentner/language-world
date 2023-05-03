@@ -1,13 +1,18 @@
 # Steps:
-    #  1. Put gripper above the plate
-    #  2. Grab the plate with the gripper
-    #  3. Slide the plate backwards sideways into the target location
-    # First, put the gripper above the plate.
+    #  1. Put gripper above plate
+    #  2. Grab plate with gripper
+    #  3. Move gripper towards the target location
+    #  4. Release plate at the target location
+    # First, put the gripper above the plate to avoid hitting it.
     if check("the robot's gripper is not above the plate"):
         robot.put("gripper above plate")
-    # If the gripper is not around the plate, move it around the plate.
-    if check("the robot's gripper is not around plate and the robot's gripper is open"):
-        robot.drop("gripper around plate")
-    # If the gripper is near the plate, we can probably slide it now.
-    if check("the robot's gripper is near the plate"):
-        robot.slide("plate backwards sideways into target location")
+    # Once the gripper is above the plate, we can grab it.
+    if check("the robot's gripper is above plate and the robot's gripper is open"):
+        robot.grab("plate")
+    # Once the gripper is around the plate, move it towards the target location
+    # by sliding it sideways.
+    if check("the robot's gripper is around plate and the plate is not at goal location"):
+        robot.slide("plate towards goal")
+    # Once the plate has been moved to the target location, release it.
+    if check("the plate is at goal location and the robot's gripper is holding plate"):
+        robot.release("plate at goal location")

@@ -1,9 +1,9 @@
 
-    if check("the robot's gripper is not close to the mug"):
-        robot.reach("to mug")
-    if check("the robot's gripper is close to the mug and the mug is to the left of the robot's gripper"):
-        robot.pull("mug to the right")
-    if check("the robot's gripper is close to the mug and the mug is to the right of the robot's gripper"):
-        robot.push("mug to the left")
-    if check("the robot's gripper is close to the mug and the mug is to the goal"):
-        robot.move("mug to the goal")
+    if check("the robot's gripper is not above coffee mug and the robot's gripper is not vertically aligned with the mug"):
+        robot.put("gripper above coffee mug")
+    if check("the robot's gripper is vertically aligned with the mug and the robot's gripper is not around coffee mug"):
+        robot.put("gripper around coffee mug")
+    if check("the robot's gripper is around coffee mug and the mug is not near the goal"):
+        robot.push("the mug to the goal")
+    if check("the mug is near the goal"):
+        robot.release("the mug at goal")

@@ -1,16 +1,16 @@
 
     # Steps:
-    #  1. Put gripper directly left of the faucet handle
-    #  2. Rotate the handle to the left
-    #  3. Open the faucet all the way
-    # If the gripper is too far right, move it directly to the left of the
-    # faucet handle.
-    if check("the robot's gripper is not directly left of the faucet handle"):
-        robot.move("gripper to left of faucet handle")
-    # Grab the faucet handle with the gripper and rotate it to the left.
-    # We don't need to grab the exit of the handle for this to work.
-    if check("the robot's gripper is near the faucet handle"):
-        robot.rotate("handle left")
-    # If the handle is still moving, keep rotating it.
-    if check("the handle is not in the open position"):
-        robot.rotate("handle left")
+    #  1. Put gripper front of the faucet handle
+    #  2. Push down on the faucet handle
+    #  3. Twist the faucet handle left
+    # We can turn the handle by pushing it sideways, so we want the gripper to be
+    # front of the handle.
+    # If the gripper isn't lined up front of the handle, line it up.
+    if check("gripper is not forward aligned with faucet handle"):
+        robot.put("gripper front of the faucet handle")
+    # Now that the gripper is lined up, push down the handle.
+    if check("the robot's gripper is forward aligned with the faucet handle"):
+        robot.push("down on faucet handle")
+    # Finally, twist the handle to the left.
+    if check("the robot's gripper is pushing down on the faucet handle"):
+        robot.twist("faucet handle left")

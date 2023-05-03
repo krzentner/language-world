@@ -1,7 +1,7 @@
 
-    if check("the robot's gripper is not close to the dial"):
-        robot.reach("dial")
-    if check("the robot's gripper is close to the dial"):
-        robot.turn("dial to goal")
-    if check("the robot's gripper is still close to the dial"):
-        robot.push("dial harder")
+    if check("the robot's gripper is not above dial"):
+        robot.put("gripper above dial")
+    if check("the robot's gripper is above dial and the robot's gripper is open"):
+        robot.grab("dial")
+    if check("the robot's gripper is above dial and the robot's gripper is closed"):
+        robot.turn("dial clockwise")

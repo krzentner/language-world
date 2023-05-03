@@ -1,14 +1,8 @@
-I'm sorry, it seems like there was a duplication of the pick_place function in the code snippet you provided earlier. Here is the full list of functions and their descriptions: 
-
-- reach: reach to the target location
-- push: slide the puck to the target location
-- pick_place: pick up the puck and hold it at the target location
-- door_open: pull the door open
-- drawer_open: pull the drawer open
-- drawer_close: push the drawer close
-- button_press_topdown: push the button down from above
-- peg_insert_side: insert the peg into the hole from the side
-- window_open: slide the window open to the left
-- window_close: slide the window closed to the right
-
-Is there anything else I can help you with?
+if check("the robot's gripper is not near the puck and the robot's gripper is not vertically aligned with the puck"):
+        robot.put("the gripper above the puck")
+    if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not holding the puck"):
+        robot.grab("the puck")
+    if check("the robot's gripper is holding the puck and the robot's gripper is not vertically aligned with the goal"):
+        robot.move("the gripper to the goal location")
+    if check("the robot's gripper is near the goal and the puck is below the robot's gripper"):
+        robot.release("the puck at the goal location")

@@ -1,17 +1,16 @@
 # Steps:
-    # 1. Put gripper above button but not too high due to wall
-    # 2. Move forward until gripper touches the wall
-    # 3. Move gripper towards button to press it down
-    # Because there's a wall blocking the path, we need to be careful about how
-    # we approach the button.
-    # First, line up the gripper above the button, but make sure it's not too
-    # high to avoid hitting the wall.
-    if check("the robot's gripper is not almost vertically aligned with button"):
-        robot.move_gripper("almost vertically aligned with the button", close_gripper=True)
-    # Now we can move forward until we hit the wall.
-    if check("the robot's gripper is not touching the wall"):
-        robot.move_forward_until_touch("the wall")
-    # Once we're touching the wall, we can move the gripper forward to press
-    # the button.
-    if check("the robot's gripper is touching the wall and is not near the button"):
-        robot.move_gripper("near the button")
+    #  1. Line up the gripper as viewed from above, near the wall
+    #  2. Move the gripper forward, above the button
+    #  3. Push down on the button from the top
+    # Because there's a short wall in the way, we need to position the gripper
+    # closer to the wall before we can line it up with the button from above.
+    # Line up the robot's gripper from above, near the wall.
+    if check("the robot's gripper is not vertically aligned with button and is right of the wall"):
+        robot.move_gripper("almost vertically aligned with the button, right of the wall", close_gripper=True)
+    # Once the gripper is near the wall and almost lined up with the button,
+    # move it forward above the button.
+    if check("the robot's gripper is vertically aligned with the button and is right of the wall"):
+        robot.move_gripper("almost above the button", close_gripper=True)
+    # Now that the gripper is above the button, just push down on the button.
+    if check("the robot's gripper is near the button and is right of the wall"):
+        robot.move_gripper("on top of the button")

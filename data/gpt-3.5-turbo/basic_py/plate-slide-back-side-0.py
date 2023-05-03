@@ -1,8 +1,15 @@
-if check("the robot's gripper is not above the plate"):
-        robot.place("gripper above plate")
-    if check("the robot's gripper is not around plate and the robot's gripper is open"):
-        robot.drop("gripper around plate")
-    if check("the robot's gripper is near plate and the robot's gripper is open"):
-        robot.close("gripper around plate")
-    if check("the robot's gripper is gripping the plate and the plate is not at the target location"):
-        robot.slide("plate back into target location")
+# check for the orientation of the plate
+    if check("the plate is not sideways and the plate is not facing backwards"):
+        robot.turn("the plate sideways and backwards")
+    
+    # check the gripper alignment with the plate
+    if check("the robot's gripper is not above the plate"):
+        robot.put("the gripper above the plate")
+    
+    # check if the gripper is holding the plate
+    if check("the robot's gripper is not holding the plate and the gripper is open"):
+        robot.grab("the plate")
+    elif check("the robot's gripper is holding the plate and the plate is not near the goal"):
+        robot.slide("the plate backwards to the goal")
+    else:
+        robot.drop("the plate at the goal")

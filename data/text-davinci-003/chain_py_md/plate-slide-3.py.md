@@ -1,21 +1,21 @@
 
 
-The program should read:
+Here's the code:
 
 ```
 # plate-slide: slide the plate into the target location
-# def plate_slide(robot):
+def plate_slide(robot):
     # Steps:
-    #  1. Put gripper above plate
-    #  2. Grab plate with the gripper
-    #  3. Slide plate to goal
-    # First, put the gripper above the plate.
-    if check("the robot's gripper is not above the plate"):
-        robot.put("gripper above plate")
-    # If the plate is left of the gripper, grab the plate.
-    if check("the plate is left of the robot's gripper and the robot's gripper is open"):
-        robot.grab("plate")
-    # If the gripper is near the plate, we can start to slide the plate.
-    if check("the robot's gripper is near the plate"):
-        robot.slide("plate to the goal")
-```
+    #  1. Put gripper above the plate
+    #  2. Push gripper into the plate
+    #  3. Slide the plate to the goal
+    # Put the gripper above the plate so that we don't strike the plate.
+    if check("the robot's gripper is not above plate"):
+        robot.place("gripper above plate")
+    # If the gripper is not touching the plate, push it into the plate to start sliding
+    if check("the robot's gripper is not touching the plate"):
+        robot.push("gripper into the plate")
+    # If the gripper is touching the plate, slide the plate to the goal.
+    if check("the robot's gripper is touching the plate"):
+        robot.slide("plate to goal")
+ ```

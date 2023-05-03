@@ -1,9 +1,10 @@
 # Steps:
-    #  1. Put gripper around lever
-    #  2. Rotate the gripper to pull up the lever
-    # First, put the gripper around the lever.
-    if check("the robot's gripper is not around the lever"):
-        robot.drop("gripper around lever")
-    # If the gripper is around the lever, try to rotate it up.
-    if check("the robot's gripper is around lever"):
-        robot.rotate("gripper up to pull lever")
+    #  1. Put gripper around the lever
+    #  2. Rotate the gripper up
+    # The first step is to put the gripper around the lever.
+    if check("the robot's gripper is not around lever"):
+        robot.put("gripper around lever")
+    # Once the gripper is around the lever, we can rotate it up to activate the
+    # lever.
+    if check("the robot's gripper is around lever and the lever is facing down"):
+        robot.rotate("gripper up")

@@ -1,0 +1,1 @@
+I think you accidentally repeated the previous function, "window-close". Did you mean to write a different function?

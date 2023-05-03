@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above the wrench  2. Push the wrench downwards  3. Pull the wrench off the peg
-    The robot needs to put the gripper above the wrench and make sure it's lined up with the peg.
-    - When the robot's gripper is not vertically aligned with the wrench, the robot should put gripper above wrench.
-    Once the gripper is lined up with the wrench, the robot should push it down. 
-    - When the robot's gripper is vertically aligned with wrench and the wrench is not below gripper, the robot should push wrench downwards.
-    Once the wrench is below the gripper, the robot should pull the wrench off the peg.
-    - When the robot's gripper is vertically aligned with wrench and the wrench is below the gripper, the robot should pull wrench off peg.
+Steps:  1. Put gripper above wrench  2. Grab wrench with gripper  3. Pull wrench straight up
+    First, line up the gripper above the wrench.
+    - When the robot's gripper is not above wrench, the robot should put gripper above wrench.
+    If the wrench is left of the gripper, go back to putting the gripper above the wrench. We want to make sure it lines up as seen from the front, since it's a long object.
+    - When the wrench is not left of the robot's gripper and the wrench is not forward aligned with the robot's gripper, the robot should grab wrench with gripper.
+    Once the wrench is in the gripper, pull it straight up.
+    - When the robot's gripper is forward aligned with the wrench, the robot should pull wrench straight up.

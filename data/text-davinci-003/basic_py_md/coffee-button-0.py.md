@@ -1,12 +1,10 @@
 
 
-Your program should look like this:
+Then add the following code:
 
 ```
-# coffee-button: push the button on the coffee machine
-# def coffee_button(robot):
-    if check("the robot's gripper is not vertically aligned with the button"):
-        robot.put("gripper above button")
-    if check("the robot's gripper is vertically aligned with the button"):
-        robot.push("down on button")
+    if check("the robot's gripper is not vertically aligned with the coffee button"):
+        robot.put("gripper above coffee button")
+    if check("the robot's gripper is vertically aligned with the coffee button"):
+        robot.push("coffee button")
 ```

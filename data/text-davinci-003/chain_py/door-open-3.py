@@ -1,32 +1,17 @@
- 
+
     # Steps:
-    #  1. Put gripper above door handle
-    #  2. Drop gripper around door handle
-    #  3. Pull open the door
-    # First, put the gripper roughly above the door handle, so that we don't bump
-    # it while trying to grab it.
-    if check("the robot's gripper is not above the door handle"):
-        robot.put("gripper above door handle")
-    # Once the gripper is roughly above the door handle, we should be able to
-    # grab it by moving the gripper down around it.
-    if check("the robot's gripper is not around door handle and the robot's gripper is open"):
-        robot.drop("gripper around door handle")
-    # Once the gripper is around the door handle, we can just pull the door open.
-    if check("the robot's gripper is around door handle"):
-        robot.pull("door open")
-    
-# door-close: push the door closed
-# def door_close(robot): 
-    # Steps:
-    #  1. Put gripper roughly around the door handle
-    #  2. Push the door closed
-    # If the gripper is not near the door handle, move it to the door
-    # handle.
-    # We don't need to be careful about the direction, since the door is large and
-    # we're just pushing it (unlike when opening the door).
-    if check("the robot's gripper is not near the door handle"):
-        robot.grab("door handle")
-    # If the door is aligned with the gripper as seen from in front, we can
-    # push the door closed.
-    if check("the robot's gripper is forward aligned with door handle"):
-        robot.push("door closed")
+    #  1. Put the gripper left of the door handle
+    #  2. Grab the door handle
+    #  3. Pull the door open
+    # To open the door we need to grab the door handle.
+    #
+    # To do this, first put the gripper around the left of the door handle
+    if check("the robot's gripper is not left of door handle"):
+        robot.move("gripper to left of door handle")
+    # If the gripper is lined up with the door handle but not near it, move the
+    # gripper down to the door handle.
+    if check("the robot's gripper is left of door handle and the robot's gripper is not near door handle"):
+        robot.drop("gripper to door handle")
+    # If the gripper is near the door handle, grab it and pull the door open.
+    if check("the robot's gripper is near door handle and the robot's gripper is closed"):
+        robot.pull("away from door")

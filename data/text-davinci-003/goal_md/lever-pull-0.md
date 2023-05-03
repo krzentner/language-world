@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above lever  2. Pull lever up
-    As with all of these tasks, we always want to start by getting our gripper in the right location.
-    - When the robot's gripper is not above lever, move the robot's gripper until the robot's gripper is above the lever
-    If the gripper is above the lever, grab it by pushing the gripper down against it.
-    - When the robot's gripper is above lever and the robot's gripper is not around the lever, move the robot's gripper until the robot's gripper is around the lever and the robot's gripper is closed
-    Now that we have the lever, just pull it up.
-    - When the robot's gripper is around the lever, move the robot's gripper until the lever has rotated to the desired orientation
+    Steps:  1. Put gripper above lever  2. Move gripper onto lever  3. Grip lever and pull upward
+    First, put the gripper above the lever.
+    - When the robot's gripper is not vertically aligned with lever, move the robot's gripper until the robot's gripper is vertically aligned with the lever
+    Once the gripper is lined up above the lever, we should be able to grab the lever by moving the gripper down around it.
+    - When the robot's gripper is vertically aligned with the lever and the robot's gripper is not around the lever, move the robot's gripper until the robot's gripper is around the lever
+    Once the gripper is around the lever, we can just grip the lever and pull it up.
+    - When the robot's gripper is around lever, move the robot's gripper until the robot's gripper is horizontally aligned with the lever

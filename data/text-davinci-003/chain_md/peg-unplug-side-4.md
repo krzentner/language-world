@@ -1,8 +1,8 @@
 
-    Steps:  1. Line up the gripper as viewed sideways  2. Lift the peg out  3. Pull the peg out
-    First, line up the gripper with the side of the peg. We don't need to be exact, just line it up roughly.
-    - When the robot's gripper is not laterally aligned with the peg, the robot should line up gripper along side of peg.
-    Once we're roughly aligned, we can lift it out by slowly moving the gripper up.
-    - When the robot's gripper is laterally aligned with the peg and the peg is still inside the hole, the robot should lift the peg out.
-    Once the peg comes out a little, we can pull it out.
-    - When the robot's gripper is laterally aligned with the peg and the peg is out of the hole, the robot should pull peg out.
+    Steps:  1. Put gripper above the peg  2. Grab the peg with the gripper  3. Rotate the peg counterclockwise to unplug it  4. Pull the peg away from the hole
+    First, put the gripper above the peg.
+    - When the robot's gripper is not vertically aligned with the peg, the robot should put gripper above peg.
+    As long as the gripper is mostly around the peg, rotate the peg counterclockwise to loosen the peg from the hole.
+    - When the robot's gripper is around the peg and the peg is still plugged in, the robot should rotate peg counterclockwise.
+    When the peg is loose from the hole, pull it away from the hole.
+    - When the peg is loose from the hole, the robot should pull peg away from the hole.

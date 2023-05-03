@@ -1,8 +1,6 @@
 
-    Steps:  1. Put gripper on top of the plate  2.Get shaped fingers or suction cup onto the plate  3. Slide the plate towards the target location
-    To get the gripper onto the plate, put the gripper onto the edge of the plate so that the gripper has a hold of the plate.
-    -When the robot's gripper is not on top of plate and the plate is away from the target location, the robot should put gripper on top of plate.
-    If the gripper is on the plate and it's still far from target location, use shaped fingers or suction cup to get grip on the plate.
-    -When the robot's gripper is on top of plate and the plate is not gripped, the robot should get shaped fingers or suction cup onto plate. 
-    Once the plate is being gripped, slide the plate back towards the target location.
-    -When the robot's gripper is on top of plate and the plate is gripped, the robot should slide plate towards target location.
+    Steps:  1. Put gripper below the plate  2. Slide the plate back to the goal 
+    First, put the gripper below the plate. 
+    - When the robot's gripper is not below the plate, the robot should put gripper below plate.
+    Now that we have the gripper below the plate, we can just slide it back to the goal. 
+    - When the robot's gripper is below plate, the robot should slide plate back to the goal.

@@ -1,8 +1,16 @@
- 
 
-If check("the robot's gripper is not above the plate"):
-    robot.put("gripper above plate")
-if check("the robot's gripper is near the plate and the plate is forward aligned with the robot's gripper"):
-    robot.slide("the plate back")
-if check("the robot's gripper is forward aligned with the plate and the plate is not in the target location"):
-    robot.slide("the plate back harder")
+
+The program should look like this:
+
+```
+# plate-slide-back: slide the plate back into the target location
+def plate_slide_back(robot):
+    if check("the robot's gripper is not vertically aligned with the plate"):
+        robot.put("gripper above plate")
+    if check("the robot's gripper is vertically aligned with the plate and the robot's gripper is not around plate"):
+        robot.put("gripper around plate")
+    if check("the robot's gripper is around plate and the plate is not below the robot's gripper"):
+        robot.slide("plate away from robot")
+    if check("the plate is below the robot's gripper"):
+        robot.slide("plate to goal")
+```

@@ -18,6 +18,7 @@ def run_prompt(prompt: str, model: str = "gpt-3.5-turbo", *, n_outputs):
         messages=messages,
         temperature=1.0,
         n=n_outputs,
+        max_tokens=600,
     )
     return [choice.message["content"] for choice in completion.choices]
 

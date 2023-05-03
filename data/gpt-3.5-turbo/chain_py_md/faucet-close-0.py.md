@@ -1,11 +1,12 @@
 # faucet-close: turn the faucet right
-# def faucet_close(robot):
+def faucet_close(robot):
     # Steps:
-    #  1. Put gripper around faucet handle
-    #  2. Turn the handle to the right, closing the faucet
-    # First, line up the gripper with the faucet handle.
-    if check("the robot's gripper is not around faucet handle"):
-        robot.put("gripper around faucet handle")
-    # If the handle is not turned to the right, we need to turn it.
-    if check("the faucet handle is not turned to the right"):
-        robot.turn("faucet handle to the right")
+    #  1. Place the gripper around faucet handle
+    #  2. Turn the handle right to close the faucet
+    # First, put the gripper around the faucet handle.
+    if check("the robot's gripper is not around the faucet handle"):
+        robot.grab("faucet handle")
+    # If the handle is not turned right enough to close the faucet, turn it more
+    # right.
+    if check("the faucet is not closed"):
+        robot.turn("handle right")

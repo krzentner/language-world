@@ -1,7 +1,5 @@
 
-
-The steps the robot should perform are:
-    - When the robot's gripper is not vertically aligned with the peg, the robot should put gripper above peg.
-    - When peg is not side of the robot's gripper, the robot should grab peg.
-    - When the robot's gripper is horizontally aligned with the peg and the peg is not horizontally aligned with hole, the robot should align peg to hole.
-    - When peg is horizontally aligned with hole, the robot should insert peg into hole.
+    - When the robot's gripper is not above the peg and the peg is to the side of the robot's gripper, the robot should move the gripper to the side of the peg.
+    - When the robot's gripper is near the peg and the robot's gripper is open, the robot should close gripper around peg.
+    - When the robot's gripper is closed and the peg is to the side of the hole, the robot should move peg in line with hole.
+    - When peg is in line with hole, the robot should move peg into hole.

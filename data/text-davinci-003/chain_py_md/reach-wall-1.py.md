@@ -1,23 +1,16 @@
 
 
-The robot needs to reach the target location, which is blocked by a short wall.
-
-Steps:
-1. Reach towards the target location, until the wall is detected. 
-2. Move the gripper around the wall, to the other side. 
-3. Reach towards the target location, until it is reached.
+Followed by the code to make it happen:
 
 ```
-# reach-wall: reach to the target location with a short wall in the way
-# def reach_wall(robot):
     # Steps:
-    #  1. Reach towards the target location, until the wall is detected.
-    if check("the target is not reached and the wall is not detected"):
-        robot.reach("to target location")
-    #  2. Move the gripper around the wall, to the other side.
-    if check("the target is not reached and the wall is detected"):
-        robot.move("gripper around wall")
-    #  3. Reach towards the target location, until it is reached.
-    if check("the wall is not detected and the target is not reached"):
-        robot.reach("to target location")
+    #  1. Reach past the wall 
+    #  2. Readjust to the target 
+    # First, reach past the wall so that the robot's gripper can travel around it.
+    if check("the robot's gripper is not on the other side of the wall"):
+        robot.reach("past wall")
+    # Once the robot's gripper is on the other side of the wall, readjust to the 
+    # target location.
+    if check("the robot's gripper is on the other side of the wall and the robot's gripper is not near reach target"):
+        robot.reach("to goal")
 ```

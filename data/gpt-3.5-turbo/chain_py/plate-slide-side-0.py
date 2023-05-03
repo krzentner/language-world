@@ -1,15 +1,17 @@
 # Steps:
-    #  1. Put gripper above roughly the center of the plate
-    #  2. Grab the plate with the gripper
-    #  3. Move the plate to the target location
-    # Because the plate is flat, we can just put the gripper above roughly the
-    # center of the plate in order to grab it.
-    if check("the robot's gripper is not above roughly the center of the plate"):
-        robot.place("gripper above roughly the center of the plate")
-    # If the gripper is not holding the plate, grab it.
-    if check("the plate is not in the gripper's grasp"):
-        robot.grab("plate")
-    # If the gripper is now holding the plate, slide it sideways to the target
-    # location.
-    if check("the plate is in the gripper's grasp"):
-        robot.slide("plate sideways to the target location")
+    #  1. Put gripper above plate
+    #  2. Grab plate with the gripper
+    #  3. Line plate up with target
+    #  4. Slide the plate sideways towards target
+    # First, put the gripper above the plate.
+    if check("the robot's gripper is not vertically aligned with the plate"):
+        robot.put("gripper above plate")
+    # If the gripper isn't around the plate, put it around the plate.
+    if check("the robot's gripper is not around plate and the robot's gripper is open"):
+        robot.put("gripper around plate")
+    # If the gripper is around the plate, line it up with the target
+    if check("the robot's gripper is around plate and plate is not aligned with target"):
+        robot.align("plate to target")
+    # Once it has been aligned, slide the plate sideways towards target
+    if check("plate is aligned with target"):
+        robot.slide("plate to target")

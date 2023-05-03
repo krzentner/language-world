@@ -1,21 +1,12 @@
 To pick up the block and place it at the target location reliably, the robot should perform the following steps:
-
-Steps:
-    1. Put gripper above block
-    2. Lower gripper around block
-    3. Lift block
-    4. Move gripper above target location
-    5. Lower block at target location
-
-First, put the gripper roughly above the block.
-- When the robot's gripper is not above the block, the robot should put gripper above the block.
-Move the gripper down to grab the block.
-- When the robot's gripper is above the block, the robot should move gripper down around the block.
-Close the gripper to hold the block securely.
-- When the robot's gripper is around the block and open, the robot should close gripper around block.
-Lift the block.
-- When the robot's gripper is around the block and closed, the robot should lift the block.
-Move the gripper to the target location.
-- When the robot's gripper is holding the block, the robot should move gripper above target location.
-Lower the block at the target location.
-- When the robot's gripper is above the target location, the robot should lower the block at target location.
+    Steps:  1. Put gripper above the block  2. Drop gripper around the block  3. Close gripper around the block  4. Move block to the target location  5. Release the gripper and drop the block at the target location
+    First, put the gripper above the block, so that we don't bump it while trying to grab it.
+    - When the robot's gripper is not above the block, the robot should place gripper above the block.
+    If the gripper isn't around the block, put it around the block.
+    - When the robot's gripper is not around the block and the robot's gripper is open, the robot should drop gripper around the block.
+    If the gripper is near the block and open, maybe we can grab it by closing the gripper.
+    - When the robot's gripper is near the block and the robot's gripper is open, the robot should close the gripper around the block.
+    We closed the gripper, and the block is still near the gripper, so maybe we grabbed it. Try to move the block to the target location. If we didn't grab it, we'll just go back to an earlier step.
+    - When the robot's gripper is above the target location and the robot's gripper is closed around the block, the robot should move the block to the target location.
+    Once we've moved the block to the target location, we can release the gripper and drop the block at the target location.
+    - When the robot's gripper is above the target location and the robot's gripper is closed around the block, the robot should release the gripper and drop the block at the target location.

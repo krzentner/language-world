@@ -1,11 +1,18 @@
 # Steps:
-    #  1. Position the stick in front of the thermos
-    #  2. Push the thermos to the target location using the stick
-    # We can position the stick by moving the robot's gripper and arm to place it
-    # in front of the thermos at the right angle.
-    if check("the stick is not in front of the thermos"):
-        robot.position("stick in front of thermos")
-    # Once the stick is in the right position, we can push the thermos using the
-    # stick by moving it towards the target location.
-    if check("the stick is in front of the thermos"):
-        robot.push("thermos to the goal using the stick")
+    #  1. Put gripper above the stick
+    #  2. Grab the stick with the gripper
+    #  3. Move the gripper to the side of the thermos
+    #  4. Use the stick to push the thermos to the goal
+    # First, put the gripper above the stick.
+    if check("the robot's gripper is not above the stick"):
+        robot.put("gripper above stick")
+    # If the gripper is above the stick, but not grabbing it, grab it.
+    if check("the robot's gripper is above the stick and the robot's gripper is open"):
+        robot.grab("stick")
+    # If we're holding the stick, move the gripper to the side of the thermos.
+    # We want to be careful to not accidentally push the thermos over.
+    if check("the robot's gripper is holding the stick and the thermos is not near the stick's end and the thermos is not between the stick and the robot"):
+        robot.move("gripper near thermos without hitting it")
+    # If the gripper is close to the thermos, start using the stick to push it.
+    if check("the robot's gripper is near the thermos and the stick is angled towards the thermos"):
+        robot.push("stick against the thermos towards the goal")

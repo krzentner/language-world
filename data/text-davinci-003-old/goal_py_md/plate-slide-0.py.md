@@ -1,24 +1,18 @@
 
 
-Steps:
-1. Put gripper above the plate
-2. Drop gripper around the plate
-3. Slide the plate to the target location
-
-If the robot's gripper is not above the plate, move it above the plate.
-```
-if check("the robot's gripper is not above the plate"):
-    robot.move_gripper("above the plate")
-```
-
-If the gripper is not around the plate, move the gripper around the plate.
-```
-if check("the robot's gripper is not around the plate and the robot's gripper is open"):
-    robot.move_gripper("around the plate", close_gripper=True)
-```
-
-If the plate is not near the target location, slide the plate to the target location.
-```
-if check("the plate is not near the target location"):
-    robot.move_gripper("near the target location")
-```
+# plate-slide: slide the plate into the target location
+# def plate_slide(robot):
+    # Steps:
+    #  1. Put gripper above the plate
+    #  2. Push the plate to the target location
+    # First, put the gripper above the plate.
+    if check("the robot's gripper is not above the plate"):
+        robot.move_gripper("above the plate")
+    # If the plate isn't below the gripper as seen from above, move the gripper
+    # above the plate and close it.
+    if check("the robot's gripper is not vertically aligned with the plate and the robot's gripper is open"):
+        robot.move_gripper("vertically aligned with the plate", close_gripper=True)
+    # If the gripper is near the plate, we've probably trapped the plate and can
+    # slide it to the target location.
+    if check("the robot's gripper is near the plate and the plate is below the robot's gripper"):
+        robot.move_gripper("above the target location")

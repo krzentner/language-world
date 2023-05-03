@@ -1,16 +1,21 @@
 
 
-Here's the code to perform the assembly task:
+Inside the function, the program should:
 
+1. Align the robot's gripper with the wrench 
+2. Grab the wrench with the gripper 
+3. Align the wrench with the peg 
+4. Wrap the wrench around the peg 
+
+Here's the complete program:
 ```
-# assembly: put the wrench around the peg
-# def assembly(robot):
-    if check("the robot's gripper is not above the peg"):
-        robot.place("gripper above peg")
-    if check("the robot's gripper is not around the wrench and the robot's gripper is open"):
+# assembly: grab the wrench and wrap it around the peg
+def assembly(robot):
+    if check("the robot's gripper is not vertically aligned with wrench"):
+        robot.put("gripper above wrench")
+    if check("the robot's gripper is vertically aligned with wrench and the robot's gripper is open"):
         robot.grab("wrench")
+    if check("the robot's gripper is forward-aligned with the peg and the wrench is not near the peg"):
+        robot.align("wrench with peg")
     if check("the robot's gripper is near the peg and the robot's gripper is open"):
-        robot.align("wrench around peg")
-    if check("the robot's gripper is aligned with the peg and the robot's gripper is open"):
-        robot.close("gripper around peg")
-```
+        robot.wrap("wrench around peg")

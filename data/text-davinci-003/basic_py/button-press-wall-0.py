@@ -1,7 +1,7 @@
 
-    if check("the robot's gripper is not behind the short wall"):
-        robot.put("gripper to the left of the wall")
-    if check("the robot's gripper is behind the short wall and the wall is not vertically aligned with the button"):
-        robot.snap("wall in place against button")
-    if check("the robot's gripper is behind the short wall and the wall is in place"):
-        robot.push("wall forward to press button")
+    if check("the robot's gripper is not in front of the button and the wall"):
+        robot.move("gripper to front of button and wall")    
+    if check("the robot's gripper is not horizontally aligned with button and the wall"):
+        robot.place("gripper at wall")     
+    if check("the robot's gripper is horizontally aligned with button and the wall"):
+        robot.push("the button")

@@ -1,10 +1,12 @@
 To push the button from the front with a short wall in the way reliably, the robot should perform the following steps:
-    Steps: 1. Put gripper above the button  2. Move the robot's gripper forward until it touches the wall  3. Slide the gripper downwards until it is below the wall  4. Move the robot's gripper forward again until it touches the button  5. Push down on the button from the front
-Since there is a short wall in the way, the robot needs to approach the button from above. Once it is above the button:
-    - When the robot's gripper is not forward aligned with the button, move the robot's gripper forward until it touches the wall
-    We need to slide the gripper downwards until it is below the wall to avoid hitting it as we move the gripper forward again:
-    - When the robot's gripper touches the wall, move the robot's gripper downwards until it is below the wall
-    Now we can move the gripper forward again until it touches the button:
-    - When the robot's gripper is below the wall, move the robot's gripper forward again until it touches the button
-Finally, we can push down on the button from the front to activate it. 
-    - When the robot's gripper is forward aligned with the button, move the robot's gripper until the robot's gripper is near the button
+
+    Steps:  1. Put gripper near the button  2. Move the robot's body to the left until the gripper clears the wall  3. Align the robot's gripper with the button  4. Push the button
+
+First, move the gripper near to the button.
+- When the robot's gripper is not near the button, move the robot's gripper until it is near the button
+Next, move the robot's body to the left until the gripper clears the short wall.
+- When the gripper is not clear of the short wall, move the robot's body to the left until the gripper clears the short wall
+Then, align the gripper with the button.
+- When the robot's gripper is not aligned with the button, move the robot's gripper until it is aligned with the button and the robot's gripper is closed
+Finally, push the button.
+- When the robot's gripper is near the button and aligned with the button, push the button.

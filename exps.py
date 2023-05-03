@@ -139,9 +139,9 @@ for plan_enc in PLAN_ENCODINGS:
                     Out(f"{gpt3_engine}/{plan_enc}/{task}-{i}{ext}")
                     for i in range(LLM_ATTEMPTS)
                 ],
-                warmup_time=1,
+                warmup_time=5,
                 ram_gb=0.3,
-                priority=0,
+                priority=2,
             )
         for gpt_model in GPT_CHAT_MODELS:
             cmd(
@@ -154,7 +154,7 @@ for plan_enc in PLAN_ENCODINGS:
                     Out(f"{gpt_model}/{plan_enc}/{task}-{i}{ext}")
                     for i in range(LLM_ATTEMPTS)
                 ],
-                warmup_time=1,
+                warmup_time=10,
                 ram_gb=0.3,
                 priority=1,
             )

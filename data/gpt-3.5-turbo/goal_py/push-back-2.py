@@ -2,8 +2,8 @@
     #  1. Put gripper above puck
     #  2. Push gripper into top of puck
     #  3. Slide puck backwards to goal
-    # The robot can slide the puck backwards by trapping it by pushing down on it from
-    # above and moving the gripper.
+    # This task is very similar to the "push" task, but in the opposite
+    # direction.
     # If the puck isn't below the gripper as seen from above, move the gripper
     # above the puck.
     if check("the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck"):
@@ -16,4 +16,4 @@
     # slide it backwards to the target location.
     # Close the gripper to make sure we keep control of the puck.
     if check("the robot's gripper is near the puck and the puck is below the robot's gripper"):
-        robot.move_gripper("behind the target location")
+        robot.move_gripper("above the target location")

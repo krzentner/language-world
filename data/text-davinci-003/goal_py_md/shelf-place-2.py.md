@@ -1,32 +1,28 @@
 
 
-Steps:
-1. Put gripper above block
-2. Drop gripper around block
-3. Grip block with gripper
-4. Move block above target location
-5. Place block in target position
+Then add the steps:
 
-# shelf-place: pick up the block and place it at the target location
-# def shelf_place(robot):
-    # Steps:
-    #  1. Put gripper above block
-    #  2. Drop gripper around block
-    #  3. Grip block with gripper
-    #  4. Move block above target location
-    #  5. Place block in target position
-    # First, put the gripper above the block so that it can be grabbed.
-    if check("the robot's gripper is not above the block"):
-        robot.move_gripper("above the block")
-    # If the gripper is not around the block, put it around the block.
-    if check("the robot's gripper is not around the block and the robot's gripper is open"):
-        robot.move_gripper("near the block", close_gripper=True)
-    # If the gripper is near the block, grab the block by closing the gripper.
-    if check("the robot's gripper is near the block and the gripper is closed"):
-        robot.move_gripper("above the target location")
-    # Now, move the block to the target location.
-    if check("the robot's gripper is above the target location"):
-        robot.move_gripper("near the target location")
-    # Once the block is lined up with the target location, place it on the shelf.
-    if check("the robot's gripper is vertically aligned with the target location"):
-        robot.move_gripper("near the target location", open_gripper=True)
+```
+# Steps:
+#  1. Put gripper above block
+#  2. Grab the block with the gripper
+#  3. Move the block towards the target location shelf
+#  4. Place block on the target shelf
+
+# First, put the gripper above the block.
+if check("the robot's gripper is not vertically aligned with the block"):
+    robot.move_gripper("vertically aligned with the block", close_gripper=True)
+
+# Once the gripper is lined up above the block, we can grab it by moving
+# the gripper down around it.
+if check("the robot's gripper is vertically aligned with the block"):
+    robot.move_gripper("around the block")
+
+# Once the gripper is around the block, we can move it to the target shelf.
+if check("the robot's gripper is around the block"):
+    robot.move_gripper("towards the target shelf")
+
+# When the block is close to the target shelf, we can place it on the shelf.
+if check("puck is close to the target shelf"):
+    robot.move_gripper("above the target shelf")
+```

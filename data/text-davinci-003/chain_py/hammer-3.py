@@ -1,16 +1,20 @@
 
     # Steps:
-    #  1. Put gripper above hammer and nail
-    #  2. Put gripper forwardly aligned with handle of hammer
-    #  3. Push hammer straight down onto nail
-    # First, put the gripper above the nail and the hammer.
-    if check("the robot's gripper is not above the hammer and the nail"):
-        robot.place("gripper above hammer and nail")
-    # If the gripper is lined up from above, and the gripper is not forwardly
-    # aligned, align the gripper with the handle of the hammer.
-    if check("the robot's gripper is above the hammer and the nail and the robot's gripper is not forwardly aligned with the handle of the hammer"):
-        robot.align("gripper with the handle of the hammer")
-    # If the gripper is lined up with the handle of the hammer, we can just push
-    # it straight down onto the nail.
-    if check("the robot's gripper is forwardly aligned with the handle of the hammer"):
-        robot.push("hammer straight down onto nail")
+    #  1. Put gripper above the hammer
+    #  2. Close gripper around the hammer
+    #  3. Move the hammer above the nail
+    #  4. Drop the hammer onto the nail
+    # First, put the gripper above the hammer.
+    if check("the robot's gripper is not above the hammer"):
+        robot.put("gripper above the hammer")
+    # If the gripper is near the hammer, move it around the hammer to close it.
+    if check("the robot's gripper is near the hammer and the robot's gripper is open"):
+        robot.grab("hammer")
+    # Once the gripper is closed and the hammer is directly below the gripper,
+    # just move the gripper directly above the nail and drop the hammer there.
+    if check("the robot's gripper is above hammer and the hammer is directly below the robot's gripper and the hammer is not above the nail"):
+        robot.put("hammer above nail")
+    # If the hammer is directly above the nail and the gripper is closed around
+    # the hammer, drop the hammer onto the nail.
+    if check("the hammer is directly above the nail and the robot's gripper is closed around the hammer"):
+        robot.drop("hammer onto nail")

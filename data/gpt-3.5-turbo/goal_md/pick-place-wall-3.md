@@ -1,15 +1,22 @@
 To pick up the puck and hold it at the target location with a short wall in the way reliably, the robot should perform the following steps:
 
-Steps:
-1. Put gripper above puck on the side of the wall opposite the target
-We need to put the gripper above the puck, and we also need to make sure the gripper is on the side of the wall opposite the target.
-- When the robot's gripper is not vertically aligned with the puck and the gripper is not on the correct side of the wall, move the robot's gripper until the robot's gripper is vertically aligned with the puck and the gripper is on the opposite side of the wall from the target.
-2. Grab the puck
-Once the gripper is above the puck, we should be able to grab it by moving the gripper down around it.
- - When the robot's gripper is above the puck and the robot's gripper is open, move the robot's gripper until the robot's gripper is around the puck and the robot's gripper is closed.
-3. Move the gripper to the other side of the wall
-Now that we have the puck, we need to move the gripper to the other side of the wall so that we can place it at the target location.
-- When the robot's gripper is not on the other side of the wall, move the robot's gripper until the gripper is on the other side of the wall opposite the target.
-4. Place the puck at the target location
-Finally, we can place the puck at the target location by moving the gripper down and releasing the puck.
-- When the robot's gripper is not above the target location, move the robot's gripper until the robot's gripper is above the target location and the robot's gripper is opened to release the puck.
+1. Put gripper above the puck on the same side of the wall as the robot.
+2. Drop gripper around the puck and close gripper around puck.
+3. Lift the gripper and puck up and over the wall.
+4. Move the gripper and puck to the target location.
+5. Lower the gripper and puck to the target location.
+
+If the gripper is not above the puck on the same side of the wall as the robot, move it until it is.
+- When the robot's gripper is not above the puck on the same side of the wall as the robot, move the robot's gripper until the robot's gripper is above the puck on the same side of the wall as the robot
+
+Once the gripper is above the puck on the same side as the robot, drop the gripper around the puck and close it.
+- When the robot's gripper is above the puck on the same side of the wall as the robot and the gripper is not around the puck and the gripper is open, move the robot's gripper until the robot's gripper is near the puck on the same side of the wall as the robot and close the gripper around the puck
+
+Next, the gripper and puck need to be lifted up and over the wall. 
+- When the gripper and puck are not above the wall, move the gripper and puck until they are above the wall.
+
+After lifting the gripper and puck over the wall, move them to the target location.
+- When the gripper and puck are not at the target location, move the gripper and puck until they are at the target location.
+
+Finally, lower the gripper and puck to the target location.
+- When the gripper and puck are above the target location, lower the gripper and puck until they are at the target location.

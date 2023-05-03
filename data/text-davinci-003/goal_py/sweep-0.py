@@ -1,14 +1,15 @@
 
     # Steps:
     #  1. Put gripper above cube
-    #  2. Grab cube with gripper
-    #  3. Move sideways to the target location
-    # First, put the gripper above the cube in order to grab it.
-    if check("the robot's gripper is not above the cube"):
-        robot.move_gripper("above the cube")
-    # If the gripper isn't close to the cube, close it to the cube to capture it.
-    if check("the robot's gripper is not near the cube and the gripper is open"):
+    #  2. Drop gripper around cube
+    #  3. Sweeping motion to sweep cube to goal
+    # First, put the gripper above the cube.
+    if check("the robot's gripper is not above cube and the robot's gripper is not vertically aligned with the cube"):
+        robot.move_gripper("vertically aligned with the cube")
+    # Once the gripper is lined up with the cube, grab the cube with the gripper.
+    if check("the robot's gripper is vertically aligned with the cube and the robot's gripper is open"):
         robot.move_gripper("near the cube", close_gripper=True)
-    # Now, with the cube in hand, move sideways to the target location.
-    if check("the robot's gripper is near the cube and the cube is below the robot's gripper"):
-        robot.move_gripper("right of the target location")
+    # Now that the cube is grabbed, we can do a sweeping motion to move the cube
+    # sideways to the target location.
+    if check("the robot's gripper is near cube and the robot's gripper is closed"):
+        robot.move_gripper("horizontally aligned with the target location")

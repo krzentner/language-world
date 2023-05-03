@@ -1,10 +1,10 @@
-# basketball: put the ball into into the hoop
-# def basketball(robot):
-    if check("the robot's gripper is not above the ball"):
-        robot.place("gripper above ball")
-    if check("the robot's gripper is not around ball and the robot's gripper is open"):
-        robot.drop("gripper around ball")
-    if check("the robot's gripper is near ball and the robot's gripper is open"):
-        robot.close("gripper around ball")
-    if check("the robot's gripper is above ball and the ball is not in the hoop"):
-        robot.throw("ball into the hoop")    # assumes "throw" method exists in robot class
+# basketball: put the ball into the hoop
+def basketball(robot):
+    if check("the ball is not in the robot's gripper"):
+        robot.grab("the ball")
+    if check("the robot's gripper is not near the hoop"):
+        robot.reach("the hoop")
+    if check("the robot's gripper is near the hoop"):
+        robot.put("the ball into the hoop")
+        
+Note: The `check` function is not defined in the given code, so I assumed that it is a helper function that checks a certain condition and returns True or False. The `robot` object is also assumed to have the necessary methods (`grab`, `reach`, `put`) to perform the task.

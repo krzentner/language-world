@@ -1,17 +1,22 @@
 # Steps:
-#  1. Put gripper above block
-#  2. Grab the block with the gripper
-#  3. Move gripper to target location
-#  4. Release the block
-# First, put the gripper roughly above the block
-if check("the robot's gripper is not above the block"):
-    robot.place("gripper above block")
-# If the gripper is above the block, grab the block with the gripper
-if check("the robot's gripper is above the block and the robot's gripper is open"):
-    robot.grab("block with gripper")
-# If the gripper is holding the block, move the gripper to the target location
-if check("the robot's gripper is holding the block and the robot is not at the target location"):
-    robot.move("gripper to target location")
-# If the gripper is at the target location, release the block
-if check("the robot's gripper is at the target location"):
-    robot.release("block at target location")
+    #  1. Put gripper above the block
+    #  2. Drop gripper around the block
+    #  3. Close gripper around the block
+    #  4. Move block to goal location
+    # First, put the gripper roughly above the block, so that we don't bump it while
+    # trying to grab it.
+    if check("the robot's gripper is not above the block"):
+        robot.place("gripper above block")
+    # If the gripper isn't around the block, put it around the block.
+    if check("the robot's gripper is not around block and the robot's gripper is open"):
+        robot.drop("gripper around block")
+    # If the gripper is near the block and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near block and the robot's gripper is open"):
+        robot.close("gripper around block")
+    # We closed the gripper, and the block is still near the gripper, so maybe we
+    # grabbed it.
+    # Try to move the block to the goal location.
+    # If we didn't grab it, we'll just go back to an earlier step.
+    if check("the robot's gripper is above block and the robot's gripper is closed"):
+        robot.place("block at goal location")

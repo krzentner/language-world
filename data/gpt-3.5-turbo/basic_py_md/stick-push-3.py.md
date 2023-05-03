@@ -1,8 +1,12 @@
-# stick-push: use the stick to push the thermos to the target location
-# def stick_push(robot):
-    if check("the robot's gripper is not holding the stick and the robot's gripper is not near the stick"):
-        robot.pick("the stick")
-    if check("the robot's gripper is holding the stick and the stick is not near the thermos"):
-        robot.move("the stick to the thermos")
-    if check("the robot's gripper is holding the stick and the stick is near the thermos"):
-        robot.push("the thermos to the goal location using the stick")
+# stick-push: grab the stick and use it to push the thermos to the target location
+def stick_push(robot):
+    if check("the robot's gripper is not vertically aligned with the stick"):
+        robot.put("gripper above stick")
+    if check("the stick is not between the robot's gripper and the thermos"):
+        robot.grab("stick")
+    if check("the robot's gripper is vertically aligned with the stick and the stick is not near the thermos"):
+        robot.move("gripper to thermos")
+    if check("the robot's gripper is near the thermos and the thermos is below the robot's gripper"):
+        robot.push("stick into thermos")
+    if check("the thermos is near the goal"):
+        robot.push("thermos to goal with stick")

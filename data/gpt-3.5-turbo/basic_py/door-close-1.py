@@ -1,4 +1,1 @@
-if check("the robot's gripper is not near the door and the door is already closed"):
-        robot.move("to the door")
-    if check("the robot's gripper is near the door and the door is already closed"):
-        robot.push("door closed")
+I'm sorry, it seems like there is no function for "door-close" in the code you provided. Can you provide me with the necessary steps to close the door so that I can help you write the code for it?

@@ -1,10 +1,12 @@
-To pick up the box lid and place it on the box, the robot should perform the following steps:
-    Steps:  1. Put gripper above the box lid  2. Grab the box lid with the gripper  3. Move the lid to the top of the box  4. Release the gripper to place the lid on the box
-    Start by putting the gripper above the box lid.
-    - When the robot's gripper is not vertically aligned with the box lid, the robot should put the gripper above the box lid.
-    Once the gripper is above the box lid, grab it with the gripper.
-    - When the robot's gripper is vertically aligned with the box lid and the gripper is open, the robot should close the gripper to grab the box lid.
-    Move the box lid to the top of the box.
-    - When the robot's gripper is holding the box lid and is not vertically aligned with the box, the robot should move the lid to the top of the box.
-    Finally, release the gripper to place the lid on the box.
-    - When the robot's gripper is holding the box lid and is vertically aligned with the box, the robot should release the gripper to place the lid on the box.
+To pick up the box lid and place it on the box reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above box lid  2. Drop gripper around box lid  3. Close gripper around box lid  4. Move lid to box  5. Open gripper to release lid onto box
+    First, put the gripper roughly above the box lid, so that we don't bump it while trying to grab it.
+    - When the robot's gripper is not above the box lid, the robot should place gripper above box lid.
+    If the gripper isn't around the box lid, put it around the box lid.
+    - When the robot's gripper is not around box lid and the robot's gripper is open, the robot should drop gripper around box lid.
+    If the gripper is near the box lid and open, maybe we can grab it by closing the gripper.
+    - When the robot's gripper is near box lid and the robot's gripper is open, the robot should close gripper around box lid.
+    We closed the gripper, and the box lid is still near the gripper, so maybe we grabbed it. Try to move the box lid to the box.
+    - When the robot's gripper is above the box and the box lid is vertically aligned with the box, the robot should move lid to box.
+    Make sure the gripper is directly above the center of the box and then lower the lid until it is directly on top of the box.
+    - When the robot's gripper is above the box and the box lid is directly on top of the box, the robot should open gripper to release the box lid onto the box.

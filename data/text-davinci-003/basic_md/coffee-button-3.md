@@ -1,3 +1,3 @@
 
-    - When the robot's gripper is not vertically aligned with the button, the robot should move gripper above button.
-    - When the robot's gripper is near the button, the robot should push button.
+    - When the robot's gripper is not vertically aligned with coffee machine button, the robot should put gripper above coffee machine button.
+    - When the robot's gripper is vertically aligned with coffee machine button, the robot should push down on button.

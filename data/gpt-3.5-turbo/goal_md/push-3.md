@@ -1,11 +1,6 @@
 To slide the puck to the target location reliably, the robot should perform the following steps:
-
-1. Put the gripper above the puck
-2. Move the gripper down around the puck
-3. Close the gripper around the puck
-4. If the gripper is not vertically aligned with the puck, move the gripper until it is vertically aligned with the puck
-5. If the gripper is not near the puck, move the gripper until it is near the puck and closed
-6. Slide the gripper down to trap the puck
-7. Move the gripper towards the target location while keeping the puck trapped
-8. If the gripper is not above the target location, move the gripper until it is above the target location
-9. Release the puck by opening the gripper at the target location.
+    Steps:  1. Put gripper near puck  2. Push the puck towards the target location
+    First, put the gripper near the puck, so that we can start pushing it towards the target.
+    - When the robot's gripper is not near the puck, move the robot's gripper until the robot's gripper is near the puck
+    Next, start pushing the puck towards the target location.
+    - When the puck is not at the target location, move the robot's gripper towards the target location while maintaining contact with the puck until the puck reaches the target location.

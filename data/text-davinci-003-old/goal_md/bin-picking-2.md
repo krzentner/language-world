@@ -1,10 +1,10 @@
 
-    Steps:  1. Put gripper above cube  2. Drop gripper around cube  3. Close gripper around cube  4. Move cube to goal  5. Drop cube into bin
-    First, put the gripper above the cube.
-    - When the robot's gripper is not above the cube, move the robot's gripper until the robot's gripper is above the cube
-    If the gripper isn't around the cube, put it around the cube.
-    - When the robot's gripper is not around cube and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the cube and the robot's gripper is closed
-    Once the gripper is around the cube, we can move it to the target bin.
-    - When the robot's gripper is above the cube and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the target bin
-    If the gripper is near the target bin, we can drop the cube into the bin.
-    - When the robot's gripper is near the target bin, move the robot's gripper until the cube is inside the bin and the robot's gripper is open
+    Steps:  1. Line up the gripper noted from the top. 2. Place the gripper under the cube. 3. Place the cube into the bin.
+    First, line up the robot's gripper as viewed from the top.
+    - When the robot's gripper is not vertically aligned with the cube, move the robot's gripper until the robot's gripper is vertically aligned with the cube and the robot's gripper is closed
+    Once the gripper is lined up, we can lower the gripper down to the cube.
+    - When the robot's gripper is vertically aligned with cube and the robot's gripper is not below cube, move the robot's gripper until the robot's gripper is below the cube
+    After the gripper is below the cube, open the gripper to grab it.
+    - When the robot's gripper is below cube and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the cube and the robot's gripper is closed
+    With the cube in the gripper, move the gripper above the target bin.
+    - When the robot's gripper is above target bin, move the robot's gripper until the robot's gripper is near the target bin

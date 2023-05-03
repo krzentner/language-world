@@ -1,11 +1,13 @@
 
     # Steps:
-    #  1. Put gripper beside the dial
-    #  2. Turn the dial
-    # If the gripper isn't aligned with the dial, line it up near the dial.
-    if check("the robot's gripper is not beside of the dial"):
-        robot.move_gripper("beside the dial")
-    # If the gripper is aligned with the dial, move it to the right to turn it
-    # until the door unlocks.
-    if check("the robot's gripper is beside of the dial"):
-        robot.move_gripper("right until the door unlocks")
+    #  1. Line up the gripper horizontally with the knob
+    #  2. Turn the dial to the right
+    #  3. Turn the dial to the left
+    # Since the knob is usually in the same relative position on the door, we
+    # should line the gripper up horizontally above the knob first.
+    if check("the robot's gripper is not horizontally aligned with the knob"):
+        robot.move_gripper("horizontally aligned with the knob", close_gripper=True)
+    # Now start turning the dial to the right, and then turn it to the left.
+    if check("the robot's gripper is horizontally aligned with the knob"):
+        robot.move_gripper("above the knob")
+        robot.move_gripper("left of the knob")

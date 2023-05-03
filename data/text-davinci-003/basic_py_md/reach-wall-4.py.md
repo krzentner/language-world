@@ -1,12 +1,15 @@
 
 
-The program should check for the below conditions and take the corresponding action accordingly:
-
-1. If the robot’s gripper is not above the wall
-    - robot.put("gripper above wall")
-
-2. If the robot's gripper is above the wall and is not near the target location
-    - robot.reach("to goal")
-
-3. If the robot's gripper is near the target location and the wall is blocking the gripper from reaching the target
-    - robot.slide("side-ways to go around wall")
+Solution: 
+```
+# reach-wall: reach to the target location with a short wall in the way
+def reach_wall(robot):
+    if check("the robot's gripper is not aligned with the wall surface"):
+        robot.put("gripper at wall-level")
+    if check("the robot's gripper is aligned with the wall surface and the robot's gripper is not near the wall's edge"):
+        robot.extend("gripper over the wall's edge")
+    if check("the robot's gripper is near the wall's edge and the robot's gripper is not aligned with the target location"):
+        robot.align("gripper with target location")
+    if check("the robot's gripper is aligned with the target location"):
+        robot.reach("to goal")
+```

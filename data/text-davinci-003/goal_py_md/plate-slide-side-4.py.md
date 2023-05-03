@@ -2,25 +2,28 @@
 
 Steps:
   1. Put gripper above the plate
-  2. Grab the plate with the gripper
-  3. Line the plate up with the target location
-  4. Slide the plate sideways into the target location
+  2. Line up the plate with the target
+  3. Slide the plate sideways into the target location
+  
+We should put the gripper above the plate before trying to slide it, because the plate's edges are sharp and the robot's gripper is too broad to line up with just one of the plate's corners.
 
-# plate-slide-side: slide the plate sideways into the target location
-# def plate_slide_side(robot):
-  # First, put the gripper above the plate. 
-    if check("the robot's gripper is not vertically aligned with the plate"):
-        robot.move_gripper("vertically aligned with the plate")
-  # If the plate becomes left of the gripper, go back to putting the gripper
-  # above the plate.
-  # Because the plate is a long object, check if the gripper is lined up with it
-  # from the front instead of around it.
-    if check("plate is not left of the robot's gripper and plate is not forward aligned with the robot's gripper"):
-        robot.move_gripper("forward aligned with the plate", close_gripper=True)
-  # As long the gripper is still mostly around the plate and the plate isn't lined
-  # up with the target, line up the plate with the target.
-    if check("plate is horizontally aligned with target location"):
+If the plate isn't left of the gripper, we should put the gripper above the plate.
+
+```
+    if check("the robot's gripper is not above the plate"):
         robot.move_gripper("above the plate")
-  # If the plate is lined up with the target to the side, slide it into the target.
-    if check("the robot's gripper is forward aligned with the plate and the plate is not horizontally aligned with target location"):
-        robot.move_gripper("horizontally aligned with target location")
+```
+
+Now that the gripper's above the plate, we need to make sure the plate is lined up with the target by moving the gripper to the left.
+
+```
+    if check("the robot's gripper is above the plate and the plate is not horizontally aligned with target"):
+        robot.move_gripper("horizontally aligned with the target")
+```
+
+Once the gripper is lined up with the target, the robot can slide the plate sideways into the target location.
+
+```
+    if check("the robot's gripper is horizontally aligned with the target and the plate is not sideways aligned with the target"):
+        robot.move_gripper("sideways aligned with the target")
+```

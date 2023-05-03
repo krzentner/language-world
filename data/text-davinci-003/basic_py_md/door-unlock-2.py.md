@@ -1,10 +1,16 @@
 
 
-If check("the robot's gripper is not vertically aligned with the keyhole"):
-    robot.put("gripper above keyhole")
-if check("the robot's gripper is vertically aligned with the keyhole"):
-    robot.turn("dial right")
-if check("the door is not unlocked"):
-    robot.turn("dial left")
-if check("the door is now unlocked"):
-    robot.release("gripper")
+Then add the code for the program:
+
+```
+# door-unlock: turn the dial on the door
+def door_unlock(robot):
+    if check("the robot's gripper is not nearly above the dial"):
+        robot.put("gripper nearly above dial")
+    if check("the robot's gripper is nearly above the dial and the robot's gripper is open"):
+        robot.grab("dial")
+    if check("the robot's gripper is around the dial"):
+        robot.turn("dial clockwise")
+    if check("the dial is in the correct position"):
+        robot.stop("turning dial")
+```

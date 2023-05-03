@@ -1,9 +1,9 @@
 # Steps:
-    #  1. Align the gripper with the faucet handle
-    #  2. Turn the faucet right to close it
-    # Align the robot's gripper with the faucet handle.
-    if check("the robot's gripper is not aligning with the faucet handle"):
-        robot.align("gripper with faucet handle")
-    # Turn the faucet handle right to close it.
-    if check("the robot's gripper is aligned with the faucet handle"):
-        robot.turn("faucet right to close it")
+    #  1. Put gripper around the faucet handle
+    #  2. Turn the handle to the right to close
+    # If the gripper is not already around the faucet handle, move it there.
+    if check("the robot's gripper is not around faucet handle"):
+        robot.drop("gripper around faucet handle")
+    # Once the gripper is around the faucet handle, turn it to the right to close.
+    if check("the robot's gripper is around faucet handle"):
+        robot.turn("faucet handle to the right")

@@ -1,9 +1,8 @@
-To pull up the handle reliably, the robot should perform the following steps:
-
-    Steps:  1. Put gripper above the handle  2. Grab the handle with the gripper  3. Pull the handle upwards
-    First, put the gripper above the handle.
-    - When the robot's gripper is not above the handle, the robot should put gripper above handle.
-    If the handle is not yet grasped, open the gripper and move it down around the handle to grab it.
-    - When the robot's gripper is above the handle and the gripper is open, the robot should drop gripper around handle.
-    If the handle is firmly grasped by the gripper, pull the handle upwards to perform the task.
-    - When the robot's gripper is grasping the handle and the handle is not yet pulled up, the robot should pull the handle upwards.
+The robot should perform the following steps to reliably pull up the handle:
+    Steps:  1. Put gripper around the handle  2. Push down on the handle to release it from its latch  3. Lift the handle up
+    First, move the gripper around the top part of the handle.
+    - When the robot's gripper is not around the handle and the handle is below the gripper, the robot should put gripper around handle.
+    Push down on the handle to release it from its latch, which will make it easier to lift up.
+    - When the gripper is around the handle, the robot should push down on the handle to release it from its latch.
+    Once the handle is released from its latch, lift the handle up.
+    - When the handle is released from its latch, the robot should lift the handle up.

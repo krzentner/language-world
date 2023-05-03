@@ -1,18 +1,20 @@
-# hand-insert: pick up the object and move it to the target location
-# def hand_insert(robot):
+# hand-insert: pick up the puck and move it to the target location
+def hand_insert(robot):
     # Steps:
-    #  1. Put gripper roughly above the object
-    #  2. Drop gripper around the object
-    #  3. Close gripper around the object
-    #  4. Move the object to the target location
-    # First, put the gripper roughly above the object so that we minimize the
-    # chances of bumping into it while closing the gripper.
-    if check("the robot's gripper is not above the object"):
-        robot.move_gripper("above the object")
-    # If the gripper isn't around the object, put it around the object.
-    if check("the robot's gripper is not around object and the robot's gripper is open"):
-        robot.move_gripper("near the object", close_gripper=True)
-    # If the gripper is around the object, we can move the object to the target
-    # location.
-    if check("the robot's gripper is around object"):
-        robot.move_gripper("above the target location")
+    #  1. Put gripper above the puck
+    #  2. Grab the puck with the gripper
+    #  3. Move the gripper to the target location
+    #  4. Release the puck at the target location
+    # First, put the gripper above the puck.
+    if check("the robot's gripper is not above the puck"):
+        robot.move_gripper("above the puck")
+    # If the gripper isn't around the puck, put it around the puck.
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.move_gripper("near the puck", close_gripper=True)
+    # If the gripper is near the puck and closed, move the gripper to the
+    # target location.
+    if check("the robot's gripper is near the puck and closed and the robot's gripper is not near the target location"):
+        robot.move_gripper("near the target location")
+    # If the gripper is near the target location, release the puck.
+    if check("the robot's gripper is near the target location and the robot's gripper is closed"):
+        robot.move_gripper("above the target location", close_gripper=False)

@@ -1,5 +1,5 @@
 
-    if check("the robot's gripper is not near the faucet handle"):
-        robot.grab("faucet handle")
-    if check("the robot's gripper is near the faucet handle"):
-        robot.rotate("faucet handle clockwise")
+    if check("the robot's gripper is not near faucet"):
+        robot.grab("faucet")
+    if check("the robot's gripper is near faucet and the faucet is not counter-clockwise"):
+        robot.swivel("faucet counter-clockwise")

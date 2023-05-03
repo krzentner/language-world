@@ -1,11 +1,6 @@
 To reach the target location with a short wall in the way, the robot should perform the following steps:
-
-    Steps:  1. Move the robot's gripper to the wall
-    The robot needs to get near the wall to try to peek over it.
-    - When the robot's gripper is not near the wall, move the robot's gripper until the robot's gripper is near the wall
-    Now the robot can peek over the wall to see where the target is.
-    - When the robot is peeking over the wall, move the robot's gripper towards the target
-    If the robot can't see the target, it should move towards the expected position of the target.
-    - When the robot's gripper is not near the expected position, move the robot's gripper until the robot's gripper is near the expected position
-    Finally, the robot can move towards the target location, possibly using the wall to keep track of its position.
-    - When the robot's gripper is not near the target location, move the robot's gripper until the robot's gripper is near the target location.
+    Steps:  1. Move gripper above the wall  2. Move gripper over the wall to the target location
+    First, move the gripper above the wall to get a better view of the target location.
+    - When the robot's gripper is not above the wall, move the robot's gripper until the robot's gripper is above the wall
+    Once the gripper is above the wall, move the gripper over the wall to the target location.
+    - When the robot's gripper is above the wall but not at the target location, move the robot's gripper until the robot's gripper is at the target location. If necessary, make sure to avoid hitting the wall on the way over.

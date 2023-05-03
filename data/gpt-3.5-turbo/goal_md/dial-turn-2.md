@@ -1,6 +1,6 @@
-To turn the dial reliably, the robot should perform the following steps:
-    Steps:  1. Put gripper around the dial  2. Turn the dial to the desired position
-    First, put the gripper around the dial.
-    - When the robot's gripper is not around the dial and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the dial and the robot's gripper is closed
-    Once the gripper is around the dial, turn it to the desired position.
-    - To turn the dial to the desired position, rotate the gripper around the dial until the dial is in the desired position while monitoring the position using the robot's sensors.
+The task `dial-turn` requires the robot to turn the dial to a specific position. To turn the dial reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper around the dial handle  2. Turn the dial to the desired position
+    First, put the gripper around the dial handle.
+    - When the robot's gripper is not around the dial handle, move the robot's gripper until the robot's gripper is around the dial handle
+    To turn the dial, the robot should first rotate the dial until it reaches the target position. To do this, the robot needs to rotate the dial in a specific direction (either clockwise or counterclockwise). To determine which direction to rotate the dial, the robot should use its sensors to determine the current position of the dial and compare it to the desired position. Based on this comparison, the robot can determine which direction to rotate the dial and how far it needs to rotate it.
+    - When the robot has determined the direction and distance to rotate the dial, rotate the gripper until the dial is in the desired position.

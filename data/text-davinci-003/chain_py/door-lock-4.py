@@ -1,14 +1,14 @@
 
     # Steps:
-    #  1. Put gripper above door lock
-    #  2. Move gripper to lock wheel
-    #  3. Turn wheel until the door is locked
-    # First, move the gripper above the door lock.
-    if check("the robot's gripper is not vertically aligned with the door lock"):
-        robot.put("gripper above door lock")
-    # Move the gripper to the wheel of the lock.
-    if check("the robot's gripper is not near the wheel and the robot's gripper is vertically aligned with the lock wheel"):
-        robot.move("gripper to wheel")
-    # Until the door is locked, turn the wheel to the right.
-    if check("the door is not locked"):
-        robot.turn("wheel right")
+    #  1. Put gripper above the lock handle
+    #  2. Drop gripper around lock handle
+    #  3. Turn lock handle clockwise
+    # Put the gripper above the door handle.
+    if check("the robot's gripper is not vertically aligned with lock handle"):
+        robot.put("gripper above lock handle")
+    # If the gripper isn't near the handle, drop the gripper around it.
+    if check("the robot's gripper is vertically aligned with the lock handle and the robot's gripper is not near lock handle"):
+        robot.drop("gripper around lock handle")
+    # If the gripper is near the handle, we can probably turn the handle.
+    if check("the robot's gripper is near lock handle"):
+        robot.rotate("clockwise")

@@ -1,8 +1,12 @@
 
 
-if check("the robot's gripper is not forward aligned with the faucet handle"):
-    robot.put("gripper near to faucet handle")
-if check("the robot's gripper is forward aligned with the faucet handle"):
-    robot.grab("faucet handle")
-if check("the robot's gripper is around the faucet handle"):
-    robot.turn("anti-clockwise to open the faucet")
+We can write the program as:
+
+```
+# faucet-open: turn the faucet left
+def faucet_open(robot):
+    if check("the robot's gripper is not in front of the faucet handle"):
+        robot.move("gripper in front of faucet")
+    if check("the robot's gripper is forward aligned with the faucet handle"):
+        robot.turn("faucet handle left")
+```

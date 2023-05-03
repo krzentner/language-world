@@ -1,0 +1,1 @@
+To reach the target location reliably, the robot should only perform the first step, which is to move the robot's gripper towards the target location until the gripper is near it. Since there are no objects to manipulate, the gripper can just move directly to the target location.

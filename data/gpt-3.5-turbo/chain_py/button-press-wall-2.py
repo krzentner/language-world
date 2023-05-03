@@ -1,14 +1,15 @@
 # Steps:
-    #  1. Put the gripper in front of the button
-    #  2. Lift the gripper over the wall
-    #  3. Push the button down
-    # First, put the gripper roughly in front of the button.
-    if check("the robot's gripper is not in front of the button"):
-        robot.place("gripper in front of button")
-    # If there is a wall between the gripper and button, lift the gripper over
-    # the wall before pushing the button.
-    if check("there is a wall between the gripper and the button"):
-        robot.lift("gripper over the wall")
-    # Once the gripper is in front of the button and over the wall, push down on the button.
-    if check("the robot's gripper is in front of the button and over the wall"):
+    #  1. Move gripper to position next to button
+    #  2. Push wall aside with gripper
+    #  3. Line up gripper with button
+    #  4. Push down on button
+    # We need to move the gripper to the position next to the button.
+    if check("the robot's gripper is not next to the button and there is a wall in the way"):
+        robot.push("wall aside")
+        robot.move("gripper to position next to button")
+    # Line up the robot's gripper with the button.
+    if check("the robot's gripper is not lined up with button"):
+        robot.move("gripper in front of button")
+    # Push down on the button.
+    if check("the robot's gripper is lined up with button"):
         robot.push("down on button")

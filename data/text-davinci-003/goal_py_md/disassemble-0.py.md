@@ -1,27 +1,24 @@
 
 
-Steps:
-1. Put gripper above the peg
-2. Drop gripper around the peg
-3. Pull the wrench off the peg
-
-If the robot's gripper is not above the peg, move the gripper to the peg.
+Then, write code:
 
 ```
-if check("the robot's gripper is not above the peg"):
-    robot.move_gripper("above the peg")
-```
-    
-If the gripper isn't around the peg, drop it around the peg.
-
-```
-if check("the robot's gripper is not around the peg"):
-    robot.move_gripper("around the peg")
-```
-
-If the gripper is around the peg, pull off the wrench by retracting the gripper from the peg.
-
-```
-if check("the robot's gripper is around the peg"):
-    robot.move_gripper("upwards away from the peg")
+# disassemble: pull the wrench off the peg
+def disassemble(robot):
+    # Steps:
+    #  1. Put the gripper above the peg
+    #  2. Grab the wrench with the gripper
+    #  3. Pull screwdriver off peg
+    # First, put the gripper above the peg.
+    if check("the robot's gripper is not vertically aligned with the peg"):
+        robot.move_gripper("vertically aligned with the peg")
+    # If the wrench is still on the peg, grab the wrench with the gripper.
+    # Again, line up the gripper from the front rather than around the wrench
+    # so as to avoid bumps.
+    if check("wrench is not left of the robot's gripper and wrench is not forward aligned with the robot's gripper"):
+        robot.move_gripper("forward aligned with the wrench", close_gripper=True)
+    # Once the robot's grip is locked on the wrench, slowly pull the wrench off
+    # the peg.
+    if check("the robot's gripper is forward aligned with the wrench and the wrench is left of the robot's gripper"):
+        robot.move_gripper("horizontally aligned with the peg")
 ```

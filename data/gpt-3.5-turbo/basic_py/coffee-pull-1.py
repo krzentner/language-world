@@ -1,8 +1,1 @@
-if check("the robot's gripper is not above the mug"):
-        robot.move("gripper above mug")
-    if check("the robot's gripper is not around the mug and the robot's gripper is open"):
-        robot.drop("gripper around mug")
-    if check("the robot's gripper is near mug and the robot's gripper is open"):
-        robot.close("gripper around mug")
-    if check("the robot's gripper is above mug and the mug is not at the target location"):
-        robot.pull("mug to goal")
+If I may suggest, before implementing the Coffee Pull function, it would be helpful to know more about the context and specifics of the task. Can you provide more details about what the robot needs to do and what equipment it will be using?

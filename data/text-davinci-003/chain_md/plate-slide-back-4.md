@@ -1,8 +1,8 @@
 
-Steps:  1. Put gripper behind the plate  2. Push the plate back  3. Slide the plate
-    If the robot's gripper is not behind the plate, we should move the gripper near the back side of the plate.
-    - When the robot's gripper is not behind the plate and the robot's gripper is below the plate, the robot should move gripper behind plate.
-    If the robot's gripper is at the back side of the plate, we should be able to slide the plate.
-    - When the robot's gripper is behind the plate, the robot should push plate back.
-    If the plate has moved back a bit, the robot can slide it into place.
-    - When the plate is pushed back, the robot should slide plate.
+    Steps:  1. Put gripper above plate  2. Grab the plate with the gripper  3. Slide plate backwards into the hole 
+    First, put the gripper above the plate.
+    - When the robot's gripper is not vertically aligned with the plate, the robot should put gripper above plate.
+    Use the gripper to grab the plate and slide it categorically back into its hole in the wall. 
+    - When the robot's gripper is vertically aligned with the plate and the robot's gripper is not around the plate, the robot should put gripper around plate.
+    Finally, slide the plate categorically backwards until it's in its hole.
+    - When the robot's gripper is around the plate, the robot should slide plate backwards into hole.

@@ -1,7 +1,7 @@
 
-    if check("the robot's gripper is not vertically aligned with the plate"):
-        robot.put("gripper above plate")
-    if check("the robot's gripper is vertically aligned with the plate and the robot's gripper is not near the plate"):
-        robot.put("gripper near plate")
-    if check("the robot's gripper is near the plate and the plate is not in line with the goal"):
-        robot.slide("plate to goal")
+    if check("the robot's gripper is not near the plate and the robot's gripper is not forward aligned"):
+        robot.align("the robot's gripper with the plate")
+    if check("the robot's gripper is forward aligned with the plate and the plate is not aligned with the target"):
+        robot.slide("the plate towards the target")
+    if check("the plate is aligned with the target"):
+        robot.push("the plate into the target")

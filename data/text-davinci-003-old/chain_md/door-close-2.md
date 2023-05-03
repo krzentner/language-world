@@ -1,9 +1,5 @@
 
-
-Steps:  1. Put gripper near the door handle  2. Push the door closed  3. Move the door to the target location
-    If the door handle is not near the robot's gripper, move the gripper near the door handle.
-    - When the door handle is not near the robot's gripper, the robot should put gripper near door handle.
-    If the door handle is near the robot's gripper, push the door closed.
-    - When the door handle is near the robot's gripper, the robot should push door closed.
-    If the door is closed, move the door to the target location.
-    - When the door is closed, the robot should move door to target location.
+Steps:  1. Put gripper around edge of door  2. Push door closed  3. Move door to target location
+- When the robot's gripper is not around edge of door, the robot should put gripper around edge of door.
+- When the robot's gripper is around edge of door, the robot should push door closed.
+- When the door is closed, the robot should move door to target location.

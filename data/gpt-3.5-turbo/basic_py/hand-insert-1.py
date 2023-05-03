@@ -1,6 +1,8 @@
-if check("the robot's gripper is not near the puck"):
-        robot.grab("the puck")
-    if check("the puck is not at the target location"):
-        robot.move("the puck to the target location")
-    if check("the puck is at the target location"):
-        robot.release("the puck")
+if check("the robot's gripper is not above the puck"):
+        robot.put("gripper above puck")
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.drop("gripper around puck")
+    if check("the robot's gripper is near puck and the robot's gripper is open"):
+        robot.close("gripper around puck")
+    if check("the robot's gripper is above puck and the robot's gripper is closed"):
+        robot.move("puck to the goal")

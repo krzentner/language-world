@@ -1,4 +1,3 @@
-To reliably reach to the target location, the robot should perform the following steps:
-
-1. Move the robot's gripper until it is near the target location.
-2. When the robot's gripper is not near the reach target, move the robot's gripper until it is near the target location.
+The task `reach` requires the robot to move the gripper to the target location. To reach the target location reliably, the robot should perform the following steps:
+    Steps: 1. Move the gripper to the target location
+    Since this task does not involve grabbing or manipulating any objects, the robot just needs to move the gripper to the target location.

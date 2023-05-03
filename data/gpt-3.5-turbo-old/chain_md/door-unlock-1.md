@@ -1,0 +1,1 @@
+Unfortunately, the steps required to turn the dial on the door depend on the specific design of the door and dial mechanism. Can you provide more information or context about the door and dial you want the robot to interact with?

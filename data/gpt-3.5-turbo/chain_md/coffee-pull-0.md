@@ -1,8 +1,11 @@
 To grab the mug and pull it to the target location reliably, the robot should perform the following steps:
-    Steps:  1. Put gripper above mug handle  2. Drop gripper around mug handle  3. Pull mug towards goal
-    First, put the gripper above the mug handle.
-    - When the robot's gripper is not lined up with the mug handle vertically, the robot should put gripper above mug handle.
-    If the gripper is above the mug handle, try to grab it by moving the gripper down around the mug handle.
-    - When the robot's gripper is above the mug handle and the robot's gripper is not around mug handle, the robot should drop gripper around the mug handle.
-    Once the gripper is around the mug handle, we can try to pull the mug towards the goal.
-    - When the robot's gripper is around the mug handle, the robot should pull mug towards goal.
+
+    Steps:  1. Put gripper around the handle of the mug  2. Lift the mug to release it from the surface  3. Pull the mug towards the goal  4. Lower the mug onto the surface at the goal
+    First, position the gripper around the handle of the mug, making sure that it is securely grasped and the handle is not blocked by the gripper itself.
+    - When the robot's gripper is not around the handle of the mug, the robot should put gripper around the handle of the mug.
+    Next, lift the mug so that it is released from the surface and can be pulled along.
+    - When the mug is not lifted off the surface and the robot's gripper is closed around it, the robot should lift the mug.
+    Then, pull the mug towards the target location, ensuring that the gripper does not lose its grasp on the handle.
+    - When the mug is not at the target location and the robot's gripper contains the mug, the robot should pull the mug towards the target location.
+    Finally, lower the mug onto the surface at the target location, making sure that it is not dropped or mishandled.
+    - When the mug is at the target location and the robot's gripper contains the mug, the robot should lower the mug onto the surface at the target location.

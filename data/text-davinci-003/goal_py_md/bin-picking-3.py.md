@@ -1,16 +1,19 @@
 
 
-Steps:
-1. Put gripper near the cube
-2. Grab the cube with the gripper
-3. Move the gripper to the target bin
-4. Put the cube down in the bin
 
-if check("the robot's gripper is not near cube"):
-    robot.move_gripper("near the cube", close_gripper=True):
-    
-if check("the robot's gripper is closed and near the cube"):
-    robot.move_gripper("near the target bin")
-    
-if check("the robot's gripper is near the target bin"):
-    robot.move_gripper("below the target bin", close_gripper=False)
+# bin-picking: pick up the cube and place it in the target bin
+def bin_picking(robot):
+    # Steps:
+    #  1. Put gripper above the cube
+    #  2. Close gripper around cube
+    #  3. Move cube to target bin
+    # First, put the gripper above the cube. 
+    if check("the robot's gripper is not above the cube"):
+        robot.move_gripper("above the cube")
+    # If the gripper isn't closed around the cube, move it around the cube.
+    if check("the robot's gripper is not around the cube and the robot's gripper is open"):
+        robot.move_gripper("below the cube", close_gripper=True)
+    # If the gripper is near the cube and closed, move the cube to the target
+    # bin.
+    if check("the robot's gripper is around the cube"):
+        robot.move_gripper("above the target bin")

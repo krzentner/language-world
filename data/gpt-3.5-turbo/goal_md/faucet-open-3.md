@@ -1,6 +1,6 @@
 To turn the faucet left reliably, the robot should perform the following steps:
-    Steps:  1. Put the gripper around the faucet knob 2. Turn the knob left until the faucet is open
-    First, put the gripper around the faucet knob.
-    - When the robot's gripper is not around the faucet knob, move the robot's gripper until the robot's gripper is around the faucet knob
-    Turn the knob left until the faucet is fully open.
-    - While the faucet is not fully open, turn the faucet knob left, making sure to not turn it too far and cause water to overflow.
+    Steps: 1. Put gripper around faucet handle  2. Turn gripper left to open the faucet
+To open the faucet, we need to grab the handle with the gripper. 
+    - When the robot's gripper is not around the faucet handle, move the robot's gripper until the robot's gripper is around the faucet handle
+Once we have a good grip on the handle, we can turn the handle left to open the faucet.
+    - When the robot's gripper is around the faucet handle, turn the gripper left to open the faucet

@@ -1,12 +1,17 @@
 
 
-if check("the robot's gripper is not above plate"):
+Then the code goes like this:
+
+```
+# plate-slide: slide the plate into the target location
+def plate_slide(robot):
+    if check("the robot's gripper is not above the plate"):
         robot.put("gripper above plate")
-    if check("the robot's gripper is above plate and the robot's gripper is not near plate"):
-        robot.move("gripper near plate")
-    if check("the robot's gripper is near plate and the robot's gripper is not around plate"):
-        robot.grab("gripper around plate")
-    if check("the robot's gripper is around plate and the robot's gripper is not gripping firmly"):
-        robot.tighten("gripper to grip plate")
-    if check("the robot's gripper is holding plate firmly"):
-        robot.slide("plate to the goal")
+    if check("the robot's gripper is vertically aligned with plate and the robot's gripper is open"):
+        robot.grab("plate")
+    if check("plate is not aligned with the target destination"):
+        robot.align("plate to destination")
+    if check("plate is aligned with the target destination and the robot's gripper is forward aligned with plate"):
+        robot.slide("plate to destination")
+
+```

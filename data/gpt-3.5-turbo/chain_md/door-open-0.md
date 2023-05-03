@@ -1,6 +1,6 @@
-Here are the steps the robot should perform to pull the door open reliably:
-
-1. Put the gripper mostly above the door handle.
-2. If the gripper isn't almost vertically aligned with the door handle, move it until it is.
-3. Once the gripper is almost lined up, close it around the door handle.
-4. Pull the door open while the gripper is still around the handle.
+To pull the door open reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper around the door handle  2. Pull the door handle towards the robot
+    First, the robot should put the gripper around the door handle.
+    - When the robot's gripper is not around the door handle, the robot should move the gripper to the door handle.
+    Once the gripper is around the door handle, the robot should pull the door handle towards itself.
+    - When the robot's gripper is around the door handle, the robot should pull the door handle towards itself.

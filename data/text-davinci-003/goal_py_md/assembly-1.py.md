@@ -1,28 +1,24 @@
 
 
-Then your code:
+Then add the following code:
+
 ```
-# assembly: put the wrench around the peg
-# def assembly(robot):
     # Steps:
-    #  1. Put gripper above the peg
-    #  2. Grab the peg with the gripper 
-    #  3. Rotate the tool so the wrench faces the right way 
-    #  4. Place the wrench around the peg
-    # First, put the gripper above the peg.
-    if check("the robot's gripper is not vertically aligned with the peg"):
-        robot.move_gripper("vertically aligned with the peg")
-    # If the peg becomes left of the gripper, go back to putting the gripper
-    # above the peg.
-    # Because the peg is a long object, check if the gripper is lined up with it
-    # from the front instead of around it.
-    if check("the peg is not left of the robot's gripper and it is not forward aligned with the robot's gripper"):
-        robot.move_gripper("forward aligned with the peg", close_gripper=True)
-    # As long the gripper is still mostly around the peg and the peg isn't lined
-    # up with the wrench, rotate the tool so the wrench faces the right way.
-    if check("the peg is right of the robot's gripper and the wrench is not aligned with the peg"):
-        robot.rotate_tool("aligned with the peg")
-    # After putting the wrench around the peg, let go of the peg.
-    if check("the wrench is aligned with the peg"):
-        robot.move_gripper("above the peg", close_gripper=False)
+    #  1. Put gripper above wrench
+    #  2. Drop gripper around wrench
+    #  3. Close gripper around wrench
+    #  4. Put gripper above peg
+    #  5. Rotate wrench around peg
+    # First, put the gripper above the wrench.
+    if check("the robot's gripper is not above the wrench"):
+        robot.move_gripper("above the wrench")
+    # If the gripper isn't around the wrench, put it around the wrench.
+    if check("the robot's gripper is not around wrench and the robot's gripper is open"):
+        robot.move_gripper("near the wrench", close_gripper=True)
+    # Once the gripper is around the wrench, move the gripper above the peg.
+    if check("the robot's gripper is around wrench"):
+        robot.move_gripper("above the peg")
+    # When the gripper is above the peg, we can rotate the wrench around the peg.
+    if check("the robot's gripper is near the peg and the robot's gripper is closed"):
+        robot.move_gripper("rotate the wrench around the peg")
 ```

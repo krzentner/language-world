@@ -1,12 +1,9 @@
 
 
-Then complete the code:
+Here's the code:
 
 ```
 # reach: reach to the target location
-# def reach(robot):
-    if check("the robot's gripper is not near reach target"):
-        robot.reach("to goal")
-    if check("the robot's gripper is near the target"):
-        robot.stop("moving")
-```
+def reach(robot):
+    if check("the robot's gripper is not near target location"):
+        robot.put("gripper near target location")

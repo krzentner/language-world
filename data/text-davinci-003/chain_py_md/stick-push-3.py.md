@@ -1,35 +1,33 @@
 
 
-The Steps:
+Steps: 
 1. Put gripper above the stick 
-2. Grab stick with the gripper
-3. Position the stick in front of the thermos
-4. Push the thermos to the target location
-
-If the gripper is not above the stick, move it there:
-
-```
-if check("the robot's gripper is not above the stick"):
-    robot.put("gripper above the stick") 
-```
-
-If the stick is not gripped, grab it with the gripper:
+2. Dive gripper around the stick
+3. Close gripper around the stick
+4. Push stick against the thermos 
+5. Slide the thermos to the goal
 
 ```
-if check("the robot's gripper is not gripping the stick"):
-    robot.grab("stick") 
-```
-
-If the stick isn't positioned in front of the thermos, line it up:
-
-```
-if check("the stick is not forward aligned with the thermos"):
-    robot.align("stick to thermos") 
-```
-
-Finally, push the thermos to the target location:
-
-```
-if check("the stick is forward aligned with thermos"):
-    robot.push("thermos to target")
-```
+# stick-push: grab the stick and use it to push the thermos to the target location
+def stick_push(robot):
+    # Steps:
+    #  1. Put gripper above the stick
+    #  2. Drop gripper around the stick
+    #  3. Close gripper around the stick
+    #  4. Push stick against the thermos
+    #  5. Slide the thermos to the goal
+    # Put the gripper above the stick.
+    if check("the robot's gripper is not above the stick"):
+        robot.put("gripper above stick")
+    # Drop the gripper around the stick.
+    if check("the robot's gripper is not around the stick"):
+        robot.drop("gripper around stick")
+    # Close the gripper around the stick.
+    if check("the robot's gripper is not closed around the stick"):
+        robot.close("gripper around the stick")
+    # Push the stick against the thermos.
+    if check("the stick is not pushing against the thermos"):
+        robot.push("stick against thermos")
+    # Slide the thermos to the target location.
+    if check("the thermos is not sliding to the goal"):
+        robot.slide("thermos to goal")

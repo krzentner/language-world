@@ -1,24 +1,28 @@
 
 
-Answer:
+Steps:
+1. Put gripper to the left of window handle 
+2. Push window closed harder
+3. Check that the window is fully closed
 
 ```
 # window-close: slide the window closed to the right
-# def window_close(robot):
+def window_close(robot):
     # Steps:
     #  1. Put gripper left of the window handle
-    #  2. Start pushing against the window handle to close the window
-    #  3. Push the window closed harder
-    # If the the window handle is right of the robot's gripper, we should move the
-    # gripper near the window handle to start pushing
-    if check("the window handle is right of the robot's gripper and the robot's gripper is not near the window handle"):
-        robot.move("gripper to left of window handle")
-    # If the robot's gripper is near the window handle we can probably slide the
-    # window close now by moving the gripper right.
-    if check("the robot's gripper is near the window handle"):
-        robot.slide("window right")
-    # If the robot's gripper is starting to be in front of the window handle,
-    # push harder.
-    if check("the robot's gripper is in front of the window handle"):
-        robot.push("window right harder")
+    #  2. Push the window closed harder
+    #  3. Check that the window is fully closed
+    # First, put the gripper roughly left of window handle, so that we don't bump it while
+    # trying to close it.
+    if check("the robot's gripper is not left of the window handle"):
+        robot.place("gripper left of window handle")
+    # If the gripper is near the window handle, start pushing it closed.
+    if check("the robot's gripper is near window handle and the window is not completely closed"):
+        robot.push("window closed harder")
+    # If the window is not completely closed, push harder. 
+    if check("the window is not completely closed"):
+        robot.push("window closed harder")
+    # If the window is fully closed, check that it is and stop pushing.
+    if check("the window is fully closed"):
+        robot.stop("pushing window closed")
 ```

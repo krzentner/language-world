@@ -1,13 +1,13 @@
 
     # Steps:
-    #  1. Put gripper roughly around the drawer handle
-    #  2. Push the drawer closed
-    # If the gripper is not near the drawer handle, move it to the drawer handle.
-    # We don't need to be careful about the direction, since the drawer is large
-    # and we're just pushing it (unlike when opening the drawer).
-    if check("the robot's gripper is not near the drawer handle"):
-        robot.move_gripper("near the drawer handle")
-    # If the drawer is aligned with the gripper as seen from in front, we can
-    # push the drawer closed.
-    if check("the robot's gripper is forward aligned with the drawer handle"):
+    #  1. Put gripper left of drawer handle
+    #  2. Drop gripper around drawer handle
+    #  3. Push close the drawer
+    # It would be awkward to start by putting the gripper above the drawer
+    # handle, so we start by putting it to the left of the handle.
+    if check("the robot's gripper is not left of drawer handle and the robot's gripper is not around drawer handle"):
         robot.move_gripper("around the drawer handle")
+    # As long as the gripper is around the drawer handle, move the gripper right
+    # to push the drawer closed.
+    if check("the robot's gripper is around drawer handle and the robot's gripper is not right of the drawer handle"):
+        robot.move_gripper("right of the drawer handle")

@@ -1,8 +1,10 @@
 
-    Steps:  1. Put gripper left of the plate  2. Slide the plate back and sideways  3. Move the plate to the target location
-    First, put the gripper left of the plate before sliding it back.
-    - When the robot's gripper is not left of the plate, move the robot's gripper until the robot's gripper is left of the plate and the robot's gripper is closed
-    If the plate is left of the gripper, start sliding the plate back.
-    - When the plate is left of the robot's gripper, move the robot's gripper until the robot's gripper is slightly in front and right of the plate
-    Now that we've started sliding the plate, keep sliding it back by moving the gripper away from the plate.
-    - When the robot's gripper is near the plate, move the robot's gripper until the robot's gripper is above the target location
+
+Steps:  1. Put gripper above plate  2. Slide plate back while pushing the plate sideways  3. Rotate the plate so it's in the right direction  4. Slide plate into target location
+
+- When the robot's gripper is not above the plate, move the robot's gripper until the robot's gripper is above the plate
+- When the robot's gripper is vertically aligned with the plate and the robot's gripper is not behind the plate, move the robot's gripper until the robot's gripper is left of the plate
+- When the robot's gripper is above the plate and the robot's gripper is behind the plate, move the robot's gripper until the robot's gripper is pushing on the plate from behind
+- When the robot's gripper is pushing on the plate from behind and the robot's gripper is not sideward aligned with the plate, move the robot's gripper until the robot's gripper is sideward aligned with the plate
+- When the robot's gripper is sideward aligned with the plate and the plate's orientation is not desired, move the robot's gripper until the plate's orientation is desired
+- When the robot's gripper is sideways aligned with the plate, move the robot's gripper until the robot's gripper is below the target location

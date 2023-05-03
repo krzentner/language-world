@@ -1,10 +1,14 @@
 
     # Steps:
-    #  1. Put gripper perpendicular to the handle
-    #  2. Push down on the handle
-    # First, put the gripper perpendicular to the handle.
-    if check("the robot's gripper is not perpendicular to the handle"):
-        robot.put("gripper perpendicular to handle")
-    # Now that the gripper is lined up, just push down on the handle.
-    if check("the robot's gripper is perpendicular to the handle"):
+    #  1. Put gripper roughly above the handle
+    #  2. Move the gripper right so that it is lined up with the handle
+    #  3. Push down on the handle
+    # First, we need to put the activator roughly above the handle.
+    if check("the robot's gripper is not above the handle"):
+        robot.put("gripper above handle")
+    # If the gripper is currently above the handle, line it up with the handle.
+    if check("the robot's gripper is above the handle and the robot's gripper is not right of the handle"):
+        robot.align("gripper with handle")
+    # When it's lined up, push down on the handle.
+    if check("the robot's gripper is right of the handle"):
         robot.push("down on handle")

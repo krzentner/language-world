@@ -1,6 +1,5 @@
 
-
-The robot should perform the following steps:
-    - When the robot's gripper is not above puck and the robot's gripper is not horizontally aligned with the puck, the robot should put the gripper above the puck.
-    - When the robot's gripper is horizontally aligned with the puck and the robot's gripper is not near puck, the robot should push the gripper into the puck.
-    - When the robot's gripper is near the puck and the puck is behind the robot's gripper, the robot should slide the puck to the goal.
+    - When the robot's gripper is not behind puck, the robot should move gripper behind puck.
+    - When the robot's gripper is not near puck, the robot should move gripper near puck.
+    - When the robot's gripper is near the puck and the robot's gripper is open, the robot should close gripper around puck.
+    - When the robot's gripper is behind the puck and the robot's gripper is closed, the robot should back away from the puck in a straight line.

@@ -1,6 +1,6 @@
 
 
-Then complete the program:
+The program should check if the robot's gripper is not near the target, and if so, move the gripper near the target.
 
 ```
 # reach: reach to the target location

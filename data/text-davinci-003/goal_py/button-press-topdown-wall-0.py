@@ -1,15 +1,20 @@
 
     # Steps:
-    #  1. Put the gripper above the wall
-    #  2. Put the gripper near the button while making sure the wall is still between the gripper and button
-    #  3. Push down on the button from the top
-    # First, put the gripper above the wall.
-    if check("the robot's gripper is not vertically aligned with the wall"):
-        robot.move_gripper("vertically aligned with the wall")
-    # Make sure the wall is still between the gripper and the button by lining
-    # up the gripper from the side.
-    if check("the robot's gripper is forward aligned with button"):
-        robot.move_gripper("left of the button")
-    # Once the gripper is lined up, just push down on the button.
-    if check("the robot's gripper is above the wall and the robot's gripper is near the button"):
-        robot.move_gripper("vertically aligned with the button")
+    #  1. Line up the gripper as viewed from above
+    #  2. Push down on the button from the top
+    #  3. Push the wall and the button down together
+    #  4. Push down on the wall to release the button from the wall
+    # Just like before, we need to line up the gripper from above, but with a
+    # wall in the way.
+    if check("the robot's gripper is not vertically aligned with button and wall"):
+        robot.move_gripper("vertically aligned with the button and wall", close_gripper=True)
+    # Now that the the gripper is lined up, the robot should be able to push
+    # down on the button and the wall together.
+    if check("the robot's gripper is vertically aligned with button and wall"):
+        robot.move_gripper("near the button and wall")
+    # To release the button from the wall, we need to push down on the wall.
+    if check("the button is stuck in the wall"):
+        robot.move_gripper("pushing down on the wall")
+    # If the button isn't stuck in the wall, we can move it to the target location.
+    if check("the button is not stuck in the wall"):
+        robot.move_gripper("near the target location", close_gripper=True)

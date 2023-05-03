@@ -1,5 +1,4 @@
 
-    - When the robot's gripper is not almost vertically aligned with handle, the robot should put gripper above handle.
-    - When the robot's gripper is almost vertically aligned with handle, the robot should move gripper to the side of handle.
-    - When the robot's gripper is near the handle and the gripper is open, the robot should grab handle.
-    - When the robot's gripper is grab handle, the robot should pull handle up.
+    - When the robot's gripper is not vertically aligned with handle, the robot should put gripper above handle.
+    - When handle is not to the left of the robot's gripper and handle is not forward aligned with the robot's gripper, the robot should grab handle.
+    - When the robot's gripper is forward aligned with the handle, the robot should pull up on handle.

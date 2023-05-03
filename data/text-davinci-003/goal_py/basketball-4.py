@@ -1,19 +1,24 @@
 
     # Steps:
-    #  1. Put gripper vertically above the ball
-    #  2. Drop gripper around ball
-    #  3. Line up ball with hoop
-    #  4. Shoot ball into hoop
+    #  1. Put the gripper above the ball
+    #  2. Grab the ball with the gripper
+    #  3. Move the ball to the backboard
+    #  4. Position the ball in front of the backboard
+    #  5. Shoot the ball to put it in the hoop
     # First, put the gripper above the ball.
-    if check("the robot's gripper is not vertically aligned with the ball"):
-        robot.move_gripper("vertically aligned with the ball")
-    # If the gripper is vertically aligned, but the gripper is not around the
-    # ball, the gripper should move down around the ball.
-    if check("the robot's gripper is vertically aligned with the ball and the robot's gripper is open"):
-        robot.move_gripper("around the ball", close_gripper=True)
-    # Once the gripper is around the ball, line it up with the hoop.
-    if check("the robot's gripper is around the ball and the ball is not horizontally aligned with the hoop"):
-        robot.move_gripper("horizontally aligned with the hoop")
-    # If the ball is almost lined up, shoot it into the hoop.
-    if check("the ball is aligned with the hoop"):
-        robot.move_gripper("directly above the hoop")
+    if check("the robot's gripper is not above the ball"):
+        robot.move_gripper("above the ball", close_gripper=True)
+    # If the gripper is above the ball, but not lined up with it, move the
+    # gripper around to the ball.
+    if check("the robot's gripper is above the ball and the robot's gripper is not around the ball"):
+        robot.move_gripper("near the ball")
+    # If the robot's gripper is near the ball, move the ball near the backboard.
+    if check("the robot's gripper is near the ball and ball is not near the backboard"):
+        robot.move_gripper("near the backboard")
+    # If the ball is near the backboard, put the ball in front of the backboard
+    # where the hoop is.
+    if check("the ball is near the backboard and the ball is not in front of the backboard"):
+        robot.move_gripper("in front of the backboard")
+    # If the ball is in front of the backboard, shoot the ball at the hoop.
+    if check("the ball is in front of the backboard"):
+        robot.move_gripper("fully aligned with the hoop and fire")

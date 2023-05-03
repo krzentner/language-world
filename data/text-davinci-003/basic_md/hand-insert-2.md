@@ -1,5 +1,4 @@
 
-    - When the robot's gripper is not near the puck, the robot should reach to the puck.
-    - When the robot's gripper is not open, the robot should open the gripper.
-    - When the robot's gripper is open, the robot should close the gripper around the puck.
-    - When the robot's gripper is closed, the robot should move the puck to the goal.
+    - When the robot's gripper is not above the puck and the robot's gripper is not vertically aligned with the puck, the robot should put the gripper above the puck.
+    - When the robot's gripper is vertically aligned with the puck and the robot's gripper is not near the puck, the robot should grab the puck.
+    - When the robot is near the puck and the robot's gripper is closed around the puck, the robot should move the puck to goal.

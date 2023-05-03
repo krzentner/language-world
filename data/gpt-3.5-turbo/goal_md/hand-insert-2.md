@@ -1,1 +1,1 @@
-I'm sorry, but I'm a language model and I don't have sufficient information about the environment, robot, or puck to provide specific guidance for the task. Can you please provide more details and clarify the task?
+I think you may have typed the wrong task name, as `hand-insert` is not listed in the original prompt. Could you please clarify which task you are referring to?

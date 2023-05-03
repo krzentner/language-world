@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above plate  2. Drop gripper around plate  3. Close gripper around plate  4. Slide plate to target
-    First, put the robot's gripper above the plate.
-    - When the robot's gripper is not above the plate, move the robot's gripper until the robot's gripper is above the plate
-    If the gripper isn't around the plate, move it around the plate.
-    - When the robot's gripper is not around plate and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the plate and the robot's gripper is closed
-    If the gripper is near the plate and open, grab the plate tightly.
-    - When the robot's gripper is above plate and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near target location
+    Steps:  1. Put gripper above plate on edge  2. Grasp plate and pinch the plate inside the gripper  3. Slide plate to goal
+    First, put the gripper above the plate while holding it at the edge so that we can grasp it and slide it.
+    - When the robot's gripper is not near the edge of the plate and the robot's gripper is not vertically aligned with the plate, move the robot's gripper until the robot's gripper is vertically aligned with the plate
+    If the gripper is aligned with the plate, we can grab the plate. Don’t close the gripper yet. 
+    - When the robot's gripper is vertically aligned with the plate, move the robot's gripper until the robot's gripper is near the edge of the plate and the robot's gripper is open
+    Once the gripper is near the edge of the plate, close the gripper and pinch it against the plate.
+    - When the robot's gripper is near the edge of the plate and robot's gripper is closed, move the robot's gripper until the robot's gripper is above the target location

@@ -1,15 +1,17 @@
 
     # Steps:
-    #  1. Put gripper above peg
-    #  2. Put wrench around peg
-    # First, put the gripper above the peg.
-    if check("the robot's gripper is not vertically aligned with the peg"):
-        robot.move_gripper("vertically aligned with the peg")
-    # If the peg isn't left of the gripper, move the gripper back to above the
-    # peg.
-    if check("the peg is not left of the robot's gripper and the peg is not forward aligned with the robot's gripper"):
-        robot.move_gripper("forward aligned with the peg", close_gripper=True)
-    # If the peg is left of the robot's gripper, move the gripper around the peg
-    # to put the wrench on it.
-    if check("the peg is left of the robot's gripper"):
-        robot.move_gripper("around the peg")
+    #  1. Put gripper above the wrench
+    #  2. Clamp the wrench around the peg
+    #  3. Tighten the wrench around the peg
+    # First, we need to line up the robot's gripper with the wrench as seen from
+    # above.
+    if check("the robot's gripper is not above the wrench"):
+        robot.move_gripper("above the wrench")
+    # Now that the gripper is above the wrench, we can clamp the wrench around
+    # the peg.
+    if check("the robot's gripper is above the wrench and the wrench is not almost vertically aligned with the peg"):
+        robot.move_gripper("almost vertically aligned with the peg")
+    # Once the wrench is clamped around the peg, we can tighten it by pushing
+    # down from the side.
+    if check("the wrench is almost vertically aligned with the peg"):
+        robot.move_gripper("horizontally aligned with the peg")

@@ -1,18 +1,28 @@
 
     # Steps:
-    #  1. Put the gripper near the lid
-    #  2. Grab the lid with the gripper
-    #  3. Move the lid above the box
-    #  4. Place the lid on the box
-    # If the robot's gripper is not near the lid, move it near the lid.
-    if check("the robot's gripper is not near the lid"):
-        robot.put("gripper near lid")
-    # If the lid is near the gripper, grab it by closing the gripper.
-    if check("the lid is near the robot's gripper and the robot's gripper is open"):
+    #  1. Put gripper above the lid
+    #  2. Drop gripper around the lid
+    #  3. Close gripper around the lid
+    #  4. Pick up lid
+    #  5. Move to the box
+    #  6. Place the lid on the box
+    # First, put the gripper roughly above lid, so that we don't bump it while
+    # trying to grab it.
+    if check("the robot's gripper is not above the lid"):
+        robot.place("gripper above lid")
+    # If the gripper isn't around the lid, put it around the lid.
+    if check("the robot's gripper is not around lid and the robot's gripper is open"):
+        robot.drop("gripper around lid")
+    # If the gripper is near the lid and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near lid and the robot's gripper is open"):
         robot.close("gripper around lid")
-    # If the lid is in the gripper, move it above the box.
-    if check("the robot's gripper is holding the lid"):
-        robot.move("lid above box")
-    # If the lid is above the box, place it on the box.
-    if check("the lid is above the box"):
+    # We closed the gripper, and the lid is still near the gripper, so maybe we
+    # grabbed it.
+    # Try to move the lid to the box.
+    # If we didn't grab it, we'll just go back to an earlier step.
+    if check("the robot's gripper is above lid and the robot's gripper is closed"):
+        robot.move("lid to the box")
+    # If the gripper is near the box, try to place the lid on the box.
+    if check("the robot's gripper is near the box"):
         robot.place("lid on box")

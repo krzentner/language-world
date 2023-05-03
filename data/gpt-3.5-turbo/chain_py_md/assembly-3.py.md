@@ -1,19 +1,22 @@
-# assembly: put the wrench around the peg
-# def assembly(robot):
+# assembly: grab the wrench and wrap it around the peg
+def assembly(robot):
     # Steps:
-    #  1. Put the gripper roughly above the wrench
-    #  2. Line up the gripper with the opening in the wrench
-    #  3. Grab the wrench
-    #  4. Put the wrench around the peg
+    #  1. Put gripper above the wrench
+    #  2. Grab the wrench with the gripper
+    #  3. Put gripper above the peg
+    #  4. Wrap the wrench around the peg
     # First, put the gripper above the wrench.
-    if check("the robot's gripper is not above the wrench"):
-        robot.place("gripper above wrench")
-    # If the gripper is above the wrench, line it up with the opening in the wrench.
-    if check("the robot's gripper is above the wrench and the opening of the wrench is not vertical aligned with the robot's gripper"):
-        robot.put("gripper in front of the opening of the wrench")
-    # If the gripper is in front of the opening of the wrench, grab the wrench.
-    if check("the robot's gripper is in front of the opening of the wrench and the robot's gripper is not around the wrench"):
-        robot.grab("the wrench")
-    # If the gripper is around the wrench and the peg is to the left of the gripper, position the wrench around the peg.
-    if check("the robot's gripper is around the wrench and the peg is not to the right of the gripper"):
-        robot.move("the wrench to the right of the peg")
+    if check("the robot's gripper is not vertically aligned with the wrench"):
+        robot.put("gripper above wrench")
+    # If the wrench becomes left of the gripper, go back to putting the gripper
+    # above the wrench.
+    # Because the wrench is a long object, check if the gripper is lined up with it
+    # from the front instead of around it.
+    if check("wrench is not left of the robot's gripper and wrench is not forward aligned with the robot's gripper"):
+        robot.grab("wrench")
+    # Put the gripper above the peg.
+    if check("the robot's gripper is not above the peg"):
+        robot.put("gripper above peg")
+    # If the gripper is above the peg, wrap the wrench around it.
+    if check("the robot's gripper is above the peg"):
+        robot.wrap("wrench around the peg")

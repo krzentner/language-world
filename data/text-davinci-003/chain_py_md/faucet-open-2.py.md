@@ -1,19 +1,41 @@
 
 
-The steps for this task are:
+First, put the gripper above the faucet handle.
 
-1. Put gripper around faucet handle
-2. Turn the faucet to the left
+```
+    # Steps:
+    #  1. Put gripper above faucet handle
+    #  2. Turn the faucet handle left
+    if check("the robot's gripper is not vertically aligned with faucet handle"):
+        robot.put("gripper above faucet handle")
+```
+
+Once the gripper is vertically aligned with the faucet handle, turn the faucet handle left.
+
+```
+    # If the gripper is vertically aligned with the faucet handle, turn the
+    # faucet handle left.
+    if check("the robot's gripper is vertically aligned with faucet handle"):
+        robot.turn("left")
+```
+
+Finally, close the block by adding the closing `def` line.
+
+```
+    # If the gripper is vertically aligned with the faucet handle, turn the
+    # faucet handle left.
+    if check("the robot's gripper is vertically aligned with faucet handle"):
+        robot.turn("left")
 
 # faucet-open: turn the faucet left
-# def faucet_open(robot):
+def faucet_open(robot):
     # Steps:
-    #  1. Put gripper around faucet handle
-    #  2. Turn the faucet to the left
-    # Put the gripper around the faucet handle in order to grab it.
-    if check("the robot's gripper is not around the faucet handle"):
-        robot.grab("faucet handle")
-    # If the gripper is still around the faucet handle, turn the faucet handle
-    # left to open the faucet.
-    if check("the robot's gripper is around the faucet handle"):
-        robot.turn("faucet left")
+    #  1. Put gripper above faucet handle
+    #  2. Turn the faucet handle left
+    if check("the robot's gripper is not vertically aligned with faucet handle"):
+        robot.put("gripper above faucet handle")
+    # If the gripper is vertically aligned with the faucet handle, turn the
+    # faucet handle left.
+    if check("the robot's gripper is vertically aligned with faucet handle"):
+        robot.turn("left")
+```

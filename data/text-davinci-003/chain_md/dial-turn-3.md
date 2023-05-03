@@ -1,10 +1,9 @@
 
-    Steps:  1. Put gripper near the dial  2. Line up the gripper with the dial  3. Start turning the dial to the desired position  4. Check to make sure dial is moving
-    To turn the dial, we need to first put the gripper near the dial.
-    - When the robot's gripper is not near the dial, the robot should put gripper near dial.
-    Then, we need to align the gripper with the dial.
-    - When the robot's gripper is near the dial and the robot's gripper is not horizontally aligned with dial, the robot should align gripper with dial.
-    Now, start turning the dial to the desired position.
-    - When the robot's gripper is horizontally aligned with dial, the robot should start turning dial.
-    Keep turning it and checking to make sure it is still turning.
-    - When the robot's gripper is still horizontally aligned with dial, the robot should check to make sure dial is still moving.
+    
+Steps:  1. Place the gripper above the dial  2. Align the gripper with the dial  3. Rotate the dial in the desired direction  4. Close the gripper around the dial to secure it  5. Pull or push the dial in the desired direction
+
+- When the robot's gripper is not above the dial, the robot should put the gripper above the dial.
+- When the robot's gripper is above the dial and the robot's gripper is not vertically aligned with the dial, the robot should align the gripper with the dial.
+- When the robot's gripper is vertically aligned with the dial and the robot's gripper is open, the robot should rotate the dial in the desired direction.
+- When the robot's gripper is vertically aligned with the dial and the robot's gripper is open, the robot should close the gripper around the dial to secure it.
+- When the robot's gripper is around the dial, the robot should pull or push the dial in the desired direction.

@@ -1,14 +1,20 @@
 
 
-if check("the robot's gripper is not near the basketball"):
-    robot.move("gripper to ball")
-if check("the robot's gripper is above the basketball and the robot's gripper is not around the basketball"):
-    robot.drop("gripper around basketball")
-if check("the robot's gripper is around the basketball and the robot's gripper is not near the hoop"):
-    robot.move("gripper to hoop")
-if check("the basketball is near the hoop and the robot's gripper is open"):
-    robot.close("gripper around ball")
-if check("the robot's gripper is around the basketball and the hoop is below the robot's gripper"):
-    robot.lift("ball to hoop")
-if check("the hoop is above the robot's gripper and the robot's gripper is closed"):
-    robot.drop("ball into hoop")
+You can fill in the code below:
+
+```
+# basketball: put the ball into into the hoop
+def basketball(robot):
+    if check("the robot's gripper is not above the ball"):
+        robot.put("gripper above the ball")
+    if check("the robot's gripper is not around the basketball and the robot's gripper is open"):
+        robot.drop("gripper around ball")
+    if check("the robot's gripper is near the ball and the robot's gripper is open"):
+        robot.close("gripper around the ball")
+    if check("the robot's gripper is above the ball and the robot's gripper is closed"):
+        robot.hold("ball in front of hoop")
+    if check("the ball is not in front of the hoop and the robot's gripper is closed"):
+        robot.swing("gripper basketball toward the hoop")
+    if check("the ball is above the hoop and the robot's gripper is closed"):
+        robot.toss("gripper basketball into the hoop")
+``

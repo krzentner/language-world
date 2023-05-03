@@ -1,12 +1,6 @@
 
 
-Solution:
-
-```
-# drawer-close: push the drawer close
-# def drawer_close(robot):
-    if check("the robot's gripper is not near the drawer handle"):
-        robot.grab("drawer handle")
-    if check("the robot's gripper is forward aligned with drawer handle"):
-        robot.push("drawer closed")
-```
+if check("the robot's gripper is not near drawer handle"):
+    robot.put("gripper around drawer handle")
+if check("the robot's gripper is around drawer handle and the drawer is open"):
+    robot.push("drawer close")

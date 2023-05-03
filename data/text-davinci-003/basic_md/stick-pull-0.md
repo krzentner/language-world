@@ -1,7 +1,6 @@
-
-
-The robot should perform the following steps to use the stick to pull the thermos to the target location reliably: 
-    - When the robot's gripper is not above the stick, the robot should place gripper above the stick.
-    - When the robot's gripper is around the stick and the robot's gripper is open, the robot should close gripper around stick.
-    - When the robot's gripper is below the thermos and the robot's gripper is around the stick, the robot should lift the thermos horizontally.
-    - When the robot's gripper is near the thermos, the robot should pull the thermos to the goal.
+ 
+    - When the robot's gripper is not vertically aligned with the end of the stick, the robot should put gripper above the stick.
+    - When the robot's gripper is vertically aligned with the end of the stick and the robot's gripper is open, the robot should grab the stick.
+    - When the stick is not near the handle of the thermos, the robot should move the stick near the handle of the thermos. 
+    - When the stick is near the handle of the thermos, the robot should pull the stick around the handle of the thermos.
+    - When the stick is around the handle of the thermos, the robot should pull the stick away from the thermos.

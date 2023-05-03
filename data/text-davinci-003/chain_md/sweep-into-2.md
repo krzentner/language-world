@@ -1,8 +1,10 @@
 
-    Steps:  1. Put gripper above cube  2. Grab cube between two fingers  3. Move cube to goal
-    We should move the gripper above the cube before grabbing it.
-    - When the robot's gripper is not above cube, the robot should put gripper above cube.
-    Once the gripper is above the cube, we should open it wide enough to grab the cube between two fingers.
-    - When the robot's gripper is above cube and the robot's gripper is not hovering near cube, the robot should grab cube between two fingers.
-    If the gripper is in contact with the cube, it's probably grabbing it, so move to the target.
-    - When the robot's gripper is hovering near cube, the robot should move cube to goal.
+    Steps:  1. Put the gripper above the cube  2. Line up the gripper with the cube  3. Close the gripper around the cube  4. Move the cube to the target location
+    First, put the gripper above the cube.
+    - When the robot's gripper is not above the cube, the robot should put gripper above cube.
+    If the cube isn't lined up with the gripper, line it up.
+    - When the robot's gripper is not horizontally aligned with cube, the robot should line up gripper with cube.
+    If the gripper is close to the cube, we can close the gripper around it.
+    - When the robot's gripper is horizontally aligned with cube and the robot's gripper is not around cube, the robot should close gripper around cube.
+    If the gripper is closed, we can grab the cube and move it to the target location.
+    - When the robot's gripper is around cube, the robot should move cube to goal.

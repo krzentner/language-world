@@ -1,8 +1,6 @@
 
-    Steps:  1. Put gripper over the faucet handle  2. Turn the faucet handle to the right  3. Turn the faucet handle right until closed
-    First, put the gripper above the faucet handle.
-    - When the robot's gripper is not vertical aligned with the faucet handle, move the robot's gripper until the robot's gripper is vertically aligned with the faucet handle and the robot's gripper is closed
-    Now that the gripper is lined up, turn the faucet handle to the right.
-    - When the robot's gripper is vertically aligned with the faucet handle, move the robot's gripper until the robot's gripper is right of the faucet handle
-    We can turn the faucet slowly until the faucet is completely closed.
-    - When the robot's gripper is right of the faucet handle and the faucet is not closed, move the robot's gripper until the robot's gripper is in front of the faucet handle and the faucet is closed
+    Steps:  1. Put gripper right of the faucet handle  2. Start pushing against the faucet handle to close the faucet  3. Push the faucet closed harder
+    We should line up the robot's gripper around the faucet handle before pushing.
+    - When the robot's gripper is not around the faucet handle, move the robot's gripper until the robot's gripper is around the faucet handle
+    Once the robot's gripper is around the faucet handle, we can just push the faucet closed.
+    - When the robot's gripper is around the faucet handle, move the robot's gripper until the robot's gripper is horizontally aligned with the faucet handle

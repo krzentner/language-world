@@ -1,4 +1,4 @@
 
-    - When the robot's gripper is not forward aligned with the plate and the robot's gripper is not above the plate, the robot should move gripper above the plate.
-    - When the robot's gripper is forward aligned with the plate, the robot should grab the plate from the side.
-    - When the robot's gripper is touching the plate and the plate is not horizontally aligned with the target location, the robot should slide the plate sideways to the target location.
+    - When the robot's gripper is not above plate and the robot's gripper is not horizontally aligned with the plate, the robot should put the gripper above the plate.
+    - When the robot's gripper is horizontally aligned with the plate and the robot's gripper is not near plate, the robot should push the gripper into the plate.
+    - When the robot's gripper is near the plate, the robot should slide the plate in the target direction.

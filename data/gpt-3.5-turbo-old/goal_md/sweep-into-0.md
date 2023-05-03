@@ -1,0 +1,1 @@
+I'm sorry but there isn't enough information about the environment or the robot's capabilities for me to provide you with accurate steps. Could you please provide more details?

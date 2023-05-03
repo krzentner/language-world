@@ -1,0 +1,1 @@
+I think you pasted the wrong function. This is the same as the `window_open` function we just went over. Is there a different function you would like me to help you with?

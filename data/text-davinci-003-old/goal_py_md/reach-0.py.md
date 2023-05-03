@@ -1,10 +1,10 @@
 
 
-The program to perform the task `reach` should look like this:
+The program should read:
 
 ```
 # reach: reach to the target location
-# def reach(robot):
+def reach(robot):
     # Steps:
     #  1. Reach towards the target
     # We don't have any objects to manipulate, so we can just move the robot's

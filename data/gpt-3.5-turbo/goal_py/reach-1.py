@@ -1,1 +1,5 @@
-I noticed that the "reach" function is already defined at the top of the code. Did you mean to modify the existing function or create a new one?
+# Steps:
+    #  1. Move gripper to target location
+    # First, move the gripper to the target location while keeping it open.
+    if check("the robot's gripper is not near the target location"):
+        robot.move_gripper("near the target location")

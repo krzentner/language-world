@@ -1,6 +1,11 @@
 
-    Steps:  1. Put gripper above puck  2. Move the gripper left until it is against the wall  3. Push the puck towards the goal
-    We want to push the puck to the target location, but there's a wall in the way, so the first step is to move the gripper to the side and make sure it is against the wall. 
-    - When the robot's gripper is not against wall and the robot's gripper is not above puck, the robot should move the gripper to the left and against the wall.
-    When the gripper is against the wall and in the same position as the puck, the wall should also prevent the puck from moving away; at this point, we can push the puck to the goal. 
-    - When the robot's gripper is against the wall and the robot's gripper is not above the puck, the robot should push the puck towards goal.
+
+Steps:  1. Put gripper above wall  2. Push gripper into the wall  3. Push the wall away  4. Put gripper above puck  5. Push the puck to goal
+First, the robot needs to move the gripper to the small wall that is in the way.
+- When the robot's gripper is not near the wall, the robot should put the gripper above the wall.
+Once the gripper is above the wall, the robot should push the wall away in order to make room for the puck. 
+- When the robot's gripper is near the wall, the robot should push the wall away.
+After the wall has been pushed away, the robot should move the gripper above the puck. 
+- When the robot's gripper is not above the puck, the robot should put the gripper above the puck. 
+Then the robot should push the puck to the target location. 
+- When the robot's gripper is above the puck, the robot should push the puck to the goal.

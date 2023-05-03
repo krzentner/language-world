@@ -1,14 +1,18 @@
 
 
-The code for reach would look like this:
+The robot should be able to extend its arm to the target location.
 
 ```
 # reach: reach to the target location
-# def reach(robot):
+def reach(robot):
     # Steps:
-    #  1. Reach towards the target
-    # We don't have any objects to manipulate, so we can just move the robot's
-    # gripper directly to the target location
-    if check("the robot's gripper is not near reach target"):
-        robot.reach("to goal")
+    #  1. Extend arm to the target location
+    #  2. Hold arm in place
+
+    # First, extend the robot arm so it is positioned at the target location
+    if check("the robot's arm is not at the target location"):
+        robot.extend("arm to the target location")
+    # Once the arm is in position, keep it in place
+    if check("the robot's arm is at the target location"):
+        robot.hold("arm in place")
 ```

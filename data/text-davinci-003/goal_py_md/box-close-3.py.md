@@ -1,21 +1,25 @@
 
 
+Your code should be along these lines:
+
+```
 # box-close: pick up the box lid and place it on the box
-# def box_close(robot):
+def box_close(robot):
     # Steps:
     #  1. Put gripper above box lid
-    #  2. Grab box lid with the gripper
-    #  3. Move the box lid to the box, then place it on the box
+    #  2. Close gripper around the box lid
+    #  3. Place the box lid on the box
     # First, put the gripper above the box lid.
-    if check("the robot's gripper is not above the box lid"):
-        robot.move_gripper("above the box lid")
-    # If the gripper isn't around the box lid, put it around the box lid.
-    if check("the robot's gripper is not around box lid and the robot's gripper is open"):
-        robot.move_gripper("near the box lid", close_gripper=True)
-    # If the gripper is near the box lid, we've probably trapped the box lid and can
-    # move it to the box.
-    if check("the robot's gripper is near the box lid"):
+    if check("the robot's gripper is not above lid"):
+        robot.move_gripper("above the lid")
+    # If the gripper isn't around the lid, put it around the lid.
+    if check("the robot's gripper is open and not around the lid"):
+        robot.move_gripper("around the lid", close_gripper=True)
+    # If the gripper is around the lid and closed, maybe we can pick it up by
+    # moving the gripper near the box.
+    if check("the robot's gripper is around the lid and is closed"):
+        robot.move_gripper("near the box")
+    # When the gripper is near the box, we can place the lid on the box.
+    if check("the robot's gripper is near the box"):
         robot.move_gripper("above the box")
-    # Once the gripper is above the box, place the lid on the box.
-    if check("the robot's gripper is above the box"):
-        robot.move_gripper("above the box")
+``

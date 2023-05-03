@@ -1,16 +1,22 @@
 
     # Steps:
-    #  1. Put gripper below plate
-    #  2. Push the plate backwards
-    #  3. Slide the plate to the target location
-    # First, try to put the gripper at generally the same level as the plate.
-    if check("the robot's gripper is not near plate"):
-        robot.put("gripper below plate")
-    # We want to move the plate back away from the edge of the table before
-    # sliding it sideways.
-    if check("the robot's gripper is near plate and the plate is at edge of table"):
-        robot.push("plate back")
-    # Once the plate is away from the edge, we can slide it to the target
-    # location.
-    if check("the robot's gripper is near plate and plate is away from edge of table"):
-        robot.slide("plate to target")
+    #  1. Put gripper above front of plate
+    #  2. Push gripper into top of plate
+    #  3. Slide plate backward towards goal
+    # We don't want to just trap the plate, because we need to be careful not to
+    # bump it and knock it onto the ground.
+    # So first, accurately place the gripper above the plate.
+    if check("the robot's gripper is not above the plate and the robot's gripper is not in front of the plate"):
+        robot.put("the gripper above the plate")
+    # As long as the gripper is in front of the plate, but not above it, try to
+    # move it above the plate.
+    if check("the robot's gripper is in front of the plate"):
+        robot.put("the gripper above the plate")
+    # If the gripper is above the plate, close the gripper slightly so that we
+    # don't lose control of the plate.
+    if check("the robot's gripper is above the plate and the robot's gripper is open"):
+        robot.close("gripper slightly")
+    # As long as the gripper is above the plate, slide the plate backwards towards
+    # the goal.
+    if check("the robot's gripper is above the plate and the robot's gripper is closed"):
+        robot.slide("plate back towards goal")

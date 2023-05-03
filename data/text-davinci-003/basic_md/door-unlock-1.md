@@ -1,4 +1,6 @@
- 
-    - When the robot's gripper is not near the dial, the robot should move gripper near and above the dial. 
-    - When the robot's gripper is near the dial, the robot should grip the dial. 
-    - When the robot's gripper is gripping the dial, the robot should rotate the dial.
+
+
+The robot should perform the following steps:
+    - When the robot's gripper is not near the door dial, the robot should move the gripper towards the door dial.
+    - When the robot's gripper is near the door dial, the robot should grab the door dial. 
+    - When the robot's gripper is around the door dial, the robot should twist the door dial.

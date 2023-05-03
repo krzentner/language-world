@@ -1,17 +1,10 @@
-The task `sweep` requires the robot to grab the cube and move it sideways to the target location. To achieve this, the robot should perform the following steps:
-
-Steps:
-1. Place the gripper above the cube. 
-- When the robot's gripper is not above the cube, the robot should place the gripper above the cube.
-
-2. Close the gripper around the cube.
-- When the robot's gripper is above the cube and open, the robot should close the gripper around the cube.
-
-3. Lift the cube and move it towards the target location.
-- When the gripper is closed around the cube, the robot should lift it off the ground.
-- Move the cube sideways to reach the target location.
-
-4. Release the cube.
-- When the cube reaches the target location, the robot should release the gripper to place the cube. 
-
-By following these steps, the robot can reliably grab the cube and move it to the target location.
+To grab the cube and move it sideways to the target location reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the cube  2. Grab the cube with the gripper  3. Move the gripper sideways towards the target location  4. Release the cube at the target location
+    First, put the gripper above the cube.
+    - When the robot's gripper is not vertically aligned with the cube, the robot should put gripper above the cube.
+    Once the gripper is above the cube, grab it.
+    - When the robot's gripper is vertically aligned with the cube and the robot's gripper is not around the cube, the robot should grab the cube with the gripper.
+    Move the gripper sideways towards the target location while still holding onto the cube.
+    - When the robot's gripper is holding onto the cube and the gripper is not at the target location, the robot should move the gripper sideways towards the target location.
+    Once the gripper is at the target location, release the cube.
+    - When the robot's gripper is at the target location and holding onto the cube, the robot should release the cube.

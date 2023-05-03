@@ -2,23 +2,16 @@
 def push(robot):
     # Steps:
     #  1. Put gripper above puck
-    #  2. Push gripper into top of puck
-    #  3. Slide puck to goal
-    
-    # First, check if the robot's gripper is not above the puck and not
-    # vertically aligned with the puck.
-    if check("the robot's gripper is not above the puck and the robot's gripper is not vertically aligned with the puck"):
-        # If not, move the gripper to be above the puck.
+    #  2. Drop gripper around puck
+    #  3. Close gripper around puck
+    #  4. Move puck to target
+    # First, put the gripper roughly above puck, so that we don't bump it while
+    # trying to grab it.
+    if check("the robot's gripper is not above the puck"):
         robot.move_gripper("above the puck")
-    
-    # Check if the gripper is not near the puck, but is vertically aligned
-    # with the puck.
-    if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not near the puck"):
-        # If so, move the gripper down to grab the puck.
+    # If the gripper isn't around the puck, put it around the puck.
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
         robot.move_gripper("near the puck", close_gripper=True)
-    
-    # Check if the gripper is near the puck and if the puck is below the
-    # gripper.
-    if check("the robot's gripper is near the puck and the puck is below the robot's gripper"):
-        # If so, move the gripper to the target location.
-        robot.move_gripper("above the target location")
+    # If the gripper is near the puck and closed, maybe we can push it to the target location.
+    if check("the robot's gripper is near the puck and the robot's gripper is closed and the puck is not horizontally aligned with the target location"):
+        robot.move_gripper("horizontally aligned with the target location")

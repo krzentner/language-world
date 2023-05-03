@@ -1,30 +1,23 @@
 
 
 Steps:
-1. Put the gripper below the stick
-2. Wrap the gripper around the stick
-3. Push the stick until it is close to the thermos
-4. Move the stick until the thermos is moved to the target location
+  1. Put gripper above the stick
+  2. Grab the stick with the gripper
+  3. Push the thermos by pushing the stick
 
-Solution: 
-
-# stick-push: use the stick to push the thermos to the target location
-# def stick_push(robot):
-    # Steps:
-    #  1. Put the gripper below the stick
-    #  2. Wrap the gripper around the stick
-    #  3. Push the stick until it is close to the thermos
-    #  4. Move the stick until the thermos is moved to the target location
-    # Place the robot's gripper below the stick.
-    if check("the robot's gripper is not below the stick"):
-        robot.move_gripper("below the stick", close_gripper=True)
-    # When the gripper is below the stick, we can grab the stick by wrapping
-    # the gripper around it.
-    if check("the robot's gripper is below the stick and the robot's gripper is open"):
-        robot.move_gripper("around the stick")
-    # Push the stick until it's close to the thermos.
-    if check("the stick is not close the thermos and the robot's gripper is closed"):
+# stick-push: grab the stick and use it to push the thermos to the target location
+def stick_push(robot):
+    # First, put the gripper above the stick.
+    if check("the robot's gripper is not vertically aligned with the stick"):
+        robot.move_gripper("vertically aligned with the stick")
+    # Once the gripper is above the stick, drop it around the stick.
+    if check("the robot's gripper is not around the stick"):
+        robot.move_gripper("around the stick", close_gripper=True)
+    # Once the gripper is around the stick, the robot can move it to the
+    # thermos.
+    if check("the robot's gripper is around the stick"):
         robot.move_gripper("near the thermos")
-    # Move the stick until the thermos is moved to the target location.
-    if check("the stick is close to the thermos"):
-        robot.move_gripper("above the target location")
+    # Once the robot is near the thermos, the robot can move the stick to push
+    # the thermos to the target location.
+    if check("the robot's gripper is near the thermos"):
+        robot.move_gripper("forward aligned with the thermos")

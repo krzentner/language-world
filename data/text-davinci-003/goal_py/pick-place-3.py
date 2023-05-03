@@ -1,16 +1,18 @@
 
     # Steps:
     #  1. Put gripper above puck
-    #  2. Grab the puck with the gripper
-    #  3. Move puck to goal
-    # First, put the gripper roughly above puck, so that we don't bump it while
-    # trying to grab it.
-    if check("the robot's gripper is not above the puck"):
-        robot.move_gripper("above the puck")
-    # If the gripper isn't around the puck, put it around the puck.
-    if check("the robot's gripper is not around puck and the robot's gripper is open"):
-        robot.move_gripper("near the puck", close_gripper=True)
-    # If the gripper is near the puck and open, maybe we can grab it by closing
-    # the gripper.
-    if check("the robot's gripper is above puck and the robot's gripper is closed"):
+    #  2. Pick up puck
+    #  3. Place puck at target location
+    # First, the robot must put its gripper above the puck to pick it up.
+    # Because the robot is going to pick the puck up, the gripper must first be
+    # lined up with the puck as seen from above.
+    if check("the robot's gripper is not vertically aligned with the puck"):
+        robot.move_gripper("vertically aligned with the puck")
+    # Now, the gripper is lined up with the puck from above, so the robot can
+    # pick it up by moving the gripper downward to grasp it.
+    if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not holding the puck"):
+        robot.move_gripper("below the puck", close_gripper=True)
+
+        # Now that the puck is held, move the puck to the target location.
+    if check("the robot's gripper is holding the puck"):
         robot.move_gripper("above the target location")

@@ -1,17 +1,20 @@
 
     # Steps:
     #  1. Reach towards the target
-    #  2. Push the wall aside
-    #  3. Reach towards the target
-    # We don't have any objects to manipulate, so we can just move the robot's
-    # gripper directly to the target location.
-    if check("the robot's gripper is not near reach target"):
-        robot.move_gripper("near the reach target")
-    # If the robot's gripper is blocked by a wall, use the gripper to push it
-    # aside.
-    if check("the robot's gripper is blocked by a wall"):
-        robot.move_gripper("to the side of the wall")
-    # Once the wall is pushed aside, the robot's gripper should be able to reach
-    # the target location.
-    if check("the robot's gripper is not near reach target and the wall is pushed aside"):
-        robot.move_gripper("near the reach target")
+    #  2. Move around the wall
+    # We need to move around the wall if the robotic arm can't reach the target
+    # location directly.
+    if check("the robot's gripper is not near target location"):
+        robot.move_gripper("near the target location")
+    # To move around the wall, we can use the gripper to push against the wall
+    # and move it's way around.
+    # Move the gripper up the wall until the end of the wall is reached.
+    if check("the robot's gripper is not near the wall"):
+        robot.move_gripper("to the wall")
+    # Once the end of the wall is reached move the gripper to the other side of
+    # the wall.
+    if check("the robot's gripper is near the wall"):
+        robot.move_gripper("around the wall")
+    #Continue this process until the target location is reached.
+    if check("the robot's gripper is not near target location"):
+        robot.move_gripper("near the target location")

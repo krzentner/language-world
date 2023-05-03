@@ -1,16 +1,18 @@
 
     # Steps:
-    #  1. Put gripper above mug
-    #  2. Drop gripper around mug
-    #  3. Close gripper around mug
-    #  4. Move mug to target
-    # We need to put the gripper above the mug to be able to move it.
-    if check("the robot's gripper is not above the mug"):
-        robot.move_gripper("above the mug")
-    # We don't need to be careful with the direction, because there is only one
-    # way to fit the mug into the gripper.
-    if check("the robot's gripper is not around the mug"):
-        robot.move_gripper("near the mug", close_gripper=True)
-    # Once the mug is in the gripper, just move it to the target location.
-    if check("the robot's gripper is around the mug"):
+    #  1. Put gripper forward of the mug
+    #  2. Push gripper into side of mug
+    #  3. Slide mug to goal
+    # The robot can slide the mug by trapping it in the gripper and moving the
+    # gripper.
+    # If the mug isn't to the side of the gripper, move the gripper to the side
+    # of the mug.
+    if check("the robot's gripper is not forward aligned with mug"):
+        robot.move_gripper("forward aligned with the mug", close_gripper=True)
+    # If the gripper is forward aligned but not near the mug, move gripper close
+    #  to the mug to trap it.
+    if check("the robot's gripper is near the mug"):
+        robot.move_gripper("lightly to the side of the mug", close_gripper=True)
+    # Once the mug is trapped, slide it to the target location.
+    if check("the robot's gripper is near the mug"):
         robot.move_gripper("above the target location")

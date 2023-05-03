@@ -1,13 +1,14 @@
 # Steps:
-    #  1. Move the gripper to the left of the wall
-    #  2. Move the gripper forward to the button
-    #  3. Close the gripper around the button
-    #  4. Push the button
-    # We need to first move the gripper to the left of the wall so that it can
-    # approach the button from the front
-    if check("the robot's gripper is not left of the wall"):
-        robot.move_gripper("left of the wall")
-    # Once the gripper is to the left of the wall, we can move it directly
-    # towards the button.
-    if check("the robot's gripper is not near the button"):
-        robot.move_gripper("near the button", close_gripper=True)
+    #  1. Put gripper near the wall, but below the button
+    #  2. Tilt the gripper 90 degrees to be perpendicular to the wall
+    #  3. Move the gripper forward to push the button
+    # First, move the gripper near the wall and below the button.
+    if check("the robot's gripper is not near the wall"):
+        robot.move_gripper("near the wall and below the button")
+    # Once the gripper is near the wall, tilt it 90 degrees to be perpendicular
+    # to the wall.
+    if check("the robot's gripper is not perpendicular to the wall"):
+        robot.move_gripper("perpendicular to the wall")
+    # Finally, move the gripper forward to push the button.
+    if check("the robot's gripper is not touching the button"):
+        robot.move_gripper("touching the button")

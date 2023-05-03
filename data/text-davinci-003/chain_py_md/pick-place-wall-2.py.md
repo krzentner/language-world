@@ -1,28 +1,51 @@
 
 
-Steps:
- 1. Put gripper right of puck and wall
- 2. Drop gripper around puck
- 3. Slide puck away from wall and to side of wall
- 4. Close gripper around puck
- 5. Move puck around wall to goal
+Inside the function, we should first move the robot's gripper above the puck so we don't bump it while trying to grab it.
 
-First, we need to put the gripper near the puck but not too close to the wall.
-if check("the robot's gripper is not between the puck and the wall and the robot's gripper is not horizontally aligned with the puck"):
-    robot.put("gripper right of puck and wall")
+```
+    # Steps:
+    #  1. Put gripper above puck
+    #  2. Drop gripper around puck
+    #  3. Close gripper around puck
+    #  4. Move puck to goal with a short wall in the way
+    # First, put the gripper roughly above puck, so that we don't bump it while 
+    # trying to grab it.
+    if check("the robot's gripper is not above the puck"):
+        robot.place("gripper above puck")
+```
 
-Once the gripper is between the puck and the wall, we can move the gripper to the side of pucks, to grab it.
-if check("the robot's gripper is between the puck and wall and the robot's gripper is not around puck"):
-    robot.drop("gripper around puck")
+Next, we want to put the gripper around the puck if it isn't already.
 
-Next, we can slide the puck away from the wall and to the side of the wall.
-if check("the puck is near the wall and the robot's gripper is around puck"):
-    robot.slide("puck away from wall and to side of wall")
+```
+    # If the gripper isn't around the puck, put it around the puck.
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.drop("gripper around puck")
+```
 
-Now that the puck is in a position we can close the gripper to hold it.
-if check("the puck is to the side of the wall and the robot's gripper is open"):
-    robot.close("gripper around puck")
+Then, we try to close the gripper if it is near the puck and open.
 
-Finally, we can move the puck around the wall to the goal.
-if check("the robot's gripper is closed around the puck and the goal is to the side of the wall"):
-    robot.move("puck around wall to goal")
+```
+    # If the gripper is near the puck and open, maybe we can grab it by closing 
+    # the gripper.
+    if check("the robot's gripper is near puck and the robot's gripper is open"):
+        robot.close("gripper around puck")
+```
+
+Now that the gripper is closed, we want to move the puck to the goal. But in this case, there is a wall in between the gripper and the goal. To move the puck around the wall, we want to move it in a diagonal direction. 
+
+```
+    # We closed the gripper, and the puck is still near the gripper, so maybe we 
+    # grabbed it.
+    # Try to move the puck to the goal around the wall.
+    if check("the robot's gripper is above puck and the robot's gripper is closed"):
+        robot.push_diag("puck around wall to goal")
+```
+
+Finally, we make sure the puck is at the target location.
+
+```
+    # We pushed the puck around the wall, so make sure it is at the right
+    # position.
+    if check("puck is around the wall but not at goal"):
+        robot.place("puck at goal")
+```

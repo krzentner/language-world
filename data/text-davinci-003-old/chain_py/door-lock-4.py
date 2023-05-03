@@ -1,19 +1,14 @@
 
     # Steps:
-    #  1. Put gripper above the dial
-    #  2. Put gripper around the dial
-    #  3. Turn the dial to the left
-    #  4. Turn the dial to the right
-    # First, put the gripper above the dial.
-    if check("the robot's gripper is not above the dial"):
-        robot.put("gripper above dial")
-    # When the gripper is above the dial, it should be easy to grab it by
-    # moving the gripper around the dial.
-    if check("the robot's gripper is above the dial and the robot's gripper is not around the dial"):
-        robot.drop("gripper around dial")
-    # Now that the gripper is around the dial, we can turn it to the left.
-    if check("the robot's gripper is around the dial"):
-        robot.turn("dial left")
-    # Once the dial is turned to the left, we turn it to the right.
-    if check("the dial is turned left"):
-        robot.turn("dial right")
+    #  1. Put gripper above door lock
+    #  2. Move gripper to lock wheel
+    #  3. Turn wheel until the door is locked
+    # First, move the gripper above the door lock.
+    if check("the robot's gripper is not vertically aligned with the door lock"):
+        robot.put("gripper above door lock")
+    # Move the gripper to the wheel of the lock.
+    if check("the robot's gripper is not near the wheel and the robot's gripper is vertically aligned with the lock wheel"):
+        robot.move("gripper to wheel")
+    # Until the door is locked, turn the wheel to the right.
+    if check("the door is not locked"):
+        robot.turn("wheel right")

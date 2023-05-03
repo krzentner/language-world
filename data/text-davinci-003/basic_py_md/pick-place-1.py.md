@@ -1,16 +1,16 @@
 
 
-Solution:
+Your program should be:
 
 ```
 # pick-place: pick up the puck and hold it at the target location
-# def pick_place(robot):
-    if check("the robot's gripper is not above the puck"):
-        robot.place("gripper above puck")
-    if check("the robot's gripper is not around puck and the robot's gripper is open"):
-        robot.drop("gripper around puck")
-    if check("the robot's gripper is near puck and the robot's gripper is open"):
-        robot.close("gripper around puck")
-    if check("the robot's gripper is above puck and the robot's gripper is closed"):
-        robot.place("puck at goal")
-```
+def pick_place(robot):
+    if check("the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck"):
+        robot.put("the gripper above the puck")
+    if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not around the puck"):
+        robot.grab("the puck")
+    if check("the robot's gripper is around the puck and the puck is not near the target location"):
+        robot.move("the puck to target location")
+    if check("the robot's gripper is around the puck and the puck is near the target location"):
+        robot.put("the puck down at the target location")
+``

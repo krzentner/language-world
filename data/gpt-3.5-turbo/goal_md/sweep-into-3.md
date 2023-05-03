@@ -1,9 +1,12 @@
-For the task `sweep-into` where the robot has to grab the cube and move it to the target location, the following steps can be performed:
-    
-    Steps:  1. Put gripper above the cube  2. Grab the cube with the gripper  3. Move the cube to the target location
-    First, put the gripper above the cube.
-    - When the robot's gripper is not vertically aligned with the cube, move the robot's gripper until the robot's gripper is vertically aligned with the cube
-    If the gripper isn't around the cube, put it around the cube.
-    - When the robot's gripper is not around the cube and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the cube and the robot's gripper is closed
-    If the gripper is near the cube and closed, we've probably grabbed the cube and move it to the target location.
-    - When the robot's gripper is closed and the cube is not at the target location, move the cube to the target location using the gripper.
+The robot should perform the following steps:
+
+Steps: 1. Put gripper near the cube 2. Push the cube slowly until it slides into the gripper 3. Lift the gripper with the cube inside and move towards the target location 4. Release the cube at the target location
+
+First, put the gripper near the cube.
+- When the robot's gripper is not near the cube, move the robot's gripper until it is near the cube
+Once the gripper is close to the cube, we need to move the gripper towards the cube slowly to allow it to slide into the gripper.
+- When the robot's gripper is near the cube and the robot's gripper is not holding the cube, move the robot's gripper slowly into the cube until the cube is inside the gripper
+After the cube is inside the gripper, lift the gripper and move it towards the target location.
+- When the robot's gripper is holding the cube and the robot's gripper is not above the target location, lift the gripper with the cube inside and move it towards the target location
+Finally, release the cube at the target location.
+- When the robot's gripper is above the target location and the robot's gripper is holding the cube, release the cube at the target location.

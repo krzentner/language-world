@@ -1,17 +1,17 @@
 # Steps:
-#  1. Put gripper above the wrench and peg
-#  2. Grab the wrench
-#  3. Line up the wrench with the peg
-#  4. Slide the wrench around the peg
-# First, align the gripper above the wrench and peg.
-if check("the robot's gripper is not vertically aligned with the wrench and peg"):
-    robot.put("gripper above wrench and peg")
-# Once the gripper is aligned, grab the wrench with the gripper.
-if check("the robot's gripper is aligned with the wrench and the robot's gripper is open"):
-    robot.grab("wrench")
-# Line up the wrench with the peg.
-if check("the wrench is not aligned with the peg"):
-    robot.align("wrench to peg")
-# Slide the wrench around the peg.
-if check("the wrench is aligned with the peg"):
-    robot.slide("wrench around peg")
+    #  1. Put gripper above the wrench
+    #  2. Grab the wrench with the gripper
+    #  3. Align the wrench to the peg
+    #  4. Wrap the wrench around the peg
+    # First, put the gripper above the wrench.
+    if check("the robot's gripper is not above the wrench"):
+        robot.place("gripper above wrench")
+    # If the wrench isn't in the gripper, grab it.
+    if check("the robot's gripper is above the wrench and the robot's gripper is open"):
+        robot.grab("wrench")
+    # If the wrench is not roughly aligned with the peg, align it.
+    if check("the wrench is not roughly aligned with the peg"):
+        robot.place("wrench rough alignment with the peg")
+    # Once the wrench is roughly aligned with the peg, wrap it around the peg.
+    if check("the wrench is roughly aligned with the peg"):
+        robot.wrap("wrench around the peg")

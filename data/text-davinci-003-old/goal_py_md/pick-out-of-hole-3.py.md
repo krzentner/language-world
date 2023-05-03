@@ -1,19 +1,28 @@
 
 
-# pick-out-of-hole: pick up the peg out of the hole and hold it at the target location
-# def pick_out_of_hole(robot):
-    # Steps:
-    #  1. Put gripper above the hole
-    #  2. Drop gripper around the peg
-    #  3. Close gripper around the peg
-    #  4. Move the peg to the target location
-    # First, put the gripper roughly above the hole, so that we don't miss the peg while
-    # trying to grab it.
-    if check("the robot's gripper is not above the hole"):
-        robot.move_gripper("above the hole")
-    # Once the gripper is above the hole, we can lower it down to grab the peg.
-    if check("the robot's gripper is above the hole and the robot's gripper is not around the peg"):
-        robot.move_gripper("around the peg", close_gripper=True)
-    # If the gripper is around the peg, we can move it to the target location.
-    if check("the robot's gripper is around the peg"):
-        robot.move_gripper("near the target location")
+Steps:
+  1. Put gripper above hole
+  2. Drop gripper around peg
+  3. Close gripper around peg
+  4. Pull peg out of hole
+  5. Move peg to goal
+
+First, put the gripper roughly above the hole, so that we don't bump the peg while trying to grab it.
+if check("the robot's gripper is not above the hole"):
+    robot.move_gripper("above the hole")
+
+If the gripper isn't around the peg, put it around the peg and close the gripper to grab it.
+if check("the robot's gripper is not around peg and the robot's gripper is open"):
+    robot.move_gripper("near the peg", close_gripper=True)
+
+Because the peg is stuck in the hole, it's important that the gripper is placed on the right side of the peg, so that the gripper can pull the peg out of the hole. 
+if check("the robot's gripper is around peg, but not on the right side of the peg"):
+    robot.move_gripper("right side of the peg")
+
+Now that the gripper is on the right side of the peg, we can pull the peg out of the hole by moving the gripper slightly up.
+if check("the robot's gripper is on the right side of the peg"):
+    robot.move_gripper("above the peg")
+
+Finally, we can move the peg to the goal location.
+if check("the robot's gripper is above peg"):
+    robot.move_gripper("above the target location")

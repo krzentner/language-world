@@ -1,22 +1,21 @@
 
 
-The code for this program would be:
+The program should be a series of steps to instruct the robot to open a faucet by turning it left.
 
-```
 # faucet-open: turn the faucet left
-# def faucet_open(robot):
+def faucet_open(robot):
     # Steps:
     #  1. Put gripper above faucet handle
-    #  2. Grab faucet handle
-    #  3. Push the faucet to the left
-    # Put the gripper above the faucet handle.
-    if check("the robot's gripper is not above faucet handle"):
+    #  2. Grab the handle with the gripper
+    #  3. Turn the handle left
+    # First, put the gripper above the faucet handle.
+    if check("the robot's gripper is not vertically aligned with faucet handle"):
         robot.put("gripper above faucet handle")
-    # If the gripper is close to the faucet handle, grab the handle.
-    if check("the robot's gripper is near faucet handle and the robot's gripper is not around faucet handle"):
+    # If the gripper is still mostly around the faucet handle, go ahead and grab
+    # it.
+    if check("the robot's gripper is vertically aligned with faucet handle and the robot's gripper is open"):
         robot.grab("faucet handle")
-    # If the gripper is around the faucet handle, try pushing the faucet to the
+    # As long as the faucet handle is still in the same position, keep turning
     # left.
-    if check("the robot's gripper is around faucet handle"):
-        robot.push("faucet left")
-```
+    if check("the robot's gripper is vertically aligned with faucet handle and the robot's gripper is closed"):
+        robot.turn("faucet handle left")

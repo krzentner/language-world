@@ -1,16 +1,14 @@
 
 
-Then, fill in the code:
+This code should be written as follows:
 
 ```
 # door-lock: turn the dial on the door
 # def door_lock(robot):
-    if check("the robot's gripper is not above the door lock"):
+    if check("the robot's gripper is not vertically aligned with door lock"):
         robot.put("gripper above door lock")
-    if check("the robot's gripper is not around the door lock and the robot's gripper is open"):
-        robot.drop("gripper around door lock")
-    if check("the robot's gripper is around the door lock and the robot's gripper is open"):
-        robot.close("gripper around door lock")
-    if check("the robot's gripper is around the door lock and the robot's gripper is closed"):
+    if check("the robot's gripper is vertically aligned with door lock"):
         robot.turn("dial clockwise")
+    if check("the robot's gripper is movements detect no lock engaged"):
+        robot.release("gripper")
 ```

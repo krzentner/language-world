@@ -1,9 +1,8 @@
 
-    if check("the robot's gripper is not above the ball"):
-        robot.place("gripper above ball")
-    if check("ball is not left of the robot's gripper and ball is not forward aligned with the robot's gripper"):
+    if check("the robot's gripper is near the basketball and the robot's gripper is not around the ball"):
         robot.grab("ball")
-    if check("the robot's gripper is forward aligned with the ball and the ball is not above the target"):
-        robot.aim("ball at target")
-    if check("the ball is just above the target"):
-        robot.drop("ball into goal")
+    if check("the robot's gripper is not near the hoop and the basketball is not vertically aligned with the hoop"):
+        robot.put("ball above hoop")
+        robot.align("ball with hoop")
+    if check("the basketball is vertically aligned with the hoop"):
+        robot.release("ball into hoop")

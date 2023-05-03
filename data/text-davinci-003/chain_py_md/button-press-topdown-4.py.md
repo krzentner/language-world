@@ -1,18 +1,20 @@
 
 
-The code should look like this:
+Then write the code
 
 ```
 # button-press-topdown: push the button down from above
-# def button_press_topdown(robot):
+def button_press_topdown(robot):
     # Steps:
-    #  1. Line up the gripper as viewed from above
-    #  2. Push down on the button from the top
-    # Because this is "topdown", we just need to line up the gripper from above.
-    # Line up the robot's gripper from above.
-    if check("the robot's gripper is not vertically aligned with button"):
+    #  1. Put gripper above button
+    #  2. Push button down
+    # Grab the button by putting the gripper above it
+    if check("the robot's gripper is not above the button"):
         robot.put("gripper above button")
-    # Now that the gripper is lined up, just push down on the button.
-    if check("the robot's gripper is vertically aligned with button"):
-        robot.push("down on button")
+    # We should now be almost lined up, close the gripper on the button
+    if check("the robot's gripper is almost vertically aligned with the button and gripper is open"):
+        robot.close("gripper around button")
+    # Finally, push the button down
+    if check("the button is below the robot's gripper and the robot's gripper is closed"):
+        robot.push("button down")
 ```

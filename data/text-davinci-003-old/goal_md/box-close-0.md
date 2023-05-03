@@ -1,10 +1,10 @@
 
-    Steps:  1. Put gripper above the box lid  2. Drop gripper around the box lid  3. Close gripper around the box lid  4. Lift up the box lid  5. Place the box lid on the box
-    First, put the gripper above the box lid.
+    Steps:  1. Put robot's gripper above the box lid  2. Reach the box lid with the gripper  3. Close gripper around the box lid 4. Lift the box lid 5. Place the box lid onto the box
+    First, move the gripper above the box lid.
     - When the robot's gripper is not above the box lid, move the robot's gripper until the robot's gripper is above the box lid
-    If the gripper is not around the box lid, put it around the box lid.
-    - When the robot's gripper is not around box lid and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the box lid and the robot's gripper is closed
-    If the gripper is near the box lid and open, maybe we can grab it by closing the gripper.
-    - When the robot's gripper is above the box lid and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the box
-    If the gripper is near the box, we can lift the box lid up and place it on the box.
-    - When the robot's gripper is near the box and the box lid is below the robot's gripper, move the robot's gripper until the robot's gripper is above the box
+    If the gripper isn't near the box lid, reach out and grab it.
+    - When the robot's gripper is not near the box lid, move the robot's gripper until the robot's gripper is near the box lid and the robot's gripper is closed
+    Now that we have the box lid trapped within the gripper, lift it up.
+    - When the robot's gripper is near the box lid and the robot's gripper is closed, move the robot's gripper until the box lid is no longer in contact with the box
+    Finally, move the gripper to the target location and carefully place the box lid. 
+    - When the robot's gripper is not near the target location, move the robot's gripper until the robot's gripper is near the target location

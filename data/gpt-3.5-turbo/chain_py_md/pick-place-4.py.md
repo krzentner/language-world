@@ -1,30 +1,19 @@
-Here's the program to perform the `pick-place` task:
-
-```
 # pick-place: pick up the puck and hold it at the target location
-# def pick_place(robot):
+def pick_place(robot):
     # Steps:
-    #  1. Put gripper above puck
-    #  2. Drop gripper around puck
-    #  3. Close gripper around puck
-    #  4. Move puck to goal
-    # First, put the gripper roughly above puck, so that we don't bump it while
-    # trying to grab it.
-    if check("the robot's gripper is not above the puck"):
-        robot.place("gripper above puck")
-    # If the gripper isn't around the puck, put it around the puck.
-    if check("the robot's gripper is not around puck and the robot's gripper is open"):
-        robot.drop("gripper around puck")
-    # If the gripper is near the puck and open, maybe we can grab it by closing
-    # the gripper.
-    if check("the robot's gripper is near puck and the robot's gripper is open"):
-        robot.close("gripper around puck")
-    # We closed the gripper, and the puck is still near the gripper, so maybe we
-    # grabbed it.
-    # Try to move the puck to the goal.
-    # If we didn't grab it, we'll just go back to an earlier step.
-    if check("the robot's gripper is above puck and the robot's gripper is closed"):
-        robot.place("puck at goal")
-```
-
-This program first puts the gripper roughly above the puck, and then tries to drop the gripper around the puck, close it and move the puck to the goal. If any of these steps fails, the program goes back to an earlier step to make sure that the gripper is positioned correctly before it tries to pick up the puck again.
+    #  1. Put gripper above the puck
+    #  2. Grab the puck with the gripper
+    #  3. Move the puck to the target location
+    #  4. Open the gripper to release the puck
+    # First, put the gripper above the puck.
+    if check("the robot's gripper is not vertically aligned with the puck"):
+        robot.put("gripper above puck")
+    # If the gripper is lined up with the puck, grab it.
+    if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is open"):
+        robot.grab("puck")
+    # Move the puck to the target location by sliding it.
+    if check("the puck is in the gripper's grasp"):
+        robot.slide("the puck to the goal")
+    # Release the puck by opening the gripper.
+    if check("the puck is at the goal"):
+        robot.release("puck")

@@ -1,15 +1,15 @@
 # Steps:
-    # 1. Put gripper above the hole
-    # 2. Slide the gripper down into the hole and grab the peg
-    # 3. Lift the peg out of the hole
-    # 4. Move the gripper to the target location with the peg
-    # First, put the gripper above the hole.
-    if check("the robot's gripper is not vertically aligned with the hole"):
-        robot.move_gripper("vertically aligned with the hole")
-    # If the gripper is above the hole but not inside, move it inside to grab
-    # the peg.
-    if check("the robot's gripper is above the hole and not around the peg"):
+    #  1. Put gripper above the peg
+    #  2. Grab the peg with the gripper
+    #  3. Lift the peg out of the hole
+    #  4. Move the peg to the target location
+    # First, put the gripper above the peg.
+    if check("the robot's gripper is not vertically aligned with the peg"):
+        robot.move_gripper("vertically aligned with the peg")
+    # If the gripper isn't around the peg, put it around the peg.
+    if check("the robot's gripper is not around peg and the robot's gripper is open and the peg is below the robot's gripper"):
         robot.move_gripper("around the peg", close_gripper=True)
-    # Once the gripper is around the peg, lift it out of the hole.
-    if check("the robot's gripper is around the peg"):
-        robot.move_gripper("above the target location")
+    # If the gripper is around the peg and the peg is out of the hole, we can
+    # move it to the target location.
+    if check("the robot's gripper is around peg and the peg is not vertically aligned with hole"):
+        robot.move_gripper("near the target location")

@@ -1,19 +1,17 @@
 # dial-turn: turn the dial
-# def dial_turn(robot):
+def dial_turn(robot):
     # Steps:
-    # 1. Align the gripper with the dial
-    # 2. Put the gripper on the dial and pinch it
-    # 3. Turn the dial to the required degree
-    # 4. Release the dial
-    # We need to line up the gripper with the dial before grabbing it.
-    if check("the gripper is not aligned with the dial"):
-        robot.put("gripper on top of the dial")
-    # If the gripper is aligned with the dial and not holding it, pinch the dial.
-    if check("the gripper is aligned with the dial and not holding it"):
-        robot.pinch("the dial")
-    # Once the gripper has held the dial, we can turn it to the required degree.
-    if check("the gripper is holding the dial but not at the desired degree"):
-        robot.turn("the dial to the required degree")
-    # Finally, we release the dial.
-    if check("the gripper is holding the dial"):
-        robot.release("the dial")
+    #  1. Put gripper around the dial
+    #  2. Turn the dial to the desired position
+    # The robot needs to put its gripper around the dial to be able to turn it.
+    if check("the robot's gripper is not around the dial"):
+        robot.put("gripper around the dial")
+    # The robot can turn the dial by rotating its gripper.
+    # We can use a while loop to keep rotating the dial until it reaches the
+    # desired position.
+    desired_position = "position 3" # replace with desired dial position
+    while check("the dial is not at the desired position"):
+        robot.rotate_gripper("clockwise") # replace with direction to turn the dial
+    # Once the dial is at the desired position, the robot can release its
+    # gripper from the dial. We could do this by opening the gripper or by
+    # moving the gripper away from the dial.

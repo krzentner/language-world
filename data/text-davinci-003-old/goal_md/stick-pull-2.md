@@ -1,10 +1,8 @@
 
-    Steps:  1. Put gripper above the stick  2. Drop gripper around the stick  3. Push the stick so it is between the gripper and the thermos  4. Pull the thermos to the target location
-    We need to put the gripper above the stick before we can grab it.
-    - When the robot's gripper is not vertically aligned with the stick, move the robot's gripper until the robot's gripper is vertically aligned with the stick
-    Once the gripper is lined up above the stick, we should be able to grab the stick by moving the gripper down around it.
-    - When the robot's gripper is vertically aligned with stick and the robot's gripper is not around stick, move the robot's gripper until the robot's gripper is around the stick
-    Once the gripper is around the stick, push the stick so it's between the gripper and the thermos.
-    - When the robot's gripper is around stick and the stick is not between the robot's gripper and the thermos, move the robot's gripper until the stick is between the robot's gripper and the thermos
-    If the stick is between the gripper and the thermos, we can just pull the thermos to the target location.
-    - When the stick is between the robot's gripper and the thermos, move the robot's gripper until the robot's gripper is near the target location
+    Steps:  1. Put the gripper near the stick  2. Grab the stick with the gripper  3. Pull the stick towards the thermos  4. Push the stick against the thermos to pull it to the target location
+    First, put the gripper near the stick.
+    - When the robot's gripper is not above the stick, move the robot's gripper until the robot's gripper is above the stick and the robot's gripper is closed
+    Now, we can use the gripper's force to pull the stick in toward the thermos.
+    - When the robot's gripper is near the stick, move the robot's gripper until the robot's gripper is in front of the thermos and the robot's gripper is closed
+    Now we can push the stick against the thermos to move it to the target location.
+    - When the robot's gripper is in front of the thermos and the robot's gripper is closed, move the robot's gripper until the stick is near the target location

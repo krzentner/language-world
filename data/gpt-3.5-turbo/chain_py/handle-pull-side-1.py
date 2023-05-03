@@ -1,13 +1,14 @@
 # Steps:
-    #  1. Put gripper right of the handle
-    #  2. Grab the handle with the gripper
-    #  3. Pull the handle up from the side
-    # First, put the gripper right of the handle.
-    if check("the robot's gripper is not right of the handle"):
-        robot.move("gripper to the right of the handle")
-    # If the gripper is right of the handle, grab the handle.
-    if check("the robot's gripper is right of the handle and the handle is not in the gripper"):
-        robot.grab("the handle")
-    # Once the gripper has grabbed the handle, start pulling up to open it.
-    if check("the handle is in the gripper"):
-        robot.pull("up on the handle")
+    #  1. Put gripper above handle
+    #  2. Drop gripper around handle
+    #  3. Pull up on the handle from the side
+    # First, put the gripper above the handle.
+    if check("the robot's gripper is not vertically aligned with handle"):
+        robot.put("gripper above handle")
+    # Once the gripper is mostly above the handle, dropping it around the handle
+    # should align it perfectly.
+    if check("the robot's gripper is almost vertically aligned with handle and the robot's gripper is open"):
+        robot.drop("gripper around handle")
+    # If the gripper is around the handle, pull up on the handle from the side.
+    if check("the robot's gripper is around handle"):
+        robot.pull("up on handle from the side")

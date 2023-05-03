@@ -1,8 +1,10 @@
 
-    Steps:  1. Put the wrench in front of the peg  2. Grab the peg with the wrench  3. Move the wrench and peg together to form the desired assembly
-    First, put the wrench in front of the peg.
-    - When the wrench is not in front of the peg, the robot should put wrench in front of peg.
-    Once the wrench is lined up in front of the peg, try to grab the peg with the wrench.
-    - When the peg is not in the wrench and the wrench is in front of the peg, the robot should grab peg.
-    Lastly, once the peg is in the wrench, form the desired assembly by moving the wrench and peg together.
-    - When the peg is in the wrench, the robot should move wrench and peg together to form the desired assembly.
+    Steps:  1. Put gripper above the wrench  2. Grab the wrench with the gripper  3. Move wrench to the peg  4. Line up wrench with the peg  5. Wrap the wrench around the peg
+    First, put the gripper slightly above the wrench.
+    - When the robot's gripper is not above the wrench, the robot should put gripper above wrench.
+    As long as the gripper is near the wrench, move the wrench to the peg.
+    - When the wrench is not near the peg and the robot's gripper is near the wrench, the robot should move wrench to peg.
+    Now that the wrench is near the peg, we can line it up.
+    - When the wrench is near the peg and the robot's gripper is forward aligned with the wrench, the robot should align wrench to peg.
+    If the wrench is aligned with the peg from the side, wrap the wrench around the peg.
+    - When wrench is horizontally aligned with peg, the robot should wrap wrench around peg.

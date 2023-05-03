@@ -1,19 +1,22 @@
 
     # Steps:
-    #  1. Reach the hand
-    #  2. Put the hand over the puck
-    #  3. Insert the hand
-    #  4. Move the hand with the puck to the goal
-    # Much like pick-place, but with a hand.
-    # First, reach the hand.
-    if check("the robot's hand is not near target"):
-        robot.reach("hand")
-    # Put the hand over the puck.
-    if check("the robot's hand is not over puck"):
-        robot.put("hand over puck")
-    # Insert the hand.
-    if check("the robot's hand is not around puck"):
-        robot.insert("hand into puck")
-    # Move the hand with the puck to the target location.
-    if check("the robot's hand is around the puck"):
-        robot.move("hand with puck to goal")
+    #  1. Put gripper above puck
+    #  2. Drop gripper around puck
+    #  3. Close gripper around puck
+    #  4. Move puck to goal
+    # First, put the gripper above the puck.
+    if check("the robot's gripper is not above puck"):
+        robot.put("gripper above puck")
+    # If the gripper isn't around the puck, put it around the puck.
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.put("gripper around puck")
+    # If the gripper is near the puck and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near puck and the robot's gripper is open"):
+        robot.close("gripper around puck")
+    # We closed the gripper, and the puck is still near the gripper, so maybe we
+    # grabbed it.
+    # Try to move the puck to the goal.
+    # If we didn't grab it, we'll just go back to an earlier step.
+    if check("the robot's gripper is above puck and the robot's gripper is closed"):
+        robot.put("puck in goal")

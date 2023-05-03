@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above lever  2. Rotate the lever up  3. Pull the lever up
-    First, put the robot's gripper above the lever so that we can twist it.
+    Steps:  1. Put the gripper above the lever  2. Move the gripper around the lever  3. Pull the lever up 
+    Firstly, the robot should put the gripper above the lever.
     - When the robot's gripper is not vertically aligned with lever, the robot should put gripper above lever.
-    If the gripper is lined up with the lever, we can rotate it up.
-    - When the robot's gripper is vertically aligned with lever and lever is not rotated up, the robot should rotate lever up.
-    If the lever is partially up, keep going up and lift.
-    - When lever is partially up, the robot should pull lever up.
+    Now that the gripper is above the lever, the robot should move it around the lever to put it in position to pull it up.
+    - When the robot's gripper is vertically aligned with lever and the robot's gripper is not around lever, the robot should move gripper around lever.
+    Once the gripper is around the lever, the robot can pull the lever up.
+    - When the robot's gripper is around lever, the robot should pull lever up.

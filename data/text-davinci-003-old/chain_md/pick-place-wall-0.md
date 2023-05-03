@@ -1,10 +1,12 @@
 
-    Steps:  1. Put gripper above puck  2. Drop gripper around puck, being careful to avoid the wall  3. Close gripper around puck  4. Move puck to goal
-    First, put the gripper above the puck, being careful to avoid the wall.
-    - When the robot's gripper is not above the puck and the robot's gripper is not near the wall, the robot should put gripper above puck.
-    If the gripper isn't around the puck, put it around the puck but being careful to avoid the wall.
-    - When the robot's gripper is not around puck and the robot's gripper is open, the robot should drop gripper around puck, being careful to avoid the wall.
-    If the gripper is near the puck and open, maybe we can grab it by closing the gripper.
-    - When the robot's gripper is near puck and the robot's gripper is open, the robot should close gripper around puck.
-    We closed the gripper, and the puck is still near the gripper, so maybe we grabbed it. Try to move the puck to the goal. If we didn't grab it, we'll just go back to an earlier step.
-    - When the robot's gripper is above puck and the robot's gripper is closed, the robot should place puck at goal.
+    Steps:  1. Put gripper above wall, in front of the puck  2. Drop the gripper in front of the puck  3. Push the puck to the goal  4. Grab the puck with the gripper  5. Move the puck to the target location
+    First, put the gripper above the wall, a bit in front of the puck.
+    - When the robot's gripper is not in front of puck and the robot's gripper is not above wall, the robot should put gripper above wall.
+    Then, drop the gripper just in front of the puck.
+    - When the robot's gripper is not in front of puck and the robot's gripper is above wall, the robot should drop gripper in front of puck.
+    Now the gripper is over the wall, in front of the puck. Push the puck against the wall, towards the goal.
+    - When the robot's gripper is in front of puck and the robot's gripper is above wall, the robot should push puck to goal.
+    The puck should now be behind the wall. Grab the puck with the gripper.
+    - When the robot's gripper is in front of puck and the puck is behind wall, the robot should grab puck.
+    Finally, move the puck to the target location.
+    - When the robot's gripper is closed around puck, the robot should place puck at goal.

@@ -1,15 +1,19 @@
 
     # Steps:
-    #  1. Put gripper above the box lid
-    #  2. Grab the lid with the gripper
-    #  3. Move the lid to the box
-    #  4. Put the lid down onto the box
-    # First, put the gripper roughly between the lid and the box.
-    if check("the robot's gripper is not above the box lid"):
-        robot.move_gripper("above the box lid")
-    # If the gripper isn't around the lid, put it around the lid.
-    if check("the robot's gripper is not around box lid and the robot's gripper is open"):
-        robot.move_gripper("below the box lid", close_gripper=True)
-    # Now that the gripper is around the lid, move it onto the box.
-    if check("the robot's gripper is above the box lid and the robot's gripper is closed"):
-        robot.move_gripper("on top of the box", open_gripper=True)
+    #  1. Line up the gripper as viewed from the top
+    #  2. Line up the gripper as viewed from in front
+    #  3. Push the lid onto the box
+    # To close the box, the robot needs to line the lid up from above and from the
+    # front before pushing the lid onto the box.
+    # Lining up from above
+    if check("the robot's gripper is not vertically aligned with lid"):
+        robot.move_gripper("vertically aligned with the lid")
+    # Lining up from the front
+    if check("the robot's gripper is not forward aligned with lid and the lid is below the robot's gripper"):
+        robot.move_gripper("forward aligned with the lid")
+    # If the gripper is lined up with the lid, it should be in front of the lid.
+    # Now, we need to move the gripper down and push the lid onto the box.
+    if check("the robot's gripper is forward aligned with the lid"):
+        robot.move_gripper("below the lid")
+    # Once the gripper is below the lid, we can push the lid onto the box.
+    if check("the robot's gripper is below the lid"):

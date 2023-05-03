@@ -1,22 +1,28 @@
 
 
-Then, complete the program:
+The task 'sweep-into' involves grab the cube and move it to the target location
 
-```
+Steps: 
+1. Put the gripper above the cube 
+2. Drop the gripper around the cube 
+3. Push the cube to the target location
+
+Code:
 # sweep-into: grab the cube and move it to the target location
-# def sweep_into(robot):
+def sweep_into(robot):
     # Steps:
-    #  1. Move the gripper in an arc, from above the cube to the target location
-    #  2. Close the gripper around the cube
-    #  3. Move to the target location with the cube in the gripper
-    # First, move the gripper in a sweeping arc, starting above the cube and
-    # ending above the target location.
-    if check("the robot's gripper is not in an arc, from above the cube to the target location"):
-        robot.move_gripper("in an arc, from above the cube to the target location")
-    # Once the gripper is above the cube, close it around the cube.
-    if check("the robot's gripper is near the cube"):
-        robot.move_gripper("above the cube", close_gripper=True)
-    # If the gripper is closed around the cube, we can move to the target location.
-    if check("the robot's gripper is closed around the cube"):
-        robot.move_gripper("above the target location")
-```
+    #  1. Put gripper above the cube
+    #  2. Drop gripper around the cube
+    #  3. Push the cube to the target location
+    # Put the gripper above the cube so it doesn't accidentally touch the cube
+    if check("the robot's gripper is not above the cube"):
+        robot.move_gripper("above the cube")
+    # If the cube is left of the gripper, line up the gripper with it
+    if check("the cube is not left of the robot's gripper"):
+        robot.move_gripper("left of the cube")
+    # Once the gripper is lined up, move it around the cube to grab it.
+    if check("the robot's gripper is left of the cube and the robot's gripper is not around the cube"):
+        robot.move_gripper("around the cube")
+    # Once the gripper is around the cube, we can slide it to the target location.
+    if check("the robot's gripper is around the cube"):
+        robot.move_gripper("near the target location")

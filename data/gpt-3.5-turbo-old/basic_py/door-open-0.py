@@ -1,0 +1,1 @@
+Sorry, it looks like we have a duplicate function here. The function for door-open has already been defined above. Is there anything else you need help with?

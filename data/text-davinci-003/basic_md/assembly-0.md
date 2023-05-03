@@ -1,5 +1,4 @@
 
-    - When the robot's gripper is not above the peg, the robot should move gripper above the peg.
-    - When the robot's gripper is above the peg and the robot's gripper is not around the peg, the robot should put gripper around the peg.
-    - When the robot's gripper is around the peg, the robot should open the gripper to take the wrench.
-    - When the robot's gripper is open and the robot's gripper is above the wrench, the robot should close the gripper around the wrench.
+    - When the robot's gripper is not above wrench, the robot should place gripper above wrench.
+    - When wrench is not left of the robot's gripper and wrench is not forward aligned with the robot's gripper, the robot should grab wrench.
+    - When the robot's gripper is forward aligned with the peg and the peg is not circled by wrench, the robot should wrap wrench around peg.

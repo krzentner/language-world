@@ -1,25 +1,24 @@
-# hammer: hit the nail with the hammer.
-# def hammer(robot):
+# hammer: hit the nail with the hammer
+def hammer(robot):
     # Steps:
-    # 1. Put the gripper above the hammer handle.
-    # 2. Close the gripper around the handle.
-    # 3. Move the hammer to above the nail.
-    # 4. Move the hammer down to hit the nail.
-    # 5. Lift the hammer back up.
-    # 6. Open the gripper to release the handle.
-    # First, put the gripper above the hammer handle.
-    if check("the robot's gripper is not vertically aligned with the hammer handle"):
-        robot.move("the gripper above the hammer handle")
-    # We grab the handle when the gripper is above it.
-    if check("the robot's gripper is above the hammer handle and the robot's gripper is open"):
-        robot.grab("hammer handle")
-    # Move the hammer to above the nail.
-    if check("the hammer is not above the nail"):
-        robot.move("the hammer above the nail")
-    # Move the hammer down to hit the nail and then lift it back up.
-    if check("the hammer is above the nail and the hammer is not touching the nail"):
-        robot.push("hammer down onto the nail")
-        robot.pull("hammer up")
-    # Release the handle by opening the gripper.
-    if check("the hammer has hit the nail and the robot's gripper is closed"):
-        robot.open("gripper to release hammer handle")
+    #  1. Put the gripper above the hammer
+    #  2. Grab the handle of the hammer
+    #  3. Turn the hammer to face the nail head
+    #  4. Move the hammer down to hit the nail
+    #  5. Release the handle
+    
+    # First, put the gripper above the hammer.
+    if check("the robot's gripper is not above the hammer"):
+        robot.place("gripper above hammer")
+    # If the gripper isn't around the handle of the hammer, put it around the handle.
+    if check("the robot's gripper is not around hammer handle and the robot's gripper is open"):
+        robot.drop("gripper around hammer handle")
+    # Turn the hammer handle until the head faces the nail.
+    if check("the hammer head is not facing the nail"):
+        robot.align("hammer head to nail")
+    # If the gripper is around the handle and the hammer is aligned with the nail, move it down to hit the nail.
+    if check("the robot's gripper is around hammer handle and the hammer head is facing the nail"):
+        robot.push("hammer down onto nail")
+    # If the hammer is hitting the nail, release the handle.
+    if check("the robot's gripper is holding the hammer and the hammer is hitting the nail"):
+        robot.release("hammer handle")

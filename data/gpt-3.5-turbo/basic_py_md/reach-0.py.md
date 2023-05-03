@@ -1,4 +1,6 @@
 # reach: reach to the target location
 def reach(robot):
-    if check("the robot's gripper is not near reach target"): # check if the gripper is not already at the target
-        robot.reach("to goal") # move the gripper to the target location
+    if check("the robot's gripper is not near the target location"):
+        robot.move("gripper to target location")
+    if check("the robot's gripper is near the target location"):
+        robot.reach("gripper to target location")

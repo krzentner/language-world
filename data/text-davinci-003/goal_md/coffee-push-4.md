@@ -1,5 +1,8 @@
 
-    Steps:  1. Put gripper above the mug  2. Close gripper around mug  3. Move mug to goal
-    First, the robot should put the gripper above the mug - when the robot's gripper is not above the mug, move the robot's gripper until the robot's gripper is above the mug.
-    Then, the robot should close the gripper to grab the mug - when the robot's gripper is above the mug and the robot's gripper is not closed, move the robot's gripper until the robot's gripper is closed.
-    Finally, the robot should move the mug to the goal - when the robot's gripper is closed and the mug is not near target location, move the robot's gripper until the mug is near the target location.
+Steps:  1. Put gripper above mug handle  2. Drop gripper around mug handle  3. Close gripper around mug handle  4. Move mug to goal
+    We need to put the gripper above the mug handle before we can grab it, because of the angle of the robot's gripper.
+    - When the robot's gripper is not vertically aligned with mug handle, move the robot's gripper until the robot's gripper is vertically aligned with the mug handle
+    Once the gripper is lined up above the mug handle, we should be able to grab the mug handle by moving the gripper.
+    - When the robot's gripper is vertically aligned with mug handle and the robot's gripper is not around mug handle, move the robot's gripper until the robot's gripper is around the mug handle
+    Once the gripper is around the mug handle, and the gripper is closed, move the mug to the goal.
+    - When the robot's gripper is around mug handle and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the target location

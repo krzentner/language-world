@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper around the puck  2. Close grip around the puck  3. Move to the target location  4. Release the grip
-    First, put the gripper around the puck. Make sure the robot's gripper is closed so the objects don't reject the robot's grip.
-    - When the robot's gripper is not around the puck and the robot's gripper is open, move the robot's gripper until the robot's gripper is above the puck and the robot's gripper is closed
-    If the gripper is above the puck and closed, we've probably trapped the puck and can move it to the target location.
-    - When the robot's gripper is above the puck and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the target location
-    Once the gripper is near the target, release the grip.
-    - When the robot's gripper is near the target location, move the robot's gripper until the robot's gripper is above the target location and the robot's gripper is open
+    Steps:  1. Put gripper above puck  2. Drop gripper around puck  3. Close gripper around puck  4. Move the puck to the target location
+    First, put the gripper roughly above the puck, so that we don't bump it while trying to grab it.
+    - When the robot's gripper is not above the puck, move the robot's gripper until the robot's gripper is above the puck
+    If the gripper isn't around the puck, put it around the puck.
+    - When the robot's gripper is not around puck and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the puck and the robot's gripper is closed
+    If the gripper is near the puck and open, maybe we can grab it by closing the gripper.
+    - When the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the target location

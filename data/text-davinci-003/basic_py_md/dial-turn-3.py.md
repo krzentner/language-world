@@ -1,10 +1,12 @@
 
 
-If check("the robot's gripper is not above the dial"):
-    robot.put("gripper above dial")
-if check("the robot's gripper is above the dial and the robot's gripper is not around the dial"):
-    robot.drop("gripper around dial")
-if check("the robot's gripper is around the dial and the robot's gripper is open"):
-    robot.close("gripper around dial")
-if check("the robot's gripper is closed around the dial"):
-    robot.turn("dial in desired direction")
+Then the program instructions.
+
+if check("the robot's gripper is not near the dial"):
+        robot.move("gripper near dial")
+if check("the robot's gripper is near the dial"):
+        robot.grab("dial")
+if check("the robot's gripper is below the dial and the dial is not facing goal"):
+        robot.turn("dial clockwise")
+if check("the dial is facing goal"):
+        robot.release("dial")

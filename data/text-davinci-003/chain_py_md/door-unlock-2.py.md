@@ -1,15 +1,14 @@
 
 
-Steps:
-1. Put gripper above door knob
-2. Grab door knob
-3. Turn the door knob
+The robot should:
 
-if check("the robot's gripper is not above door knob"):
-  robot.put("gripper above door knob")
+1. Put gripper above door dial
+2. Place gripper around door dial
+3. Turn the dial clockwise
 
-if check("the robot's gripper is above door knob and the robot's gripper is not around the door knob"):
- robot.grab("door knob")
-
-if check("the robot's gripper is around door knob"):
- robot.turn("clockwise or counterclockwise")
+if check("the robot's gripper is not above the door dial"):
+    robot.place("gripper above door dial")
+if check("the robot's gripper is not around the door dial and the robot's gripper is open"):
+    robot.put("gripper around door dial")
+if check("the robot's gripper is around the door dial"):
+    robot.turn("dial clockwise")

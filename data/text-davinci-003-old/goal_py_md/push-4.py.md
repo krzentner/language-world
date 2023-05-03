@@ -1,6 +1,6 @@
 
 
-Here is the program:
+Here's the program:
 
 ```
 # push: slide the puck to the target location

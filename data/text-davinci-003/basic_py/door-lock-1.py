@@ -1,7 +1,7 @@
 
-    if check("the robot's gripper is not vertically aligned with the door lock knob"):
-        robot.put("gripper up from door lock knob")
-    if check("the robot's gripper is not around the door lock knob"):
-        robot.drop('gripper around knob')
-    if check("the robot's gripper is near the door lock knob"):
-        robot.turnADegree("fifty degrees")
+    if check("the robot's gripper is not above the door lock dial"):
+        robot.place("gripper above the door lock dial")
+    if check("the robot's gripper is not laying flat against the door lock dial"):
+        robot.align("gripper to door lock dial") 
+    if check("the robot's gripper is laying flat against the door lock dial and pointing to the desired position on the dial"):
+        robot.turn("dial to desired position")

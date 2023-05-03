@@ -1,7 +1,6 @@
-Here are the steps the robot should perform to slide the window closed to the right reliably:
-1. Put the gripper left of the window handle.
-2. If the window handle is not near the gripper, move the gripper near the window handle.
-3. When the gripper is near the window handle, move the gripper until it is forward aligned with the window handle.
-4. If the window handle is still to the left of the gripper, move the gripper almost vertically aligned with the window handle.
-5. Push harder to close the window.
-6. When the gripper is almost vertically aligned with the window handle, move the gripper until it is forward aligned with the window handle.
+To slide the window closed to the right reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper left of the window handle  2. Start pulling on the window handle to close the window  3. Pull the window closed harder
+    If the robot's gripper is not vertically lined up with the window handle, we should move the gripper near the window handle to start pulling it closed.
+    - When the robot's gripper is near the window handle, move the robot's gripper until the robot's gripper is forward aligned with the window handle
+    If the robot's gripper is near the window handle we can probably slide the window closed now by moving the gripper right.
+    - When the robot's gripper is in front of the window handle, move the robot's gripper until the robot's gripper is vertically aligned with the window handle.

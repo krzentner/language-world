@@ -1,10 +1,14 @@
 
 
-if check("the robot's gripper is not above the cube"):
-    robot.place("gripper above cube")
-if check("the robot's gripper is not around the cube and the gripper is open"):
-    robot.drop("gripper around cube")
-if check("the robot's gripper is near the cube and the gripper is open"):
-    robot.close("gripper around cube")
-if check("the robot's gripper is near the cube and the cube is below the gripper"):
-    robot.slide("cube to goal")
+The code is as follows:
+
+```
+# sweep: grab the cube and move sideways it to the target location
+def sweep(robot):
+    if check("the robot's gripper is not above the cube"):
+        robot.put("gripper above cube")
+    if check("the robot's gripper is not around cube and the robot's gripper is open"):
+        robot.grab("cube")
+    if check("the robot's gripper is around cube and the robot's gripper is closed"):
+        robot.sweep("cube to goal")
+```

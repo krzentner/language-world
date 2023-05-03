@@ -1,22 +1,23 @@
-# hand-insert: pick up the small object and move it to the target location
-# def hand_insert(robot):
+# hand-insert: pick up the puck and move it to the target location
+def hand_insert(robot):
     # Steps:
-    #  1. Put gripper above the object
-    #  2. Grab the object with the gripper
-    #  3. Move the object to the target location
-    # First, put the gripper above the object.
-    if check("the gripper is not above the object"):
-        robot.place("gripper above object")
-    # If the gripper is not around the object, put it around the object.
-    if check("the gripper is not around object and the gripper is open"):
-        robot.drop("gripper around object")
-    # If the gripper is near the object and open, maybe we can grab it by closing
-    # the gripper.
-    if check("the gripper is near object and the gripper is open"):
-        robot.close("gripper around object")
-    # We closed the gripper, and the object is still near the gripper, so maybe we
-    # grabbed it.
-    # Try to move the object to the target location.
-    # If we didn't grab it, we'll just go back to an earlier step.
-    if check("the gripper is above object and the gripper is closed"):
-        robot.place("object at target location")
+    #  1. Put gripper above table
+    #  2. Drop gripper around puck
+    #  3. Pick up puck with hand
+    #  4. Move hand to goal
+    #  5. Drop puck at goal
+    # Put the gripper above the table near the puck.
+    if check("the robot's gripper is not above the table near the puck"):
+        robot.put("gripper above table near the puck")
+    # Drop the gripper around the puck.
+    if check("the robot's gripper is not around the puck and the robot's gripper is open"):
+        robot.drop("gripper around the puck")
+    # Pick up the puck with the hand without using the robot's gripper.
+    if check("the puck is not in the robot's hand"):
+        robot.pickup("puck with the hand")
+    # Move the hand to the goal.
+    if check("the hand is not at the goal"):
+        robot.move("hand to the goal")
+    # Drop the puck at the goal.
+    if check("the puck is in the robot's hand and the hand is at the goal"):
+        robot.drop("puck at the goal")

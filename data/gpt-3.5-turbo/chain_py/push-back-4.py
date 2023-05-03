@@ -1,20 +1,21 @@
-#Steps:
-# 1. Put the gripper above the puck
-# 2. Push gripper into the top of the puck
-# 3. Slide puck backwards to goal
-# This function is very similar to push() function, except we are sliding
-# the puck backwards instead of forwards. We can use the same logic with a
-# few modifications.
-# If the gripper is not above the puck as seen from above, move the gripper above
-# the puck.
-if check("the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck"):
-     robot.put("the gripper above the puck")
-# If the gripper is aligned with the puck but not near it, move the gripper
-# down to the puck to slide it.
-if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck"):
-     robot.push("the gripper into the puck")
-# If the gripper is near the puck, we've probably trapped the puck and can
-# slide it backwards to the target location.
-# Close the gripper to make sure we keep control of the puck.
-if check("the robot's gripper is near the puck and the puck is below the robot's gripper"):
-     robot.slide("the puck backwards to the goal")
+# Steps:
+    #  1. Put gripper above puck
+    #  2. Push gripper into bottom of puck
+    #  3. Slide puck towards the robot
+    #  4. Push gripper into top of puck
+    #  5. Slide puck to goal
+    # We start by putting the gripper above the puck.
+    if check("the robot's gripper is not above puck"):
+        robot.put("gripper above puck")
+    # Then we push the gripper into the bottom of the puck to start sliding it
+    # back towards the robot.
+    if check("the robot's gripper is above the puck and not pushing into it"):
+        robot.push("the gripper into the bottom of the puck")
+    # Once the puck is back towards the robot, we push the gripper back into the
+    # top of the puck.
+    if check("the puck is back towards the robot and the gripper is pushing into the bottom of the puck"):
+        robot.push("the gripper into the top of the puck")
+    # Finally, we can slide the puck towards the goal, with the gripper
+    # maintaining control.
+    if check("the gripper is pushing into the top of the puck and the puck is aligned with the goal"):
+        robot.slide("the puck to the goal")

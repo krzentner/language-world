@@ -1,15 +1,14 @@
 To pick up the box lid and place it on the box reliably, the robot should perform the following steps:
 
-Steps: 1. Put the gripper above the box lid
-2. Grab the box lid with the gripper
-3. Move the gripper to the top of the box
-4. Release the box lid onto the box
+Steps:  1. Position gripper above lid  2. Drop gripper around lid  3. Close gripper around lid  4. Move gripper and lid above box  5. Position lid on top of box  6. Release gripper to drop lid onto box
 
-First, put the gripper above the box lid.
-- When the robot's gripper is not above the box lid, move the robot's gripper until the robot's gripper is above the box lid
-If the gripper isn't already closed around the lid, grab it.
-- When the robot's gripper is above the box lid and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the box lid and the robot's gripper is closed
-Next, move the gripper to the top of the box.
-- When the robot's gripper is around the box lid, move the robot's gripper until the robot's gripper is above the box
-Finally, release the box lid onto the box.
-- When the robot's gripper is above the box, release the box lid onto the box.
+First, position the gripper above the lid.
+- When the robot's gripper is not above the lid, move the robot's gripper until the robot's gripper is above the lid
+Drop the gripper around the lid so that it can be lifted.
+- When the robot's gripper is above the lid, move the robot's gripper until the robot's gripper is closed around the lid
+Move the gripper and the lid above the box.
+- When the robot's gripper is closed around the lid, move the robot's gripper until the gripper and lid are above the box
+Position the lid on top of the box.
+- When the gripper and lid are above the box, move the robot's gripper until the lid is positioned on top of the box
+Release the gripper to drop the lid onto the box.
+- When the lid is positioned on top of the box, release the gripper to drop the lid onto the box.

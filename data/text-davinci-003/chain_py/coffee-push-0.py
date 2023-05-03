@@ -1,17 +1,18 @@
 
     # Steps:
-    #  1. Put the gripper above the mug
-    #  2. Reach for the mug
-    #  3. Push the mug to the goal
-    # First, try to put the gripper above the mug so that the robot can reach 
-    # it easily.
-    if check("the robot's gripper is not above the mug"):
-        robot.put("the gripper above the mug")
-    # Now, reach for the mug and try to grab it.
-    # Depending on the size and shape of the mug, the robot may need to reach 
-    # further.
-    if check("the robot's gripper is near mug and the robot's gripper is not around mug"):
-        robot.reach("for the mug")
-    # If the mug is successfully grabbed, push the mug to the goal.
-    if check("the robot's gripper is around mug and the mug is not at the goal"):
-        robot.push("the mug to the goal")
+    #  1. Put gripper above handle
+    #  2. Drop gripper around handle
+    #  3. Lift the mug
+    #  4. Move mug to goal
+    # First, put the gripper above the mug handle.
+    if check("the robot's gripper is not above handle"):
+        robot.put("gripper above handle")
+    # When the gripper is above the handle, drop it around the handle to grab it.
+    if check("the robot's gripper is above handle and the robot's gripper is open"):
+        robot.drop("gripper around handle")
+    # We should be able to lift the mug now that it's been grabbed.
+    if check("the robot's gripper is around handle and the robot's gripper is closed"):
+        robot.lift("mug")
+    # Now that the mug is lifted, we can move it.
+    if check("the mug is not in the goal area and the robot's gripper is closed and the robot's gripper is around handle"):
+        robot.move("mug to goal")

@@ -1,5 +1,5 @@
-To pull the peg out from the side reliably, the robot should perform the following steps:
-- When the robot's gripper is not vertically aligned with the peg, the robot should put the gripper above the peg.
-- When the peg is not horizontally aligned with the robot's gripper and the peg is not to the left of the robot's gripper, the robot should grab the peg.
-- When the robot's gripper is horizontally aligned with the peg and the peg is not directly above the hole, the robot should move the peg upward.
-- When the peg is directly above the hole, the robot should pull the peg out from the hole.
+To grab the peg and pull it out from the side reliably, the robot should perform the following steps:
+- When the robot's gripper is not vertically aligned with the peg and the robot's gripper is not near the peg, the robot should place the gripper above the peg.
+- When the robot's gripper is vertically aligned with the peg and the robot's gripper is not around the peg, the robot should close the gripper around the peg.
+- When the robot's gripper is around the peg and the peg is not aligned with the hole, the robot should align the peg with the hole by pulling it away from the hole.
+- Once the peg is pulled out enough to be unplugged from the hole, the robot should move the gripper to the side and pull the peg out completely.

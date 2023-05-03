@@ -1,17 +1,14 @@
 
     # Steps:
-    #  1. Turn the dial clockwise
-    #  2. Turn the dial 90 degrees
-    #  3. Turn the dial counterclockwise
-    # Put the gripper in front of the door handle.
-    if check("the robot's gripper is not in front of the door handle"):
-        robot.move_gripper("in front of the door handle")
-    # We can turn the dial by turning the gripper.
-    if check("the robot's gripper is in front of the door handle"):
-        robot.turn_gripper("clockwise")
-    # Turn the dial 90 degress.
-    if check("the door handle is not at 90 degrees turned"):
-        robot.turn_gripper("90 degrees")
-    # Turn the dial counterclockwise.
-    if check("the door handle is at 90 degrees turned"):
-        robot.turn_gripper("counterclockwise")
+    #  1. Put gripper above the dial
+    #  2. Grab the dial
+    #  3. Turn the dial one full rotation
+    # First, line the gripper up with the dial.
+    if check("the robot's gripper is not above the dial"):
+        robot.move_gripper("above the dial")
+    # If the gripper isn't around the dial, put it around the dial.
+    if check("the robot's gripper is not around the dial and the robot's gripper is open"):
+        robot.move_gripper("close to the dial", close_gripper=True)
+    # If the gripper closed around the dial, rotate the dial one full rotation.
+    if check("the robot's gripper is around the dial and the robot's gripper is closed"):
+        robot.move_gripper("full rotation")

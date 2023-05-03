@@ -1,6 +1,6 @@
 
 
-Then write the code:
+Here's the program:
 
 ```
 # reach: reach to the target location

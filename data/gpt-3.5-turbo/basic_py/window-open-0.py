@@ -1,11 +1,6 @@
-Oops! It looks like the function for window-open was already defined earlier. Here are the functions defined for each task:
-- reach(robot)
-- push(robot)
-- pick_place(robot)
-- door_open(robot)
-- drawer_open(robot)
-- drawer_close(robot)
-- button_press_topdown(robot)
-- peg_insert_side(robot)
-- window_open(robot)
-- window_close(robot)
+if check("the window handle is left of the robot's gripper and the robot's gripper is not near the window handle"):
+        robot.move("gripper to right of window handle")
+    if check("the robot's gripper is near the window handle"):
+        robot.slide("window left")
+    if check("the robot's gripper is in front of the window handle"):
+        robot.push("window left harder")

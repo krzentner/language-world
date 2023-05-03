@@ -1,3 +1,3 @@
 
-    - When the robot's gripper is not vertically aligned with the faucet handle, the robot should put gripper above faucet handle.
-    - When the robot's gripper is vertically aligned with the faucet handle, the robot should turn faucet right.
+    - When the robot's gripper is not vertically aligned with the faucet handle and the robot's gripper is not near the faucet handle, the robot should move gripper near faucet handle.
+    - When the robot's gripper is near the faucet handle, the robot should rotate grip handle right.

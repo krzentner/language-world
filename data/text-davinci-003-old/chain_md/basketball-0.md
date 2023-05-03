@@ -1,10 +1,10 @@
 
-    Steps:  1. Put gripper above the ball  2. Grab the ball with the gripper  3. Line the ball up with the hoop  4. Throw the ball into the hoop
-    To start, move the gripper above the ball.
-    - When the robot's gripper is not vertically aligned with the ball, the robot should put gripper above ball.
-    If the ball becomes right of the gripper, go back to putting the gripper above the ball. Because the ball is round, check if the gripper is lined up with it from the side instead of around it.
-    - When ball is not right of the robot's gripper and ball is not side aligned with the robot's gripper, the robot should grab ball.
-    As long the gripper is still mostly around the ball and the ball isn't lined up with the hoop, line up the ball with the hoop.
-    - When the robot's gripper is side aligned with the ball and the ball is not horizontally aligned with hoop, the robot should align ball to hoop.
-    If the ball is lined up with the hoop to the side, throw it.
-    - When ball is horizontally aligned with hoop, the robot should throw ball into hoop.
+    Steps:  1. Position gripper above the ball  2. Drop gripper around ball  3. Close gripper around ball  4. Move robot with gripper towards the hoop  5. Shoot ball towards the hoop
+    First, put the gripper above the ball, so that we don't bump it while trying to grab it. 
+    - When the robot's gripper is not above the ball, the robot should place gripper above ball.
+    If the gripper isn't around the ball, put it around the ball.
+    - When the robot's gripper is not around ball and the robot's gripper is open, the robot should drop gripper around ball.
+    Once the gripper is around the ball, close it to make sure we securely have it.
+    - When the robot's gripper is around ball and the robot's gripper is open, the robot should close gripper around ball.
+    Move the robot with the ball towards the hoop at a reasonable angle and speed.
+    - When the robot is near the hoop, the robot should shoot the ball towards the hoop.

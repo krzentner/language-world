@@ -1,12 +1,10 @@
-To pick up the puck and hold it at the target location reliably, the robot should perform the following steps:
-
-1. Put the gripper roughly above the puck, so that we do not bump it while trying to grab it.
-   - When the robot's gripper is not above the puck, the robot should place the gripper above the puck.
-2. Move the gripper down and around the puck to pick it up.
-   - When the robot's gripper is above the puck and the gripper is not around the puck, the robot should drop the gripper around the puck.
-3. Close the gripper around the puck to hold it securely.
-   - When the robot's gripper is around the puck and open, the robot should close the gripper around the puck.
-4. Move the puck to the target location.
-   - When the gripper is closed around the puck and the robot's gripper is above the target location, the robot should move the puck to the target location.
-5. Open the gripper to release the puck at the target location.
-   - When the robot's gripper is above the target location and the gripper is closed around the puck, the robot should open the gripper to release the puck at the target location.
+The robot should perform the following steps:
+    Steps:  1. Put gripper above puck  2. Grab the puck with the gripper  3. Move gripper to target location  4. Release puck
+    First, put the gripper above the puck.
+    - When the robot's gripper is not vertically aligned with the puck, the robot should put gripper above puck.
+    Once the gripper is above the puck, grab the puck with the gripper.
+    - When the robot's gripper is vertically aligned with the puck and the gripper is not already closed around the puck, the robot should grab the puck.
+    Move the gripper to the target location while holding the puck.
+    - When the robot's gripper is holding the puck and is not at the target location, the robot should move gripper to target location.
+    Once the gripper and puck are at the target location, release the puck.
+    - When the robot's gripper is at the target location and is holding the puck, the robot should release the puck in place.

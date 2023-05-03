@@ -1,4 +1,4 @@
 To turn the faucet left reliably, the robot should perform the following steps:
-- When the robot's gripper is not almost vertically aligned with the faucet handle, the robot should put gripper above faucet handle.
-- When the robot's gripper is almost vertically aligned with the faucet handle and the robot's gripper is open, the robot should put gripper around the faucet handle.
-- When the robot's gripper is around the faucet handle, the robot should turn the handle to the left until the water starts to flow.
+- When the robot's gripper is not vertically aligned with the faucet handle, the robot should put gripper above the faucet handle.
+- When the robot's gripper is vertically aligned with the faucet handle, the robot should grab the faucet handle.
+- When the robot's gripper is around the faucet handle, the robot should turn the handle to the left to open the faucet.

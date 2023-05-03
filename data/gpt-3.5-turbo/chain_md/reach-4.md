@@ -1,4 +1,4 @@
-To reach to the target location reliably, the robot should perform the following steps:
-
-1. Reach towards the target: We don't have any objects to manipulate, so we can just move the robot's gripper directly to the target location.
-    - When the robot's gripper is not near the reach target, the robot should reach to goal.
+To reach the target location reliably, the robot should perform the following steps:
+    Steps:  1. Determine the position of the target location  2. Move the robot's arm to reach the target location
+    First, the robot needs to determine the position of the target location. This can be done using sensors or input from the user.
+    Once the position of the target location is known, the robot can move its arm to reach the target location. The specific movements required will depend on the position and orientation of the target location and the capabilities of the robot's arm. The robot may need to move its arm up, down, left, right, forward, or backward, depending on the position of the target location. The robot may also need to adjust the orientation of its gripper to properly grasp or manipulate objects at the target location.

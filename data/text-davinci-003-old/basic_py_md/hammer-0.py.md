@@ -1,14 +1,12 @@
 
 
-Here's the code to perform the task:
-
+Solution:
 ```
 # hammer: hit the nail with the hammer
 # def hammer(robot):
-    if check("the robot's gripper is not near the hammer"):
+    if check("the robot's gripper is not close to the hammer"):
         robot.grab("hammer")
-    if check("the robot's gripper is near the hammer and the hammer is not above the nail"):
-        robot.put("hammer above nail")
-    if check("the hammer is above the nail"):
-        robot.hit("hammer on nail")
-```
+    if check("the robot's gripper is close to the hammer and the robot's gripper is not near the nail"):
+        robot.position("gripper near nail")
+    if check("the robot's gripper is near the nail"):
+        robot.swing("hammer at nail")

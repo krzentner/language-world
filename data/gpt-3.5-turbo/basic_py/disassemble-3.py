@@ -1,6 +1,6 @@
-if check("the wrench is attached to the peg and the robot's gripper is not above the wrench"):
-        robot.put("gripper above wrench")
-    if check("the robot's gripper is above the wrench and the gripper is not closed"):
-        robot.close("gripper around wrench")
-    if check("the gripper is closed around the wrench and the wrench is not removed from the peg"):
+if check("the robot's gripper is not vertically aligned with the wrench and the robot's gripper is not above the peg"):
+        robot.move("gripper to above peg")
+    if check("the robot's gripper is above the peg and the robot's gripper is not around the wrench"):
+        robot.grab("wrench")
+    if check("the robot's gripper is around the wrench"):
         robot.pull("wrench off peg")

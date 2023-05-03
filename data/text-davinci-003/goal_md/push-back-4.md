@@ -1,8 +1,10 @@
 
-    Steps:  1. Put gripper below puck  2. Push gripper into the bottom of puck  3. Slide puck to goal
-    The robot can slide the puck backwards by trapping it by pushing up on it from below and moving the gripper. If the puck isn't above the gripper as seen from below, move the gripper below the puck. 
-    - When the robot's gripper is not below puck and the robot's gripper is not vertically aligned with the puck, move the robot's gripper until the robot's gripper is vertically aligned with the puck
-    If the gripper is aligned with the puck but not near it, move the gripper up to the puck to slide it.
-    - When the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck, move the robot's gripper until the robot's gripper is below the puck and the robot's gripper is closed
-    If the gripper is near the puck, we've probably trapped the puck and can slide it to the target location. Close the gripper to make sure we keep control of the puck.
-    - When the robot's gripper is near the puck and the puck is above the robot's gripper, move the robot's gripper until the robot's gripper is below the target location
+    Steps:  1. Put gripper below puck  2. Push gripper against the bottom of the puck  3. Slide the puck backwards to goal
+    First, put the gripper slightly below the puck.
+    - When the robot's gripper is not slightly below puck, move the robot's gripper until the robot's gripper is slightly below the puck and the robot's gripper is closed
+    We can push the puck and slide it to the target location if the gripper is slightly below the puck. 
+    - When the robot's gripper is slightly below puck and the robot's gripper is not behind the puck, move the robot's gripper until the robot's gripper is behind the puck
+    Now that the gripper is behind the puck, push it a bit by moving the gripper upwards.
+    - When the robot's gripper is above puck and the robot's gripper is not slightly below the puck, move the robot's gripper until the robot's gripper is slightly below the puck
+    If the gripper is slightly below the puck, slide it to the target location.
+    - When the robot's gripper is slightly below puck, move the robot's gripper until the robot's gripper is behind the target location

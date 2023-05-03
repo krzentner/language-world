@@ -1,8 +1,6 @@
 
-    Steps:  1. Put gripper above the button  2. Drop gripper around the button  3. Push down on the button
-    First, put the gripper above the button so that we don't miss the button by pushing too far. 
-    - When the robot's gripper is not above the button, move the robot's gripper until the robot's gripper is above the button
-    If the gripper isn't around the button, put it around the button.
-    - When the robot's gripper is not around button, move the robot's gripper until the robot's gripper is around the button and the robot's gripper is closed
-    Now that the gripper is around the button, push down on the button.
-    - When the robot's gripper is around button and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the button
+    Steps:  1. Line up the gripper as viewed from front  2. Push down on the button
+    We need to line up the gripper from the front before we can push down on the button.
+    - When the robot's gripper is not forward aligned with button, move the robot's gripper until the robot's gripper is forward aligned with the button and the robot's gripper is closed
+    Once the robot's gripper is lined up with the button, we need to push down to activate it.
+    - When the robot's gripper is in front of the button, move the robot's gripper until the robot's gripper is near the button

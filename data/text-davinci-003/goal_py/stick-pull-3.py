@@ -1,10 +1,16 @@
 
     # Steps:
-    #  1. Get the robot's gripper around the stick
-    #  2. Pull the thermos toward the target location
-    # First, put the robot's gripper around the stick.
-    if check("the robot's gripper is not near the stick"):
+    #  1. Put gripper above stick
+    #  2. Drop gripper around stick
+    #  3. Close gripper around stick
+    #  4. Pull thermos to goal by moving stick
+    # First, put the gripper above the stick.
+    if check("the robot's gripper is not above the stick"):
+        robot.move_gripper("above the stick")
+    # If the gripper isn't around the stick, put it around the stick.
+    if check("the robot's gripper is not around the stick and the robot's gripper is open"):
         robot.move_gripper("near the stick", close_gripper=True)
-    # Then we can pull the thermos toward the target location.
-    if check("the robot's gripper is around the stick"):
-        robot.move_gripper("toward the target location")
+    # Once the gripper is around the stick and closed, we can start pulling the
+    # thermos with it.
+    if check("the robot's gripper is near the stick and the robot's gripper is closed"):
+        robot.move_gripper("near the target location")

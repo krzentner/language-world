@@ -1,6 +1,6 @@
 
 
-Here's your program:
+Answer:
 
 ```
 # window-close: slide the window closed to the right

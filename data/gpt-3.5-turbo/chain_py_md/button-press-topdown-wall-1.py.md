@@ -1,22 +1,19 @@
 # button-press-topdown-wall: push the button down from above with a short wall in the way
-# def button_press_topdown_wall(robot):
+def button_press_topdown_wall(robot):
     # Steps:
-    #  1. Line up the gripper as viewed from above
-    #  2. Push down on the button from the top while avoiding the wall using a zig-zag pattern
-    # If the robot's gripper is not vertically lined up with the button,
-    # line up the gripper from above.
+    #  1. Move gripper near button
+    #  2. Move gripper up above the wall
+    #  3. Align gripper with button
+    #  4. Push down on button
+    # If the robot's gripper is not near the button, move it near the button.
+    if check("the robot's gripper is not near button"):
+        robot.move("gripper near button")
+    # If the robot's gripper is below the wall, move it up above the wall.
+    if check("the robot's gripper is below the wall"):
+        robot.move("gripper up above the wall")
+    # If the robot's gripper is not vertically aligned with the button, align it.
     if check("the robot's gripper is not vertically aligned with button"):
-        robot.put("gripper above button")
-    # If there's a wall blocking the path to the button,
-    # move down and to the right of the button, then up and to the left,
-    # and continue zig-zagging until we can push down on the button.
-    # Move the gripper down and to the right.
-    if check("there is a wall blocking the path to the button and the robot's gripper is not close enough"):
-        robot.move("down and right")
-    # Move the gripper up and to the left.
-    elif check("there is a wall blocking the path to the button and the robot's gripper is not close enough"):
-        robot.move("up and left")
-    # Once we're close enough and the gripper is lined up with the button, 
-    # push down to press the button.
-    elif check("the robot's gripper is vertically aligned with button and the robot's gripper is close enough"):
+        robot.align("gripper with button")
+    # Push down on the button.
+    if check("the robot's gripper is vertically aligned with button"):
         robot.push("down on button")

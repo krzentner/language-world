@@ -1,6 +1,8 @@
-if check("the robot's gripper is not holding the stick"):
-        robot.hold("the stick")
-    if check("the robot's gripper is not aligned with the thermos"):
-        robot.move("the gripper to be in front of the thermos")
-    if check("the robot's gripper is touching the thermos with the stick"):
-        robot.push("the thermos to the goal using the stick")
+if check("the robot's gripper is not near the stick"):
+        robot.grab("stick")
+    if check("the robot's gripper is above the thermos and the robot's gripper is not vertically aligned with the thermos"):
+        robot.put("gripper above the thermos")
+    if check("the robot's gripper is vertically aligned with the thermos and the robot's gripper is not near the thermos and the robot's gripper is not holding the thermos with the stick"):
+        robot.grasp("thermos with the stick")
+    if check("the robot's gripper is holding the thermos with the stick"):
+        robot.push("stick towards the goal with thermos")

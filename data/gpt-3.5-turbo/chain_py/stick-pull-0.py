@@ -1,16 +1,15 @@
 # Steps:
-    #   1. Put the gripper on one end of stick and the other end of stick near thermos
-    #   2. Pinch the thermos with the gripper
-    #   3. Drag the thermos to the target location using the stick
-    # First, put one end of the stick near the thermos and the other end of the stick inside the gripper.
-    if check("one end of the stick is not near the thermos and the other end is not inside the gripper"):
-        robot.place("one end of the stick near the thermos and the other end inside the gripper")
-    # Check if the thermos is not between the gripper and the target location, move the gripper near the thermos.
-    if check("the gripper is not near the thermos and thermos is not between the gripper and the target location"):
-        robot.put("the gripper near the thermos")
-    # Check if the gripper is near to the thermos and not pinching, pinch the thermos with the gripper.
-    if check("the gripper is near the thermos and the gripper is not pinching the thermos"):
-        robot.pinch("the thermos with the gripper")
-    # Check if thermos has been pinched with the gripper, now move the thermos to the target location using the stick.
-    if check("the gripper has pinched the thermos"):
-        robot.drag("the thermos to the target location using the stick")
+    #  1. Put gripper around stick and grab it
+    #  2. Line up stick with the thermos handle
+    #  3. Pull the stick towards the target location to move the thermos
+    # First, put the gripper around the stick and grab it.
+    if check("the robot's gripper is not around stick"):
+        robot.grab("stick")
+    # Once the gripper is around the stick, line up the stick with the thermos
+    # handle.
+    if check("the robot's gripper is around stick and the stick is not aligned with thermos handle"):
+        robot.align("stick with thermos handle")
+    # Once the stick is lined up with the thermos handle, we can pull the stick
+    # towards the target location to move the thermos.
+    if check("the stick is aligned with thermos handle"):
+        robot.pull("stick towards target location")

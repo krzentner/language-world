@@ -1,9 +1,9 @@
 
 
-Steps:  1. Put gripper above door handle  2. Drop gripper around door handle  3. Pull open the door
-    First, put the gripper roughly above door handle, so that we don't bump it while trying to grab it.
-    - When the robot's gripper is not almost vertically aligned with door handle, the robot should put gripper above door handle.
-    As long as the gripper is almost lined up, closing it should line it up all the way.
-    - When the robot's gripper is almost vertically aligned with the door handle and the robot's gripper is open, the robot should put gripper around door handle.
-    As long as the gripper is still vertically aligned with the door handle, it's being opened, so keep pulling.
-    - When the robot's gripper is vertically aligned with the door handle, the robot should pull door open.
+    Steps:  1. Put gripper near the door handle  2. Pull back on the door handle to open the door
+    First, we should move the robot's gripper near enough to the door handle that it can be grabbed.
+    - When the robot's gripper is not near the door handle, the robot should move the gripper to near the door handle.
+    Once the gripper is near enough to the door handle, we should be able to grab it.
+    - When the robot's gripper is near the door handle and the robot's gripper is not closed around the door handle, the robot should grab the door handle.
+    If the gripper is closed around the door handle, then we can pull the door open.
+    - When the robot's gripper is closed around the door handle, the robot should pull the door open.

@@ -1,5 +1,5 @@
 
-    if check("the robot's gripper is not above the lever"):
-        robot.put("gripper above lever")
-    if check("the robot's gripper is above the lever and the lever is not rotated up"):
-        robot.pull("lever up")
+    if check("the robot's gripper is not near the lever"):
+        robot.grab("lever")
+    if check("the robot's gripper is near the lever and the lever is down"):
+        robot.rotate("up")

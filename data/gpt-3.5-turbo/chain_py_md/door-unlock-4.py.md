@@ -1,13 +1,15 @@
 # door-unlock: turn the dial on the door
-# def door_unlock(robot):
+def door_unlock(robot):
     # Steps:
-    #  1. Put gripper around door knob
-    #  2. Turn the dial to the right until the lock clicks open
-    # First, put the gripper around the door knob.
-    if check("the robot's gripper is not around door knob and the robot's gripper is open"):
-        robot.drop("gripper around door knob")
-    # Turn the dial to the right until the lock clicks open.
-    # Check if the door is locked, if it is then start turning, else move on.
-    if check("the door is locked"):
-        while check("the lock is not open"):
-            robot.turn("dial to the right")
+    #  1. Move the gripper to the dial
+    #  2. Grab the dial with the gripper
+    #  3. Turn the dial clockwise until it stops
+    # First, move the gripper to the dial.
+    if check("the robot's gripper is not near the door dial"):
+        robot.move("gripper to door dial")
+    # Once the gripper is near the dial, grab it.
+    if check("the robot's gripper is near door dial and the robot's gripper is not around door dial"):
+        robot.grab("door dial")
+    # Once the gripper is around the dial, turn it.
+    if check("the robot's gripper is around door dial"):
+        robot.turn("dial clockwise until it stops")

@@ -1,6 +1,6 @@
 
-    Steps:  1. Line up the gripper as viewed from above  2. Push down on the button from the top
-    Because this is "topdown", we just need to line up the gripper from above. Line up the robot's gripper from above.
-    - When the robot's gripper is not vertically aligned with button, the robot should put gripper above button.
-    Now that the gripper is lined up, just push down on the button.
-    - When the robot's gripper is vertically aligned with button, the robot should push down on button.
+
+Steps:  1. Put gripper above button  2. Push gripper down on the button  3. Push button down all the way
+- When the robot's gripper is not vertically aligned with the button, the robot should put gripper above button.
+- When the robot's gripper is vertically aligned with button and the robot's gripper is not near the button, the robot should push gripper down on the button.
+- When the robot's gripper is near the button, the robot should push button down all the way.

@@ -1,5 +1,4 @@
 
-    - When the robot's gripper is not close to the ball, the robot should move the gripper to the ball.
-    - When the robot's gripper is close to the ball, the robot should lift up the ball.
-    - When the robot's gripper is above the ball, the robot should move the gripper to the hoop with the ball.
-    - When the robot's gripper is above the hoop with the ball, the robot should move the gripper down, lower the ball into the hoop.
+    - When the robot's gripper is not above the ball, the robot should grab the ball with the gripper.
+    - When the robot's gripper is forward aligned with the hoop and the ball is below the robot's gripper, the robot should adjust the angle of the ball towards the hoop. 
+    - When the robot's gripper is vertically aligned with the hoop and the ball is below the robot's gripper, the robot should push the ball into the hoop.

@@ -1,6 +1,8 @@
 
-    Steps:  1. Line up the gripper as viewed from above  2. Push down on the button from the top, pushing the wall downwards
-    We should line the gripper up from above, just like with the other button press task, and then push down on the button against the wall.
-    - When the robot's gripper is not almost vertically aligned with button, move the robot's gripper until the robot's gripper is almost vertically aligned with button and the robot's gripper is closed
-    Now that the gripper is lined up, push down on the button while pushing the wall downwards.
-    - When the robot's gripper is vertically aligned with button and the wall is not downwards, move the robot's gripper until the wall is downwards
+    Steps:  1. Move the gripper above the button  2. Move the gripper around the wall and to the button  3. Push down on the button
+    The only difference between this task and the previous is that a wall is in the way, so we need to move the gripper around the wall to get to the button.
+    - When the robot's gripper is not above the button, move the robot's gripper until the robot's gripper is above the wall
+    Once the gripper is above the wall, move it around the wall and to the button.
+    - When the robot's gripper is above the wall, move the robot's gripper until the robot's gripper is around the wall and near the button
+    Now that the gripper is lined up, just push down on the button.
+    - When the robot's gripper is around the wall and near the button, move the robot's gripper until the robot's gripper is vertically aligned with the button and the robot's gripper is closed

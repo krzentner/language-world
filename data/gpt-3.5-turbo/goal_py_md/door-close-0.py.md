@@ -1,14 +1,18 @@
 # door-close: push the door closed to the target location
-# def door_close(robot):
+def door_close(robot):
     # Steps:
-    #  1. Put gripper roughly around the back of the door
-    #  2. Push the door closed to the target location
-    # If the gripper is not near the door, move it to the door location
-    if check("the robot's gripper is not near the door location"):
-        robot.move_gripper("near the door location")
-    # If the gripper is near the door, start pushing it closed
-    if check("the robot's gripper is near the door location"):
-        robot.move_gripper("around the back of the door")
-    # If the gripper is around the back of the door, push the door closed
-    if check("the robot's gripper is around the back of the door"):
-        robot.move_gripper("horizontally aligned with the door handle")
+    #  1. Put gripper almost vertically above door handle
+    #  2. Drop gripper around door handle
+    #  3. Push the door closed
+    # If the gripper is not almost vertically above the door handle, move it to
+    # the right location.
+    if check("the robot's gripper is not almost vertically aligned with door handle"):
+        robot.move_gripper("almost vertically aligned with the door handle", close_gripper=True)
+    # If the gripper isn't around the door handle yet, drop it around the door
+    # handle.
+    if check("the robot's gripper is not around door handle and the robot's gripper is almost vertically aligned with the door handle"):
+        robot.move_gripper("around the door handle")
+    # If the gripper is around the door handle, push the door closed to the
+    # target location.
+    if check("the robot's gripper is around door handle"):
+        robot.move_gripper("horizontally aligned with the target location")

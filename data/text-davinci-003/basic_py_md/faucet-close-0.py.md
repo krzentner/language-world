@@ -1,8 +1,12 @@
 
 
-if check("the robot's gripper is not near of the faucet handle"):
-    robot.reach("gripper near faucet handle")
-if check("the robot's gripper is not aligned with the faucet handle"):
-    robot.put("gripper around faucet handle")
-if check("the robot's gripper is around faucet handle and the faucet is not in closed position"):
-    robot.turn("faucet right")
+The code for `faucet_close` should be:
+
+```
+# faucet-close: turn the faucet right
+def faucet_close(robot):
+    if check("the robot's gripper is not near the faucet handle"):
+        robot.move("gripper near the faucet handle")
+    if check("the robot's gripper is near the faucet handle"):
+        robot.turn("faucet right")
+```

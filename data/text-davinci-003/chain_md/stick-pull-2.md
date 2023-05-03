@@ -1,10 +1,10 @@
 
-    Steps:  1. Put the gripper above the stick  2. Grab the stick with the robot's gripper  3. Move the robot's gripper to near the thermos  4. Place the stick against the thermos and pull the thermos to the target location
-    First, put the gripper above the stick to ensure that the robot can grab it.
-    - When the robot's gripper is not above the stick, the robot should put the gripper above stick.
-    If the the stick becomes right of the gripper, go back to putting the gripper above the stick.
-    - When stick is not right of the robot's gripper and stick is not forward aligned with the robot's gripper, the robot should grab stick.
-    Once the stick is grabbed, move the gripper near the thermos.
-    - When the robot's gripper is near the thermos and the stick is below the robot's gripper, the robot should put the stick against thermos. 
-    Move the robot's gripper back and use the stick to pull the thermos to the target location.
-    - When the robot's gripper is away from the thermos and the stick is touching the thermos, the robot should pull the thermos using the stick to the target location.
+    Steps:  1. Put gripper above stick  2. Grab the stick with the gripper  3. Line the stick up next to the thermos  4. Push the stick against the thermos to push it to the target location
+    First, put the gripper above the stick.
+    - When the robot's gripper is not vertically aligned with the stick, the robot should put gripper above stick.
+    If the stick becomes left of the gripper, go back to putting the gripper above the stick. Because the stick is a long object, check if the gripper is lined up with it from the side instead of around it.
+    - When stick is not left of the robot's gripper and stick is not side aligned with the robot's gripper, the robot should grab stick.
+    If the gripper is side-aligned with the stick we can now push the stick against the thermos to slide it towards the target location.
+    - When the robot's gripper is side aligned with the stick and the gripper is not pushing against the thermos, the robot should push the stick against the thermos.
+    If the stick is pushing against the thermos, slide the stick and thermos towards the goal location.
+    - When the stick is pushing against the thermos, the robot should push the stick and thermos to the goal.

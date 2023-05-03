@@ -1,10 +1,11 @@
 
     # Steps:
-    #  1. Put gripper above the soccer ball
-    #  2. Push the soccer ball to the target location
-    # First, put the gripper above the soccer ball.
-    if check("the robot's gripper is not above the soccer ball"):
-        robot.place("gripper above soccer ball")
-    # If the gripper is in front of the soccer ball, we can push it.
-    if check("the robot's gripper is forward aligned with soccer ball"):
+    #  1. Put gripper in front of soccer ball
+    #  2. Push soccer ball to goal
+    # If the soccer ball is not within reach of the robot's gripper, move the 
+    # gripper in front of the soccer ball.
+    if check("the soccer ball is not near robot's gripper"):
+        robot.put("gripper in front of soccer ball")
+    # If the robot's gripper is near the soccer ball, we can push it to the goal.
+    if check("the robot's gripper is near the soccer ball"):
         robot.push("soccer ball to goal")

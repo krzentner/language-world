@@ -1,6 +1,6 @@
 
 
-Solution:
+Your program should look like this:
 
 ```
 # coffee-button: push the button on the coffee machine

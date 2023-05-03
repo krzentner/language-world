@@ -1,5 +1,4 @@
 
-    - When the robot's gripper is not above the wrench, the robot should reach to wrench.
-    - When the robot's gripper is above wrench, the robot should grab the wrench.
-    - When the robot's gripper is around wrench and the wrench is not pulled up, the robot should pull wrench up.
-    - When the wrench is pulled up, the robot should pull wrench off peg.
+    - When the robot's gripper is not near the wrench and the robot's gripper is not above the wrench, the robot should put gripper above wrench.
+    - When robot's gripper is near the wrench and the robot's gripper is open, the robot should grab the wrench.
+    - When the robot's gripper is below the wrench, the robot should pull the wrench off the peg.

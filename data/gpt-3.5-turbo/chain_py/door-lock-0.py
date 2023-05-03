@@ -1,13 +1,12 @@
-# Steps:
-    #  1. Move the gripper to the dial
-    #  2. Grab the dial with the gripper
-    #  3. Turn the dial to the correct combination
-    # First, move the gripper to the dial we need to turn.
+# door-lock: turn the dial on the door
+def door_lock(robot):
+    # Steps:
+    #  1. Put gripper on dial
+    #  2. Turn the dial a certain number of times
+    # Because most door locks have a cylindrical dial, we just need to move the
+    # gripper onto the dial and turn it a specific number of times.
+    # Move the gripper to the dial.
     if check("the robot's gripper is not near the dial"):
         robot.move("gripper to dial")
-    # Once the gripper is near the dial, grab it with the gripper.
-    if check("the robot's gripper is near the dial and the robot's gripper is not around the dial"):
-        robot.grab("dial")
-    # Turn the dial to the correct combination by rotating it.
-    if check("the robot's gripper is around the dial"):
-        robot.rotate("dial to the correct combination")
+    # Twist the dial a certain number of times in one direction to lock it.
+    robot.twist("dial", "clockwise", 3)

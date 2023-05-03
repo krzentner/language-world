@@ -1,12 +1,9 @@
 
     # Steps:
-    #  1. Put gripper above puck
+    #  1. Put gripper above the puck
     #  2. Drop gripper around puck
     #  3. Close gripper around puck
-    #  4. Move puck to goal
-    #  5. Lift gripper up until it's above the wall
-    #  6. Move the puck over the wall
-    #  7. Place puck at goal
+    #  4. Move puck to goal, with wall in the way
     # First, put the gripper roughly above puck, so that we don't bump it while
     # trying to grab it.
     if check("the robot's gripper is not above the puck"):
@@ -20,9 +17,7 @@
         robot.close("gripper around puck")
     # We closed the gripper, and the puck is still near the gripper, so maybe we
     # grabbed it.
-    # Try to move the puck to the goal.
-    # If we didn't grab it, we'll just go back to an earlier step.
+    # Determine where the wall is in relation to the puck and the goal, and
+    # move the puck (with the wall in the way) to the goal.
     if check("the robot's gripper is above puck and the robot's gripper is closed"):
-        robot.lift("gripper up until it's above the wall")
-        robot.move("puck over wall")
-        robot.place("puck at goal")
+        robot.navigate("puck and wall to goal")

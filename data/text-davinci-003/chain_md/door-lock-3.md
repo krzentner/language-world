@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above door lock  2. Drop gripper around door lock  3. Turn dial in desired direction 
-    First, put the gripper roughly above the lock, so that we don't bump it while trying to grab it.
-    - When the robot's gripper is not above the door lock, the robot should put gripper above door lock.
-    Once the gripper is lined up above the door lock, we should be able to grab the door lock by moving the gripper down around it.
-    - When the robot's gripper is vertically aligned with door lock and the robot's gripper is not around door lock, the robot should put gripper around door lock.
-    Once the gripper is around the door lock, we can just turn the dial in the desired direction.
-    - When the robot's gripper is around the door lock, the robot should turn dial in desired direction.
+    Steps:  1. Put gripper above the dial  2. Drop gripper around dial  3. Rotate dial
+    To turn the dial, we should start by putting the gripper over the dial.
+    - When the robot's gripper is not vertically aligned with dial, the robot should put gripper above dial.
+    Once the gripper is lined up, close the gripper around the dial to grab it.
+    - When the robot's gripper is vertically aligned with dial and the robot's gripper is not around dial, the robot should put gripper around dial.
+    Once the gripper is around the dial, rotate the dial.
+    - When the robot's gripper is around dial, the robot should rotate dial.

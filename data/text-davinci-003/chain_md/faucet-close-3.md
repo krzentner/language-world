@@ -1,8 +1,9 @@
 
-    Steps:  1. Put the gripper directly above the faucet handle  2. Grasp the faucet handle from the top  3. Push the faucet handle rightward
-    First, put the gripper directly above the faucet handle.
-    - When the robot's gripper is not directly above the faucet handle, the robot should put gripper above faucet handle. 
-    Once the gripper is above the faucet handle, grasp the handle from the top with the gripper. 
-    - When the robot's gripper is above the faucet handle and the robot's gripper is open, the robot should grasp faucet handle.
-    If the gripper is around the faucet handle and it's lined up horizontally with the faucet handle, push the handle rightward.  
-    - When the robot's gripper is grasping faucet handle and the robot's gripper is horizontally aligned with faucet handle, the robot should push faucet handle rightward.
+
+Steps:  1. Put gripper near the faucet handle  2. Start turning the faucet handle to the right  3. Push firmly against the faucet handle
+    If the faucet handle is far from the robot's gripper, we should move the gripper near the faucet handle.
+    - When the faucet handle is far from the robot's gripper, the robot should move gripper near faucet handle.
+    Once the gripper is near the faucet handle, start turning it to the right.
+    - When the robot's gripper is  near the faucet handle, the robot should turn faucet handle to the right.
+    If the faucet handle begins to get stuck, push firmly against the faucet handle to ensure it stays closed.
+    - When the robot's faucet handle is getting stuck, the robot should push firmly against the faucet handle.

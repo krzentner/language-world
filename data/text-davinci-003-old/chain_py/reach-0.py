@@ -1,5 +1,5 @@
 
-    # Steps:
+    # Steps: 
     #  1. Reach towards the target
     # We don't have any objects to manipulate, so we can just move the robot's
     # gripper directly to the target location

@@ -1,0 +1,4 @@
+To reach to the target location reliably, the robot should perform the following steps:
+
+1. Reach towards the target: We don't have any objects to manipulate, so we can just move the robot's gripper directly to the target location.
+    - When the robot's gripper is not near the reach target, the robot should reach to goal.

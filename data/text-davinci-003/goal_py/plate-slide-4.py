@@ -1,16 +1,14 @@
 
     # Steps:
-    #  1. Put gripper below the plate
-    #  2. Grasp the plate
-    #  3. Slide the plate to the target location
-    # First, put the gripper below the plate.
-    if check("the robot's gripper is not below the plate"):
-        robot.move_gripper("below the plate")
-    # If the gripper is close to the plate but not grasped, close the gripper
-    # to get a good grip.
-    # This should also bring the plate in line with where it needs to go.
-    if check("the robot's gripper is below the plate and the robot's gripper is closed"):
-        robot.move_gripper("above the plate")
-    # Now that the gripper is around the plate, slide the plate to the target location.
-    if check("the robot's gripper is above the plate"):
-        robot.move_gripper("above the target location")
+    #  1. Put gripper on one side of plate
+    #  2. Push plate to goal
+    # First, line up the robot's gripper along the side of the plate.
+    if check("the robot's gripper is not horizontally aligned with the plate"):
+        robot.move_gripper("left of the plate")
+    # Then, move the gripper to the side to start pushing the plate.
+    # We'll open the gripper to get a better grip.
+    if check("the robot's gripper is horizontally aligned with the plate"):
+        robot.move_gripper("near the plate", close_gripper=False)
+    # Now push the plate to the goal.
+    if check("the robot's gripper is near the plate"):
+        robot.move_gripper("forward aligned with the plate")

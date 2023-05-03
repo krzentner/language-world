@@ -1,4 +1,4 @@
-if check("the robot's gripper is not above the faucet handle"):
-        robot.move("gripper above faucet handle")
-    if check("the robot's gripper is above the faucet handle and the faucet handle is turned left"):
-        robot.turn("faucet right")
+if check("the robot's gripper is not around faucet handle"):
+        robot.grab("faucet handle")
+    if check("the robot's gripper is around faucet handle and the faucet handle is not turned right"):
+        robot.turn("faucet handle right")

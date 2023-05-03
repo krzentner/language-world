@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above the dial  2. Grab the dial with the gripper  3. Rotate the dial to the desired direction  4. Release the dial
-    First, put the gripper above the dial so that it can grab it.
-    - When the robot's gripper is not vertically aligned with the dial, move the robot's gripper until the robot's gripper is vertically aligned with the dial and the robot's gripper is closed
-    Now that the gripper is lined up, just rotate the dial in the desired direction.
-    - When the robot's gripper is vertically aligned with the dial, move the robot's gripper until the robot's gripper is around the dial
-    Once the dial is rotated to the desired direction, release it.
-    - When the robot's gripper is around the dial, move the robot's gripper until the robot's gripper is above the dial
+    Steps:  1. Put gripper on top of the door dial  2. Close gripper around the door dial  3. Turn the door dial
+    First, the gripper should be put towards the top of the door dial, so that it is able to grab around the edge of the dial.
+    - When the robot's gripper is not near the door dial, move the robot's gripper until the robot's gripper is near the door dial
+    When the robot's gripper is near the door dial, close the gripper around it.
+    - When the robot's gripper is near the door dial and the robot's gripper is not closed, move the robot's gripper until the robot's gripper is around the door dial and the robot's gripper is closed
+    Finally, turn the door dial until it is in the desired position.
+    - When the robot's gripper is around the door dial, move the robot's gripper until the door dial is in the desired position

@@ -1,7 +1,4 @@
 
-    - When the robot's gripper is not above the puck, the robot should place gripper above puck.
-    - When the robot's gripper is not around the puck and the robot's gripper is open, the robot should drop gripper around puck.
-    - When the robot's gripper is near the puck and the robot's gripper is open, the robot should close gripper around puck.
-    - When the robot's gripper is above the puck and the robot's gripper is closed, the robot should push the puck against wall away from goal.
-    - When the robot's gripper is near the puck and the wall is right of the robot's gripper, the robot should push wall away from goal.
-    - When the robot's gripper is near the puck and the wall is no longer blocking the goal, the robot should push the puck to the goal.
+    - When the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck, the robot should put the gripper above the puck.
+    - When the robot's gripper is vertically aligned with the puck and the robot's gripper is forward aligned with the wall, the robot should push the wall to the side.
+    - When the robot's gripper is near the puck and the puck is below the robot's gripper, the robot should slide the puck to the goal.

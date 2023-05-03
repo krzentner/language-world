@@ -1,11 +1,10 @@
 
     # Steps:
-    #  1. Line up the gripper as viewed from above
-    #  2. Push down on the button from the top
-    # Because this is "topdown", we just need to line up the gripper from above.
-    # Line up the robot's gripper from above.
-    if check("the robot's gripper is not vertically aligned with button"):
-        robot.put("gripper above button")
-    # Now that the gripper is lined up, just push down on the button.
-    if check("the robot's gripper is vertically aligned with button"):
-        robot.push("down on button")
+    #  1. Put gripper above button
+    #  2. Push the button down
+    # First, put the gripper just slightly above the button.
+    if check("the robot's gripper is not almost vertically above button"):
+        robot.put("gripper almost above button")
+    # If it's lined up, push the button down.
+    if check("the robot's gripper is almost vertically above button"):
+        robot.push("down the button")

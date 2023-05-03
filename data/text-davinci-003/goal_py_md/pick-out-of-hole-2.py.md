@@ -1,28 +1,19 @@
 
 
-We will use the same process for this task as for the `peg-insert-side` task. 
+Steps:
+1. Put gripper to the side of the peg
+2. Drop gripper around peg
+3. Pull peg out of hole
+4. Move peg to target location
 
-# pick-out-of-hole: pick up the peg out of the hole and hold it at the target location
-# def pick_out_of_hole(robot):
-    # Steps:
-    #  1. Put gripper above the peg
-    #  2. Grab the peg with the gripper
-    #  3. Pull the peg out of the hole
-    # First, put the gripper above the peg.
-    if check("the robot's gripper is not vertically aligned with the peg"):
-        robot.move_gripper("vertically aligned with the peg")
-    # If the peg becomes left of the gripper, go back to putting the gripper
-    # above the peg.
-    # Because the peg is a long object, check if the gripper is lined up with it
-    # from the front instead of around it.
-    if check("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper"):
-        robot.move_gripper("forward aligned with the peg", close_gripper=True)
-    # As long the gripper is still mostly around the peg and the peg is not lined
-    # up with the hole, line up the peg with the hole.
-    if check("the peg is horizontally aligned with the hole and the peg is not left of the robot's gripper"):
-        robot.move_gripper("around the peg")
-        robot.move_gripper("vertically aligned with the hole")
-    # Finally, when the peg is in line with the hole, move it out of the hole by
-    # pulling the peg to the left.
-    if check("the peg is horizontally aligned with the hole and the peg is left of the robot's gripper"):
-        robot.move_gripper("left of the hole")
+if check("the robot's gripper is not to the side of the peg"):
+    robot.move_gripper("to the side of the peg")
+
+if check("the robot's gripper is not around peg and the robot's gripper is open"):
+    robot.move_gripper("near the peg", close_gripper=True)
+
+if check("the robot's gripper is around peg"):
+    robot.move_gripper("vertically aligned with the peg and near the hole")
+
+if check("the robot's gripper is around peg and the peg is pulled out of the hole"):
+    robot.move_gripper("near the target location")

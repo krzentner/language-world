@@ -1,8 +1,14 @@
 
 
-if check("the robot's gripper is not next to the wall and not vertically aligned with the button"):
-    robot.put("gripper next to the wall above the button")
-if check("the robot's gripper is vertically aligned with the button and not near the button"):
-    robot.grab("gripper above the wall and push towards the button")
-if check("the robot's gripper is near the button"):
-    robot.push("button down")
+Then complete the program:
+
+```
+# button-press-topdown-wall: push the button down from above with a short wall in the way
+def button_press_topdown_wall(robot):
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.put("gripper over short wall")
+    if check("the robot's gripper is vertically aligned with the top of the short wall"):
+        robot.stretch("gripper over wall and above button")
+    if check("the robot's gripper is vertically aligned with button"):
+        robot.push("down on button")
+```

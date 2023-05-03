@@ -1,21 +1,23 @@
 
 
-Solution:
+Then add the following code:
 
 ```
-# door-unlock: turn the dial on the door
-# def door_unlock(robot):
     # Steps:
-    #  1. Put the gripper above the dial
+    #  1. Put gripper near the door dial
     #  2. Grab the dial with the gripper
-    #  3. Rotate the dial to unlock
-    # First, put the gripper above the dial.
-    if check("the robot's gripper is not vertically aligned with the dial"):
-        robot.put("gripper above dial")
-    # Once the gripper is lined up, grab the dial.
-    if check("the robot's gripper is vertically aligned with the dial and the robot's gripper is not around dial"):
-        robot.grab("dial")
-    # As long as the gripper is still around the dial, rotate the dial to unlock
-    if check("the robot's gripper is above dial and the robot's gripper is closed"):
-        robot.rotate("dial to unlock")
+    #  3. Turn the dial clockwise
+    #  4. Pull open the door
+    # First, put the gripper near the door dial.
+    if check("the robot's gripper is not near the door dial"):
+        robot.put("gripper near door dial")
+    # If the gripper is not around the dial yet, grab it.
+    if check("the robot's gripper is not around the door dial and the robot's gripper is open"):
+        robot.drop("gripper around door dial")
+    # Once the gripper is around the dial, turn it clockwise until it clicks.
+    if check("the robot's gripper is around the door dial"):
+        robot.turn("dial clockwise")
+    # Once it clicks, we should be able to pull the door open.
+    if check("the dial is unlocked"):
+        robot.pull("door open")
 ```

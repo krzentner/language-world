@@ -1,19 +1,17 @@
 # Steps:
-    # 1. Put gripper above the peg
-    # 2. Apply force on the peg to loosen it
-    # 3. Slide the gripper around the peg
-    # 4. Carefully pull the gripper and the peg out of the hole
+    #  1. Put gripper above the peg
+    #  2. Grab the peg with the gripper
+    #  3. Slide the peg sideways out of the hole
     # First, put the gripper above the peg.
     if check("the robot's gripper is not vertically aligned with the peg"):
         robot.move_gripper("vertically aligned with the peg")
-    # If the gripper isn't around the peg, put it around the peg and apply
-    # force to loosen it.
-    if check("the robot's gripper is not around the peg"):
-        robot.move_gripper("around the peg")
-    # Slide the gripper around the peg.
-    if check("the robot's gripper is around the peg and not horizontally aligned with the peg's hole"):
-        robot.move_gripper("horizontally aligned with the peg's hole")
-    # If the gripper is horizontally aligned with the hole, carefully pull the
-    # gripper and the peg out.
-    if check("the robot's gripper is around the peg and is horizontally aligned with the peg's hole"):
-        robot.move_gripper("above the peg and hole")
+    # If the peg becomes left of the gripper, go back to putting the gripper
+    # above the peg.
+    # Because the peg is a long object, check if the gripper is lined up with it
+    # from the front instead of around it.
+    if check("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper"):
+        robot.move_gripper("forward aligned with the peg", close_gripper=True)
+    # As long the gripper is still mostly around the peg, slide the peg out of
+    # the hole to the side.
+    if check("the robot's gripper is forward aligned with the peg"):
+        robot.move_gripper("left of the peg", open_gripper=True)

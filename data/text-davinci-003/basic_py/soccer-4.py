@@ -1,9 +1,9 @@
 
-    if check("Ball is not centered and the robot's gripper is not vertically aligned with the ball"):
-        robot.put("gripper in center of ball")
-    if check("the robot's gripper is vertically aligned with the ball and the robot's gripper is not near the ball"):
-        robot.push("gripper into the ball")
-    if check("the robot's gripper is near the ball and the ball is not centered"):
-        robot.pull("ball towards goal")
-    if check("the ball is centered and the robot's gripper is near the ball"):
-        robot.push("ball towards goal")
+    if check("the robot's gripper is not near the soccer ball"):
+        robot.put("gripper close to the soccer ball")
+    if check("the robot's gripper is near the soccer ball and robot's gripper is open"):
+        robot.close("gripper around soccer ball")
+    if check("the robot's gripper is around the soccer ball and the goal is not in front of the robot's gripper"):
+        robot.put("the goal in front of the gripper")
+    if check("the goal is in front of the robot's gripper"):
+        robot.kick("the soccer ball towards the goal")

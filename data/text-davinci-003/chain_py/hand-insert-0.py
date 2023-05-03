@@ -1,23 +1,22 @@
 
     # Steps:
-    #  1. Put gripper above puck
-    #  2. Drop gripper around puck
-    #  3. Close gripper around puck
-    #  4. Move gripper to goal
-    # We need to put the gripper above the puck before we can grab it, because
-    # of the angle of the robot's gripper.
-    if check("the robot's gripper is not vertically aligned with puck"):
-        robot.put("gripper above puck")
-    # Once the gripper is lined up above the puck, we should be able to grab the
-    # puck by moving the gripper down around it.
-    if check("the robot's gripper is vertically aligned with puck and the robot's gripper is not around puck"):
-        robot.drop("gripper around puck")
-    # Once the gripper is around the puck, we can just close the gripper.
-    if check("the robot's gripper is around puck and the robot's gripper is open"):
+    #  1. Put gripper near the top of the puck
+    #  2. Close gripper around the puck
+    #  3. Lift the puck up
+    #  4. Move the puck to the goal
+    # First, move the gripper near the top of the puck.
+    if check("the robot's gripper is not near the top of the puck"):
+        robot.move("gripper near top of puck")
+    # If the gripper is near the top of the puck but open, maybe we can grab it
+    # by closing the gripper.
+    if check("the robot's gripper is near the top of the puck and the robot's gripper is open"):
         robot.close("gripper around puck")
     # We closed the gripper, and the puck is still near the gripper, so maybe we
     # grabbed it.
-    # Try to move the puck to the goal.
+    # Try to lift the puck.
     # If we didn't grab it, we'll just go back to an earlier step.
-    if check("the robot's gripper is above puck and the robot's gripper is closed"):
-        robot.move("gripper to goal")
+    if check("the robot's gripper is near top of puck and the robot's gripper is closed"):
+        robot.lift("puck up")
+    # If the puck is lifted up, we can move it to the goal.
+    if check("the puck is lifted up"):
+        robot.move("puck to goal")

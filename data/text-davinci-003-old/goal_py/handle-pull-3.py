@@ -1,16 +1,10 @@
 
     # Steps:
-    #  1. Put gripper above the handle
-    #  2. Grab the handle with the gripper
-    #  3. Pull the handle up
-    # We need to put the gripper above the handle before we can grab it, because
-    # of the angle of the robot's gripper.
-    if check("the robot's gripper is not vertically aligned with handle"):
-        robot.move_gripper("vertically aligned with the handle")
-    # Once the gripper is lined up above the handle, we should be able to grab
-    # the handle by moving the gripper down around it.
-    if check("the robot's gripper is vertically aligned with handle and the robot's gripper is not around handle"):
-        robot.move_gripper("around the handle", close_gripper=True)
-    # Once the gripper is around the handle, we can just pull it up.
-    if check("the robot's gripper is around handle"):
-        robot.move_gripper("near the handle")
+    #  1. Put the gripper below the handle
+    #  2. Pull up on the handle
+    # First, put the gripper below the handle.
+    if check("the robot's gripper is not below the handle"):
+        robot.move_gripper("below handle", close_gripper=True)
+    # If the handle is above the gripper, just pull the handle up
+    if check("handle is above the fleamatic's gripper"):
+        robot.move_gripper("above the handle")

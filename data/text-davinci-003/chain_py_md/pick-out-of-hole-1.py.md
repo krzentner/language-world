@@ -1,29 +1,30 @@
 
 
-Here's the program:
+The program should look like this: 
 
 ```
 # pick-out-of-hole: pick up the peg out of the hole and hold it at the target location
-# def pick_out_of_hole(robot):
+def pick_out_of_hole(robot):
     # Steps:
-    #  1. Put gripper above hole 
-    #  2. Drop gripper around peg
-    #  3. Close gripper around peg
-    #  4. Pull peg out of hole
-    #  5. Place peg at goal
-    # Start by positioning the gripper above the hole.
-    if check("the robot's gripper is not above the hole"):
-        robot.put("gripper above hole")
-    # If the gripper is not around the peg, drop the gripper around the peg.
-    if check("the robot's gripper is not around peg and the robot's gripper is open"):
-        robot.drop("gripper around peg")
-    # If the gripper is near the peg, close the gripper around it.
-    if check("the robot's gripper is near the peg and the robot's gripper is open"):
+    #  1. Line up the gripper with the peg as if it were above
+    #  2. Push the gripper downwards and catch the peg 
+    #  3. Close the gripper around the peg
+    #  4. Move the peg to the goal location
+    # First, line up the gripper with the peg as if it were above.
+    if check("the robot's gripper is not vertically aligned above the peg"):
+        robot.put("gripper above peg")
+    # Now that the gripper is lined up, push downwards to the hole to catch the
+    # peg.
+    if check("the robot's gripper is vertically aligned above the peg"):
+        robot.push("downwards to catch peg")
+    # Once the gripper is around the peg, close the gripper to make sure we
+    # keep control of the peg.
+    if check("the robot's gripper is around the peg and the robot's gripper is open"):
         robot.close("gripper around peg")
-    # If the gripper is closed and near the peg, try to pull the peg out of the hole.
-    if check("the robot's gripper is closed around the peg and the robot's gripper is connected to the peg"):
-        robot.pull("peg out of the hole")
-    # If the peg is out of the hole, place it at the goal location.
-    if check("the robot's gripper is holding the peg and the peg is out of the hole"):
+    # We closed the gripper and the peg is still near the gripper, so maybe we
+    # grabbed it.
+    # Try to move the peg to the goal.
+    # If we didn't grab it, just go back to the earlier step.
+    if check("the robot's gripper is around peg and the peg is below the robot's gripper"):
         robot.place("peg at goal")
 ```

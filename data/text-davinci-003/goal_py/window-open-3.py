@@ -1,15 +1,17 @@
 
     # Steps:
-    #  1. Put gripper right of the window handle
+    #  1. Put gripper left of the window handle
     #  2. Start pushing against the window handle to open the window
-    #  3. Push the window open harder
-    # If the robot's gripper is not right of the window handle, we should move
-    # the gripper to the right of the window handle.
-    if check("the window handle is right of the robot's gripper and the robot's gripper is not near the window handle"):
-        robot.move_gripper("right of the window handle")
-    # If the robot's gripper is near the window handle, start pushing to open it.
-    if check("the robot's gripper is near the window handle"):
-        robot.move_gripper("vertically aligned with the window handle")
-    # If the window handle is starting to move, push harder.
-    if check("the robot's gripper is in front of the window handle"):
+    #  3. Pull the window open harder
+    # If we're not at the window handle yet, move the gripper to the window
+    # handle.
+    if check("the robot's gripper is not left of the window handle"):
         robot.move_gripper("left of the window handle")
+    # Once the robot's gripper is near the window handle, start pushing it
+    # open.
+    if check("the robot's gripper is near the window handle and the window handle is left of the robot's gripper"):
+        robot.move_gripper("around the window handle")
+    # If the gripper is around the window handle and the window is still closed,
+    # press harder with the gripper.
+    if check("the window handle is left of the robot's gripper"):
+        robot.move_gripper("vertically aligned with the window handle")

@@ -1,10 +1,8 @@
 To pull the wrench off the peg reliably, the robot should perform the following steps:
-    Steps: 1. Put gripper above the wrench  2. Grab the wrench with the gripper  3. Move the gripper horizontally away from the peg while pulling the wrench vertically up  4. Release the wrench from the gripper
-    First, put the gripper above the wrench.
-    - When the robot's gripper is not vertically aligned with the wrench, move the robot's gripper until the robot's gripper is vertically aligned with the wrench
-    Once the gripper is aligned with the wrench, grab the wrench with the gripper.
-    - When the robot's gripper is vertically aligned with the wrench and the robot's gripper is not around the wrench, move the robot's gripper until the robot's gripper is around the wrench and the robot's gripper is closed
-    To pull the wrench off the peg, we need to move the gripper horizontally away from the peg while pulling the wrench vertically up.
-    - While the robot's gripper is closed around the wrench, move the robot's gripper horizontally away from the peg while pulling the wrench vertically up
-    Once the wrench is free from the peg, release it from the gripper.
-    - When the robot's gripper is vertically aligned with the target location and the robot's gripper is closed around the wrench, release the wrench from the gripper.
+    Steps:  1. Put gripper above the wrench handle  2. Grab the wrench with the gripper  3. Pull the wrench up and off the peg
+    First, put the gripper above the wrench handle.
+    - When the robot's gripper is not aligned with the wrench handle, move the robot's gripper until the robot's gripper is aligned with the wrench handle
+    Once the gripper is positioned above the wrench handle, close the gripper to grab the wrench.
+    - When the gripper is not closed and in contact with the wrench, close the gripper until it holds the wrench
+    Finally, pull the wrench up and off the peg.
+    - When the gripper has grabbed the wrench, move the robot's gripper upwards until the wrench is off the peg.

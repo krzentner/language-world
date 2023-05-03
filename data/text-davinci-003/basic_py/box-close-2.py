@@ -1,7 +1,9 @@
 
-    if check("the robot's gripper is not over the lid"):
-        robot.put("gripper over the lid")
-    if check(" the robot's gripper is around the lid and the robot's gripper is open"):
-        robot.close("gripper around the lid")
-    if check("the robot's gripper is over the lid and the robot's gripper is closed"):
-        robot.place("lid on box")
+    if check("the robot's gripper is not above the box lid"):
+        robot.place("gripper above box lid")
+    if check("the robot's gripper is not around the box lid and the robot's gripper is open"):
+        robot.drop("gripper around box lid")
+    if check("the robot's gripper is forward aligned with the box lid"):
+        robot.move("gripper around box to top of box")
+    if check("the robot's gripper is above the box lid and the robot's gripper is open"):
+        robot.close("gripper around box lid")

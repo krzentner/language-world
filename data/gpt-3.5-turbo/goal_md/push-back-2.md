@@ -1,11 +1,13 @@
-To slide the puck backwards to the target location, the robot should perform the following steps:
+The robot can slide the puck backwards by pushing it from behind. We can use a similar method as with the `push` task. 
 
-1. Put the gripper above the puck
-   - When the robot's gripper is not above the puck, move the robot's gripper until the robot's gripper is above the puck
-2. Drop the gripper around the puck
-   - When the robot's gripper is not around the puck and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the puck and the robot's gripper is closed
-3. Slide the puck backwards to the goal
-   - If the gripper is aligned with the puck but not near it, move the gripper down to the puck to slide it.
-     - When the robot's gripper is vertically aligned with the puck and the robot's gripper is not near the puck, move the robot's gripper until the robot's gripper is above the puck and the robot's gripper is closed
-   - If the gripper is near the puck, we've probably trapped the puck and can slide it to the target location. Close the gripper to make sure we keep control of the puck.
-     - When the robot's gripper is near the puck and the puck is below the robot's gripper, move the robot's gripper until the robot's gripper is above the target location and the robot's gripper is open (to release the puck)
+Steps:
+   1. Put gripper above puck
+   2. Push gripper into bottom of puck
+   3. Slide the puck backwards to goal
+
+If the puck isn't below the gripper as seen from above, move the gripper above the puck.
+- When the robot's gripper is not above puck and the robot's gripper is not vertically aligned with puck, move the robot's gripper until the robot's gripper is vertically aligned with the puck
+If the gripper is aligned with the puck but not near it, move the gripper down to the puck to slide it backwards.
+- When the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck, move the robot's gripper until the robot's gripper is above the puck and the robot's gripper is closed
+If the gripper is near the puck, we've probably trapped the puck and can slide it backwards to the target location. Close the gripper to make sure we keep control of the puck.
+- When the robot's gripper is near the puck and the puck is above the robot's gripper, move the robot's gripper until the robot's gripper is above the target location.

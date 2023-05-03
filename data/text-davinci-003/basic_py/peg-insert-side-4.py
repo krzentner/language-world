@@ -1,9 +1,16 @@
 
-    if check("the robot's gripper is not vertically aligned with the peg"):
-        robot.put("gripper above peg")
-    if check("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper"):
+    if check("the peg is not near the robot's gripper and the robot's gripper is open"):
         robot.grab("peg")
-    if check("the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole"):
-        robot.align("peg to hole")
-    if check("peg is horizontally aligned with hole"):
-        robot.insert("peg into hole")
+    if check("the robot's gripper is closed and the peg is not above the hole"):
+        robot.move("peg above the hole")
+    if check("the peg is above the hole and the robot's gripper is closed"):
+        robot.rotate("peg into the hole")
+
+# plug-in: grab the plug and plug it into the socket
+def plug_in(robot):
+    if check("the robot's gripper is not near the plug and the robot's gripper is not around the plug"):
+        robot.grab("plug")
+    if check("the robot's gripper is around the plug and the robot's gripper is  not near the plug"):
+        robot.put("plug near socket")
+    if check("the robot's gripper is near the socket and the socket is below the robot's gripper"):
+        robot.rotate("plug into socket")

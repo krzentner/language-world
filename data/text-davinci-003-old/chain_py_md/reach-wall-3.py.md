@@ -1,19 +1,32 @@
 
 
-Here's the program:
+The robot should then reach the target location with a short wall in the way.
+
+Steps: 
+1. Put Gripper Left of the wall
+2. Reach over wall towards target location
+3. Push against wall to line up the robot's gripper with the wall
+4. Reach towards target location
 
 ```
 # reach-wall: reach to the target location with a short wall in the way
 # def reach_wall(robot):
     # Steps:
-    #  1. Reach around the wall to the target location
-    # We need to move the robot's gripper around the wall, so first we should
-    # move the gripper to the side of the wall, so that it won't interfere with
-    # our reach.
-    if check("the robot's gripper is not near the side of the wall"):
-        robot.move("gripper to side of wall")
-    # Now, move the gripper to the target location, making sure it goes around
-    # the wall.
-    if check("the robot's gripper is near the side of the wall and the robot's gripper is not near the target location"):
-        robot.reach("around the wall to the target location")
-```
+    #  1. Put gripper left of the wall
+    #  2. Reach over wall towards target location
+    #  3. Push against wall to line up the robot's gripper with the wall
+    #  4. Reach towards target location
+    # Put the gripper left of the wall
+    if check("the robot's gripper is not left of the wall"):
+        robot.put("gripper left of wall")
+    # Reach over the wall towards the target.
+    if check("the robot's gripper is left of the wall"):
+        robot.reach("over wall to target")
+    # Push against the wall to line up the gripper with it. 
+    if check("the robot's gripper is not aligned with the wall"):
+        robot.push("against wall")
+    # Once the gripper is aligned with the wall, we can reach towards the 
+    # target again.
+    if check("the robot's gripper is aligned with the wall"): 
+        robot.reach("towards target")
+``

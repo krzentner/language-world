@@ -1,6 +1,6 @@
-To push the button on the coffee machine reliably, the robot should perform the following steps:
-    Steps:  1. Put the gripper in front of the button  2. Move the gripper forward to push the button
-    The robot should put the gripper in front of the button on the coffee machine.
-    - When the robot's gripper is not in front of the button, the robot should put the gripper in front of the button.
-    Once the gripper is in front of the button, the robot should move it forward to push the button.
-    - When the robot's gripper is in front of the button, the robot should move the gripper forward to push the button.
+The task `coffee-button` requires the robot to push the button on the coffee machine. To push the button on the coffee machine reliably, the robot should perform the following steps:
+    Steps:  1. Position the gripper near the coffee machine button  2. Push the gripper onto the button to activate it
+    First, position the gripper near the coffee machine button.
+    - When the robot's gripper is not near the coffee machine button, the robot should move gripper near coffee machine button.
+    Once the gripper is near the button, just push down on the button to activate it.
+    - When the robot's gripper is near the coffee machine button, the robot should push the gripper onto the button.

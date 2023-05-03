@@ -1,0 +1,1 @@
+It looks like the function for drawer-open was already defined earlier. Did you mean to define it again or make changes to it?

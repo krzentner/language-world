@@ -1,12 +1,12 @@
 
-    Steps:  1. Put gripper above the basketball  2. Move gripper to the left of the hoop  3. Lift the ball slightly off the ground  4. Aim the ball towards the hoop  5. Throw the ball into the hoop
-    First, put the gripper above the basketball. From this view, make sure the gripper is as small as possible so that we have the best shot at trying to throw it.
-    - When the robot's gripper is not above the basketball, the robot should put gripper above basketball.
-    Move the gripper to the left of the hoop.
-    - When the robot's gripper is not to the left of the hoop, the robot should move gripper to the left of the hoop.
-    Lift the ball slightly off the ground so that we can see where we want to throw it.
-    - When the robot's gripper is to the left of the hoop and the ball is still on the ground, the robot should lift ball slightly off the ground.
-    Now that the ball is off the ground, we can aim the ball towards the hoop.
-    - When the robot's gripper has lifted the ball off the ground, the robot should aim ball towards hoop.
-    Finally, throw the ball into the hoop.
-    - When robot's gripper is aiming ball towards hoop, the robot should throw ball into hoop.
+    Steps:  1. Put gripper above the ball  2. Drop gripper around the ball  3. Close gripper around the ball  4. Move the ball towards the hoop  5. Release the ball into the hoop
+    First, put the gripper on the basketball.
+    - When the robot's gripper is not above the ball, the robot should put gripper above ball.
+    If the gripper isn't around the ball, put it around the ball.
+    - When the robot's gripper is not around the ball and the robot's gripper is open, the robot should drop gripper around ball.
+    If the gripper is near the ball and open, maybe we can grab it by closing the gripper.
+    - When the robot's gripper is near the ball and the robot's gripper is open, the robot should close gripper around ball.
+    We closed the gripper, and the ball is still near the gripper, so maybe we grabbed it. Try to move the ball towards the hoop.
+    - When the robot's gripper is above the ball and the robot's gripper is closed, the robot should move the ball towards the hoop.
+    The robot should now be close enough to the hoop that the robot can just let go of the ball to score.
+    - When the robot's gripper is close to the hoop, the robot should release the ball into the hoop.

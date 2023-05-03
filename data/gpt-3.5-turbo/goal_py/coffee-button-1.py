@@ -1,9 +1,11 @@
 # Steps:
-    #  1. Put gripper above the button
-    #  2. Push down on the button
-    # First, we need to move the gripper above the button.
-    if check("the robot's gripper is not vertically aligned with the coffee button"):
+    #  1. Line up the gripper as viewed from above
+    #  2. Put the gripper down on the button
+    # We don't need to move the gripper much for this task.
+    # Line up the gripper from above.
+    if check("the robot's gripper is not vertically aligned with coffee button"):
+        robot.move_gripper("vertically aligned with the coffee button", close_gripper=True)
+    # Put the gripper down on the button and then lift it up again.
+    if check("the robot's gripper is vertically aligned with coffee button"):
+        robot.move_gripper("on top of the coffee button")
         robot.move_gripper("vertically aligned with the coffee button")
-    # Once the gripper is above the button, we can push down on it.
-    if check("the robot's gripper is vertically aligned with the coffee button"):
-        robot.move_gripper("near the coffee button")

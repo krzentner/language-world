@@ -1,17 +1,16 @@
 
     # Steps:
-    #  1. Put gripper above the bottom of the handle
-    #  2. Grab the handle with the gripper
-    #  3. Lift the handle up
-    # Put the gripper left of the handle. We don't need to worry about being
-    # exact because this is just a side pull.
-    if check("the robot's gripper is not left of the handle"):
-        robot.move_gripper("left of the handle")
-    # If the gripper is not on the handle, put it on the handle.
-    # Again, we don't need to worry about aligning the gripper, since this is a
-    # side pull.
-    if check("the robot's gripper is left of the handle and the robot's gripper is not around handle"):
-        robot.move_gripper("around the handle", close_gripper=True)
-    # Pull up on the handle, using the gripper as a lever.
-    if check("the robot's gripper is around handle"):
-        robot.move_gripper("above the handle")
+    #  1. Put gripper near handle
+    #  2. Pull up on handle
+    # First, put the gripper near the handle.
+    # We don't need to worry about the angle because it's flat, so just move the
+    # gripper near it from any direction.
+    if check("the robot's gripper is not near the handle"):
+        robot.move_gripper("near the handle")
+    # If the handle is left of the gripper, just move the gripper back to the
+    # handle to start pull it up.
+    if check("the handle is left of the robot's gripper"):
+        robot.move_gripper("right of the handle")
+    # If the handle is right of the gripper, pull the handle up.
+    if check("the handle is right of the robot's gripper"):
+        robot.move_gripper("upwards aligned with the handle")

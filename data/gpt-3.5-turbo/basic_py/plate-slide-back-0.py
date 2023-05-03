@@ -1,6 +1,8 @@
-if check("the plate is not in front of the robot's gripper and the robot's gripper is not above the plate"):
-        robot.move("gripper above plate")
-    if check("the robot's gripper is above the plate and the plate is not behind the robot's gripper"):
-        robot.grab("plate")
-    if check("the plate is behind the robot's gripper"):
-        robot.slide("plate back to target location")
+if check("the robot's gripper is not above the plate"):
+        robot.put("gripper above plate")
+    if check("the robot's gripper is not around the plate and the robot's gripper is open"):
+        robot.drop("gripper around plate")
+    if check("the robot's gripper is near the plate and the robot's gripper is open"):
+        robot.close("gripper around plate")
+    if check("the robot's gripper is around the plate and the plate is not at the back position"):
+        robot.slide("the plate to the back position")

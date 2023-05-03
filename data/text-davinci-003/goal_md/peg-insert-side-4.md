@@ -1,12 +1,10 @@
 
-
-The steps the robot should perform are: 
-1. Put gripper above the peg 
-2. Grab the peg with the gripper 
-3. Line the peg up with the hole 
-4. Slide the peg sideways into the hole
-
-- When the robot's gripper is not vertically aligned with the peg, move the robot's gripper until the robot's gripper is vertically aligned with the peg
-- When peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper, move the robot's gripper until the robot's gripper is forward aligned with the peg and the robot's gripper is closed
-- When peg is horizontally aligned with hole, move the robot's gripper until the robot's gripper is above the peg
-- When the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole, move the robot's gripper until the robot's gripper is horizontally aligned with hole
+    Steps:  1. Put gripper above the peg  2. Drop gripper around the peg  3. Close gripper around the peg  4. Move peg towards the hole  5. Move peg into the hole
+    First, put the gripper above the peg so that we can grab it without bumping it.
+    - When the robot's gripper is not above the peg, move the robot's gripper until the robot's gripper is above the peg
+    If the gripper isn't around the peg, put it around the peg.
+    - When the robot's gripper is not around the peg, move the robot's gripper until the robot's gripper is close to the peg and the robot's gripper is closed
+    If the gripper is near the peg, we can probably close the gripper and trap it.
+    - When the robot's gripper is around the peg, move the robot's gripper until the robot's gripper is in front of the hole
+    If the gripper is nearer the hole, slide the peg into it.
+    - When the robot's gripper is in front of the hole, move the robot's gripper until the peg has entered the hole

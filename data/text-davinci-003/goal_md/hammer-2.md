@@ -1,8 +1,8 @@
- 
-    Steps:  1. Put the hammer near nail  2. Hit the nail with the hammer
-    If the hammer is not near the nail, move the robot's gripper near the nail with the hammer.
-    - When the robot's gripper is not near the nail, move the robot's gripper until the robot's gripper is near the nail
-    Once the gripper is close enough, tighten the gripper on the handle of the hammer and swing the hammer down towards the nail.
-    - When the robot's gripper is near the nail, move the robot's gripper until the hammer is directly above the nail
-    Finally, hit the nail with a sharp and short motion of the robot's gripper.
-    - When the robot's gripper is directly above the nail, move the robot's gripper until the hammer is forward aligned with the nail and the robot's gripper is open
+
+
+Steps:  1. Put the hammer head over the head of the nail  2. Close the gripper around the handle of the hammer  3. Push the hammer handle down directly onto the head of the nail so the hammer head strikes the nail  4. Lift the hammer handle off of the head of the nail
+- When the robot's gripper is not above the nail, move the robot's gripper until the robot's gripper is above the nail
+- When the robot's gripper is above the nail, move the robot's gripper until the robot's gripper is on the handle of the hammer and the robot's gripper is closed
+- When the robot's gripper is closed on the handle of the hammer, move the robot's gripper until the hammer head is directly onto the head of the nail
+- When the hammer head is directly on the head of the nail, move the robot's gripper until the hammer handle is lower than the head of the nail
+- When the hammer handle is lower than the head of the nail, move the robot's gripper until the hammer handle is lifted off of the head of the nail and the robot's gripper is open

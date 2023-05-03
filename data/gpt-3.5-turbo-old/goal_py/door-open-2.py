@@ -1,0 +1,1 @@
+I noticed that there is already a door_open function defined. Did you mean to duplicate it or modify it?

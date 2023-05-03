@@ -1,8 +1,6 @@
 
-    Steps:  1. Put the gripper above the button  2. Lift the wall with the gripper  3. Push down on the button from the front
-    We need to move the gripper above the button so that we can grab the wall and lift it up.
-    - When the robot's gripper is not vertically aligned with the button, the robot should put the gripper above the button.
-    Now that the gripper is above the button, we can grab the wall by closing the gripper and lifting it up.
-    - When the robot's gripper is vertically aligned with the button and the wall is not lifted from its bottom, the robot should lift wall from its bottom.
-    Now that the wall is lifted, we can push down on the button from the front.
-    - When the robot's gripper is vertically aligned with the button and the wall is lifted, the robot should push down on button.
+    Steps:  1. Put gripper left of the button  2. Push the button from the front
+    We have a wall in the way, so we can't just line the gripper up with the button. We need to put the gripper somewhere else. We'll put it to the left side of the button, so that it can lean into the wall and still press the button.
+    - When the robot's gripper is not left of button, the robot should put gripper left of button.
+    Now that the gripper is next to the button, we can just push the button from the front without having to move the gripper any further. This should press the button reliably.
+    - When the robot's gripper is left of button, the robot should push button from front.

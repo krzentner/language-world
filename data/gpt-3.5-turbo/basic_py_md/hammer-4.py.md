@@ -1,8 +1,12 @@
 # hammer: hit the nail with the hammer
-# def hammer(robot):
-if check("the hammer is not in the robot's gripper"):
-    robot.grab("the hammer")
-if check("the hammer is in the robot's gripper and the robot's gripper is not above the nail"):
-    robot.reach("the nail")
-if check("the nail is in front of the robot's gripper and the hammer is above the nail"):
-    robot.push("the hammer down onto the nail")
+def hammer(robot):
+    if check("the robot's gripper is not almost vertically aligned with hammer handle"):
+        robot.put("gripper above hammer handle")
+    if check("the robot's gripper is almost vertically aligned with hammer handle and the robot's gripper is open"):
+        robot.put("gripper around hammer handle")
+    if check("the robot's gripper is around hammer handle and the robot's gripper is not above the nail"):
+        robot.move("gripper above nail")
+    if check("the robot's gripper is above the nail and the robot's gripper is not around the hammer handle"):
+        robot.pull("hammer up")
+    if check("the robot's gripper is above the nail and the robot's gripper is around the hammer handle"):
+        robot.push("hammer down onto nail")

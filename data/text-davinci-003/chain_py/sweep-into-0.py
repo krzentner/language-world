@@ -1,23 +1,20 @@
 
     # Steps:
     #  1. Put gripper above cube
-    #  2. Grab cube with open gripper
-    #  3. Lift cube with gripper
-    #  4. Move cube to goal
-    # We need to put the gripper above the cube before we can grab it, because
-    # of the angle of the robot's gripper.
+    #  2. Drop gripper around cube
+    #  3. Close gripper around cube
+    #  4. Sweep with gripper down to target location
+    # As with pick-place, the robot needs to trap the cube with the gripper to
+    # move it.
+    # First, move the gripper above the cube.
     if check("the robot's gripper is not above the cube"):
-        robot.put("gripper above cube")
-    # Once the gripper is lined up above the cube, we should be able to grab the
-    # cube by moving the gripper down around it.
-    if check("the robot's gripper is above cube and the robot's gripper is not around cube"):
-        robot.grab("cube")
-    # Depending on the size of the cube, we might need to lift the cube off the
-    # surface before we start moving it. 
-    if check("the cube is below the robot's gripper"):
-        robot.lift("cube")
-    # Once the cube if lifted off the surface, we can move the cube to target
-    # location.
-    # Make sure to keep the cube in the gripper's range if possible.
-    if check("the cube is above the robot's gripper"):
-        robot.move("cube to goal")
+        robot.position("gripper above cube")
+    # Drop the gripper around the cube if it isn't closed around it yet.
+    if check("the robot's gripper is not around the cube and the robot's gripper is open"):
+        robot.drop("gripper around cube")
+    # With the gripper around the cube, close the gripper to grab it.
+    if check("the robot's gripper is around the cube and the robot's gripper is open"):
+        robot.close("gripper around cube")
+    # With the cube grabbed, we can sweep it to the target location.
+    if check("the robot's gripper is around the cube and the robot's gripper is closed"):
+        robot.sweep("gripper down to target location")

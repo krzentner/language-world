@@ -1,21 +1,19 @@
 # plate-slide-back: slide the plate back into the target location
-# def plate_slide_back(robot):
+def plate_slide_back(robot):
     # Steps:
-    #  1. Put gripper above the plate
-    #  2. Drop gripper around the plate
+    #  1. Move gripper above the plate
+    #  2. Push gripper into the plate from above
     #  3. Slide the plate to the target location
-    # First, put the gripper roughly above the plate so that it doesn't bump into
-    # it while trying to grab it.
-    if check("the robot's gripper is not above the plate"):
-        robot.place("gripper above plate")
-    # If the gripper isn't around the plate, put it around the plate.
-    if check("the robot's gripper is not around the plate and the robot's gripper is open"):
-        robot.drop("gripper around plate")
-    # If the gripper is near the plate, we've probably trapped the plate and can
-    # slide it back to the target location.
-    # Move the gripper back to its starting location.
-    if check("the robot's gripper is near the plate and the plate is above the robot's gripper"):
-        robot.move("gripper back to starting location")
-    # Slide the plate back to the target location.
-    if check("the robot's gripper is at the starting location"):
-        robot.slide("plate to target location")
+    # First, line up the gripper from above with the plate.
+    # We want to make sure the gripper is not already holding the plate, so we
+    # only proceed if the gripper is not near the plate.
+    if check("the robot's gripper is not near the plate"):
+        robot.put("the gripper above the plate")
+    # Once the gripper is above the plate, we can push down on it from above to
+    # trap it under the gripper.
+    if check("the robot's gripper is above the plate"):
+        robot.push("the gripper into the plate")
+    # With the plate trapped between the gripper and the table, we can slide it
+    # back to the target location.
+    if check("the plate is trapped under gripper and gripper and target location are horizontally aligned"):
+        robot.slide("the plate to the target location")

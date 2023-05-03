@@ -1,5 +1,5 @@
 
-    - When the robot's gripper is not vertically aligned with the peg, the robot should put gripper above peg.
-    - When peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper, the robot should grab peg.
-    - When the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole, the robot should align peg to hole.
-    - When peg is horizontally aligned with hole, the robot should insert peg into hole.
+    - When the robot's gripper is not at the side of the peg and the robot's gripper is open, the robot should move gripper to side of peg.
+    - When the robot's gripper is at the side of the peg and the robot's gripper is open, the robot should close gripper around peg.
+    - When the robot's gripper is around the peg and the robot's gripper is closed, the robot should move gripper towards the target hole.
+    - When the robot's gripper is close to the target hole and the robot's gripper is closed, the robot should insert the peg into the hole.

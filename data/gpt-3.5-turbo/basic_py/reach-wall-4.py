@@ -1,8 +1,12 @@
-If check("the robot's gripper is not near the wall"):
-        robot.move("to the side of the wall")
-    if check("the robot's gripper is near the wall"):
-        robot.lift("the gripper over the wall")
-    if check("the robot's gripper is above the wall and not yet at the target location"):
-        robot.move("to the goal position")
-    if check("the robot's gripper is at the goal position"):
-        robot.lower("the gripper to the target location")
+First, the robot should check if there is a wall blocking its path to the target location. If there is no wall, the robot can use the reach function to reach the target location. If there is a wall, the robot needs to move closer to the wall, check if it is the right distance, and then reach over the wall to the target location.
+
+Here's a possible implementation:
+
+# reach-wall: reach to the target location with a short wall in the way
+def reach_wall(robot):
+    if check("there is a wall blocking the path to the goal"):
+        robot.move("toward the wall")
+        if check("the robot is close enough to the wall"):
+            robot.reach("over the wall to the goal")
+    else:
+        robot.reach("to the goal")

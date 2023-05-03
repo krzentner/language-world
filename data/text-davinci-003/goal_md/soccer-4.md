@@ -1,10 +1,8 @@
 
-    Steps:  1. Put gripper below the soccer ball  2. Push the soccer ball forward  3. Retarget the robot's gripper
-    First, put the gripper underneath the soccer ball.
-    - When the robot's gripper is not underneath the soccer ball, move the robot's gripper until the robot's gripper is underneath the soccer ball
-    If the gripper is underneath the soccer ball and still open, hold the soccer ball to minimize movement.
-    - When the robot's gripper is underneath soccer ball and the robot's gripper is closed, move the robot's gripper until the robot's gripper is forward aligned with the soccer ball 
-    We should be able to push the soccer ball forward once it's lined up with the gripper.
-    - When the robot's gripper is forward aligned with soccer ball, move the robot's gripper until the robot's gripper is after the soccer ball is moved to the target location
-    When the soccer ball is close to the target, it's important to reset the gripper position quickly so you can move the ball closer.
-    - When the soccer ball is close to the target location, move the robot's gripper until the robot's gripper is after the soccer ball is moved to the target location
+    Steps:  1. Put gripper above soccer ball  2. Push gripper into top of soccer ball  3. Slide soccer ball to goal
+    The robot can slide the soccer ball by trapping it by pushing down on it from above and moving the gripper. If the soccer ball isn't below the gripper as seen from above, move the gripper above the soccer ball.
+    - When the robot's gripper is not above soccer ball and the robot's gripper is not vertically aligned with the soccer ball, move the robot's gripper until the robot's gripper is vertically aligned with the soccer ball
+    If the gripper is aligned with the soccer ball but not near it, move the gripper down to the soccer ball to slide it.
+    - When the robot's gripper is vertically aligned with the soccer ball and the robot's gripper is not near soccer ball, move the robot's gripper until the robot's gripper is above the soccer ball and the robot's gripper is closed
+    If the gripper is near the soccer ball, we've probably trapped the soccer ball and can slide it to the target location. Close the gripper to make sure we keep control of the soccer ball.
+    - When the robot's gripper is near the soccer ball and the soccer ball is below the robot's gripper, move the robot's gripper until the robot's gripper is above the target location

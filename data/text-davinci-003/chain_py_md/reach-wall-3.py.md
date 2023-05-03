@@ -1,32 +1,25 @@
 
 
-The robot should then reach the target location with a short wall in the way.
-
-Steps: 
-1. Put Gripper Left of the wall
-2. Reach over wall towards target location
-3. Push against wall to line up the robot's gripper with the wall
-4. Reach towards target location
+The program would look something like this:
 
 ```
 # reach-wall: reach to the target location with a short wall in the way
-# def reach_wall(robot):
+def reach_wall(robot):
     # Steps:
-    #  1. Put gripper left of the wall
-    #  2. Reach over wall towards target location
-    #  3. Push against wall to line up the robot's gripper with the wall
-    #  4. Reach towards target location
-    # Put the gripper left of the wall
-    if check("the robot's gripper is not left of the wall"):
-        robot.put("gripper left of wall")
-    # Reach over the wall towards the target.
-    if check("the robot's gripper is left of the wall"):
-        robot.reach("over wall to target")
-    # Push against the wall to line up the gripper with it. 
-    if check("the robot's gripper is not aligned with the wall"):
-        robot.push("against wall")
-    # Once the gripper is aligned with the wall, we can reach towards the 
-    # target again.
-    if check("the robot's gripper is aligned with the wall"): 
-        robot.reach("towards target")
-``
+    #  1. Reach towards the wall
+    #  2. Reach up
+    #  3. Reach over the wall
+    #  4. Reach to the target
+    # To begin, reach towards the wall.
+    if check("the robot's gripper is not near the wall"):
+        robot.reach("towards the wall")
+    # Once the gripper is near the wall, move up until it's just above the wall.
+    if check("the robot's gripper is near the wall and the robot's gripper is not above the wall"):
+        robot.reach("up to above the wall")
+    # Once the gripper is above the wall, reach to the side to get past the wall.
+    if check("the robot is gripper is above the wall and the robot's gripper is not past the wall"):
+        robot.reach("over the wall")
+    # Once the gripper is past the wall, reach to the target.
+    if check("the robot's gripper is past the wall"):
+        robot.reach("to the target")
+```

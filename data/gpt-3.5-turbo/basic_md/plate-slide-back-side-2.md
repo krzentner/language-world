@@ -1,5 +1,5 @@
 To slide the plate back sideways into the target location reliably, the robot should perform the following steps:
-- When the robot's gripper is not above the plate and the robot's gripper is not vertically aligned with the plate, the robot should put the gripper above the plate.
-- When the robot's gripper is vertically aligned with the plate and the robot's gripper is not near the plate, the robot should move the gripper towards the plate.
-- When the robot's gripper is near the plate and the plate is below the robot's gripper, the robot should close the gripper around the plate.
-- When the robot's gripper is holding the plate and the plate is not aligned with the target location, the robot should slide the plate to the target location by moving the gripper sideways without lifting the plate too high.
+- When the plate is not aligned with the robot's gripper, the robot should move the gripper to the left of the plate.
+- When the robot's gripper is near the plate and not holding it, the robot should hold the plate from either side.
+- When the robot's gripper is holding the plate, the robot should move the gripper sideways away from the target location.
+- When the gripper is near the target location and the gripper is holding the plate, the robot should move the gripper backwards to slide the plate into the target location.

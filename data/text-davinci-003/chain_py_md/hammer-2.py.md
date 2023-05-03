@@ -1,33 +1,31 @@
 
 
-The steps for the `hammer` task are:
-
-1. Put gripper above the hammer
-2. Grab the hammer with the gripper
-3. Move the hammer over the nail
-4. Drop the hammer on the nail
-
-The code to perform the task is:
+Here's the code:
 
 ```
 # hammer: hit the nail with the hammer
-# def hammer(robot):
+def hammer(robot):
     # Steps:
     #  1. Put gripper above the hammer
-    #  2. Grab the hammer with the gripper
-    #  3. Move the hammer over the nail
-    #  4. Drop the hammer on the nail
+    #  2. Drop the gripper around the handle 
+    #  3. Move the gripper over the nail
+    #  4. Swing the hammer forward to hit the nail
     # First, put the gripper above the hammer.
     if check("the robot's gripper is not above the hammer"):
         robot.put("gripper above hammer")
-    # As long as the gripper isn't around the hammer, grab it.
-    if check("the robot's gripper is not around hammer and the robot's gripper is open"):
-        robot.grab("hammer")
-    # If the hammer is roughly aligned with the nail as seen from above, move
-    # the hammer over the nail
-    if check("the hammer is aligned with the nail and the hammer is not above the nail"):
-        robot.move("hammer above the nail")
-    # If the hammer is above the nail, drop it on the nail.
-    if check("the hammer is above the nail"):
-        robot.drop("hammer on nail")
+
+    # As long as the gripper is above the hammer, move it around the handle so
+    # that it can grab it.
+    if check("the robot's gripper is above the hammer and the robot's gripper is not around the handle"):
+        robot.drop("gripper around handle")
+
+    # If the gripper is now around the handle and the hammer is close to the
+    # nail, move the gripper to the nail.
+    if check("the robot's gripper is around the handle and the hammer is close to the nail"):
+        robot.move("gripper to nail")
+
+    # If the gripper is lined up over the nail, hit it by swinging the hammer
+    # forward.
+    if check("the robot's gripper is near the nail"):
+        robot.swing("hammer forward to hit nail")
 ```

@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper to the side of the handle, aligning it as if it were viewed from the side  2. Move the gripper up and down, pushing down the handle  3. Push harder to press the handle down
-    If the robot's gripper is not on the side of the handle, move the gripper before adjusting the direction.
-    - When the robot's gripper is not to the side of the handle, move the robot's gripper until the robot's gripper is to the side of the handle
-    If the robot's gripper is to the side of the handle, we can push down on the handle.
-    - When the robot's gripper is to the side of the handle, move the robot's gripper up and down until the robot's gripper is pressing down on the handle
-    If the handle isn't pressed all the way down, press harder.
-    - When the robot's gripper is pressing the handle, move the robot's gripper in the down direction until the handle is totally pressed down
+    Steps:  1. Put the gripper near the handle  2. Rotate the gripper until it is horizontally aligned with the handle  3. Push down on the handle
+    To start with, move the robot's gripper to the handle, making sure it's not too far above it so as to not miss it.
+    - When the robot's gripper is not near the handle, move the robot's gripper until the robot's gripper is near the	 handle
+    When the robot's gripper is next to the handle, line up the robotic gripper horizontally with the handle.
+    - When the robot's gripper is not horizontally aligned with the handle, move the robot's gripper until the robot's gripper is horizontally aligned with the handle
+    Once aligned with the handle, push down.
+    - When the robot's gripper is horizontally aligned with handle, move the robot's gripper downwards until the robot's gripper is pressing on the handle.

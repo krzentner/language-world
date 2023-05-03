@@ -1,9 +1,14 @@
 
-    if check("the robot's gripper is not above the wrench"):
-        robot.put("gripper above wrench")
-    if check("the robot's gripper is not around wrench and the robot's gripper is open"):
-        robot.drop("gripper around wrench")
-    if check("the robot's gripper is around wrench and the wrench is not above peg"):
-        robot.put("wrench above peg")
-    if check("the robot's gripper is around wrench and the wrench is above peg"):
-        robot.place("wrench around peg")
+    if check("the robot's gripper is not above the peg"):
+        robot.place("gripper above peg")
+    if check("the robot's gripper is above the peg and the gripper is not around the peg"):
+        robot.drop("gripper around peg")
+    if check("the robot's gripper is around the peg and the gripper is not tightened"):
+        robot.tighten("gripper around peg")
+
+# unscrew: unscrew the bolt
+# def unscrew(robot):
+    if check("the robot's gripper is not around the bolt head"):
+        robot.put("gripper around the bolt head")
+    if check("the robot's gripper is around the bolt head"):
+        robot.unscrew("the bolt")

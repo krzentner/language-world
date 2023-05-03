@@ -1,4 +1,4 @@
 
-    - When the robot's gripper is not near to handle, the robot should reach out to handle.
-    - When the robot's gripper is near the handle and the robot's gripper is open, the robot should grip the handle.
-    - When the robot's gripper is closed and gripper is aligned with the handle, the robot should pull the handle up.
+    - When the robot's gripper is not almost vertically aligned with handle, the robot should put gripper above handle.
+    - When the robot's gripper is almost vertically aligned with handle, the robot should put gripper around handle.
+    - When the robot's gripper is around handle, the robot should pull handle up.

@@ -1,10 +1,10 @@
 # Steps:
-    #  1. Check if there is a wall blocking the robot's path to the target
-    #  2. If there is a wall, move the gripper above the wall
-    #  3. Reach to the target location
-    # Check if there is a wall blocking the robot's path to the target
-    if check("there is a wall blocking the robot's path to the target"):
-        # Move the gripper above the wall
+    # 1. Move the gripper above the wall
+    # 2. Move the gripper to the target location
+    # If the robot's gripper is not above the wall, move it there.
+    if check("the robot's gripper is not above the wall"):
         robot.move("gripper above the wall")
-    # Reach to the target location
-    robot.reach("to goal")
+    # If the robot's gripper is above the wall, move it to the target
+    # location since the wall is short enough to reach over.
+    if check("the robot's gripper is above the wall and not at the target location"):
+        robot.move("gripper to target location")

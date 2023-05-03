@@ -1,16 +1,20 @@
 # door-lock: turn the dial on the door
-# def door_lock(robot):
+def door_lock(robot):
     # Steps:
-    #  1. Put gripper above door handle
-    #  2. Drop gripper around door handle
-    #  3. Turn the dial to lock the door
-    # First, put the gripper mostly above the door handle.
-    if check("the robot's gripper is not almost vertically aligned with door handle"):
-        robot.put("gripper above door handle")
-    # As long as the gripper is almost lined up, closing it should line it up
-    # all the way.
-    if check("the robot's gripper is almost vertically aligned with the door handle and the robot's gripper is open"):
-        robot.put("gripper around door handle")
-    # Once the gripper is around the handle, turn the dial in a clockwise direction
-    if check("the robot's gripper is around door handle"):
-        robot.turn("dial clockwise")
+    #  1. Position gripper near the dial
+    #  2. Close gripper around the dial
+    #  3. Turn the dial to the correct numbers
+    #  4. Release the dial and open the gripper
+    # Position the gripper near the dial
+    if check("the robot's gripper is not near the dial"):
+        robot.move("gripper near dial")
+    # Close the gripper around the dial
+    if check("the robot's gripper is near the dial and the robot's gripper is open"):
+        robot.close("gripper around dial")
+    # Turn the dial to the correct numbers
+    if check("the dial is not at the correct numbers"):
+        robot.turn("dial to correct numbers")
+    # Release the dial and open the gripper
+    if check("the gripper is around the dial and the dial is at the correct numbers"):
+        robot.release("dial")
+        robot.open("gripper")

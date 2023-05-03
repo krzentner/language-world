@@ -1,4 +1,5 @@
 
+    
     Steps:  1. Put gripper above drawer handle  2. Drop gripper around drawer handle  3. Pull open the drawer
     We need to put the gripper above the drawer handle before we can grab it, because of the angle of the robot's gripper.
     - When the robot's gripper is not vertically aligned with drawer handle, move the robot's gripper until the robot's gripper is vertically aligned with the drawer handle

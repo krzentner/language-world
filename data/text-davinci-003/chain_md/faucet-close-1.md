@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above the faucet handle  2. Grab the faucet handle with the gripper  3. Turn the faucet handle clockwise
-    We should first put the gripper above the faucet handle so that we can grab it.
-    - When the robot's gripper is not vertically aligned with the faucet handle, the robot should put gripper above faucet handle.
-    If the gripper is aligned to the faucet handle from above, we can grab the handle by moving the gripper down around it.
-    - When the robot's gripper is vertically aligned with faucet handle and the robot's gripper is not around faucet handle, the robot should put gripper around faucet handle.
-    Once the gripper is around the faucet handle, we can just turn the faucet clockwise.
-    - When the robot's gripper is around faucet handle, the robot should turn faucet handle clockwise.
+    Steps:  1. Put gripper slightly left of faucet handle  2. Start turning the faucet handle to the right  3. Turn the faucet handle harder 
+    If the faucet handle is slightly left of the robot's gripper, we should move the gripper near the faucet handle to start turning
+    - When the faucet handle is slightly left of the robot's gripper and the robot's gripper is not near the faucet handle, the robot should move gripper to slightly left of faucet handle. 
+    If the robot's gripper is near the faucet handle we can probably start turning the faucet right by moving the gripper right. 
+    - When the robot's gripper is near the faucet handle, the robot should start turning faucet right.
+    If the robot's gripper is facing resistance, push harder.
+    - When the robot's gripper faces resistance, the robot should turn faucet right harder.

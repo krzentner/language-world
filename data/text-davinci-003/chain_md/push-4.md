@@ -1,13 +1,8 @@
 
-
-Steps: 
-1. Put gripper above puck 
-2. Push gripper into top of puck 
-3. Slide puck to goal
-
-The robot can slide the puck by trapping it by pushing down on it from above and moving the gripper. If the puck isn't below the gripper as seen from above, move the gripper above the puck. 
-- When the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck, the robot should put the gripper above the puck.
-If the gripper is aligned with the puck but not near it, move the gripper down to the puck to slide it. 
-- When the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck, the robot should push the gripper into the puck.
-If the gripper is near the puck, we've probably trapped the puck and can slide it to the target location. Close the gripper to make sure we keep control of the puck. 
-- When the robot's gripper is near the puck and the puck is below the robot's gripper, the robot should slide the puck to the goal.
+    Steps:  1. Put gripper behind puck  2. Push against puck to move it  3. Move puck to goal
+    We need to put the gripper behind the puck to be able to push it in the correct direction.
+    - When the robot's gripper is not behind the puck, the robot should move gripper behind puck.
+    If the gripper is still behind the puck, we can start pushing it.
+    - When the robot's gripper is behind puck, the robot should push puck.
+    Now we should keep pushing the puck and adjust the angle as necessary until it reaches the goal.
+    - When the robot's gripper is not in front of the goal, the robot should move puck to goal.

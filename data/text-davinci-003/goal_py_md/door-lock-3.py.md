@@ -1,22 +1,19 @@
 
 
-Here's the program to perform the task `door_lock`:
+This task requires the robot to rotate a dial to a certain position. 
 
-```
 # door-lock: turn the dial on the door
-# def door_lock(robot):
+def door_lock(robot):
     # Steps:
-    #  1. Move the robot's gripper finish near the door lock
-    #  2. Turn the dial of the door lock in the required direction
-    # First, put the gripper near the door lock
-    if check("the robot's gripper is not near door lock"):
-        robot.move_gripper("near the door lock")
-    # Once the gripper is near the door lock, align it with the lock, closing it
-    # around the lock.
-    if check("the robot's gripper is near door lock and the robot's gripper is not vertically aligned with door lock"):
-        robot.move_gripper("vertically aligned with door lock", close_gripper=True)
-    # Once the gripper is lined up with the door lock, turn the dial in the
-    # required direction.
-    if check("the robot's gripper is vertically aligned with the door lock"):
-        robot.move_gripper("right or left of the door lock")
-```
+    #  1. Put the gripper above the dial
+    #  2. Drop the gripper around the dial
+    #  3. Slowly rotate the dial to the desired position
+    # First, put the gripper above the dial.
+    if check("the robot's gripper is not vertically aligned with dial"):
+        robot.move_gripper("vertically aligned with the dial")
+    # Next, drop the gripper around the dial.
+    if check("the robot's gripper is vertically aligned with dialog and the robot's gripper is not around dial"):
+        robot.move_gripper("around the dial")
+    # Lastly, slowly rotate the dial to the desired position.
+    if check("the robot's gripper is around the dial"):
+        robot.rotate_gripper("counter clockwise")

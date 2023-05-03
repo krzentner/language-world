@@ -1,23 +1,22 @@
 # Steps:
-    #  1. Check if there is a wall between the robot's gripper and the puck
-    #  2. If there is, move the gripper to either side of the wall
-    #  3. Move the gripper above the puck and pick it up
-    #  4. Move the gripper to the target location above the wall
-    #  5. Lower the puck to the target location
-    
-    # Check if there is a wall between the robot's gripper and the puck.
-    # If so, move the gripper to either side of the wall.
-    if check("there is a wall between the robot's gripper and the puck"):
-        robot.move_gripper("next to the wall")
-    
-    # Move the gripper above the puck and pick it up.
-    if check("the robot's gripper is not vertically aligned with the puck"):
-        robot.move_gripper("vertically aligned with the puck")
-    if check("the robot's gripper is not around the puck and the robot's gripper is open"):
-        robot.move_gripper("above the puck", close_gripper=True)
-    
-    # Move the gripper to the target location above the wall and lower the puck.
-    if check("the robot's gripper is not near the target location"):
-        robot.move_gripper("above the target location")
-    if check("the robot's gripper is above the wall and the puck is not at the target location"):
-        robot.move_gripper("above the target location", close_gripper=True)
+    #  1. Put gripper above puck
+    #  2. Drop gripper around puck
+    #  3. Close gripper around puck
+    #  4. Lift puck over the wall
+    #  5. Move puck to goal
+    # This task is similar to pick-place, but with a wall in the way.
+    # First, put the gripper roughly above the puck so that we don't bump it
+    # while trying to grab it.
+    if check("the robot's gripper is not above the puck"):
+        robot.move_gripper("above the puck")
+    # If the gripper isn't around the puck, put it around the puck.
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.move_gripper("near the puck", close_gripper=True)
+    # If the gripper is near the puck and closed, lift the puck over the wall by
+    # moving the gripper up.
+    if check("the robot's gripper is around puck"):
+        robot.move_gripper("above the wall")
+    # Once the gripper is over the wall, move the gripper towards the target
+    # location to place the puck.
+    if check("the robot's gripper is near the target location"):
+        robot.move_gripper("near the target location")

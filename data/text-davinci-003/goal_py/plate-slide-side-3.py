@@ -1,21 +1,29 @@
 
     # Steps:
-    #  1. Put the gripper in front of the plate
-    #  2. Trap the plate with the gripper
-    #  3. Line up the plate with the target location
-    #  4. Slide the plate sideways into the target location
-    # First, move the gripper in front of the plate to line up the gripper with
-    # the plate.
+    #  1. Put gripper right above plate
+    #  2. Move gripper left to slide plate
+    #  3. Slide the plate until it is lined up with the target location
+    # First, put the gripper right above the plate.
+    if check("the robot's gripper is not above plate"):
+        robot.move_gripper("above the plate")
+    # Once the gripper is above the plate, start sliding it by moving the
+    # gripper to the left.
+    if check("the robot's gripper is above the plate and the robot's gripper is not left of the plate"):
+        robot.move_gripper("left of the plate")
+    # Once the gripper is near the plate, move it until the plate is lined up
+    # with the target location.
+    if check("the plate is horizontally aligned with target"):
+        robot.move_gripper("above the plate")
+
+# plate-push: push the plate into the target location
+def plate_push(robot):
+    # Steps:
+    #  1. Put gripper in front of plate
+    #  2. Push plate to target location
+    # First, put the gripper in front of the plate.
     if check("the robot's gripper is not forward aligned with plate"):
-        robot.move_gripper("forward aligned with the plate", close_gripper=True)
-    # Once the gripper is in front of the plate, close the gripper to trap the
-    # plate.
-    if check("the robot's gripper is forward aligned with plate and the robot's gripper is not closed"):
-        robot.move_gripper("right of the plate", close_gripper=True)
-    # Now that the plate is trapped, line it up with the target location.
-    if check("the robot's gripper is right of the plate and the plate is not horizontally aligned with target location"):
-        robot.move_gripper("horizontally aligned with target location")
-    # Now that the plate is lined up with the target location, slide the plate
-    # into the target location.
-    if check("the robot's gripper is horizontally aligned with target location"):
-        robot.move_gripper("right of the target location")
+        robot.move_gripper("forward aligned with the plate")
+    # If the gripper is in front of the plate, we can start to push it to the
+    # target location.
+    if check("the robot's gripper is forward aligned with plate"):
+        robot.move_gripper("forward aligned with the target location")

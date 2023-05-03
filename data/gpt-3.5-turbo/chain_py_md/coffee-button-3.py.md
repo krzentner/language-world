@@ -1,12 +1,11 @@
 # coffee-button: push the button on the coffee machine
-# def coffee_button(robot):
-    # Steps:
-    # 1. Put the gripper above the coffee machine button
-    # 2. Push down on the button
-    # First, position the gripper above the coffee machine button.
-    if check("the robot's gripper is not above the coffee machine button"):
-        robot.reach("to the coffee machine button")
-    # Once the gripper is positioned correctly above the button, push down on the
-    # button.
-    if check("the robot's gripper is above the coffee machine button"):
-        robot.push("down on the button")
+# Steps:
+#  1. Put gripper above the button
+#  2. Push the button down
+def coffee_button(robot):
+    # First, put the gripper of the robot above the button on the coffee machine.
+    if check("the robot's gripper is not positioned above the coffee button"):
+        robot.put("gripper above coffee button")
+    # Then, push the button down.
+    if check("the robot's gripper is positioned above the coffee button"):
+        robot.push("down on coffee button")

@@ -1,27 +1,15 @@
 
 
-Step 1: Line Up Gripper From the Side
+Then continue with the steps as seen below: 
 
 ```
-# handle-press-side: push down the handle from the side
-# def handle_press_side(robot):
-    # Steps:
-    #  1. Line up the gripper from the side
-    #  2. Push down on the handle from the side
-    if check("the robot's gripper is not horizontally aligned with the handle"):
-        robot.align("gripper to handle from side")
-```
-
-Step 2: Push Down the Handle
-
-```
-# handle-press-side: push down the handle from the side
-# def handle_press_side(robot):
-    # Steps:
-    #  1. Line up the gripper from the side
-    #  2. Push down on the handle from the side
-    if check("the robot's gripper is not horizontally aligned with the handle"):
-        robot.align("gripper to handle from side")
-    if check("the robot's gripper is horizontally aligned with the handle"):
-        robot.push("down on the handle")
+# Steps:
+#  1. Line up the gripper with the handle from the side
+#  2. Push down the handle from the side
+# First, line up the robot's gripper with the handle from the side.
+if check("the robot's gripper is not horizontally aligned with handle"):
+    robot.put("gripper to side of handle")
+# Once the gripper is lined up with the handle, push it down from the side.
+if check("the robot's gripper is horizontally aligned with handle"):
+    robot.push("handle down from side")
 ```

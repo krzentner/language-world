@@ -1,4 +1,5 @@
 
-    - When the robot's gripper is not vertically aligned with the peg, the robot should put gripper above peg.
-    - When the peg is not forward aligned with robot's gripper, the robot should grab peg.
-    - When the robot's gripper is aligned with the peg and the peg is plugged in, the robot should pull the peg to the side and out.
+The robot should perform the following steps:
+    - When the robot's gripper is not vertically aligned with the peg and the robot's gripper is not around peg, the robot should put gripper around peg.
+    - When the robot's gripper is around the peg, the robot should pull peg to the side.
+    - When the robot's gripper is no longer aligned with the peg, the robot should release the peg.

@@ -1,10 +1,8 @@
 
 
-Then, the program would be:
+Then, add the following code to complete the task:
 
-```
-# push: slide the puck to the target location
-# def push(robot):
+```    
     # Steps:
     #  1. Put gripper above puck
     #  2. Push gripper into top of puck

@@ -1,6 +1,6 @@
-To grab the mug and move it to the target location reliably for the task `coffee-push`, the robot should perform the following steps:
-
-- When the robot's gripper is not above the mug, the robot should move the gripper above the mug.
-- When the robot's gripper is above the mug and the robot's gripper is open, the robot should close the gripper around the mug.
-- When the robot's gripper is holding the mug, the robot should lift the mug and move it to the target location.
-- When the robot's gripper is above the target location and the robot's gripper is holding the mug, the robot should release the mug at the target location.
+To grab the mug and move it to the target location reliably, the robot should perform the following steps:
+    - When the robot's gripper is not vertically aligned with the handle of the mug, the robot should put the gripper above the handle of the mug.
+    - When the robot's gripper is not around the handle of the mug and the gripper is open, the robot should close the gripper around the handle of the mug.
+    - When the robot's gripper is grasping the mug handle, the robot should lift the mug from its current location.
+    - When the mug is above the target location, the robot should move the gripper to be positioned above the center of the mug base.
+    - When the gripper is above the center of the mug base, the robot should open the gripper to place the mug at the target location.

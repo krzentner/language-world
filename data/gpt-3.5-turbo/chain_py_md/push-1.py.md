@@ -1,18 +1,30 @@
 # push: slide the puck to the target location
 def push(robot):
     # Steps:
-    #  1. Put gripper above puck
-    #  2. Push gripper into top of puck
-    #  3. Slide puck to goal
+    # 1. Put gripper above the puck
+    # 2. Drop gripper around the puck
+    # 3. Close the gripper around the puck
+    # 4. Slide the puck to the target location
+    # 5. Open the gripper
     
-    # Check if the gripper is not above the puck and not vertically aligned with the puck
-    if check("the robot's gripper is not above the puck and the robot's gripper is not vertically aligned with the puck"):
-        robot.put("gripper above the puck")
-        
-    # Check if the gripper is above the puck but not around it
-    if check("the robot's gripper is above the puck and the robot's gripper is not around the puck"):
-        robot.push("gripper into the puck")
-        
-    # Check if the gripper is around the puck and the puck is below the gripper
-    if check("the robot's gripper is around the puck and the puck is below the robot's gripper"):
-        robot.slide("the puck to the goal")
+    # First, put the gripper above the puck
+    if check("the robot's gripper is not above the puck"):
+        robot.place("gripper above puck")
+    
+    # Next, put the gripper around the puck
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.drop("gripper around puck")
+    
+    # Close the gripper around the puck
+    if check("the robot's gripper is near puck and the robot's gripper is open"):
+        robot.close("gripper around puck")
+    
+    # Slide the puck to the target location
+    if check("the robot's gripper is closed and the puck is not at the target location"):
+        robot.slide("puck to goal")
+    
+    # Open the gripper
+    if check("the robot's gripper is closed and the puck is at the target location"):
+        robot.lift("gripper up")
+        robot.move("gripper to home position")
+        robot.release("gripper")

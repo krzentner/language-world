@@ -1,9 +1,9 @@
 
-    if check("the robot's gripper is not vertically aligned with the stick"):
-        robot.put("gripper above stick")
-    if check("the robot's gripper is vertically aligned with the stick and the robot's gripper is not around the stick"):
+    if check("the robot's gripper is not near the stick"):
         robot.grab("stick")
-    if check("the robot's gripper is around the stick and the stick is not horizontally aligned with the thermos"):
-        robot.align("stick to thermos")
-    if check("the stick is horizontally aligned with the thermos"):
-        robot.push("stick towards goal")
+    if check("the robot's gripper is above the thermos but below the stick"):
+        robot.reach("above thermos")
+    if check("the robot's gripper is above the stick"):
+        robot.push("stick onto thermos")
+    if check("the robot's gripper is near the thermos and the robot's gripper has stick across it"):
+        robot.push("thermos toward goal")

@@ -1,28 +1,33 @@
 
 
-Steps:
+The steps are: 
 1. Put gripper above the peg
 2. Grab the peg with the gripper
-3. Move the peg sideways
-4. Pull the peg out
+3. Align the peg with the hole
+4. Pull the peg sideways out of the hole
 
-# peg-unplug-side: pull the peg out from the side
-# def peg_unplug_side(robot):
+```
+# peg-unplug-side: grab the peg and pull the it out from the side
+def peg_unplug_side(robot):
     # Steps:
     #  1. Put gripper above the peg
     #  2. Grab the peg with the gripper
-    #  3. Move the peg sideways
-    #  4. Pull the peg out
+    #  3. Align the peg with the hole
+    #  4. Pull the peg sideways out of the hole
     # First, put the gripper above the peg.
     if check("the robot's gripper is not vertically aligned with the peg"):
         robot.put("gripper above peg")
-    # Once the gripper is lined up above the peg, we should be able to
-    # grab the peg by moving the gripper down around it.
-    if check("the robot's gripper is vertically aligned with peg and the robot's gripper is not around peg"):
+    # If the peg becomes left of the gripper, go back to putting the gripper
+    # above the peg.
+    # Because the peg is a long object, check if the gripper is lined up with it
+    # from the front instead of around it.
+    if check("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper"):
         robot.grab("peg")
-    # Now, we should be able to move the peg sideways
-    if check("the robot's gripper is around peg and the peg is not sideways to the hole"):
-        robot.slide("peg sideways")
-    # When the peg is sideways to the hole, we can pull it out.
-    if check("the peg is sideways to the hole"):
-        robot.pull("peg out")
+    # As long the gripper is still mostly around the peg and the peg isn't lined
+    # up with the hole, line up the peg with the hole.
+    if check("the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole"):
+        robot.align("peg to hole")
+    # If the peg is lined up with the hole to the side, pull it out.
+    if check("peg is horizontally aligned with hole"):
+        robot.pull("peg out of hole")
+```

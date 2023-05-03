@@ -1,10 +1,12 @@
 
 
-If check("the robot's gripper is not near the faucet handle"):
-    robot.move("gripper to faucet handle")
-if check("the robot's gripper is near the faucet handle and the gripper is open"):
-    robot.grab("faucet handle")
-if check("the robot's gripper is around the faucet handle and the faucet handle is not turned right"):
-    robot.turn("faucet right")
-if check("the faucet handle is turned right and the robot's gripper is around the faucet handle"):
-    robot.release("faucet handle")
+Then add the following lines of code:
+
+```
+    if check("the robot's gripper is not near faucet"):
+        robot.grab("faucet handle")
+    if check("the robot's gripper is near the faucet and the robot's gripper is not around faucet handle"):
+        robot.put("gripper around faucet handle")
+    if check("the robot's gripper is around faucet handle"):
+        robot.turn("faucet right")
+```

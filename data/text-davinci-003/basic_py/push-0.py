@@ -1,7 +1,9 @@
 
-    if check("the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck"):
-        robot.put("the gripper above the puck")
-    if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck"):
-        robot.push("the gripper into the puck")
-    if check("the robot's gripper is near the puck and the puck is below the robot's gripper"):
-        robot.slide("the puck to the goal")
+    if check("the robot's gripper is above the puck"):
+        robot.put("gripper around puck")
+    if check("the puck is not horizontally aligned with the target location"):
+        robot.align("puck to goal")
+    if check("the puck is horizontally aligned with the target location and the robot's gripper is almost vertically aligned with the puck and the robot's gripper is open"):
+        robot.close("gripper around puck")
+    if check("the robot's gripper is around puck and the robot's gripper is closed"):
+        robot.slide("puck to goal")

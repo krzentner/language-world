@@ -1,3 +1,1 @@
-To reach to the target location reliably, the robot should perform the following step:
-
-- When the robot's gripper is not near reach target, the robot should reach to goal.
+We would need more specific details about the task `reach` to provide accurate instructions for the robot. Could you please provide more information about the task?

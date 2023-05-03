@@ -1,4 +1,4 @@
 
-    - When the robot's gripper is not vertically aligned with the button and the robot's gripper is not close to the wall, the robot should move gripper to left of the wall.
-    - When the robot's gripper is close to the wall and the robot's gripper is not vertically aligned with button, the robot should put gripper above button.
-    - When the robot's gripper is vertically aligned with the button, the robot should push button.
+    - When the robot's gripper is not horizontally aligned with the button and wall in the way, the robot should put gripper above the button with wall in between. 
+    - When the robot's gripper is horizontally aligned with the button and wall in the way, the robot should move gripper underneath the wall. 
+    - When the robot's gripper nearly horizontally aligned with the button and the wall is no longer in the way, the robot should press down on the button.

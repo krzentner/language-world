@@ -1,24 +1,23 @@
 
 
-Solution:
+Next, the code should:
 
+1. Line up the gripper as viewed from above
+2. Push down on the wall to make sure it doesn't slide with the button
+3. Push down on the button from the top
+
+First, put the gripper above the wall, so it's aligned with the wall from above.
 ```
-# button-press-topdown-wall: push the button down from above with a short wall in the way
-# def button_press_topdown_wall(robot):
-    # Steps:
-    #  1. Put gripper above the wall
-    #  2. Drop gripper around the top of the wall, above the button
-    #  3. Push down on the button from above, over the wall
-    # Start by putting the gripper above the wall, so that we don't catch the
-    # wall.
-    if check("the robot's gripper is not above the wall"):
-        robot.put("gripper above wall")
-    # We need the gripper to be around the top of the wall, so move it up and
-    # around the wall until it is above the button.
-    if check("the robot's gripper is not around the top of the wall and the robot's gripper is open"):
-        robot.drop("gripper around the top of the wall")
-    # As long as the button is still left of the robot's gripper, we can press
-    # down on the button from above the wall.
-    if check("the button is left of the robot's gripper"):
-        robot.push("down on button from above the wall")
+    if check("the robot's gripper is not vertically aligned with the wall"):
+    	robot.put("gripper above wall")
+```
+Second, push down on the wall to make sure it doesn't move with the button.
+```
+    if check("the robot's gripper is above the wall and the robot's gripper is open"):
+    	robot.push("down on wall")
+```
+Finally, once the gripper is above the button and the wall is secure, push down on the button from the top.
+```
+	if check("the robot's gripper is above the button"):
+		robot.push("down on button")
 ```

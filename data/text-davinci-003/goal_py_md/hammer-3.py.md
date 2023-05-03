@@ -1,36 +1,58 @@
 
 
-Steps:
-1. Put gripper above the head of the hammer
-2. Drop the gripper around the head of the hammer
-3. Close the gripper around the head of the hammer
-4. Line up the hammer with the nail
-5. Swing the hammer down onto the nail
+The steps for hammering a nail with a robot's gripper would be:
 
-If the robot's gripper isn't above the head of the hammer, move it above the hammer.
+1. Put gripper above the nail
+2. Put gripper around the hammer handle
+3. Close gripper around hammer handle
+4. Move robot to above the nail, holding the hammer
+5. Lower the grip to the nail
+6. Raise the grip back up
 
-```
-if check("the robot's gripper is not above the head of the hammer"):
-    robot.move_gripper("above the head of the hammer")
-```
-
-If the gripper isn't around the head of the hammer and is open, close the gripper around the hammer.
+Begin by placing the gripper roughly above the nail, so that the robot does not bump the nail while trying to grab the hammer.
 
 ```
-if check("the robot's gripper is not around the head of the hammer and the gripper is open"):
-    robot.move_gripper("near the head of the hammer", close_gripper=True)
+# hammer: hit the nail with the hammer
+def hammer(robot):
+    # Steps:
+    #  1. Put gripper above the nail
+    #  2. Put gripper around the hammer handle
+    #  3. Close gripper around hammer handle
+    #  4. Move robot to above the nail, holding the hammer
+    #  5. Lower the grip to the nail
+    #  6. Raise the grip back up
+
+    # First, put the gripper roughly above the nail, so that we don't bump it while
+    # trying to grab the hammer.
+    if check("the robot's gripper is not above the nail"):
+        robot.move_gripper("above the nail")
 ```
 
-If the gripper is around the hammer, line up the hammer with the nail.
+Then, if the gripper is not around the hammer handle, move the gripper near the hammer handle so it can grab it.
 
 ```
-if check("the robot's gripper is around the head of the hammer"):
-    robot.move_gripper("vertically aligned with the nail")
+    # Then, if the gripper is not around the hammer handle, move the gripper
+    # near the hammer handle so it can grab it.
+    if check("the robot's gripper is not around the hammer handle and the robot's gripper is open"):
+        robot.move_gripper("near the hammer handle", close_gripper=True)
 ```
 
-Once the hammer is lined up with the nail, the robot can swing the hammer down onto the nail.
+If the gripper is near the hammer handle, we can probably grab it by closing the gripper.
 
 ```
-if check("the robot's gripper is vertically aligned with the nail"):
-    robot.move_gripper("below the nail", close_gripper=False)
+    # If the gripper is near the hammer handle, we can probably grab it by 
+    # closing the gripper.
+    if check("the robot's gripper is above the hammer handle and the robot's gripper is closed"):
+        robot.move_gripper("above the nail")
 ```
+
+Once the gripper is holding the hammer, move the robot to above the nail and lower the robot's grip to the nail.
+
+```
+    # Once the gripper is holding the hammer, move the robot to above the nail and
+    # lower the robot's grip to the nail.
+    if check("the robot's gripper is above the nail and the robot's gripper is closed"):
+        robot.move_gripper("above the nail")
+```
+
+When the robot's grip is

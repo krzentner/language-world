@@ -1,10 +1,11 @@
-The robot should perform the following steps to complete the task `pick-out-of-hole`:
-    Steps:  1. Put gripper above the peg  2. Grab the peg with the gripper  3. Lift the peg out of the hole and move it to the target location
-    First, put the gripper above the peg.
-    - When the robot's gripper is not vertically aligned with the peg, the robot should put gripper above peg.
-    If the gripper is around the peg, close the gripper to grab the peg.
-    - When the robot's gripper is near the peg and the robot's gripper is open, the robot should close gripper around peg.
-    Once the peg is grabbed, lift it up and out of the hole.
-    - When the robot's gripper is holding the peg, the robot should lift it out from the hole.
-    Finally, move the peg to the target location.
-    - When the peg is out of the hole, the robot should move it to the target location.
+To pick up the peg out of the hole and hold it at the target location reliably, the robot should perform the following steps:
+
+    Steps:  1. Put gripper above the hole  2. Lower gripper into the hole  3. Grab the peg with the gripper  4. Move the peg to the target location
+    The first step is to position the gripper above the hole.
+    - When the robot's gripper is not vertically aligned with the hole, the robot should put the gripper above the hole.
+    Next, the gripper should be lowered into the hole to grab the peg.
+    - When the robot's gripper is above the hole and the robot's gripper is not inserted in the hole, the robot should lower the gripper into the hole.
+    Once the gripper is inside the hole and has a firm grasp on the peg, the gripper can be raised again.
+    - When the robot's gripper is around the peg and the peg is inside the gripper, the robot should lift the gripper and peg up out of the hole.
+    Finally, the peg can be moved to the target location.
+    - When the robot's gripper is holding the peg, the robot should move the peg to the target location.

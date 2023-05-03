@@ -1,20 +1,16 @@
 # Steps:
-    #  1. Put gripper in front of the button
-    #  2. Grab the button with the gripper
-    #  3. Push the gripper forward to press the button
-    # First, put the gripper in front of the button.
-    if check("the robot's gripper is not in front of the button"):
-        robot.place("gripper in front of button")
-    # If the gripper isn't around the button, put it around the button.
-    if check("the robot's gripper is not around button and the robot's gripper is open"):
-        robot.drop("gripper around button")
-    # If the gripper is near the button and open, maybe we can grab it by closing
-    # the gripper.
-    if check("the robot's gripper is near button and the robot's gripper is open"):
-        robot.close("gripper around button")
-    # We closed the gripper, and the button is still near the gripper, so maybe we
-    # grabbed it.
-    # Try to push the gripper forward to press the button.
-    # If we didn't grab it, we'll just go back to an earlier step.
-    if check("the robot's gripper is around button"):
-        robot.push("forward to press button")
+    #  1. Move gripper to left of button
+    #  2. Move gripper forward until it presses the button
+    #  3. Push down on the button
+    # For this task, we need to move the gripper into a position where it can push
+    # the button from the front.
+    # First, move the gripper to the left of the button.
+    if check("the robot's gripper is not left of the button"):
+        robot.move("gripper to left of button")
+    # If the gripper is left of the button but not forward enough to press it,
+    # move the gripper forward until it presses the button.
+    if check("the robot's gripper is left of the button but not pressing the button"):
+        robot.move("gripper forward until it presses the button")
+    # Once the gripper is pressing the button, push down on the button.
+    if check("the robot's gripper is pressing the button"):
+        robot.push("down on button")

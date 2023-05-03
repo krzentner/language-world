@@ -1,8 +1,8 @@
-To push the button from the front with a short wall in the way reliably, the robot should perform the following steps:
-    Steps: 1. Put gripper in front of the button and wall  2. Move gripper to top of the button  3. Push down on the button
-    First, put the gripper in front of the button and wall so that we can see the button.
-    - When the robot's gripper is not aligned with the button and the wall, move the robot's gripper until the robot's gripper is aligned with the button and the wall
-    Once the gripper is lined up with the button and the wall, move the gripper to the top of the button.
-    - When the robot's gripper is not above the button, move the robot's gripper until the robot's gripper is above the button
-    After the gripper is above the button, push down on the button to press it.
-    - When the robot's gripper is above the button, move the robot's gripper until the robot's gripper is near the button
+To push the button from the front with a short wall in the way, the robot should perform the following steps:
+    Steps:  1. Put gripper next to the button's side  2. Push the button forward  3. Push the button down
+    Since there is a short wall in front of the button, we need to approach it from the side. Put the gripper next to the button's side.
+    - When the robot's gripper is not next to the button's side, move the robot's gripper until the robot's gripper is next to the button's side
+    Once the gripper is next to the button's side, push the button forward to slide it past the wall.
+    - When the robot's gripper is next to the button's side, move the robot's gripper until the robot's gripper is forward aligned with the button
+    After sliding the button past the wall, now we can push down on the button.
+    - When the robot's gripper is forward aligned with the button, move the robot's gripper until the robot's gripper is near the button

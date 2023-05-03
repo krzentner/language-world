@@ -1,17 +1,15 @@
 # Steps:
-#  1. Move hand to the puck
-#  2. Grab the puck with the hand
-#  3. Move the hand to the target location
-#  4. Release the puck
-# First, move the hand towards the location of the puck
-if check("the hand is not near the puck"):
-    robot.move("hand to puck")
-# If the hand is near the puck, grab it with the hand
-if check("the hand is near the puck and the hand is open"):
-    robot.grab("puck with hand")
-# Now that the hand has hold of the puck, move it to the target location
-if check("the hand is holding the puck and is not at the target location"):
-    robot.move("hand to target location with the puck")
-# Finally, release the puck once the hand is at the target location
-if check("the hand is holding the puck and is at the target location"):
-    robot.release("puck from hand")
+    #  1. Put hand near the puck
+    #  2. Grab the puck with the hand
+    #  3. Move the puck to the goal
+    # Because we're using a hand instead of a gripper, we don't need to worry
+    # about lining up or opening/closing the gripper.
+    # First, move the hand close to the puck.
+    if check("the robot's hand is not near the puck"):
+        robot.move("hand near puck")
+    # Grab the puck with the hand.
+    if check("the robot's hand is near the puck"):
+        robot.grab("puck")
+    # Move the puck to the goal.
+    if check("the robot's hand is holding the puck"):
+        robot.move("puck to goal")

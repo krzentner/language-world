@@ -1,10 +1,8 @@
 To push the soccer ball into the target location reliably, the robot should perform the following steps:
-    Steps:  1. Put gripper above the soccer ball  2. Drop gripper around the soccer ball  3. Close gripper around the soccer ball  4. Move the soccer ball to the goal
-    First, put the gripper above the soccer ball.
-    - When the robot's gripper is not above the soccer ball, move the robot's gripper until the robot's gripper is above the soccer ball
-    If the gripper isn't around the soccer ball, put it around the soccer ball.
-    - When the robot's gripper is not around the soccer ball and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the soccer ball and the robot's gripper is closed
-    If the gripper is near the soccer ball and closed, maybe we can push the soccer ball to the target.
-    - When the robot's gripper is above the soccer ball and the robot's gripper is closed, move the robot's gripper until the robot's gripper is close to the target location
-    If the gripper is close to the target location, we've probably trapped the soccer ball and can push it to the target. Open the gripper to release the soccer ball in the target location.
-    - When the robot's gripper is close to the target location while holding the soccer ball, open the gripper to release the soccer ball in the target location.
+    Steps:  1. Put gripper roughly above the soccer ball  2. Push gripper into top of soccer ball to trap it  3. Roll the soccer ball to the target location
+    The robot can roll the soccer ball by trapping it by pushing down on it from above and moving the gripper. If the soccer ball isn't below the gripper as seen from above, move the gripper above the soccer ball.
+    - When the robot's gripper is not above the soccer ball and the robot's gripper is not vertically aligned with the soccer ball, move the robot's gripper until the robot's gripper is vertically aligned with the soccer ball
+    If the gripper is aligned with the soccer ball but not near it, move the gripper down to the soccer ball to trap it.
+    - When the robot's gripper is vertically aligned with the soccer ball and the robot's gripper is not near the soccer ball, move the robot's gripper until the robot's gripper is above the soccer ball and the robot's gripper is closed
+    If the gripper is near the soccer ball, we've probably trapped the soccer ball and can roll it to the target location. Close the gripper to make sure we keep control of the soccer ball.
+    - When the robot's gripper is near the soccer ball and the soccer ball is below the robot's gripper, move the robot's gripper until the soccer ball is near the target location and roll the soccer ball towards the target location

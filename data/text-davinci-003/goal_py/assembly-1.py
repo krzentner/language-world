@@ -1,16 +1,23 @@
 
     # Steps:
-    #  1. Move the claw to the peg
-    #  2. Open the claw and put it around the peg
-    #  3. Close the claw so that it grips the peg
-    # First, move the gripper to the peg.
-    if check("the robot's gripper is not near the peg"):
-        robot.move_gripper("near the peg")
-    # If the gripper is near the peg but not around it, open it and put it
-    # around the peg.
-    if check("the robot's gripper is near the peg and the robot's gripper is open"):
-        robot.move_gripper("around the peg", close_gripper=True)
-    # If the gripper is closed, we must have successfully put the claw around the
-    # peg. Now we can close the gripper to make sure it holds onto the peg.
-    if check("the robot's gripper is around the peg and the robot's gripper is closed"):
-        robot.move_gripper("above the peg")
+    #  1. Put gripper above the wrench
+    #  2. Grab the wrench with the gripper
+    #  3. Line the wrench up with the peg
+    #  4. Wrap the wrench around the peg
+    # First, put the gripper above the wrench.
+    if check("the robot's gripper is not above the wrench"):
+        robot.move_gripper("above the wrench")
+    # If the wrench becomes forward of the gripper, go back to putting the 
+    # gripper above the wrench.
+    # Because the wrench is a wide object, check if the gripper is lined up with
+    # it from left or right instead of around it.
+    if check("the wrench is not left of the robot's gripper and the wrench is not right of the robot's gripper"):
+        robot.move_gripper("left of the wrench", close_gripper=True)
+    # As long the wrench is behind the robot's gripper, line up the wrench with the
+    # peg.
+    if check("the wrench is forward aligned with the peg"):
+        robot.move_gripper("right of the wrench")
+    # When the wrench is lined up with the peg, wrap it around the peg by 
+    # pushing it down.
+    if check("the robot's gripper is left of the wrench and the wrench is not around the peg"):
+        robot.move_gripper("below the peg")

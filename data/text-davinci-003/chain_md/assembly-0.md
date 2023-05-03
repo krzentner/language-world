@@ -1,8 +1,11 @@
 
-    Steps:  1. Put gripper above the wrench  2. Drop gripper around the wrench  3. Position the wrench around the peg  4. Close the wrench around the peg
-    First, we put the gripper above the wrench.
-    - When the robot's gripper is not above the wrench, the robot should put the gripper above the wrench.
-    Once the gripper is above the wrench, we can move the gripper around it and line it up with the peg.
-    - When the robot's gripper is not around the wrench and the robot gripper is open, the robot should drop gripper around the wrench.
-    After the gripper is around the wrench and the peg is aligned, close the wrench around the peg to hold the peg in place.
-    - When the robot's gripper is around the wrench and the peg is aligned, the robot should close the wrench around the peg.
+
+Steps:  1. Put gripper on top of the wrench  2. Grab the wrench with the gripper  3. Wrap the wrench around the peg  4. Securely close the wrench
+    First, the robot should put the gripper on top of the wrench.
+    - When the robot's gripper is not above the wrench, the robot should put gripper above wrench.
+    If the gripper is near the wrench, close the gripper to grab it.
+    - When the robot's gripper is near the wrench and the robot's gripper is open, the robot should close gripper around wrench.
+    Now that the robot has the wrench, wrap it around the peg by moving the robot's gripper all the way around it.
+    - When the robot's gripper is not around the peg and the robot's gripper is closed, the robot should wrap wrench around peg.
+    Finally, securely close the wrench around the peg.
+    - When the robot's gripper is around the peg and the robot's gripper is closed, the robot should close wrench around peg.

@@ -1,12 +1,12 @@
 
 
-if check("the robot's gripper is not vertically aligned with the puck"):
-    robot.put("gripper above puck")
-if check("the robot's gripper is not around puck and the robot's gripper is open"):
-    robot.drop("gripper around puck")
-if check("the robot's gripper is near puck and the robot's gripper is closed"):
-    robot.move("puck to goal")
-if check("the robot's gripper is above puck and the robot's gripper is closed"):
-    robot.lift("puck from the ground")
-if check("the robot's gripper is moving forward and the puck is above the robot's gripper"):
-    robot.move("gripper and puck to goal")
+Solution:
+```
+# hand-insert: pick up the puck and move it to the target location
+def hand_insert(robot):
+    if check("the robot's gripper is not near the puck"):
+        robot.put("gripper near puck")
+    if check("the robot's gripper is near the puck and the robot's gripper is open"):
+        robot.grab("puck")
+    if check("the robot's gripper is closed around the puck"):
+        robot.move("puck to target location")

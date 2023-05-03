@@ -1,15 +1,17 @@
 
     # Steps:
-    #  1. Put gripper below handle
-    #  2. Grab handle with gripper
-    #  3. Pull handle up
-    # First, put the gripper under the handle.
-    if check("the robot's gripper is not below the handle"):
-        robot.put("gripper below handle")
-    # If the handle is left of the robot's gripper, we should move the gripper
-    # near the handle to start grabbing it.
-    if check("the handle is left of the robot's gripper and the robot's gripper is not near the handle"):
-        robot.grab("handle")
-    # Now that the gripper is roughly around the handle, pull it up.
-    if check("the robot's gripper is around the handle"):
+    #  1. Put gripper above handle
+    #  2. Drop gripper around handle
+    #  3. Pull up handle
+    # Get the gripper above the door handle before we can grab it.
+    if check("the robot's gripper is not above handle and the robot's gripper is not above handle"):
+        robot.put("gripper above handle")
+    # If the gripper is above the handle, but not aligned with it or above it,
+    # we should move the gripper around the handle.
+    if check("the robot's gripper is above handle and the robot's gripper is not around handle and the robot's gripper is open"):
+        robot.drop("gripper around handle")
+    # If the gripper is around the handle, we should close the gripper to grab it
+    # and then pull up.
+    if check("the robot's gripper is around handle and the robot's gripper is open"):
+        robot.close("gripper around handle")
         robot.pull("handle up")

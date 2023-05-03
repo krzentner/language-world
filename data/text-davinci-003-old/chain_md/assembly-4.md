@@ -1,10 +1,8 @@
 
-    Steps:  1. Put gripper above wrench  2. Grab wrench with gripper  3. Rotate the wrench around the peg  4. Tighten the wrench
-    First, we need to put the gripper above the wrench.
-    - When the robot's gripper is not vertically aligned with the wrench, the robot should put gripper above wrench.
-    Once the gripper is above the wrench, grab it.
-    - When the robot's gripper is vertically aligned with the wrench and the robot's gripper is not around the wrench, the robot should grab wrench.
-    Now that the gripper is around the wrench, we can rotate it around the peg.
-    - When the robot's gripper is around the wrench and the wrench is not around the peg, the robot should rotate wrench around peg.
-    Once the wrench is around the peg, tighten it.
-    - When the robot's gripper is around the wrench and the wrench is around the peg, the robot should tighten the wrench.
+    Steps:  1. Put the wrench in front of the peg  2. Grab the peg with the wrench  3. Move the wrench and peg together to form the desired assembly
+    First, put the wrench in front of the peg.
+    - When the wrench is not in front of the peg, the robot should put wrench in front of peg.
+    Once the wrench is lined up in front of the peg, try to grab the peg with the wrench.
+    - When the peg is not in the wrench and the wrench is in front of the peg, the robot should grab peg.
+    Lastly, once the peg is in the wrench, form the desired assembly by moving the wrench and peg together.
+    - When the peg is in the wrench, the robot should move wrench and peg together to form the desired assembly.

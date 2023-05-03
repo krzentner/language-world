@@ -1,17 +1,12 @@
 
     # Steps:
-    #  1. Put gripper slightly above the short wall
-    #  2. Push the short wall to the side
-    #  3. Put gripper above the button and push it
-    # To start, put the gripper slightly above the short wall so that it can
-    # push it safely.
-    if check("the robot's gripper is not slightly above short wall"):
-        robot.move_gripper("slightly above short wall")
-    # Once the gripper is slightly above, start pushing the short wall to the
-    # side.
-    if check("the robot's gripper is slightly above the short wall"):
-        robot.move_gripper("right of the short wall")  
-    # Once we've pushed the wall to the side, the button should be visible. Line
-    # up the gripper above the button and push it.
-    if check("the robot's gripper is above the button"):
-        robot.move_gripper("vertically aligned with the button")
+    #  1. Line up the gripper as viewed from the front
+    #  2. Push down on the button
+    # Because of the wall in the way, we can't line up the gripper just above the
+    # button.
+    # Line up the robot's gripper from the front.
+    if check("the robot's gripper is not forward aligned with the button"):
+        robot.move_gripper("close to the button from the front")
+    # Now that the gripper is lined up, just push down on the button.
+    if check("the robot's gripper is close to the button from the front"):
+        robot.move_gripper("around the button")

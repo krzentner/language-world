@@ -1,5 +1,5 @@
 
-    if check("the robot's gripper is below the button"):
-        robot.put("gripper above the button")
-    if check("the robot's gripper is above the button"):
-        robot.push("down on the button")
+    if check("the robot's gripper is not near the button"):
+        robot.put("gripper near button")
+    if check("the robot's gripper is near the button"):
+        robot.push("the button")

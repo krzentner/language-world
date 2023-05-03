@@ -1,3 +1,5 @@
 
-    if check("the robot's gripper is not near the target"):
-        robot.reach("toward target")
+    if check("the robot's arm is not in front of the target"):
+        robot.move("arm to in front of target")
+    if check("the robot's arm is in front of the target"):
+        robot.reach("arm to target")

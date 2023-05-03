@@ -1,10 +1,10 @@
 
-
-Steps:  1. Reach towards the cube  2. Grab the cube with gripper  3. Slide the cube to the target location
-    First, move the gripper towards the cube. 
-    We don't have any objects to manipulate, so we can just move the robot's gripper directly to the cube.
-    - When the robot's gripper is not near the cube, the robot should reach towards the cube.
-    When the robot's gripper is near the cube, close the gripper to grab the cube.
-    - When the robot's gripper is near the cube and the robot's gripper is open, the robot should grab the cube.
-    If the grip is closed and we've successfully grabbed the cube, slide it towards the target location.
-    - When the robot's gripper is near the cube and the robot's gripper is closed, the robot should slide the cube to the target location.
+    Steps:  1. Put gripper directly above cube  2. Drop gripper around cube  3. Close gripper around cube  4. Move cube to goal
+    We need to place our gripper directly above the cube first.
+    - When the robot's gripper is not above the cube, the robot should place gripper above cube.
+    Once the gripper is above the cube, we can move it down to around the cube.
+    - When the robot's gripper is not around cube and the robot's gripper is open, the robot should drop gripper around cube.
+    Once the gripper is around the cube, we can close the gripper to securely grab it.
+    - When the robot's gripper is around cube and the robot's gripper is open, the robot should close gripper around cube.
+    After closing the gripper, the cube should be securely held. Now move the cube to the target.
+    - When the robot's gripper is around cube and the robot's gripper is closed, the robot should move cube to goal.

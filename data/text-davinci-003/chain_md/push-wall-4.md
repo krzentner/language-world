@@ -1,6 +1,8 @@
 
-    Steps:  1. Put gripper behind the wall, aligned with the puck  2. Push the wall to the side
-    If the robot's gripper is behind the wall, align it with the puck.
-    - When the robot's gripper is not behind wall and the puck is not forward aligned with the robot's gripper, the robot should put gripper behind wall.
-    If the gripper is lined up with the puck, push the wall to the side.
-    - When the robot's gripper is behind wall and the puck is forward aligned with the robot's gripper, the robot should push wall aside.
+    Steps:  1. Put gripper above puck  2. Push gripper into top of puck  3. Push against the wall  4. Slide puck to goal
+    We need to move the robot's gripper to the puck before we can start pushing against the wall.
+    - When the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck, the robot should put the gripper above the puck.
+    Now the robot can start to move the puck. Touch the wall with the gripper and the puck at the same time.
+    - When the robot's gripper is vertically aligned with the puck and the robot's gripper is not near the wall, the robot should push the gripper into the puck.
+    Now the robot can start to push the puck forward. It will attempt to duck under the wall and move towards the goal.
+    - When the robot's gripper is near the wall and near the puck, the robot should push the puck against the wall and slide it to the goal.

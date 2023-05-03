@@ -1,13 +1,13 @@
 # door-open: pull the door open
-# def door_open(robot):
+def door_open(robot):
     # Steps:
-    #  1. Put gripper above door handle
-    #  2. Drop gripper around door handle
-    #  3. Pull open the door
-    # First, put the gripper mostly above the door handle.
-    if check("the robot's gripper is not almost vertically aligned with door handle"):
-        robot.move_gripper("almost vertically aligned with the door handle", close_gripper=True)
-    # As long as the gripper is almost lined up, closing it should line it up
-    # all the way.
-    if check("the robot's gripper is vertically aligned with the door handle"):
-        robot.move_gripper("left of the door handle")
+    # 1. Put the gripper on the door knob
+    # 2. Turn the door knob to open the door
+    # First, we need to put the gripper on the door knob. If the gripper is not above the door knob,
+    # we need to move it there.
+    if check("the robot's gripper is not above the door knob"):
+        robot.move_gripper("above the door knob")
+    # Once the gripper is above the door knob, we need to rotate it to open the door. We can do this by
+    # turning the gripper to the left or right. The direction doesn't matter as long as the door opens.
+    if check("the robot's gripper is above the door knob"):
+        robot.move_gripper("around the door knob")

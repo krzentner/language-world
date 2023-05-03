@@ -1,12 +1,12 @@
 
     # Steps:
-    #  1. Put gripper horizontally aligned with handle
-    #  2. Pull up on the handle
-    # We need to line up the gripper with the handle from the side so that it
-    # can grip it.
-    if check("the robot's gripper is not horizontally aligned with the handle"):
-        robot.move_gripper("horizontally aligned with the handle", close_gripper=True)
-    # Now that the gripper is lined up with the handle, pull up on the handle to
-    # open the door.
-    if check("the robot's gripper is horizontally aligned with the handle"):
-        robot.move_gripper("above the handle")
+    #  1. Put gripper above handle
+    #  2. Drop gripper around handle
+    #  3. Pull up handle
+    # If the gripper isn't near the handle, drop it near the handle.
+    if check("the robot's gripper is not around the handle"):
+        robot.move_gripper("near the handle")
+    # Use the same check from above to make sure the handle is still below the
+    # gripper before pulling.
+    if check("the robot's gripper is near handle and the robot's gripper is closed"):
+        robot.move_gripper("upward aligned with the handle")

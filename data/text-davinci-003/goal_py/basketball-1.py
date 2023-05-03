@@ -1,19 +1,18 @@
 
     # Steps:
-    #  1. Put gripper above ball
-    #  2. Grab ball with gripper
-    #  3. Line up the ball with the hoop
-    #  4. Dunk the ball into the hoop
-    # We need to put the gripper above the ball before we can grab it
-    if check("the robot's gripper is not above the ball"):
-        robot.move_gripper("above the ball")
-    # If the ball isn't near the gripper, move the gripper near it.
-    if check("the robot's gripper is not near the ball"):
+    #  1. Put gripper above and slightly left of the ball
+    #  2. Drop the gripper around the ball
+    #  3. Close the gripper around the ball
+    #  4. Put the ball into the hoop
+    # First, put the gripper slightly left of the ball. We want to avoid getting
+    # directly above the ball and pushing it away instead of trapping it.
+    if check("the robot's gripper is not slightly left of ball"):
+        robot.move_gripper("slightly left of ball")
+    # If the gripper is above and slightly left of the ball, drop the gripper
+    # around the ball.
+    if check("the gripper is slightly left of the ball and the gripper is not near the ball"):
         robot.move_gripper("near the ball", close_gripper=True)
-    # If the ball is near the gripper and the gripper is open, close the gripper
-    # to grab the ball.
-    if check("the robot's gripper is above the ball and the gripper is closed"):
-        robot.move_gripper("vertically aligned with the hoop")
-    # Once the ball is lined up with the hoop, dunk the ball.
-    if check("the ball is lined up with the hoop"):
-        robot.move_gripper("above the hoop")
+    # Now that the gripper is trapping the ball, we can lift it up and put it
+    # into the hoop.
+    if check("the robot's gripper is near the ball and the robot's gripper is closed"):
+        robot.move_gripper("at the hoop")

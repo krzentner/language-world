@@ -1,7 +1,7 @@
 
-    if check("the robot's gripper is not vertically aligned with wrench and the wrench is not left aligned with the robot's gripper"):
+    if check("the robot's gripper is not around the wrench and the robot's gripper is not above the wrench"):
         robot.put("gripper above wrench")
-    if check("the robot's gripper is forward aligned with the wrench"):
-        robot.grab("wrench")
-    if check("the robot's gripper is around the wrench and the wrench is still on the peg"):
+    if check("the robot's gripper is above wrench and the robot's gripper is not around wrench"):
+        robot.drop("gripper around wrench")
+    if check("the robot's gripper is around wrench and the robot's gripper is not near the peg"):
         robot.pull("wrench off peg")

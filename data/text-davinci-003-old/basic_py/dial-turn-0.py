@@ -1,12 +1,7 @@
 
-    if check("the robot's gripper is not above the dial"):
+    if check("the robot's gripper is not vertically aligned with the dial"):
         robot.put("gripper above dial")
-    if check("the robot's gripper is above the dial"):
-        robot.turn("dial")
-
-# valve-turn: turn the valve
-# def valve_turn(robot):
-    if check("the robot's gripper is not above the valve"):
-        robot.put("gripper above valve")
-    if check("the robot's gripper is above the valve"):
-        robot.turn("valve")
+    if check("the robot's gripper is above dial and the robot's gripper is open"):
+        robot.grab("dial")
+    if check("the robot's gripper is around the dial"):
+        robot.twist("to desired setting")

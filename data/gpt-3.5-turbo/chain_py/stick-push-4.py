@@ -1,17 +1,24 @@
 # Steps:
-#  1. Put the gripper above the stick
-#  2. Open the gripper and grab the stick
-#  3. Place the gripper near the thermos
-#  4. Push the thermos with the stick towards the target
-# First, put the gripper above the stick.
-if check("the robot's gripper is not vertically aligned with the stick"):
-    robot.put("gripper above stick")
-# If the gripper is above the stick, open it and grab the stick.
-if check("the robot's gripper is vertically aligned with the stick and the robot's gripper is open"):
-    robot.grab("stick")
-# Once we have the stick, place the gripper near the thermos
-if check("the stick is in the robot's gripper and the robot's gripper is not near the thermos"):
-    robot.place("gripper near thermos")
-# If we are close to the thermos with the stick, start pushing it towards the target
-if check("the stick is close to the thermos and the thermos is not at the target location"):
-    robot.push("thermos towards target")
+    #  1. Put gripper above stick
+    #  2. Grab stick with gripper
+    #  3. Position gripper so that stick can reach thermos
+    #  4. Grab thermos with stick
+    #  5. Drag thermos to target location
+    # First, put the gripper above the stick.
+    if check("the robot's gripper is not above the stick"):
+        robot.place("gripper above the stick")
+    # If the gripper is above the stick but not holding it, grab the stick.
+    if check("the robot's gripper is above the stick and the robot's gripper is open"):
+        robot.drop("gripper around stick")
+    # If the gripper has the stick, move the gripper so that the stick can reach
+    # the thermos.
+    if check("the robot's gripper is holding the stick and the thermos is not near the end of the stick"):
+        robot.move("gripper to position for thermos")
+    # If the gripper is holding the stick and near the thermos, grab the thermos
+    # with the stick.
+    if check("the robot's gripper is holding the stick and the thermos is near the end of the stick"):
+        robot.grab("thermos with stick")
+    # If the gripper has the stick and the thermos, slide/move the thermos to the
+    # target location.
+    if check("the robot's gripper is holding the stick and the thermos is grabbed by the stick"):
+        robot.slide("thermos to the target location")

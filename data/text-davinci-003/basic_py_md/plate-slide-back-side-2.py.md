@@ -1,12 +1,15 @@
 
 
-if check("the robot's gripper is not above plate"):
+The program should aim to slide a plate back sideways into the target location.
+
+If check("the robot's gripper is not above the plate and the robot's gripper is not vertically aligned with the plate"):
     robot.put("gripper above plate")
-if check("the plate is not to the left of the robot's gripper and the plate is not forward aligned with the gripper"):
-    robot.grab("plate")
-if check("the plate is forward aligned with the gripper and the plate is not way to the right of the target location"):
-    robot.move("plate to the right")
-if check("the plate is almost way to the right of the target location"):
-    robot.slide("plate towards target location")
-if check("the plate is near the target location"):
-    robot.slide("plate backwards")
+
+If check("the robot's gripper is vertically aligned with the plate and the robot's gripper is not near the plate"):
+    robot.grab("plate with gripper")
+
+If check("the robot's gripper is near the plate and the plate is below the robot's gripper"):
+    robot.slide("plate back to the goal")
+
+If check("the plate is just before the goal position"):
+    robot.push("plate into the goal position")

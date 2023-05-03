@@ -1,13 +1,14 @@
 # Steps:
-#  1. Grab the hammer
-#  2. Line up the hammer with the nail
-#  3. Swing the hammer down to hit the nail
-# First, put the gripper around the hammer.
-if check("the robot's gripper is not around the hammer"):
-    robot.grab("hammer")
-# Line up the hammer with the nail.
-if check("the robot's gripper is around the hammer and the hammer is not aligned with the nail"):
-    robot.align("hammer with nail")
-# Swing the hammer down to hit the nail.
-if check("the robot's gripper is around the hammer and the hammer is aligned with the nail"):
-    robot.swing("hammer to hit the nail")
+    #  1. Pick up the hammer
+    #  2. Position the hammer above the nail
+    #  3. Swing the hammer down to hit the nail
+    # First, pick up the hammer if the gripper is not already holding it.
+    if check("the robot's gripper is not holding the hammer"):
+        robot.pickup("hammer")
+    # Next, position the hammer above the nail.
+    # We can assume the nail is already in place.
+    if check("the robot's gripper is not directly above the nail"):
+        robot.align("hammer above nail")
+    # Once the hammer is aligned with the nail, swing it down to hit the nail.
+    if check("the robot's gripper is directly above the nail"):
+        robot.swing("hammer down")

@@ -1,0 +1,1 @@
+Sorry, there seems to be a mistake here. The function `drawer-open` has already been defined earlier in the code. Please disregard this duplicate, and let me know if you need any assistance with anything else!

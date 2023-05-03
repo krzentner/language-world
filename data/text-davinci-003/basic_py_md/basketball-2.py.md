@@ -1,16 +1,17 @@
 
 
-Then add the following code:
-
+Your code should look something like this:
 ```
-if check("the robot's gripper is not near the ball"):
-    robot.reach("to ball")
-if check("the robot's gripper is not pre-grasped the ball"):
-    robot.grasp("the ball")
-if check("the robot's gripper has the ball and the hoop is not vertically aligned with the ball"):
-    robot.align("hoop with ball")
-if check("the robot's gripper is aligned with the hoop and the hoop is not within its reach"):
-    robot.reach("to hoop")
-if check("the robot's gripper is within reach of the hoop"):
-    robot.release("ball into hoop")
+# basketball: put the ball into into the hoop
+def basketball(robot):
+    if check("the robot's gripper is not above the ball"):
+        robot.put("gripper above ball")
+    if check("the robot's gripper is almost vertically aligned with ball and the robot's gripper is open"):
+        robot.drop("gripper around ball")
+    if check("the robot's gripper is around the ball and the robot's gripper is not near hoop"):
+        robot.move("to hoop")
+    if check("the robot's gripper is near the hoop and the robot's gripper is closed"):
+        robot.move("gripper up and above the hoop")
+    if check("the robot's gripper is above the hoop"):
+        robot.drop("ball into hoop")
 ```

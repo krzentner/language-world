@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper in front of button  2. Move gripper down and slide towards button  3. Push button
-    First, put the gripper in front of the button.
-    - When the robot's gripper is not horizontally aligned with button, the robot should put gripper in front of button.
-    Start to move the gripper down by sliding it sideways, so it stays in front of the button as it moves down.
-    - When the robot's gripper is not down and the robot's gripper is not near the button, the robot should move the gripper towards the button.
-    When the gripper is near the button, it's lined up. Push the button with the gripper.
-    - When the robot's gripper is near the button, the robot should push the button.
+     Steps:  1. Line up the gripper as viewed from the front  2. Push the button
+    First, we need to align the gripper with the button, so that when the robot pushes, it will press the button.
+    - When the robot's gripper is not forward aligned with button, the robot should move gripper forward to button. 
+    If the gripper doesn't seem to line up with the button, maybe the gripper is a bit to the side, so we should move the gripper left or right until it lines up.
+    - When the robot's gripper is side aligned with button and the robot's gripper is not forward aligned with button, the robot should move gripper left or right.
+    Once the gripper is in the correct position, we can now push the button.
+    - When the robot's gripper is forward aligned with button, the robot should push button.

@@ -1,9 +1,8 @@
 
-
-Steps:  1. Put gripper near front of plate  2. Push gripper into plate  3. Slide plate backward 
-    We need to push the plate backward, so put the gripper near the front of the plate.
-    - When the robot's gripper is not near front of plate, the robot should put gripper near front of plate.
-    Now that we have the gripper in place near the front of the plate, we can push the gripper into the plate.
-    - When the robot's gripper is not inside plate and the robot's gripper is not pushing against plate, the robot should push gripper into plate.
-    Once we have the gripper pushing against the plate, we will be able to slide it backward as we move the gripper backward.
-    - When the robot's gripper is inside plate, the robot should slide plate backward.
+    Steps:  1. Put gripper above the plate  2. Push gripper into the top of the plate  3. Slide the plate back
+    First, put the gripper above the plate.
+    - When the robot's gripper is not above the plate and the robot's gripper is not vertically aligned with the plate, the robot should put gripper above plate.
+    If the gripper is aligned with the plate but not near it, move the gripper down to the plate.
+    - When the robot's gripper is vertically aligned with the plate and the robot's gripper is not near plate, the robot should push gripper into plate.
+    If the gripper is near the plate, we can start pushing it back.
+    - When the robot's gripper is near the plate, the robot should slide plate back.

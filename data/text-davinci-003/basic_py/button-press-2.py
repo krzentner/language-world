@@ -1,7 +1,5 @@
 
-    if check("the robot's gripper is not forward aligned with the button"):
-        robot.move("gripper to front of button")
-    if check("the robot's gripper is forward aligned with the button and the robot's gripper is open"):
-        robot.close("gripper around the button")
-    if check("the robot's gripper is near the button"):
-        robot.push("down on the button")
+    if check("the robot's gripper is not sideways aligned with button and the robot's gripper is not horizontally aligned with the button"):
+        robot.align("gripper to button")
+    if check("the robot's gripper is horizontally aligned with button"):
+        robot.push("on button")

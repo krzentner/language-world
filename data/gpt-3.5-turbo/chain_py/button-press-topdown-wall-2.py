@@ -1,21 +1,17 @@
 # Steps:
-    # 1. Move gripper above button
-    # 2. Move gripper towards wall
-    # 3. Move gripper down to press button
-    # 4. Lift gripper back up
-    # First, put the gripper roughly above the button
-    if check("the robot's gripper is not above the button"):
-        robot.place("gripper above button")
-    # Move the gripper towards the wall, so that it is in the right position to
-    # press the button.
-    if check("the gripper is not close to the wall"):
-        robot.move("gripper towards the wall")
-    # Move the gripper down to press the button.
-    if check("the gripper is close to the wall and is not aligned vertically with the button"):
-        robot.move("gripper down towards button")
-    # Press the button by moving the gripper even further down.
-    if check("the gripper is aligned vertically with the button"):
+    #  1. Line up the gripper with the button from above, using sensors to detect the wall
+    #  2. Move the robot's arm over the wall
+    #  3. Lower the gripper onto the button
+    #  4. Push down on the button from the top
+    # To line up the gripper with the button from above, we need to detect the presence and location of the wall.
+    if check("the robot's sensors detect a wall in the way and the gripper is not lined up with the button"):
+        robot.detect_wall("to line up the gripper with the button")
+    # After lining up the gripper, move the robot's arm over the wall to reach the button.
+    if check("the gripper is lined up with the button and the robot's arm is not over the wall"):
+        robot.move_over_wall("to lower the gripper onto the button")
+    # Lower the gripper onto the button.
+    if check("the gripper is positioned over the button and the gripper is not lowered"):
+        robot.lower("the gripper onto the button")
+    # Push down on the button.
+    if check("the gripper is holding the button"):
         robot.push("down on the button")
-    # Lift the gripper back up after pressing the button.
-    if check("the gripper is not back up above the button"):
-        robot.lift("gripper back up")

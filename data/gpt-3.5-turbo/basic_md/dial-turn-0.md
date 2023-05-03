@@ -1,5 +1,5 @@
 To turn the dial reliably, the robot should perform the following steps:
-- When the robot's gripper is not above the dial, the robot should position gripper above the dial.
-- When the robot's gripper is not around the dial and the robot's gripper is open, the robot should close gripper around the dial.
-- When the robot's gripper is around the dial, the robot should turn the dial in the desired direction.
-- When the robot reaches the desired position, the robot should release the dial by opening the gripper.
+    - When the robot's gripper is not almost horizontally aligned with the dial, the robot should put gripper to the left of the dial.
+    - When the gripper is in position, the robot should close gripper around the dial.
+    - When the robot's gripper is holding the dial, the robot should turn the dial by rotating the gripper in the necessary direction until the desired position is reached.
+    - When the dial is correctly positioned, the robot should release the gripper.

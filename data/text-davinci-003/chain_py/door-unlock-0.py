@@ -1,11 +1,15 @@
 
     # Steps:
-    #  1. Put gripper near the dial
-    #  2. Turn the dial until the door unlocks
-    # If the gripper isn't near the dial,
-    if check("the gripper is not near the dial"):
-        robot.move("gripper near dial")
-    # If the gripper is near the dial, just turn it
-    # until the door unlocks.
-    if check("The gripper is near the dial"):
-        robot.turn("dial until door unlocks")
+    #  1. Put gripper above dial
+    #  2. Close gripper around dial
+    #  3. Turn clockwise until the door is unlocked
+    # First, put the gripper above the dial.
+    if check("the robot's gripper is not vertical aligned with the dial"):
+        robot.put("gripper above dial")
+    # If the gripper isn't near the dial, move the gripper to the dial.
+    if check("the robot's gripper is not near the dial"):
+        robot.put("gripper around dial")
+    # When the gripper is closed around the dial, turn the dial clockwise until
+    # the door is unlocked.
+    if check("the robot's gripper is around the dial"):
+        robot.turn("dial clockwise until unlocked")

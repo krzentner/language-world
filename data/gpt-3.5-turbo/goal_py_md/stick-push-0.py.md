@@ -1,27 +1,20 @@
-# stick-push: use the stick to push the thermos to the target location
-# def stick_push(robot):
+```
+# stick-push: grab the stick and use it to push the thermos to the target location
+def stick_push(robot):
     # Steps:
-    #  1. Put the gripper above the stick
+    #  1. Put gripper above the stick
     #  2. Grab the stick with the gripper
-    #  3. Position the stick above the thermos
-    #  4. Tilt the stick and push the thermos towards the target location
+    #  3. Move the gripper and stick to the top of the thermos
+    #  4. Push the thermos to the goal
     # First, put the gripper above the stick.
     if check("the robot's gripper is not vertically aligned with the stick"):
         robot.move_gripper("vertically aligned with the stick")
-    # If the gripper is above the stick, grab it.
-    if check("the robot's gripper is above the stick and the robot's gripper is not around the stick"):
-        robot.move_gripper("around the stick")
-    # If the gripper is around the stick and not above the thermos, put it there.
-    if check("the robot's gripper is around the stick and is not above the thermos"):
-        robot.move_gripper("above the thermos")
-    # If the gripper is above the thermos but the stick isn't tilted towards it,
-    # tilt the stick.
-    if check("the robot's gripper is above the thermos and the stick is not tilted"):
-        robot.tilt_stick("tilted")
-    # Once the stick is tilted, push the thermos towards the target location.
-    # We might need to move the stick left or right to get it to hit the side of
-    # the thermos that faces the target location.
-    # TODO: write function to detect which side of the thermos is facing the
-    # target location
-    if check("the robot's gripper is above the thermos and the stick is tilted"):
-        robot.move_stick("to hit the correct side of the thermos", close_gripper=False)
+    # Once the gripper is above the stick, grab it.
+    if check("the robot's gripper is vertically aligned with the stick and the gripper is open"):
+        robot.move_gripper("around the stick", close_gripper=True)
+    # Once the gripper is around the stick, move it to the top of the thermos.
+    if check("the robot's gripper is around the stick and the robot's gripper is not vertically aligned with the top of the thermos"):
+        robot.move_gripper("vertically aligned with the top of the thermos")
+    # Once the gripper is over the top of the thermos, push the thermos to the goal.
+    if check("the robot's gripper is vertically aligned with the top of the thermos and the gripper is around the stick"):
+        robot.move_gripper("near the goal")

@@ -1,14 +1,16 @@
 
     # Steps:
-    #  1. Put the gripper almost vertically aligned with the handle
-    #  2. Push down on the handle until it clicks
-    # Place the gripper above the handle.
-    if check("the robot's gripper is not almost vertically aligned with the handle"):
-        robot.move_gripper("almost vertically aligned with the handle", close_gripper=True)
-    # Once the gripper is aligned with the handle, we need to push firmly down to
-    # click it.
-    if check("the robot's gripper is almost vertically aligned with the handle"):
-        robot.move_gripper("below the handle")
-    # If the handle is almost clicked, push harder until it clicks.
-    if check("the robot's gripper is below the handle"):
+    #  1. Put gripper above handle
+    #  2. Drop gripper around handle
+    #  3. Push the handle down
+    # First, put the gripper above the handle. We have to be careful to line it up
+    # vertically, since we're pushing down on a specific part of the handle.
+    if check("the robot's gripper is not vertically aligned with handle"):
+        robot.move_gripper("vertically aligned with the handle")
+    # If the gripper is roughly lined up, we should be able to grab the handle by
+    # moving the gripper down around it.
+    if check("the robot's gripper is vertically aligned with the handle and the robot's gripper is not around handle"):
+        robot.move_gripper("around the handle")
+    # Now we can push the handle down.
+    if check("the robot's gripper is around handle"):
         robot.move_gripper("horizontally aligned with the handle")

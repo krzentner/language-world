@@ -1,27 +1,21 @@
 
 
-The steps would be:
+The goal of this task is to push the button from the front, with a short wall in the way.
 
-1. Move the gripper to the right of the button
-2. Put the gripper snuggly against the wall
-3. Push the button down
-
-```
 # button-press-wall: push the button from the front with a short wall in the way
-# def button_press_wall(robot):
+def button_press_wall(robot):
     # Steps:
-    #  1. Move the gripper to the right of the button
-    #  2. Put the gripper snuggly against the wall
-    #  3. Push the button down
-    # Move the gripper to the right of the button, so that the wall will be
-    # between the gripper and the button.
-    if check("the robot's gripper is not right of the button"):
-        robot.move("gripper to right of button")
-    # Now put the gripper against the wall, so that the gripper won't slip while
-    # pushing the button.
-    if check("the robot's gripper is not against wall"):
-        robot.put("gripper against wall")
-    # Now that the gripper is against the wall, push the button down.
-    if check("the robot's gripper is against wall"):
-        robot.push("down on button")
-```
+    #  1. Align the gripper with the button as viewed from the front
+    #  2. Push the button in between the wall and the button
+    #  3. Push the button to activate it
+    # First, align the gripper with the button as viewed from the front.
+    if check("the robot's gripper is not aligned with the button from the front"):
+        robot.put("gripper aligned with button from the front")
+    # Once the gripper is aligned with the button from the front, we should be 
+    # able to push the button in between the wall and the button.
+    if check("the robot's gripper is aligned with the button from the front and the button is not in between wall and button"):
+        robot.push("button in between wall and button")
+    # If the button is in between the wall and the button, push the button to 
+    # activate it.
+    if check("the button is in between wall and button"):
+        robot.push("button to activate it")

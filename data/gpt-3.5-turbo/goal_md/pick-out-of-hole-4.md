@@ -1,18 +1,16 @@
-The steps that the robot should perform to pick up the peg out of the hole and hold it at the target location reliably are:
+The robot should first position the gripper above the peg and grab it. Then, it should lift the peg out of the hole and position it near the target location. Finally, the gripper should release the peg at the target location. Here are the detailed steps:
 
-1. Put gripper above the peg hole
-2. Move the gripper down into the hole until it touches the peg
-3. Close the gripper around the peg
-4. Lift the gripper out of the hole and move it to the target location
-5. Release the peg by opening the gripper
+1. Put gripper above the peg in the hole.
+- When the robot's gripper is not vertically aligned with the peg, move the robot's gripper until the robot's gripper is vertically aligned with the peg and the robot's gripper is closed
 
-First, put the gripper above the peg hole.
-- When the robot's gripper is not vertically aligned with the peg hole, move the robot's gripper until the robot's gripper is vertically aligned with the peg hole
-Once the gripper is lined up with the peg, move it down into the hole until it touches the peg.
-- When the robot's gripper is not around the peg and is not near the peg hole, move the robot's gripper until the robot's gripper is around the peg and is inside the hole
-Close the gripper around the peg to pick it up.
-- When the robot's gripper is around the peg and is not closed, close the gripper around the peg
-Lift the gripper out of the hole and move it to the target location.
-- When the robot's gripper is closed around the peg and is not above the target location, move the robot's gripper until the robot's gripper is above the target location
-Release the peg by opening the gripper.
-- When the robot's gripper is above the target location and is not open, open the gripper to release the peg.
+2. Grab the peg with the gripper.
+- When the robot's gripper is vertically aligned with the peg and the robot's gripper is not around the peg, move the robot's gripper until the robot's gripper is around the peg
+
+3. Lift the peg out of the hole.
+- Move the robot's gripper upwards until the peg is clear of the hole.
+
+4. Position the peg near the target location.
+- Move the gripper to the target location while making sure that the peg doesn't swing or hit anything.
+
+5. Release the peg at the target location.
+- When the robot's gripper is near the target location and the robot's gripper is around the peg, open the gripper to release the peg.

@@ -1,17 +1,31 @@
 # Steps:
-#   1. Put gripper near the door handle
-#   2. Turn the dial in the correct direction
-#   3. Turn the dial until the lock clicks open
-# First, put the gripper near the door handle.
-if check("the robot's gripper is not near the door handle"):
-    robot.move("gripper near the door handle")
-# Determine which way to turn the dial based on the current position and the
-# desired position of the lock.
-if check("the dial is not turned towards the unlock position"):
-    if check("the dial is turned to the right of the unlock position"):
-        robot.turn("the dial left")
-    else:
-        robot.turn("the dial right")
-# Keep turning the dial until the lock clicks open.
-while check("the lock is not unlocked"):
-    robot.turn("the dial left")
+    #  1. Move gripper to dial
+    #  2. Grab dial with gripper
+    #  3. Move gripper to initial position for turning dial
+    #  4. Turn the dial to the correct combination
+    #  5. Move gripper back to initial position
+    # If the robot's gripper is not near the dial, move it to the dial.
+    if check("the robot's gripper is not near the dial"):
+        robot.move("gripper to dial")
+    # If the gripper is not around the dial, drop it around the dial.
+    if check("the robot's gripper is not around the dial"):
+        robot.drop("gripper around dial")
+    # After the gripper is around the dial, move it to the initial position for
+    # turning the dial.
+    if check("the robot's gripper is around the dial and the robot's gripper is not in initial position for turning"):
+        robot.move("gripper to initial position")
+    # Once the gripper is in position, turn the dial to the correct combination.
+    # If the dial is not already lined up correctly, move it to the first digit
+    # of the combination.
+    if check("the dial is not at the correct digit"):
+        robot.turn("dial to correct digit")
+    #Turn the dial to the second digit of the combination.
+    if check("the first digit is correct and the dial is not at the correct digit"):
+        robot.turn("dial to correct digit")
+    # Turn the dial to the third digit of the combination.
+    if check("the first and second digits are correct and the dial is not at the correct digit"):
+        robot.turn("dial to correct digit")
+    # After the correct combination is set, move the gripper back to initial
+    # position.
+    if check("the dial is at the correct digit and the robot's gripper is not in initial position"):
+        robot.move("gripper to initial position")

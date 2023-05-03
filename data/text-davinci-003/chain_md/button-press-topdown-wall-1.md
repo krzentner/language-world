@@ -1,8 +1,11 @@
 
-    Steps:  1. Line up the gripper as viewed from above  2. Re-align the gripper with the wall in the way  3. Push down on the button from the top
-    When we have a wall in the way, we need to line up the gripper with the wall first. Put the gripper so that it's at an angle above the button.
-    - When the robot's gripper is not angled above button, the robot should put gripper angled above button.
-    Then re-line up the gripper so that it's parallel to the wall in the way.
-    - When robot's gripper is not parallel with wall, the robot should align gripper to wall.
-    Now that the gripper is lined up, we can push down on the button.
-    - When the robot's gripper is parallel to the wall and is above button, the robot should push down on button.
+
+Steps:  1. Put gripper above the button  2. Move gripper to the wall  3. Put gripper on top of wall  4. Push down on button from wall side 
+    First we should put the gripper above the button.
+    - When the robot's gripper is not above button, the robot should put gripper above button. 
+    Now, move gripper to the wall on the left of the button.
+    - When the robot's gripper is not near the wall, the robot should move gripper to the wall. 
+    Now put print gripper on top of the wall.
+    - When the robot's gripper is not on top of the wall, the robot should put gripper on top of the wall.
+    Finally, push down on the button using the wall to keep the button in place.
+    - When the robot's gripper is on top of the wall, the robot should push button down from wall side.

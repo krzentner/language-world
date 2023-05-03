@@ -1,6 +1,7 @@
 
 
-Here is the completed program:
+Complete code:
+
 ```
 # window-open: slide the window open to the left
 # def window_open(robot):

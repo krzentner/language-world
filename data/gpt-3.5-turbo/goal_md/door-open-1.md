@@ -1,5 +1,7 @@
-The robot should perform the following steps to pull the door open:
-1. Put the gripper mostly above the door handle.
-2. When the robot's gripper is not almost vertically aligned with the door handle, move the robot's gripper until the robot's gripper is almost vertically aligned with the door handle and the robot's gripper is closed.
-3. As long as the gripper is almost lined up, closing it should line it up all the way.
-4. When the robot's gripper is vertically aligned with the door handle, move the robot's gripper until the robot's gripper is left of the door handle.
+The steps for opening a door with a single gripper would be very dependent on the design of the door and the environment it is located in. However, some general guidelines could be as follows:
+
+    Steps: 1. Put gripper around the door handle or knob
+           2. Turn handle or knob to release latch
+           3. Pull the door towards the robot to open it
+
+If there is no handle or knob, the robot could use its gripper to grab the edge of the door and pull it open. The robot would need to position its gripper correctly to get a good grip on the door, and it may need to push or pull the door in a specific direction depending on the orientation of the latch mechanism.

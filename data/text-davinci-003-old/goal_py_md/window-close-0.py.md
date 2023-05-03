@@ -1,10 +1,10 @@
 
 
-The code should read:
+The program should be:
 
 ```
 # window-close: slide the window closed to the right
-def window_close(robot):
+# def window_close(robot):
     # Steps:
     #  1. Put gripper left of the window handle
     #  2. Start pushing against the window handle to close the window

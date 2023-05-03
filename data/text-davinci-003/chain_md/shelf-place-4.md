@@ -1,12 +1,10 @@
 
-    Steps:  1. Put gripper above block  2. Drop gripper around block  3. Close gripper around block  4. Move block to goal  5. Release gripper  
-    First, put the gripper roughly above the block, so that we don't bump it while trying to grab it.
-    - When the robot's gripper is not above the block, the robot should place gripper above block.
-    If the gripper isn't around the block, put it around the block.
+    Steps:  1. Put gripper above block  2. Drop gripper around block  3. Close gripper around block  4. Move block to goal
+    We need to put the gripper above the block to avoid bumping the block while trying to grab it.
+    - When the robot's gripper is not above the block, the robot should put gripper above block.
+    If the gripper isn't around the block, we need to move the gripper around the block.
     - When the robot's gripper is not around block and the robot's gripper is open, the robot should drop gripper around block.
     If the gripper is near the block and open, maybe we can grab it by closing the gripper.
     - When the robot's gripper is near block and the robot's gripper is open, the robot should close gripper around block.
-    We closed the gripper, and the block is still near the gripper, so maybe we grabbed it. Try to move the block to the goal. If we didn't grab it, we'll just go back to an earlier step.
-    - When the robot's gripper is above block and the robot's gripper is closed, the robot should place block at goal.
-    Once the block is at the goal location, release the gripper to free the block.
-    - When the robot's gripper is above block and the robot's gripper is closed, the robot should release gripper.
+    We closed the gripper and the block is still near the gripper, so maybe we grabbed it. Try to move the block to the goal. If we didn't grab it, we'll just go back to an earlier step.
+    - When the robot's gripper is above block and the robot's gripper is closed, the robot should move block to goal.

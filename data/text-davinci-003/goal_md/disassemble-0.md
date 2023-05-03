@@ -1,8 +1,11 @@
 
-    Steps:  1. Put gripper above wrench  2. Grab edge of wrench  3. Pull wrench off the peg
-    First, put the gripper above the wrench to get friction.
-    - When the robot's gripper is not above the wrench, move the robot's gripper until the robot's gripper is above the wrench
-    If the robot's gripper is above the wrench but not lined up, line up the robot's gripper with the wrench and and grip it tight.
-    - When the robot's gripper is not forward aligned with the wrench, move the robot's gripper until the robot's gripper is forward aligned with the wrench and the robot's gripper is closed
-    Now that the gripper has a firm grip, we can pull it off the peg.
-    - When the robot's gripper is above the wrench and the robot's gripper is closed, move the robot's gripper until the robot's gripper is away from the peg.
+
+Steps:  1. Put gripper above the peg  2. Grab the wrench with the gripper  3. Line the wrench up with the peg  4. Pull the wrench off the peg
+First, put the gripper above the peg.
+- When the robot's gripper is not vertically aligned with the peg, move the robot's gripper until the robot's gripper is vertically aligned with the peg
+Now that the gripper is lined up above the peg, we can start to grab the wrench.
+- When the robot's gripper is vertically aligned with the peg and the wrench is not in front of the robot's gripper, move the robot's gripper until the wrench is forward aligned with the robot's gripper and the robot's gripper is closed
+As long as the wrench is still in the front of the gripper, line it up with the peg.
+- When the wrench is horizontally aligned with the peg, move the robot's gripper until the robot's gripper is above the wrench
+The wrench is now in a position to be pulled off the peg.
+- When the robot's gripper is forward aligned with the wrench and the peg is above the robot's gripper, move the robot's gripper until the robot's gripper is horizontally aligned with the peg

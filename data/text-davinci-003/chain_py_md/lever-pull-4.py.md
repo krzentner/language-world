@@ -1,22 +1,29 @@
+  
 
-
-Then, add the necessary code:
+First, the gripper must be positioned above the lever.
 
 ```
-# lever-pull: rotate the lever up
-# def lever_pull(robot):
     # Steps:
-    #  1. Put the gripper on the side of the lever
-    #  2. Close the gripper around the lever
-    #  3. Pull the lever up
-    # We need to put the gripper to the side of the lever to make sure that it
-    # grabs the lever securely. 
-    if check("the robot's gripper is not sideways aligned with lever"):
-        robot.put("gripper to side of lever")
-    # Now that the gripper is at the side of the lever, close it around the lever.
-    if check("the robot's gripper is sideways aligned with lever and the gripper is open"):
-        robot.close("gripper around lever")
-    # Now that the gripper is closed around the lever, try to pull the lever up.
-    if check("the robot's gripper is close to the lever and closed"):
+    #  1. Put gripper above lever
+    # Put the gripper above the lever.
+    if check("the robot's gripper is not above lever"):
+        robot.put("gripper above lever")
+```
+
+Next, the gripper must be positioned around the lever, allowing for easy rotation.
+
+```
+    #  2. Drop gripper around lever
+    # Drop the gripper around the lever, allowing for a good grip.
+    if check("the robot's gripper is not around lever and the robot's gripper is open"):
+        robot.put("gripper around lever")
+```
+
+Finally, the lever must be rotated up.
+
+```
+    #  3. Rotate the lever up
+    # Rotate the lever up.
+    if check("the robot's gripper is around lever"):
         robot.pull("lever up")
-``
+```

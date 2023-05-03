@@ -1,30 +1,19 @@
 # box-close: pick up the box lid and place it on the box
-# def box_close(robot):
+def box_close(robot):
     # Steps:
-    #  1. Put gripper above the box lid
-    #  2. Grab the box lid with the gripper
-    #  3. Lift the box lid off the top of the box
-    #  4. Move the box lid on top of the box
-    #  5. Release the box lid
-    # First, put the gripper above the box lid.
-    if check("the robot's gripper is not vertically aligned with the box lid"):
-        robot.put("gripper above box lid")
-    # If the gripper isn't around the box lid, put it around the box lid.
-    if check("the robot's gripper is not around box lid and the robot's gripper is open"):
+    #  1. Put the gripper directly above the box lid
+    #  2. Grab the box lid
+    #  3. Move the box lid above the box base
+    #  4. Slowly lower the box lid onto the base
+    # First, put the gripper directly above the box lid.
+    if check("the robot's gripper is not directly above the box lid"):
+        robot.place("gripper above box lid")
+    # If the robot's gripper is above the box lid, drop the gripper around the lid.
+    if check("the robot's gripper is above the box lid and the robot's gripper is open"):
         robot.drop("gripper around box lid")
-    # If the gripper is near the box lid and open, maybe we can grab it by closing
-    # the gripper.
-    if check("the robot's gripper is near box lid and the robot's gripper is open"):
-        robot.close("gripper around box lid")
-    # We closed the gripper, and the box lid is still near the gripper, so maybe we
-    # grabbed it.
-    # Try to lift the box lid off the top of the box.
-    # If we didn't grab it, we'll just go back to an earlier step.
-    if check("the robot's gripper is holding onto the box lid"):
-        robot.lift("box lid")
-    # If the box lid is held up by the gripper, move it on top of the box.
-    if check("the robot's gripper is holding the box lid above the box"):
-        robot.move("box lid above the box")
-    # If the box lid is in place, release the gripper.
-    if check("the box lid is on top of the box"):
-        robot.release("gripper")
+    # If the gripper encloses the lid, move it to above the box base.
+    if check("the robot's gripper is around box lid and the robot's gripper is not above the box base"):
+        robot.move("gripper above box base")
+    # Once the gripper is above the box base, slowly lower the box lid onto the base.
+    if check("the robot's gripper is above box base"):
+        robot.put("box lid onto box base slowly")

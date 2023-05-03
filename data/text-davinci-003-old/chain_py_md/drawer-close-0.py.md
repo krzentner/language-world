@@ -1,7 +1,6 @@
 
 
-Complete code:
-
+Here is the completed program:
 ```
 # drawer-close: push the drawer close
 # def drawer_close(robot):

@@ -1,5 +1,7 @@
 
-    if check("the robot's gripper is not vertially aligned with the door lock dial"):
-        robot.put("gripper above door lock dial")
-    if check("the robot's gripper is vertically aligned with the door lock dial"):
-        robot.turn("dial until it locks")
+    if check("the robot's gripper is not above the door handle and the door handle is not twisted"):
+        robot.put("gripper above door handle")
+    if check("the robot's gripper is above the door handle and the door handle is not twisted"):
+        robot.grab("door handle")
+    if check("the door handle is twisted"):
+        robot.turn("door handle clockwise")

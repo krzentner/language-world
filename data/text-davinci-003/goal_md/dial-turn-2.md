@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper on top of dial  2. Turn dial until it reaches the target angle  3. Release the dial
-    First, put the gripper on top of the dial so that we can control the dial.
-    - When the robot's gripper is not near the dial, move the robot's gripper until the robot's gripper is near the dial and the robot's gripper is closed
-    Now that the gripper is near the dial and closed, we can start turning the dial.
-    - When the robot's gripper is near the dial and the robot's gripper is closed, move the robot's gripper until the dial is at the target angle
-    If the dial has reached the target angle, just release the dial to finish.
-    - When the dial is at the target angle, move the robot's gripper until the robot's gripper is not near the dial
+    Steps:  1. Move the gripper above the dial  2. Grab the dial with the gripper  3. Turn the dial 
+    First, move the gripper above the dial.
+    - When the robot's gripper is not vertically aligned with the dial, move the robot's gripper until the robot's gripper is vertically aligned with the dial and the robot's gripper is closed
+    Now that the gripper is lined up, grab the dial with it.
+    - When the robot's gripper is vertically aligned with the dial and the robot's gripper is not closed, move the robot's gripper until the robot's gripper is around the dial and the robot's gripper is closed
+    Now that the gripper is closed, we can turn it. 
+    - When the robot's gripper is closed around the dial, move the robot's gripper until the target is reached

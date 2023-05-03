@@ -1,21 +1,21 @@
 # Steps:
     #  1. Put gripper around faucet handle
-    #  2. Turn the handle left to open the faucet
+    #  2. Turn handle left to open
     # First, put the gripper around the faucet handle.
-    if check("the robot's gripper is not around the faucet handle"):
-        robot.drop("gripper around faucet handle")
-    # Once the gripper is around the handle, turn it left to open the faucet.
-    if check("the robot's gripper is around the faucet handle"):
-        robot.turn("faucet handle left")
+    if check("the robot's gripper is not around faucet handle"):
+        robot.grab("faucet handle")
+    # Then turn the handle left to open the faucet.
+    if check("the robot's gripper is around faucet handle"):
+        robot.turn("faucet left")
 
 # faucet-close: turn the faucet right
-# def faucet_close(robot):
+def faucet_close(robot):
     # Steps:
     #  1. Put gripper around faucet handle
-    #  2. Turn the handle right to close the faucet
+    #  2. Turn handle right to close
     # First, put the gripper around the faucet handle.
-    if check("the robot's gripper is not around the faucet handle"):
-        robot.drop("gripper around faucet handle")
-    # Once the gripper is around the handle, turn it right to close the faucet.
-    if check("the robot's gripper is around the faucet handle"):
-        robot.turn("faucet handle right")
+    if check("the robot's gripper is not around faucet handle"):
+        robot.grab("faucet handle")
+    # Then turn the handle right to close the faucet.
+    if check("the robot's gripper is around faucet handle"):
+        robot.turn("faucet right")

@@ -1,8 +1,6 @@
-For the `button-press-topdown-wall` task, the robot should perform the following steps:
-    Steps:  1. Move gripper above button  2. Move gripper down to the top of the wall  3. Extend the gripper over the wall and push the button down from above
-    First, put the gripper above the button as before.
-    - When the robot's gripper is not vertically aligned with button, the robot should put gripper above button.
-    Then, move the gripper down to the top of the wall where the button is located.
-    - When the robot's gripper is not on top of the wall and the robot's gripper is above the wall, the robot should move gripper down to the top of the wall.
-    Finally, extend the gripper over the wall and push the button down from above.
-    - When the robot's gripper is on top of the wall, the robot should extend gripper over the wall and push the button down from above.
+To push the button down from above with a short wall in the way reliably, the robot should perform the following steps:
+    Steps:  1. Line up the gripper as viewed from above and position it close to the wall  2. Extend the gripper over the wall and push down on the button from the top
+    Because there is a wall in the way, the robot needs to position the gripper as close to the wall as possible. Line up the robot's gripper from above while positioning it close to the wall.
+    - When the robot's gripper is not vertically aligned with button and not close to the wall, the robot should put gripper above button and move it close to the wall.
+    Once the gripper is lined up and positioned close to the wall, the robot should extend the gripper over the wall and push down on the button from the top.
+    - When the robot's gripper is vertically aligned with button and the gripper is extended over the wall, the robot should push down on the button.

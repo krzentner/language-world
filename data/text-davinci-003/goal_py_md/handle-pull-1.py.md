@@ -1,26 +1,22 @@
 
 
-Solution:
+Then add the code below to complete the program:
 
 ```
-# handle-pull: pull up the handle
-# def handle_pull(robot):
     # Steps:
-    #  1. Put gripper above handle
-    #  2. Push gripper into handle
-    #  3. Pull handle up
-    # First, move the robot's gripper roughly above the handle.
-    if check("the robot's gripper is not near the handle"):
-        robot.move_gripper("near the handle")
-    # If the robot's gripper is near the handle but not trying to grab it, move
-    # the gripper down to the handle.
-    if check("the robot's gripper is near the handle and the robot's gripper is not trying to grab the handle"):
-        robot.move_gripper("vertically aligned with the handle", close_gripper=True)
-    # Once the gripper is around the handle and closed, push down on the handle
-    # to hold it in place while we pull it up.
-    if check("the robot's gripper is vertically aligned with the handle and the gripper is closed"):
+    #  1. Put gripper above the handle
+    #  2. Grab the handle with the gripper
+    #  3. Pull the handle up
+    # First, put the gripper above the handle.
+    if check("the robot's gripper is not vertically aligned with the handle"):
+        robot.move_gripper("vertically aligned with the handle")
+    # If the handle becomes left of the gripper, go back to putting the gripper
+    # above the handle.
+    # Because the handle is a short object, check if the gripper is lined up with
+    # it from the side instead of from the top.
+    if check("handle is not left of the robot's gripper and handle is not side-aligned with the robot's gripper"):
+        robot.move_gripper("side aligned with the handle", close_gripper=True)
+    # As long the gripper is still around the handle, pull it up.
+    if check("the robot's gripper is side aligned with the handle"):
         robot.move_gripper("above the handle")
-    # As long as the gripper is above the handle, we can pull it up.
-    if check("the robot's gripper is above the handle"):
-        robot.move_gripper("horizontally aligned with the handle")
 ```

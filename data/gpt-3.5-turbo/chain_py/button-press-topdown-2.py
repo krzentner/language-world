@@ -1,13 +1,13 @@
-Oops, it looks like there was a duplicate of a function above. Here's a new function:
-
-# button-press-side: push the button in from the side
-# def button_press_side(robot):
-    # Steps:
-    # 1. Put gripper next to the button
-    # 2. Push gripper into the button to press it
-    # First, put the gripper next to the button.
-    if check("the robot's gripper is not next to the button"):
-        robot.move("gripper next to button")
-    # Once the gripper is next to the button, push it in to press the button.
-    if check("the robot's gripper is next to the button"):
-        robot.push("button in")
+# Steps:
+    #  1. Put gripper above button
+    #  2. Drop gripper onto button
+    #  3. Push down on button
+    # First, put the gripper above the button.
+    if check("the robot's gripper is not above the button"):
+        robot.put("gripper above button")
+    # As long as the gripper is above the button, drop it to push the button.
+    if check("the robot's gripper is above the button and the robot's gripper is open"):
+        robot.drop("gripper onto button")
+    # Once the gripper is around the button, push down.
+    if check("the robot's gripper is around button"):
+        robot.push("button down")

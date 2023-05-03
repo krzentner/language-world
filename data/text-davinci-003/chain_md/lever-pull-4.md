@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper beneath the lever  2. Raise grip up  3. Pull up lever
-    First, put the gripper as close as possible to the underside of the lever.
-    - When the robot's gripper is not beneath lever, the robot should put gripper beneath lever.
-    Now that the gripper is beneath the lever, raise the gripper up and try to get it in front of the lever.
-    - When the robot's gripper is not forward aligned with the lever, the robot should raise gripper up.
-    As long as the gripper is still below the lever, pull it up.
-    - When the robot's gripper is forward aligned with the lever, the robot should pull up lever.
+    Steps:  1. Put gripper above lever  2. Drop gripper around the lever top  3. Pull handle up
+    We need to make sure the gripper is lined up with the lever top to have enough control.
+    - When the robot's gripper is not vertically aligned with lever handle, the robot should put gripper above lever.
+    Once the gripper is lined up with the lever top, grab it by moving the gripper down. 
+    - When the robot's gripper is vertically aligned with lever top and the robot's gripper is not around lever handle, the robot should put gripper around lever handle.
+    Now that the gripper is around the lever handle, pull it up. 
+    - When the robot's gripper is around lever handle, the robot should pull handle up.

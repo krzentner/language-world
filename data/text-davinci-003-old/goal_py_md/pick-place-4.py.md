@@ -1,8 +1,9 @@
 
 
-Then add the following code:
+Solution:
 
-```
+# pick-place: pick up the puck and hold it at the target location
+# def pick_place(robot):
     # Steps:
     #  1. Put gripper above puck
     #  2. Drop gripper around puck
@@ -19,4 +20,3 @@ Then add the following code:
     # the gripper.
     if check("the robot's gripper is above puck and the robot's gripper is closed"):
         robot.move_gripper("near the target location")
-```

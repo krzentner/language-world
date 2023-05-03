@@ -1,17 +1,13 @@
 
 
-The steps to complete this task are: 
-1. Put the gripper above the wall 
-2. Reach around the wall to the target location 
+The robotic arm needs to reach the target location, but there is a short wall in the way.
 
-If the robot's gripper is not above the wall: 
-```
+Steps:
+
+1. Put gripper above wall
+2. Reach over wall to target location
+
 if check("the robot's gripper is not above the wall"):
     robot.put("gripper above wall")
-```
-
-If the robot's gripper is above the wall but not near the target location:
-```
-if check("the robot's gripper is above the wall and the robot's gripper is not near the target location"):
-    robot.reach("around wall to goal")
-```
+if check("the robot's gripper is above the wall"):
+    robot.reach("over wall to target location")

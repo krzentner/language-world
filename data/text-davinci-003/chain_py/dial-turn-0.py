@@ -1,16 +1,18 @@
 
     # Steps:
-    #  1. Put gripper above the dial
-    #  2. Grab the dial
-    #  3. Rotate the dial to the desired position
-    # We need to put the gripper above the dial so that we don't bump it with
-    # the gripper.
-    if check("the robot's gripper is not above the dial"):
+    #  1. Gripper aligned from above
+    #  2. Drop the gripper around dial
+    #  3. Turn dial
+    # We need to be careful about lining up the gripper with the dial, because
+    # the dial is small.
+    # Line up the gripper with the dial from above.
+    if check("the robot's gripper is not horizontally and vertically aligned with dial"):
         robot.put("gripper above dial")
-    # After we've moved the gripper above the dial, we can grab the dial.
-    if check("the robot's gripper is above the dial and the robot's gripper is open"):
-        robot.grab("dial")
-    # If we can grab the dial and the gripper is closed, then we can rotate the
-    # dial to our desired position.
-    if check("the robot's gripper is around the dial"):
-        robot.rotate("dial to desired position")
+    # If the gripper is almost lined up, just line it up the rest of the way by
+    # closing the gripper around the dial.
+    if check("the robot's gripper is almost horizontally and vertically aligned with dial and the robot's gripper is open"):
+        robot.close("gripper around dial")
+    # Once the gripper is around the dial, we can turn it, so try to turn it in
+    # the right direction.
+    if check("the robot's gripper is horizontally and vertically aligned with dial and the robot's gripper is closed"):
+        robot.turn("dial")

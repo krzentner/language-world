@@ -1,27 +1,26 @@
-# assembly: put the wrench around the peg
-# def assembly(robot):
+# assembly: grab the wrench and wrap it around the peg
+def assembly(robot):
     # Steps:
-    # 1. Put gripper above the wrench
-    # 2. Open the gripper
-    # 3. Slide the jaws of the gripper around the peg
-    # 4. Close the gripper around the peg
-    # 5. Lift the wrench off the table
-    # 6. Slide the wrench onto the peg
+    #  1. Put gripper above the wrench
+    #  2. Grab the wrench with the gripper
+    #  3. Put gripper around the peg and wrench
+    #  4. Let go of the wrench
+    #  5. Pick up the peg and wrench together
     # First, put the gripper above the wrench.
-    if check("the robot's gripper is not vertically aligned with the wrench"):
-        robot.put("gripper above wrench")
-    # If the gripper isn't open, open the gripper to prepare for grabbing the peg.
-    if check("the robot's gripper is not open"):
-        robot.drop("gripper open")
-    # If the jaws of the gripper are not around the peg, slide the jaws around the peg.
-    if check("the robot's gripper is open and the peg is not between the jaws of the gripper"):
-        robot.grab("peg with gripper")
-    # If the jaws of the gripper are around the peg, close the gripper to hold the peg.
-    if check("the peg is between the jaws of the gripper and the gripper is open"):
-        robot.close("gripper around peg")
-    # Now lift the wrench off the table with the peg attached.
-    if check("the gripper is closed around the peg and is near the surface of the table"):
-        robot.lift("wrench off table with peg attached")
-    # Move the wrench to the peg and slide it onto the peg.
-    if check("the gripper is holding the wrench above the peg"):
-        robot.slide("the wrench onto the peg")
+    if check("the robot's gripper is not above the wrench"):
+        robot.place("gripper above wrench")
+    # If the wrench is not within the gripper's reach, move the gripper closer to it.
+    if check("the robot's gripper is not near the wrench"):
+        robot.reach("towards wrench")
+    # When the wrench is within the gripper's reach, grab it.
+    if check("the robot's gripper is near the wrench and the robot's gripper is open"):
+        robot.grab("wrench")
+    # Position the gripper above the peg, with the wrench around the peg.
+    if check("the robot's gripper is not above the peg and wrench and the wrench is grabbed"):
+        robot.put("gripper above peg and wrench")
+    # Let go of the wrench.
+    if check("the wrench is in the gripper and the gripper is around the peg and wrench"):
+        robot.release("wrench")
+    # Pick up the peg and wrench together.
+    if check("the gripper is above the peg and wrench and the wrench is released"):
+        robot.grab("peg and wrench")

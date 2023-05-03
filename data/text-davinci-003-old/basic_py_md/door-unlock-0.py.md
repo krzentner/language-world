@@ -1,14 +1,10 @@
 
 
-Solution:
-
-```
-# door-unlock: turn the dial on the door
-# def door_unlock(robot):
-    if check("the robot's gripper is not near the door handle"):
-        robot.move("gripper to near the door handle")
-    if check("the robot's gripper is near the door handle and the robot's gripper is not around door handle"):
-        robot.put("gripper around the door handle")
-    if check("the robot's gripper is around the door handle"):
-        robot.turn("dial to unlock the door")
-```
+If check("the robot's gripper is not vertically aligned with the door knob"):
+    robot.put("gripper above door knob")
+if check("the robot's gripper is vertically aligned with the door knob"):
+    robot.grab("door knob")
+if check("the robot's gripper is around the door knob"):
+    robot.turn("dial in clockwise direction") 
+if check("the dial is turned and pulled open"):
+    robot.open("Door")

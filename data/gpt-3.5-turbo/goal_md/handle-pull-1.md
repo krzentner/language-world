@@ -1,6 +1,1 @@
-The robot should perform the following steps to pull up the handle:
-    Steps:  1. Put gripper around the handle  2. Pull the handle up
-    First, put the gripper around the handle.
-    - When the robot's gripper is not around the handle and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the handle and the robot's gripper is closed
-    Once the gripper is around the handle, pull the handle up.
-    - When the robot's gripper is around the handle, move the robot's gripper until the handle has been pulled up
+The steps for pulling up the handle will depend on the specific object and mechanism involved. Generally, the robot should first position its gripper above or around the handle. Then, the gripper should be closed around the handle. Finally, the robot should lift the handle upwards. It may be necessary to adjust the gripper's position or orientation during the process to ensure a reliable grip and lift.

@@ -1,1 +1,4 @@
-Sorry, it looks like we already defined the `drawer_open()` function earlier in this code snippet. Maybe you meant to define a different function instead?
+if check("the robot's gripper is not near the drawer handle"):
+        robot.grab("drawer handle")
+    if check("the robot's gripper is backward aligned with drawer handle"):
+        robot.pull("drawer open")

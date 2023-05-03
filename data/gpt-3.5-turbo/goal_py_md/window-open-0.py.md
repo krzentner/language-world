@@ -1,18 +1,21 @@
 # window-open: slide the window open to the left
-# def window_open(robot):
+def window_open(robot):
     # Steps:
     #  1. Put gripper right of the window handle
-    #  2. Start pushing against the window handle to open the window
-    #  3. Push the window open harder
-    
-    # First, put the gripper to the right of the window handle
-    if check("the robot's gripper is not to the right of the window handle"):
-        robot.move_gripper("to the right of the window handle")
-        
-    # Once the gripper is in the right position, start pushing against the window handle
-    if check("the robot's gripper is to the right of the window handle and the robot's gripper is not touching the window handle"):
-        robot.move_gripper("touching the window handle")
-        
-    # Push the window open harder
-    if check("the robot's gripper is touching the window handle"):
-        robot.move_gripper("to the left of the window handle")
+    #  2. Start pulling against the window handle to open the window
+    #  3. Pull the window open harder
+    # The steps for opening the window are similar to those for closing it,
+    # but we need to move the gripper to the other side of the handle and pull
+    # instead of push.
+    # If the the window handle is left of the robot's gripper, we should move the
+    # gripper near the window handle to start pulling
+    if check("the robot's gripper is in front of the window handle"):
+        robot.move_gripper("left of the window handle")
+    # If the robot's gripper is near the window handle we can probably slide the
+    # window open now by moving the gripper left.
+    if check("the window handle is left of the robot's gripper and the robot's gripper is not near the window handle"):
+        robot.move_gripper("almost vertically aligned with the window handle")
+    # If the robot's gripper is starting to be in front of the window handle,
+    # pull harder.
+    if check("the robot's gripper is near the window handle"):
+        robot.move_gripper("forward aligned with the window handle")

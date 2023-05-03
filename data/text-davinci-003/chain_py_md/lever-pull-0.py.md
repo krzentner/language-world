@@ -1,29 +1,26 @@
 
 
-Then, complete the function:
+Then, the Solution:
 
 ```
 # lever-pull: rotate the lever up
-# def lever_pull(robot):
+def lever_pull(robot):
     # Steps:
-    #  1. Put the gripper above the lever
-    #  2. Grab the lever with the gripper
-    #  3. Rotate the lever up
-    # First, put the gripper roughly above the lever, so that we don't bump
-    # it while trying to grab it.
-    if check("the robot's gripper is not above lever"):
+    #  1. Put gripper above lever
+    #  2. Drop gripper around lever
+    #  3. Start pushing the lever up
+    #  4. Push harder
+    # We need to put the gripper above the lever before we can grab it.
+    if check("the robot's gripper is not vertically aligned with lever"):
         robot.put("gripper above lever")
-    # If the gripper isn't around the lever, put it around the lever.
-    if check("the robot's gripper is not around lever and the robot's gripper is open"):
+    # Once the gripper is lined up above the lever, we should be able to grab 
+    # the lever by moving the gripper down around it.
+    if check("the robot's gripper is vertically aligned with lever and the robot's gripper is not around lever"):
         robot.drop("gripper around lever")
-    # If the gripper is near the lever and open, maybe we can grab it by
-    # closing the gripper.
-    if check("the robot's gripper is near lever and the robot's gripper is open"):
-        robot.close("gripper around lever")
-    # We closed the gripper, and the lever is still near the gripper, so maybe
-    # we grabbed it.
-    # Try to rotate the lever up.
-    # If we didn't grab it, we'll just go back to an earlier step.
-    if check("the robot's gripper is above lever and the robot's gripper is closed"):
-        robot.rotate("lever up")
+    # Once the gripper is around the lever, we can start pushing the lever up.
+    if check("the robot's gripper is around lever and the lever is not in the up position"):
+        robot.push("lever up")
+    # If the lever is not fully rotated up, keep pushing.
+    if check("the lever is not fully rotated up"):
+        robot.push("lever up harder")
 ```

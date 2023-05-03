@@ -7,7 +7,7 @@
     # First, put the gripper roughly above puck, so that we don't bump it while
     # trying to grab it.
     if check("the robot's gripper is not above the puck"):
-        robot.place("gripper above puck")
+        robot.put("gripper above puck")
     # If the gripper isn't around the puck, put it around the puck.
     if check("the robot's gripper is not around puck and the robot's gripper is open"):
         robot.drop("gripper around puck")

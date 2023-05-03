@@ -1,13 +1,14 @@
 
 
-Solution:
+The program should be as follows:
+
 ```
-#reach-wall: reach to the target location with a short wall in the way
-#def reach_wall(robot):
-    if check("the robot's gripper is not facing a short wall"):
-        robot.reach("side of wall facing target")
-    if check("the robot's gripper is facing a short wall"):
-        robot.push("wall away from robot's path")
-    if check("the robot's gripper is no longer facing the wall"):
-        robot.reach("to goal")
+# reach-wall: reach to the target location with a short wall in the way
+def reach_wall(robot):
+    if check("the robot's gripper is not near the wall"):
+        robot.reach("to the wall")
+    if check("the robot's gripper is near the wall and the wall is between the robot and the goal"):
+        robot.reach("over the wall")
+    if check("the robot's gripper is near the goal"):
+        robot.reach("to the goal")
 ```

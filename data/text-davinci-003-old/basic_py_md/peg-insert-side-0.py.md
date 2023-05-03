@@ -1,8 +1,9 @@
 
 
-Then add the following code:
-
+The code could be as follow:
 ```
+# peg-insert-side: insert the peg into the hole from the side
+# def peg_insert_side(robot):
     if check("the robot's gripper is not vertically aligned with the peg"):
         robot.put("gripper above peg")
     if check("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper"):

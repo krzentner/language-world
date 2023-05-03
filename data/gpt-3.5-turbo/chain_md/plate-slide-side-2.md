@@ -1,11 +1,8 @@
-To slide the plate sideways into the target location, the robot should perform the following steps:
-
-Steps:  1. Put gripper above the plate  2. Grab the plate with the gripper  3. Move the gripper towards the target location and align it with the side of the target location  4. Slide the plate towards the target location
-First, put the gripper above the plate.
-- When the robot's gripper is not vertically aligned with the plate, the robot should put gripper above the plate.
-If the plate isn't in the gripper yet, grab it with the gripper.
-- When the robot's gripper is above the plate and the gripper is not closed around the plate, the robot should grab the plate.
-Move the gripper towards the target location, aligning it with the side of the target location.
-- When the robot's gripper is holding the plate, the robot should move the gripper towards the target location and align it with the side of the target location.
-Slide the plate towards the target location until it is completely inside the target location.
-- When the robot's gripper is aligned with the side of the target location, the robot should slide the plate towards the target location until it is completely inside the target location.
+To slide the plate sideways into the target location reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper near the plate from the side  2. Push gripper into edge of plate  3. Push the plate towards the target location
+    The robot can slide the plate by pushing it from the side with the gripper. First, move the gripper near the plate from the side.
+    - When the robot's gripper is not near the plate from the side, the robot should move the gripper near the plate from the side.
+    Once the gripper is near the plate from the side, push it into the edge of the plate.
+    - When the robot's gripper is near the plate from the side and the robot's gripper is not pushing into the edge of the plate, the robot should push the gripper into the edge of the plate.
+    We've now trapped the plate with the gripper from the side. We can now slide the plate towards the target location.
+    - When the robot's gripper is pushing into the edge of the plate, the robot should push the plate towards the target location.

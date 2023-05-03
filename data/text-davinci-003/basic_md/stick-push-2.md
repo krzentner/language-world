@@ -1,6 +1,5 @@
 
-- When the robot's gripper is not near the stick, the robot should reach to stick.
-- When the robot's gripper is near the stick and the robot's gripper is not above the stick, the robot should put the gripper above the stick.
-- When the robot's gripper is above the stick and the robot's gripper is not able to grip the stick, the robot should grip the stick.
-- When the robot's gripper is above the stick and the robot's gripper is able to grip the stick, the robot should push the stick in the direction of the target location.
-- When the robot's gripper is above the stick and the stick is near the thermos, the robot should push the stick into the thermos.
+    - When the robot's gripper is not near stick, the robot should move gripper near stick. 
+    - When the robot's gripper is open, the robot should grab the stick.
+    - When the robot's gripper is above the thermos and the stick is not aligned with the thermos, the robot should move the stick in front of the thermos.
+    - When the robot's gripper is closed and the stick is aligned with the thermos, the robot should push the thermos to the goal.

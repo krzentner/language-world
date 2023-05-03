@@ -1,23 +1,24 @@
 
 
-Steps:
-1. Place the gripper in front of the ball
-2. Grab the ball with the gripper
-3. Move the ball to the hoop
-4. Lift up the ball and move it above the hoop
-5. Drop the ball into the hoop
+Solutions:
 
-if check("the robot's gripper is not in front of the ball"):
-    robot.move_gripper("in front of the ball", close_gripper=True)
-
-if check("the robot's gripper is in front of the ball and the ball is not in the gripper"):
-    robot.move_gripper("around the ball")
-
-if check("the robot's gripper is around the ball"):
-    robot.move_gripper("near the hoop")
-
-if check("the robot's gripper is near the hoop and the ball is not above the hoop"):
-    robot.move_gripper("above the hoop")
-
-if check("the robot's gripper is above the hoop"):
-    robot.move_gripper("near the hoop", close_gripper= False)
+# basketball: put the ball into into the hoop
+def basketball(robot):
+  # Steps: 
+  #  1. Put the gripper directly below the ball
+  #  2. Push the ball with the gripper towards the hoop
+  #  3. Move the ball closer to the hoop
+  #  4. Release the ball
+  # First, put the gripper directly below the ball so that it can catch it.
+  if check("the robot's gripper is not above the ball"):
+      robot.move_gripper("below the ball")
+  # Once the gripper is above the ball, drop it around the ball and close the
+  # gripper.
+  if check("the robot's gripper is not around the ball and the robot's gripper is open"):
+      robot.move_gripper("near the ball", close_gripper=True)
+  # Now that the gripper has the ball, we can move the ball closer to the hoop.
+  if check("the robot's gripper is around the ball"):
+      robot.move_gripper("tilted towards the hoop")
+  # If the ball is close to the hoop, we can release it.
+  if check("the ball is close to the hoop"):
+      robot.move_gripper("left of the hoop", open_gripper=True)

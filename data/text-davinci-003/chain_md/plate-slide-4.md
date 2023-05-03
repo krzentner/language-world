@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above plate  2. Push plate with gripper  3. Slide into position
-    Put the gripper above the plate because it's a flat object and won't work with a side alignment.
+    Steps:  1. Put gripper above plate  2. Push gripper down against the plate  3. Slide plate to goal
+    If the robot's gripper isn't above the plate, put it above the plate 
     - When the robot's gripper is not above the plate, the robot should put gripper above plate.
-    Once the gripper is above the plate, apply downward pressure to push the plate so that its edge is lined up with the target location.
-    - When the robot's gripper is above the plate, the robot should push plate with gripper.
-    Now that the plate's edge is lined up with the target location, move the gripper right or left to slide the plate into position.
-    - When the robot's gripper is above the plate and the plate is aligned with target location, the robot should slide plate into position.
+    If the robot's gripper isn't near the plate and the gripper is pointed down slightly, push the gripper down against the plate to press it against the ground.
+    - When the robot's gripper is not near the plate and gripper is facing down, the robot should push gripper down against plate.
+    If the plate is pressed against the ground, slide it to the goal.
+    - When plate is pressed against the ground, the robot should slide the plate to the goal.

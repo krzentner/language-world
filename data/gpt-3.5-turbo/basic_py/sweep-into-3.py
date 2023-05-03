@@ -1,10 +1,8 @@
-if check("the robot's gripper is not above the cube"):
-        robot.put("gripper above the cube")
-    if check("the robot's gripper is not around the cube and the robot's gripper is open"):
-        robot.drop("gripper around the cube")
-    if check("the robot's gripper is vertical and aligned with the cube and the robot's gripper is open"):
-        robot.close("gripper around the cube")
+if check("the robot's gripper is not above the cube and the robot's gripper is not vertically aligned with the cube"):
+        robot.put("the gripper above the cube")
+    if check("the robot's gripper is vertically aligned with the cube and the robot's gripper is not around cube"):
+        robot.grab("the cube")
+    if check("the robot's gripper is around the cube and the robot's gripper is not near the target location"):
+        robot.move("the gripper to the target location")
     if check("the robot's gripper is near the target location"):
-        robot.move("gripper to the target location")
-    if check("the robot's gripper is above the target location and the robot's gripper is closed"):
-        robot.drop("the cube at the target location")
+        robot.release("the cube at target location")

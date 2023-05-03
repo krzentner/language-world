@@ -1,27 +1,25 @@
 
 
-Steps:
-1. Put gripper above the soccer ball 
-2. Push gripper into top of soccer ball 
-3. Slide soccer ball to target location 
-
-If the robot's gripper is not above the soccer ball, move the gripper to be vertically aligned with the soccer ball.
+The steps for this task are as follows:
+1. Put the gripper above the soccer ball
+2. Push the gripper down on the soccer ball
+3. Slide the soccer ball to the target location
 
 ```
-if check("the robot's gripper is not above the soccer ball"):
-    robot.move_gripper("vertically aligned with the soccer ball")
-```
-
-If the gripper is aligned with the soccer ball but not near it, we can move the gripper down to the soccer ball and trap it before pushing it to the target location.
-
-```
-if check("the robot's gripper is vertically aligned with the soccer ball and the robot's gripper is not near soccer ball"):
+# soccer: push the soccer ball into the target location
+def soccer(robot):
+  # Steps
+  #  1. Put the gripper above the soccer ball
+  #  2. Push the gripper down on the soccer ball
+  #  3. Slide the soccer ball to the target location
+  if check("the robot's gripper is not above the soccer ball"):
+    robot.move_gripper("above the soccer ball")
+  # We should be able to push the ball down by closing the gripper.
+  if check("the robot's gripper is above the soccer ball and the robot's gripper is not closed"):
     robot.move_gripper("above the soccer ball", close_gripper=True)
-```
-
-If the gripper is near the soccer ball, we can slide the soccer ball to the target location.
-
-```
-if check("the robot's gripper is near the soccer ball and the soccer ball is below the robot's gripper"):
+  # Now, if the robot's gripper is still above the soccer ball and closed,
+  # it should have a good grip and we can slide the soccer ball to the
+  # target location.
+  if check("the robot's gripper is above the soccer ball and the robot's gripper is closed"):
     robot.move_gripper("above the target location")
 ```

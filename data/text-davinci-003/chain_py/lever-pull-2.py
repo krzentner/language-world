@@ -2,14 +2,15 @@
     # Steps:
     #  1. Put gripper above lever
     #  2. Drop gripper around lever
-    #  3. Pull the lever up
-    # Put the gripper about above the lever.
-    if check("the robot's gripper is not almost aligned with lever"):
+    #  3. Pull lever up
+    # First, put the gripper above the lever as viewed from the side.
+    if check("the robot's gripper is not vertically aligned with lever"):
         robot.put("gripper above lever")
-    # If the lever is nearly aligned with the gripper, we can start to grab it by
-    # moving the gripper around the lever.
-    if check("the robot's gripper is almost aligned with lever and gripper is not around lever"):
-        robot.drop("gripper around lever")
-    # If the gripper is around the lever, start pulling up on it.
+    # If the gripper is above the lever and the gripper isn't around it yet,
+    # close the gripper around it.
+    if check("the robot's gripper is vertically aligned with lever and the robot's gripper is not around lever"):
+        robot.grab("lever")
+    # If the lever is now closer to the robot's gripper, we can pull it up.
+    # Pull the lever up.
     if check("the robot's gripper is around lever"):
         robot.pull("lever up")

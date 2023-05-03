@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above faucet handle  2. Drop gripper around faucet handle  3. Turn faucet right
-    First, put the gripper above the faucet handle.
+    Steps:  1. Put gripper above faucet handle  2. Grab faucet handle  3. Turn the faucet handle right 
+    The robot needs to put gripper above the faucet handle first before it can grab it.
     - When the robot's gripper is not vertically aligned with faucet handle, the robot should put gripper above faucet handle.
-    Once the gripper is lined up above the faucet handle, we should be able to grab the faucet handle by moving the gripper down around it.
-    - When the robot's gripper is vertically aligned with faucet handle and the robot's gripper is not around faucet handle, the robot should put gripper around faucet handle.
-    Now that the gripper is around the faucet handle, we can just turn the faucet right.
-    - When the robot's gripper is around faucet handle, the robot should turn faucet right.
+    Once the gripper is lined up above the faucet handle, close the gripper to grab it.
+    - When the robot's gripper is vertically aligned with faucet handle and the robot's gripper is open, the robot should close gripper around faucet handle.
+    If the gripper is closed, turn it to the right to turn the faucet off.
+    - When the robot's gripper is closed around faucet handle, the robot should turn the faucet handle right.

@@ -1,10 +1,8 @@
 
 
-Here is the program:
+The rest of the program should be:
 
 ```
-# peg-insert-side: insert the peg into the hole from the side
-# def peg_insert_side(robot):
     # Steps:
     #  1. Put gripper above the peg
     #  2. Grab the peg with the gripper

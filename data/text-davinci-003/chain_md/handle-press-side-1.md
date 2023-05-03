@@ -1,6 +1,8 @@
 
-    Steps:  1. Put gripper beside the handle  2. Push down on the handle
-    We need to first put the robot's gripper beside the handle. We don't want to put it above the handle, because pushing down might be harder from that position.
-    - When the robot's gripper is not beside the handle, the robot should put gripper beside handle.
-    If the handle is below the gripper, push down to press it.
-    - When the handle is below the robot's gripper, the robot should push down handle.
+    Steps:  1. Put gripper beside the handle  2. Line gripper horizontally with handle  3. Push down on handle 
+    The robot should start by putting the gripper beside the handle.
+    - When the robot's gripper is not horizontally aligned with the handle, the robot should put gripper beside handle.
+    Once the gripper is beside the handle, we can line it up horizontally with the handle.
+    - When the robot's gripper is not horizontally aligned with handle, the robot should line gripper with handle.
+    When the gripper and handle are aligned, just push down on the handle.
+    - When the robot's gripper is horizontally aligned with handle, the robot should push down on handle.

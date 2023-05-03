@@ -1,9 +1,7 @@
 
-    if check("the robot's gripper is not above the wall"):
-        robot.reach("above wall")
-    if check("the robot's gripper is above the wall and the robot's gripper is not close to the wall"):
-        robot.reach("close to the wall")
-    if check("the robot's gripper is near the wall and the target is not close to the robot's gripper"):
-        robot.reach("towards target")
-    if check("the target is close to the robot's gripper"):
-        robot.reach("to target")
+    if check("the robot's gripper is not near the target location and the wall is between the robot's gripper and the target location"):
+        robot.grab("wall")
+    if check("the wall is held by the robot's gripper and the wall is near the target location"):
+        robot.place("wall at target location")
+    if check("the wall is at the target location and the robot's gripper is not near reach target"):
+        robot.reach("to target location")

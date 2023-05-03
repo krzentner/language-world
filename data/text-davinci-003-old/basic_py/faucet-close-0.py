@@ -1,5 +1,5 @@
 
-    if check("the robot's gripper is not near the faucet handle"):
-        robot.grab("faucet handle")
-    if check("the robot's gripper is near the faucet handle"):
-        robot.turn("right")
+    if check("the faucet handle is not left at six o'clock"):
+        robot.turn("faucet handle right")
+    if check("the faucet handle is forward aligned with the robot's gripper"):
+        robot.push("faucet handle right")

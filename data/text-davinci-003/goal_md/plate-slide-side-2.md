@@ -1,8 +1,6 @@
 
-    Steps:  1. Put gripper above the plate  2. Put gripper against the plate  3. Push the plate sideways
-    Put the gripper above the plate.
+    Steps:  1. Put gripper above plate  2. Move plate sideways into target location
+    The robot needs to line up the plate above the target location first.
     - When the robot's gripper is not above the plate, move the robot's gripper until the robot's gripper is above the plate
-    Once the gripper is above the plate, the robot needs to push the plate to move it. We need to put the gripper up against the plate to do that. 
-    - When the robot's gripper is not against the plate, move the robot's gripper until the robot's gripper is against the plate and the robot's gripper is closed
-    Now that the gripper is against the plate, slide it sideways until it's in the target location.
-    - When the robot's gripper is against the plate and the plate is not at the target location, move the robot's gripper until the plate is at the target location
+    Once the plate is lined up, the robot can just slide it in.
+    - When the robot's gripper is above the plate and the plate is not above the target location, move the robot's gripper until the plate is above the target location

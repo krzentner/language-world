@@ -1,12 +1,9 @@
 
-    if check("the robot's gripper is not above the box lid"):
-        robot.place("gripper above box lid")
-
-    if check("the robot's gripper is above the box lid and the robot's gripper is open"):
-        robot.drop("gripper around box lid")
-
-    if check("the robot's gripper is near the box lid and the robot's gripper is open"):
+    if check("the robot's gripper is not near the box lid"):
+        robot.reach("to box lid")
+    if check("the robot's gripper is not around box lid and the robot's gripper is open"):
+        robot.grab("box lid")
+    if check("the robot's gripper is near box lid and the robot's gripper is open"):
         robot.close("gripper around box lid")
-
-    if check("the robot's gripper is above the box lid and the lid is right of the box"):
-        robot.place("lid on box")
+    if check("the robot's gripper is above box and the robot's gripper is closed"):
+        robot.place("box lid above box")

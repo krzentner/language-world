@@ -1,28 +1,28 @@
 
 
 Steps:
-1. Put gripper above puck
-2. Push gripper into top of puck
-3. Line the robot's gripper up with the edge of the wall
-4. Push the wall with the robot's gripper
-5. Slide puck to goal
+1. Place the gripper right of the wall
+2. Lower the gripper over the top of the puck
+3. Push the puck with the wall
 
-Firstly, we need to put the gripper above the puck.
-if check("the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck"):
-    robot.put("the gripper above the puck")
-
-Secondly, we need to push the gripper into the top of the puck.
-if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck"):
-    robot.push("the gripper into the puck")
-
-Thirdly, we need to line the robot's gripper up with the edge of the wall.
-if check("the robot's gripper is near puck and the robot's gripper is not aligned with the edge of the wall"):
-    robot.align("the robot's gripper to the edge of the wall")
-
-Fourthly, we need to push the wall with the robot's gripper.
-if check("the robot's gripper is aligned with the edge of the wall"):
-    robot.push("the wall with the robot's gripper")
-
-Lastly, we need to slide the puck to the goal.
-if check("the robot's gripper is aligned with the edge of the wall and the puck is below the robot's gripper"):
-    robot.slide("the puck to the goal")
+```
+# push-wall: slide the puck to the target location with a small wall in the way
+# def push_wall(robot):
+    # Steps:
+    #  1. Place the gripper right of the wall
+    #  2. Lower the gripper over the top of the puck
+    #  3. Push the puck with the wall
+    # We need to put the robot's gripper near the wall before beginning the
+    # task.
+    if check("the robot's gripper is not to the right of the wall"):
+        robot.place("gripper to the right of the wall")
+    # Once the robot's gripper is near the wall, lower it to the top of the
+    # puck.
+    # We don't have to be careful about the angle, since the wall limits the
+    # movement available.
+    if check("the robot's gripper is to the right of the wall and the robot's gripper is not near puck"):
+        robot.drop("gripper over puck")
+    # Now that the gripper is above the puck and the wall is between the gripper
+    # and the puck we can start pushing with the wall.
+    if check("the robot's gripper is near puck and the wall is between the gripper and the puck"):
+        robot.push("puck with wall")

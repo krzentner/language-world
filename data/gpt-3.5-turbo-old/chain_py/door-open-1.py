@@ -1,0 +1,1 @@
+This function is already defined above. Please see `# door-open: pull the door open` in the code block.

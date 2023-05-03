@@ -1,13 +1,12 @@
 
     # Steps:
-    #  1. Put gripper in front of button
-    #  2. Push button
-    # First, make sure the gripper is in front of the button.
+    #  1. Line up the gripper as viewed from the front
+    #  2. Push on the button from the front
+    # To use the front view, we want to line up the gripper from the front, and
+    # this requires knowing which direction "right" is from.
+    # Align the robot's gripper from the front
     if check("the robot's gripper is not forward aligned with button"):
-        robot.put("gripper in front of button")
-    # If the gripper is aligned with the button as seen from in front, try
-    # pushing it.
-    # We don't need to be careful from which angle we push, since the robot can
-    # come from any angle to press the button.
+        robot.align("gripper to button front")
+    # Now that the gripper is lined up, push on the button.
     if check("the robot's gripper is forward aligned with button"):
-        robot.push("button")
+        robot.push("on button front")

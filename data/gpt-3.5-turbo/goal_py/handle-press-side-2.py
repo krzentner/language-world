@@ -1,9 +1,9 @@
 # Steps:
-    #  1. Put gripper around the handle
-    #  2. Push down on the handle from the side
-    # First, put the gripper around the handle.
-    if check("the robot's gripper is not around the handle"):
-        robot.move_gripper("around the handle", close_gripper=True)
-    # Once the gripper is around the handle, we can push down on it from the side.
-    if check("the robot's gripper is around the handle"):
-        robot.move_gripper("near the top of the handle")
+    #  1. Put gripper next to the handle
+    #  2. Push down the handle
+    # We need to place the gripper next to the handle before we can push it.
+    if check("the robot's gripper is not next to the handle"):
+        robot.move_gripper("next to the handle")
+    # Once the gripper is next to the handle, we can just push it down.
+    if check("the robot's gripper is next to the handle"):
+        robot.move_gripper("near the target location")

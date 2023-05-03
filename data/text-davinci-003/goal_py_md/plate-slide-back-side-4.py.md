@@ -1,27 +1,28 @@
 
 
-Steps:
-1. Put gripper forward of the plate
-2. Grab the plate with the gripper
-3. Move the plate until it's aligned with the target location
-4. Slide the plate sideways into the target location
+Next, using the code from other tasks as reference, we'll define the steps the robot needs to do:
 
-If the robot's gripper is not forward of the plate, move the gripper near the plate to start sliding.
+1. Put gripper above plate
+2. Hook gripper around plate
+3. Move plate back and to the side
+
+The code for this tasks would look like this:
 
 ```
 # plate-slide-back-side: slide the plate back sideways into the target location
-# def plate_slide_back_side(robot):
+def plate_slide_back_side(robot):
     # Steps:
-    #  1. Put gripper forward of the plate
-    #  2. Grab the plate with the gripper
-    #  3. Move the plate until it's aligned with the target location
-    #  4. Slide the plate sideways into the target location
-    # If the robot's gripper is not forward of the plate, move the gripper near the plate to start sliding.
-    if check("the robot's gripper is not forward of the plate"):
-        robot.move_gripper("forward of the plate", close_gripper=True)
-    # If the plate is now left of the robot's gripper, move the plate until it's aligned with the target location.
-    if check("the plate is not horizontally aligned with the target location"):
+    #  1. Put gripper above plate
+    #  2. Hook gripper around plate
+    #  3. Move plate back and to the side
+    # Put the gripper roughly above the plate so that we don't bump it while
+    # grabbing it.
+    if check("the robot's gripper is not above the plate"):
         robot.move_gripper("above the plate")
-    # If the plate is horizontally aligned with the target location, slide it sideways into the target location.
-    if check("the plate is horizontally aligned with the target location"):
-        robot.move_gripper("left of the target location")
+    # If the gripper isn't around the plate, put it around the plate.
+    if check("the robot's gripper is not around plate and the robot's gripper is open"):
+        robot.move_gripper("around the plate", close_gripper=True)
+    # If the plate isn't back and to the side, move it back and to the side.
+    if check("the plate is not back and to the side of the target"):
+        robot.move_gripper("back and to the side of the target")
+```

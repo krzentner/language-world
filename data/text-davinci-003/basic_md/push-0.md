@@ -1,4 +1,4 @@
 
-    - When the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck, the robot should put the gripper above the puck.
-    - When the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck, the robot should push the gripper into the puck.
-    - When the robot's gripper is near the puck and the puck is below the robot's gripper, the robot should slide the puck to the goal.
+    - When the robot's gripper is not forward aligned with puck, the robot should move gripper to be front aligned with puck.
+    - When the robot's gripper is in front of puck, the robot should push puck towards goal.
+    - When puck is not at the target location, continue to push puck towards goal.

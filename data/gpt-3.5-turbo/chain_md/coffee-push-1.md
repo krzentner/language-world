@@ -1,21 +1,14 @@
-Here are the steps the robot should perform for the `coffee-push` task:
-Steps: 1. Put gripper above the mug handle
-2. Drop gripper around the mug handle
-3. Close gripper around the mug handle
-4. Lift up the mug
-5. Move gripper to the target location
-6. Lower the mug on the target location
-7. Open the gripper to release the mug
-
-First, put the gripper roughly above the mug handle to avoid hitting the mug while trying to grab it.
-- When the robot's gripper is not above the mug handle, the robot should place the gripper above the mug handle.
-Next, move the gripper around the mug handle and close the gripper to firmly grab the mug.
-- When the robot's gripper is near the mug handle and open, the robot should drop gripper around the mug handle and close the gripper.
-Now that the robot has a firm hold of the mug, lift it up to move it to the target location.
-- When the robot's gripper is closed around the mug handle, the robot should lift the mug up.
-Move the gripper and the mug to the target location.
-- When the robot's gripper is holding the mug, the robot should move to the target location while holding the mug.
-Once the robot has reached the target location, lower the mug onto it.
-- When the robot's gripper is above the target location, the robot should lower the mug onto it.
-Finally, open the gripper to release the mug.
-- When the mug is successfully placed on the target location, the robot should open the gripper to release the mug.
+To grab the mug and move it to the target location reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above the mug  2. Grab the handle with the gripper  3. Lift the mug up to a safe height  4. Move the mug to the target location  5. Lower the mug to the target surface  6. Release the handle
+    First, put the gripper above the mug, aiming for the mug handle.
+    - When the robot's gripper is not vertically aligned with the mug handle, the robot should put gripper above mug handle.
+    Once the gripper is above the handle, it can be closed to grab the handle.
+    - When the robot's gripper is vertically aligned with the mug handle and the robot's gripper is open, the robot should grab the handle.
+    The mug should be lifted to a safe height to avoid damage or spills.
+    - When the robot's gripper is holding the mug handle, the robot should lift the mug to a safe height.
+    After lifting the mug, move it to the target location.
+    - When the robot's gripper is holding the mug at a safe height, the robot should move the mug to the target location.
+    Once the mug is over the target surface, slowly lower it.
+    - When the mug is above the target surface, the robot should lower the mug to the target surface.
+    Finally, the gripper should be opened to release the handle and let go of the mug.
+    - When the mug is on the target surface, the robot should release the handle and let go of the mug.

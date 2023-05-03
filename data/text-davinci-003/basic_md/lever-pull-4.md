@@ -1,4 +1,4 @@
-
-    - When the robot's gripper is not above the lever, the robot should put gripper above lever.
-    - When the lever is forward aligned with the robot's gripper and the robot's gripper is not around lever, the robot should put gripper around lever.
-    - When the robot's gripper is around lever, the robot should pull lever up.
+ 
+    - When the robot's gripper is not nearby the lever, the robot should move the gripper near the lever.
+    - When the robot's gripper is above the lever, the robot should rotate the lever in up direction.
+    - When the robot's gripper is near the lever,the robot should apply force to rotate the lever up.

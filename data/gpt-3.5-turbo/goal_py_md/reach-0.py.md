@@ -1,11 +1,12 @@
 # reach: reach to the target location
-# def reach(robot):
+def reach(robot):
     # Steps:
-    #  1. Reach towards the target
-    # We don't have any objects to manipulate, so we can just move the robot's
-    # gripper directly to the target location
-    if check("the robot's gripper is not near reach target"):
-        robot.move_gripper("near the reach target")
-    # If the gripper is near the target location, the reach task is complete.
-    if check("the robot's gripper is near the reach target"):
-        print("Reach task complete.")
+    #  1. Put gripper horizontally aligned with the target location
+    #  2. Move gripper down to target location
+    # The robot needs to simply reach out to the target location without grabbing anything.
+    # If the gripper is not horizontally aligned to the target location, move it there.
+    if check("the robot's gripper is not horizontally aligned with the target location"):
+        robot.move_gripper("horizontally aligned with the target location")
+    # If the gripper is horizontally aligned to the target location but not at the right height, move it down.
+    if check("the robot's gripper is not almost vertically aligned with the target location"):
+        robot.move_gripper("almost vertically aligned with the target location")

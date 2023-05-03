@@ -3,15 +3,13 @@
     #  1. Put gripper right of the window handle
     #  2. Start pushing against the window handle to open the window
     #  3. Push the window open harder
-    # If the robot's gripper is not vertically lined up with the window handle,
-    # we should move the gripper near the window handle to start pushing
-    if check("the robot's gripper is not vertically aligned with the window handle and the robot's gripper is below the window handle"):
-        robot.move("gripper to right of window handle")
-    # If the robot's gripper is near the window handle we can probably slide the
-    # window open now by moving the gripper left.
-    if check("the robot's gripper is near the window handle"):
-        robot.slide("window left")
-    # If the robot's gripper is starting to be in front of the window handle,
-    # push harder.
-    if check("the robot's gripper is in front of the window handle"):
-        robot.push("window left harder")
+    # We need robot gripper on the right side of the window handle in order to
+    # begin pushing it.
+    if check("the robot's gripper is not on the right side of the window handle"):
+        robot.put("gripper beside window handle")
+    # Now that the gripper is positioned correctly, we can start pushing.
+    if check("the robot's gripper is on the right side of the window handle"):
+        robot.push("window handle")
+    # If the window handle is unlocked, continue pushing the window open.
+    if check("the window handle is unlocked"):
+        robot.push("window open harder")

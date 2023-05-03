@@ -1,23 +1,22 @@
 
 
-The robot should turn the faucet clockwise (right) to close the faucet.
+Here's the code for that task:
 
 ```
 # faucet-close: turn the faucet right
-# def faucet_close(robot):
+def faucet_close(robot):
     # Steps:
-    #  1. Put gripper above the handle of faucet
-    #  2. Drop the gripper to hold the handle
-    #  3. Push the handle right to close the faucet
-    # First, put the gripper above the handle of the faucet.
-    if check("the robot's gripper is not vertically aligned with the handle"):
-        robot.move_gripper("vertically aligned with the handle", close_gripper=True)
-    # If the robot's gripper is lined up with the handle but not near it, drop
-    # the gripper to hold the handle.
-    if check("the robot's gripper is vertically aligned with the handle and the robot's gripper is not around the handle"):
-        robot.move_gripper("around the handle")
-    # Once the gripper is around the handle, push the handle right to close the
-    # faucet.
-    if check("the robot's gripper is around the handle and the handle is not right of the robot's gripper"):
-        robot.move_gripper("right of the handle")
+    #  1. Put gripper above faucet handle
+    #  2. Drop gripper around faucet handle
+    #  3. Turn faucet to the right to close
+    # First, put the gripper above the faucet handle.
+    if check("the robot's gripper is not almost vertically aligned with faucet handle"):
+        robot.move_gripper("almost vertically aligned with the faucet handle", close_gripper=True)
+    # Once the gripper is lined up above the faucet handle, we should be able to
+    # grab the faucet handle by moving the gripper down around it.
+    if check("the robot's gripper is vertically aligned with faucet handle and the robot's gripper is not around faucet handle"):
+        robot.move_gripper("around the faucet handle")
+    # Once the gripper is around the faucet handle, turn it to the right to close it.
+    if check("the robot's gripper is around faucet handle"):
+        robot.move_gripper("right of the faucet handle")
 ```

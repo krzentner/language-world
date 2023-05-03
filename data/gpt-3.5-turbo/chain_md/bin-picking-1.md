@@ -1,10 +1,19 @@
-To pick up the cube and place it in the target bin, the robot should perform the following steps:
-    Steps:  1. Put gripper above cube  2. Drop gripper around cube  3. Close gripper around cube  4. Move cube to target bin  5. Drop cube in target bin
-    First, put the gripper roughly above the cube.
-    - When the robot's gripper is not above the cube, the robot should place gripper above cube.
-    If the gripper isn't around the cube, put it around the cube.
-    - When the robot's gripper is not around the cube and the robot's gripper is open, the robot should drop gripper around cube.
-    If the gripper is near the cube and open, maybe we can grab it by closing the gripper.
-    - When the robot's gripper is near the cube and the robot's gripper is open, the robot should close gripper around cube.
-    We closed the gripper, and the cube is still near the gripper, so maybe we grabbed it. Try to move the cube to the target bin. If we didn't grab it, we'll just go back to an earlier step.
-    - When the robot's gripper is above the target bin and the robot's gripper is closed, the robot should drop cube in target bin.
+The steps that the robot should perform in order to pick up the cube and place it in the target bin are:
+
+1. Locate the cube and the target bin. The robot should use its sensors to locate both objects and identify their positions.
+
+2. Move the gripper above the cube. The robot should position its gripper directly above the cube.
+
+3. Drop the gripper around the cube. The robot should lower its gripper until it's wrapped around the cube.
+
+4. Close the gripper around the cube. The robot should clamp its gripper shut, firmly holding onto the cube.
+
+5. Move the gripper to the target bin. The robot should move its gripper towards the target bin.
+
+6. Align the gripper with the target bin. The robot should use its sensors to ensure that the gripper is aligned with the target bin.
+
+7. Open the gripper to release the cube into the bin. The robot should open its gripper, allowing the cube to fall into the bin.
+
+8. Verify that the cube is properly placed in the bin. The robot should use its sensors to confirm that the cube has been successfully placed in the target bin.
+
+9. Repeat the process for all remaining cubes. If there are additional cubes to be picked up, the robot should repeat the process from the beginning until all cubes have been successfully placed in the target bin.

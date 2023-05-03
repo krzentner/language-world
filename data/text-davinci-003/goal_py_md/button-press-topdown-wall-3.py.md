@@ -1,25 +1,35 @@
 
 
-The steps in the program would be:
+Steps:
+1. Line up the gripper as viewed from above with the wall
+2. Push the wall away using the gripper
+3. Move the gripper around the wall to button
+4. Push down on the button
 
-1. Put the gripper near the wall
-2. Put the gripper around the button
-3. Push down the button from the top
+If the robot's gripper is not above the wall, move it so it is:
 
-# button-press-topdown-wall: push the button down from above with a short wall in the way
-# def button_press_topdown_wall(robot):
-    # Steps:
-    #  1. Put gripper near the wall
-    #  2. Put gripper around the button
-    #  3. Push down the button from the top
-    # First, put the gripper slightly above the wall, so the robot can place one
-    # side on the wall and the other side around the button.
-    if check("the robot's gripper is not near the wall"):
-        robot.move_gripper("near the wall")
-    # Once the gripper is near the wall, we can put the gripper around
-    # the button.
-    if check("the robot's gripper is near the wall and the robot's gripper is not around the button"):
-        robot.move_gripper("vertically aligned with the button", close_gripper=True)
-    # If the gripper is around the button, we can push it down from the top.
-    if check("the robot's gripper is vertically aligned with the button"):
-        robot.move_gripper("above the button")
+```
+if check("the robot's gripper is not above the wall"):
+    robot.move_gripper("above the wall")
+```
+
+Then push the wall away from the button using the gripper:
+
+```
+if check("the wall is above the button"):
+    robot.move_gripper("above the button")
+```
+
+Next, move the gripper around the wall so it is facing the button:
+
+```
+if check("the robot's gripper is not horizontally aligned with the button"):
+    robot.move_gripper("horizontally aligned with the button")
+```
+
+Finally, push down on the button:
+
+```
+if check("the robot's gripper is horizontally aligned with the button"):
+    robot.move_gripper("near the button")
+```

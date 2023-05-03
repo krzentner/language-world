@@ -1,17 +1,24 @@
 
     # Steps:
-    #  1. Put gripper close to bottom of plate
-    #  2. Orient the plate with the target position
-    #  3. Push the back of the plate back into the target position
-    # We'll want to put the gripper near the bottom of the plate before we start
-    # manipulating it.
-    if check("the robot's gripper is not near bottom of plate"):
-        robot.put("gripper close to bottom of plate")
-    # After lining up the gripper, we want to orient the plate with the target
-    # position. We don't want the plate to overshoot or undershoot our target.
-    if check("the plate is not aligned with the target"):
-        robot.align("plate with the target")
-    # After the plate is in the target position, we just have to push the back
-    # of the plate back into the target position.
-    if check("the plate is aligned with the target"):
-        robot.push("the back of the plate back into the target")
+    #  1. Put gripper above backwards edge of plate
+    #  2. Grab onto backwards edge of plate
+    #  3. Slide plate sideways backwards
+    #  4. Slide plate sidewards back to goal
+    # If the robot's gripper isn't near the back edge of the plate, we have to move
+    # the gripper to the back edge of the plate while keeping it pointed up.
+    # We don't need to be careful about the direction, since the plate is large
+    # and we're just sliding it.
+    if check("the robot's gripper is not near the back of the plate and the robot's gripper is pointing up"):
+        robot.move("the gripper to the back edge of the plate")
+    # When the gripper is near the back edge of the plate, move it over the plate
+    # so that we can slide it.
+    if check("the robot's gripper is near the back edge of the plate and the robot's gripper is pointing up"):
+        robot.grab("the back edge of the plate")
+    # If the robot's gripper is now holding onto the back edge of the plate, we
+    # can slide it sideways back.
+    # Keep doing this until the plate is above the goal.
+    if check("the robot's gripper is holding onto the back edge of the plate and the plate is not horizontally aligned with the goal"):
+        robot.slide("the plate backwards")
+    # Push the plate sideways back until it's at the goal. 
+    if check("the plate is horizontally aligned with the goal"):
+        robot.place("the plate at the goal")

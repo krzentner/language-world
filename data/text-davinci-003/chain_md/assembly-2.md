@@ -1,10 +1,12 @@
 
-    Steps:  1. Put gripper above the peg  2. Grab the peg with the gripper  3. Line up the wrench with the peg  4. Drop the wrench onto the peg  5. Twist the wrench until it’s around the peg 
-    First, put the gripper above the peg.
-    - When the robot's gripper is not vertically aligned with the peg, the robot should put gripper above peg.
-    If the wrench is still too high and the peg isn't aligned with the wrench yet, line up the wrench and the peg.
-    - When the wrench is too high and the peg is not forward aligned with the wrench, the robot should line up wrench and peg.
-    As long as the wrench and peg are lined up, close the gripper to drop the wrench onto the peg.
-    - When the wrench is forward aligned with peg and the robot's gripper is open, the robot should drop wrench onto peg.
-    Once the wrench is on the peg, twist the wrench until it’s around the peg.
-    - When the robot's gripper is closed, the robot should twist wrench until it's around peg.
+    Steps:  1. Put gripper above the podium  2. Grab the wrench with the gripper  3. Line up the wrench with the peg  4. Wrap the wrench around the peg  5. Move the wrench around the peg
+    First, put the gripper above the podium to indicate where the wrench is.
+    - When the robot's gripper is not above the podium, the robot should put gripper above podium.
+    Once the gripper is near the wrench, it should be able to grab it.
+    - When the robot's gripper is not near the wrench and the robot's gripper is open, the robot should grab the wrench.
+    Now that the gripper has the wrench, we can line up the wrench and the peg.
+    - When the robot's gripper is near the wrench and the peg is not aligned with the wrench, the robot should align wrench to peg.
+    Once the wrench and the peg are lined up, we should be able to wrap the wrench around the peg.
+    - When the robot's gripper is near the wrench and the wrench is aligned with the peg, the robot should wrap the wrench around the peg.
+    This should wrap the wrench around the peg. If the robot needs to secure the peg further, it can move the wrench around the peg. 
+    - When the robot's gripper is near the wrench and the wrench is around the peg, the robot should move the wrench around the peg.

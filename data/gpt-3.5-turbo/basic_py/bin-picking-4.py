@@ -1,10 +1,10 @@
-if check("the cube is not in the robot's field of view"):
-        robot.move("to get a view of the cube")
-    if check("the robot's gripper is not above the cube"):
+if check("the robot's gripper is not above the cube"):
         robot.place("gripper above cube")
-    if check("the robot's gripper is not around the cube and the robot's gripper is open"):
+    if check("the robot's gripper is not around cube and the robot's gripper is open"):
         robot.drop("gripper around cube")
-    if check("the robot's gripper is near the cube and the robot's gripper is open"):
+    if check("the robot's gripper is near cube and the robot's gripper is open"):
         robot.close("gripper around cube")
-    if check("the robot's gripper is above the target bin and the robot's gripper is closed"):
-        robot.place("cube in the bin")
+    if check("the robot's gripper is above cube and the robot's gripper is closed and the target bin is not below the gripper"):
+        robot.move("gripper above target bin")
+    if check("the gripper is above the target bin and the cube is not inside the bin"):
+        robot.place("cube into bin")

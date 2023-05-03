@@ -1,1 +1,6 @@
-It looks like the function for "reach(robot)" is already defined above. Do you need any further assistance with the functions?
+if check("the robot's gripper is not near the target location"):
+        robot.move("gripper to target location")
+    if check("the robot's gripper is near the target location"):
+        robot.reach("gripper to target location")
+    if check("the robot's gripper has reached the target location"):
+        robot.grasp("target object")

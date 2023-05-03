@@ -1,8 +1,5 @@
 
 
-Answer:
-
-```
 # drawer-open: pull the drawer open
 # def drawer_open(robot):
     if check("the robot's gripper is not vertically aligned with drawer handle"):
@@ -11,4 +8,3 @@ Answer:
         robot.put("gripper around drawer handle")
     if check("the robot's gripper is around drawer handle"):
         robot.pull("away from drawer")
-```

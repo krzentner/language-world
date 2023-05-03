@@ -1,23 +1,16 @@
-Here is the complete code for the `peg_insert_side` function:
+Here's the program to perform the `peg-insert-side` task using the robot:
 
 ```
-# peg-insert-side: insert the peg into the hole from the side
+# peg-insert-side: grab the peg and insert it into the hole from the side
 def peg_insert_side(robot):
-    if check("the robot's gripper is not vertically aligned with the peg"):
-        robot.put("gripper above peg")
-    if check("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper"):
-        robot.grab("peg")
-    if check("the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole"):
-        robot.align("peg to hole")
-    if check("peg is horizontally aligned with hole"):
-        if check("the robot's gripper is not above the hole"):
-            robot.lift("gripper above hole")
-        if check("the robot's gripper is open"):
-            robot.close("gripper around hole")
-        if check("gripper is around hole and the peg is not inserted"):
-            robot.insert("peg into hole")
+    if check("the robot's gripper is not near the peg"):
+        robot.reach("the peg")
+        robot.put("the gripper above the peg")
+        robot.grab("the peg")
+        robot.put("the gripper above the hole")
+        robot.move("the gripper to the side of the hole")
+        robot.push("the peg into the hole")
+        robot.release()
 ```
 
-This code first checks if the gripper is in the correct position to perform each step of the task. If not, it moves the gripper to the correct position using the robot's `put`, `grab`, `align`, or `lift` functions. Once the gripper is in the correct position, it performs the appropriate action using the `close`, `insert`, or `lift` functions. 
-
-Note that `check` is a placeholder function that should be replaced with code to check the robot's sensors and determine if the gripper is in the correct position. Additionally, the exact implementation of the `put`, `grab`, `align`, `lift`, `close`, and `insert` functions will depend on the specifics of the robot being used.
+In this program, the robot first uses the `reach()` method to move the gripper close to the peg and then `put()` the gripper above it. Then, it uses `grab()` to hold onto the peg and moves the gripper above the hole using `put()`. Next, it moves the gripper to the side of the hole using `move()` and pushes the peg into the hole using `push()`. Finally, the robot releases the peg using `release()`.

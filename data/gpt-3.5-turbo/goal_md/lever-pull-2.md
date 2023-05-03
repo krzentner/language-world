@@ -1,7 +1,6 @@
-To rotate the lever up reliably, the robot should perform the following steps:
-    Steps:  1. Put gripper around the lever  2. Pull the lever up
-    First, put the gripper around the lever.
-    - When the robot's gripper is not around the lever and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the lever and the robot's gripper is closed
-    If the gripper is not around the lever, grab the lever by closing the gripper around it.
-    - When the gripper is around the lever, move the robot's gripper until the robot's gripper is above the lever
-    Once the gripper is above the lever, pull the lever up to complete the task.
+The robot should perform the following steps to rotate the lever up reliably:
+    Steps:  1. Put gripper around lever handle  2. Pull the lever up
+    First, put the gripper around the lever handle.
+    - When the robot's gripper is not around lever handle, move the robot's gripper until the robot's gripper is around the lever handle
+    Once the gripper is around the lever handle, we can just pull the lever up by moving the gripper up.
+    - When the robot's gripper is around lever handle, move the robot's gripper until the robot's gripper is above the lever handle

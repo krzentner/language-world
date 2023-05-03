@@ -1,3 +1,5 @@
 
-    - When the robot's gripper is not above the hammer head, the robot should put gripper above the hammer head.
-    - When the robot's gripper is above the hammer head, the robot should send the hammer downwards onto the nail in order to drive it into the wall.
+    - When the robot’s gripper is not near the nail and the hammer, the robot should put the gripper above the hammer.
+    - When the robot’s gripper is near the hammer, the robot should grab the hammer.
+    - When the robot’s gripper is near the nail, the robot should line up the hammer with the nail.
+    - When the robot’s gripper is aligned with the nail, the robot should strike the nail.

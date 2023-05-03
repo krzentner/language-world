@@ -1,19 +1,29 @@
 
 
 Steps:
-1. Put the gripper above the ball
-2. Drop the gripper around the ball
-3. Close the gripper around the ball
-4. Line up the ball with the hoop
-5. Throw the ball into the hoop
+1. Put gripper above basketball
+2. Drop gripper around basketball
+3. Close gripper around basketball
+4. Position robot in line with hoop and basketball
+5. Release basketball upwards towards hoop
 
-if check("the robot's gripper is not above the ball"):
-    robot.put("gripper above ball")
-if check("the robot's gripper is not around the ball and the robot's gripper is open"):
-    robot.drop("gripper around ball")
-if check("the robot's gripper is near the ball and the robot's gripper is open"):
-    robot.close("gripper around ball")
-if check("the ball is not horizontally aligned with the hoop"):
-    robot.align("ball to hoop")
-if check("the ball is horizontally aligned with the hoop"):
-    robot.throw("ball into hoop")
+```
+# basketball: put the ball into into the hoop
+# def basketball(robot):
+    # Steps:
+    #  1. Put gripper above basketball
+    if check("the robot's gripper is not above basketball"):
+        robot.put("gripper above basketball")
+    #  2. Drop gripper around basketball
+    if check("the robot's gripper is not around basketball and the robot's gripper is open"):
+        robot.drop("gripper around basketball")
+    #  3. Close gripper around basketball
+    if check("the robot's gripper is near basketball and the robot's gripper is open"):
+        robot.close("gripper around basketball")
+    #  4. Position robot in line with hoop and basketball
+    if check("the robot is not in line with the hoop and the basketball"):
+        robot.align("robot to hoop and basketball")
+    #  5. Release basketball upwards towards hoop
+    if check("the robot is in line with the hoop and the basketball"):
+        robot.release("basketball up towards hoop")
+```

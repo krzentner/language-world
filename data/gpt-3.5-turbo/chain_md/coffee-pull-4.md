@@ -1,9 +1,9 @@
-To grab the mug and pull it to the target location reliably, the robot should perform the following steps: 
+To grab the mug and pull it to the target location reliably, the robot should perform the following steps:
 
-    Steps:  1. Put gripper around mug handle  2. Lift mug and move it towards goal  3. Place mug at goal
-    First, put the gripper around the mug handle.
-    - When the robot's gripper is not around the mug handle, the robot should put gripper around the mug handle.
-    Once the mug is in the gripper, lift it up and move it towards the goal location.
-    - When the robot's gripper is closed around the mug, the robot should lift the mug and move it towards the goal.
-    Finally, place the mug at the goal location.
-    - When the robot's gripper is vertically aligned with the goal location, the robot should place the mug at the goal location.
+    Steps:  1. Put gripper above the handle of the mug  2. Grab the mug handle with the gripper  3. Pull the mug to the target location
+    First, put the gripper above the handle of the mug.
+    - When the robot's gripper is not vertically aligned with the mug handle, the robot should put gripper above the mug handle.
+    Once the mug handle is lined up with the gripper, grab it.
+    - When the robot's gripper is vertically aligned with the mug handle and the robot's gripper is not around the handle, the robot should grab the handle.
+    Once the handle is grabbed, pull the mug to the target location.
+    - When the robot's gripper is around the handle of the mug, the robot should pull the mug to the target location.

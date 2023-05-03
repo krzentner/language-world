@@ -1,7 +1,6 @@
 To push down the handle from the side reliably, the robot should perform the following steps:
-
-    Steps: 1. Put gripper next to the handle  2. Push the handle down
-    First, put the gripper roughly next to the handle.
-    - When the robot's gripper is not horizontally aligned with the handle, move the robot's gripper until the robot's gripper is horizontally aligned with the handle
-    Now that the gripper is roughly next to the handle, push it down.
-    - When the robot's gripper is near the handle, move the robot's gripper until the robot's gripper is touching the handle and the robot's gripper is closed.
+    Steps:  1. Put gripper around the handle  2. Push down on the handle from the side
+    First, put the gripper around the handle.
+    - When the robot's gripper is not around the handle and the robot's gripper is open, move the robot's gripper until the robot's gripper is around the handle and the robot's gripper is closed
+    Once the gripper is around the handle, push down on the handle from the side.
+    - When the robot's gripper is around the handle, move the robot's gripper until the robot's gripper is pressing down on the handle from the side.

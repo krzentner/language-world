@@ -1,9 +1,8 @@
 
-
-Steps:  1. Put gripper on the left side of the door handle  2. Move the gripper to the target location  3. Push hard against the door to close it
-    First, put the gripper on the left side of the door handle.
-    - When the robot's gripper is not on the left side of the door handle, move the robot's gripper until the robot's gripper is on the left side of the door handle
-    Move the robot's gripper to the target location.
-    - When the robot's gripper is not near the target location, move the robot's gripper until the robot's gripper is near the target location
-    Once the robot's gripper is near the target location, push hard against the door to close it.
-    - When the robot's gripper is near the target location, move the robot's gripper until it is pushing hard against the door
+    Steps: 1. Put gripper left of the door handle  2. Start pushing against the door handle to close the door  3. Push the door closed harder
+    If the door handle is right of the robot's gripper, we should move the gripper near the door handle to start pushing
+    - When the robot's gripper is in front of the door handle, move the robot's gripper until the robot's gripper is right of the door handle
+    If the robot's gripper is near the door handle we can probably slide the door close now by moving the gripper right.
+    - When the door handle is right of the robot's gripper and the robot's gripper is not near the door handle, move the robot's gripper until the robot's gripper is almost vertically aligned with the door handle
+    If the robot's gripper is starting to be in front of the door handle, push harder.
+    - When the robot's gripper is near the door handle, move the robot's gripper until the robot's gripper is forward aligned with the door handle

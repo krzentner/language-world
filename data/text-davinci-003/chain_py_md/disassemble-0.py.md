@@ -1,29 +1,22 @@
 
 
-The program should be as follows:
-
-```
 # disassemble: pull the wrench off the peg
-# def disassemble(robot):
+def disassemble(robot):
     # Steps:
-    #  1. Put gripper above peg
-    #  2. Drop gripper around wrench
-    #  3. Pull wrench off peg
-    # First, put the gripper above the peg so that the wrench is below the
-    # gripper.
-    if check("the robot's gripper is not above the peg"):
-        robot.put("gripper above peg")
-    # If the wrench isn't around the gripper as seen from below, move the
-    # gripper below the wrench.
-    if check("the robot's gripper is not around wrench and the robot's gripper is open"):
-        robot.drop("gripper around wrench")
-    # If the gripper is near the wrench and open, maybe we can grab it by
-    # closing the gripper. 
-    if check("the robot's gripper is near wrench and the robot's gripper is open"):
-        robot.close("gripper around wrench")
-    # We closed the gripper, and the wrench is still near the gripper, so maybe
-    # we grabbed it. Try to pull the wrench off the peg. If we didn't grab it,
-    # we'll just go back to an earlier step.
-    if check("the robot's gripper is above peg and the robot's gripper is closed"):
-        robot.pull("wrench off peg")
-```
+    #  1. Put gripper above the wrench
+    #  2. Grab the wrench with the gripper
+    #  3. Pull the wrench off the peg
+    # First, put the gripper above the wrench. We don't know the exact location
+    # of the wrench, so just get it near the wrench.
+    if check("the robot's gripper is not above the wrench"):
+        robot.put("gripper above wrench")
+    # If the wrench is left of the center of the robot's gripper, grab it.
+    # This assumes the robot's gripper is closed; if the robot's gripper is
+    # open it will need to close it first.
+    if check("the wrench is left of the center of the robot's gripper and the robot's gripper is closed"):
+        robot.grab("wrench")
+    # If the wrench is near the robot's gripper, start pulling it off the peg.
+    # We don't need to be precise about how much the robot pulls so it can just
+    # be a small movement.
+    if check("the wrench is near the robot's gripper"):
+        robot.pull("the wrench off the peg")

@@ -1,4 +1,4 @@
 
-    - When the robot's gripper is not vertically aligned with the plate and the robot's gripper is below the plate, the robot should move gripper to right of plate.
-    - When the robot's gripper is near the plate, the robot should slide plate to side in order to move it into the target location.
-    - When the robot's gripper is in front of the plate, the robot should push plate harder to move it into the target location.
+     - When the robot's gripper is not almost vertically aligned with the plate edge, the robot should put gripper above plate edge.
+     - When the robot's gripper is almost vertically aligned with the plate edge and the robot's gripper is open, the robot should put gripper around plate edge.
+     - When the robot's gripper is around the plate edge, the robot should push plate towards goal.

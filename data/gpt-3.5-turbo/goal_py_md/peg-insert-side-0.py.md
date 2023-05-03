@@ -1,24 +1,26 @@
-# peg-insert-side: insert the peg into the hole from the side
-# def peg_insert_side(robot):
+# peg-insert-side: grab the peg and insert it into the hole from the side
+def peg_insert_side(robot):
     # Steps:
-    #  1. Put gripper above the peg
-    #  2. Grab the peg with the gripper
-    #  3. Line the peg up with the hole
-    #  4. Slide the peg sideways into the hole
-    # First, put the gripper above the peg.
-    if check("the robot's gripper is not vertically aligned with the peg"):
-        robot.move_gripper("vertically aligned with the peg")
-    # If the peg becomes left of the gripper, go back to putting the gripper
-    # above the peg.
-    # Because the peg is a long object, check if the gripper is lined up with it
-    # from the front instead of around it.
-    if check("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper"):
-        robot.move_gripper("forward aligned with the peg", close_gripper=True)
-    # As long as the gripper is still mostly around the peg and the peg isn't lined
-    # up with the hole, line up the peg with the hole.
-    if check("peg is not horizontally aligned with hole"):
-        robot.move_gripper("above the peg", close_gripper=True)
-        robot.move_gripper("horizontally aligned with hole")
-    # If the peg is lined up with the hole to the side, insert it.
-    if check("the robot's gripper is forward aligned with the peg and the peg is horizontally aligned with hole"):
-        robot.move_gripper("around the hole")
+    #  1. Put gripper near the peg
+    #  2. Close gripper around peg
+    #  3. Align the gripper as the robot approaches the side of the hole
+    #  4. Move the gripper to the side of the hole
+    #  5. Align the gripper with the hole
+    #  6. Move the gripper into the hole
+    #  7. Release the peg
+    # Approach the peg from above and close the gripper around it.
+    if check("the gripper is not near the peg"):
+        robot.move_gripper("near the peg")
+    if check("the gripper is near the peg and the gripper is open"):
+        robot.move_gripper("around the peg", close_gripper=True)
+    # As the robot approaches the side of the hole, align the gripper horizontally towards it.
+    if check("the gripper is gripping the peg and the robot is not aligned with the hole"):
+        robot.move_gripper("vertically aligned with the hole")
+        robot.move_gripper("to the right of the hole")
+    # Move the gripper towards the hole.
+    if check("the gripper is aligned with the hole and is right of it"):
+        robot.move_gripper("horizontally aligned with the hole")
+        robot.move_gripper("in front of the hole", close_gripper=True)
+    # Release the peg.
+    if check("the gripper is in the hole"):
+        robot.move_gripper("above the hole", close_gripper=False)

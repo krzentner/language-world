@@ -1,12 +1,11 @@
 
     # Steps:
-    #  1. Put gripper in front of the button
-    #  2. Push the button
-    # We need to put the gripper in front of the button before we can press it,
-    # because of the angle of the robot's gripper.
+    #  1. Line up the gripper as viewed from front
+    #  2. Push down on the button
+    # Because this is "front", we just need to line up the gripper from the front.
+    # Line up the robot's gripper from the front.
     if check("the robot's gripper is not forward aligned with button"):
         robot.move_gripper("forward aligned with the button", close_gripper=True)
-    # Once the gripper is lined up in front of the button, we should be able to
-    # push the button by pushing down on it.
-    if check("the robot's gripper is forward aligned with the button"):
+    # Now that the gripper is lined up, just push down on the button.
+    if check("the robot's gripper is forward aligned with button"):
         robot.move_gripper("near the button")

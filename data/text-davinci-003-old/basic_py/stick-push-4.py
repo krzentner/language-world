@@ -1,7 +1,9 @@
 
-    if check("the robot's gripper is not above the stick"):
+    if check("the robot's gripper is not near stick"):
         robot.grab("stick")
-    if check("the robot's gripper is above the stick"):
-        robot.put("tip of stick below thermos")
-    if check("the stick is below the thermos"):
-        robot.push("thermos to goal")
+    if check("stick is not near thermos"):
+        robot.place("stick next to thermos")
+    if check("the stick is almost above thermos"):
+        robot.push("the stick down to thermos")
+    if check("the stick and thermos are moving"):
+        robot.push("the thermos to goal")

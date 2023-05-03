@@ -1,6 +1,9 @@
-The robot should perform the following steps to reliably push the drawer close:
-    Steps: 1. Put gripper roughly around the drawer handle  2. Push the drawer closed
-    If the gripper is not near the drawer handle, move it to the drawer handle. We don't need to be careful about the direction, since the drawer is large and we're just pushing it (unlike when opening the drawer).
-    - When the robot's gripper is not near the drawer handle, the robot should grab drawer handle.
-    If the drawer is aligned with the gripper as seen from in front, we can push the drawer closed.
-    - When the robot's gripper is forward aligned with drawer handle, the robot should push drawer closed.
+To push the drawer close reliably, the robot should perform the following steps:
+
+    Steps:  1. Put gripper above drawer handle  2. Drop gripper handle around drawer handle  3. Push the drawer closed
+    First, position the robot's gripper above the drawer handle.
+    - When the robot's gripper is not vertically aligned with drawer handle, the robot should put gripper above drawer handle.
+    Next, place the gripper around the drawer handle.
+    - When the robot's gripper is vertically aligned with the drawer handle and the robot's gripper is not around the drawer handle, the robot should drop gripper around the drawer handle.
+    Finally, push the drawer closed.
+    - When the robot's gripper is around the drawer handle, the robot should push the drawer closed.

@@ -1,19 +1,19 @@
 # Steps:
-    #  1. Put gripper near the peg
-    #  2. Drop gripper around the peg
-    #  3. Lift the peg out of the hole
-    #  4. Move peg to target location
-
-    # First, move the gripper near the peg, so we can drop it around the peg.
-    if check("the robot's gripper is not near the peg"):
-        robot.move_gripper("near the peg")
-    # Once the gripper is near the peg, we can drop it around the peg and pick
-    # it up.
-    if check("the robot's gripper is near the peg and the robot's gripper is open"):
-        robot.move_gripper("around the peg", close_gripper=True)
-    # Now that we've grabbed the peg, lift it out of the hole.
-    if check("the robot's gripper is around the peg"):
+    #  1. Put gripper above the hole
+    #  2. Move the gripper down into the hole
+    #  3. Grab the peg
+    #  4. Lift the peg out of the hole
+    #  5. Move the gripper to the target location
+    # First we need to position the robot above the hole to grab the peg.
+    if check("the robot's gripper is not above the hole"):
         robot.move_gripper("above the hole")
-    # Finally, move the peg to the target location.
-    if check("the robot's gripper is above the hole and the robot's gripper is not near the target location"):
+    # Once the gripper is above the hole, we can lower it to grab the peg.
+    # We'll assume that the gripper is already closed when near the peg hole.
+    if check("the robot's gripper is not inside the hole and the robot's gripper is closed"):
+        robot.move_gripper("inside the hole")
+    # Now that the gripper is around the peg, we need to lift it out of the hole.
+    if check("the robot's gripper is around the peg"):
+        robot.move_gripper("out of the hole")
+    # Finally, we move the gripper to the target location.
+    if check("the robot's gripper is not near the target location"):
         robot.move_gripper("near the target location")

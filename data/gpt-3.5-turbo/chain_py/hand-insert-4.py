@@ -1,13 +1,15 @@
 # Steps:
-    #  1. Use hand to pick up the puck
-    #  2. Carry the puck to the goal location
-    #  3. Release the puck at the goal location
-    # First, use the hand to pick up the puck.
-    if check("the robot's hand is not holding the puck"):
-        robot.pick_up("puck with hand")
-    # If the hand is holding the puck, carry it to the goal location.
-    if check("the robot's hand is holding the puck and the hand is not near the goal location"):
-        robot.move("hand with puck to goal location")
-    # If the hand is near the goal location, release the puck.
-    if check("the robot's hand is holding the puck and the hand is near the goal location"):
-        robot.release("puck at goal location")
+    #  1. Put gripper above the puck
+    #  2. Grab the puck with the gripper
+    #  3. Move the puck to the target location
+    # This action is similar to pick-place, but we don't need to be as precise
+    # with moving the puck to the target location.
+    # First, put the gripper above the puck.
+    if check("the robot's gripper is not vertically aligned with the puck"):
+        robot.put("gripper above puck")
+    # If the gripper is not around the puck, put it around the puck.
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.grab("puck")
+    # If the gripper is around the puck, move the puck to the target location.
+    if check("the robot's gripper is around puck"):
+        robot.move("puck to goal")

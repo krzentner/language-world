@@ -1,18 +1,25 @@
 
 
-The robot can push the soccer ball by trapping it by pushing down on it from above and moving the gripper.
-If the soccer ball isn't below the gripper as seen from above, move the gripper above the soccer ball.
+Steps: 
+1. Place the robot's gripper above the soccer ball
+2. Push down to trap the soccer ball 
+3. Move the robot's gripper to the target location
 
-if check("the robot's gripper is not above the soccer ball and the robot's gripper is not vertically aligned with the soccer ball"):
-        robot.move_gripper("vertically aligned with the soccer ball")
-
-# If the gripper is aligned with the soccer ball but not near it, move the gripper
-# down to the soccer ball to slide it.
-if check("the robot's gripper is vertically aligned with the soccer ball and the robot's gripper is not near soccer ball"):
-        robot.move_gripper("above the soccer ball", close_gripper=True)
-
-# If the gripper is near the soccer ball, we've probably trapped the soccer ball and can
-# slide it to the target location.
-# Close the gripper to make sure we keep control of the soccer ball.
-if check("the robot's gripper is near the soccer ball and the soccer ball is below the robot's gripper"):
+```
+# soccer: push the soccer ball into the target location
+def soccer(robot):
+    # Steps:
+    #  1. Place the robot's gripper above the soccer ball
+    #  2. Push down to trap the soccer ball 
+    #  3. Move the robot's gripper to the target location
+    # First, put the gripper above the soccer ball.
+    if check("the robot's gripper is not above the soccer ball"):
+        robot.move_gripper("above the soccer ball")
+    # Once the gripper is above the soccer ball, trap it by pushing the gripper
+    # down onto the ball.
+    if check("the robot's gripper is above the soccer ball and the robot's gripper is not trapping the soccer ball"):
+        robot.move_gripper("trapping the soccer ball")
+    # Once the soccer ball is trapped, move the gripper to the target location.
+    if check("the robot's gripper is trapping the soccer ball"):
         robot.move_gripper("above the target location")
+```

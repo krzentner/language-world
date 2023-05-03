@@ -1,1 +1,6 @@
-Oops, there seems to be a duplicate window-close function here. Did you mean to add a different function instead?
+if check("the robot's gripper is not vertically aligned with the window handle and the robot's gripper is below the window handle"):
+        robot.move("gripper to left of window handle")
+    if check("the robot's gripper is near the window handle"):
+        robot.slide("window right")
+    if check("the robot's gripper is in front of the window handle"):
+        robot.push("window right harder")

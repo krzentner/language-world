@@ -1,10 +1,8 @@
 
-    Steps:  1. Put gripper above hammer  2. Grab hammer with gripper  3. Move gripper towards the nail  4. Swing hammer to hit the nail
+    Steps:  1. Put the gripper above the hammer  2. Grab the hammer  3. Look for the nail  4. Line up the hammer with the nail  5. Move the gripper downwards to strike the nail
     First, put the gripper above the hammer.
-    - When the robot's gripper is not vertically aligned with the hammer, the robot should put gripper above hammer.
-    As long as the gripper is lined up, we can grab the hammer.
-    - When the robot's gripper is vertically aligned with the hammer and the robot's gripper is not around hammer, the robot should grab the hammer.
-    Once the gripper is around the hammer, move it towards the nail.
-    - When the robot's gripper is around the hammer and the robot's gripper is not near the nail, the robot should move gripper towards nail.
-    Now that the robot is close enough to the nail, swing the hammer to hit the nail.
-    - When the robot's gripper is near the nail, the robot should swing hammer to hit nail.
+    - When the robot's gripper is not above the hammer, the robot should put gripper above hammer.
+    Now, grab the hammer and look for the nail.
+    - When the robot's gripper is above the hammer and the robot's gripper is not on the hammer, the robot should grab hammer.
+    Once the hammer is lined up with the nail, move the gripper downwards to strike.
+    - When the robot's gripper is on the hammer and the hammer is aligned with the nail, the robot should move gripper downwards to strike nail.

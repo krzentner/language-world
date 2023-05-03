@@ -1,12 +1,6 @@
-To reliably reach the target location with a short wall in the way, the robot should perform the following steps:
+To reach the target location with a short wall in the way, the robot should perform the following steps:
 
-1. Check if the wall is obstructing the robot's path to the target location. 
-- If yes, move to the side of the wall where the target location is visible.
-
-2. Move the robot towards the target location. 
-- If there are any obstacles in the way, such as the short wall, move around them while still keeping the target location in view.
-
-3. When the robot is close to the target location but the gripper is not near it, reach towards the goal.
-- If the gripper touches the wall before reaching the goal, move the gripper to the side without obstructing the view of the target location.
-
-4. Once the gripper is near the target location, the robot can complete the task by either grabbing the object (if there is one) or just stopping near the location.
+1. Move gripper over the wall: If the gripper is not already over the wall, the robot should move the arm and gripper over the wall to the other side using the joint functions of the robot arm. 
+2. Reach towards the target: Once the gripper is over the wall, the robot can simply move the gripper towards the target location. 
+3. Adjust distance if needed: If needed, the robot can adjust the distance to the target location by moving the arm and gripper closer or farther away from the target. 
+4. Grab or touch the target if needed: Once the gripper is close enough to the target, the robot can either simply touch the target or grab and pick it up if required.

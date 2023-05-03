@@ -1,21 +1,27 @@
 
 
-Then, fill in the Steps section with code:
+Steps: 
+  1. Put gripper horizontally aligned with the peg 
+  2. Open gripper around the peg
+  3. Slide the peg sideways outside the hole
+ 
+If the gripper is not horizontally aligned with the peg, move the gripper to become horizontally aligned with the peg. 
 
 ```
-# peg-unplug-side: pull the peg out from the side
-# def peg_unplug_side(robot):
-    # Steps:
-    #  1. Put the gripper forward aligned with the peg
-    #  2. Grab the peg with the gripper
-    #  3. Pull the peg sideways
-    # First, put the gripper forward aligned with the peg.
-    if check("the peg is not forward aligned with the robot's gripper"):
-        robot.move_gripper("forward aligned with the peg", close_gripper=True)  
-    # Now that the gripper is lined up with the peg, just grab it.
-    if check("the robot's gripper is forward aligned with the peg"):
-        robot.move_gripper("around the peg")
-    # Once the gripper is grabing the peg, we can pull the peg sideways.
+    if check("the robot's gripper is not horizontally aligned with the peg"):
+        robot.move_gripper("horizontally aligned with the peg")
+``` 
+
+If the gripper is horizontally aligned but not around the peg, open the gripper around the peg. 
+
+```
+    if check("the robot's gripper is not around peg and the robot's gripper is closed"):
+        robot.move_gripper("around the peg", open_gripper=True)
+``` 
+
+If the gripper is near the peg, slide the peg sideways outside the hole. 
+
+```
     if check("the robot's gripper is around the peg"):
-        robot.move_gripper("left of the hole")     
+        robot.move_gripper("horizontally aligned with hole outside of it")
 ```

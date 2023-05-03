@@ -1,9 +1,8 @@
 To hit the nail with the hammer reliably, the robot should perform the following steps:
-    Steps:  1. Pick up the hammer by the handle  2. Position the hammer above the nail  3. Swing the hammer down towards the nail  4. Repeat until the nail is fully driven in
-First, the robot needs to pick up the hammer by the handle, which may involve lining up the gripper with the handle and closing it around the handle.
-    - When the robot's gripper is not around the handle and the robot's gripper is above the handle, the robot should drop gripper around hammer handle.
-    Once the robot is holding the hammer, position it above the nail.
-    - When the robot's gripper is not above the nail, the robot should position the hammer above the nail.
-The robot should then swing the hammer down towards the nail.
-    - When the hammer is not swinging towards nail, the robot should swing the hammer towards the nail.
-Finally, repeat the process of swinging the hammer down towards the nail until the nail is fully driven in.
+    Steps:  1. Put the grip of the hammer around the handle of the nail  2. Lift the hammer up high  3. Move the hammer down quickly to hit the nail
+    First, put the grip of the hammer around the handle of the nail.
+    - When the hammer's grip is not around the handle of the nail, the robot should put the grip of the hammer around the handle of the nail.
+    Lift the hammer up high.
+    - When the robot's gripper is holding the hammer and the hammer is not lifted up high, the robot should lift the hammer up high.
+    Move the hammer down quickly to hit the nail.
+    - When the robot's gripper is holding the hammer and the hammer is lifted up high, the robot should move the hammer down quickly to hit the nail.

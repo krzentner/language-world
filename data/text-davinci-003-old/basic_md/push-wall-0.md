@@ -1,4 +1,4 @@
 
-    - When the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck, the robot should put the gripper above the puck.
-    - When the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck, the robot should push the gripper into the puck.
-    - When the robot's gripper is near the puck and the puck is below the robot's gripper, the robot should push the wall away and slide the puck to the goal.
+    - When the robot's gripper is not near the wall, the robot should reach target location.
+    - When the robot's gripper is near the wall and the puck is not near the wall, the robot should move the gripper slightly away from the wall and push the puck against the wall to get around it.
+    - When the puck is close enough to the wall, the robot should use its gripper to nudge the puck around the wall and slide it to the goal.

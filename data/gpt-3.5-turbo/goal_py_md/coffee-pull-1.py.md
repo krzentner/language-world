@@ -1,12 +1,12 @@
 # coffee-pull: grab the mug and pull it to the target location
-# def coffee_pull(robot):
+def coffee_pull(robot):
     # Steps:
-    # 1. Place gripper above the handle of the mug
-    # 2. Close the gripper around the handle
-    # 3. Move the gripper to the target location while keeping a firm grip on the mug.
-    if check("the robot's gripper is not above the handle of the mug"):
-        robot.move_gripper("above the handle of the mug")
-    if check("the robot's gripper is above the handle of the mug and the robot's gripper is open"):
-        robot.move_gripper("around the handle of the mug", close_gripper=True)
-    if check("the robot's gripper is around the handle of the mug and the robot's gripper is not at the target location"):
+    #  1. Put gripper around the mug handle
+    #  2. Pull the mug towards the target location
+    # First, align the gripper with the mug handle.
+    if check("the robot's gripper is not near the mug handle"):
+        robot.move_gripper("near the mug handle", close_gripper=True)
+    # If the gripper is around the mug handle, pull the mug towards the target
+    # location.
+    if check("the robot's gripper is around the mug handle and not near the target location"):
         robot.move_gripper("near the target location")

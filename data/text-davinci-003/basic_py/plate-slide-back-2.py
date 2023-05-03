@@ -1,7 +1,7 @@
 
-    if check("the robot's gripper is not near the plate and the plate is back of the target"):
-        robot.move("gripper near plate")
-    if check("the robot's gripper is near plate and plate is not horizontally aligned with target"):
-        robot.slide("plate to target")
-    if check("the robot's gripper is near plate and the plate is not exactly at target"):
-        robot.push("plate slightly into target")
+    if check("the robot's gripper is open and the robot's gripper is not near the plate"):
+        robot.grab("the plate")
+    if check("the robot's gripper is near the plate and the robot's gripper is open"):
+        robot.close("the gripper around the plate")
+    if check("the robot's gripper is forward aligned with the plate and the robot's gripper is closed"):
+        robot.slide("the plate back to the goal")

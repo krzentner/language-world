@@ -1,6 +1,4 @@
-if check("the robot's gripper is not near the handle"):
-        robot.move("gripper near handle")
-    if check("the robot's gripper is next to the handle and the robot's gripper is not around the handle"):
-        robot.grab("handle")
-    if check("the robot's gripper is around the handle and the handle is not in the down position"):
+if check("the robot's gripper is not horizontally aligned with the handle"):
+        robot.move("gripper to the side of handle")
+    if check("the robot's gripper is near the handle"):
         robot.push("down on handle")

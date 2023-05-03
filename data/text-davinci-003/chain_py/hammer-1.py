@@ -1,15 +1,11 @@
 
     # Steps:
-    # 1. Put the hammer head over the top of the nail
-    # 2. Swing the hammer towards the nail
-    # 3. Pull the hammer back towards your body
-    # First, the robot needs to put the hammer head above the head of the nail.
-    if check("the robot's hammer head is not above the nail head"):
-        robot.put("hammer head above the nail head")
-    # Now that the robot has the hammer head just above the nail head, it can
-    # swing the hammer towards the nail.
-    if check("the robot's hammer head is above the nail head"):
-        robot.swing("hammer back and forth")
-    # Once the nail has been hit, we can pull the hammer back towards our body.
-    if check("the hammer has hit the nail"):
-        robot.pull("hammer back")
+    #  1. Hold hammer in robot's gripper
+    #  2. Move the robot's gripper to the nail
+    #  3. Hit the nail with the hammer
+    # Once the robot has the hammer, it needs to move its gripper to the nail.
+    if check("the robot's gripper is not near the nail"):
+        robot.move("gripper to nail")
+    # When the robot's gripper is near the nail, hit the nail with the hammer.
+    if check("the robot's gripper is near the nail and the hammer is in the robot's gripper"):
+        robot.hit("nail with hammer")

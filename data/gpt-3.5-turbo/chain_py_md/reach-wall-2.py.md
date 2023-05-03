@@ -1,33 +1,18 @@
 # reach-wall: reach to the target location with a short wall in the way
-# def reach_wall(robot):
-# Steps:
-#   1. Move the gripper to the edge of the wall
-#   2. Reach as close as possible to the target location
-#   3. Move around the wall to the target location
-# First, move the gripper so that it is at the edge of the wall.
-# To move the gripper, we need to know the initial position of the gripper,
-# the position of the wall, and the position of the target location.
-# We also need to know the length of the wall (which is assumed to be along
-# x-axis) and the gripper's range of motion (which is assumed to be along y-axis).
-def reach_wall(robot, wall_position, target_position, gripper_position, wall_length=0.2, gripper_range=0.2):
-    wall_center = wall_position[1]
-    target_center = target_position[1]
-    gripper_center = gripper_position[1]
-    # Check if the gripper is already on the correct side of the wall.
-    if gripper_center <= wall_center:
-        # Check if we can reach the target location directly.
-        if abs(target_center - gripper_center) <= gripper_range:
-            robot.reach(target_position)
-        else:
-            # Move the gripper as close to the target location as possible.
-            if target_center > gripper_center:
-                robot.reach((target_position[0], gripper_center + gripper_range))
-            else:
-                robot.reach((target_position[0], gripper_center - gripper_range))
-            # Move around the wall to the target location.
-            if target_center > wall_center:
-                robot.move((wall_position[0], target_center - wall_length/2 - gripper_range))
-                robot.move((target_position[0], target_position[1]))
-            else:
-                robot.move((wall_position[0], target_center + wall_length/2 + gripper_range))
-                robot.move((target_position[0], target_position[1]))
+def reach_wall(robot):
+    # Steps:
+    #  1. Move gripper to left of the wall
+    #  2. Move gripper up and over the wall
+    #  3. Move gripper down to goal location
+    # The robot needs to reach a location blocked by a wall. To do this, it must move around the wall.
+    # If the robot's gripper is not left of the wall, move it there.
+    if check("the robot's gripper is not left of the wall"):
+        robot.move("gripper to left of wall")
+    # Once the gripper is left of the wall, move it up and over the wall.
+    # Check if the gripper is above the wall and near the target, or below the wall.
+    # If it is below the wall, move it up and over.
+    if check("the robot's gripper is not above the wall or near the target"):
+        robot.pull("gripper up and over the wall")
+    # Once the gripper is above the wall and near the target, move it down to the goal location.
+    if check("the robot's gripper is above the wall and near the target"):
+        robot.push("gripper down to goal location")

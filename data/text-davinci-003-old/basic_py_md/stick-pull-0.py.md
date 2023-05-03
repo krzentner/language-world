@@ -1,20 +1,19 @@
 
 
-Solution:
+The code should check if the robot's gripper is not vertically aligned with the stick and put the gripper above the stick.
+Then, it should check if the robot's gripper is not near the stick and grab the stick.
+Next, it should check if the stick is not horizontally aligned with the thermos and line the stick up with the thermos.
+Finally, it should check if the stick is near the thermos and pull the thermos to the goal location.
 
 ```
 # stick-pull: use the stick to pull the thermos to the target location
 # def stick_pull(robot):
+    if check("the robot's gripper is not vertically aligned with the stick"):
+        robot.put("gripper above stick")
     if check("the robot's gripper is not near the stick"):
-        robot.reach("to stick")
-    if check("the robot's gripper is near the stick and the stick is not near the thermos"):
         robot.grab("stick")
-    if check("the stick is near the thermos and the robot's gripper is not near the thermos"):
-        robot.move("stick to thermos")
-    if check("the robot's gripper is near the thermos and the robot's gripper is not holding the stick"):
-        robot.grab("stick with gripper")
-    if check("the robot's gripper is holding the stick and the thermos is not near the goal"):
-        robot.pull("stick to pull thermos to goal")
-    if check("the thermos is near the goal and the robot's gripper is still holding the stick"):
-        robot.release("stick")
+    if check("the stick is not horizontally aligned with the thermos"):
+        robot.align("stick with thermos")
+    if check("the stick is near the thermos"):
+        robot.pull("thermos to goal")
 ```

@@ -1,25 +1,21 @@
 
 
-The robot's code should look like this:
+Then, describe steps for performing this task:
 
-```
-# push-back: slide the puck backwards to the target location
-# def push_back(robot):    
-    # Steps:
-    #  1. Put gripper above puck
-    #  2. Push gripper into top of puck
-    #  3. Slide puck to goal
-    # We need to put the gripper roughly above the puck before we can start to
-    # push it back.
-    if check("the robot's gripper is not above the puck"):
-        robot.move_gripper("above the puck")
-    # Now that the gripper is roughly above the puck, we can try to push the
-    # puck back by trapping it from above. We want the gripper to be roughly
-    # around the puck.
-    if check("the robot's gripper is not around the puck"):
-        robot.move_gripper("around the puck", close_gripper=True)
-    # If the gripper is around the puck, just move it above the target
-    # location. This should slide the puck back to the target location.
-    if check("the robot's gripper is around the puck"):
+1. Put gripper above puck
+2. Push gripper into top of puck
+3. Slide back puck to target location
+
+# Steps:
+1. Put gripper above the puck 
+2. Push the gripper into the top of the puck
+3. Slide the puck backwards to the target location 
+
+if check("the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck"):
+        robot.move_gripper("vertically aligned with the puck")
+
+if check("the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck"):
+        robot.move_gripper("above the puck", close_gripper=True)
+
+if check("the robot's gripper is near the puck and the puck is below the robot's gripper"):
         robot.move_gripper("above the target location")
-```

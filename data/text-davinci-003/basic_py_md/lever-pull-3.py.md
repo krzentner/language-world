@@ -1,12 +1,14 @@
 
 
-The code should answer this question:
+The program should rotate the lever up.
 
 ```
-    if check("the robot's gripper is not vertically aligned with the lever"):
+# lever-pull: rotate the lever up
+def lever_pull(robot):
+    if check("the robot's gripper is not near the lever and the robot's gripper is not above the lever"):
+        robot.reach("the lever")
+    if check("the robot's gripper is near the lever and the robot's gripper is not above the lever"):
         robot.put("gripper above lever")
-    if check("the robot's gripper is vertically aligned with the lever and the robot's gripper is not around the lever"):
-        robot.grab("gripper around lever")
-    if check("the robot's gripper is around the lever and the lever is below the robot's gripper"):
-        robot.pull("lever up")
+    if check("the robot's gripper is above the lever"):
+        robot.rotate("lever up")
 ```

@@ -1,15 +1,16 @@
 
     # Steps:
-    #  1. Put gripper above the handle
+    #  1. Put gripper above handle
     #  2. Drop gripper around handle
-    #  3. Push the handle down
-    # First, put the gripper above the handle.
-    if check("the robot's gripper is not vertically aligned with handle"):
+    #  3. Push handle downward
+    # First, put the gripper above the handle so that it will not miss the handle
+    # when coming down.
+    if check("the robot's gripper is not vertically aligned with the handle"):
         robot.put("gripper above handle")
-    # If the gripper is almost lined up with the handle, closing it should line
-    # it up all the way.
-    if check("the robot's gripper is almost vertically aligned with handle and the robot's gripper is open"):
+    # If the gripper is almost lined up with the handle vertically, just close
+    # it to make sure that it is properly aligned.
+    if check("the robot's gripper is almost vertically aligned with the handle and the robot's gripper is open"):
         robot.drop("gripper around handle")
-    # Once it's lined up, just push down on the handle.
-    if check("the robot's gripper is vertically aligned with handle"):
-        robot.push("down on handle")
+    # If the gripper is aligned with the handle, close it and press it downward.
+    if check("the robot's gripper is vertically aligned with the handle and the robot's gripper is closed"):
+        robot.push("downward on handle")

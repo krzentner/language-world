@@ -1,1 +1,1 @@
-It seems like you may have made a typo, as the task `hand-insert` is not defined. Did you perhaps mean `peg-insert-side` or another task? Let me know and I can help provide the steps for that task.
+I'm sorry, I don't see a task called `hand-insert` on the list. Could you please provide me with more information about this task?

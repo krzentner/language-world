@@ -1,6 +1,8 @@
 
-    Steps:  1. Move gripper to the left of the handle  2. Line the gripper up with the handle  3. Turn the faucet left
-    First, move the gripper to the left of the handle.
-    - When the handle is to the right of the gripper, the robot should move gripper to left of handle.
-    Once the gripper is aligned with the handle from the side, we can go ahead and turn the faucet left.
-    - When the robot's gripper is side aligned with the handle, the robot should turn faucet left.
+    Steps:  1. Put gripper above the faucet handle  2. Put the gripper near the faucet handle  3. Pull the faucet handle left
+    First, put the gripper mostly above the faucet handle.
+    - When the robot's gripper is not above faucet handle, the robot should put gripper above handle.
+    If the robot's gripper is not near the handle, move the gripper near the handle.
+    - When the robot's gripper is above faucet handle and the robot's gripper is not near handle, the robot should move the gripper near handle.
+    Now that the gripper is near the handle, pull the handle left to turn the faucet on.
+    - When the robot's gripper is near the handle, the robot should pull handle left.

@@ -1,6 +1,6 @@
 
 
-Here is the program:
+The code should read:
 
 ```
 # door-open: pull the door open
@@ -9,8 +9,9 @@ Here is the program:
     #  1. Put gripper above door handle
     #  2. Drop gripper around door handle
     #  3. Pull open the door
-    # First, put the gripper roughly above the door handle.
-    if check("the robot's gripper is not almost vertically aligned with door handle"):
+    # First, put the gripper roughly above the door handle, so that we don't
+    # bump it while trying to grab it.
+    if check("the robot's gripper is not above the door handle"):
         robot.put("gripper above door handle")
     # As long as the gripper is almost lined up, closing it should line it up
     # all the way.

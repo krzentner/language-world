@@ -1,8 +1,9 @@
-To push the button down from above with a short wall in the way reliably, the robot should perform the following steps:
+To push the button down from above with a short wall in the way, the robot should perform the following steps:
 
-Steps: 1. Put gripper above the button while avoiding the wall 2. Lower the gripper to the button and push it down
+Steps:
+1. Move the robot's gripper to the top of the short wall
+2. Slide the gripper down the wall until it is above the button
+3. Line up the gripper as viewed from above with the button
+4. Push down on the button from the top
 
-Because of the wall, we will need to approach the button from an angle.
-- When the robot's gripper is not above the button and the robot's gripper can't fit between the wall and the button, move the robot's gripper until it is above the button and can fit between the wall and the button
-Now that the gripper is lined up from the side, we can lower it down to the button and push it.
-- When the robot's gripper is above the button and there is no obstruction, move the robot's gripper down until it touches the button, then push down on the button.
+Because of the short wall, the robot needs to first move its gripper to the top of the wall so that it can slide down the wall until it is above the button. Once the gripper is above the button, it needs to be lined up correctly from above before pushing down on the button from the top.

@@ -1,4 +1,5 @@
 
-    - When the robot's gripper is not almost vertically aligned with door handle, the robot should put gripper above door handle.
-    - When the robot's gripper is almost vertically aligned with the door handle and the robot's gripper is open, the robot should put gripper around door handle.
-    - When the robot's gripper is vertically aligned with the door handle, the robot should pull door open.
+
+The steps the robot should perform to pull the door open reliably are:
+    - When the robot's gripper is not near the door handle, the robot should grab door handle.
+    - When the robot's gripper is forward aligned with door handle, the robot should pull door open.

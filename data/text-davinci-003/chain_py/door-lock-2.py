@@ -1,15 +1,16 @@
 
     # Steps:
-    #  1. Put gripper left of door lock
-    #  2. Move hand above door lock
-    #  3. Turn dial counterclockwise
-    # We need a good vertical alignment with the door lock to get good control of
-    # the dial, so we start by moving the gripper to the side of the door lock.
-    if check("the robot's gripper is not to the left of the door lock and the robot's gripper is not in front the door lock"):
-        robot.move("gripper to the left of the door lock")
-    # Move the gripper up, lined up with the dial from above.
-    if check("the robot's gripper is to the left of the door lock and the robot's gripper is not above the door lock"):
-        robot.put("gripper above the door lock")
-    # Now that the gripper is lined up, turn the dial counterclockwise.
-    if check("the robot's gripper is above the door lock"):
-        robot.turn("dial counterclockwise")
+    #  1. Move gripper to dial
+    #  2. Rotate dial
+    #  3. Line up with the target number
+    # Move the robot's gripper to the dial.
+    if check("the robot's gripper is not near the dial"):
+        robot.move("gripper to dial")
+    # Once the gripper is near the dial, rotate it.
+    # We just need to be enough in position to be able to then line it up with the
+    # target number.
+    if check("the robot's gripper is near the dial and the dial is not rotated to target"):
+        robot.rotate("dial")
+    # Line up the dial with the target number.
+    if check("the robot's gripper is near the dial and the dial is not aligned with target"):
+        robot.align("dial to target")

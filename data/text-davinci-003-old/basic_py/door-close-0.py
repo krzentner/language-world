@@ -1,7 +1,7 @@
 
-    if check("the robot's gripper is not near the door handle"):
+    if check("door handle is not above the robot's gripper"):
         robot.put("gripper above door handle")
-    if check("the robot's gripper is near the door handle and the door is open"):
+    if check("the robot's gripper is above the door handle and the door handle is not near the robot's gripper"):
+        robot.move("gripper to door handle")
+    if check("the door handle is near the robot's gripper"):
         robot.push("door closed")
-    if check("the robot's gripper is near the door handle and the door is closed"):
-        robot.pull("door closed further")

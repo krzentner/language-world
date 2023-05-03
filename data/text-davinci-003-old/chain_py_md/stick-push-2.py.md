@@ -1,28 +1,28 @@
 
 
-Steps:
-  1. Put gripper near the stick
-  2. Grab the stick with the gripper
-  3. Move the stick towards the thermos
-  4. Push the thermos towards the target location
+The steps would be:
 
+1. Put gripper at the top of the stick 
+2. Move the stick to the thermos
+3. Push the stick against the thermos to slide it to the target location 
+
+```
 # stick-push: use the stick to push the thermos to the target location
 # def stick_push(robot):
     # Steps:
-    #  1. Put gripper near the stick
-    #  2. Grab the stick with the gripper
-    #  3. Move the stick towards the thermos
-    #  4. Push the thermos towards the target location
-    # First, put the gripper near the stick.
-    if check("the robot's gripper is not near the stick"):
-        robot.put("gripper near stick")
-    # Once the gripper is near the stick, we should be able to grab it.
-    if check("the robot's gripper is near the stick and the robot's gripper is open"):
-        robot.grab("stick")
-    # After the gripper has the stick, move the stick towards the thermos.
-    if check("the robot's gripper is holding the stick"):
-        robot.move("stick towards thermos")
-    # Once the stick is near the thermos, we can push the thermos towards the
-    # target location.
+    #  1. Put gripper at the top of the stick
+    #  2. Move the stick to the thermos
+    #  3. Push the stick against the thermos to slide it to the target location
+    # Place the gripper at the top of the stick.
+    if check("the robot's gripper is not at the top of the stick"):
+        robot.put("gripper at the top of the stick")
+    # Move the stick to the thermos.
+    if check("the stick is not near the thermos"):
+        robot.move("stick to the thermos")
+    # Push the stick against the thermos.
     if check("the stick is near the thermos"):
-        robot.push("thermos towards target location")
+        robot.push("stick against the thermos")
+    # Slide the thermos to the target location.
+     if check("thermos is not near target"):
+        robot.slide("thermos to the target location")
+```

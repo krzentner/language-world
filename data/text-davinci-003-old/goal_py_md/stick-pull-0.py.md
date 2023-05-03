@@ -1,28 +1,24 @@
 
 
-Steps:
-  1. Put the gripper above the stick
-  2. Grab the stick with the gripper
-  3. Line up the stick with the thermos
-  4. Pull the thermos towards the target location using the stick
-
 # stick-pull: use the stick to pull the thermos to the target location
 # def stick_pull(robot):
     # Steps:
-    #  1. Put the gripper above the stick
-    if check("the robot's gripper is not above the stick"):
-        robot.move_gripper("above the stick")
-    # If the stick isn't left of the gripper, we need to move the gripper back
-    # above the stick to grab it.
-    if check("the stick is not left of the robot's gripper and the stick is not forward aligned with the robot's gripper"):
-        robot.move_gripper("forward aligned with the stick", close_gripper=True)
-    # Once the gripper is lined up with the stick, we can grab it by closing the
-    # gripper.
-    if check("the robot's gripper is left of the stick and the robot's gripper is closed"):
+    #  1. Put gripper near the stick 
+    #  2. Align the gripper with the stick
+    #  3. Grip the end of the stick
+    #  4. Move the stick to pull the thermos to the target location
+    # To begin, move the gripper near the stick.
+    if check("the robot's gripper is not near the stick"):
         robot.move_gripper("near the stick")
-    # Now that we have the stick, line it up with the thermos.
-    if check("the robot's gripper is near the stick and the stick is not horizontally aligned with the thermos"):
-        robot.move_gripper("horizontally aligned with the thermos")
-    # Finally, pull the thermos towards the target location using the stick.
-    if check("the robot's gripper is horizontally aligned with the thermos"):
+    # Next, we want to align the gripper with the stick, so that the robot can
+    # grip the stick.
+    if check("the robot's gripper is near the stick and the robot's gripper is not horizontally aligned with the stick"):
+        robot.move_gripper("horizontally aligned with the stick", close_gripper=True)
+    # Once the gripper is aligned with the stick, we can grip the end of the
+    # stick with the robot's gripper.
+    if check("the robot's gripper is horizontally aligned with the stick"):
+        robot.move_gripper("near the stick and around the stick")
+    # Now that the robot has control of the stick, move the stick to pull the
+    # thermos to the target location.
+    if check("thermos is not near the target location and the robot's gripper is around the stick"):
         robot.move_gripper("near the target location")

@@ -1,13 +1,17 @@
 # Steps:
-#  1. Put gripper near the wrench handle
-#  2. Grab the wrench handle with the gripper
-#  3. Pull the wrench off the peg
-# First, put the gripper near the wrench handle.
-if check("the robot's gripper is not near the wrench handle"):
-    robot.move_gripper("near the wrench handle")
-# If the gripper is near the wrench handle, grab it.
-if check("the robot's gripper is near the wrench handle and the gripper is not closed"):
-    robot.move_gripper("around the wrench handle")
-# If the wrench is grabbed by the gripper, pull it off the peg.
-if check("the wrench is grabbed by the gripper"):
-    robot.move_gripper("away from the peg")
+    #  1. Put gripper above the wrench handle
+    #  2. Drop gripper around the wrench handle
+    #  3. Close the gripper around the wrench handle
+    #  4. Pull the wrench off the peg
+    # First, put the gripper mostly above the wrench handle, so that we don't bump
+    # into anything while trying to grab it.
+    if check("the robot's gripper is not above the wrench handle"):
+        robot.move_gripper("above the wrench handle")
+    # If the gripper isn't around the wrench handle, put it around the wrench
+    # handle.
+    if check("the robot's gripper is not around the wrench handle and the robot's gripper is open"):
+        robot.move_gripper("near the wrench handle", close_gripper=True)
+    # If the gripper is around the wrench handle and closed, we can probably pull
+    # the wrench off the peg by just pulling the gripper up.
+    if check("the robot's gripper is around the wrench handle and the robot's gripper is closed"):
+        robot.move_gripper("above the peg")

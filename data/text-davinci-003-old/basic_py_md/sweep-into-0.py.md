@@ -1,16 +1,16 @@
 
 
-The program should be as follows:
+Your program should look like this:
 
 ```
 # sweep-into: grab the cube and move it to the target location
 # def sweep_into(robot):
-    if check("the robot's gripper is not near the cube"):
-        robot.reach("to cube")
-    if check("the robot's gripper is not above the cube and the robot's gripper is not vertically aligned with the cube"):
-        robot.put("gripper above cube")
-    if check("the robot's gripper is vertically aligned with the cube and the robot's gripper is not around the cube"):
+    if check("the robot's gripper is not above the cube"):
+        robot.place("gripper above cube")
+    if check("the robot's gripper is not around cube and the robot's gripper is open"):
         robot.drop("gripper around cube")
-    if check("the robot's gripper is around the cube"):
+    if check("the robot's gripper is near the cube and the robot's gripper is open"):
+        robot.close("gripper around cube")
+    if check("the robot's gripper is above the cube and the robot's gripper is closed"):
         robot.sweep("cube to goal")
 ```

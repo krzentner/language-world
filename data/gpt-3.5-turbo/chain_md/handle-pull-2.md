@@ -1,6 +1,6 @@
-The robot should perform the following steps:
-    Steps:  1. Put gripper above the handle  2. Grab the handle with the gripper  3. Pull the handle up
-    First, put the gripper above the handle.
-    - When the robot's gripper is not vertically aligned with the handle, the robot should put gripper above handle.
-    If the handle is now grabbed by the gripper and the gripper is not pulling up on the handle, pull the handle up.
-    - When the robot's gripper is vertically aligned with the handle and the robot's gripper is around the handle, the robot should pull up on the handle.
+To pull up the handle reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper around handle  2. Pull up on handle
+    First, put the gripper around the handle so that we can grasp it.
+    - When the robot's gripper is not around the handle and the gripper is open, the robot should drop gripper around handle.
+    Once the gripper is around the handle, we can pull up on it.
+    - When the robot's gripper is around the handle, the robot should pull up on handle.

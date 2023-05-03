@@ -1,1 +1,1 @@
-It seems like you may have meant to ask about a different task, as `hand-insert` is not mentioned in the original prompt. Could you please clarify what task you would like me to help you with?
+The given task is not clear as to how the robot is supposed to move the puck to the target location. Please provide more information on the specific actions the robot is supposed to take in order to complete this task.

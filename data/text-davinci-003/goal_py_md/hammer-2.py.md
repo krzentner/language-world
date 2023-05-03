@@ -1,23 +1,31 @@
 
 
+The robot must perform the following steps to complete the task:
+
+1. Move the gripper near the hammer handle.
+2. Close the gripper around the hammer handle.
+3. Move the hammer to the nail.
+4. Lower the hammer and hit the nail.
+
+```
 # hammer: hit the nail with the hammer
-# def hammer(robot):
+def hammer(robot):
     # Steps:
-    #  1. Put gripper above the hammer
-    #  2. Drop the gripper around the handle of the hammer
-    #  3. Move the hammer towards the nail
-    #  4. Hammer the nail into place
-    # First, move the gripper to a place above the hammer to get ready to grab 
-    # it.
-    if check("the robot's gripper is not vertically aligned the handle of the hammer"):
-        robot.move_gripper("vertically aligned with the handle of the hammer")
-    # Once the gripper is lined up above the handle, move the gripper around it
-    # to grab it.
-    if check("the robot's gripper is vertically aligned with the handle of the hammer and the robot's gripper is not closed around the handle"):
-        robot.move_gripper("around the handle of the hammer",close_gripper=True)
-    # Once the gripper has grabbed the handle, move the hammer near the nail.
-    if check("the robot's gripper is closed around the handle of the hammer and the hammer is not near the nail"):
+    #  1. Move gripper near hammer handle
+    #  2. Close gripper around hammer handle
+    #  3. Move hammer to nail
+    #  4. Lower hammer and hit nail
+    # First, move the gripper near the hammer handle.
+    if check("the robot's gripper is not near the hammer handle"):
+        robot.move_gripper("near the hammer handle")
+    # If the gripper isn't around the hammer handle, close it around it.
+    if check("the robot's gripper is not around hammer handle and the robot's gripper is open"):
+        robot.move_gripper("around the hammer handle", close_gripper=True)
+    # If the gripper is around the hammer and the hammer isn't near the nail,
+    # move the hammer near the nail.
+    if check("the robot's gripper is around hammer handle and the hammer is not near the nail"):
         robot.move_gripper("near the nail")
-    # Finally, move the hammer down quickly to hammer  the nail into place.
-    if check("the hammer is near the nail"):
-        robot.move_gripper("down on the nail")
+    # If the hammer is near the nail, lower the hammer to hit the nail.
+    if check("the robot's gripper is near the nail"):
+        robot.move_gripper("below the nail")
+``

@@ -1,21 +1,21 @@
 # Steps:
-    #  1. Move gripper to the side of the wall
-    #  2. Put gripper above puck
-    #  3. Drop gripper around puck
-    #  4. Close gripper around puck
-    #  5. Move puck to goal
-    # First, we need to move the gripper to the correct side of the wall to be able to access the puck.
-    if check("the gripper is not on the correct side of the wall"):
-        robot.move("gripper to the side of the wall")
-    # Once the gripper is on the correct side of the wall, put it above the puck.
-    if check("the gripper is on the correct side of the wall and the robot's gripper is not above the puck"):
-        robot.put("gripper above the puck")
-    # Drop the gripper around the puck.
-    if check("the robot's gripper is above the puck and the gripper is not around the puck"):
-        robot.drop("gripper around the puck")
-    # Close the gripper around the puck.
-    if check("the robot's gripper is around the puck and the gripper is not closed"):
-        robot.close("gripper around the puck")
-    # Move the puck to the goal.
-    if check("the robot's gripper is closed around the puck and it's not at the goal"):
-        robot.place("puck at goal")
+    #  1. Line up gripper with puck, with wall in between
+    #  2. Move gripper towards puck
+    #  3. Lift puck over wall
+    #  4. Move gripper to target
+    #  5. Lower the puck onto the target
+    # First, line up the gripper with the puck, with the wall in the way.
+    if check("the robot's gripper is not aligned with the puck and the wall"):
+        robot.align("gripper with puck and wall")
+    # Move the gripper towards the puck.
+    if check("the robot's gripper is not near the puck"):
+        robot.move("gripper towards puck")
+    # Lift the puck over the wall.
+    if check("the puck is below the top of the wall"):
+        robot.lift("puck over the wall")
+    # Move the gripper to the target location.
+    if check("the robot's gripper is not at the target location"):
+        robot.move("gripper to the target location")
+    # Lower the puck onto the target.
+    if check("the puck is over the target and the robot's gripper is not open"):
+        robot.lower("puck onto the target")

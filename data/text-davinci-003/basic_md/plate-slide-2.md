@@ -1,5 +1,7 @@
 
-    - When the robot's gripper is not near the plate, the robot should put gripper near plate.
-    - When the robot's gripper is near the plate and the plate is below the robot's gripper, the robot should push the gripper into the plate.
-    - When the robot's gripper is above the plate and the plate is slightly out of alignment with the goal, the robot should push the plate to reposition it towards the goal.
-    - When the plate is aligned with the goal, the robot should slide the plate to the goal.
+
+The robot should perform the following steps:
+    - When the robot's gripper is not above the plate, the robot should put gripper above plate.
+    - When the robot's gripper is not above the desired goal location and the robot's gripper is open, the robot should put gripper above desired goal location.
+    - When the robot's gripper is near the desired goal location and the robot's gripper is still open, the robot should grab plate.
+    - When the robot's gripper is above goal position, the robot should slide plate towards goal.

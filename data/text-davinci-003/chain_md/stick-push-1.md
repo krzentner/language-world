@@ -1,12 +1,11 @@
 
-    Steps:  1. Put the stick in the robot's gripper  2. Reach towards the thermos  3. Push the thermos with stick  4. Move the thermos to goal
-    First, the robot needs to pick up the stick. This can be done by finding the stick, and getting the robot's gripper near the stick, and then closing the gripper around it.
-    - When the robot's gripper is not near the stick and the robot's gripper is open, the robot should reach towards the stick.
-    When the gripper is near the stick, grab it and hold it.
-    - When the robot's gripper is near the stick and the robot's gripper is open, the robot should grab the stick.
-    Now that the robot has the stick, and is out of the way of the thermos, it's time to push the thermos. Reach towards the thermos and use the stick to push it towards the goal.
-    - When the robot's gripper is not near the thermos and the stick is in the robot's gripper, the robot should reach towards thermos.
-    As long as the stick and the thermos are still lined up, keep pushing towards the goal.
-    - When the robot's gripper is near the thermos and the stick is in the robot's gripper, the robot should push thermos with stick.
-    When the thermos is near the goal, slide it over to the goal.
-    - When the robot's gripper is near the thermos and the target location is in sight, the robot should slide thermos to goal.
+
+Steps:  1. Put gripper above the stick  2. Grab the stick with the gripper  3. Move the stick near the thermos  4. Push the thermos with the stick  5. Keep pushing the thermos until it reaches the goal
+    We should grab the stick before we can use it to push the thermos. When the robot's gripper is not vertically aligned with the stick, we should put the gripper above the stick.
+    - When the robot's gripper is not vertically aligned with the stick, the robot should put gripper above stick.
+    Once the stick is in the gripper, bring it close to the thermos.
+    - When stick is not near thermos, the robot should move stick near thermos.
+    Since the grip around the stick is weak, we should keep pushing on the thermos with the stick and make sure that it doesn't move away as we move it. 
+    - When stick is near thermos and thermos is to the right of the stick, the robot should push thermos right.
+    When the thermos is close to the goal, and it's not moving, push harder.
+    - When stick is near thermos and thermos is almost at goal, the robot should push thermos harder.

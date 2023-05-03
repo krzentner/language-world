@@ -1,30 +1,27 @@
 
 
-The goal of this task is to turn the dial in a clockwise direction. 
-
-Steps:
-
-1. Put gripper above the dial 
-2. Drop the gripper around the dial
-3. Turn the dial clockwise
-
-First, put the gripper above the dial, so that we don't bump it when trying to grab it.
+Then write the appropriate body of the function:
 
 ```
-if check("the robot's gripper is not above the dial"):
-    robot.put("gripper above dial")
-```
-
-Once the gripper is lined up above the dial, we should be able to grab the dial by moving the gripper down around it. 
-
-```
-if check("the robot's gripper is vertically aligned with the dial and the robot's gripper is not around dial"):
-    robot.drop("gripper around dial")
-```
-
-Once the gripper is around the dial, we can just turn the dial clockwise. 
-
-```
-if check("the robot's gripper is around dial"):
-    robot.rotate("clockwise")
+# dial-turn: turn the dial
+def dial_turn(robot):
+    # Steps:
+    #  1. Put gripper above dial
+    #  2. Drop gripper around dial 
+    #  3. Push down on the dial 
+    #  4. Turn the dial
+    # We should put the gripper above the dial before we try to grab it, so that
+    # we don't bump it by mistake. 
+    if check("the robot's gripper is not vertically aligned with the dial"):
+        robot.put("gripper above dial")
+    # As long as the gripper is still around the dial, grab it.
+    if check("the robot's gripper is not around the dial"):
+        robot.drop("gripper around dial")
+    # Now the robot's gripper should be close to the dial and closed.
+    # Push down on the dial to start turning it.
+    if check("the robot's gripper is around dial and the robot's gripper is closed"):
+        robot.push("down on dial")
+    # Continue turning the dial until it's at the desired angle.
+    if check("the dial is not at the target angle"):
+        robot.turn("dial clockwise/counterclockwise")
 ```

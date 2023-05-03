@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above handle  2. Push gripper down  3. Push handle down
-    The robot should put the gripper above the handle.
-    - When the robot's gripper is not above the handle, move the robot's gripper until the robot's gripper is above the handle
-    If the gripper isn't on the handle, it can push down on the handle. 
-    - When the robot's gripper is above the handle and the robot's gripper is not near the handle, move the robot's gripper until the robot's gripper is near the handle
-    Now that the gripper is on the handle it can push it down.
-    - When the robot's gripper is near the handle and the handle is above the robot's gripper, move the robot's gripper until the handle is below the robot's gripper
+    Steps:  1. Put gripper above the handle  2. Drop gripper around the handle  3. Push the handle down
+    First, we need to put the gripper above the handle.
+    - When the robot's gripper is not vertically aligned with handle, move the robot's gripper until the robot's gripper is vertically aligned with the handle
+    Once the gripper is lined up, we can move it down and around the handle to grab it.
+    - When the robot's gripper is vertically aligned with handle and the robot's gripper is not around handle, move the robot's gripper until the robot's gripper is around the handle
+    Now that the gripper is around the handle, we can just push the handle down.
+    - When the robot's gripper is around handle, move the robot's gripper until the robot's gripper is forward aligned with the handle

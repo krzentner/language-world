@@ -1,6 +1,5 @@
 
-    - When the robot's gripper is not above the peg, the robot should place gripper above peg.
-    - When the robot's gripper is not around peg and the robot's gripper is open, the robot should drop gripper around peg.
-    - When the robot's gripper is near peg and the robot's gripper is open, the robot should close gripper around peg.
-    - When the robot's gripper is around peg and the peg is still in the hole, the robot should pull up on peg until it is out of the hole.
-    - When the robot's gripper is above peg and the robot's gripper is closed, the robot should place peg at goal.
+    - When the robot's gripper is not above the peg, the robot should reach above the peg and the robot should position the robot's gripper slightly above the peg.
+    - When the robot's gripper is above the peg and the robot's gripper is not around the peg, the robot should grab the peg by opening the robot's gripper around it.
+    - When the robot's gripper is around the peg and the puck is below the robot's gripper and the robot's gripper is open, the robot should close the gripper around the peg.
+    - When the robot's gripper is above the peg and the robot's gripper is closed, the robot should bring the peg up to the target location.

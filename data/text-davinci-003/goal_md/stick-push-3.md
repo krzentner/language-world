@@ -1,8 +1,9 @@
 
-    Steps:  1. Line up the stick with the edge of the thermos  2. Push the stick along the edge of the thermos  3. Push the thermos to the target location
-    First, line up the stick with the edge of the thermos.
-    - When the stick is not left of the robot's gripper and stick is not forward aligned with the robot's gripper, move the robot's gripper until the robot's gripper is forward aligned with the left edge of the thermos
-    Once the stick is lined up, it should be ready to push the thermos.
-    - When the stick is forward aligned with thermos, move the robot's gripper until the stick is left of the robot's gripper and the robot's gripper is above the target location
-    Now, we can use the stick to push the thermos by slowly moving it along the edge.
-    - When the stick is left of the robot's grip and the thermos is not near the target location, move the robot's gripper until the thermos is near the target location
+    Steps:
+    1. Put gripper on the stick  2. Pull stick towards robot  3. Push stick away from robot and towards the target location 
+    First we need to put the robot's gripper on the stick.
+    - When the robot's gripper is not near the stick, move the robot's gripper until the robot's gripper is near the stick
+    Once the robot's gripper is near the stick, we can start pulling it towards the robot.
+    - When the robot's gripper is near the stick and the robot's gripper is not on the stick, move the robot's gripper until the robot's gripper is on the stick
+    If the gripper is on the stick, we can start pushing it away from the robot and towards the target location.
+    - When the robot's gripper is on the stick, move the robot's gripper until the robot's gripper is horizontally aligned with the target location

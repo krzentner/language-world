@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above the cube  2. Grab the cube  3. Move the cube sideways
-    First, put the gripper above the cube.
-    - When the robot's gripper is not vertically aligned with the cube, the robot should put gripper above cube.
-    As long as the gripper is above the cube and the cube is still below the gripper, we can grab the cube by closing the gripper.
-    - When the robot's gripper is above the cube and the robot's gripper is open, the robot should grab cube.
-    We closed the gripper, and the cube is still near the gripper, so maybe we grabbed it. Try to move the cube to the target location. If we didn't grab it, we'll just go back to an earlier step.
-    - When the robot's gripper is above cube and the robot's gripper is closed, the robot should move cube sideways to target location.
+    Steps:  1. Grab the cube from the top  2. Place cube in the location  3. Move sideways the cube to the target location
+    First, the robot must grab the cube from the top. This would involve putting the gripper over the cube, and then dropping the gripper around the cube. 
+    - When the robot's gripper is not above the cube, the robot should put gripper above cube.
+    Once the gripper is around the cube, the robot can then lift it up and start moving it.
+    - When the robot's gripper is above cube and cube is not in the location, the robot should place cube in location.
+    The robot should then move slightly sideways until the cube is in the desired position.
+    - When the cube is in the location and the cube is not at the target location, the robot should move sideways the cube to the target location.

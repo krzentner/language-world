@@ -1,4 +1,4 @@
 
-    - When the robot's gripper is not near the mug handle, the robot should move gripper to above the mug handle.
-    - When the robot's gripper is near the mug handle and the robot's gripper is open, the robot should close gripper around the mug handle.
-    - When the robot's gripper is closed around the mug handle, the robot should pull the mug towards the goal.
+    - When the robot's gripper is not above mug handle and the robot's gripper is not vertically aligned with mug handle, the robot should move gripper above mug handle.
+    - When the robot's gripper is above the mug handle and the robot's gripper is not around mug handle, the robot should drop down gripper around mug handle.
+    - When the robot's gripper is around mug handle, the robot should pull mug to goal.

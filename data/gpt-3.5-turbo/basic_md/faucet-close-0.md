@@ -1,4 +1,6 @@
 To turn the faucet right reliably, the robot should perform the following steps:
-- When the robot's gripper is not near the faucet handle, the robot should move gripper closer to the faucet handle.
-- When the robot's gripper is near the faucet handle and the handle is turned on, the robot should turn the handle to the right.
-- When the handle is fully turned to the right, the robot should stop turning the handle.
+
+- When the robot's gripper is not vertically aligned with the faucet handle, the robot should put gripper above the handle.
+- When the robot's gripper is almost vertically aligned with the faucet handle and the robot's gripper is open, the robot should put gripper around the handle.
+- When the robot's gripper is around the handle, the robot should turn the handle clockwise until it stops.
+- When the handle is fully closed, the robot should release the gripper.

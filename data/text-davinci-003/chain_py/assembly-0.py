@@ -1,16 +1,19 @@
 
     # Steps:
-    #  1. Put gripper above peg
-    #  2. Line up gripper with peg from above
-    #  3. Put wrench onto peg
-    # First, put the gripper above the peg.
-    if check("the robot's gripper is not above the peg"):
-        robot.put("gripper above peg")
-    # If the peg is not left of the gripper, move the gripper above the peg
-    # again.
-    if check("the peg is not left of the robot's gripper and the robot's gripper is not vertically aligned with the peg"):
-        robot.lineup("gripper with peg")
-    # If the gripper is almost vertically aligned with the peg, we can start
-    # putting the wrench on the peg.
-    if check("the robot's gripper is nearly vertically aligned with the peg and the robot's gripper is still above the peg"):
-        robot.put("wrench on peg")
+    #  1. Wrap the wrench around the peg
+    #  2. Put the wrench over the fastener
+    #  3. Put the wrench around the fastener
+    #  4. Tighten the fastener with the wrench
+    # First, wrap the wrench around the peg.
+    if check("the wrench is not wrapped around the peg"):
+        robot.wrap("wrench around peg")
+    # if the wrench is still not lined up with the fastener, put the wrench over
+    # the fastener
+    if check("the wrench is not aligned with fastener and the wrench is wrapped around the peg"):
+        robot.put("wrench over fastener")
+    # Now, close the wrench around the fastener.
+    if check("the wrench is aligned with fastener"):
+        robot.close("wrench around fastener")
+    # Now, tighten the fastener with the wrench.
+    if check("the wrench is closed around the fastener"):
+        robot.tighten("fastener with wrench")

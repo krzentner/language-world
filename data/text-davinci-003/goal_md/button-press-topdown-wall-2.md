@@ -1,11 +1,8 @@
 
- 
-Steps:  1. Put the gripper around the wall  2. Move the robot's gripper until the robot's gripper is above the short wall  3. Put the robot's gripper above the button  4. Push down the button from the top
-    We need to go around the wall to line up the gripper with the button, so put the gripper around the wall.
-    - When the robot's gripper is not around the wall, move the robot's gripper until the robot's gripper is around the wall
-    If the gripper is lined up with the wall, move it above the wall.
-    - When the robot's gripper is near the wall and the robot's gripper is not above the wall, move the robot's gripper until the robot's gripper is above the wall
-    Now move the gripper above the button so that it's lined up when viewed from above.
-    - When the robot's gripper is not vertically aligned with the button, move the robot's gripper until the robot's gripper is vertically aligned with the button and the robot's gripper is closed
-    Now that the gripper is lined up, just push down on the button.
-    - When the robot's gripper is vertically aligned with the button, move the robot's gripper until the robot's gripper is near the button
+    Steps:  1. Put gripper to the side so that it is above the wall  2. Drop gripper to the side so that it is in front of the button  3. Push down on button until it is pushed to the bottom  4. Move gripper to the side so that it is above the button again
+    The short wall may get in the way so we want to put the gripper to the side so that it's above it.
+    - When the robot's gripper is not above the wall and the robot's gripper is not right of wall, move the robot's gripper until the robot's gripper is right of wall and the robot's gripper is above wall
+    Once the gripper is above the wall, if the button isn't already in front of the gripper as seen from above, move the gripper until it's in front of the button.
+    - When the robot's gripper is above the wall and the robot's gripper is not in front of button, move the robot's gripper until the robot's gripper is in front of button and the robot's gripper is closed
+    If the button is in front of the gripper, we can push it down.
+    - When the robot's gripper is in front of button, move the robot's gripper until the robot's gripper is above the button.

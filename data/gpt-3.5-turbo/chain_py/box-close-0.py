@@ -1,21 +1,24 @@
 # Steps:
-    #  1. Put gripper above box lid
-    #  2. Grab box lid with the gripper
-    #  3. Lift the box lid off the box
-    #  4. Move the gripper above the box
-    #  5. Lower the box lid onto the box
-    # First, put the gripper above the box lid.
+    #  1. Put gripper above the box lid
+    #  2. Drop gripper around box lid
+    #  3. Close gripper around box lid
+    #  4. Move the lid to the box
+    #  5. Open gripper to release lid
+    # First, put the gripper roughly above the box lid, so that we don't bump it
+    # while trying to grab it.
     if check("the robot's gripper is not above the box lid"):
         robot.place("gripper above box lid")
-    # If the gripper is above the box lid, grab it with the gripper.
-    if check("the robot's gripper is above the box lid and the robot's gripper is open"):
-        robot.grab("box lid")
-    # Once the box lid is grabbed, lift it off the box.
-    if check("the box lid is grabbed by the gripper"):
-        robot.lift("box lid off the box")
-    # Move the gripper above the box.
-    if check("the robot's gripper is not above the box"):
-        robot.place("gripper above box")
-    # Lower the box lid onto the box.
-    if check("the robot's gripper is above the box and the box lid is grabbed by the gripper"):
-        robot.lower("box lid onto the box")
+    # If the gripper isn't around the box lid, put it around the box lid.
+    if check("the robot's gripper is not around box lid and the robot's gripper is open"):
+        robot.drop("gripper around box lid")
+    # If the gripper is near the box lid and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near box lid and the robot's gripper is open"):
+        robot.close("gripper around box lid")
+    # We closed the gripper, and the box lid is still near the gripper, so maybe we
+    # grabbed it.
+    # Try to move the box lid to the box.
+    # If we didn't grab it, we'll just go back to an earlier step.
+    if check("the robot's gripper is above box and the robot's gripper is closed"):
+        robot.move("box lid to box")
+        robot.open("gripper to release box lid")

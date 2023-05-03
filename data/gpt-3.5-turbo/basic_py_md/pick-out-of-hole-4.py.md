@@ -1,14 +1,16 @@
-# pick-out-of-hole: pick up the peg out of the hole and hold it at the target location
-# def pick_out_of_hole(robot):
-    if check("the peg is in the hole and the robot's gripper is not above the peg"):
-        robot.put("gripper above the hole")
-    if check("the peg is in the hole and the robot's gripper is above the peg and the robot's gripper is not around the peg"):
-        robot.drop("gripper around peg")
-    if check("the peg is in the hole and the robot's gripper is around the peg"):
-        robot.lift("peg out of hole")
-    if check("the robot's gripper is holding the peg and the robot's gripper is not above the target location"):
-        robot.put("gripper above target location")
-    if check("the robot's gripper is holding the peg and the robot's gripper is above the target location"):
-        robot.drop("gripper around target location") 
+Here's the code to perform the `pick-out-of-hole` task:
 
-# Note: You will need to define the `check` function to provide the necessary condition checks, and also define the `robot` object that the code uses to control the robot.
+```
+# pick-out-of-hole: pick up the peg out of the hole and hold it at the target location
+def pick_out_of_hole(robot):
+    if check("the robot's gripper is not vertically aligned with the hole"):
+        robot.move("gripper above hole")
+    if check("the gripper is not around peg and the robot's gripper is open"):
+        robot.drop("gripper around peg")
+    if check("the gripper is near peg and the robot's gripper is open"):
+        robot.grab("peg")
+    if check("the gripper is around peg and peg is out of the hole"):
+        robot.place("peg at goal")
+``` 
+
+The `pick_out_of_hole` task first moves the gripper to be above the hole. It then checks if the gripper is not already around the peg and the gripper is open. If this condition is true, it drops the gripper around the peg. Then, it checks if the gripper is near the peg and the gripper is open. If this condition is true, it grabs the peg. Finally, it checks if the gripper is around the peg and the peg is out of the hole. If this condition is true, it places the peg at the goal location.

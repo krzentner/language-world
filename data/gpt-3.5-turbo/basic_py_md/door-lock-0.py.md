@@ -1,8 +1,14 @@
 # door-lock: turn the dial on the door
-# def door_lock(robot):
+def door_lock(robot):
     if check("the robot's gripper is not near the dial"):
-        robot.move("gripper to the right of the dial")
-    if check("the robot's gripper is near the dial and the robot's gripper is not aligned with the dial"):
-        robot.align("gripper to the dial")
-    if check("the robot's gripper is aligned with the dial and the dial is not locked"):
-        robot.turn("the dial to lock the door")
+        robot.reach("to the dial")
+    if check("the robot's gripper is near the dial"):
+        robot.grab("the dial")
+    if check("the dial is not at the 12 o'clock position"):
+        robot.turn("dial to 12 o'clock position")
+    if check("the dial is at the 12 o'clock position"):
+        robot.turn("dial to 3 o'clock position")
+    if check("the dial is at the 3 o'clock position"):
+        robot.turn("dial to 6 o'clock position")
+    if check("the dial is at the 6 o'clock position"):
+        robot.release("the dial")

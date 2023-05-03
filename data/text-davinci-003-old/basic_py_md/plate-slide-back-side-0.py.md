@@ -1,10 +1,10 @@
 
 
-if check("the robot's gripper is not forward aligned with the plate"):
+if check("the robot's gripper is not above the plate"):
     robot.put("gripper above plate")
-if check("the robot's gripper is forward aligned with the plate and the plate is not horizontally aligned with the target location"):
-    robot.grab("plate")
-if check("the robot's gripper is not forward aligned with the plate and the plate is horizontally aligned with the target location"):
-    robot.slide("plate back sideways")
-if check("the robot's gripper is forward aligned with the plate and the plate is not near the target location"):
-    robot.push("plate back into target location")
+if check("the robot's gripper is above the plate and the gripper is not around the plate"):
+    robot.drop("gripper around plate")
+if check("the robot's gripper is around plate and plate is not facing the destination"):
+    robot.rotate("plate towards destination")
+if check("plate is facing the destination and the robot's gripper is in front of the plate"):
+    robot.push("plate sideways to the destination")

@@ -1,7 +1,5 @@
 
-    if check("the robot's gripper is not near the handle"):
+    if check("the robot's gripper is not above the handle"):
         robot.put("gripper above handle")
-    if check("the robot's gripper is near the handle and the robot's gripper is open"):
-        robot.grab("handle")
-    if check("the robot's gripper is above the handle and the robot's gripper is closed"):
+    if check("the robot's gripper is above the handle"):
         robot.push("down on handle")

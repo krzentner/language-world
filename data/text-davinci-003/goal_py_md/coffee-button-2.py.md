@@ -1,18 +1,19 @@
 
 
-The robot needs to push the button on the coffee machine.
+Steps:
+1. Line up the gripper with the button as viewed from above.
+2. Push down on the button with the gripper.
 
-# coffee-button: push the button on the coffee machine
-# def coffee_button(robot):
-    # Steps:
-    #  1. Move the gripper as viewed from above to the center of the button
-    #  2. Push down on the button to push it
-    # First, move the gripper above the button so that it is lined up with it.
-    if check("the robot's gripper is not vertically aligned with the button"):
-        robot.move_gripper("vertically aligned with the button")
-    # Close the gripper to make sure we keep control of the button while pushing.
-    if check("the robot's gripper is vertically aligned with the button"):
-        robot.move_gripper("above the button", close_gripper=True)
-    # Once the gripper is closed, push down on the button.
-    if check("the robot's gripper is above the button and the robot's gripper is closed"):
+If the robot's gripper is not lined up with the button, then the gripper should be moved to be vertically aligned with it:
+
+```
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.move_gripper("vertically aligned with the button", close_gripper=True)
+```
+
+Once the gripper is lined up, the button can be pressed by pushing down on it with the gripper:
+
+```
+    if check("the robot's gripper is vertically aligned with button"):
         robot.move_gripper("near the button")
+```

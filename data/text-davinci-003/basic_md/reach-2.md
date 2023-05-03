@@ -1,3 +1,3 @@
 
-    - When the robot's gripper is not near reach target, the robot should move toward the goal location.
-    - When the robot's gripper is close to the goal location, the robot should slow down and stop when it is at the goal location.
+    - When the robot's gripper is not above the goal and the robot's gripper is not in the area of the goal, the robot should move gripper above the goal.
+    - When the robot's gripper is in the area of the goal, the robot should move gripper to goal.

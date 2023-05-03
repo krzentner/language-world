@@ -1,13 +1,13 @@
 # Steps:
-    #  1. Put gripper above the handle
-    #  2. Grab the handle with the gripper
-    #  3. Pull the handle up
+    #  1. Put gripper above handle
+    #  2. Grab handle
+    #  3. Pull handle
     # First, put the gripper above the handle.
-    if check("the robot's gripper is not above the handle"):
+    if check("the robot's gripper is not above handle"):
         robot.put("gripper above handle")
-    # Once the gripper is above the handle, grab on to the handle.
-    if check("the robot's gripper is above the handle and the robot's gripper is not around the handle"):
+    # If the gripper isn't around the handle, put it around the handle.
+    if check("the robot's gripper is not around handle and the robot's gripper is open"):
         robot.grab("handle")
-    # Now that we have the handle, pull it up.
-    if check("the robot's gripper is around the handle"):
+    # Once the gripper is around the handle, we can pull it.
+    if check("the robot's gripper is around handle"):
         robot.pull("handle up")

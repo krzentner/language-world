@@ -1,6 +1,6 @@
 
 
-Then, add the following code to complete the task:
+Then add the code:
 
 ```
     # Steps:

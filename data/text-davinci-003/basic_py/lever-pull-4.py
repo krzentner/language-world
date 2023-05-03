@@ -1,7 +1,5 @@
 
-    if check("the robot's gripper is not vertically aligned with the lever"):
-        robot.put("gripper above lever")
-    if check("the robot's gripper is not near lever"):
-        robot.reach("to lever")
-    if check("the robot's gripper is near lever and the lever is down"):
-        robot.pull("up lever")
+    if check("the robot's gripper is below the lever and the lever is right of the robot's gripper"):
+        robot.move("gripper to left of lever")
+    if check("the robot's gripper is near the lever"):
+        robot.pull("lever up")

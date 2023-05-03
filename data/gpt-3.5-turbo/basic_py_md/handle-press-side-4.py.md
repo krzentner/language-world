@@ -1,8 +1,10 @@
 # handle-press-side: push down the handle from the side
-# def handle_press_side(robot):
-    if check("the robot's gripper is not vertically aligned with the handle and the robot's gripper is to the right of the handle"):
-        robot.move("the gripper to the left of the handle")
-    if check("the robot's gripper is to the left of the handle"):
-        robot.put("the gripper around the handle")
-    if check("the robot's gripper is around the handle and the handle is not pushed down"):
+def handle_press_side(robot):
+    if check("the robot's gripper is not vertically aligned with the handle"):
+        robot.put("gripper above handle")
+    if check("handle is not left of the robot's gripper and handle is not forward aligned with the robot's gripper"):
+        robot.grab("handle")
+    if check("the robot's gripper is forward aligned with the handle and the handle is not horizontally aligned with the target"):
+        robot.align("handle to target")
+    if check("the handle is horizontally aligned with the target"):
         robot.push("down on handle")

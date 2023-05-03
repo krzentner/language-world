@@ -1,5 +1,5 @@
 
-    - When the robot's gripper is not above the ball, the robot should place gripper above ball.
-    - When the ball is not left of the robot's gripper and the robot's gripper is not forward aligned with the ball, the robot should grab ball.
-    - When the robot's gripper is forward aligned with the ball and the ball is not horizontally aligned with the hoop, the robot should align ball to hoop.
-    - When the ball is horizontally aligned with the hoop, the robot should put ball into hoop.
+    - When the robot's gripper is not vertically aligned with the basketball, the robot should put gripper above basketball.
+    - When the robot's gripper is vertically aligned with the basketball and the robot's gripper is not around basketball, the robot should grab basketball.
+    - When the robot's gripper is around basketball and the basketball is not in front of the hoop, the robot should maneuver the basketball in front of the hoop.
+    - When the basketball is in front of the hoop, the robot should shoot the basketball into the hoop.

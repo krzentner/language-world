@@ -1,9 +1,7 @@
 
-    if check("the robot's gripper is not above the wrench and the wrench is not placed in the desired orientation"):
-        robot.put("gripper above wrench")
-    if check("the robot's gripper is above the wrench and the wrench is not around the peg"):
-        robot.align("wrench to peg")
-    if check("the wrench is almost around the peg and the robot's gripper is not above the handle"):
-        robot.grasp("wrench handle")
-    if check("the robot's gripper is above the wrench handle"):
-        robot.put("wrench around peg")
+    if check("the robot's gripper is not near the wrench"):
+        robot.pick("up wrench")
+    if check("the robot's gripper is near the wrench and the wrench is not around the peg"):
+        robot.wrap("wrench around peg")
+    if check("the wrench is around the peg and the wrench is not tight"):
+        robot.tighten("wrench around peg")

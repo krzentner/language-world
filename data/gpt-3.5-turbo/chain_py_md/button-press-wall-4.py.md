@@ -1,22 +1,18 @@
 # button-press-wall: push the button from the front with a short wall in the way
-# def button_press_wall(robot):
+def button_press_wall(robot):
     # Steps:
-    #  1. Line up gripper with button from front
-    #  2. Move gripper towards button until obstruction is detected
-    #  3. Turn gripper to the side to avoid obstruction
-    #  4. Move gripper towards button again
-    #  5. Push down on the button
-    # First, line up the gripper with the button from the front.
-    if check("the robot's gripper is not horizontally aligned with button"):
-        robot.put("gripper in front of button")
-    # Move the gripper towards the button until obstruction is detected.
-    # We'll assume the robot has sensors to detect the obstruction.
-    while check("obstruction detected"):
-        robot.move("gripper towards button")
-    # Turn the gripper to the side to avoid the obstruction.
-    robot.rotate("gripper to the side")
-    # Move the gripper towards the button again.
-    if check("the robot's gripper is not near button"):
-        robot.move("gripper towards button")
-    # Push down on the button.
-    robot.push("down on button")
+    #  1. Put the gripper above the button
+    #  2. Move the gripper forward until it hits the wall
+    #  3. Move the gripper up slightly
+    #  4. Move the gripper forward into the button
+    # If the gripper is not vertically lined up with the button, put it above
+    # the button.
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.put("gripper above button")
+    # Move the gripper forward until it hits the wall.
+    while check("the robot's gripper is not against wall"):
+        robot.move("gripper forward")
+    # Move the gripper up slightly so that it clears the wall.
+    robot.move("gripper up slightly")
+    # Move the gripper forward into the button.
+    robot.move("gripper forward")

@@ -1,15 +1,15 @@
 # door-unlock: turn the dial on the door
-# def door_unlock(robot):
+def door_unlock(robot):
     # Steps:
-    #  1. Put gripper on dial
-    #  2. Turn dial to the unlocked position
-    # The robot needs to turn the dial to the right position to unlock the door.
-    # If the gripper is not above the dial, move it there.
-    if check("the robot's gripper is not above the door dial"):
-        robot.move_gripper("above the door dial")
-    # If the gripper is above the dial but not around it, move it around the dial.
-    if check("the robot's gripper is above the door dial and the robot's gripper is open"):
-        robot.move_gripper("around the door dial", close_gripper=True)
-    # Move the dial to the unlocked position (one full turn to the right).
-    if check("the robot's gripper is around the door dial and not in the unlocked position"):
-        robot.move_gripper("one full turn to the right")
+    #  1. Move gripper to the door dial
+    #  2. Turn the dial to the correct combination
+    #  3. Pull the handle to unlock the door
+    # Move the gripper to the door dial.
+    if check("the robot's gripper is not near the door dial"):
+        robot.move_gripper("near the door dial")
+    # Turn the dial to the correct combination.
+    if check("the dial is not set to the correct combination"):
+        robot.turn_dial("to the correct combination")
+    # Pull the handle to unlock the door.
+    if check("the dial is set to the correct combination and the robot's gripper is near the door handle"):
+        robot.move_gripper("around the door handle")

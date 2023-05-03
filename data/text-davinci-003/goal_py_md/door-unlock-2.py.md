@@ -1,22 +1,26 @@
 
 
-## Solution
+Then continue with the code:
 
 ```
-# door-unlock: turn the dial on the door
-# def door_unlock(robot):
     # Steps:
-    #  1. Put gripper above dial
-    #  2. Drop gripper around dial
-    #  3. Rotate the dial
-    # First, put the gripper above the dial.
-    if check("the robot's gripper is not vertically aligned with dial"):
-        robot.move_gripper("vertically aligned with the dial", close_gripper=True)
-    # As long as the gripper is aligned with the dial, moving the gripper
-    # slightly to the right of it should allow us to grab the dial.
-    if check("the robot's gripper is vertically aligned with dial"):
-        robot.move_gripper("right of the dial")
-    # Once we have a grip on the dial, rotate it to the desired point.
-    if check("the robot's gripper is around dial"):
-        robot.rotate_gripper("to the desired point")
+  1. Put gripper above the door handle
+  2. Drop gripper around the door handle
+  3. Move the robot's gripper to line up with the door handle dial
+  4. Turn the dial clockwise to unlock the door
+ 
+    # First, even though this is a small task, let's move the robot's gripper
+    # above the door handle just to be safe.
+    if check("the robot's gripper is not above the door handle"):
+        robot.move_gripper("above the door handle")
+    # Now that the gripper is above the door handle, let's make sure to get it
+    # around the handle so that it has grip.
+    if check("the robot's gripper is not around door handle and the robot's gripper is open"):
+        robot.move_gripper("around the door handle", close_gripper=True)
+    # Once the gripper has a grip on the door handle, we can align it with the dial.
+    if check("the robot's gripper is vertically aligned with handle and the robot's gripper is closed"):
+        robot.move_gripper("left of handle dial")
+    # With the gripper lined up with the dial, we can turn it to unlock the door.
+    if check("the robot's gripper is lined up with handle dial"):
+        robot.move_gripper("turn handle clockwise")
 ```

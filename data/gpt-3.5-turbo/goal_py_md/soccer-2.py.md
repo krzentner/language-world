@@ -1,21 +1,19 @@
 # soccer: push the soccer ball into the target location
-# def soccer(robot):
+def soccer(robot):
     # Steps:
-    #  1. Put gripper above the soccer ball
-    #  2. Push gripper into top of soccer ball
-    #  3. Slide soccer ball to goal
-    # The robot can slide the soccer ball by trapping it by pushing down on it from
-    # above and moving the gripper.
-    # If the soccer ball isn't below the gripper as seen from above, move the gripper
-    # above the soccer ball.
-    if check("the robot's gripper is not above soccer ball and the robot's gripper is not vertically aligned with the soccer ball"):
-        robot.move_gripper("vertically aligned with the soccer ball")
-    # If the gripper is aligned with the soccer ball but not near it, move the gripper
-    # down to the soccer ball to slide it.
-    if check("the robot's gripper is vertically aligned with the soccer ball and the robot's gripper is not near soccer ball"):
-        robot.move_gripper("above the soccer ball", close_gripper=True)
-    # If the gripper is near the soccer ball, we've probably trapped the soccer ball and can
-    # slide it to the target location.
-    # Close the gripper to make sure we keep control of the soccer ball.
-    if check("the robot's gripper is near the soccer ball and the soccer ball is below the robot's gripper"):
-        robot.move_gripper("above the target location")
+    #  1. Put the gripper above the soccer ball
+    #  2. Grip the soccer ball by dropping the gripper around it
+    #  3. Move the ball towards the target while keeping it trapped in the gripper
+    #  4. Release the ball at the target location
+    # First, put the gripper above the soccer ball.
+    if check("the robot's gripper is not above the soccer ball"):
+        robot.move_gripper("above the soccer ball")
+    # Next, grip the soccer ball by dropping the gripper around it.
+    if check("the robot's gripper is above the soccer ball and the robot's gripper is open"):
+        robot.move_gripper("around the soccer ball", close_gripper=True)
+    # Once the ball is safely trapped in the gripper, move the ball towards the target while also keeping it trapped in the gripper.
+    if check("the robot's gripper is around the soccer ball and the robot's gripper is not above the target location"):
+        robot.move_gripper("near the target location")
+    # Finally, release the ball at the target location.
+    if check("the robot's gripper is around the soccer ball and the robot's gripper is near the target location"):
+        robot.move_gripper("above the target location", close_gripper=False)

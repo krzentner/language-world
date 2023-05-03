@@ -1,15 +1,12 @@
-To use the stick to pull the thermos to the target location reliably, the robot should perform the following steps:
-
-Steps:  1. Put the gripper near the thermos 2. Grab the stick with the gripper 3. Position the stick to pull the thermos 4. Pull the thermos to the target location
-
-First, put the gripper near the thermos.
-- When the robot's gripper is not near the thermos, the robot should place the gripper near the thermos.
-
-Once the gripper is near the thermos, grab the stick with the gripper.
-- When the stick is near the gripper and the gripper is open, the robot should pick up the stick with the gripper.
-
-Position the stick to pull the thermos towards the target location. The robot should make sure that the stick is wedged underneath the thermos before pulling.
-- When the stick is in position to wedge under the thermos, the robot should wedge the stick under the thermos.
-
-Pull the thermos towards the target location by moving the gripper in the direction of the target location while holding the stick in place.
-- When the robot's gripper holding the stick is in the direction of the target location, the robot should slowly pull the thermos towards the target location while holding the stick in place.
+To complete the task `stick-pull` the robot should perform the following steps:
+    Steps: 1. Put the gripper above the stick handle. 2. Grab the stick with the gripper. 3. Line up the stick with the notch in the thermos handle. 4. Place the notch on the stick hook. 5. Carefully pull the thermos to the target location.
+    First, put the gripper roughly above the stick handle.
+    - When the robot's gripper is not vertically aligned with the stick handle, the robot should put the gripper above the stick handle.
+    Once the gripper is above the stick handle, the robot should grab the stick.
+    - When the robot's gripper is vertically aligned with the stick handle and the gripper is not around the stick handle, the robot should grab the stick with the gripper.
+    Next, line up the stick with the notch in the thermos handle.
+    - When the robot's gripper is around the stick handle and the stick is not lined up with the notch, the robot should line up the stick with the notch in the thermos handle.
+    Once the stick is lined up with the notch, the robot should place the notch on the stick hook.
+    - When the robot's gripper is aligned with the notch in the thermos handle and the stick is not hooked to the thermos, the robot should carefully place the notch on the stick hook.
+    Finally, the robot should pull the thermos to the target location by moving the gripper and stick together.
+    - When the robot's gripper is hooked to the thermos and the thermos is not yet at the target location, the robot should carefully pull the thermos towards the target location.

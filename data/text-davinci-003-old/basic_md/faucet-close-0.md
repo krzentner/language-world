@@ -1,4 +1,4 @@
 
-    - When the robot's gripper is not near the faucet handle, the robot should move gripper to right of faucet handle.
-    - When the robot's gripper is near the faucet handle, the robot should grab faucet handle.
-    - When the robot's gripper is holding the faucet handle, the robot should turn faucet right.
+    - When the robot's gripper is not above faucet handle, the robot should put gripper above faucet handle.
+    - When the robot's gripper is above faucet handle and the robot's gripper is not around faucet handle, the robot should put gripper around faucet handle.
+    - When the robot's gripper is around faucet handle and the faucet is not completely right, the robot should turn right faucet handle.

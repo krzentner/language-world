@@ -1,13 +1,6 @@
-The steps the robot should perform to turn the dial on the door reliably are:
-
-1. Put gripper near the dial handle
-If the robot's gripper is not near the dial handle, move the gripper near the dial handle.
-
-2. Grab the dial handle with the gripper
-When the robot's gripper is near the dial handle, close the gripper around the handle to grab it.
-
-3. Turn the dial handle to the correct position
-Move the gripper handle to turn the dial to the correct position. The direction and number of turns will depend on the lock mechanism.
-
-4. Release the dial handle
-After the dial is turned to the correct position, release the dial handle by opening the gripper.
+To turn the dial on the door reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper around the dial knob  2. Rotate the gripper to turn the dial
+    First, move the gripper above the dial knob and close the gripper around it.
+    - When the robot's gripper is not around the dial knob, move the robot's gripper until the robot's gripper is around the dial knob
+    Once the gripper is around the dial knob, we can rotate the gripper to turn the dial.
+    - When the robot's gripper is around the dial knob, rotate the robot's gripper to turn the dial in the required direction to lock/unlock the door.

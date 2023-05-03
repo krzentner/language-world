@@ -1,16 +1,16 @@
 
     # Steps:
-    #  1. Put gripper above cube
-    #  2. Grab the cube with the gripper
-    #  3. Swing the cube to the target
-    #  4. Drop the cube at the target
-    # First, align the gripper with the cube from above.
-    if check("the robot's gripper is not vertically aligned with cube"):
-        robot.move_gripper("vertically aligned with the cube", close_gripper=True)
-    # Once the robot's gripper is in line, grab the cube by closing the gripper.
-    if check("the robot's gripper is vertically aligned with cube"):
-        robot.move_gripper("near the target location")
-    # Once the robot has grabbed the cube, a quick swinging motion will move it
-    # to the target location.
-    if check("the robot's gripper is near the target location and the robot's gripper is carrying cube"):
-        robot.move_gripper("over the target location", close_gripper=False)
+    #  1. Put gripper left of the cube
+    #  2. Close gripper around cube
+    #  3. Sweep cube to the goal
+    # Because the cube is small, we need to make sure we don't lose the cube and
+    # put the gripper above the cube before closing it.
+    if check("the robot's gripper is not above the cube"):
+        robot.move_gripper("near the cube", close_gripper=True)
+    # If the cube is too far left of the gripper, we should move the gripper
+    # near the cube to start sweeping.
+    if check("the robot's gripper is above the cube and the cube is not left of the robot's gripper"):
+        robot.move_gripper("left of the cube")
+    # Make sure that the cube is left of the gripper before starting the sweep.
+    if check("the robot's gripper is left of the cube"):
+        robot.move_gripper("above the target location")

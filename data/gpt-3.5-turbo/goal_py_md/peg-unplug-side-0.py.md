@@ -1,11 +1,10 @@
-# peg-unplug-side: pull the peg out from the side
-# def peg_unplug_side(robot):
+# peg-unplug-side: grab the peg and pull the it out from the side
+def peg_unplug_side(robot):
     # Steps:
     #  1. Put gripper above the peg
     #  2. Grab the peg with the gripper
-    #  3. Line the peg up with the hole
-    #  4. Slide the peg sideways into the hole
-    #  5. Pull the peg out of the hole
+    #  3. Line the peg up with the unplugging direction
+    #  4. Pull the peg out from the hole
     # First, put the gripper above the peg.
     if check("the robot's gripper is not vertically aligned with the peg"):
         robot.move_gripper("vertically aligned with the peg")
@@ -15,11 +14,11 @@
     # from the front instead of around it.
     if check("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper"):
         robot.move_gripper("forward aligned with the peg", close_gripper=True)
-    # As long the gripper is still mostly around the peg and the peg isn't lined
-    # up with the hole, line up the peg with the hole.
-    if check("peg is horizontally aligned with hole"):
-        robot.move_gripper("above the peg")
-    # If the peg is lined up with the hole to the side, slide it out.
-    if check("the robot's gripper is forward aligned with the peg and the peg is horizontally aligned with hole"):
-        robot.move_gripper("horizontally aligned with hole", close_gripper=False)
-        robot.move_gripper("above the peg")
+    # As long the gripper is still mostly around the peg, line up the peg with
+    # the unplugging direction.
+    if check("the robot's gripper is around the peg and the peg is not aligned with unplugging direction"):
+        robot.move_gripper("aligned with the unplugging direction")
+    # If the gripper is aligned with the unplugging direction and closed around
+    # the peg, pull the peg out.
+    if check("the robot's gripper is aligned with the unplugging direction and closed around the peg"):
+        robot.move_gripper("above the peg and away from the hole")

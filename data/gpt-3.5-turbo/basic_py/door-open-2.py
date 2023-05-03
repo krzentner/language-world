@@ -1,1 +1,6 @@
-It seems like we already have a function called `door_open` defined earlier. Should we rename one of them to avoid any confusion?
+if check("the robot's gripper is not vertically aligned with door handle"):
+        robot.put("gripper above door handle")
+    if check("the robot's gripper is vertically aligned with door handle and the robot's gripper is not around door handle"):
+        robot.put("gripper around door handle")
+    if check("the robot's gripper is around door handle"):
+        robot.pull("away from door")

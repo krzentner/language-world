@@ -1,10 +1,12 @@
 
     # Steps:
-    #  1. Put gripper forward aligned with button
-    #  2. Push button down
-    # We need to start by putting the gripper forward aligned with the button.
-    if check("the robot's gripper is not forward aligned with button"):
-        robot.move_gripper("forward aligned with the button", close_gripper=True)
-    # Once the gripper is lined up, push the button down.
-    if check("the robot's gripper is forward aligned with button"):
-        robot.move_gripper("near the button")
+    #  1. Put gripper close to the button
+    #  2. Push the button down
+    # We need to put the gripper close to the button so that when we push the
+    # button down, it doesn't bounce back up again.
+    if check("the robot's gripper is not close to the button"):
+        robot.move_gripper("close to the button")
+    # Once the gripper is close enough to the button, we just need to push it
+    # down.
+    if check("the robot's gripper is close to the button"):
+        robot.move_gripper("above the button", close_gripper=True)

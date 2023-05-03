@@ -1,30 +1,23 @@
 
 
-Here's the program:
-
-```
 # hammer: hit the nail with the hammer
-# def hammer(robot):
+def hammer(robot):
     # Steps:
-    #  1. Put gripper above the hammer
-    #  2. Drop gripper around the hammer 
-    #  3. Drop gripper around the nail 
-    #  4. Move the hammer down and hit the nail
+        #  1. Put gripper above the hammer
+        #  2. Grab the hammer
+        #  3. Line up the hammer with the nail
+        #  4. Hit the nail with the hammer
     
-    # Put the gripper above the hammer, so that it can grab it without bumping
-    # into it.
+    # First, put the gripper above the hammer.
     if check("the robot's gripper is not above the hammer"):
         robot.put("gripper above hammer")
-    # If the gripper is above the hammer but not around it, try to grab the
-    # hammer.
-    if check("the robot's gripper is above the hammer and the robot's gripper is not around the hammer"):
-        robot.drop("gripper around hammer")
-    # If the gripper is above the nail but not around it, try to grab the nail
-    # with the gripper.
-    if check("the robot's gripper is not around the nail"):
-        robot.drop("gripper around nail")
-    # If the gripper is around both the hammer and the nail, move the gripper
-    # down towards the nail to hit it.
-    if check("the robot's gripper is around the hammer and the robot's gripper is around the nail"):
-        robot.move("gripper down and hit nail")
-```
+    # As long as the grip is not around the hammer, close it to grab the hammer.
+    if check("the robot's gripper is not around hammer and the robot's gripper is open"):
+        robot.close("gripper around hammer")
+    # As long as the hammer is not horizontally aligned with the nail,
+    # adjust the orientation of the gripper to line it up with the nail.
+    if check("the hammer is not horizontally aligned with the nail"):
+        robot.align("hammer to nail")
+    # When the hammer is aligned with the nail, use the gripper to hit the nail.
+    if check("the hammer is horizontally aligned with the nail"):
+        robot.hit("nail with hammer")

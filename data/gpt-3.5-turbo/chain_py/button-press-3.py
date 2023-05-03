@@ -1,13 +1,19 @@
-# Steps:
-#  1. Put gripper in front of button
-#  2. Grab the button with the gripper
-#  3. Push the button
-# We need to put the gripper in front of the button first.
-if check("the robot's gripper is not in front of the button"):
-    robot.put("gripper in front of button")
-# Once the gripper is lined up in front of the button, we can grab it.
-if check("the robot's gripper is in front of button and the robot's gripper is not around button"):
-    robot.grab("button")
-# We have the button in our gripper now, so we can just push it.
-if check("the robot's gripper is around button"):
-    robot.push("button")
+# button-press: push the button from the front
+def button_press(robot):
+    # Steps:
+    #  1. Put gripper around button
+    #  2. Close gripper around button
+    #  3. Push button
+    # We need to put the gripper around the button before we can push it.
+    # First, put the gripper above the button.
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.put("gripper above button")
+    # Then, drop the gripper around the button.
+    if check("the robot's gripper is vertically aligned with button and the robot's gripper is open"):
+        robot.drop("gripper around button")
+    # Close the gripper around the button.
+    if check("the robot's gripper is around button and the robot's gripper is open"):
+        robot.close("gripper around button")
+    # Finally, push the button.
+    if check("the robot's gripper is around button and the robot's gripper is closed"):
+        robot.push("button")

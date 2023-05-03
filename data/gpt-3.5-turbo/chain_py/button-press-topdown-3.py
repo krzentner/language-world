@@ -1,14 +1,13 @@
-Oops, it looks like this function was already defined earlier in the code! Here it is again:
-
-# button-press-topdown: push the button down from above
-# def button_press_topdown(robot):
-    # Steps:
-    #  1. Line up the gripper as viewed from above
-    #  2. Push down on the button from the top
-    # Because this is "topdown", we just need to line up the gripper from above.
-    # Line up the robot's gripper from above.
-    if check("the robot's gripper is not vertically aligned with button"):
-        robot.put("gripper above button")
-    # Now that the gripper is lined up, just push down on the button.
-    if check("the robot's gripper is vertically aligned with button"):
-        robot.push("down on button")
+# Steps:
+    #  1. Put gripper above the button
+    #  2. Move the gripper down onto the button
+    #  3. Push the button to activate it
+    # First, put the gripper above the button to avoid hitting anything.
+    if check("the robot's gripper is not above the button"):
+        robot.move("gripper above button")
+    # Move the gripper down onto the button.
+    if check("the robot's gripper is not vertically aligned with the button"):
+        robot.move("gripper onto button")
+    # Push the button to activate it.
+    if check("the robot's gripper is vertically aligned with the button"):
+        robot.push("button")

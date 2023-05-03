@@ -1,9 +1,9 @@
 
-    if check("the robot's gripper is not left of cube and the robot's gripper is not forward aligned with the cube"):
-        robot.put("gripper left of cube")
-    if check("the robot's gripper is left of cube and the robot's gripper is not near the cube"):
-        robot.reach("towards cube")
-    if check("the robot's gripper is near cube and the robot's gripper is not around cube"):
-        robot.open("gripper around cube")
-    if check("the robot's gripper is around cube"):
-        robot.sweep("cube to goal")
+    if check("the robot's gripper is not vertically aligned with the cube and the robot's gripper is open"):
+        robot.put("gripper above cube")
+    if check("the robot's gripper is vertically aligned with the cube and the robot's gripper is not around the cube"):
+        robot.grab("cube")
+    if check("the robot's gripper is around the cube and the cube is not horizontal aligned with the goal"):
+        robot.readjust("cube to the goal")
+    if check(" the cube is horizontal aligned with the goal"):
+        robot.sweep("cube to the goal")

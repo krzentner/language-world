@@ -1,4 +1,4 @@
 To push the soccer ball into the target location reliably, the robot should perform the following steps:
 - When the robot's gripper is not above the soccer ball and the robot's gripper is not vertically aligned with the soccer ball, the robot should put the gripper above the soccer ball.
 - When the robot's gripper is vertically aligned with the soccer ball and the robot's gripper is not near the soccer ball, the robot should push the gripper into the soccer ball.
-- When the robot's gripper is near the soccer ball and the soccer ball is below the robot's gripper, the robot should push the soccer ball towards the target location.
+- When the robot's gripper is near the soccer ball and the soccer ball is below the robot's gripper, the robot should push the soccer ball towards the target location. The robot should use its sensors to accurately measure the distance and speed required for pushing the ball towards the target location and adjust its movement accordingly.

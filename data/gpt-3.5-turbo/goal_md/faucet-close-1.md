@@ -1,6 +1,6 @@
 To turn the faucet right reliably, the robot should perform the following steps:
-    Steps:  1. Put the gripper around the faucet handle  2. Turn the gripper to the right to close the faucet
-    First, put the gripper around the faucet handle.
-    - When the robot's gripper is not around the faucet handle, move the robot's gripper until the robot's gripper is around the faucet handle
-    Once the gripper is around the faucet handle, we can start turning to close the faucet.
-    - While the faucet is not fully turned or the gripper is not fully right, continuously turn the gripper to the right until the faucet is fully closed.
+    Steps:  1. Put gripper around the faucet handle  2. Turn the handle right to close the faucet
+    First, move the robot's gripper to put it around the faucet handle.
+    - When the robot's gripper is not around the faucet handle, move the robot's gripper until the robot's gripper is around the faucet handle and the robot's gripper is closed
+    Once the gripper is around the handle, turn the handle to the right to close the faucet.
+    - When the robot's gripper is around the faucet handle, turn the handle right until the faucet is closed.

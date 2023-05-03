@@ -1,8 +1,10 @@
 
-    Steps:  1. Put gripper in front of door handle  2. Push against the door handle to close the door  3. Push the door closers harder  4. Move the door handle to the target location
-    If the robot's gripper is not in front of the door handle, push against door handle to close the door. Do this by moving the robot's gripper until it's in front of the door handle.
-    - When the robot's gripper is not in front of door handle, move the robot's gripper until the robot's gripper is in front of the door handle
-    If the robot's gripper is in front of the door handle and the door isn't closed all the way, push harder.
-    - When the door is not closed, move the robot's gripper until the robot's gripper is near the door handle
-    Once the door is closed, move the door handle to the target location.
-    - When the door handle is not near the target location, move the robot's gripper until the door handle is near the target location
+    Steps:  1. Put gripper left of the door handle  2. Start pushing against the door handle to close the door  3. Push the door closed harder
+    We need to put the gripper near the door handle before we can push it, because of the angle of the robot's gripper.
+    - When the robot's gripper is not almost vertically aligned with the door handle, move the robot's gripper until the robot's gripper is almost vertically aligned with the door handle and the robot's gripper is closed
+    As long as the gripper is almost lined up, closing it should line it up all the way.
+    - When the robot's gripper is vertically aligned with the door handle, move the robot's gripper until the robot's gripper is right of the door handle
+    If the door handle is left of the robot's gripper, we can start pushing the door closed.
+    - When the robot's gripper is not near the door handle and the robot's gripper is right of the door handle, move the robot's gripper until the robot's gripper is near the door handle
+    Once the robot's gripper is near the door handle, push the door closed until it's near the target location.
+    - When the robot's gripper is right of the door handle and the robot's gripper is near the door handle, move the robot's gripper until the robot's gripper is above the target location

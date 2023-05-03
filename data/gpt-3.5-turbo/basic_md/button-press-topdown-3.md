@@ -1,3 +1,4 @@
 To push the button down from above reliably, the robot should perform the following steps:
 - When the robot's gripper is not vertically aligned with the button, the robot should put the gripper above the button.
-- When the robot's gripper is vertically aligned with the button, the robot should descend the gripper onto the button and apply pressure until the button is pressed down.
+- When the robot's gripper is vertically aligned with the button and the robot's gripper is not directly above the button's top surface, the robot should move the gripper directly above the button's top surface.
+- When the robot's gripper is above the button's top surface and the button is not pressed, the robot should push down on the button. The robot may need to adjust the force used to push the button based on the button's resistance to being pressed.

@@ -1,19 +1,23 @@
 
-
-Solution:
-
-```
+    
+    
 # plate-slide: slide the plate into the target location
-# def plate_slide(robot):
+def plate_slide(robot):
     # Steps:
-    #  1. Put gripper above plate
-    #  2. Push plate into the target location
-    # First, put the gripper above the plate, so that we don't bump it while
-    # trying to push it.
+    #  1. Put gripper above the plate
+    #  2. Push gripper into the plate, trapping it
+    #  3. Slide the plate to the goal location
+    # First, the gripper should be put above the plate.
     if check("the robot's gripper is not above the plate"):
         robot.put("gripper above plate")
-    # Once the gripper is above the plate, just push the plate into the target 
-    # location.
-    if check("the robot's gripper is above the plate"):
-        robot.push("plate into the target location")
-```
+    # If the gripper is aligned with the plate but not near it, move the gripper 
+    # down to trap the plate.
+    if check("the robot's gripper is vertically aligned with the plate and the robot's gripper is not near plate"):
+        robot.push("gripper into plate")
+    # If the gripper is near the plate, we've probably trapped the plate and can 
+    # slide it to the goal. Close the gripper to make sure we keep control of it.
+    if check("the robot's gripper is near the plate and the gripper is open"):
+        robot.close("gripper around plate")
+    # Slide the plate to the goal.
+    if check("the robot's gripper is closed around the plate"):
+        robot.slide("plate to goal")

@@ -1,10 +1,16 @@
 
 
-If check("the robot's gripper is not near the mug"):
-    robot.move("gripper to the mug")
-if check("the robot's gripper is near the mug"):
-    robot.grab("mug")
-if check("the robot's gripper is holding mug and the mug is not above the goal place"):
-    robot.move("mug to the goal")
-if check("the robot's gripper is holding mug and the mug is near the goal place"):
-    robot.place("mug at the goal")
+The code should look like this:
+
+```
+# coffee-push: grab the mug and move it to the target location
+def coffee_push(robot):
+    if check("the robot's gripper is not above mug"):
+        robot.put("gripper above mug")
+    if check("the robot's gripper is not around mug"):
+        robot.grab("mug")
+    if check("the mug is not in the target location"):
+        robot.move("mug to goal")
+    if check("the goal is reached"):
+        robot.release("mug at goal")
+```

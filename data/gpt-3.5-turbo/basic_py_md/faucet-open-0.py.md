@@ -1,8 +1,6 @@
 # faucet-open: turn the faucet left
-# def faucet_open(robot):
-    if check("the robot's gripper is not vertically aligned with the faucet handle and the robot's gripper is not below the faucet handle"):
-        robot.move("gripper below faucet handle")
-    if check("the robot's gripper is not vertically aligned with the faucet handle and the robot's gripper is below the faucet handle"):
-        robot.move("gripper above faucet handle")
-    if check("the robot's gripper is vertically aligned with the faucet handle"):
-        robot.turn("faucet left")
+def faucet_open(robot):
+    if check("the robot's gripper is not near the faucet knob and the faucet knob is right of the robot's gripper"):
+        robot.move("gripper to right of faucet knob")
+    if check("the robot's gripper is near the faucet knob"):
+        robot.rotate("faucet left")

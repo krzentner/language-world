@@ -1,0 +1,1 @@
+Unfortunately, the given task `sweep-into` does not specify what type of objects the robot is dealing with or what actions it needs to perform in order to complete the task. Without more information, it is difficult to provide specific steps for the robot to follow. Can you please provide more details about the task and what the robot needs to do to perform it successfully?

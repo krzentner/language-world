@@ -1,18 +1,25 @@
 
     # Steps:
-    #  1. Put the stick in front of the thermos
-    #  2. Put the robot's gripper above the stick
-    #  3. Lower the robot's gripper onto the stick
-    #  4. Push the stick so that it pushes the thermos to the target location
-    # Put the stick in front of the thermos.
-    if check("the stick is not in front of the thermos"):
-        robot.move("stick in front of thermos")
-    # Put the robot's gripper above the stick.
+    #  1. Put gripper above stick
+    #  2. Drop gripper around stick
+    #  3. Close gripper around stick
+    #  4. Move stick to the thermos
+    #  5. Push the thermos to the target location
+    # First, put the gripper above the stick.
     if check("the robot's gripper is not above the stick"):
-        robot.move("gripper above stick")
-    # Lower the robot's gripper onto the stick
-    if check("the robot's gripper is not around the stick"):
-        robot.slide("gripper onto stick")
-    # Push the stick so that it pushes the thermos to the target location.
-    if check("the robot's gripper is around the stick"):
-        robot.push("stick towards target location")
+        robot.place("gripper above stick")
+    # If the gripper is not around the stick, move it around the stick.
+    if check("the gripper is not around the stick and the robot's gripper is open"):
+        robot.drop("gripper around stick")
+    # If the gripper is near the stick and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near the stick and the robot's gripper is open"):
+        robot.close("gripper around stick")
+    # If we've closed the gripper, we've probably grabbed the stick.
+    # Move the stick to the thermos.
+    if check("the robot's gripper is closed and the stick is not near thermos"):
+        robot.place("stick near thermos")
+    # We placed the stick near the thermos, so try to push it toward the target
+    # location.
+    if check("the stick is near thermos"):
+        robot.push("thermos toward goal")

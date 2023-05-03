@@ -1,23 +1,19 @@
 
 
-The steps are as follows:
+The goal of this task is to slide a plate back into a target location.
 
-1. Put gripper near plate
-2. Slide plate back into target location
+Steps:
+  1. Put gripper above the plate
+  2. Slide the plate to the left
 
-The code should look like this:
+If the robot's gripper is not above the plate, move it so that it is.
 
+```    if check("the robot's gripper is not above the plate"):
+        robot.move_gripper("above the plate")
 ```
-# plate-slide-back: slide the plate back into the target location
-# def plate_slide_back(robot):
-    # Steps:
-    #  1. Put gripper near plate
-    #  2. Slide plate back into target location
-    # First, put the gripper near the plate.
-    if check("the robot's gripper is not near the plate"):
-        robot.move_gripper("near the plate")
-    # If the plate is not lined up with the target location, slide it back into
-    # the target location.
-    if check("the plate is not horizontally aligned with the target location"):
-        robot.move_gripper("horizontally aligned with the target location")
+
+Once the gripper is above the plate, move it slightly to the left, which should slide the plate back into the target location.
+
+```    if check("the robot's gripper is above the plate"):
+        robot.move_gripper("slightly to the left")
 ```

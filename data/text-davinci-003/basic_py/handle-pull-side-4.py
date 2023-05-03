@@ -1,7 +1,5 @@
 
-    if check("the robot's gripper is not above the handle"):
-        robot.place("gripper above handle")
-    if check("the robot's gripper is above the handle and the robot's gripper is open"):
-        robot.drop("gripper around handle")
-    if check("the robot's gripper is around the handle and the robot's gripper is closed"):
-        robot.pull("up on handle")
+    if check("the handle is not left of the robot's gripper and the handle is not forward aligned with the robot's gripper"):
+        robot.grab("handle")
+    if check("the robot's gripper is forward aligned with handle"):
+        robot.pull("upward on handle")

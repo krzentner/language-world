@@ -1,24 +1,22 @@
 
 
-Steps:
- 1. Put gripper on top of door handle  
- 2. Grip the door handle with gripper
- 3. Turn the gripper clockwise to unlock the door
+Here's the solution:
 
 ```
 # door-unlock: turn the dial on the door
-# def door_unlock(robot):
+def door_unlock(robot):
     # Steps:
-    #  1. Put gripper on top of door handle
-    #  2. Grip the door handle with gripper
-    #  3. Turn the gripper clockwise to unlock the door
-   
-    # First, put the gripper above the door handle 
-    if check("the robot's gripper is not above the door handle"):
-        robot.move_gripper("above the door handle", close_gripper=True)
-    # Next, turn the gripper clockwise to grip the handle
-    if check("the robot's gripper is not in front of the door handle"): 
-        robot.move_gripper("in front of the door handle")
-    # Finally, rotate the gripper clockwise to unlock the door
-    if check("the robot's gripper is in front of the door handle"):
-        robot.rotate_gripper("clockwise")
+    #  1. Put gripper above or near door handle
+    #  2. Line up gripper with door handle
+    #  3. Twist the handle to the unlock position
+    # First, put the gripper above the door handle.
+    if check("the robot's gripper is not above or near door handle"):
+        robot.move_gripper("above or near door handle")
+    # If the robot's gripper is near the door handle, line it up with the door handle.
+    if check("the robot's gripper is near door handle"):
+        robot.move_gripper("horizontally aligned with the door handle", close_gripper=True)
+    # Finally, if the gripper is lined up with the door handle, twist the 
+    # handle to unlock the door.
+    if check("the robot's gripper is horizontally aligned with the door handle"):
+        robot.move_gripper("twist to unlock position")
+```

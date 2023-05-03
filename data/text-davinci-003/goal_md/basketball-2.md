@@ -1,8 +1,10 @@
 
-    Steps:  1. Put gripper over the ball  2. Line up the ball with the hoop  3. Drop the ball in the hoop
-    First, put the gripper roughly over the ball.
-    - When the robot's gripper is not above the ball, move the robot's gripper until the robot's gripper is above the ball
-    If the ball isn't lined up with the hoop, we should line it up by moving gripper forward and back.
-    - When the ball is not almost aligned with the hoop and the robot's gripper is not almost vertically aligned with the ball, move the robot's gripper until the ball is almost always aligned with the hoop and the robot's gripper is closed
-    If the ball is lined up with the hoop, just drop the ball in the hoop.
-    - When the ball is aligned with the hoop, move the robot's gripper until the robot's gripper is right of the ball
+    Steps:  1. Put gripper above the basketball  2. Grab the basketball with the gripper  3. Line up the basketball with the hoop  4. Push and release the basketball
+    The first step is to put the gripper above the basketball.
+    - When the robot's gripper is not vertically aligned with the basketball, move the robot's gripper until the robot's gripper is vertically aligned with the basketball
+    Now that the gripper is in place, grab the basketball with the gripper.
+    - When the robot's gripper is not around the basketball and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the basketball and the robot's gripper is closed
+    Once the basketball is in the robot's grasp, line up the basketball with the hoop.
+    - When the robot's gripper is vertically aligned with the basketball and basketball is not horizontally aligned with the hoop, move the robot's gripper until the robot's gripper is horizontally aligned with the hoop
+    Once the basketball is lined up with the hoop, we just push and release the basketball.
+    - When the robot's gripper is horizontally aligned with the hoop and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the hoop and the robot's gripper is open

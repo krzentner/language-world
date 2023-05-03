@@ -1,7 +1,6 @@
-The task `button-press` requires the robot to push the button from the front reliably. To do this, the robot should perform the following steps:
-
-    Steps: 1. Align gripper vertically with the button
-    We need to line up the robot's gripper vertically with the button first. 
-    - When the robot's gripper is not vertically aligned with button, move the robot's gripper until the robot's gripper is vertically aligned with the button and the robot's gripper is closed
-    Once the robot's gripper is vertically aligned with the button, we can move closer to the button and press it. 
-    - When the robot's gripper is vertically aligned with button and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the button
+To push the button from the front reliably, the robot should perform the following steps:
+    Steps: 1. Move gripper in front of the button  2. Push gripper into the button to activate it
+    First, move the gripper in front of the button.
+    - When the robot's gripper is not in front of the button, move the robot's gripper until the robot's gripper is in front of the button
+    Once the gripper is in front of the button, push the gripper forward into the button to activate it.
+    - When the robot's gripper is in front of the button, move the robot's gripper until the robot's gripper is pushing into the button

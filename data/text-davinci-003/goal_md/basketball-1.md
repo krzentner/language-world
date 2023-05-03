@@ -1,11 +1,11 @@
 
+    Steps:  1. Put gripper above the ball  2. Grab the ball with the gripper  3. Line up the hoop with the ball  4. Throw the ball into the hoop 
 
-    Steps:  1. Put gripper above the ball  2. Drop gripper around the ball  3. Push the ball towards the hoop  4. Release the grip when the ball is close to the hoop   
-    First, put the gripper roughly above the ball.
-    - When the robot's gripper is not above ball, move the robot's gripper until the robot's gripper is above the ball
-    We need to grab the ball to push it. Once the gripper is around the ball, close it.
-    - When the robot's gripper is around ball and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the ball and the robot's gripper is closed
-    Now we move the ball towards the hoop.
-    - When the robot's gripper is near the ball, move the robot's gripper until the robot's gripper is left of the hoop and the robot is releasing the grip on the ball
-    Once the ball is close to the hoop, release the grip so it can shoot it in.
-    - When the robot's gripper is left of the hoop and the robot is gripping the ball, move the robot's gripper until the robot's gripper is releasing the grip on the ball
+First, the robot should put the gripper above the ball.
+    - When the robot's gripper is not vertically aligned with the ball, move the robot's gripper until the robot's gripper is vertically aligned with the ball
+    Once the gripper is lined up with the ball, the robot can grab it by closing the gripper.
+    - When the robot's gripper is vertically aligned with the ball and the robot's gripper is not near the ball, move the robot's gripper until the robot's gripper is near the ball and the robot's gripper is closed
+    If the robot's gripper is nearest to the ball and open, we should be able to grab it by closing the gripper.
+    - When the robot's gripper is near the ball and the robot's gripper is closed, move the robot's gripper until the hoop is forward aligned with the ball
+    Once the hoop is aligned with the ball, we can throw it.
+    - When the hoop is forward aligned with the ball, move the robot's gripper in an upward motion, releasing the ball at the desired angle and velocity

@@ -1,9 +1,25 @@
 
-    if check("the robot's gripper is not above the stick"):
-        robot.put("gripper above stick")
+    if check("the robot's gripper is not near the stick"):
+        robot.reach("to stick")
     if check("the robot's gripper is not around the stick"):
-        robot.drop("gripper around stick")
-    if check("the robot's gripper is around the stick and the robot's gripper is not above the thermos") :
-        robot.move("stick to thermos")
-    if check("the robot's gripper is above the thermos and the thermos is below the robot's gripper"):
-        robot.pull("the thermos with the stick to target location")
+        robot.grab("stick")
+    if check("the robot's gripper is around the stick"):
+        robot.pull("the thermos to the goal")
+
+# stick-push: grab the stick and use it to push the thermos to the target location
+def stick_push(robot):
+    if check("the robot's gripper is not near the stick"):
+        robot.reach("to stick")
+    if check("the robot's gripper is not around the stick"):
+        robot.grab("stick")
+    if check("the robot's gripper is around the stick"):
+        robot.push("the thermos to the goal")
+        
+# stir-spoon: grab the spoon and use it to stir the mixture
+def stir_spoon(robot):
+    if check("the robot's gripper is not near the spoon"):
+        robot.reach("to spoon")
+    if check("the robot's gripper is not around the spoon"):
+        robot.grab("spoon")
+    if check("the robot's gripper is around the spoon"):
+        robot.stir("mixture")

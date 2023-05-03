@@ -1,24 +1,24 @@
 # coffee-push: grab the mug and move it to the target location
-# def coffee_push(robot):
-# Steps:
-#   1. Detect the mug on the table
-#   2. Move gripper above the mug
-#   3. Close gripper to grab the mug
-#   4. Move gripper to target location
-#   5. Open gripper to release the mug
-# Use object detection to find the mug on the table
 def coffee_push(robot):
-    if check("the mug is not detected on the table"):
-        robot.detect("mug")
-    # Move the gripper above the mug
-    if check("the gripper is not above the mug"):
+    # Steps:
+    # 1. Put gripper above mug
+    # 2. Drop gripper around mug
+    # 3. Close gripper around mug
+    # 4. Slide mug to target location
+    # First, put the gripper roughly above the mug, so that we don't bump it while
+    # trying to grab it.
+    if check("the robot's gripper is not above the mug"):
         robot.place("gripper above mug")
-    # Close the gripper to grab the mug
-    if check("the gripper is above the mug and open"):
+    # If the gripper isn't around the mug, put it around the mug.
+    if check("the robot's gripper is not around mug and the robot's gripper is open"):
+        robot.drop("gripper around mug")
+    # If the gripper is near the mug and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near mug and the robot's gripper is open"):
         robot.close("gripper around mug")
-    # Move the gripper to the target location
-    if check("the gripper is closed and the mug is not at the target location"):
-        robot.move("gripper to goal location")
-    # Open the gripper to release the mug
-    if check("the gripper is at the goal location and closed"):
-        robot.open("gripper")
+    # We closed the gripper, and the mug is still near the gripper, so maybe we
+    # grabbed it.
+    # Try to slide the mug to the target location.
+    # If we didn't grab it, we'll just go back to an earlier step.
+    if check("the robot's gripper is above mug and the robot's gripper is closed"):
+        robot.slide("mug to target location")

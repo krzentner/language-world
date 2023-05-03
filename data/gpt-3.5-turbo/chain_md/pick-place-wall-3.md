@@ -1,17 +1,17 @@
 To pick up the puck and hold it at the target location with a short wall in the way reliably, the robot should perform the following steps:
 
-1. Put gripper above puck on the near side of the wall
-   We need to put the gripper above the puck on the near side of the wall so that we can grab it.
-   - When the robot's gripper is not above the puck on the near side of the wall, the robot should place the gripper above the puck on the near side of the wall.
+1. Put the gripper above the puck and the short wall
+2. Move the gripper down to the puck and grab it
+3. Lift the gripper and the puck above the short wall
+4. Move the gripper to the target location
+5. Lower the gripper and release the puck at the target location
 
-2. Drop gripper around puck and lift it over the wall
-   Once we have the gripper above the puck, we need to drop the gripper around it and lift it up over the wall.
-   - When the robot's gripper is above the puck on the near side of the wall and the robot's gripper is open, the robot should drop the gripper around the puck and lift it up over the wall.
+For step 1, the robot should position the gripper such that it is above both the puck and the short wall. 
 
-3. Put gripper above target on the far side of the wall
-   Now that we have the puck on the far side of the wall, we need to put the gripper above the target.
-   - When the robot's gripper is not above the target on the far side of the wall, the robot should place the gripper above the target on the far side of the wall.
+For step 2, the robot should move the gripper down to the puck and grab it using the gripper.
 
-4. Lower gripper and release puck at target location
-   Finally, we need to lower the gripper and release the puck at the target location.
-   - When the robot's gripper is above the target on the far side of the wall and the robot's gripper is closed, the robot should lower the gripper and release the puck at the target location.
+For step 3, the robot should lift the gripper and the puck above the short wall to avoid colliding with it. 
+
+For step 4, the robot should move the gripper to the target location while holding onto the puck. 
+
+For step 5, the robot should lower the gripper and release the puck at the target location.

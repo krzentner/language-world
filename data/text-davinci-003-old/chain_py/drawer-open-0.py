@@ -10,7 +10,7 @@
     # Once the gripper is lined up above the drawer handle, we should be able to
     # grab the drawer handle by moving the gripper down around it.
     if check("the robot's gripper is vertically aligned with drawer handle and the robot's gripper is not around drawer handle"):
-        robot.put("gripper around drawer handle")
+        robot.drop("gripper around drawer handle")
     # Once the gripper is around the drawer handle, we can just pull the drawer
     # open.
     if check("the robot's gripper is around drawer handle"):

@@ -1,10 +1,16 @@
 
 
-if check("the robot's gripper is not near the stick"):
-    robot.grab("stick")
-if check("the robot's gripper is not near thermos and the stick is not above the thermos"):
-    robot.put("stick above thermos")
-if check("the stick is above the thermos and the robot's gripper is not forward aligned with the thermos"):
-    robot.align("stick with thermos")
-if check("the stick is forward aligned with the thermos and the robot's gripper is near the thermos"):
-    robot.push("stick forward")
+The program should be as follows: 
+
+```
+# stick-push: use the stick to push the thermos to the target location
+# def stick_push(robot):
+    if check("the robot's gripper is not above the stick"):
+        robot.put("gripper above stick")
+    if check("the robot's gripper is not around the stick and the robot's gripper is open"):
+        robot.drop("gripper around stick")
+    if check("the robot's gripper is above the stick and the robot's gripper is closed"):
+        robot.move("stick to the goal")
+    if check("the robot's gripper is near the stick and the thermometer is below the stick"):
+        robot.push("stick towards the goal")
+```

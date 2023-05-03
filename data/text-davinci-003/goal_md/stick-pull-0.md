@@ -1,10 +1,10 @@
 
-    Steps:  1. Put gripper near the stick  2. Close the gripper around the stick  3. Slide the stick towards the thermos  4. Pull the stick towards the goal
-    First, put the gripper near the stick.
-    - When the robot's gripper is not near the stick, move the robot's gripper until the robot's gripper is near the stick
-    If the gripper is near the stick, grab the stick by closing the gripper.
-    - When the robot's gripper is not around the stick and the robot's gripper is open, move the robot's gripper until the robot's gripper is around the stick and the robot's gripper is closed
-    Once the gripper is around the stick, slide the stick towards the thermos so that the stick is above the thermos before pulling.
-    - When the stick is not above the thermos and the thermos is not near the stick, move the robot's gripper until the stick is above the thermos and the thermos is near the stick
-    If the stick is above the thermos and the thermos is near the stick, pull the stick towards the goal to move the thermos.
-    - When the thermos is near the stick, move the robot's gripper until the robot's gripper is near the target location
+    Steps:  1. Position the gripper on the left side of the stick    2. Grab the stick with the gripper   3. Pull the stick towards the thermos until the thermos starts to move   4. Slowly pull the thermos towards the target location
+    First, put the gripper on the left side of the stick - this will give us more control when we grab the stick.
+    - When the robot's gripper is not left of the stick, move the robot's gripper until the robot's gripper is left of the stick
+    Once the gripper is left of the stick, just grab it.
+    - When the robot's gripper is left of the stick, move the robot's gripper until the robot's gripper is around the stick and the robot's gripper is closed
+    Now that the gripper is around the stick, we can pull it towards the thermos until the thermos starts to move.
+    - When the thermos is not moving, move the robot's gripper until the thermos starts to move
+    Once the thermos is moving, we can slowly pull it to the target location.
+    - When the robot's gripper is near the thermos, move the robot's gripper until the robot's gripper is near the target location

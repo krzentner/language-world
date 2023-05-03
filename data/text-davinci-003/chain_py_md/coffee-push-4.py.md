@@ -1,27 +1,23 @@
 
 
-The steps to complete this task are as follows:
-
-1. Put the gripper above the mug.
-2. Grab the mug with the gripper.
-3. Move the mug to the target location.
-
-Therefore, the program will look like this:
+Then, write a program to complete the task:
 
 ```
 # coffee-push: grab the mug and move it to the target location
-# def coffee_push(robot):
+def coffee_push(robot):
     # Steps:
-    #  1. Put gripper above mug
-    #  2. Grab mug with gripper
-    #  3. Move mug to target location
-    # Put the gripper above the mug.
-    if check("the robot's gripper is not above the mug"):
-        robot.put("gripper above mug")
-    # Grab the mug with the gripper.
-    if check("the robot's gripper is not around mug and the robot's gripper is open"):
-        robot.grab("mug")
-    # Move the mug to the target location.
-    if check("the robot's gripper is around mug and the robot's gripper is closed"):
-        robot.move("mug to target location")
-``
+    #   1. Put gripper above mug handle
+    #   2. Grab the mug handle with the gripper
+    #   3. Push the mug to the target location
+    
+    # First, put the gripper above the mug handle.
+    if check("the robot's gripper is not vertically aligned with the mug handle"):
+        robot.put("gripper above mug handle")
+    # Once the gripper is aligned with the mug handle, move the gripper down 
+    # around it to grab the handle.
+    if check("the robot's gripper is vertically aligned with the mug handle and the robot's gripper is not around mug handle"):
+        robot.put("gripper around mug handle")
+    # Once the gripper is around the handle, push it towards the goal.
+    if check("the robot's gripper is around mug handle"):
+        robot.push("mug to goal")
+```

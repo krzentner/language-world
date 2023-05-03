@@ -1,29 +1,19 @@
-```
 # pick-out-of-hole: pick up the peg out of the hole and hold it at the target location
-# def pick_out_of_hole(robot):
+def pick_out_of_hole(robot):
     # Steps:
-    #  1. Put gripper above the peg
-    #  2. Grab the peg with the gripper
-    #  3. Lift the peg out of the hole
-    #  4. Move the peg to the target location
-    #  5. Place the peg at the target location
-    # First, put the gripper above the peg.
-    if check("the robot's gripper is not vertically aligned with the peg"):
-        robot.put("gripper above peg")
-    # If the gripper is not around the peg, grab it.
-    if check("the robot's gripper is not around peg and the robot's gripper is open"):
-        robot.drop("gripper around peg")
-    # If the gripper is near the peg and open, maybe we can grab it by closing
-    # the gripper.
-    if check("the robot's gripper is near peg and the robot's gripper is open"):
+    #  1. Put gripper above the hole
+    #  2. Slide gripper down into the hole until it touches the peg
+    #  3. Grab the peg by closing the gripper around it
+    #  4. Lift the peg out of the hole and move it to the target location
+    # First, put the gripper above the hole, lining it up with the peg.
+    if check("the robot's gripper is not vertically aligned with the hole"):
+        robot.put("gripper above hole")
+    # Once the gripper is above the hole, we can slide it down into the hole until it touches the peg.
+    if check("the robot's gripper is above the hole and the robot's gripper is not touching the peg"):
+        robot.slide("gripper down into the hole")
+    # If the gripper is touching the peg, we can grab it by closing the gripper around it.
+    if check("the robot's gripper is touching the peg"):
         robot.close("gripper around peg")
-    # We closed the gripper around the peg, so lift it out of the hole.
-    if check("the robot's gripper is vertically aligned with the peg and the robot's gripper is closed"):
-        robot.lift("peg out of hole")
-    # Move the peg to the target location.
-    if check("the robot's gripper is holding peg in the air"):
-        robot.move("peg to goal")
-    # Once the peg is above the target location, place it.
-    if check("the robot's gripper is above goal"):
-        robot.place("peg at goal")
-```
+    # With the peg in the gripper, we can lift it out of the hole and move it to the target location.
+    if check("the robot's gripper has the peg and is above the target location"):
+        robot.place("peg at the goal")

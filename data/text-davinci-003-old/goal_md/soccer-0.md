@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above the soccer ball  2. Push the soccer ball with the gripper  3. Move the soccer ball to the goal
-    The robot should start by putting the gripper above the soccer ball.
-    - When the robot's gripper is not above the soccer ball, move the robot's gripper until the robot's gripper is above the soccer ball
-    If the gripper is above the soccer ball, the robot can push it by putting the gripper below the soccer ball and moving the gripper to the left or right.
-    - When the robot's gripper is above the soccer ball and the soccer ball is not below the robot's gripper, move the robot's gripper until the robot's gripper is below the soccer ball
-    If the soccer ball is below the gripper and the robot is pushing it, we should move the soccer ball to the goal.
-    - When the robot's gripper is below the soccer ball and the soccer ball is not near the target location, move the robot's gripper until the robot's gripper is near the target location
+    Steps:  1. Put gripper above soccer ball  2. Push gripper into top of soccer ball  3. Slide soccer ball to goal
+    The robot should first position the gripper such that the gripper is above the soccer ball, as seen from above.
+    - When the robot's gripper is not above soccer ball, move the robot's gripper until the robot's gripper is above the soccer ball and the robot's gripper is closed
+    After the gripper is in the correct position above the soccer ball, the robot can then push down on the soccer ball, trapping it.
+    - When the robot's gripper is vertically aligned with soccer ball and the robot's gripper is not near soccer ball, move the robot's gripper until the robot's gripper is near the soccer ball and the robot's gripper is closed
+    Moving the gripper will then slide the soccer ball to the target location.
+    - When the robot's gripper is near the soccer ball and the soccer ball is below the robot's gripper, move the robot's gripper until the robot's gripper is above the target location

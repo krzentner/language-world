@@ -1,12 +1,17 @@
 # Steps:
-#  1. Put one end of the stick near the thermos
-#  2. Push the other end of the stick to slide the thermos
-# We'll assume that the robot can manipulate the stick directly rather than
-# needing to control the ends separately.
-# First, put one end of the stick near the thermos.
-if check("one end of the stick is not near the thermos"):
-    robot.move("one end of the stick near the thermos")
-# Once one end of the stick is near the thermos, we can push the other end to
-# slide the thermos.
-if check("one end of the stick is near the thermos"):
-    robot.push("the other end of the stick to slide the thermos")
+    #  1. Put gripper above the stick
+    #  2. Grab the stick with the gripper
+    #  3. Position the gripper near the thermos
+    #  4. Use the stick to push the thermos to the goal
+    # First, put the gripper above the stick.
+    if check("the robot's gripper is not vertically aligned with the stick"):
+        robot.put("gripper above the stick")
+    # If the stick is not in the gripper, grab it.
+    if check("the stick is not in the gripper"):
+        robot.grab("the stick")
+    # If the gripper is holding the stick, position it near the thermos.
+    if check("the stick is in the gripper"):
+        robot.move("gripper near the thermos")
+    # If the gripper is near the thermos, use the stick to push it to the goal.
+    if check("the robot's gripper is near the thermos"):
+        robot.push("the thermos to the goal using the stick")

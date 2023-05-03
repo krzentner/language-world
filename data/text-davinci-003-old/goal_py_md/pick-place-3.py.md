@@ -1,6 +1,6 @@
 
 
-The program should be:
+Here is the program for pick-place:
 
 ```
 # pick-place: pick up the puck and hold it at the target location

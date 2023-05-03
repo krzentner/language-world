@@ -1,12 +1,6 @@
-Here's your code for `door-close` task:
-
-```
 # door-close: push the door closed to the target location
-# def door_close(robot):
-    if check("the robot's gripper is not near the door handle"):
-        robot.grab("door handle")
-    if check("the robot's gripper is backward aligned with the door handle"):
+def door_close(robot):
+    if check("the robot's gripper is not around the door handle"):
+        robot.put("gripper around door handle")
+    if check("the robot's gripper is around door handle and the door is not fully closed"):
         robot.push("door closed")
-``` 
-
-This code will check if the robot's gripper is near the door handle or not. If it's not near, it will grab the handle. Then it checks if the robot's gripper is backward aligned with the door handle or not. If it's backward aligned, it will push the door closed.

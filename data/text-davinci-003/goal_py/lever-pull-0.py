@@ -1,14 +1,12 @@
 
     # Steps:
-    #  1. Put gripper in front of the lever
-    #  2. Grab the lever
-    #  3. Pull lever up
-    # First, line up the gripper with the lever from the front.
-    if check("the robot's gripper is not forward aligned with the lever"):
-        robot.move_gripper("forward aligned with the lever")
-    # If the gripper isn't around the lever, line it up around the lever.
-    if check("the robot's gripper is not around lever"):
-        robot.move_gripper("around the lever", close_gripper=True)
-    # If the gripper is around the lever, just pull it up.
-    if check("the robot's gripper is around lever"):
-        robot.move_gripper("upward")
+    #  1. Line gripper with bottom of lever
+    #  2. Pull the lever
+    # Because this is a lever, the robot needs to grab it with its gripper from
+    # the bottom.
+    if check("the robot's gripper is not vertical aligned with, and not overlapping the lever"):
+        robot.move_gripper("vertically aligned with the lever")
+    # Once the gripper has grabbed the lever, it can just move it up to rotate
+    # the lever.
+    if check("the robot's gripper is vertically aligned with the lever and the robot's gripper is not overlapping the lever"):
+        robot.move_gripper("upward aligned with the lever")

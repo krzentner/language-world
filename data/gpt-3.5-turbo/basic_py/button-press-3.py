@@ -1,4 +1,6 @@
-    if check("the robot's gripper is not in front of the button"):
-        robot.move("gripper in front of the button")
-    if check("the robot's gripper is in front of the button"):
-        robot.push("the button")
+if check("the robot's gripper is not near the button and the robot's gripper is not vertically aligned with button"):
+        robot.move("gripper to button")
+    if check("the robot's gripper is near the button"):
+        robot.push("button")
+    if check("the button is not pressed"):
+        robot.push("button harder")

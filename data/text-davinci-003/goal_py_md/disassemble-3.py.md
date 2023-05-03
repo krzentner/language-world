@@ -1,27 +1,27 @@
 
 
 Steps:
-1. Put gripper above wrench
-2. Grab wrench with gripper
-3. Pull wrench off of the peg
-
-If the robot's gripper is not near the wrench, move it near the wrench.
+1. Put gripper above wrench handle
+2. Grab wrench handle with the gripper
+3. Pull wrench off the peg
 
 ```
-# disassemble: pull the wrench off of the peg
-# def disassemble(robot):
+# disassemble: pull the wrench off the peg
+def disassemble(robot):
     # Steps:
-    #  1. Put gripper above wrench
-    #  2. Grab wrench with gripper
-    #  3. Pull wrench off of the peg
-    # If the robot's gripper is not near the wrench, move it near the wrench.
-    if check("the robot's gripper is not near the wrench"):
-        robot.move_gripper("near the wrench")
-    # Once the gripper is near the wrench, grab the wrench by closing the
-    # gripper.
-    if check("the robot's gripper is near the wrench and the robot's gripper is open"):
-        robot.move_gripper("above the wrench", close_gripper=True)
-    # If the robot has the wrench, pull it off the peg.
-    if check("the robot's gripper is closed and the wrench is facing the peg"):
-        robot.move_gripper("away from the peg")
-```
+    #  1. Put gripper above wrench handle
+    #  2. Grab wrench handle with the gripper
+    #  3. Pull wrench off the peg
+    # First, put the gripper above the wrench handle.
+    if check("the robot's gripper is not vertically aligned with wrench handle"):
+        robot.move_gripper("vertically aligned with the wrench handle")
+    # If the wrench handle isn't left of the gripper, go back to putting the
+    # gripper over the wrench handle.
+    # Because the wrench handle is a small object, check if the gripper is
+    # lined up with it from the side instead of above it.
+    if check("wrench handle is not left of the robot's gripper and wrench handle is not sideways aligned with the robot's gripper"):
+        robot.move_gripper("sideways aligned with the wrench handle", close_gripper=True)
+    # As long the gripper is still mostly around the wrench handle, start pulling
+    # it off the peg.
+    if check("the robot's gripper is sideways aligned with wrench handle"):
+        robot.move_gripper("left of the peg")

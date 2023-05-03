@@ -1,20 +1,21 @@
 
     # Steps:
-    #  1. Put gripper near stick handle
-    #  2. Put stick handle near thermos
-    #  3. Pull the thermos using the stick
-    #  4. Pull the thermos using the stick harder
-    # First, put the gripper near the stick handle by moving it in the same
-    # direction that the stick handle moves when pulled.
-    if check("the robot's gripper is not near the stick handle"):
-        robot.move("gripper to stick handle")
-    # Once we have the stick handle and we start pulling, the handle will arc
-    # away from the robot, so we need to put the handle near the thermos.
-    if check("the stick handle is not near thermos"):
-        robot.put("stick handle near thermos")
-    # Now that the thermos is near the stick handle, we can just pull on it.
-    if check("the stick handle is near thermos"):
-        robot.pull("thermos with stick")
-    # If we need more force to move the thermos, pull harder on it.
-    if check("the thermos is still not at target location"):
-        robot.pull("thermos with stick harder")
+    #  1. Put gripper near end of stick
+    #  2. Grab the end of the stick with the gripper
+    #  3. Pull the stick towards the robot
+    #  4. Pull the thermos behind the stick
+    # Since the stick is a long object and the gripper can't grab it around, try
+    # to get the gripper close to the end of it, so we can grab it.
+    if check("the robot's gripper is not near end of stick"):
+        robot.put("gripper near end of stick")
+    # With the gripper near the end of the stick, close the gripper so it can
+    # grab it.
+    if check("the robot's gripper is near end of stick and the gripper is open"):
+        robot.grab("end of the stick")
+    # Try to pull the stick towards the robot, which should also move the
+    # thermos.
+    if check("the robot's gripper is holding the end of the stick"):
+        robot.pull("stick towards the robot")
+    # Pull the thermos behind the stick
+    if check("the robot's gripper is still holding the end of the stick"):
+        robot.pull("thermos behind the stick")

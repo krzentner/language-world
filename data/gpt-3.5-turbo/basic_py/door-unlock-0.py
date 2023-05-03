@@ -1,4 +1,6 @@
-if check("the robot's gripper is not aligned with the door lock"):
-        robot.move("gripper to door lock")
-    if check("the robot's gripper is aligned with the door lock and the lock is not unlocked"):
-        robot.turn("dial to unlock door")
+if check("the robot's gripper is not near the door handle"):
+        robot.move("gripper to door handle")
+    if check("the robot's gripper is not around the door handle and the robot's gripper is open"):
+        robot.put("gripper around door handle")
+    if check("the robot's gripper is around the door handle and the dial is not in the correct position"):
+        robot.turn("dial to correct position")

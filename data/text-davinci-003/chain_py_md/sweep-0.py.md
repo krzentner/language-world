@@ -1,16 +1,21 @@
-    
 
-Steps: 
-1. Put gripper above cube
-2. Drop gripper around cube
-3. Close gripper around cube
-4. Push the cube sideways to the target location
 
-if check("the robot's gripper is not above the cube"):
-    robot.place("gripper above cube")
-if check("the robot's gripper is not around cube and the robot's gripper is open"):
-    robot.drop("gripper around cube")
-if check("the robot's gripper is near cube and the robot's gripper is open"):
-    robot.close("gripper around cube")
-if check("the robot's gripper is above cube and the robot's gripper is closed"):
-    robot.push("cube sideways to target location")
+The program should look like the following:
+
+```
+# sweep: grab the cube and move sideways it to the target location
+def sweep(robot):
+    # Steps:
+    #  1. Put gripper above the cube
+    #  2. Grab the cube with the gripper
+    #  3. Slide the cube sideways to the goal
+    # First, put the gripper above the cube.
+    if check("the robot's gripper is not vertically aligned with the cube"):
+        robot.put("gripper above cube")
+    # If the cube is not left of the gripper, go back to putting the gripper above the cube.
+    if check("cube is not left of the robot's gripper and cube is not forward aligned with the robot's gripper"):
+        robot.grab("cube")
+    # Once the gripper is around the cube, try to slide it to the goal.
+    if check("the robot's gripper is forward aligned with the cube"):
+        robot.slide("cube to goal")
+```

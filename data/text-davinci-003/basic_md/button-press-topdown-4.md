@@ -1,5 +1,3 @@
 
-
-The robot should perform the following steps:
-    - When the robot's gripper is not vertically aligned with button, the robot should put gripper above button.
-    - When the robot's gripper is vertically aligned with button, the robot should push down on button.
+    - When the robot's gripper is not above button, the robot should place gripper above the button.
+    - When the robot's gripper is near button and has not pressed, the robot should keep pressing button until the desired action is achieved.

@@ -1,14 +1,17 @@
 
     # Steps:
-    #  1. Put gripper near the wall
-    #  2. Push the wall down to press the button
-    # We want to put the gripper near the wall so that it doesn't accidentally
-    # push the button once we start pushing the wall.
-    # We also want to make sure the front end of the gripper is near the
-    # button because the wall will likely get in the way if it is not.
-    if check("the robot's gripper is not in front of the button and the robot's gripper is not near the wall"):
-        robot.move_gripper("near the wall", close_gripper=True)
-    # Now that the gripper is near the wall and button, push the wall towards
-    # the button to press it.
-    if check("the robot's gripper is near the wall"):
-        robot.move_gripper("in front of the button")
+    #  1. Put gripper at end of wall
+    #  2. Line up gripper with the button
+    #  3. Push the button
+    # First, put the gripper at the end of the wall.
+    if check("the robot's gripper is not at the end of the wall"):
+        robot.move_gripper("at the end of the wall")
+    # If the gripper isn't lined up with the button, move the gripper up until
+    # it is.
+    # The wall may have gotten in the way, so we don't mind if the gripper is
+    # above the wall a bit.
+    if check("the robot's gripper is not vertically aligned with button"):
+        robot.move_gripper("vertically aligned with the button")
+    # Now that the gripper is lined up with the button, just push the button.
+    if check("the robot's gripper is vertically aligned with button"):
+        robot.move_gripper("forward aligned with the button")

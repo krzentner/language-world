@@ -1,5 +1,5 @@
 
-    if check("the robot's gripper is not above reach target"):
-        robot.reach("to goal")
-    if check("the robot's gripper is not above wall and the wall is in the path towards the target"):
-        robot.reach("around wall")
+    if check("the robot's gripper is not near the wall"):
+        robot.move("gripper to wall")
+    if check("the robot's gripper is near the wall"):
+        robot.reach("over wall to goal")

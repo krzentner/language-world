@@ -1,8 +1,8 @@
 
-    Steps:  1. Line up gripper with the handle of the wrench  2. Open the gripper  3. Pull the wrench off the peg
-    First, move the gripper so it is lined up with the handle of the wrench.
-    - When the robot's gripper is not vertically aligned with the handle of the wrench, move the robot's gripper until the robot's gripper is vertically aligned with the handle of the wrench and the robot's gripper is closed
-    As long as the gripper is lined up with the handle, we can open it to grab the wrench.
-    - When the robot's gripper is vertically aligned with the handle of the wrench and the robot's gripper is closed, move the robot's gripper until the robot's gripper is opened
-    Once the gripper is open, we can pull the wrench off the peg.
-    - When the robot's gripper is opened, move the robot's gripper until the robot's gripper is above the peg and the robot's gripper is closed around the handle of the wrench
+    Steps:  1. Place the gripper above the peg  2. Grab the wrench  3. Pull the wrench back with the gripper
+    The robot should put the gripper above the peg and try to grab the wrench with the gripper.
+    - When the robot's gripper is not above the peg, move the robot's gripper until the robot's gripper is above the peg
+    If the gripper is already around the wrench, let's start pulling the wrench off with the gripper.
+    - When the robot's gripper is not around the wrench and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the wrench and the robot's gripper is closed
+    If the gripper is near the wrench and closed, we've probably trapped the wrench and can pull it back.
+    - When the robot's gripper is near the wrench and the robot's gripper is closed, move the robot's gripper until the robot's gripper is behind the peg

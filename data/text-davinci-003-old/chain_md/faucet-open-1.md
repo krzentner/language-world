@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above the faucet handle  2. Grab the faucet handle with the gripper  3. Move the handle counter-clockwise
-    First, put the gripper above the faucet handle.
-    - When the robot's gripper is not vertically aligned with the faucet handle, the robot should put gripper above faucet handle.
-    Once the gripper is lined up above the faucet handle, we should be able to grab the faucet handle by moving the gripper down around it.
-    - When the robot's gripper is vertically aligned with faucet handle and the robot's gripper is not around faucet handle, the robot should grab faucet handle.
-    Once the gripper is around the faucet handle, we can just move it counter clockwise to turn the faucet open.
-    - When the robot's gripper is around faucet handle, the robot should move handle counter-clockwise.
+    Steps:  1. Put gripper near the faucet handle  2. Put gripper under the faucet handle  3. Push the faucet handle left until fully open
+    We need to move the gripper near the faucet handle and then put the gripper under it.
+    - When the robot's gripper is not near the faucet handle, the robot should move gripper near faucet handle.
+    Now that the gripper is near the faucet handle, we need to put the gripper under the handle.
+    - When the robot's gripper is near faucet handle and the robot's gripper is not under faucet handle, the robot should put gripper under faucet handle.
+    Now that the gripper is under the handle, we can push the handle left to open the faucet.
+    - When the robot's gripper is under faucet handle, the robot should push faucet handle left until fully open.

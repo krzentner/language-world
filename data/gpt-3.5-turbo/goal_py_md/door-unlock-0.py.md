@@ -1,20 +1,16 @@
 # door-unlock: turn the dial on the door
-# def door_unlock(robot):
+def door_unlock(robot):
     # Steps:
-    #  1. Put gripper around the dial
-    #  2. Turn the dial clockwise
-    #  3. Turn the dial counterclockwise
-    #  4. Turn the dial clockwise
-    #  5. Stop turning the dial
-    # First, put the gripper around the dial.
-    if check("the robot's gripper is not around the dial and the robot's gripper is open"):
-        robot.move_gripper("around the dial", close_gripper=True)
-    # If the gripper is around the dial, turn it clockwise.
-    if check("the robot's gripper is around the dial and the robot's gripper is not turned clockwise"):
-        robot.move_gripper("turned clockwise")
-    # Then turn it counterclockwise.
-    if check("the robot's gripper is turned clockwise and the robot's gripper is not turned counterclockwise"):
-        robot.move_gripper("turned counterclockwise")
-    # Finally, turn it clockwise again.
-    if check("the robot's gripper is turned counterclockwise and the robot's gripper is not turned clockwise a second time"):
-        robot.move_gripper("turned clockwise")
+    #  1. Put gripper near the dial handle
+    #  2. Grip the handle
+    #  3. Turn it 3 times counterclockwise
+    # First, put the gripper near the dial handle.
+    if check("the robot's gripper is not near the dial handle"):
+        robot.move_gripper("near the dial handle")
+    # Once the gripper is near the dial handle, we can grip it.
+    if check("the robot's gripper is near the dial handle and the robot's gripper is not around the dial handle"):
+        robot.move_gripper("around the dial handle")
+    # Once the gripper is around the dial handle, we can turn it 3 times counterclockwise.
+    if check("the robot's gripper is around the dial handle"):
+        for i in range(3):
+            robot.turn_dial("counterclockwise")

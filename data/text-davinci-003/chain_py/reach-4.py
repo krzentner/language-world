@@ -1,7 +1,16 @@
 
     # Steps:
-    #  1. Reach towards the target
-    # We don't have any objects to manipulate, so we can just move the robot's
-    # gripper directly to the target location
-    if check("the robot's gripper is not near reach target"):
-        robot.reach("to goal")
+    #  1. Reach out arm
+    #  2. Move arm towards target
+    #  3. Move arm past target
+    #  4. Put gripper around the target
+    # After the robot moves the arm, it's in a position to reach with the
+    # gripper.
+    robot.reach("out arm")
+    # Move the arm towards the target location.
+    robot.move("towards target")
+    # Make sure the arm goes slightly past the target location, then circle
+    # back for the gripper.
+    robot.move("past target")
+    # Once the arm is in a good position, the gripper can grab the target.
+    robot.put("gripper around the target")

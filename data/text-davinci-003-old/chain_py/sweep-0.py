@@ -1,16 +1,21 @@
 
     # Steps:
-    #  1. Put gripper above cube
-    #  2. Grab the cube
-    #  3. Move the cube sideways to goal
+    #  1. Put gripper above the cube
+    #  2. Grab the cube with the gripper
+    #  3. Push the cube to side of the target
+    #  4. Move the cube sideways to the target
     # First, put the gripper above the cube.
-    if check("the robot's gripper is not above cube"):
+    if check("the robot's gripper is not above the cube"):
         robot.put("gripper above cube")
-    # If the cube isn't below the gripper as seen from above, move the gripper
-    # above the cube.
-    if check("the robot's gripper is not near cube and the robot's gripper is not vertically aligned with the cube"):
+    # As long as the gripper is above the cube and the gripper isn't around the
+    # cube, grab the cube.
+    if check("the robot's gripper is above the cube and the robot's gripper is not around the cube"):
         robot.grab("cube")
-    # If the gripper is near the cube, we've probably grabbed the cube and can
-    # move it to the target location.
-    if check("the robot's gripper is near the cube and the cube is below the robot's gripper"):
-        robot.slide("the cube to the goal")
+    # As long as the cube is near the gripper, push it towards the side of the
+    # target.
+    if check("the cube is near the robot's gripper"):
+        robot.push("cube to side of target")
+    # When the cube is at the side of the target, move the cube sideways to the
+    # target.
+    if check("the cube is at the side of the target"):
+        robot.move("cube sideways to target")

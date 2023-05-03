@@ -1,8 +1,6 @@
 
-    Steps:  1. Line up the robot's wrist as viewed from the side  2. Place the robot's gripper slightly in front of the wall  3. Push the button from the top
-   We need to first line up the robot's wrist from the side so its gripper can reach around the wall.
-    - When the robot's wrist is not horizontally aligned with the button, move the robot's wrist until the robot's wrist is horizontally aligned with the button
-    We need to place the gripper slightly in front of the wall so its gripper can move around it.
-    - When the wall is not in front of the robot's gripper, move the robot's gripper until the wall is in front of the robot's gripper
-    The gripper should now be ready to push the button from the top. 
-    - When the robot's gripper is not vertically aligned with the button, move the robot's gripper until the robot's gripper is vertically aligned with the button and the robot's gripper is closed
+    Steps:  1. Line up the gripper as viewed from above and behind the short wall  2. Push down on the button from the top of the short wall
+    The wall in front of the button makes it difficult to press the button down. To ensure success, the gripper must be aligned with the button's position and behind the short wall, so as not to be obstructed.
+    - When the robot's gripper is not almost vertically aligned with button as viewed from above and the gripper is not behind the short wall, move the robot's gripper until the robot's gripper is almost vertically aligned with the button as viewed from above and the robot's gripper is behind the short wall and the robot's gripper is closed
+    Once the gripper is lined up from above, and behind the short wall, it is safe to push the button down
+    - When the robot's gripper is almost vertically aligned with button as viewed from above and the robot's gripper is behind the short wall, move the robot's gripper until the robot's gripper is almost vertically aligned with the button and the robot's gripper is near the button

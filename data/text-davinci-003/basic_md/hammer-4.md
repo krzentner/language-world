@@ -1,4 +1,5 @@
 
-    - When the robot's gripper is not above nail, the robot should put gripper above nail.
-    - When the robot's gripper is close to the hammer and the robot is not forward aligned with the nail and the hammer is vertical, the robot should grab the handle of the hammer.
-    - When the robot's gripper is forward aligned with the nail and the hammer is vertical with the nail, the robot should hit nail with hammer.
+    - When the hammer is not near the nail, the robot should move the gripper near the hammer.
+    - When the robot's gripper is near the hammer and the hammer is not near the nail, the robot should grab the hammer.
+    - When the hammer is near the nail and the robot's gripper is open, the robot should close gripper around the hammer.
+    - When the hammer is near the nail and the robot's gripper is closed, the robot should hit the nail with the hammer.

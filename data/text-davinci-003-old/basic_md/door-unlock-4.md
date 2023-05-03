@@ -1,5 +1,4 @@
 
-    - When the robot's gripper is not above the door handle, the robot should put gripper above door handle.
-    - When the robot's gripper is above the door handle, the robot should align gripper with door handle.
-    - When the robot's gripper is aligned with door handle and the robot's gripper is not near door handle, the robot should move gripper to door handle.
-    - When the robot's gripper is near door handle, the robot should turn door handle.
+    - When the robot's gripper is not above the dial, the robot should move the gripper above the dial.
+    - When the robot's gripper is above the dial, the robot should grab the dial.
+    - When the robot's gripper is around the dial, the robot should turn dial clockwise or counterclockwise.

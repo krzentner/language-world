@@ -1,0 +1,1 @@
+Unfortunately, since the task `door-close` wasn't defined in the original prompt, I cannot provide specific steps to complete the task. Can you please provide more information about the task and the robot's capabilities?

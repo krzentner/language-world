@@ -1,14 +1,14 @@
 # sweep: grab the cube and move it sideways to the target location
-# def sweep(robot):
-    if check("the robot's gripper is not above the cube"):
-        robot.place("gripper above cube")
-    if check("the robot's gripper is not around cube and the robot's gripper is open"):
-        robot.drop("gripper around cube")
-    if check("the robot's gripper is near cube and the robot's gripper is open"):
-        robot.close("gripper around cube")
-    if check("the robot's gripper is above cube and the robot's gripper is closed"):
-        robot.lift("the cube off the table")
-    if check("the robot is not sideways aligned with the target location"):
-        robot.move("to the side of the target location")
-    if check("the robot is sideways aligned with the target location"):
-        robot.push("the cube to the target location")
+def sweep(robot):
+    if check("the robot's gripper is not above the cube and the robot's gripper is not vertically aligned with the cube"):
+        robot.put("the gripper above the cube")
+    if check("the robot's gripper is vertically aligned with the cube and the robot's gripper is not near the cube"):
+        robot.push("the gripper into the cube")
+    if check("the robot's gripper is near the cube and the cube is below the robot's gripper"):
+        robot.grab("the cube")
+    if check("the cube is in the robot's gripper"):
+        robot.move("the gripper to the side")
+    if check("the cube is in front of the target location"):
+        robot.push("the cube towards the target")
+    if check("the cube is at the target location"):
+        robot.drop("the cube")

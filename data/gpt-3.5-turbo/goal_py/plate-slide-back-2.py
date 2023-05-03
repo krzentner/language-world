@@ -1,13 +1,15 @@
 # Steps:
-    #  1. Put gripper above plate
-    #  2. Lower gripper and grasp plate
-    #  3. Move the plate back along the surface to its original position
-    # First, put the gripper above the plate
+    #  1. Put gripper above the plate
+    #  2. Drop gripper around the plate
+    #  3. Slide the plate back
+    # We should start with the gripper above the plate to make sure it doesn't
+    # bump into anything while moving in.
     if check("the robot's gripper is not above the plate"):
         robot.move_gripper("above the plate")
-    # Lower the gripper and grasp the plate
-    if check("the robot's gripper is above the plate" and "the robot's gripper is not holding the plate"):
-        robot.move_gripper("on top of the plate", close_gripper=True)
-    # Move the plate back to the target location
-    if check("the robot's gripper is holding the plate" and "the plate is not at the target location"):
-        robot.move_gripper("near the target location")
+    # Once the gripper is above the plate, we can drop it around the plate to
+    # pick it up.
+    if check("the robot's gripper is above the plate and the robot's gripper is not around the plate"):
+        robot.move_gripper("near the plate", close_gripper=True)
+    # With the plate gripped, we can slide it back into its target location.
+    if check("the robot's gripper is around the plate and the plate is not in the target location"):
+        robot.move_gripper("above the target location")

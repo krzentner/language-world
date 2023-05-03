@@ -1,15 +1,13 @@
 
 
-Solution
+Solution: 
 
 ```
 # disassemble: pull the wrench off the peg
-# def disassemble(robot):
+def disassemble(robot):
     if check("the robot's gripper is not vertically aligned with the wrench"):
         robot.put("gripper above wrench")
-    if check("the wrench is not slightly away from the robot's gripper and the robot's gripper is open"):
+    if check("the robot's gripper is vertically aligned with the wrench and the wrench is not aligned with the peg"):
         robot.grab("wrench")
-    if check("the wrench is slightly away from the robot's gripper and the robot's gripper is closed"):
-        robot.pull("wrench away from peg")
-    if check("the robot's gripper is not empty"):
-        robot.open("gripper to release wrench")
+    if check("the robot's gripper is vertically aligned with the wrench and the wrench is aligned with the peg"):
+        robot.pull("wrench from the peg")

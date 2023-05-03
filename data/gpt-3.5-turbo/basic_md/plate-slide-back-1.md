@@ -1,4 +1,5 @@
 To slide the plate back into the target location reliably, the robot should perform the following steps:
-- When the robot's gripper is not above the plate and the robot's gripper is not vertically aligned with the plate, the robot should put the gripper above the plate.
-- When the robot's gripper is vertically aligned with the plate and the robot's gripper is not near the plate, the robot should push the gripper into the plate.
-- When the robot's gripper is near the plate and the plate is below the robot's gripper, the robot should slide the plate back to the target location by pushing it with the gripper while keeping the gripper closed.
+    - When the robot's gripper is not above the plate, the robot should place gripper above plate.
+    - When the robot's gripper is not around plate and the robot's gripper is open, the robot should drop gripper around plate.
+    - When the robot's gripper is near plate and the robot's gripper is open, the robot should close gripper around plate.
+    - When the robot's gripper is holding the plate, the robot should move the plate back to the target location and slide it into place.

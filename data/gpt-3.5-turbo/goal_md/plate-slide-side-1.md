@@ -1,17 +1,8 @@
-To slide the plate sideways into the target location, the robot should perform the following steps:
-
-1. Put gripper above the plate
-2. Grab the plate with the gripper
-3. Move the gripper to the left or right of the plate, depending on the direction in which it needs to be slid
-4. Move the gripper with the plate towards the target location
-5. Slide the plate sideways into the target location
-6. Release the plate from the gripper
-
-So the detailed steps are as follows:
-
-- When the robot's gripper is not vertically aligned with the plate, move the robot's gripper until the robot's gripper is vertically aligned with the plate
-- If the plate is not aligned with the target location, move the robot's gripper towards the target location
-- If the robot's gripper is not left or right of the plate, move the robot's gripper either to the left or right of the plate, depending on the direction in which it needs to be slid
-- When the robot's gripper is near the plate and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the target location
-- If the plate is not slightly touching the target location but not inside it, move the robot's gripper and plate sideways into the target location
-- When the plate is in the target location, release the plate from the gripper by opening the gripper.
+To slide the plate sideways into the target location reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper above plate  2. Move gripper down around the plate  3. Slide the plate sideways to the target location
+    First, put the gripper above the plate so that we can grab it without bumping it.
+    - When the robot's gripper is not above the plate, move the robot's gripper until the robot's gripper is above the plate
+    Once the gripper is above the plate, move it down around the plate to grab it from the side.
+    - When the robot's gripper is not around plate, move the robot's gripper until the robot's gripper is around the plate
+    If the gripper is not at the target location, slide the plate sideways towards it.
+    - When the robot's gripper is around the plate and the plate is not at the target location, move the robot's gripper until the plate is at the target location

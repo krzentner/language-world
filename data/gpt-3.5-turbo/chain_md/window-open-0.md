@@ -1,10 +1,8 @@
-The robot should perform the following steps to slide the window open to the left reliably:
-
-1. Check if the robot's gripper is vertically lined up with the window handle.
-   - If the robot's gripper is not vertically aligned with the window handle and the robot's gripper is below the window handle, move gripper to the right of the window handle.
-
-2. Once the gripper is lined up with the window handle, start pushing against the window handle to open the window.
-   - If the robot's gripper is near the window handle, slide the window open by moving the gripper to the left.
-
-3. If the robot's gripper is starting to be in front of the window handle, push harder to open the window fully.
-   - When the robot's gripper is in front of the window handle, the robot should push the window left harder.
+To slide the window open to the left reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper right of the window handle  2. Start pulling against the window handle to open the window  3. Pull the window open harder
+    If the window handle is left of the robot's gripper, move the gripper near the window handle to start pulling.
+    - When the window handle is left of the robot's gripper and the robot's gripper is not near the window handle, the robot should move the gripper to the right of the window handle.
+    If the robot's gripper is near the window handle, we can probably slide the window open now by moving the gripper to the left.
+    - When the robot's gripper is near the window handle, the robot should slide the window left.
+    If the robot's gripper is starting to be behind the window handle, pull harder.
+    - When the robot's gripper is behind the window handle, the robot should pull the window open harder.

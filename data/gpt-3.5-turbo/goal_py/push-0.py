@@ -1,24 +1,14 @@
-I'm sorry, it looks like there was a duplicate of the 'push' function. Here's the next function:
-
-# peg-insert-topdown: insert the peg into the hole from the top
-# def peg_insert_topdown(robot):
-    # Steps:
-    #  1. Put gripper above the peg
-    #  2. Grab the peg with the gripper
-    #  3. Line the peg up with the hole
-    #  4. Push the peg down into the hole
-    # First, put the gripper above the peg.
-    if check("the robot's gripper is not vertically aligned with the peg"):
-        robot.move_gripper("vertically aligned with the peg")
-    # If the peg is not inside the gripper, open the gripper and put the gripper
-    # around the peg.
-    if check("the robot's gripper is not around the peg"):
-        robot.move_gripper("above the peg", close_gripper=False)
-        robot.move_gripper("around the peg", close_gripper=True)
-    # If the gripper is not lined up with the hole from above, move it over the
-    # peg until it is.
-    if check("the robot's gripper is not almost vertically aligned with the hole"):
-        robot.move_gripper("vertically aligned with the hole")
-    # Push down on the peg to insert it into the hole.
-    if check("the robot's gripper is vertically aligned with the hole"):
-        robot.move_gripper("above the peg")
+# Steps:
+    #  1. Put gripper mostly above puck
+    #  2. Drop gripper around puck
+    #  3. Push puck towards target
+    # First, put the gripper roughly above the puck, without getting too close to
+    # it.
+    if check("the robot's gripper is not above the puck"):
+        robot.move_gripper("above the puck")
+    # If the gripper isn't around the puck, put it around the puck.
+    if check("the robot's gripper is not around puck and the robot's gripper is open"):
+        robot.move_gripper("near the puck", close_gripper=True)
+    # If the gripper is around the puck, we can push the puck towards the target.
+    if check("the robot's gripper is around puck and the robot's gripper is near the puck"):
+        robot.move_gripper("near the target location")

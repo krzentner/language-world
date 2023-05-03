@@ -1,22 +1,21 @@
 # Steps:
-#  1. Put the gripper above the handle of the mug
-#  2. Drop the gripper around the handle
-#  3. Grab the handle
-#  4. Pull the mug towards the target location
-#  5. Release the handle
-# First, put the gripper above the handle of the mug.
-if check("the robot's gripper is not vertically aligned with the mug handle"):
-    robot.place("gripper above the mug handle")
-# Once the gripper is above the handle, we should drop it around the handle.
-if check("the robot's gripper is above the mug handle and the gripper is open"):
-    robot.drop("gripper around the mug handle")
-# If the gripper is around the handle, we can probably grab the handle.
-if check("the robot's gripper is around the mug handle"):
-    robot.grab("handle of the mug")
-# Now that we have a hold on the handle, we can pull the mug towards the target
-# location.
-if check("the robot's gripper is holding the mug and the mug is not near the target location"):
-    robot.pull("mug towards the target location")
-# Once the mug has reached the target location, we can release the handle.
-if check("the mug is at the target location and the robot's gripper is holding the mug"):
-    robot.release("handle of the mug")
+    #  1. Put gripper near handle of mug
+    #  2. Grab the handle
+    #  3. Lift the mug and move it to the target location
+    # First, put the gripper near the handle of the mug.
+    if check("the robot's gripper is not near the handle of the mug"):
+        robot.move("gripper near handle of mug")
+    # If the gripper isn't around the handle, put it around the handle.
+    if check("the robot's gripper is not around handle of mug and the robot's gripper is open"):
+        robot.drop("gripper around handle of mug")
+    # If the gripper is near the handle and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near handle of mug and the robot's gripper is open"):
+        robot.close("gripper around handle of mug")
+    # We closed the gripper and the mug is lifted, move the mug to the target location
+    # Try moving mug forwards first as may be obstructed by other objects on table
+    if check("the mug is not at the target location"):
+        robot.move("mug forwards to goal")
+    # Else move mug sideways
+    if check("the mug is not at the target location"):
+        robot.move("mug sideways to goal")

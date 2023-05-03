@@ -1,16 +1,21 @@
 
     # Steps:
-    #  1. Put gripper left of wall
-    #  2. Push wall away from the button
-    #  3. Push the button
-    # The robot needs to position the gripper near the wall.
-    # The wall should block the robot's gripper from accessing the button,
-    # so it needs to be moved.
-    if check("the robot's gripper is not to left of wall"):
-        robot.put("gripper to left of wall")
-    # The robot needs to push the wall away to have access to the button.
-    if check("the wall is left of the robot's gripper and the robot's gripper is not in front of the button"):
-        robot.push("wall away from the button")
-    # The robot can push the button once the wall is out of the way.
-    if check("wall is to the left of the button and the robot's gripper is in front of the button"):
-        robot.push("button")
+    #  1. Put gripper right of button
+    #  2. Put gripper above button
+    #  3. Push gripper wall up against the button
+    # First, move the gripper right of the button.
+    # We don't need to line up the gripper with the button, since we will be
+    # pushing the wall up against it.
+    if check("the robot's gripper is not right of the button"):
+        robot.put("gripper right of button")
+    # Now, try to move the gripper above the button and push it against the
+    # wall.
+    # Note that we do not want the gripper to be fully above the button.
+    if check("the robot's gripper is not almost vertically aligned with the button"):
+        robot.put("gripper above button")
+    # Now, press the wall against the button.
+    # We don't need to worry about the angle of the wall and the button, since 
+    # the wall is short compared to the button and shouldn't be skewed when
+    # pressing against it.
+    if check("the robot's gripper is almost vertically aligned with the button"):
+        robot.press("wall against button")

@@ -1,12 +1,14 @@
 
 
-If check("the robot's gripper is not above the block"):
-    robot.place("gripper above block")
-if check("the robot's gripper is not around block and the robot's gripper is open"):
-    robot.drop("gripper around block")
-if check("the robot's gripper is near block and the robot's gripper is open"):
-    robot.close("gripper around block")
-if check("the robot's gripper is above block and the robot's gripper is closed"):
-    robot.move("to shelf")
-if check("the robot's gripper is near shelf and the robot's gripper is closed"):
-    robot.place("block on shelf")
+Then, add the commands:
+
+```
+    if check("the robot's gripper is not above the box"):
+        robot.place("gripper above box")
+    if check("the robot's gripper is not around box and the robot's gripper is open"):
+        robot.grab("gripper around box")
+    if check("the robot's gripper is near box and the robot's gripper is open"):
+        robot.close("gripper around box")
+    if check("the robot's gripper is above box and the robot's gripper is closed"):
+        robot.place("box at goal")
+```

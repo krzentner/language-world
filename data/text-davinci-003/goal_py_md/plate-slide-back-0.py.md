@@ -1,10 +1,15 @@
 
 
-Steps:
-1. Put the gripper in front of plate
-2. Push plate back into the target location
+Then finish the program with code like this:
 
-if check("the robot's gripper is not in front of plate"):
-    robot.move_gripper("in front of plate")
-if check("the robot's gripper is in front of plate"):
-    robot.move_gripper("near the target location")
+```
+    # Steps:
+    #  1. Put the gripper above the plate
+    #  2. Push the plate back
+    # First, put the gripper above the plate.
+    if check("the robot's gripper is not above the plate"):
+        robot.move_gripper("above the plate")
+    # If the robot's gripper is in front of the plate, push the plate back.
+    if check("the robot's gripper is forward aligned with the plate"):
+        robot.move_gripper("right of the plate")
+```

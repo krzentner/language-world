@@ -1,13 +1,15 @@
 # Steps:
-    #  1. Put gripper near the lever
-    #  2. Move the gripper under the lever
-    #  3. Rotate the gripper up to rotate the lever
-    # To pull the lever, we need to move the gripper under it first. 
-    if check("the robot's gripper is not near the lever"):
-        robot.move_gripper("near the lever")
-    # Once the gripper is near the lever, we can move it under the lever.
-    if check("the robot's gripper is near the lever and the gripper is not under the lever"):
-        robot.move_gripper("under the lever")
-    # Once the gripper is under the lever, we can rotate it up to pull the lever.
-    if check("the gripper is under the lever"):
-        robot.move_gripper("turned up")
+    #  1. Put the gripper above the lever handle
+    #  2. Grab the lever handle
+    #  3. Push or pull the lever to rotate it up
+    # First, put the gripper above the lever handle.
+    if check("the robot's gripper is not above the lever handle"):
+        robot.move_gripper("above the lever handle")
+    # Once the gripper is above the lever handle, we should be able to grab it
+    # by moving the gripper down around it.
+    if check("the robot's gripper is above the lever handle and the robot's gripper is not around the lever handle"):
+        robot.move_gripper("around the lever handle")
+    # Once the gripper is around the lever handle, we can push or pull the lever
+    # to rotate it up.
+    if check("the robot's gripper is around the lever handle"):
+        robot.move_gripper("rotate the lever up")

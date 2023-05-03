@@ -1,8 +1,14 @@
- 
 
-if check("the robot's gripper is not below the lock dial"):
-    robot.move("gripper below lock dial")
-if check("the robot's gripper is near the lock dial and the robot's gripper is open"):
-    robot.close("gripper around lock dial")
-if check("the robot's gripper is below the lock dial and the robot's gripper is closed"):
-    robot.turn("clockwise to lock door")
+
+Then, put the following code to satisfiy the task:
+
+```
+# door-lock: turn the dial on the door
+def door_lock(robot):
+    if check("the robot's gripper is not above the door lock"):
+        robot.put("gripper above door lock")
+    if check("the robot's gripper is not aligned with the door lock"):
+        robot.align("gripper to door lock")
+    if check("the robot's gripper is aligned with the door lock"):
+        robot.turn("dial clockwise/counterclockwise")
+```

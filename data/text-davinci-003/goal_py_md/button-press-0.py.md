@@ -1,14 +1,24 @@
 
+The full program should have the following steps:
 
+1. Put gripper front of the button 
+2. Close gripper around button 
+3. Push down on button
+
+```
 # button-press: push the button from the front
-# def button_press(robot):
+def button_press(robot):
     # Steps:
-    #  1. Line up the gripper as viewed from the front
-    #  2. Push down the button
-
-    # Line up the robot's gripper from the front.
-    if check("the robot's gripper is not horizontally aligned with button"):
-        robot.move_gripper("horizontally aligned with the button", close_gripper=True)
-    # Now that the gripper is lined up, just push down on the button.
-    if check("the robot's gripper is horizontally aligned with button"):
-        robot.move_gripper("near the button")
+    #  1. Put gripper front of the button
+    #  2. Close gripper around button
+    #  3. Push down on button
+    # First, put the gripper in front of the button.
+    if check("the robot's gripper is not forward aligned with button"):
+        robot.move_gripper("forward aligned with the button")
+    # Then, close the gripper around the button.
+    if check("the robot's gripper is forward aligned with button and the robot's gripper is not closed around button"):
+        robot.move_gripper("around the button", close_gripper=True)
+    # Finally, push down on the button.
+    if check("the robot's gripper is closed around button"):
+        robot.move_gripper("below the button")
+```

@@ -1,23 +1,24 @@
 
 
-The steps for this task are as follows:
-1. Put the gripper above the door lock
-2. Drop the gripper around the door lock
-3. Turn the door lock with the gripper
+Then copy and paste the following code beneath:
 
 ```
-# door-lock: turn the dial on the door
-# def door_lock(robot):
     # Steps:
-    #  1. Put gripper above door lock
-    #  2. Drop gripper around door lock
-    #  3. Turn the door lock with the gripper 
-    if check("the robot's gripper is not above the door lock"):
-        robot.put("gripper above door lock")
-    # As long as the gripper is above, but not around the door lock, put it around the door lock
-    if check("the robot's gripper is above the door lock and the robot's gripper is not around the door lock"): 
-        robot.drop("gripper around door lock")
-    # If the gripper is around the door lock, try to turn it with the gripper
-    if check("the robot's gripper is around the door lock"):
-        robot.turn("door lock clockwise with gripper")
+    #  1. Put gripper near the dial
+    #  2. Turn the dial with the gripper
+ 
+    # Step 1: Put the gripper near the dial.
+    # Check if the gripper is not near the dial and move it there if not.
+    if check("the robot's gripper is not near the dial"):
+        robot.grab("dial")
+ 
+    # Step 2: Turn the dial with the gripper.
+    # Close the gripper around the dial so it can firmly grip it. 
+    if check("the robot's gripper is near the dial and the robot's gripper is open"):
+        robot.close("gripper around dial")
+ 
+    # Push down and rotate the dial in a full circle until it locks.
+    if check("the robot's gripper is near the dial and the robot's gripper is closed"):
+        robot.push("down on dial")
+        robot.turn("full circle")
 ```

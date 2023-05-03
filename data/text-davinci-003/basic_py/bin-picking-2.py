@@ -1,13 +1,9 @@
 
-    if check("the robot's gripper is not above the cube"):
-        robot.reach("to cube")
-    if check("the robot's gripper is above the cube and the robot's gripper is wrinkled"):
-        robot.straighten("gripper")
-    if check("the robot's gripper is above the cube and the robot's gripper is not open"):
-        robot.open("gripper")
-    if check("the robot's gripper is above the cube and the robot's gripper is open"):
-        robot.pick("up cube")
-    if check("the robot's gripper is around the cube and the target bin is not forward aligned with the robot's gripper"):
-        robot.align("bin forward with the gripper")
-    if check("the target bin is forward aligned with the robot's gripper"):
-        robot.place("cube in target bin")
+    if check("the robot's gripper is not near cube and the robot's gripper is open"):
+        robot.put("gripper near cube")
+    if check("the robot's gripper is near cube and the robot's gripper is open"):
+        robot.close("gripper around cube")
+    if check("the robot's gripper is closed and the cube is not near the target bin"):
+        robot.move("cube to bin")
+    if check("the cube is near the target bin and the robot's gripper is closed"):
+        robot.place("cube in bin")

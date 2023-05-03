@@ -1,7 +1,7 @@
 
-    if check("the robot's gripper is not vertically aligned with peg"):
+    if check("the robot's gripper is not vertically aligned with the peg"):
         robot.put("gripper above peg")
-    if check("peg is not left of robot's gripper"):
+    if check("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper"):
         robot.grab("peg")
-    if check("peg is forward aligned with robot's gripper and peg is not out of hole"):
-        robot.pull("out of hole")
+    if check("the robot's gripper is forward aligned with the peg and the peg is horizontally aligned with hole"):
+        robot.pull("peg from hole")

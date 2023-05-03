@@ -1,9 +1,11 @@
 # Steps:
-    # 1. Put gripper around the handle
-    # 2. Pull up on the handle
-    # First, put the gripper around the handle.
-    if check("the robot's gripper is not around the handle and the robot's gripper is open"):
-        robot.move_gripper("around the handle", close_gripper=True)
-    # Once the gripper is around the handle, just pull up on it.
-    if check("the robot's gripper is around the handle"):
-        robot.move_gripper("above the handle")
+    #  1. Put gripper above handle
+    #  2. Drop gripper around handle
+    #  3. Pull up on the handle
+    # First, put the gripper mostly above the handle.
+    if check("the robot's gripper is not almost vertically aligned with handle"):
+        robot.move_gripper("almost vertically aligned with the handle", close_gripper=True)
+    # As long as the gripper is almost lined up, closing it should line it up
+    # all the way.
+    if check("the robot's gripper is vertically aligned with handle"):
+        robot.move_gripper("above the goal location")

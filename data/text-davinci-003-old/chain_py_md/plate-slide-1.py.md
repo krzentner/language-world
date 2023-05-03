@@ -5,20 +5,17 @@ Steps:
 2. Push gripper into plate
 3. Slide plate to goal
 
-If the robot's gripper is not above the plate, move it there.
-```
-if check("the robot's gripper is not above plate"):
+If the robot's gripper is not above the plate, we should move it to the plate in order to start sliding it.
+
+if check("the robot's gripper is not above the plate"):
     robot.put("gripper above plate")
-```
+    
+Once the gripper is over the plate, we can start pushing down to get control of it.
 
-If the gripper is above the plate but not near it, move the gripper down to the plate to slide it.
-```
-if check("the robot's gripper is above plate and the robot's gripper is not near plate"):
+if check("the robot's gripper is above the plate and the robot's gripper is not in the plate"):
     robot.push("gripper into plate")
-```
+    
+Once the gripper is trapping the plate, we can start sliding it to the goal.
 
-If the gripper is near the plate, we've probably trapped the plate and can slide it to the target location.
-```
-if check("the robot's gripper is near plate and the plate is below the robot's gripper"):
-    robot.slide("plate to goal")
-```
+if check("the robot's gripper is in the plate"):
+    robot.slide("plate to the goal")

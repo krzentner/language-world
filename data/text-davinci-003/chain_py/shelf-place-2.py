@@ -1,27 +1,20 @@
 
     # Steps:
-    #  1. Put gripper above block
-    #  2. Drop gripper around block
-    #  3. Close gripper around block
+    #  1. Put gripper in front of shelf
+    #  2. Reach up to grasp block
+    #  3. Pull block out of shelf
     #  4. Move block to goal
-    #  5. Release block
-    # First, put the gripper above the block, so that we don't bump it while
-    # trying to grab it.
-    if check("the robot's gripper is not above the block"):
-        robot.place("gripper above block")
-    # If the gripper isn't around the block, put it around the block.
-    if check("the robot's gripper is not around block and the robot's gripper is open"):
-        robot.drop("gripper around block")
-    # If the gripper is near the block and open, maybe we can grab it by
-    # closing the gripper.
-    if check("the robot's gripper is near block and the robot's gripper is open"):
-        robot.close("gripper around block")
-    # We closed the gripper, and the block is still near the gripper, so maybe
-    # we grabbed it.
-    # Try to move the block to the goal.
-    # If we didn't grab it, we'll just go back to an earlier step.
-    if check("the robot's gripper is above block and the robot's gripper is closed"):
+    # We want to pick up a block from a shelf.
+    # We need to move the gripper in front of the shelf first.
+    if check("the robot's gripper is not in front of shelf"):
+        robot.move("gripper in front of shelf")
+    # If the gripper is in front of the shelf, we can try to grasp the block by
+    # reaching up.
+    if check("the robot's gripper is in front of shelf and the block is not within reach of robot's gripper"):
+        robot.reach("up to grasp block")
+    # When the gripper has the block, try to pull the block out of the shelf.
+    if check("the block is within reach of robot's gripper"):
+        robot.pull("block out of shelf")
+    # If the block is no longer in the shelf, move it to the goal.
+    if check("the block is no longer in shelf"):
         robot.place("block at goal")
-    # Once you reach the goal, open the gripper again to release the block.
-    if check("robot is at the goal"):
-        robot.release("block")

@@ -1,16 +1,10 @@
 
 
-Here's the code to perform the task:
-
-```
-# soccer: push the soccer ball into the target location
-# def soccer(robot):
-    if check("the robot's gripper is not above the soccer ball"):
-        robot.place("gripper above soccer ball")
-    if check("the robot's gripper is not around soccer ball and the robot's gripper is open"):
-        robot.drop("gripper around soccer ball")
-    if check("the robot's gripper is around the soccer ball and the soccer ball is not in range of the goal"):
-        robot.push("soccer ball forwards")
-    if check("the robot's gripper is around the soccer ball and the soccer ball is in range of the goal"):
-        robot.release("soccer ball")
-```
+If check("the robot's gripper is not near soccer ball"):
+    robot.put("gripper above soccer ball")
+if check("the robot's gripper is near soccer ball and the robot's gripper is not open"):
+    robot.open("gripper around soccer ball")
+if check("the robot's gripper is near soccer ball and the robot's gripper is open and the soccer ball is not below the robot's gripper"):
+    robot.push ("gripper into soccer ball")
+if check("the robot's gripper is near soccer ball and the soccer ball is below the robot's gripper"):
+    robot.push("soccer ball to goal")

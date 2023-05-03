@@ -1,6 +1,9 @@
 
-    Steps:  1. Put gripper to the side of the ball  2. Push the door open  3. Push the ball to the goal
-    We'll need to line up the gripper with the side of the ball to push it
-    - When the robot's gripper is not in front of the soccer ball and the robot's gripper is not along the side of the soccer ball, the robot should put gripper to side of ball.
-    Once the robot's gripper is lined up along the side of the soccer ball, it can push it towards the goal.
-    - When the robot's gripper is along the side of the soccer ball, the robot should push ball towards goal.
+    Steps:  1. Put gripper above soccer ball  2. Push into soccer ball and let the ball move to goal  3. Keep pushing the soccer ball until it reaches goal
+    First, put the gripper above soccer ball so that the robot doesn't accidentally kick it away.
+    - When the robot's gripper is not above soccer ball and the robot's gripper is not vertically aligned with soccer ball, the robot should put the gripper above soccer ball.
+    Next, lightly push the soccer ball forward towards the target location. If the soccer ball is to the left or right of the gripper, move the gripper so that it's directly above the ball again.
+    - When the robot's gripper is above soccer ball and soccer ball moves away from target goal, the robot should move gripper above soccer ball.
+    
+Once the soccer ball is on its way, keep pushing the soccer ball until it reaches the target location. 
+- When the soccer ball is moving to the target goal, the robot should keep pushing the soccer ball.

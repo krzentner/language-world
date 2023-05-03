@@ -1,8 +1,9 @@
 
-    Steps:  1. Put gripper horizontally forward of the plate  2. Grasp the plate with the gripper  3. Move the plate to the target location
-    To accurately move the plate, we should start by putting the gripper ahead of the plate.
-    - When the robot's gripper is not forward aligned with plate, move the robot's gripper until the robot's gripper is forward aligned with plate and the robot's gripper is closed
-    Once the gripper is aligned with the plate, we can grasp it.
-    - When the robot's gripper is forward aligned with plate and the robot's gripper is closed, move the robot's gripper until the robot's gripper is around the plate
-    Now that the robot has grasped the plate, it can be moved to the target location.
-    - When the robot's gripper is around the plate, move the robot's gripper until the robot's gripper is near the target location
+
+Steps:  1. Put gripper above the plate  2. Align the plate with the target location  3. Push the plate into the target location
+    First, put the gripper above the plate.
+    - When the robot's gripper is not vertically aligned with the plate, move the robot's gripper until the robot's gripper is vertically aligned with the plate
+    If the plate and the target are not aligned, we'll have to line them up before we can slide it in.
+    - When the plate is not aligned with the target, move the robot's gripper until the plate is horizontally aligned with the target
+    Once the plate is lined up, we can push it in to the target.
+    - When the plate is horizontally aligned with the target, move the robot's gripper until the robot's gripper is forward aligned with the plate

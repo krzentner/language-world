@@ -1,12 +1,17 @@
 # button-press: push the button from the front
-# def button_press(robot):
+def button_press(robot):
     # Steps:
-    #  1. Line up the gripper as viewed from the front
-    #  2. Push the gripper forward to press the button
-    # Because this is a "front" button press, we need to line up the gripper from the front.
-    # Line up the robot's gripper from the front.
-    if check("the robot's gripper is not forward aligned with button"):
-        robot.move("gripper to front of button")
-    # Now that the gripper is lined up, just push forward on the button.
-    if check("the robot's gripper is forward aligned with button"):
-        robot.push("forward on button")
+    # 1. Put the gripper in front of the button
+    # 2. Move the gripper down onto the button
+    # 3. Push the button
+    # As this is "front-facing", we need to put the gripper in front of the 
+    # button.
+    if check("the robot's gripper is not in front of button"):
+        robot.move("gripper in front of button")
+    # Once the gripper is in front of the button, we should move it down onto
+    # the button to push it.
+    if check("the robot's gripper is in front of button and the robot's gripper is not touching the button"):
+        robot.put("gripper on the button")
+    # Once the gripper is on the button, we can push it.
+    if check("the robot's gripper is touching the button"):
+        robot.push("button")

@@ -1,9 +1,8 @@
 
 
-First, the robot should bring its gripper as close as possible to the object. The smallest distance and angle between the robot and the object will improve accuracy of the robot’s movements. 
-
-Steps:  1. Move the robot's gripper as close as possible to the object  2. Grab the object  3. Move the object towards the bin  4. Release the object into the bin
-- When the robot's gripper is not near the object, the robot should move gripper as close as possible to the object. 
-- When the robot's gripper is near the object and the gripper is still open, the robot should grab the object. 
-- When the robot's gripper is closed and the object is still near the gripper, the robot should move object towards bin. 
-- When the robot's gripper is near the bin and the object is close to the bin, the robot should release object into the bin.
+Steps:  1. Put gripper above cube  2. Drop gripper around cube  3. Close gripper around cube  4. Move cube towards target bin  5. Drop cube into target bin
+- When the robot's gripper is not above the cube, the robot should place gripper above cube.
+- When the robot's gripper is not around cube and the robot's gripper is open, the robot should drop gripper around cube.
+- When the robot's gripper is near cube and the robot's gripper is open, the robot should close gripper around cube.
+- When the robot's gripper is above cube and the robot's gripper is closed, the robot should move cube towards target bin.
+- When the cube is near the target bin, the robot should drop cube into target bin.

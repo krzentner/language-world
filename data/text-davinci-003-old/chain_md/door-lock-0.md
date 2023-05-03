@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above the knob  2. Drop gripper around the knob  3. Turn the knob until it locks
-    First, put the gripper above the knob.
-    - When the robot's gripper is not vertically aligned with the knob, the robot should put the gripper above the knob.
-    As long as the gripper is almost lined up, closing it should line it up all the way.
-    - When the robot's gripper is almost vertically aligned with the knob and the robot's gripper is open, the robot should put gripper around knob.
-    As long as the gripper is still vertically aligned with the knob, it's being turned, so keep turning.
-    - When the robot's gripper is vertically aligned with the knob, the robot should turn knob until it locks.
+    Steps:  1. Put gripper to the right of the dial  2. Turn the dial clockwise  3.Confirm the door is unlocked 
+    First, we need to line up the robot's gripper with the door handle. We want to line up the gripper so it's to the right of the dial. 
+    - When the robot's gripper is not to the right of the door handle, the robot should put to the right of the door handle.
+    Next, we need to turn the dial clockwise until it's in the "unlocked" position. 
+    - When the robot's gripper is to the right of the door handle, the robot should turn the dial clockwise.
+    Once the dial is in the "unlocked" position, open the door to confirm that the door is now unlocked. 
+    - When the dial is in the unlocked position, the robot should open the door to confirm it is unlocked.

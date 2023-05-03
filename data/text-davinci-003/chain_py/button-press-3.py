@@ -1,11 +1,11 @@
 
     # Steps:
     #  1. Line up the gripper as viewed from the front
-    #  2. Push the button
-    # Because this is "front", we just need to line up the gripper from the front.
-    # Line up the robot's gripper from the front.
-    if check("the robot's gripper is not forward aligned with button"):
+    #  2. Push down on the button
+    # Although this isn't "topdown", we can still line up the robot's gripper
+    # from above before pushing down.
+    if check("the robot's gripper is not vertically aligned with button"):
         robot.put("gripper above button")
-    # Now that the gripper is lined up, just push the button.
-    if check("the robot's gripper is forward aligned with button"):
-        robot.push("on button")
+    # Once the gripper is aligned with the button, just push down on the button.
+    if check("the robot's gripper is vertically aligned with button"):
+        robot.push("down on button")

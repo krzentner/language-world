@@ -1,9 +1,9 @@
 
-    if check("the robot's gripper is not near the peg and the robot's gripper is not vertically aligned with the peg"):
+    if check("the robot's gripper is not vertically aligned and below peg"): 
         robot.put("gripper above peg")
-    if check("the robot's gripper is vertically aligned with the peg and the robot's gripper is not near the peg"):
+    if check("the robot's gripper is vertically aligned with peg and the robot's gripper is not around peg"):
         robot.grab("peg")
-    if check("the robot's gripper is near the peg and the robot's gripper is open"):
-        robot.close("gripper around peg")
-    if check("the robot's gripper is above peg and the robot's gripper is closed"):
+    if check("the robot's gripper is around the peg"):
+        robot.lift("peg out of hole")
+    if check("the robot's gripper is above the peg"):
         robot.place("peg at goal")

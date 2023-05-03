@@ -1,10 +1,8 @@
 
-    Steps:  1. Put gripper above the peg  2. Grab the peg with the gripper  3. Line the peg up with the hole  4. Slide the peg sideways into the hole
-    First, put the gripper above the peg.
-    - When the robot's gripper is not vertically aligned with the peg, the robot should put gripper above peg.
-    If the peg becomes left of the gripper, go back to putting the gripper above the peg. Because the peg is a long object, check if the gripper is lined up with it from the front instead of around it.
-    - When peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper, the robot should grab peg.
-    As long the gripper is still mostly around the peg and the peg isn't lined up with the hole, line up the peg with the hole.
-    - When the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole, the robot should align peg to hole.
-    If the peg is lined up with the hole to the side, insert it.
-    - When peg is horizontally aligned with hole, the robot should insert peg into hole.
+    Steps:  1. Put gripper above peg  2. Drop gripper around peg  3. Align gripper horizontally with hole  4. Push peg into hole
+    We need to pick up the peg before we can insert it.
+    - When the robot's gripper is not above peg, the robot should put gripper above peg.
+    If the gripper is above the peg, but not completely lined up with the edge, line it up by moving it around the peg.
+    - When the robot's gripper is above peg and the robot's gripper is not around peg, the robot should drop gripper around peg.
+    Now we should be lined up horizontally with the hole. We can now push the peg in.
+    - When the robot's gripper is around peg and the robot's gripper is horizontally aligned with hole, the robot should push peg into hole.

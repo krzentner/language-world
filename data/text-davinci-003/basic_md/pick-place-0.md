@@ -1,7 +1,5 @@
 
-
-The robot should perform the following steps:
-    - When the robot's gripper is not above the puck, the robot should place gripper above puck.
-    - When the robot's gripper is not around puck and the robot's gripper is open, the robot should drop gripper around puck.
-    - When the robot's gripper is near puck and the robot's gripper is open, the robot should close gripper around puck.
-    - When the robot's gripper is above puck and the robot's gripper is closed, the robot should place puck at goal.
+    - When the robot's gripper is not above the puck, the robot should put the gripper above the puck.
+    - When the robot's gripper is above the puck and the robot's gripper is not around the puck, the robot should grab the puck.
+    - When the robot's gripper is around the puck and the puck is not near the target location, the robot should move the puck to the target location.
+    - When the puck is near the target location, the robot should hold the puck at target location.

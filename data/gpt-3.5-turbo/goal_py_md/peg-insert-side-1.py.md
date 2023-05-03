@@ -1,19 +1,25 @@
-Here's the code for the `peg-insert-side` task:
-
-```
-# peg-insert-side: insert the peg into the hole from the side
-# def peg_insert_side(robot):
+# peg-insert-side: grab the peg and insert it into the hole from the side
+def peg_insert_side(robot):
     # Steps:
     #  1. Put gripper above the peg
-    #  2. Grab the peg with the gripper
-    #  3. Line the peg up with the hole
-    #  4. Slide the peg sideways into the hole
-    if check("the robot's gripper is not vertically aligned with the peg"):
-        robot.move_gripper("vertically aligned with the peg")
-    if check("the robot's gripper is not around the peg and the robot's gripper is open"):
-        robot.move_gripper("near the peg", close_gripper=True)
-    if check("the robot's gripper is around the peg and the peg is not horizontally aligned with the hole"):
-        robot.move_gripper("horizontally aligned with the hole")
-    if check("the robot's gripper is forward aligned with the peg and the peg is horizontally aligned with the hole"):
-        robot.move_gripper("around the hole")
-```
+    #  2. Drop gripper around the peg
+    #  3. Lift the peg
+    #  4. Move the gripper to the side of the hole
+    #  5. Lower the peg into the hole
+    # First, put the gripper above the peg.
+    if check("the robot's gripper is not above the peg"):
+        robot.move_gripper("above the peg")
+    # Once the gripper is above the peg, we can grab it by moving the gripper down
+    # around it.
+    if check("the robot's gripper is above the peg and the robot's gripper is not around the peg"):
+        robot.move_gripper("around the peg", close_gripper=True)
+    # Once the gripper is around the peg, we can lift it up.
+    if check("the robot's gripper is around the peg and the peg is not lifted up"):
+        robot.lift_item()
+    # Once the peg is lifted, we can move the gripper to the side of the hole.
+    if check("the peg is lifted up and the robot's gripper is not moved to the side of the hole"):
+        robot.move_gripper("side of the hole")
+    # Once the gripper is to the side of the hole, we can move it down to insert
+    # the peg into the hole.
+    if check("the robot's gripper is to the side of the hole and the peg is not inserted"):
+        robot.move_gripper("into the hole", close_gripper=True)

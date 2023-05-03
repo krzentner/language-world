@@ -1,7 +1,6 @@
 
-
-Steps:  1. Line up gripper as viewed from above, then slightly above wall  2. Push down on the button from above
-    First, line up the gripper from above but slightly higher than the wall.
-    - When the robot's gripper is not vertically aligned with the button and not higher than the wall, the robot should line up the gripper as viewed from above and slightly higher than wall.
-    When the gripper is lined up above the wall, we can move the gripper down slightly to push the button down.
-    - When the robot's gripper is vertically aligned with the button and higher than the wall, the robot should push down on the button from the top.
+    Steps:  1. Move gripper around the wall  2. Line up the gripper as viewed from above  3. Push down on the button from the top
+    We need to find a place to put the gripper, so it can still be viewed from above. Move the gripper around the wall that's in the way so it's lined up with the button.
+    - When the robot's gripper is not around wall and robot's gripper is not above button, the robot should move gripper around the wall.
+    After the robot's gripper is lined up with the button, push down on the button.
+    - When the robot's gripper is around wall and robot's gripper is aligned with button, the robot should push down on button.

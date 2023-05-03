@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper to the side of the peg  2. Grab the peg with the gripper  3. Move the peg out of the hole
-    First, put the gripper to the side of the peg.
-    - When the robot's gripper is not near the peg, move the robot's gripper until the robot's gripper is near the peg and the robot's gripper is closed
-    If the robot's gripper is near the peg, we can try to grab it.
-    - When the robot's gripper is around the peg and the peg is not out of the hole, move the robot's gripper until the robot's gripper is above the peg
-    Once we have a grip on the peg, we can move it out of the hole.
-    - When the robot's gripper is above the peg, move the robot's gripper until the peg is out of the hole
+Steps: 1. Put gripper slightly to the side of the peg  2. Grab the peg with the gripper  3. Pull the peg out of the hole sideways
+    To pull the peg out from the side, we first need to move the gripper slightly to the side of the peg.
+    When the robot's gripper is not left of the peg, move the robot's gripper until the robot's gripper is left of the peg and the robot's gripper is closed
+    After we move the gripper slightly to the side of the peg, we can grab the peg with the gripper.
+    When the robot's gripper is left of the peg and the robot's gripper is not around peg, move the robot's gripper until the robot's gripper is around the peg and the robot's gripper is closed
+    Once we grab the peg, we can pull out the peg from the hole sideways. 
+    When the robot's gripper is around peg, move the robot’s gripper until the robot's gripper is left of the hole

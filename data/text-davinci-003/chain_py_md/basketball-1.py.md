@@ -1,16 +1,37 @@
 
 
 Steps:
-1. Put gripper above the basketball
-2. Grab the basketball with the gripper
-3. Move the basketball directly above the hoop
-4. Drop the basketball into the hoop
+1. Put gripper above basketball
+2. Drop gripper around basketball
+3. Close gripper around basketball
+4. Move the basketball to the hoop
+5. Hoop the basketball
 
-if check("the robot's gripper is not above the basketball"):
-    robot.put("gripper above basketball")
-if check("the robot's gripper is above the basketball but not near it and the robot's gripper is open"):
-    robot.grab("basketball")
-if check("the robot's gripper is near the basketball and the basketball is not directly above the hoop"):
-    robot.line_up("basketball above the hoop")
-if check("the robot's gripper is near the basketball and the basketball is directly above the hoop"):
-    robot.drop("basketball into the hoop")
+```
+# basketball: put the ball into into the hoop
+def basketball(robot):
+    # Steps:
+    #  1. Put gripper above basketball
+    #  2. Drop gripper around basketball
+    #  3. Close gripper around basketball
+    #  4. Move the basketball to the hoop
+    #  5. Hoop the basketball
+    # First, put the gripper above the basketball.
+    if check("the robot's gripper is not above the basketball"):
+        robot.place("gripper above basketball")
+    # If the gripper isn't around the basketball, put it around the basketball.
+    if check("the robot's gripper is not around basketball and the robot's gripper is open"):
+        robot.drop("gripper around basketball")
+    # If the gripper is near the basketball and open, maybe we can grab it by closing
+    # the gripper.
+    if check("the robot's gripper is near basketball and the robot's gripper is open"):
+        robot.close("gripper around basketball")
+    # We closed the gripper, and the basketball is still near the gripper, so maybe we
+    # grabbed it.
+    # Try to move the basketball to the hoop.
+    # If we didn't grab it, we'll just go back to an earlier step.
+    if check("the robot's gripper is above basketball and the robot's gripper is closed"):
+        robot.move("basketball to hoop")
+    # If the basketball is near the hoop, complete the task. Hoop the basketball.
+    if check("the basketball is near the hoop"):
+        robot.hoop("basketball")

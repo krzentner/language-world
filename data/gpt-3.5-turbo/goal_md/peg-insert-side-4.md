@@ -1,19 +1,13 @@
-To insert the peg into the hole reliably, the robot should perform the following steps:
-1. Put gripper above the peg
-2. Grab the peg with the gripper
-3. Line the peg up with the hole
-4. Slide the peg sideways into the hole
-
-Here are the more detailed explanations for each step:
-1. First, put the gripper above the peg.
-   - When the robot's gripper is not vertically aligned with the peg, move the robot's gripper until the robot's gripper is vertically aligned with the peg.
-
-2. Once the gripper is above the peg, grab the peg with the gripper.
-   - When the robot's gripper is not around the peg and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the peg and the robot's gripper is closed.
-
-3. As long as the gripper is mostly around the peg and the peg isn't lined up with the hole, line up the peg with the hole.
-   - When the peg is not left of the robot's gripper and not forward-aligned with the robot's gripper, move the robot's gripper until the robot's gripper is forward aligned with the peg and the robot's gripper is closed.
-   - When the peg is horizontally aligned with the hole, move the robot's gripper until the robot's gripper is above the peg.
-
-4. Once the gripper is above the peg positioned over the hole, slide the peg sideways into the hole.
-   - When the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with the hole, move the robot's gripper until the robot's gripper is horizontally aligned with the hole.
+To grab the peg and insert it into the hole from the side reliably, the robot should perform the following steps:
+    Steps:  1. Put gripper near the top of the peg  2. Open gripper  3. Move gripper to the side of the hole  4. Align gripper with the hole  5. Move gripper to insert peg  6. Close gripper to hold peg in place  7. Push the peg into the hole
+    First, put the gripper near the top of the peg, so that we have a good grip on it.
+    - When the robot's gripper is not near the top of the peg, move the robot's gripper until it is near the top of the peg
+    Open the gripper so that we can grab the peg.
+    - When the robot's gripper is near the top of the peg and the robot's gripper is closed, open the robot's gripper
+    Move the gripper to the side of the hole where we will insert the peg.
+    - When the robot's gripper is open, move the robot's gripper to the side of the hole
+    Align the gripper with the hole so that we can insert the peg.
+    - When the gripper is near the hole, move the robot's gripper until it is aligned with the hole
+    Move the gripper to insert the peg into the hole, then close the gripper to hold the peg in place.
+    - When the robot's gripper is aligned with the hole and open, move the robot's gripper to insert the peg and then close gripper
+    Finally, push the peg into the hole to complete the task.

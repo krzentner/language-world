@@ -1,8 +1,8 @@
 
-    Steps:  1. Put gripper above the faucet handle  2. Drop gripper around the faucet handle  3. Turn the faucet left
-    The robot couldn't turn the faucet without getting a grip on the handle first, so we need it to try to get a grip.
-    - When the robot's gripper is not above the faucet handle, move the robot's gripper until the robot's gripper is above the faucet handle
-    With the gripper above the handle, we need to try to get a grip on it.
-    - When the robot's gripper is above the faucet handle and the robot's gripper is not around the faucet handle, move the robot's gripper until the robot's gripper is around the faucet handle
-    Once the robot has a grip on the handle, it can try turning the faucet.
-    - When the robot's gripper is around the faucet handle, move the robot's gripper until the robot's gripper is left of the faucet handle
+    Steps:  1. Put gripper left of faucet handle  2. Start pushing against the faucet handle to turn left  3. Push harder if the faucet won't turn
+    Put the robot's gripper left of the faucet handle, so that the robot can have a good grip on the handle when pushing against it.
+    - When the robot's gripper is not left of the faucet handle, move the robot's gripper until the robot's gripper is left of the faucet handle
+    Begin pushing against the faucet handle. Make sure the robot is pushing in the correct direction.
+    - When the robot's gripper is left of the faucet handle, move the robot's gripper until the robot's gripper is near and forward aligned with the faucet handle
+    If the faucet won't turn, push harder until it does.
+    - When the robot's gripper is near and forward aligned with the faucet handle, move the robot's gripper until the robot's gripper is vertically aligned with the faucet handle and the robot's gripper is pushing harder against the faucet handle

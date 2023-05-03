@@ -1,17 +1,12 @@
-# peg-unplug-side: pull the peg out from the side
-# def peg_unplug_side(robot):
+# peg-unplug-side: grab the peg and pull it out from the side
+def peg_unplug_side(robot):
     # Steps:
-    #  1. Put gripper above the peg
-    #  2. Grab the peg with the gripper
-    #  3. Line the gripper up with the peg and pull it out
-    # First, put the gripper above the peg.
-    if check("the robot's gripper is not vertically aligned with the peg"):
-        robot.move_gripper("vertically aligned with the peg")
-    # If the peg becomes left of the gripper, go back to putting the gripper
-    # above the peg.
-    if check("peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper"):
-        robot.move_gripper("forward aligned with the peg", close_gripper=True)
-    # If the gripper is around the peg, pull the peg out.
-    if check("the robot's gripper is around the peg"):
-        robot.move_gripper("horizontally aligned with the peg", close_gripper=True)
-        robot.move_gripper("vertically aligned with the peg", close_gripper=False)
+    #  1. Put gripper around the peg
+    #  2. Pull the peg out while moving gripper to the left
+    # First, put the gripper around the peg.
+    if check("the robot's gripper is not around the peg and the robot's gripper is open"):
+        robot.move_gripper("near the peg", close_gripper=True)
+    # Once the gripper is around the peg, we can start pulling it out
+    # by moving the gripper to the left.
+    if check("the robot's gripper is around the peg and the robot's gripper is not left of the peg"):
+        robot.move_gripper("left of the peg")

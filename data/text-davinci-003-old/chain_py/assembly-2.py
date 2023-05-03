@@ -1,19 +1,21 @@
 
     # Steps:
-    #  1. Put gripper above wrench
-    #  2. Drop wrench onto the peg
-    #  3. Push wrench around peg
-    #  4. Close wrench around peg
-    # First, put the gripper above the wrench.
-    if check("the robot's gripper is not above the wrench"):
-        robot.put("gripper above wrench")
-    # Once the gripper is above the wrench, we can drop it onto the peg.
-    if check("the robot's gripper is above the wrench and the robot's gripper is not around the peg"):
-        robot.drop("wrench onto peg")
-    # Now that the wrench is around the peg, we can push it around the peg until
-    # it is completely around it.
-    if check("the robot's gripper is around the peg and the wrench is not completely around the peg"):
-        robot.push("wrench around peg")
-    # Once the wrench is around the peg, close it to keep it in place.
-    if check("the wrench is completely around the peg"):
-        robot.close("wrench around peg")
+    #  1. Reach the wrench above the peg
+    #  2. Push the wrench over the peg
+    #  3. Line up the wrench with the peg
+    #  4. Put the wrench around the peg
+    # We need to reach the wrench with the gripper above the peg before we can put
+    # it around.
+    if check("the robot's gripper is not above the peg"):
+        robot.reach("wrench to above the peg")
+    # If the wrench is right of the peg and we can see it from the side, push it 
+    # with the gripper over the peg.
+    if check("the wrench is right of the peg and the robot's gripper is not forward aligned with the peg"):
+        robot.push("wrench to the left")
+    # We need to line the wrench up with the peg from the side, so that we can
+    # slide it around.
+    if check("the robot's gripper is forward aligned with the peg and the wrench is not horizontally aligned with the peg"):
+        robot.align("wrench to peg")
+    # Now that it's lined up, slide the wrench around the peg.
+    if check("the robot's gripper is forward aligned with the peg and the wrench is horizontally aligned with the peg"):
+        robot.place("wrench around peg")

@@ -1,27 +1,28 @@
 
 
-The code for `sweep-into` should look like this:
+Steps:
+1. Put gripper to the left of the cube
+2. Move gripper around the left side of the cube
+3. Close gripper around the cube
+4. Move cube to target location
 
-```
-# sweep-into: grab the cube and move it to the target location
-# def sweep_into(robot):
+#sweep-into: grab the cube and move it to the target location
+def sweep_into(robot):
     # Steps:
-    #  1. Put the gripper to the left of the cube
-    #  2. Move the gripper in a sweeping motion to grab the cube
-    #  3. Place the cube at the goal
-    # Put the gripper to the left of the cube.
-    if check("the robot's gripper is not to the left of the cube"):
-        robot.move("gripper to left of cube")
-    # Move the gripper in a sweeping motion starting to the left of the cube,
-    # curving in to grab it.
-    if check("the robot's gripper is not sweeping across the cube and the gripper is not near the cube"):
-        robot.sweep("gripper towards cube")
-    # If the gripper is near the cube and no longer sweeping, it's probably
-    # caught the cube.
-    # Close the gripper to make sure it holds the cube.
-    if check("the robot's gripper is near the cube and the gripper is open"):
+    #  1. Put gripper to the left of the cube
+    #  2. Move gripper around the left side of the cube
+    #  3. Close gripper around the cube
+    #  4. Move cube to target location
+    # Put the gripper to the left of the cube
+    if check("the robot's gripper is not left of the cube"):
+        robot.put("gripper to left of cube")
+    # If the gripper is slightly left of the cube, move it around the left
+    # side of the cube.
+    if check("the robot's gripper is slightly left of the cube"):
+        robot.sweep("gripper around left side of cube")
+    # If the gripper is aligned with the cube, close it around the cube.
+    if check("the robot's gripper is aligned with cube and the robot's gripper is open"):
         robot.close("gripper around cube")
-    # Move the held cube to the goal.
-    if check("the robot's gripper is above the cube and the gripper is closed"):
-        robot.sweep("cube to goal")
-```
+    # Once the gripper is closed, we can move the cube to the target location 
+    if check("the robot's gripper is closed around cube"):
+        robot.move("cube to target location")

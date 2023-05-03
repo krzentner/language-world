@@ -1,7 +1,6 @@
-I'm sorry, it looks like you already provided the steps for the `drawer-open` task in your original prompt. Here are the steps again:
-
-    Steps:  1. Put gripper above drawer handle  2. Drop gripper around drawer handle  3. Pull open the drawer
-
-1. First, put the gripper above the drawer handle.
-2. Once the gripper is lined up above the drawer handle, move the gripper down around the handle to grab it.
-3. Pull the gripper away from the drawer to open it.
+The robot should perform the following steps to reliably pull the drawer open:
+    Steps:  1. Put gripper roughly around the drawer handle  2. Pull the drawer open
+    If the gripper is not near the drawer handle, move it to the drawer handle. We don't need to be careful about the direction, since the drawer is large and we're just pulling it.
+    - When the robot's gripper is not near the drawer handle, the robot should grab drawer handle.
+    If the drawer is aligned with the gripper as seen from in front, we can pull the drawer open.
+    - When the robot's gripper is forward aligned with drawer handle, the robot should pull drawer open.

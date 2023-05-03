@@ -1,7 +1,7 @@
 To pick up the puck and hold it at the target location with a short wall in the way reliably, the robot should perform the following steps:
-- When the robot's gripper is not above the puck, the robot should place the gripper above the puck.
-- When the robot's gripper is not around the puck and the robot's gripper is open, the robot should drop the gripper around the puck.
-- When the puck is in the gripper and the robot's gripper is closed, the robot should move the gripper to the side of the wall.
-- When the robot's gripper is beside the wall, the robot should lift the gripper and move it above the wall.
-- When the robot's gripper is above the wall and the goal location is visible, the robot should move the gripper towards the goal location.
-- When the robot's gripper is above the target location and the robot's gripper is closed, the robot should place the puck at the target location.
+
+- When the robot's gripper is not above the puck and the robot's gripper is not vertically aligned with the puck, the robot should put the gripper above the puck.
+- When the robot's gripper is vertically aligned with the puck and the robot's gripper is not near the puck, the robot should move closer to the puck until it is near.
+- When the robot's gripper is near the puck and the robot's gripper is open, the robot should close the gripper around the puck.
+- When the gripper is holding the puck, the robot should move the puck to the target location, keeping the puck above the wall but close to it at all times.
+- When the robot is above the target location, the robot should drop the puck gently onto the target location.

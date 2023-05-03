@@ -1,22 +1,22 @@
 
 
-Steps:
-  1. Put gripper above faucet
-  2. Turn faucet to the right
+We want the robot to turn the faucet clockwise to close it.
 
-# faucet-close: turn the faucet to the right
-# def faucet_close(robot):
+```
+# faucet-close: turn the faucet right
+def faucet_close(robot):
     # Steps:
-    #  1. Put gripper above faucet
-    #  2. Turn faucet to the right
-    # We need to put the gripper above the faucet before we can grab it, because
-    # of the angle of the robot's gripper.
-    if check("the robot's gripper is not vertically aligned with faucet"):
-        robot.put("gripper above faucet")
-    # Once the gripper is lined up above the faucet, we should be able to grab
-    # the faucet by moving the gripper around it.
-    if check("the robot's gripper is vertically aligned with faucet and the robot's gripper is not around faucet"):
-        robot.put("gripper around faucet")
-    # Try to turn the faucet to the right.
-    if check("the robot's gripper is around faucet"):
-        robot.turn("faucet to the right")
+    #  1. Put the gripper below the faucet handle
+    #  2. Grab the faucet handle with the gripper
+    #  3. Turn the faucet handle clockwise
+    # First, put the gripper below the faucet handle.
+    if check("the robot's gripper is not below the faucet handle"):
+        robot.put("gripper below faucet handle")
+    # If the faucet handle is not in the gripper, try to grab it by moving the
+    # gripper downwards.
+    if check("the robot's gripper is below the faucet handle and the robot's gripper is not around the faucet handle"):
+        robot.grab("faucet handle")
+    # If the faucet handle is in the gripper, turn it clockwise.
+    if check("the robot's gripper is around the faucet handle"):
+        robot.turn("faucet handle clockwise")
+```

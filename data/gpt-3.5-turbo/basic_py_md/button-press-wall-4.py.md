@@ -1,10 +1,10 @@
 # button-press-wall: push the button from the front with a short wall in the way
-# def button_press_wall(robot):
-    if check("the robot's gripper is not facing the button"):
-        robot.rotate("to face the button")
-    if check("the robot's gripper is not near the button"):
-        robot.move("towards the button")
-    if check("the robot's gripper is near the button and the short wall obstructs the path to the button"):
-        robot.move("alongside the wall")
-    if check("the robot's gripper is in front of the button and the wall is no longer in the way"):
-        robot.push("the button")
+def button_press_wall(robot):
+    if check("the robot's gripper is not vertically aligned with button and the robot's gripper is not in front of the button"):
+        robot.move("gripper to front of button")
+        robot.move("gripper above button")
+    if check("the robot's gripper is vertically aligned with button and the robot's gripper is not behind the wall"):
+        robot.push("the gripper into the wall")
+    if check("the robot's gripper is behind the wall and the wall is above the robot's gripper and the robot's gripper is vertical"):
+        robot.move("gripper to top of wall")
+        robot.push("down on button")

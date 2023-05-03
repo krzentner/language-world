@@ -1,27 +1,19 @@
 # Steps:
-    #  1. Scan the area and locate the cube and target bin
-    #  2. Calculate the path to the cube, avoiding any obstacles
-    #  3. Move the gripper to the cube
-    #  4. Close the gripper around the cube
-    #  5. Calculate the path to the target bin, avoiding any obstacles
-    #  6. Move the gripper to the target bin
-    #  7. Release the cube into the bin
-    # First, scan the area and locate the cube and target bin.
-    cube_location = scan_for_object("cube")
-    bin_location = scan_for_object("bin")
-    # Next, calculate a path to the cube, avoiding any obstacles.
-    path_to_cube = calculate_path(robot.current_location, cube_location)
-    # Follow the path to the cube.
-    follow_path(robot, path_to_cube)
-    # Once we've reached the cube, move the gripper around it and close it.
-    if check("the robot's gripper is not around the cube"):
+    #  1. Use camera to locate cube
+    #  2. Position gripper above cube in a way that allows for a good grip
+    #  3. Close gripper around cube
+    #  4. Lift cube and move it to target bin
+    # Use the robot's camera to locate the cube in the workspace.
+    if check("the robot's camera cannot see the cube"):
+        robot.move_camera("to view the cube")
+    # Position the gripper above the cube in a way that allows for a good grip.
+    if check("the gripper is not properly positioned and ready to pick up the cube"):
+        robot.move_gripper("above the cube", close_gripper=False)
+    # Close the gripper around the cube to pick it up.
+    if check("the cube is not held securely by the gripper"):
         robot.move_gripper("around the cube", close_gripper=True)
-    # Next, calculate a path to the target bin, avoiding any obstacles.
-    path_to_bin = calculate_path(robot.current_location, bin_location)
-    # Follow the path to the bin.
-    follow_path(robot, path_to_bin)
-    # Once we've reached the target bin, release the cube into the bin.
-    if check("the robot's gripper is not above the bin"):
-        robot.move_gripper("above the bin")
-    if check("the robot's gripper is above the bin and the gripper is closed"):
-        robot.move_gripper("open", close_gripper=False)
+    # Lift the cube and move it to the target bin.
+    if check("the gripper is not positioned over the target bin"):
+        robot.move_gripper("over the target bin", close_gripper=True)
+    if check("the cube has not been released into the target bin"):
+        robot.move_gripper("above the target bin", close_gripper=False)

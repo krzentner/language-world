@@ -1,22 +1,25 @@
 
 
-The code for the program should be:
+Steps:
+1. Put gripper above the handle
+2. Line up the gripper vertically with the handle
+3. Push the handle downwards
 
 ```
 # handle-press: push down the handle
 # def handle_press(robot):
     # Steps:
-    #  1. Put gripper above handle
-    #  2. Drop gripper around handle
-    #  3. Push down on the handle
-    # First, put the gripper roughly above the handle.
-    if check("the robot's gripper is not almost vertically aligned with handle"):
-        robot.put("gripper above handle")
-    # As long as the gripper is almost lined up, closing it should line it up
-    # all the way.
-    if check("the robot's gripper is almost vertically aligned with the handle and the robot's gripper is open"):
-        robot.drop("gripper around handle")
-    # Once the gripper is around the handle, we can just push down on the handle.
-    if check("the robot's gripper is around handle"):
-        robot.push("down on handle")
+    #  1. Put gripper above the handle
+    #  2. Line up the gripper vertically with the handle
+    #  3. Push the handle downwards
+    # If the gripper is not above the handle yet, put the gripper above it.
+    if check("the robot's gripper is not above the handle"):
+        robot.put("gripper above the handle")
+    # If the gripper is above the handle and not vertically aligned, move the
+    # gripper vertically.
+    if check("the robot's gripper is above the handle and the robot's gripper is not vertically aligned with the handle"):
+        robot.align("gripper with handle")
+    # After the gripper is vertically aligned with the handle, push down on it.
+    if check("the robot's gripper is vertically aligned with the handle"):
+        robot.push("handle downwards")
 ```

@@ -1,16 +1,20 @@
 
 
 Steps:
-  1. Put gripper above lever
-  2. Drop gripper around lever
-  3. Rotate lever up
+1. Put gripper right of the lever
+2. Pull the lever up
 
-If the robot's gripper is not horizontally aligned with the lever, move the gripper near the lever.
+If the robot's gripper is not near the lever, move it to the lever.
+We don't need to be careful about the direction, since the lever is small and we're just pulling it.
 
-if check("the robot's gripper is not horizontally aligned with lever"):
-    robot.move_gripper("horizontally aligned with the lever", close_gripper=True)
+```
+    if check("the robot's gripper is not near the lever"):
+        robot.move_gripper("near the lever")
+```
+    
+Once the gripper is near the lever, we should be able to pull the lever up by moving the gripper left.
 
-Once the gripper is in place, rotate the lever up.
-
-if check("the robot's gripper is horizontally aligned with the lever"):
-    robot.move_gripper("above the lever")
+```
+    if check("the robot's gripper is near the lever"):
+        robot.move_gripper("left of lever")
+```

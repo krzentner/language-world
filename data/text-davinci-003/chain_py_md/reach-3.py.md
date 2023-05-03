@@ -1,14 +1,18 @@
 
 
-Then, the code to do the reach task is as follows:
-
-```
 # reach: reach to the target location
-# def reach(robot):
+def reach(robot):
     # Steps:
-    #  1. Reach towards the target
-    # We don't have any objects to manipulate, so we can just move the robot's
-    # gripper directly to the target location
-    if check("the robot's gripper is not near reach target"):
-        robot.reach("to goal")
-```
+    #  1. Move gripper to target location
+    #  2. Drop gripper around the target
+    #  3. Close gripper around the target
+    # First, move the gripper near the target location.
+    if check("the robot's gripper is not near the target location"):
+        robot.move("gripper to target location")
+    # Once the gripper is near the target, close the gripper around the target.
+    if check("the robot's gripper is near the target"):
+        robot.put("gripper around the target")
+    # If the target is close enough to the gripper and the gripper is open,
+    # close the gripper around the target.
+    if check("the robot's gripper is near the target and the robot's gripper is open"):
+        robot.close("gripper around the target")

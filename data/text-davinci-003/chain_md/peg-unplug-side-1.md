@@ -1,11 +1,10 @@
-
-
-Steps:  1. Put gripper above peg  2. Grab peg with gripper  3. Pull peg sidewards to unplug it  4. Lift peg out
-    First, put the robot's gripper above the peg and adjust it so that it is just above the peg.
-    - When the robot's gripper is not vertically aligned with the peg, the robot should put gripper above peg.
-    Once the gripper is above the peg, move it down to the peg so that we can grab it.
-    - When the robot's gripper is not above the peg and the robot's gripper is not around the peg, the robot should grab peg.
-    Now that the gripper is around the peg, we can begin to unplug it. Pull the peg sidewards and slowly out of the hole. 
-    -  When the robot's gripper is around peg and the peg is still plugged into the hole, the robot should pull peg sidewards to unplug it.
-    Once the peg is somewhat unplugged, lift it out of the hole so that it is completely removed.
-    - When peg is unplugged and peg is still in the hole, the robot should lift peg out.
+ 
+    Steps:  1. Put gripper above the peg  2. Grab the peg with the gripper  3. Rotate the peg so it is aligned to the vertical  4. Slide the peg sideways out of the hole
+    First, put the gripper above the peg.
+   -  When the robot's gripper is not vertically aligned with the peg, the robot should put gripper above peg. 
+   If the peg becomes right of the gripper, go back to putting the gripper above the peg. Because the peg is a long object, check if the gripper is lined up with it from the front instead of around it.
+   - When peg is not right of the robot's gripper and peg is not forward aligned with the robot's gripper, the robot should grab peg. 
+   As long the gripper is still mostly around the peg, rotate the peg so it is aligned to the vertical.
+   - When the robot's gripper is forward aligned with the peg and the peg is not vertically aligned with hole, the robot should rotate peg to be vertical.
+   If the peg is vertical, we can slide it sideways out of the hole.
+   - When peg is vertically aligned with hole, the robot should slide peg out of hole.

@@ -1,12 +1,13 @@
 
-    Steps:  1. Put gripper above the hole  2. Drop gripper around the peg  3. Close gripper around the peg  4. Lift the peg out of the hole  5. Place peg at goal
-    First, orient the gripper above the hole, so that we don't knock the peg when trying to grab it.
-    - When the robot's gripper is not above the hole, the robot should put gripper above the hole.
-    Once the gripper is above the hole, we should be able to grab the peg by putting the gripper around it.
-    - When the robot's gripper is not around the peg and the robot's gripper is open, the robot should drop gripper around the peg.
-    If the gripper is around the peg and open, maybe we can grab it by closing the gripper.
-    - When the robot's gripper is around the peg and the robot's gripper is open, the robot should close gripper around peg.
-    Once we've got the peg, we should be able to lift it out of the hole.
-    - When the robot's gripper is around the peg and the robot's gripper is closed, the robot should lift peg out of hole.
-    After the peg is clear of the hole, move the peg to the target location.
-    - When the robot's gripper is near the peg and the peg is clear of the hole, the robot should place peg at goal.
+
+Steps:  1. Put gripper above the peg  2. Extend the gripper down into the hole  3. Close gripper around peg  4. Lift peg out of hole  5. Move peg to goal
+    If the peg isn't beneath the gripper, move the it above the peg to start.
+    - When the robot's gripper is not above the peg, the robot should put gripper above peg.
+    If the peg is now beneath the gripper, we can extend the gripper down into the hole to grab it.
+    - When the robot's gripper is above the peg and the robot's gripper is not inside the hole, the robot should extend gripper down into hole.
+    If the gripper is inside the hole, try to close it around the peg.
+    - When the robot's gripper is inside the hole and the robot's gripper is open, the robot should close gripper around the peg.
+    The gripper should be closed now, so the robot can lift the peg out of the hole and try to move it to the goal.
+    - When the robot's gripper is closed and the peg is still in the hole, the robot should lift peg out of hole.
+    The peg should now be out of the hole, so move it to the goal. 
+    - When the peg is out of the hole, the robot should move peg to goal.

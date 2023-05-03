@@ -1,4 +1,4 @@
 
-    - When the robot's gripper is not near the wrench and the robot's gripper is not vertically aligned with the wrench, the robot should move the gripper above the wrench.
-    - When the robot's gripper is vertically aligned with the wrench, the robot should grab the wrench.
-    - When the wrench is below the robot's gripper, the robot should pull the wrench away from the peg.
+    - When the robot's gripper is not directly above wrench and the robot's gripper is not vertically aligned with wrench, the robot should put gripper above wrench.
+    - When the robot's gripper is vertically aligned with the wrench and the robot's gripper is not around wrench, the robot should put gripper around wrench.
+    - When the robot's gripper is around wrench and peg, the robot should pull wrench away from peg.

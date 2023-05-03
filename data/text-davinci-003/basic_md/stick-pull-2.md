@@ -1,4 +1,4 @@
 
-    - When the robot's gripper is not above the stick, the robot should pick up the stick with its gripper.
-    - When the robot's gripper is forward aligned with the thermos, the robot should pull the thermos with the stick.
-    - When the thermos is near target location, the robot should place the thermos at the target location.
+    - When the robot's gripper is not above the stick, the robot should place the gripper above the stick.
+    - When the robot's gripper is around the stick, the robot should pull the stick.
+    - When the robot's gripper is near the thermos and the stick is pushing the thermos, the robot should pull the thermos towards the goal.

@@ -1,17 +1,15 @@
 # Steps:
-    #  1. Put the gripper above the soccer ball
-    #  2. Close the gripper around the ball
-    #  3. Move the ball towards the goal
-    #  4. Release the ball
-    # To start, put the gripper above the soccer ball.
-    if check("the robot's gripper is not above the soccer ball"):
-        robot.place("gripper above soccer ball")
-    # Once the gripper is above the ball, close it around the ball.
-    if check("the robot's gripper is above the soccer ball and the gripper is open"):
-        robot.close("gripper around soccer ball")
-    # Now that the ball is in the gripper, move it towards the goal.
-    if check("the ball is in the gripper and the gripper is vertically aligned with the goal"):
-        robot.move("ball towards goal")
-    # Once the ball is near the goal, release it by opening the gripper.
-    if check("the ball is near the goal"):
-        robot.open("gripper to release soccer ball")
+    #  1. Approach the soccer ball
+    #  2. Put gripper around soccer ball
+    #  3. Push soccer ball towards the goal
+    # Approach the soccer ball by moving the robot's gripper towards it.
+    if check("the robot's gripper is not near the soccer ball"):
+        robot.approach("soccer ball")
+    # Once the gripper is near the soccer ball, put it around the ball.
+    if check("the robot's gripper is near the soccer ball and the robot's gripper is not around the soccer ball"):
+        robot.drop("gripper around soccer ball")
+    # If the gripper is around the soccer ball, start pushing it towards the
+    # goal by sliding it.
+    # We can keep the gripper closed to keep control of the ball.
+    if check("the robot's gripper is around the soccer ball and the soccer ball is in front of the robot's gripper"):
+        robot.slide("the soccer ball towards the goal")

@@ -1,8 +1,9 @@
 
-    Steps:  1. Put gripper on top of dial  2. Rotate dial in a circular fashion  3. Check to see if the door locked
-    If the dial is a bit higher than the robot's gripper, we should move the gripper to the dial.
-    - When the robot's gripper is not above the dial and the dial is higher than the robot's gripper, the robot should put gripper above dial.
-    Once the gripper is placed on top of the dial, rotate it in a circular fashion to start turning the dial.
-    - When the robot's gripper is above the dial and the dial is not rotating, the robot should rotate dial.
-    If the dial is rotating, we might have already unlocked the door, so move the robot towards the door handle and check.
-    - When the robot's gripper is above the dial and the dial is rotating, the robot should check if the door is locked.
+
+Steps:  1. Put gripper at top of dial  2. Turn dial  3. Keep turning the dial clockwise
+    First, put the gripper at the top of the dial and make sure it is in place.
+    - When the robot's gripper is not above the dial and not in place, the robot should put gripper at top of dial.
+    Once the gripper is in place, move the gripper and turn the dial clockwise.
+    - When the robot's gripper is in place, the robot should turn the dial clockwise.
+    If the gripper is still in place, keep turning the dial until the door is unlocked.
+    - When the robot's gripper is in place and the door is not unlocked, the robot should keep turning the dial clockwise.

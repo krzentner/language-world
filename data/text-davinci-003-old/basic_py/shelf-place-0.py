@@ -1,13 +1,9 @@
 
-    if check("the robot's gripper is not near the block"):
-        robot.reach("block")
-    if check("the robot's gripper is not above the block"):
-        robot.put("gripper above block")
-    if check("the robot's gripper is above the block and the robot's gripper is not around the block"):
-        robot.drop("gripper around block")
-    if check("the robot's gripper is around the block and the robot's gripper is open"):
-        robot.close("gripper around block")
-    if check("the robot's gripper is around the block and the block is not near target shelf"):
-        robot.move("block to target shelf")
-    if check("the robot's gripper is around the block and the block is near target shelf"):
-        robot.place("block on shelf")
+    if check("the robot's gripper is not anywhere near the block"):
+        robot.navigate("towards the block")
+    if check("the robot's gripper is near the block and the robot's gripper is open"):
+        robot.grab("block")  
+    if check("the robot's gripper is holding the block"):
+        robot.move("robot near target position")
+    if check("the target position is near the block and the robot is near it"):
+        robot.drop("block on target position")

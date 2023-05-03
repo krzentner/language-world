@@ -1,6 +1,3 @@
 
-
-The robot should perform the following steps:
-    - When the robot's gripper is not above the wall, the robot should move gripper above the wall.
-    - When the robot's gripper is above the wall and the robot's gripper is not near the wall, the robot should move gripper near the wall.
-    - When the robot's gripper is above the wall and near the wall, the robot should reach to target location.
+    - When the robot's gripper is not near the wall, the robot should move close to the wall.
+    - When the robot's gripper is near the wall and the target location is also near the wall, the robot should move around the wall to reach the target location.

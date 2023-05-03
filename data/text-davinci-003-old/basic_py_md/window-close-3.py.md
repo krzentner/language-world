@@ -1,7 +1,6 @@
 
 
-The program should be:
-
+Answer:
 ```
 # window-close: slide the window closed to the right
 # def window_close(robot):

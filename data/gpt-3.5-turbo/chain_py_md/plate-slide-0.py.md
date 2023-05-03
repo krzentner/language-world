@@ -1,5 +1,5 @@
 # plate-slide: slide the plate into the target location
-# def plate_slide(robot):
+def plate_slide(robot):
     # Steps:
     #  1. Put gripper above plate
     #  2. Push gripper into plate
@@ -8,7 +8,7 @@
     # above and moving the gripper.
     # If the plate isn't below the gripper as seen from above, move the gripper
     # above the plate.
-    if check("the robot's gripper is not above the plate and the robot's gripper is not vertically aligned with the plate"):
+    if check("the robot's gripper is not above plate and the robot's gripper is not vertically aligned with the plate"):
         robot.put("the gripper above the plate")
     # If the gripper is aligned with the plate but not near it, move the gripper
     # down to the plate to slide it.

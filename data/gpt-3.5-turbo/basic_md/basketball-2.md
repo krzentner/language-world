@@ -1,5 +1,5 @@
 To put the ball into the hoop reliably, the robot should perform the following steps:
-    - When the robot's gripper is not above the ball, the robot should move the gripper above the ball.
-    - When the robot's gripper is above the ball and the ball is not inside the gripper, the robot should pick up the ball.
-    - When the robot is near the hoop and the ball is inside the gripper, the robot should aim for the hoop and throw the ball into the hoop.
-    - If the ball misses the hoop, the robot should retrieve the ball and repeat the process until successful.
+    - When the robot's gripper is not above the ball and the robot's gripper is not vertically aligned with the ball, the robot should put the gripper above the ball.
+    - When the robot's gripper is vertically aligned with the ball and the robot's gripper is not around the ball, the robot should push the gripper into the ball.
+    - When the robot's gripper is around the ball and the ball is below the hoop, the robot should move the gripper and ball to the hoop.
+    - When the ball is below the hoop and the robot's gripper is near the hoop, the robot should release the ball and let it fall into the hoop.

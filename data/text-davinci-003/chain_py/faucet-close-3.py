@@ -1,16 +1,11 @@
 
     # Steps:
-    #  1. Put gripper above the faucet
-    #  2. Drop the gripper around the faucet
-    #  3. Rotate the faucet right
-    # We put the gripper above the faucet.
-    if check("the robot's gripper is not above the faucet"):
-        robot.put("gripper above faucet")
-    # If the gripper is not yet around the faucet, try to grab it by putting the
-    # gripper around the faucet.
-    # We don't need to worry about the direction since we can just spin it.
-    if check("the robot's gripper is not around faucet and the robot's gripper is open"):
-        robot.put("gripper around faucet")
-    # Once the faucet is lined up with the gripper, we can start rotating it.
-    if check("the robot's gripper is around faucet and the robot's gripper is closed"):
-        robot.rotate("faucet right")
+    #  1. Put gripper around faucet handle
+    #  2. Rotate faucet handle clockwise to close faucet
+    # First, put the gripper around the faucet handle, so it can grab it.
+    if check("the robot's gripper is not around the faucet handle"):
+        robot.put("gripper around faucet handle")
+    # If the gripper is around the handle and not turned, just turn it clockwise
+    # to close the faucet.
+    if check("the robot's gripper is around the faucet handle and the faucet handle is not turned clockwise"):
+        robot.rotate("faucet clockwise")

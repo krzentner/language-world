@@ -1,0 +1,1 @@
+I'm sorry, but it seems like there might be some confusion with the task `hand-insert`. Based on the name of the task, it sounds like the robot should be using its own hand or end-effector to insert something into a hole or slot. Can you provide more context or clarification about the task?
