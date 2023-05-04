@@ -1,5 +1,0 @@
-Using model: gpt-3.5-turbo
-{
-  "content": "# handle-press-side: push down the handle from the side\n# def handle_press_side(robot):\n    # Steps:\n    #  1. Put gripper above the handle\n    #  2. Grab the handle with the gripper\n    #  3. Push down the handle from the side\n    # First, put the gripper above the handle.\n    if check(\"the robot's gripper is not vertically aligned with the handle\"):\n        robot.put(\"gripper above handle\")\n    # If the handle is not grabbed yet, grab it with the gripper.\n    if check(\"the robot's gripper is not around handle\"):\n        robot.grab(\"handle\")\n    # If the gripper and the handle are on the same side, push down the handle.\n    if check(\"the handle and the robot's gripper are on the same side\"):\n        robot.push(\"down on handle\")",
-  "role": "assistant"
-}

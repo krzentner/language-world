@@ -1,9 +1,0 @@
-Using engine: text-davinci-003
-
-    if check("the robot's gripper is not above wrench"):
-        robot.put("gripper above wrench")
-    if check("the robot's gripper is not around wrench and the robot's gripper is open"):
-        robot.grab("wrench")
-    if check("the robot's gripper is around wrench"):
-        robot.pull("wrench away from peg")
-writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_py/disassemble-0.py'

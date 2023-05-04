@@ -1,6 +1,0 @@
-Using engine: text-davinci-003
-
-    - When the robot's gripper is not vertically aligned with the button, the robot should put gripper slightly above button.
-    - When the robot's gripper is vertically aligned with the button and the robot's gripper is not near the wall, the robot should reach over the wall.
-    - When the robot's gripper is near the wall, the robot should push down on the button.
-writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_md/button-press-topdown-wall-1.md'

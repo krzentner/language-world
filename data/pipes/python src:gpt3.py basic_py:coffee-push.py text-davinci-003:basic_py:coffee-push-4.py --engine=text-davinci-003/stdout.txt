@@ -1,9 +1,0 @@
-Using engine: text-davinci-003
-
-    if check("the robot's gripper is not above the mug"):
-        robot.reach("above mug")
-    if check("the robot's gripper is above the mug and the robot's gripper is not around mug"):
-        robot.grab("mug")
-    if check("the robot's gripper is around mug"):
-        robot.move("mug to goal")
-writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_py/coffee-push-4.py'

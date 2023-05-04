@@ -1,7 +1,0 @@
-Using engine: text-davinci-003
-
-    if check("the robot's gripper is not above handle"):
-        robot.put("gripper above handle")
-    if check("the robot's gripper is above handle"):
-        robot.push("handle downwards")
-writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_py/handle-press-1.py'

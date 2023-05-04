@@ -1,6 +1,0 @@
-Using engine: text-davinci-003
-
-    - When the robot's gripper is not above the wall and the robot's gripper is not above the button, the robot should move gripper above wall.
-    - When the robot's gripper is above the wall and the robot's gripper is not above the button, the robot should move gripper above button.
-    - When the robot's gripper is above button, the robot should push down on button.
-writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_md/button-press-topdown-wall-3.md'

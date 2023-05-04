@@ -1,5 +1,0 @@
-Using engine: text-davinci-003
-
-    - When the robot's gripper is not above the dial, the robot should place gripper above dial.
-    - When the robot's gripper is above the dial, the robot should turn dial in desired direction.
-writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_md/door-lock-0.md'

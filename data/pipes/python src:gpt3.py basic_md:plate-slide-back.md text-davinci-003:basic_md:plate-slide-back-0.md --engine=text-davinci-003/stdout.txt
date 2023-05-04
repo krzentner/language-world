@@ -1,5 +1,0 @@
-Using engine: text-davinci-003
-
-    - When the robot's gripper is not above the plate, the robot should put gripper above plate. 
-    - When the robot's gripper is above the plate, the robot should push plate back into goal.
-writing to '/home/kr/language-to-policies/data_tmp/text-davinci-003/basic_md/plate-slide-back-0.md'
