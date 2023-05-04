@@ -125,6 +125,23 @@ cmd(
     ram_gb=0.3,
 )
 
+cmd(
+    "python",
+    "src/extract_json.py",
+    In(f"output_no-labels_ulm340b-long-int8.json"),
+    FileArg(f"ulm340b/{{plan_enc}}/{{task}}-{{i}}{{ext}}"),
+    extra_outputs=[
+        Out(f"ulm340b/{plan_enc}/{task}-{i}{plan_ext(plan_enc)}")
+        for i in range(LLM_ATTEMPTS)
+        for plan_enc in PLAN_ENCODINGS
+        for task in MT50_ENV_NAMES
+    ],
+    warmup_time=10,
+    ram_gb=1.0,
+    priority=1,
+)
+
+
 for plan_enc in PLAN_ENCODINGS:
     ext = plan_ext(plan_enc)
     for task in MT50_ENV_NAMES:
@@ -158,29 +175,25 @@ for plan_enc in PLAN_ENCODINGS:
                 ram_gb=0.3,
                 priority=1,
             )
-        for model in GPT3_ENGINES + GPT_CHAT_MODELS:
+        LLM_EVAL_FILES = []
+        for model in GPT3_ENGINES + GPT_CHAT_MODELS + ['ulm340b']:
             for i in range(LLM_ATTEMPTS):
+                out_file = f"{model}/{plan_enc}/{task}-{i}-perf.json"
                 cmd(
                     "python",
                     "src/scripted_cond_agent.py",
                     f"--task={task}",
                     In(f"{model}/{plan_enc}/{task}-{i}{ext}"),
-                    Out(f"{model}/{plan_enc}/{task}-{i}-perf.json"),
+                    Out(out_file),
                 )
+                LLM_EVAL_FILES.append(out_file)
+
 cmd(
     "python",
-    "src/extract_json.py",
-    In(f"output_no-labels_ulm340b-long-int8.json"),
-    FileArg(f"ulm340b/{{plan_enc}}/{{task}}-{{i}}{{ext}}"),
-    extra_outputs=[
-        Out(f"ulm340b/{plan_enc}/{task}-{i}{plan_ext(plan_enc)}")
-        for i in range(LLM_ATTEMPTS)
-        for plan_enc in PLAN_ENCODINGS
-        for task in MT50_ENV_NAMES
-    ],
-    warmup_time=10,
-    ram_gb=1.0,
-    priority=1,
+    "src/plot_tasks_at_success_rate.py",
+    "plot-llm-scripted-skill-evals",
+    extra_inputs=[In(eval_file) for eval_file in LLM_EVAL_FILES],
+    priority=-1,
 )
 
 # print(GLOBAL_CONTEXT.commands)

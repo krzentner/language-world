@@ -146,7 +146,7 @@ MODEL_SHORT_NAME = {
 def plot_llm_scripted_skill_evals():
     performances = {}
     for plan_enc in tqdm(PLAN_ENCODINGS):
-        for model in GPT3_ENGINES + GPT_CHAT_MODELS:
+        for model in GPT3_ENGINES + GPT_CHAT_MODELS + ['ulm340b']:
             perf = merge_result_files(
                 [
                     f"data/{model}/{plan_enc}/{task}-{i}-perf.json"

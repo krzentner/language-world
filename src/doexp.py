@@ -238,6 +238,7 @@ class Context:
 
     def _refresh_commands(self, filename):
         """Reloads, filters, and sorts the commands"""
+        old_commands = self.commands
         self.commands = set()
         try:
             with open(filename) as f:
@@ -247,10 +248,14 @@ class Context:
             if isinstance(exc, KeyboardInterrupt):
                 raise exc
             else:
-                line_num = sys.exc_info()[2].tb_next.tb_lineno
-                print(f"Error in exps.py (line {line_num}):")
-                print(exc)
-                print(">>", content.split("\n")[line_num - 1])
+                try:
+                    line_num = sys.exc_info()[2].tb_next.tb_lineno
+                    print(f"Error in exps.py (line {line_num}):")
+                    print(exc)
+                    print(">>", content.split("\n")[line_num - 1])
+                except AttributeError:
+                    print(exc)
+                self.commands = old_commands
         ready, done = self._filter_commands(self.commands)
         return _sort_cmds(ready), done
 
