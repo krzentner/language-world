@@ -287,7 +287,7 @@ class Context:
     def run_cmd(self, cmd):
         """Sets temp files and starts a process for cmd"""
         self.reserved_ram_gb += cmd.ram_gb
-        cmd_dir = os.path.join(self.data_dir, "pipes", _cmd_name(cmd))
+        cmd_dir = os.path.join(self._tmp_data_dir, "pipes", _cmd_name(cmd))
         os.makedirs(cmd_dir, exist_ok=True)
         stdout = open(os.path.join(cmd_dir, "stdout.txt"), "w")
         stderr = open(os.path.join(cmd_dir, "stderr.txt"), "w")
@@ -339,7 +339,7 @@ class Context:
             self.reserved_ram_gb -= cmd.ram_gb
             if proc.returncode != 0:
                 print(f"Error running {cmd}")
-                cmd_dir = os.path.join(self.data_dir, "pipes", _cmd_name(cmd))
+                cmd_dir = os.path.join(self._tmp_data_dir, "pipes", _cmd_name(cmd))
                 with open(os.path.join(cmd_dir, "stderr.txt")) as f:
                     print(f.read())
             else:
