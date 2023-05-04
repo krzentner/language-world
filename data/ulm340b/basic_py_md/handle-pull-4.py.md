@@ -1,0 +1,63 @@
+
+
+If you are not familiar with programming, you can ignore the code and simply describe the steps the robot should take, one at a time. The robot can perform actions from the list below. Type one action at a time and then press Enter. If you do not know what actions to provide to the robot, then the examples above might provide some useful clues.
+
+Actions the robot can perform:
+
+- put gripper near <x> (where x can be hole, peg, button, window handle, door handle, drawer handle, puck, reach target)
+- put gripper near goal
+- grab <x> (where x can be hole, peg, button, window handle, door handle, drawer handle, puck)
+- grab hole
+- grab peg
+- grab button
+- grab window handle
+- grab door handle
+- grab drawer handle
+- grab puck
+- insert peg into hole
+- press button
+- slide window left
+- slide window right
+- slide window left harder
+- slide window right harder
+- slide puck to goal
+- slide puck to the left
+- slide puck to the right
+- slide door open
+- slide door close
+- pull gripper around <x> (where x can be hole, peg, button, window handle, door handle, drawer handle, puck, reach target)
+- pull gripper around hole
+- pull gripper around peg
+- pull gripper around button
+- pull gripper around window handle
+- pull gripper around door handle
+- pull gripper around drawer handle
+- pull gripper around puck
+- push door open
+- push door close
+- push gripper around <x> (where x can be hole, peg, button, window handle, door handle, drawer handle, puck, reach target)
+- push gripper around hole
+- push gripper around peg
+- push gripper around button
+- push gripper around window handle
+- push gripper around door handle
+- push gripper around drawer handle
+- push gripper around puck
+- pull away from <x> (where x can be hole, peg, button, window handle, door handle, drawer handle, puck, reach target)
+- pull away from hole
+- pull away from peg
+- pull away from button
+- pull away from window handle
+- pull away from door handle
+- pull away from drawer handle
+- pull away from puck
+- align peg to hole
+- align peg to hole
+- drop gripper around <x> (where x can be hole, peg, button, window handle, door handle, drawer handle, puck, reach target)
+- drop gripper around hole
+- drop gripper around peg
+- drop gripper around button
+- drop gripper around window handle
+- drop gripper around door handle
+- drop gripper around drawer handle
+- drop grip

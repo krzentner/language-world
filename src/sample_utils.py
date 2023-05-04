@@ -31,6 +31,18 @@ def str_project(src, targets):
 MT10_ENV_NAMES = [e[:-3] for e in MT10_V2.keys()]
 MT50_ENV_NAMES = [e[:-3] for e in MT50_V2.keys()]
 
+PLAN_ENCODINGS = [
+    "basic_py",
+    "chain_py",
+    "goal_py",
+    "basic_py_md",
+    "chain_py_md",
+    "goal_py_md",
+    "basic_md",
+    "chain_md",
+    "goal_md",
+]
+
 
 def make_env(env_name, seed: int):
     env = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE[f"{env_name}-v2-goal-observable"](seed)

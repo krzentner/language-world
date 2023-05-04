@@ -1,0 +1,26 @@
+
+We will do this for 2 examples, and then ask you what to do on new examples.
+
+    Example 1:
+        To slide the puck to the target location, first the robot should perform the following steps:
+            Steps:  1. Put gripper above puck  2. Drop gripper around puck  3. Start sliding the puck  4. Continue sliding the puck
+                First, put the gripper above puck, so that we don't bump it while trying to grab it.
+                - When the robot's gripper is not above the puck, move the robot's gripper until the robot's gripper is above the puck
+                If the gripper isn't around the puck, put it around the puck.
+                - When the robot's gripper is not around puck and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the puck and the robot's gripper is closed
+                If the gripper is near the puck and open, maybe we can grab it by closing the gripper.
+                - When the robot's gripper is above puck and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the target location
+
+    Example 2:
+        To slide the puck to the target location, first the robot should perform the following steps:
+            Steps:  1. Put gripper above puck  2. Drop gripper around puck  3. Start sliding the puck  4. Continue sliding the puck
+                First, put the gripper above puck, so that we don't bump it while trying to grab it.
+                - When the robot's gripper is not above the puck, move the robot's gripper until the robot's gripper is above the puck
+                If the gripper isn't around the puck, put it around the puck.
+                - When the robot's gripper is not around puck and the robot's gripper is open, move the robot's gripper until the robot's gripper is near the puck and the robot's gripper is closed
+                If the gripper is near the puck and open, maybe we can grab it by closing the gripper.
+                - When the robot's gripper is above puck and the robot's gripper is closed, move the robot's gripper until the robot's gripper is near the target location
+
+The task `scooping` requires the robot to scoop the sugar with the spatula and move it to the bowl.
+To scoop the sugar with the spatula and move it to the bowl reliably, the robot should perform the following steps:
+    Steps:  1. Put grip

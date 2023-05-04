@@ -1,0 +1,37 @@
+
+    Step 0.0:  put gripper above the coffee button 
+    Step 0.1:  put gripper above the coffee button 
+    Step 0.2:  put gripper above the coffee button 
+    Step 0.3:  put gripper above the coffee button 
+    Step 0.4:  put gripper above the coffee button 
+    Step 0.5:  put gripper above the coffee button 
+    Step 0.6:  put gripper above the coffee button 
+    Step 0.7:  put gripper above the coffee button 
+    Step 0.8:  put gripper above the coffee button 
+    Step 0.9:  put gripper above the coffee button 
+    Step 1.0:  put gripper above the coffee button 
+    Step 1.1:  put gripper above the coffee button 
+    Step 1.2:  put gripper above the coffee button 
+    Step 1.3:  put gripper above the coffee button 
+    Step 1.4:  put gripper above the coffee button 
+    Step 1.5:  put gripper above the coffee button 
+    Step 1.6:  put gripper above the coffee button 
+    Step 1.7:  put gripper above the coffee button 
+    Step 1.8:  put gripper above the coffee button 
+    Step 1.9:  put gripper above the coffee button 
+    Step 2.0:  put gripper above the coffee button 
+    Step 2.1:  put gripper above the coffee button 
+    Step 2.2:  put gripper above the coffee button 
+    Step 2.3:  put gripper above the coffee button 
+    Step 2.4:  put gripper above the coffee button 
+    Step 2.5:  put gripper above the coffee button 
+    Step 2.6:  put gripper above the coffee button 
+    Step 2.7:  put gripper above the coffee button 
+    Step 2.8:  put gripper above the coffee button 
+    Step 2.9:  put gripper above the coffee button 
+    Step 3.0:  put gripper above the coffee button 
+    Step 3.1:  put gripper above the coffee button 
+    Step 3.2:  put gripper above the coffee button 
+    Step 3.3:  put gripper above the coffee button 
+    Step 3.4:  put gripper above the coffee button 
+    Step 3

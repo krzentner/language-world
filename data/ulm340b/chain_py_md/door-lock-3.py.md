@@ -1,0 +1,48 @@
+
+
+The following predicates are available for checking:
+
+```
+# Predicates for checking the state of the robot and objects
+check("the robot's gripper is open")
+check("the robot's gripper is closed")
+check("the robot's gripper is around peg")
+check("the robot's gripper is near peg")
+check("the robot's gripper is horizontally aligned with door handle")
+check("the robot's gripper is forward aligned with button")
+check("the robot's gripper is vertically aligned with door handle")
+check("the robot's gripper is near reach target")
+check("the robot's gripper is near door handle")
+check("the robot's gripper is vertically aligned with window handle")
+check("the robot's gripper is near window handle")
+check("the robot's gripper is near peg")
+check("the robot's gripper is forward aligned with puck")
+check("the robot's gripper is vertically aligned with hole")
+check("the robot's gripper is vertically aligned with peg")
+check("the robot's gripper is vertically aligned with puck")
+check("the robot's gripper is forward aligned with window handle")
+check("the robot's gripper is near window handle")
+check("the robot's gripper is near drawer handle")
+check("the robot's gripper is vertically aligned with drawer handle")
+check("the robot's gripper is near puck")
+check("the robot's gripper is vertically aligned with puck")
+check("the robot's gripper is vertically aligned with button")
+check("the robot's gripper is around drawer handle")
+check("the robot's gripper is horizontally aligned with window handle")
+check("the robot's gripper is in front of window handle")
+check("the robot's gripper is horizontally aligned with hole")
+check("the robot's gripper is in front of button")
+check("the robot's gripper is around button")
+check("the robot's gripper is horizontally aligned with drawer handle")
+check("the robot's gripper is in front of door handle")
+check("the robot's gripper is forward aligned with door handle")
+check("the robot's gripper is around door handle")
+check("the robot's gripper is horizontally aligned with door handle")
+check("the robot's gripper is in front of window handle")
+
+check("the puck is above button")
+check("the puck is below window handle")
+check("the puck is in front of button")
+check("the puck is in front of window handle")
+check("the puck is left of peg")
+check("the puck is

@@ -1,0 +1,16 @@
+
+    - <p>When the robot's gripper is not around the block, the robot should put the gripper above the block.</p>
+    - <p>When the robot's gripper is above the block and the block is not left of the robot's gripper, the robot should put gripper around block.</p>
+    - <p>When the robot's gripper is around the block and the block is not left of the robot's gripper, the robot should push gripper to block.</p>
+    - <p>When the robot's gripper is above the block and the block is left of the robot's gripper, the robot should put gripper around block.</p>
+    - <p>When the robot's gripper is around the block and the block is left of the robot's gripper, the robot should push gripper to block.</p>
+    - <p>When the robot's gripper is above the block and the block is left of the robot's gripper, the robot should push gripper into the block.</p>
+    - <p>When the robot's gripper is above the block and the block is right of the robot's gripper, the robot should put gripper around block.</p>
+    - <p>When the robot's gripper is around the block and the block is right of the robot's gripper, the robot should push gripper to block.</p>
+    - <p>When the robot's gripper is above the block and the block is right of the robot's gripper, the robot should push gripper into the block.</p>
+    - <p>When the robot's gripper is right of the block and the robot's gripper is open, the robot should put the gripper above the block.</p>
+    - <p>When the robot's gripper is left of the block and the robot's gripper is open, the robot should put the gripper above the block.</p>
+    - <p>When the robot's gripper is above the block and the robot's gripper is open, the robot should close gripper around block.</p>
+    - <p>When the robot's gripper is around the block and the robot's gripper is closed, the robot should lift the block.</p>
+    - <p>When the robot's gripper is above the block and the robot's gripper is closed, the robot should move to shelf goal.</p>
+    - <p>When the robot's gripper is above the block and the robot's gripper is closed, the robot
