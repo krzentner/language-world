@@ -14,13 +14,13 @@ import sys
 def plot_tasks_auc(data, filename, title="Success Rate", x_label="Success Rate"):
     fig = go.Figure()
     N_TASKS = 40
-    for (exp_name, perf) in data.items():
+    for exp_name, perf in data.items():
         env_names = list(perf.keys())
         if len(env_names) > N_TASKS:
             N_TASKS = len(env_names)
 
         envs_at_success_rate = {}
-        for (env_name, p) in perf.items():
+        for env_name, p in perf.items():
             p = int(100 * p)
             if p not in envs_at_success_rate:
                 envs_at_success_rate[p] = [env_name]
@@ -31,7 +31,7 @@ def plot_tasks_auc(data, filename, title="Success Rate", x_label="Success Rate")
         x = [0.0]
         text = [",<br>".join(env_names)]
         envs_remaining = y[0]
-        for (p, env_names_at_p) in sorted(envs_at_success_rate.items()):
+        for p, env_names_at_p in sorted(envs_at_success_rate.items()):
             y.append(envs_remaining * N_TASKS / (len(env_names)))
             envs_remaining -= len(env_names_at_p)
             x.append(p)
@@ -48,9 +48,17 @@ def plot_tasks_auc(data, filename, title="Success Rate", x_label="Success Rate")
         # text.append(",<br>".join(env_names[last_i:i]))
         # last_i = i
 
-        fig.add_trace(go.Scatter(x=x, y=y, text=text, name=exp_name, line_shape="vh"))
+        fig.add_trace(
+            go.Scatter(
+                x=x,
+                y=y,
+                text=text,
+                name=exp_name,
+                line_shape="vh",
+            )
+        )
     fig.update_yaxes(range=(0, N_TASKS * 1.1), zeroline=True)
-    fig.update_layout(title=title, yaxis_title="Number of Tasks", xaxis_title=x_label)
+    fig.update_layout(title=title, yaxis_title="Number of Tasks", xaxis_title=x_label, template="simple_white")
     fig.write_html(filename)
     return fig
 
@@ -138,15 +146,16 @@ PLAN_ENCODINGS = [
 LLM_ATTEMPTS = 5
 
 MODEL_SHORT_NAME = {
-    "text-davinci-003": "GPT3",
-    "gpt-3.5-turbo": "GPT3.5",
+    "text-davinci-003": "GPT 3",
+    "gpt-3.5-turbo": "GPT 3.5",
+    "ulm340b": "PaLM 2"
 }
 
 
 def plot_llm_scripted_skill_evals():
     performances = {}
     for plan_enc in tqdm(PLAN_ENCODINGS):
-        for model in GPT3_ENGINES + GPT_CHAT_MODELS + ['ulm340b']:
+        for model in GPT3_ENGINES + GPT_CHAT_MODELS + ["ulm340b"]:
             perf = merge_result_files(
                 [
                     f"data/{model}/{plan_enc}/{task}-{i}-perf.json"
