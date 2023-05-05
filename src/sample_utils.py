@@ -43,6 +43,25 @@ PLAN_ENCODINGS = [
     "goal_md",
 ]
 
+GPT3_ENGINES = [
+    # "text-babbage-001",
+    # "text-curie-001",
+    "text-davinci-003",
+]
+
+GPT_CHAT_MODELS = [
+    # "gpt-4",
+    "gpt-3.5-turbo"
+]
+
+MODEL_SHORT_NAME = {
+    "text-davinci-003": "GPT 3",
+    "gpt-3.5-turbo": "GPT 3.5",
+    "ulm340b": "PaLM 2",
+}
+
+LLM_ATTEMPTS = 5
+
 
 def make_env(env_name, seed: int):
     env = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE[f"{env_name}-v2-goal-observable"](seed)
