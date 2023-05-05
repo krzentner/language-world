@@ -58,8 +58,15 @@ def plot_tasks_auc(data, filename, title="Success Rate", x_label="Success Rate")
             )
         )
     fig.update_yaxes(range=(0, N_TASKS * 1.1), zeroline=True)
-    fig.update_layout(title=title, yaxis_title="Number of Tasks", xaxis_title=x_label, template="simple_white")
+    fig.update_layout(
+        title=title,
+        yaxis_title="Number of Tasks",
+        xaxis_title=x_label,
+        template="simple_white",
+    )
     fig.write_html(filename)
+    fig.write_image(filename.replace(".html", ".svg"))
+    fig.write_image(filename.replace(".html", ".pdf"))
     return fig
 
 
@@ -101,7 +108,7 @@ def load_result_files(filenames, metric="SuccessRate", n_evals=None, max_t=True)
     return perf
 
 
-def merge_result_files(result_filenames: List[str]) -> Dict[str, float]:
+def merge_result_files(result_filenames: List[str]) -> Dict[str, (float, str)]:
     perf = {}
     for filename in result_filenames:
         with open(filename) as f:
@@ -115,8 +122,8 @@ def merge_result_files(result_filenames: List[str]) -> Dict[str, float]:
                 warnings.warn(f"Could not load file: {filename}")
                 data = {}
         for k, v in data.items():
-            if k not in perf or v > perf[k]:
-                perf[k] = v
+            if k not in perf or v > perf[k][0]:
+                perf[k] = (v, filename)
     return perf
 
 
@@ -148,14 +155,20 @@ LLM_ATTEMPTS = 5
 MODEL_SHORT_NAME = {
     "text-davinci-003": "GPT 3",
     "gpt-3.5-turbo": "GPT 3.5",
-    "ulm340b": "PaLM 2"
+    "ulm340b": "PaLM 2",
+    "codepoet24b": "PaLM Code",
 }
+
+GOOGLE_LLMS = [
+    "ulm340b",
+    # "codepoet24b",
+]
 
 
 def plot_llm_scripted_skill_evals():
     performances = {}
     for plan_enc in tqdm(PLAN_ENCODINGS):
-        for model in GPT3_ENGINES + GPT_CHAT_MODELS + ["ulm340b"]:
+        for model in GPT3_ENGINES + GPT_CHAT_MODELS + GOOGLE_LLMS:
             perf = merge_result_files(
                 [
                     f"data/{model}/{plan_enc}/{task}-{i}-perf.json"
@@ -163,8 +176,22 @@ def plot_llm_scripted_skill_evals():
                     for task in MT50_ENV_NAMES
                 ]
             )
-            performances[f"{MODEL_SHORT_NAME[model]}/{plan_enc}"] = perf
+            performances[f"{MODEL_SHORT_NAME[model]}/{plan_enc}"] = {
+                k: v[0] for k, v in perf.items()
+            }
     plot_tasks_auc(performances, f"data/scripted_skills.html")
+    best_perf = {
+        "PaLM 2/chain_py": performances["PaLM 2/chain_py"],
+        "GPT 3.5/chain_py": performances["GPT 3.5/chain_py"],
+        "GPT 3/basic_py": performances["GPT 3/basic_py"],
+    }
+    plot_tasks_auc(best_perf, f"data/scripted_skills_best.html")
+    palm2_perf = {}
+    for plan_enc in tqdm(PLAN_ENCODINGS):
+        model = "ulm340b"
+        key = f"{MODEL_SHORT_NAME[model]}/{plan_enc}"
+        palm2_perf[key] = performances[key]
+    plot_tasks_auc(palm2_perf, f"data/scripted_skills_palm2.html")
 
 
 def run(
