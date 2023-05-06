@@ -10,6 +10,7 @@ from metaworld_scripted_skills import (
     nearest_skill,
     str_project,
 )
+from plan_encoding import project_plan, decode
 
 
 @dataclass
@@ -87,7 +88,6 @@ def project_plan(plan: List[Tuple[str, str]], task: str) -> List[Tuple[str, str]
 
 
 def run_plan_file(plan_file, out_file, *, task: str, seed=1111):
-    from plan_encoding import decode
     from sample_utils import eval_policy
     from tqdm import tqdm
     import json

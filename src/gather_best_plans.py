@@ -5,7 +5,8 @@ from constants import (
     LLM_ATTEMPTS,
 )
 from plot_tasks_at_success_rate import merge_result_files
-from plan_encoding import load_plan_file, save
+from plan_encoding import load_plan_file, save, project_plan
+from tqdm import tqdm
 import json
 
 
@@ -26,8 +27,12 @@ def gather_best_plans(out_file: str, *, out_encoding: str = "json"):
     }
     merged_plans = {}
     for task, (_, result_file) in perf.items():
-        merged_plans[task] = load_plan_file(result_to_plan[result_file])
+        merged_plans[task] = load_plan_file(result_to_plan[result_file], default_task=task)[task]
     save(json.dumps(merged_plans, indent=True), out_file)
+    projected_plans = {}
+    for task, plan in tqdm(merged_plans.items()):
+        projected_plans[task] = project_plan(plan, task)
+    save(json.dumps(merged_plans, indent=True), out_file.replace('.json', '-projected.json'))
 
 
 if __name__ == "__main__":

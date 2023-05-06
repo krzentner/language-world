@@ -7,6 +7,7 @@ import random
 
 
 import generate_metaworld_scene_dataset
+import metaworld_scripted_skills
 
 from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES, str_project
 
@@ -677,6 +678,15 @@ def generate_all_plans(directory: str = "data"):
         )
     with open(f"{directory}/all_prompts.json", "w") as f:
         json.dump(ALL_SAVED, f, indent=True)
+
+
+def project_plan(plan: List[Tuple[str, str]], task: str) -> List[Tuple[str, str]]:
+    out = []
+    possible_conditions = generate_metaworld_scene_dataset.enumerate_descriptors(task)
+    for (cond, skill) in plan:
+        cond_projected = metaworld_scripted_skills.str_project(cond, possible_conditions)[0]
+        out.append((cond_projected, metaworld_scripted_skills.nearest_skill(target_task=task, skill=skill)))
+    return out
 
 
 if __name__ == "__main__":
