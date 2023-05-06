@@ -11,7 +11,7 @@ import os
 import pickle
 from os.path import expanduser
 import sample_utils
-from constants import MT10_ENV_NAMES, MT50_ENV_NAMES
+from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS
 
 
 def pad_list(seq, max_len=None):
@@ -173,7 +173,7 @@ def fit_model(
     model_name,
     preprocess,
     batch_size=16,
-    n_epochs=5,
+    n_epochs=N_EPOCHS,
     seed=DEFAULT_SEED,
     learning_rate=1e-4,
     momentum=0.995,

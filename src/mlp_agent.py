@@ -17,7 +17,7 @@ from tqdm import tqdm
 # sys.path.append("src")
 
 import sample_utils
-from constants import MT10_ENV_NAMES, MT50_ENV_NAMES
+from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS
 from run_utils import float_list, str_list
 import pytorch_utils
 from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks, RayEvalCallbacks
@@ -174,11 +174,48 @@ def zeroshot(
         batch_size=batch_size,
         preprocess=preprocess,
         seed=seed,
-        n_epochs=1000,
+        n_epochs=N_EPOCHS,
         callbacks=callbacks,
         learning_rate=1e-5,
     )
     print("Done saving cache")
+
+
+def oneshot(
+    *,
+    train_envs: str_list = MT10_ENV_NAMES,
+    target_task: str,
+    seed=sample_utils.DEFAULT_SEED,
+    use_language_embedding: bool = True,
+    n_timesteps=int(1e5),
+    fewshot_timesteps=500,
+    use_noise=False,
+    out_file,
+):
+    print("Using training envs:", train_envs)
+    agent = MLPAgent(use_language_embedding=use_language_embedding)
+    callbacks = RayEvalCallbacks(
+        seed,
+        [target_task],
+        agent,
+        base_infos={
+            "target_task": target_task,
+        },
+        output_filename=out_file,
+        step_period=N_EPOCHS / 500,
+    )
+    train_and_evaluate_fewshot_with_callbacks(
+        callbacks=callbacks,
+        agent=agent,
+        train_envs=train_envs,
+        target_task=target_task,
+        seed=seed,
+        n_timesteps=n_timesteps,
+        fewshot_timesteps=fewshot_timesteps,
+        use_noise=use_noise,
+        use_language_embedding=use_language_embedding,
+        n_epochs=N_EPOCHS,
+    )
 
 
 def train_and_evaluate_fewshot_with_callbacks(
@@ -187,11 +224,12 @@ def train_and_evaluate_fewshot_with_callbacks(
     agent,
     train_envs: str_list = MT10_ENV_NAMES,
     target_task: str,
-    use_language_embedding,
     seed: int = sample_utils.DEFAULT_SEED,
     n_timesteps=int(1e5),
     fewshot_timesteps=500,
-    use_noise=True,
+    use_language_embedding,
+    use_noise,
+    n_epochs
 ):
     # batch_size is basically source_repeats[0] * train_envs + source_repeats[1]
     source_repeats = [2, 20]
@@ -250,16 +288,16 @@ def train_and_evaluate_fewshot_with_callbacks(
         sources=[base_data, target_data],
         source_repeats=source_repeats,
         loss_function=loss_function,
-        model_name=f"mlp_agent_fewshot_task={target_task}",
+        model_name=f"mlp_agent_oneshot_task={target_task}",
         preprocess=preprocess_fewshot,
         seed=seed,
-        n_epochs=500,
+        n_epochs=n_epochs,
         callbacks=callbacks,
         learning_rate=1e-5,
     )
 
 
-def oneshot(
+def oneshot_no_transfer(
     *,
     target_task: str,
     seed=sample_utils.DEFAULT_SEED,
@@ -318,20 +356,18 @@ def oneshot(
             seed=seed,
             noise_scales=[0.0],
         )
-    # epoch_mult = int(9091 / 16)
-    epoch_mult = 10
-    print(f"Running for {500 * epoch_mult} epochs")
-    callbacks.step_period = callbacks.step_period * epoch_mult
+    callbacks.step_period = N_EPOCHS / 500
+    print(f"Running for {N_EPOCHS} epochs")
     print(f"Eval every {callbacks.step_period} epochs")
     pytorch_utils.fit_model(
         create_model=create_model,
         data=target_data,
         batch_size=batch_size,
         loss_function=loss_function,
-        model_name=f"mlp_agent_real_oneshot_task={target_task}_language_embed={use_language_embedding}",
+        model_name=f"mlp_agent_oneshot_no_transfer_task={target_task}_language_embed={use_language_embedding}",
         preprocess=preprocess_oneshot,
         seed=seed,
-        n_epochs=500 * epoch_mult,
+        n_epochs=N_EPOCHS,
         callbacks=callbacks,
         learning_rate=1e-5,
     )
@@ -341,4 +377,4 @@ if __name__ == "__main__":
     # import multiprocessing as mp
 
     # mp.set_start_method("spawn")
-    clize.run(zeroshot, oneshot)
+    clize.run(zeroshot, oneshot_no_transfer, oneshot)

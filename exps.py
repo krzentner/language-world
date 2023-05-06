@@ -161,6 +161,17 @@ for seed in range(8):
             ram_gb=8,
             priority=(4, seed))
 
+        cmd(
+            "python",
+            "src/mlp_agent.py",
+            "oneshot-no-transfer",
+            "--target-task", task,
+            "--out-file",
+            Out(f"mlp_agent_oneshot_no_transfer-results-{task}-{seed}.ndjson"),
+            f"--seed={seed}",
+            ram_gb=8,
+            priority=(3, seed))
+
 # print(GLOBAL_CONTEXT.commands)
 # cmd('python', 'src/find_most_likely_plans.py', Out('controller_map.pkl'))
 # cmd('python', 'src/plot_tasks_at_success_rate.py', '--out-file', Out('cond_agent_v0_success_rates.html'))

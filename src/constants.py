@@ -107,3 +107,5 @@ GOOGLE_LLMS = [
     "ulm340b",
     "codepoet24b",
 ]
+
+N_EPOCHS = 10000
