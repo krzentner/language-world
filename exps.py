@@ -10,7 +10,7 @@ from constants import (
 )
 import psutil
 
-GLOBAL_CONTEXT.max_concurrent_jobs = 30
+GLOBAL_CONTEXT.max_concurrent_jobs = 20
 GLOBAL_CONTEXT.vm_percent_cap = 90.0
 
 RAM_TINY = 0.3
@@ -146,8 +146,8 @@ for seed in range(8):
         "--out-file",
         Out(f"mlp_agent_zeroshot-results-{seed}.ndjson"),
         f"--seed={seed}",
-        ram_gb=8,
-        priority=(4, seed))
+        ram_gb=48,
+        priority=(4, seed, 1))
 
     cmd(
         "python",
@@ -158,8 +158,8 @@ for seed in range(8):
         "--out-file",
         Out(f"cond_agent_zeroshot-results-{seed}.ndjson"),
         f"--seed={seed}",
-        ram_gb=8,
-        priority=(5, seed))
+        ram_gb=48,
+        priority=(4, seed, 3))
 
     for task in MT50_ENV_NAMES:
         cmd(
@@ -171,7 +171,7 @@ for seed in range(8):
             Out(f"mlp_agent_oneshot-results-{task}-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(4, seed))
+            priority=(4, seed, 2))
 
         cmd(
             "python",
@@ -181,10 +181,10 @@ for seed in range(8):
             "--plan-file",
             In("ulm340b_best_plans.json"),
             "--out-file",
-            Out(f"cond_agent_zeroshot-results-{seed}.ndjson"),
+            Out(f"cond_agent_oneshot-results-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(5, seed))
+            priority=(4, seed, 2))
 
 
         cmd(
@@ -196,7 +196,7 @@ for seed in range(8):
             Out(f"mlp_agent_oneshot_no_transfer-results-{task}-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(3, seed))
+            priority=(4, seed, 0))
 
 # print(GLOBAL_CONTEXT.commands)
 # cmd('python', 'src/find_most_likely_plans.py', Out('controller_map.pkl'))
