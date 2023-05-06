@@ -303,7 +303,7 @@ def oneshot(
             "target_task": target_task,
         },
         output_filename=out_file,
-        step_period=100,
+        step_period=50,
     )
     batch_size = 32
 
@@ -318,7 +318,8 @@ def oneshot(
             seed=seed,
             noise_scales=[0.0],
         )
-    epoch_mult = int(9091 / 16)
+    # epoch_mult = int(9091 / 16)
+    epoch_mult = 10
     print(f"Running for {500 * epoch_mult} epochs")
     callbacks.step_period = callbacks.step_period * epoch_mult
     print(f"Eval every {callbacks.step_period} epochs")
