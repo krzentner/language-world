@@ -123,6 +123,7 @@ cmd(
     "python",
     "src/plot_tasks_at_success_rate.py",
     "plot-llm-scripted-skill-evals",
+    Out("scripted_skills.html"),
     extra_inputs=[In(eval_file) for eval_file in LLM_EVAL_FILES],
     ram_gb=RAM_TINY,
     priority=-1,

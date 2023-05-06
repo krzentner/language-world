@@ -105,5 +105,5 @@ MODEL_SHORT_NAMES = {
 
 GOOGLE_LLMS = [
     "ulm340b",
-    # "codepoet24b",
+    "codepoet24b",
 ]

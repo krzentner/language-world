@@ -76,6 +76,7 @@ def plot_tasks_auc(data, filename, title="Success Rate", x_label="Success Rate")
     fig.write_html(filename)
     fig.write_image(filename.replace(".html", ".svg"))
     fig.write_image(filename.replace(".html", ".pdf"))
+    fig.write_image(filename.replace(".html", ".png"))
     return fig
 
 
@@ -136,7 +137,7 @@ def merge_result_files(result_filenames: List[str]) -> Dict[str, Tuple[float, st
     return perf
 
 
-def plot_llm_scripted_skill_evals():
+def plot_llm_scripted_skill_evals(out_file):
     performances = {}
     for plan_enc in tqdm(PLAN_ENCODINGS):
         for model in GPT3_ENGINES + GPT_CHAT_MODELS + GOOGLE_LLMS:
@@ -147,22 +148,22 @@ def plot_llm_scripted_skill_evals():
                     for task in MT50_ENV_NAMES
                 ]
             )
-            performances[f"{MODEL_SHORT_NAME[model]}/{plan_enc}"] = {
+            performances[f"{MODEL_SHORT_NAMES[model]}/{plan_enc}"] = {
                 k: v[0] for k, v in perf.items()
             }
-    plot_tasks_auc(performances, f"data/scripted_skills.html")
+    plot_tasks_auc(performances, out_file)
     best_perf = {
         "PaLM 2/chain_py": performances["PaLM 2/chain_py"],
         "GPT 3.5/chain_py": performances["GPT 3.5/chain_py"],
         "GPT 3/basic_py": performances["GPT 3/basic_py"],
     }
-    plot_tasks_auc(best_perf, f"data/scripted_skills_best.html")
+    plot_tasks_auc(best_perf, out_file.replace('.html', '-best.html'))
     palm2_perf = {}
     for plan_enc in tqdm(PLAN_ENCODINGS):
         model = "ulm340b"
         key = f"{MODEL_SHORT_NAMES[model]}/{plan_enc}"
         palm2_perf[key] = performances[key]
-    plot_tasks_auc(palm2_perf, f"data/scripted_skills_palm2.html")
+    plot_tasks_auc(palm2_perf, out_file.replace('.html', '-palm2.html'))
 
 
 def run(
