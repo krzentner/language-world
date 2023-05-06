@@ -149,6 +149,18 @@ for seed in range(8):
         ram_gb=8,
         priority=(4, seed))
 
+    cmd(
+        "python",
+        "src/cond_agent.py",
+        "zeroshot",
+        "--plan-file",
+        In("ulm340b_best_plans.json"),
+        "--out-file",
+        Out(f"cond_agent_zeroshot-results-{seed}.ndjson"),
+        f"--seed={seed}",
+        ram_gb=8,
+        priority=(5, seed))
+
     for task in MT50_ENV_NAMES:
         cmd(
             "python",
@@ -160,6 +172,20 @@ for seed in range(8):
             f"--seed={seed}",
             ram_gb=8,
             priority=(4, seed))
+
+        cmd(
+            "python",
+            "src/cond_agent.py",
+            "oneshot",
+            "--target-task", task,
+            "--plan-file",
+            In("ulm340b_best_plans.json"),
+            "--out-file",
+            Out(f"cond_agent_zeroshot-results-{seed}.ndjson"),
+            f"--seed={seed}",
+            ram_gb=8,
+            priority=(5, seed))
+
 
         cmd(
             "python",

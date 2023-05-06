@@ -125,7 +125,6 @@ class SingleProcEvalCallbacks(pytorch_utils.FitCallbacks):
         self,
         seed,
         env_names,
-        agent,
         noise_scale=0.10,
         base_infos=None,
         results_proc=None,
@@ -142,7 +141,6 @@ class SingleProcEvalCallbacks(pytorch_utils.FitCallbacks):
         }
         print("Done creating eval environments")
         self.noise_scale = noise_scale
-        self.agent = agent
         self.current_step = 0
         if base_infos is None:
             base_infos = {}
@@ -168,8 +166,7 @@ class SingleProcEvalCallbacks(pytorch_utils.FitCallbacks):
         print("Evaluating...")
         infos = self.base_infos.copy()
         for (env_name, envs) in self.envs.items():
-            self.agent.load_state_dict(agent.state_dict())
-            policy = self.agent.as_policy(env_name)
+            policy = agent.as_policy(env_name)
             successes = []
             rewards = []
             episodes = vec_collect_noisy_episodes(
@@ -200,7 +197,6 @@ class EvalCallbacks(pytorch_utils.FitCallbacks):
         self,
         seed,
         env_names,
-        agent,
         noise_scale=0.10,
         base_infos=None,
         results_proc=None,
@@ -212,7 +208,6 @@ class EvalCallbacks(pytorch_utils.FitCallbacks):
         self.step_period = step_period
         self.env_names = env_names
         self.noise_scale = noise_scale
-        self.agent = agent
         self.process_scope = easy_process.Scope()
         self.workers = {}
         self.n_episodes = 50
@@ -238,7 +233,7 @@ class EvalCallbacks(pytorch_utils.FitCallbacks):
     def _run_evals(self, agent):
         infos = self.base_infos.copy()
         for env_name in self.env_names:
-            policy = self.agent.as_policy(env_name)
+            policy = agent.as_policy(env_name)
             if env_name in self.workers:
                 workers = self.workers[env_name]
                 for worker in workers:

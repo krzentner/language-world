@@ -244,7 +244,7 @@ def fit_model_multisource(
     momentum=0.995,
     callbacks=FitCallbacks(),
 ):
-    workdir = expanduser(f"~/data/fit_model={model_name}_seed={seed}")
+    workdir = expanduser(f"~/data/fit_model_multisource={model_name}_seed={seed}")
     print("workdir:", workdir)
     print("Setting up SummaryWriter... ", end="", flush=True)
     summary_writer = tensorboardX.SummaryWriter(workdir)

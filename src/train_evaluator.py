@@ -23,7 +23,7 @@ import jax_utils
 import jax.numpy as jnp
 import generate_metaworld_scene_dataset
 
-generate_metaworld_scene_dataset.np = jnp
+# generate_metaworld_scene_dataset.np = jnp
 from generate_metaworld_scene_dataset import (
     describe_obs,
     enumerate_descriptors,

@@ -10,18 +10,14 @@ import typing
 import cloudpickle
 from os.path import expanduser
 
-import random
-from flax import linen as nn
-from flax.metrics import tensorboard
-from flax.training import train_state
-import jax
-import jax.numpy as jnp
-import ml_collections
+import torch
+from torch import nn
+from torch.nn import functional as F
 import numpy as np
-import optax
+
+import random
+import numpy as np
 import pickle
-import reverb
-import concurrent.futures
 
 from tqdm import tqdm
 from metaworld.envs.mujoco.env_dict import MT10_V2
@@ -31,69 +27,72 @@ import sys
 
 sys.path.append("src")
 
-import metaworld_scripted_skills
-import train_evaluator
 import generate_metaworld_scene_dataset
 import embed_prompt
-import metaworld_jax_scripted_skills
+import metaworld_scripted_skills
 import easy_process
 import embed_prompt
 import sample_utils
 from sample_utils import make_env, sample_noisy_policy, sample_policy_with_noise_process
 from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES
 from run_utils import float_list, str_list
-import jax_utils
-from jax_utils import pad_list
+import pytorch_utils
+from pytorch_utils import pad_list
 from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks
 from datasets import single_env_dataset, grouped_env_dataset
 from plan_encoding import load_plan_file
-
-
-generate_metaworld_scene_dataset.np = jnp
-jit_eval_conditions = jax.jit(
-    generate_metaworld_scene_dataset.eval_conditions,
-    static_argnames=["env_name", "conds", "fuzzy"],
-)
-# jit_eval_conditions = generate_metaworld_scene_dataset.eval_conditions
+from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS
 
 
 def embed_plans(parsed_plans):
     embedded_plans = {}
-    for (plan_name, plan) in parsed_plans.items():
-        conds = list(plan.keys())
+    for plan_name, plan in parsed_plans.items():
+        conds = [cond for (skill, cond) in plan]
+        skills = [skill for (skill, cond) in plan]
         assert conds, plan_name
-        conds_embed = jnp.stack(
+        conds_embed = np.stack(
             [np.array(embed_prompt.embed_condition(cond)) for cond in conds]
         )
-        actions_embed = jnp.stack(
-            [np.array(embed_prompt.embed_action(plan[cond])) for cond in conds]
+        skill_embed = np.stack(
+            [np.array(embed_prompt.embed_action(skill)) for skill in skills]
         )
         embedded_plans[plan_name] = {
             "conds": conds_embed,
-            "actions": actions_embed,
+            "skills": skill_embed,
             "conds_str": conds,
-            "actions_str": [plan[cond] for cond in conds],
+            "skill_str": skills,
         }
     return embedded_plans
 
 
 class CondAgent(nn.Module):
-    use_learned_evaluator: bool
-    use_learned_scripted_skill: bool
-    give_obs_to_learned_scripted_skill: bool
-    use_goal_space_primitives: bool
-    mix_in_language_space: bool
-    plans: dict
-
-    def setup(self):
-        self.cond_evaluator = train_evaluator.ConditionEvaluator()
-        self.learned_scripted_skill = LearnedScriptedSkill()
+    def __init__(
+        self,
+        *,
+        use_learned_evaluator: bool = False,
+        use_learned_skills: bool = True,
+        give_obs_to_learned_skill: bool = True,
+        use_goals_as_skills: bool = False,
+        mix_in_language_space: bool = False,
+        plans,
+    ):
+        super().__init__()
+        self.use_learned_evaluator = use_learned_evaluator
+        self.use_learned_skills = use_learned_skills
+        self.give_obs_to_learned_skill = give_obs_to_learned_skill
+        self.use_goals_as_skills = use_goals_as_skills
+        self.mix_in_language_space = mix_in_language_space
+        self.plans = plans
+        self.skill_decoder = SkillDecoder()
+        if self.use_learned_evaluator:
+            import train_evaluator
+            self.cond_evaluator = train_evaluator.ConditionEvaluator()
 
     def _compute_goal_space_primitives(self, env_names, low_dim):
         if self.use_learned_evaluator:
             conds_padded, conds_mask = pad_list(
                 [
-                    jnp.stacK(
+                    torch.stacK(
                         [
                             embed_prompt.embed_condition(cond)
                             for cond in generate_metaworld_scene_dataset.enumerate_base_conds(
@@ -105,11 +104,11 @@ class CondAgent(nn.Module):
                 ]
             )
             conds_logits = self.cond_evaluator(low_dim, conds_padded)
-            logits = jnp.tanh(conds_logits)
+            logits = torch.tanh(conds_logits)
         else:
             true_values = []
-            for (env_name, obs, plan) in zip(env_names, low_dim, plans):
-                true_results = jit_eval_conditions(
+            for env_name, obs, plan in zip(env_names, low_dim, plans):
+                true_results = generate_metaworld_scene_dataset.eval_conditions(
                     env_name,
                     generate_metaworld_scene_dataset.enumerate_base_conds(env_name),
                     obs,
@@ -119,7 +118,7 @@ class CondAgent(nn.Module):
             padded_true_results, conds_mask = pad_list(true_values)
             logits = 2 * padded_true_results - 1.0
         goal_vecs = []
-        for (env_name, plan) in zip(env_names, plans):
+        for env_name, plan in zip(env_names, plans):
             goal_vec = [
                 [
                     1.0 if cond in primitive else 0.0
@@ -127,143 +126,136 @@ class CondAgent(nn.Module):
                         env_name
                     )
                 ]
-                for primitive in plan["actions_str"]
+                for primitive in plan["skill_str"]
             ]
             goal_vecs.append(goal_vec)
         goals_padded, goals_mask = pad_list(goal_vecs)
-        return jnp.concatenate([goals_padded, logits], axis=-1), goals_mask
+        return torch.concatenate([goals_padded, logits], dim=-1), goals_mask
 
     def __call__(self, env_names, low_dim):
         info = {}
         plans = [self.plans[env_name] for env_name in env_names]
-        if self.use_goal_space_primitives:
+        if self.use_goals_as_skills:
             assert self.mix_in_language_space
         if self.use_learned_evaluator:
             conds_padded, conds_mask = pad_list([plan["conds"] for plan in plans])
             conds_logits = self.cond_evaluator(low_dim, conds_padded)
-            logits = 10 * jnp.tanh(conds_logits)
+            logits = 10 * torch.tanh(conds_logits)
         else:
             true_values = []
-            for (env_name, obs, plan) in zip(env_names, low_dim, plans):
-                true_results = jit_eval_conditions(
+            for env_name, obs, plan in zip(env_names, low_dim, plans):
+                true_results = generate_metaworld_scene_dataset.eval_conditions(
                     env_name, plan["conds_str"], obs, fuzzy=True
                 )
                 true_values.append(true_results)
             padded_true_results, conds_mask = pad_list(true_values)
             logits = 10 * padded_true_results - 5
-        scripted_skill_weights = nn.softmax(logits, axis=1, where=conds_mask, initial=0)
+        scripted_skill_weights = nn.softmax(logits, dim=1, where=conds_mask, initial=0)
         info["logits"] = logits
         info["scripted_skill_weights"] = scripted_skill_weights
-        scripted_skill_weights /= scripted_skill_weights.sum(axis=1)[0]
+        scripted_skill_weights /= scripted_skill_weights.sum(dim=1)[0]
         scripted_skill_outputs = []
         if self.mix_in_language_space:
-            assert self.use_learned_scripted_skill
-            if self.use_goal_space_primitives:
+            assert self.use_learned_skills
+            if self.use_goals_as_skills:
                 primitive_reprs, primitive_mask = self._compute_goal_space_primitives(
                     env_names, low_dim
                 )
             else:
-                embedded_scripted_skill_names = [plan["actions"] for plan in plans]
+                embedded_scripted_skill_names = [plan["skills"] for plan in plans]
                 primitive_reprs, primitive_mask = pad_list(
                     embedded_scripted_skill_names
                 )
-            action_embed = jnp.einsum(
+            skill_embed = torch.einsum(
                 "ij,ijk->ik", scripted_skill_weights, primitive_reprs
             )
-            if self.give_obs_to_learned_scripted_skill:
-                actions, scripted_skill_info = self.learned_scripted_skill(
-                    action_embed, low_dim
-                )
+            if self.give_obs_to_learned_skill:
+                skills, scripted_skill_info = self.skill_decoder(skill_embed, low_dim)
             else:
-                actions, scripted_skill_info = self.learned_scripted_skill(action_embed)
+                skills, scripted_skill_info = self.skill_decoder(skill_embed)
         else:
-            if self.use_learned_scripted_skill:
+            if self.use_learned_skills:
                 scripted_skill_outputs = []
-                for (obs, plan) in zip(low_dim, plans):
-                    if self.give_obs_to_learned_scripted_skill:
-                        action, scripted_skill_info = self.learned_scripted_skill(
-                            plan["actions"],
-                            jnp.array([obs for action_embed in plan["actions"]]),
+                for obs, plan in zip(low_dim, plans):
+                    if self.give_obs_to_learned_skill:
+                        action, scripted_skill_info = self.skill_decoder(
+                            plan["skills"],
+                            torch.stack([obs for skill_embed in plan["skills"]]),
                         )
                     else:
-                        action, scripted_skill_info = self.learned_scripted_skill(
-                            plan["actions"],
+                        action, scripted_skill_info = self.skill_decoder(
+                            plan["skills"],
                         )
                     scripted_skill_outputs.append(action)
                 scripted_skill_outputs, scripted_skill_mask = pad_list(
                     scripted_skill_outputs
                 )
-                actions = jnp.einsum(
+                skills = torch.einsum(
                     "ij,ijk->ik", scripted_skill_weights, scripted_skill_outputs
                 )
             else:
-                for (env_name, obs, plan) in zip(env_names, low_dim, plans):
-                    parsed_obs = metaworld_jax_scripted_skills.parse_obs(obs)
-                    metaworld_scripted_skills.np = jnp
+                for env_name, obs, plan in zip(env_names, low_dim, plans):
+                    parsed_obs = metaworld_scripted_skills.parse_obs(obs)
                     scripted_skill_outputs.append(
                         [
                             metaworld_scripted_skills.run_scripted_skill(
                                 name, parsed_obs
                             )
-                            for name in plan["actions_str"]
+                            for name in plan["skill_str"]
                         ]
                     )
                 scripted_skill_outputs, _ = pad_list(scripted_skill_outputs)
-                actions = jnp.einsum(
+                skills = torch.einsum(
                     "ij,ijk->ik", scripted_skill_weights, scripted_skill_outputs
                 )
-        return actions, info
+        return skills, info
 
-    def as_policy(self, env_name, state):
-        return CondAgentPolicy(env_name=env_name, state=state, cond_agent=self)
+    @torch.jit.ignore
+    def as_policy(self, env_name):
+        return CondAgentPolicy(env_name=env_name, agent=self)
 
 
-class LearnedScriptedSkill(nn.Module):
-    def setup(self):
+class SkillDecoder(nn.Module):
+    def __init__(self):
+        super().__init__()
         self.language_reencoder = nn.Sequential(
-            [
-                nn.Dense(64),
-                nn.relu,
-                nn.Dense(64),
-                nn.relu,
-                nn.Dense(64),
-            ]
+                nn.LazyLinear(64),
+                nn.ReLU(),
+                nn.LazyLinear(64),
+                nn.ReLU(),
+                nn.LazyLinear(64),
         )
-        self.action_model = nn.Sequential(
-            [
-                nn.Dense(128),
-                nn.relu,
-                nn.Dense(128),
-                nn.relu,
-                nn.Dense(128),
-                nn.relu,
-                nn.Dense(64),
-                nn.relu,
-                nn.Dense(32),
-                nn.relu,
-                nn.Dense(4),
-            ]
+        self.skill_decoder = nn.Sequential(
+                nn.LazyLinear(128),
+                nn.ReLU(),
+                nn.LazyLinear(128),
+                nn.ReLU(),
+                nn.LazyLinear(128),
+                nn.ReLU(),
+                nn.LazyLinear(64),
+                nn.ReLU(),
+                nn.LazyLinear(32),
+                nn.ReLU(),
+                nn.LazyLinear(4),
         )
 
-    def __call__(self, encoded_language_actions, low_dim=None):
+    def __call__(self, encoded_language_skills, low_dim=None):
         info = {}
-        reencoded_language = self.language_reencoder(encoded_language_actions)
+        reencoded_language = self.language_reencoder(encoded_language_skills)
         if low_dim is not None:
-            obs_and_lang_actions = jnp.concatenate(
-                [low_dim, reencoded_language], axis=-1
+            obs_and_lang_skills = torch.concatenate(
+                [low_dim, reencoded_language], dim=-1
             )
-            actions = self.action_model(obs_and_lang_actions)
+            actions = self.skill_decoder(obs_and_lang_skills)
         else:
-            actions = self.action_model(reencoded_language)
+            actions = self.skill_decoder(reencoded_language)
         return actions, info
 
 
 @dataclass
 class CondAgentPolicy:
-
     env_name: str or None
-    state: train_state.TrainState
-    cond_agent: CondAgent
+    agent: CondAgent
 
     def get_action(self, low_dim, env_name=None):
         env_name = env_name or self.env_name
@@ -271,35 +263,20 @@ class CondAgentPolicy:
         actions, infos = self.get_actions(np.array([low_dim]), [env_name])
         return actions[0], {k: v[0] for (k, v) in infos.items()}
 
-    def get_actions(self, observations, env_names):
-        action, info = run_cond_agent(self.state, tuple(env_names), observations)
-
-        # for (k, v) in info.items():
-        # print(k, v)
-
-        return np.asarray(action), info
+    def get_actions(self, observations, env_names=None):
+        if env_names is None:
+            env_names = [self.env_name] * len(observations)
+        return self.agent(env_names, observations)
 
 
-@partial(jax.jit, static_argnames=["env_names"])
-def run_cond_agent(state, env_names, observations):
-    return state.apply_fn(state.params, env_names, observations)
-
-
-@partial(jax.jit, static_argnames=["env_names"])
-def apply_model(state, env_names, low_dim, targets):
-    def loss_fn(params):
-        actions, info = state.apply_fn(params, env_names, low_dim)
-        loss = jnp.mean(optax.l2_loss(actions, targets))
-        return loss, actions
-
-    grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
-    (loss, actions), grads = grad_fn(state.params)
+def loss_function(agent, env_names, low_dim, targets):
+    actions, info = agent(env_names, low_dim)
+    loss = F.mse_loss(actions, targets)
     return (
-        grads,
         loss,
         {
-            "actions_mean": jnp.mean(actions),
-            "actions_var": jnp.var(actions),
+            "actions_mean": torch.mean(actions),
+            "actions_var": torch.var(actions),
         },
     )
 
@@ -313,7 +290,7 @@ def preprocess(batch):
             env_names.append(data["env_name"])
             observations.append(data["observation"])
             actions.append(data["action"])
-    return (tuple(env_names), jnp.array(observations)), jnp.array(actions)
+    return (tuple(env_names), torch.tensor(observations)), torch.tensor(actions)
 
 
 def load_best_evaluator_params():
@@ -326,19 +303,17 @@ def zeroshot(
     *,
     train_envs: str_list = MT10_ENV_NAMES,
     test_envs: str_list = MT50_ENV_NAMES,
-    seed=jax_utils.DEFAULT_SEED,
+    seed=pytorch_utils.DEFAULT_SEED,
     n_timesteps=1e5,
     batch_size=4,
     noise_scale=0.1,
     language_space_mixing=True,
     use_noise=False,
-    give_obs_to_learned_scripted_skill=True,
-    use_goal_space_primitives=False,
+    give_obs_to_learned_skill=True,
+    use_goals_as_skills=False,
     plan_file,
     out_file,
 ):
-    from generate_mt10_plans import load_and_parse_plans
-
     if use_noise:
         data = grouped_env_dataset(
             envs=train_envs,
@@ -351,27 +326,28 @@ def zeroshot(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
         )
     parsed_plans = load_plan_file(plan_file)
-    cond_agent = CondAgent(
+    agent = CondAgent(
         use_learned_evaluator=False,
         mix_in_language_space=language_space_mixing,
-        use_learned_scripted_skill=True,
-        give_obs_to_learned_scripted_skill=give_obs_to_learned_scripted_skill,
-        use_goal_space_primitives=use_goal_space_primitives,
+        use_learned_skills=True,
+        give_obs_to_learned_skill=give_obs_to_learned_skill,
+        use_goals_as_skills=use_goals_as_skills,
         plans=embed_plans(parsed_plans),
     )
     callbacks = SingleProcEvalCallbacks(
-        seed, train_envs + test_envs, cond_agent, output_filename=out_file
+        seed, train_envs + test_envs, agent, output_filename=out_file
     )
+    def create_model(_example_inputs):
+        return agent
     # callbacks.step_period = 100
-    jax_utils.fit_model(
-        cond_agent,
-        data,
-        apply_model,
-        "cond_agent",
+    pytorch_utils.fit_model(
+        data=data,
+        create_model=create_model,
+        model_name="cond_agent_zeroshot",
         batch_size=batch_size,
         preprocess=preprocess,
         seed=seed,
-        n_epochs=500,
+        n_epochs=N_EPOCHS,
         callbacks=callbacks,
         learning_rate=1e-5,
     )
@@ -379,215 +355,63 @@ def zeroshot(
     print("Done saving cache")
 
 
-def fewshot(
+def oneshot(
     *,
     train_envs: str_list = MT10_ENV_NAMES,
-    target_env: str,
-    seed=jax_utils.DEFAULT_SEED,
+    target_task: str,
+    seed=pytorch_utils.DEFAULT_SEED,
     n_timesteps=1e5,
     fewshot_timesteps=500,
     language_space_mixing=True,
     use_noise=True,
-    give_obs_to_learned_scripted_skill=True,
-    use_goal_space_primitives=False,
+    give_obs_to_learned_skill=True,
+    use_goals_as_skills=False,
+    n_epochs:int=N_EPOCHS,
     plan_file,
     out_file,
 ):
-    from generate_mt10_plans import load_and_parse_plans
-
-    parsed_plans = load_and_parse_plans(plan_file)
-    print(parsed_plans, file=sys.stderr)
-    cond_agent = CondAgent(
+    parsed_plans = load_plan_file(plan_file)
+    agent = CondAgent(
         use_learned_evaluator=False,
         mix_in_language_space=language_space_mixing,
-        use_learned_scripted_skill=True,
-        give_obs_to_learned_scripted_skill=give_obs_to_learned_scripted_skill,
-        use_goal_space_primitives=use_goal_space_primitives,
+        use_learned_skills=True,
+        give_obs_to_learned_skill=give_obs_to_learned_skill,
+        use_goals_as_skills=use_goals_as_skills,
         plans=embed_plans(parsed_plans),
     )
     callbacks = SingleProcEvalCallbacks(
         seed,
-        [target_env],
-        cond_agent,
+        [target_task],
+        agent,
         base_infos={
-            "target_task": target_env,
+            "target_task": target_task,
         },
         output_filename=out_file,
     )
     train_and_evaluate_fewshot_with_callbacks(
         callbacks=callbacks,
-        cond_agent=cond_agent,
+        agent=agent,
         train_envs=train_envs,
-        target_env=target_env,
+        target_task=target_task,
         seed=seed,
         n_timesteps=n_timesteps,
         fewshot_timesteps=fewshot_timesteps,
         use_noise=use_noise,
+        n_epochs=n_epochs,
     )
-
-
-def fewshot_process(
-    *,
-    train_envs: str_list = MT10_ENV_NAMES,
-    target_env: str,
-    seed=jax_utils.DEFAULT_SEED,
-    n_timesteps=1e5,
-    fewshot_timesteps=500,
-    give_obs_to_learned_scripted_skill=True,
-    use_goal_space_primitives=False,
-    parent,
-):
-    from generate_mt10_plans import load_and_parse_plans
-
-    sys.stdout = open(expanduser(f"~/data/{target_env}.stdout"), "w")
-    sys.stderr = open(expanduser(f"~/data/{target_env}.stderr"), "w")
-
-    embedded_plans = {}
-    parsed_plans = load_and_parse_plans("mt50_plans.py")
-    print("Embedding plans...")
-    for (plan_name, plan) in parsed_plans.items():
-        conds = list(plan.keys())
-        conds_embed = jnp.stack(
-            [np.array(embed_prompt.embed_condition(cond)) for cond in conds]
-        )
-        actions_embed = jnp.stack(
-            [np.array(embed_prompt.embed_action(plan[cond])) for cond in conds]
-        )
-        embedded_plans[plan_name] = {
-            "conds": conds_embed,
-            "actions": actions_embed,
-            "conds_str": conds,
-            "actions_str": [plan[cond] for cond in conds],
-        }
-    print("Done embedding plans")
-
-    cond_agent = CondAgent(
-        use_learned_evaluator=False,
-        mix_in_language_space=True,
-        use_learned_scripted_skill=True,
-        give_obs_to_learned_scripted_skill=give_obs_to_learned_scripted_skill,
-        use_goal_space_primitives=use_goal_space_primitives,
-        plans=embedded_plans,
-    )
-    callbacks = SingleProcEvalCallbacks(
-        seed,
-        [target_env],
-        cond_agent,
-        base_infos={
-            "target_task": target_env,
-        },
-        results_proc=parent,
-    )
-    callbacks.step_period = 30
-    try:
-        train_and_evaluate_fewshot_with_callbacks(
-            callbacks=callbacks,
-            cond_agent=cond_agent,
-            train_envs=train_envs,
-            target_env=target_env,
-            seed=seed,
-            n_timesteps=n_timesteps,
-            fewshot_timesteps=fewshot_timesteps,
-        )
-    except Exception as exc:
-        print(exc)
-        raise exc
-
-
-def train_and_eval_all_fewshot_parallel(
-    *,
-    train_envs: str_list = MT10_ENV_NAMES,
-    target_envs: str_list = MT50_ENV_NAMES,
-    seed=jax_utils.DEFAULT_SEED,
-    n_timesteps=1e4,
-    fewshot_timesteps=500,
-):
-    workdir = expanduser(f"~/data/train_and_eval_all_fewshot_seed={seed}")
-    n_evals = 101
-    summary_writer = tensorboard.SummaryWriter(workdir)
-    scope = easy_process.Scope()
-    try:
-        workers = []
-        for env_name in target_envs:
-            print(f"Starting worker for task {1+len(workers)}/{len(target_envs)}")
-            workers.append(
-                easy_process.Subprocess(
-                    fewshot_process,
-                    kwargs=dict(
-                        train_envs=train_envs,
-                        target_env=env_name,
-                        seed=seed,
-                        n_timesteps=n_timesteps,
-                        fewshot_timesteps=fewshot_timesteps,
-                    ),
-                    scope=scope,
-                )
-            )
-            # Sampling uses a lot of memory, so start processes slowly
-            time.sleep(10)
-        print("#" * 30, "ALL WORKERS STARTED", "#" * 30)
-        datapoints = []
-        successes = defaultdict(list)
-        for i in tqdm(range(n_evals)):
-            success_rates = {}
-            rewards = {}
-            for worker in workers:
-                info = worker.recv(block=True)
-                env_name = info["target_task"]
-                success_rates[env_name] = info[f"{env_name}/SuccessRate"]
-                rewards[env_name] = info[f"{env_name}/RewardMean"]
-                summary_writer.scalar(
-                    f"{env_name}/SuccessRate", success_rates[env_name], i
-                )
-                summary_writer.scalar(
-                    f"{env_name}/RewardMean", info[f"{env_name}/RewardMean"], i
-                )
-            print("reward_means =", rewards)
-            print("success_rates =", success_rates)
-            for threshold in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
-                tasks_at_success_rate = [
-                    env_name
-                    for env_name in target_envs
-                    if success_rates[env_name] >= threshold
-                ]
-                summary_writer.scalar(
-                    f"TasksAtSuccessRate/success_rate:{threshold}",
-                    len(tasks_at_success_rate),
-                    i,
-                )
-            summary_writer.flush()
-    finally:
-        scope.close()
-
-
-def train_and_eval_all_fewshot(
-    *,
-    train_envs: str_list = MT10_ENV_NAMES,
-    target_env: str,
-    seed=jax_utils.DEFAULT_SEED,
-    n_timesteps=1e4,
-    fewshot_timesteps=500,
-):
-    for env_name in target_envs:
-        fewshot(
-            train_envs=train_envs,
-            target_env=env_name,
-            seed=seed,
-            n_timesteps=n_timesteps,
-            fewshot_timesteps=fewshot_timesteps,
-        )
 
 
 def train_and_evaluate_fewshot_with_callbacks(
     *,
     callbacks,
-    cond_agent,
+    agent,
     train_envs: str_list = MT10_ENV_NAMES,
-    target_env: str,
-    seed=jax_utils.DEFAULT_SEED,
+    target_task: str,
+    seed=pytorch_utils.DEFAULT_SEED,
     n_timesteps=1e5,
     fewshot_timesteps=500,
     use_noise=True,
+    n_epochs=N_EPOCHS,
 ):
     # batch_size is basically source_repeats[0] * train_envs + source_repeats[1]
     source_repeats = [2, 20]
@@ -604,34 +428,36 @@ def train_and_evaluate_fewshot_with_callbacks(
                 env_names.append(data["env_name"])
                 observations.append(data["observation"])
                 actions.append(data["action"])
-        return (tuple(env_names), jnp.array(observations)), jnp.array(actions)
+        return (tuple(env_names), torch.tensor(observations)), torch.tensor(actions)
 
     if use_noise:
         base_data = grouped_env_dataset(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed
         )
         target_data = single_env_dataset(
-            env_name=target_env, n_timesteps=fewshot_timesteps, seed=seed
+            env_name=target_task, n_timesteps=fewshot_timesteps, seed=seed
         )
     else:
         base_data = grouped_env_dataset(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
         )
         target_data = single_env_dataset(
-            env_name=target_env,
+            env_name=target_task,
             n_timesteps=fewshot_timesteps,
             seed=seed,
             noise_scales=[0.0],
         )
-    jax_utils.fit_model_multisource(
-        model=cond_agent,
+    def create_model(_example_inputs):
+        return agent
+    pytorch_utils.fit_model_multisource(
+        create_model=create_model,
+        loss_function=loss_function,
         sources=[base_data, target_data],
         source_repeats=source_repeats,
-        apply_model=apply_model,
-        model_name=f"cond_agent_fewshot_task={target_env}",
+        model_name=f"cond_agent_fewshot_task={target_task}",
         preprocess=preprocess_fewshot,
         seed=seed,
-        n_epochs=500,
+        n_epochs=n_epochs,
         callbacks=callbacks,
         learning_rate=1e-5,
     )
@@ -643,4 +469,4 @@ if __name__ == "__main__":
     # import multiprocessing as mp
 
     # mp.set_start_method("spawn")
-    clize.run(zeroshot, fewshot)
+    clize.run(zeroshot, oneshot)

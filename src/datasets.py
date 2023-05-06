@@ -53,9 +53,10 @@ def single_env_dataset(
     return datapoints
 
 
-def sample_process(*, env_name: str, noise_scales: [float], seed: int, parent):
+def sample_process(*, env_name: str, noise_scales: [float], seed: int, n_timesteps: int, parent):
     env = make_env(env_name, seed)
     policy = SawyerUniversalV2Policy(env_name=env_name)
+    timesteps_so_far = 0
 
     while True:
         random.shuffle(noise_scales)
@@ -68,7 +69,10 @@ def sample_process(*, env_name: str, noise_scales: [float], seed: int, parent):
                 data["env_name"] = env_name
                 data["noise_scale"] = noise_scale
                 episode.append(data)
+                timesteps_so_far += 1
             parent.sendrecv(episode)
+        if timesteps_so_far >= n_timesteps:
+            break
 
 
 def sample_process_buffered(
@@ -102,7 +106,7 @@ def sample_process_buffered(
                     episodes.popleft()
 
 
-def grouped_env_dataset(
+def grouped_env_dataset_buffered(
     *,
     envs: str_list,
     n_timesteps=1000,
@@ -157,7 +161,7 @@ def grouped_env_dataset(
         workers = [
             easy_process.Subprocess(
                 sample_process,
-                kwargs=dict(env_name=env_name, seed=seed, noise_scales=noise_scales),
+                kwargs=dict(env_name=env_name, seed=seed, noise_scales=noise_scales, n_timesteps=n_timesteps),
                 scope=scope,
             )
             for env_name in envs

@@ -20,7 +20,7 @@ import sample_utils
 from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS
 from run_utils import float_list, str_list
 import pytorch_utils
-from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks, RayEvalCallbacks
+from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks
 from datasets import single_env_dataset, grouped_env_dataset
 from embed_prompt import embed_action
 from generate_mt10_plans import MT50_TASK_DESCRIPTIONS
@@ -62,6 +62,7 @@ class MLPAgent(nn.Module):
         actions = self.layers(inputs)
         return actions, info
 
+    @torch.jit.ignore
     def as_policy(self, env_name):
         return MLPAgentPolicy(env_name=env_name, agent=self)
 
@@ -120,6 +121,7 @@ def zeroshot(
     test_envs: str_list = MT50_ENV_NAMES,
     seed=sample_utils.DEFAULT_SEED,
     n_timesteps=int(1e5),
+    n_epochs:int=N_EPOCHS,
     batch_size=4,
     use_noise=True,
     out_file,
@@ -159,10 +161,9 @@ def zeroshot(
         model = torch.jit.script(agent, example_inputs=[example_inputs])
         return model
 
-    callbacks = RayEvalCallbacks(
+    callbacks = SingleProcEvalCallbacks(
         seed,
         test_envs,
-        agent,
         output_filename=out_file,
         step_period=100,
     )
@@ -174,7 +175,7 @@ def zeroshot(
         batch_size=batch_size,
         preprocess=preprocess,
         seed=seed,
-        n_epochs=N_EPOCHS,
+        n_epochs=n_epochs,
         callbacks=callbacks,
         learning_rate=1e-5,
     )
@@ -188,16 +189,16 @@ def oneshot(
     seed=sample_utils.DEFAULT_SEED,
     use_language_embedding: bool = True,
     n_timesteps=int(1e5),
+    n_epochs:int = N_EPOCHS,
     fewshot_timesteps=500,
     use_noise=False,
     out_file,
 ):
     print("Using training envs:", train_envs)
     agent = MLPAgent(use_language_embedding=use_language_embedding)
-    callbacks = RayEvalCallbacks(
+    callbacks = SingleProcEvalCallbacks(
         seed,
         [target_task],
-        agent,
         base_infos={
             "target_task": target_task,
         },
@@ -214,7 +215,7 @@ def oneshot(
         fewshot_timesteps=fewshot_timesteps,
         use_noise=use_noise,
         use_language_embedding=use_language_embedding,
-        n_epochs=N_EPOCHS,
+        n_epochs=n_epochs,
     )
 
 
@@ -336,7 +337,6 @@ def oneshot_no_transfer(
     callbacks = SingleProcEvalCallbacks(
         seed,
         [target_task],
-        agent,
         base_infos={
             "target_task": target_task,
         },

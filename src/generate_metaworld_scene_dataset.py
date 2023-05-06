@@ -6,7 +6,7 @@ import numpy as np
 # import jax
 # import jax.numpy as np
 
-from metaworld_scripted_skills import parse_obs
+import metaworld_scripted_skills
 from sample_utils import MT50_ENV_NAMES, str_project
 
 
@@ -382,7 +382,7 @@ def eval_relation(rel: str, xyz1: np.ndarray, xyz2: np.ndarray) -> bool:
 # @partial(jax.jit, static_argnames=["env_name", "conds"])
 def eval_conditions(env_name: str, conds: typing.Tuple[str], obs, fuzzy=False):
     if not isinstance(obs, dict):
-        obs = parse_obs(obs)
+        obs = metaworld_scripted_skills.parse_obs(obs)
     results = []
     for full_cond in conds:
         base_conds = full_cond.split(" and ")
