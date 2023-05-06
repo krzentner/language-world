@@ -11,6 +11,7 @@ import os
 import pickle
 from os.path import expanduser
 import sample_utils
+from constants import MT10_ENV_NAMES, MT50_ENV_NAMES
 
 
 def pad_list(seq, max_len=None):

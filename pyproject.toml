@@ -35,6 +35,8 @@ ml-collections = "^0.1.1"
 pillow = "9.1.1"
 metaworld = {path = "metaworld", develop = true}
 cliport = {path = "cliport", develop = true}
+tensorboardx = "^2.6"
+ray = "^2.4.0"
 
 [tool.poetry.dev-dependencies]
 ipython = "^8.3.0"

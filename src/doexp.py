@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Union, List, Tuple
 import os
 import re
@@ -344,7 +344,8 @@ class Context:
                     f"{_cmd_name(running_cmd)}"
                 )
                 self.reserved_ram_gb -= running_cmd.ram_gb
-                running_cmd.ram_gb = ram_gb
+                self.running.remove((running_cmd, proc))
+                self.running.append((replace(running_cmd, ram_gb = ram_gb), proc))
                 self.reserved_ram_gb += running_cmd.ram_gb
             if gb_free < 0:
                 print(f"Terminating process: {_cmd_name(running_cmd)}")

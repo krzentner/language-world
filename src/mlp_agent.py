@@ -17,7 +17,7 @@ from tqdm import tqdm
 # sys.path.append("src")
 
 import sample_utils
-from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES
+from constants import MT10_ENV_NAMES, MT50_ENV_NAMES
 from run_utils import float_list, str_list
 import pytorch_utils
 from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks, RayEvalCallbacks
@@ -181,48 +181,12 @@ def zeroshot(
     print("Done saving cache")
 
 
-def fewshot(
-    *,
-    train_envs: str_list = MT10_ENV_NAMES,
-    target_env: str,
-    seed=sample_utils.DEFAULT_SEED,
-    use_language_embedding: bool = False,
-    n_timesteps=int(1e5),
-    fewshot_timesteps=500,
-    use_noise=True,
-    out_file,
-):
-    print("Using training envs:", train_envs)
-    agent = MLPAgent(use_language_embedding=use_language_embedding)
-    callbacks = RayEvalCallbacks(
-        seed,
-        [target_env],
-        agent,
-        base_infos={
-            "target_task": target_env,
-        },
-        output_filename=out_file,
-        step_period=100,
-    )
-    train_and_evaluate_fewshot_with_callbacks(
-        callbacks=callbacks,
-        agent=agent,
-        train_envs=train_envs,
-        target_env=target_env,
-        seed=seed,
-        n_timesteps=n_timesteps,
-        fewshot_timesteps=fewshot_timesteps,
-        use_noise=use_noise,
-        use_language_embedding=use_language_embedding,
-    )
-
-
 def train_and_evaluate_fewshot_with_callbacks(
     *,
     callbacks,
     agent,
     train_envs: str_list = MT10_ENV_NAMES,
-    target_env: str,
+    target_task: str,
     use_language_embedding,
     seed: int = sample_utils.DEFAULT_SEED,
     n_timesteps=int(1e5),
@@ -269,14 +233,14 @@ def train_and_evaluate_fewshot_with_callbacks(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed
         )
         target_data = single_env_dataset(
-            env_name=target_env, n_timesteps=fewshot_timesteps, seed=seed
+            env_name=target_task, n_timesteps=fewshot_timesteps, seed=seed
         )
     else:
         base_data = grouped_env_dataset(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
         )
         target_data = single_env_dataset(
-            env_name=target_env,
+            env_name=target_task,
             n_timesteps=fewshot_timesteps,
             seed=seed,
             noise_scales=[0.0],
@@ -286,7 +250,7 @@ def train_and_evaluate_fewshot_with_callbacks(
         sources=[base_data, target_data],
         source_repeats=source_repeats,
         loss_function=loss_function,
-        model_name=f"mlp_agent_fewshot_task={target_env}",
+        model_name=f"mlp_agent_fewshot_task={target_task}",
         preprocess=preprocess_fewshot,
         seed=seed,
         n_epochs=500,
@@ -295,13 +259,13 @@ def train_and_evaluate_fewshot_with_callbacks(
     )
 
 
-def real_oneshot(
+def oneshot(
     *,
-    target_env: str,
+    target_task: str,
     seed=sample_utils.DEFAULT_SEED,
     fewshot_timesteps=500,
-    use_noise=True,
-    use_language_embedding=False,
+    use_noise=False,
+    use_language_embedding=True,
     out_file,
 ):
     def preprocess_oneshot(batch):
@@ -328,15 +292,15 @@ def real_oneshot(
 
     agent = MLPAgent(use_language_embedding=use_language_embedding)
 
-    def create_model(_example_inputs, _example_targets):
+    def create_model(_example_inputs):
         return agent
 
     callbacks = SingleProcEvalCallbacks(
         seed,
-        [target_env],
+        [target_task],
         agent,
         base_infos={
-            "target_task": target_env,
+            "target_task": target_task,
         },
         output_filename=out_file,
         step_period=100,
@@ -345,11 +309,11 @@ def real_oneshot(
 
     if use_noise:
         target_data = single_env_dataset(
-            env_name=target_env, n_timesteps=fewshot_timesteps, seed=seed
+            env_name=target_task, n_timesteps=fewshot_timesteps, seed=seed
         )
     else:
         target_data = single_env_dataset(
-            env_name=target_env,
+            env_name=target_task,
             n_timesteps=fewshot_timesteps,
             seed=seed,
             noise_scales=[0.0],
@@ -363,7 +327,7 @@ def real_oneshot(
         data=target_data,
         batch_size=batch_size,
         loss_function=loss_function,
-        model_name=f"mlp_agent_real_oneshot_task={target_env}_language_embed={use_language_embedding}",
+        model_name=f"mlp_agent_real_oneshot_task={target_task}_language_embed={use_language_embedding}",
         preprocess=preprocess_oneshot,
         seed=seed,
         n_epochs=500 * epoch_mult,
@@ -376,4 +340,4 @@ if __name__ == "__main__":
     # import multiprocessing as mp
 
     # mp.set_start_method("spawn")
-    clize.run(zeroshot, fewshot, real_oneshot)
+    clize.run(zeroshot, oneshot)
