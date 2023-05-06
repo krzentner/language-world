@@ -145,7 +145,7 @@ class CondAgent(nn.Module):
             true_values = []
             for env_name, obs, plan in zip(env_names, low_dim, plans):
                 true_results = generate_metaworld_scene_dataset.eval_conditions(
-                    env_name, plan["conds_str"], obs, fuzzy=True
+                    env_name, plan["conds_str"], np.asarray(obs), fuzzy=True
                 )
                 true_values.append(true_results)
             padded_true_results, conds_mask = pad_list(true_values)
