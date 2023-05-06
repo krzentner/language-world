@@ -147,7 +147,9 @@ for seed in range(8):
         Out(f"mlp_agent_zeroshot-results-{seed}.ndjson"),
         f"--seed={seed}",
         ram_gb=48,
-        priority=(4, seed, 1))
+        priority=(4, seed, 1),
+        warmup_time=30,
+    )
 
     cmd(
         "python",
@@ -159,44 +161,84 @@ for seed in range(8):
         Out(f"cond_agent_zeroshot-results-{seed}.ndjson"),
         f"--seed={seed}",
         ram_gb=48,
-        priority=(4, seed, 3))
+        priority=(4, seed, 3),
+        warmup_time=30,
+    )
+
+    cmd(
+        "python",
+        "src/cond_agent.py",
+        "zeroshot",
+        "--plan-file",
+        In("ulm340b_best_plans-projected.json"),
+        "--out-file",
+        Out(f"cond_agent_zeroshot-projected-results-{seed}.ndjson"),
+        f"--seed={seed}",
+        ram_gb=48,
+        priority=(4, seed, 3),
+        warmup_time=30,
+    )
 
     for task in MT50_ENV_NAMES:
         cmd(
             "python",
             "src/mlp_agent.py",
             "oneshot",
-            "--target-task", task,
+            "--target-task",
+            task,
             "--out-file",
             Out(f"mlp_agent_oneshot-results-{task}-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(4, seed, 2))
+            priority=(4, seed, 2),
+            warmup_time=30,
+        )
 
         cmd(
             "python",
             "src/cond_agent.py",
             "oneshot",
-            "--target-task", task,
+            "--target-task",
+            task,
             "--plan-file",
             In("ulm340b_best_plans.json"),
             "--out-file",
             Out(f"cond_agent_oneshot-results-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(4, seed, 2))
+            priority=(4, seed, 2),
+            warmup_time=30,
+        )
 
+        cmd(
+            "python",
+            "src/cond_agent.py",
+            "oneshot",
+            "--target-task",
+            task,
+            "--plan-file",
+            In("ulm340b_best_plans-projected.json"),
+            "--out-file",
+            Out(f"cond_agent_oneshot-projected-results-{seed}.ndjson"),
+            f"--seed={seed}",
+            ram_gb=8,
+            priority=(4, seed, 2),
+            warmup_time=30,
+        )
 
         cmd(
             "python",
             "src/mlp_agent.py",
             "oneshot-no-transfer",
-            "--target-task", task,
+            "--target-task",
+            task,
             "--out-file",
             Out(f"mlp_agent_oneshot_no_transfer-results-{task}-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(4, seed, 0))
+            priority=(4, seed, 0),
+            warmup_time=30,
+        )
 
 # print(GLOBAL_CONTEXT.commands)
 # cmd('python', 'src/find_most_likely_plans.py', Out('controller_map.pkl'))
