@@ -86,6 +86,7 @@ class CondAgent(nn.Module):
         self.skill_decoder = SkillDecoder()
         if self.use_learned_evaluator:
             import train_evaluator
+
             self.cond_evaluator = train_evaluator.ConditionEvaluator()
 
     def _compute_goal_space_primitives(self, env_names, low_dim):
@@ -221,24 +222,24 @@ class SkillDecoder(nn.Module):
     def __init__(self):
         super().__init__()
         self.language_reencoder = nn.Sequential(
-                nn.LazyLinear(64),
-                nn.ReLU(),
-                nn.LazyLinear(64),
-                nn.ReLU(),
-                nn.LazyLinear(64),
+            nn.LazyLinear(64),
+            nn.ReLU(),
+            nn.LazyLinear(64),
+            nn.ReLU(),
+            nn.LazyLinear(64),
         )
         self.skill_decoder = nn.Sequential(
-                nn.LazyLinear(128),
-                nn.ReLU(),
-                nn.LazyLinear(128),
-                nn.ReLU(),
-                nn.LazyLinear(128),
-                nn.ReLU(),
-                nn.LazyLinear(64),
-                nn.ReLU(),
-                nn.LazyLinear(32),
-                nn.ReLU(),
-                nn.LazyLinear(4),
+            nn.LazyLinear(128),
+            nn.ReLU(),
+            nn.LazyLinear(128),
+            nn.ReLU(),
+            nn.LazyLinear(128),
+            nn.ReLU(),
+            nn.LazyLinear(64),
+            nn.ReLU(),
+            nn.LazyLinear(32),
+            nn.ReLU(),
+            nn.LazyLinear(4),
         )
 
     def __call__(self, encoded_language_skills, low_dim=None):
@@ -269,7 +270,10 @@ class CondAgentPolicy:
         if env_names is None:
             env_names = [self.env_name] * len(observations)
         with torch.no_grad():
-            actions, infos = self.agent(np.array(env_names), torch.as_tensor(np.array(observations), dtype=torch.float32))
+            actions, infos = self.agent(
+                np.array(env_names),
+                torch.as_tensor(np.array(observations), dtype=torch.float32),
+            )
         return np.asarray(actions), infos
 
 
@@ -294,7 +298,10 @@ def preprocess(batch):
             env_names.append(data["env_name"])
             observations.append(data["observation"])
             actions.append(data["action"])
-    return (tuple(env_names), torch.tensor(observations, dtype=torch.float32)), torch.tensor(actions, dtype=torch.float32)
+    return (
+        tuple(env_names),
+        torch.tensor(observations, dtype=torch.float32),
+    ), torch.tensor(actions, dtype=torch.float32)
 
 
 def load_best_evaluator_params():
@@ -341,12 +348,15 @@ def zeroshot(
     callbacks = SingleProcEvalCallbacks(
         seed, train_envs + test_envs, output_filename=out_file
     )
+
     def create_model(_example_inputs):
         return agent
+
     # callbacks.step_period = 100
     pytorch_utils.fit_model(
         data=data,
         create_model=create_model,
+        loss_function=loss_function,
         model_name="cond_agent_zeroshot",
         batch_size=batch_size,
         preprocess=preprocess,
@@ -370,7 +380,7 @@ def oneshot(
     use_noise=True,
     give_obs_to_learned_skill=True,
     use_goals_as_skills=False,
-    n_epochs:int=N_EPOCHS,
+    n_epochs: int = N_EPOCHS,
     plan_file,
     out_file,
 ):
@@ -431,7 +441,10 @@ def train_and_evaluate_fewshot_with_callbacks(
                 env_names.append(data["env_name"])
                 observations.append(data["observation"])
                 actions.append(data["action"])
-        return (tuple(env_names), torch.tensor(observations, dtype=torch.float32)), torch.tensor(actions, dtype=torch.float32)
+        return (
+            tuple(env_names),
+            torch.tensor(observations, dtype=torch.float32),
+        ), torch.tensor(actions, dtype=torch.float32)
 
     if use_noise:
         base_data = grouped_env_dataset(
@@ -450,8 +463,10 @@ def train_and_evaluate_fewshot_with_callbacks(
             seed=seed,
             noise_scales=[0.0],
         )
+
     def create_model(_example_inputs):
         return agent
+
     pytorch_utils.fit_model_multisource(
         create_model=create_model,
         loss_function=loss_function,
