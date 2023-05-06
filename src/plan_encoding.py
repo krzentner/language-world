@@ -50,9 +50,7 @@ def decode_plans(
 
 
 def encode_plans(plans: Dict[str, List[Tuple[str, str]]], encoding: str) -> str:
-    if encoding in ("py", "naive-py-if"):
-        return encode_plans_py(plans)
-    elif encoding in ("json"):
+    if encoding in ("json",):
         return json.dumps(plans, indent=True)
     else:
         raise ValueError(f"Uknown encoding {encoding!r}")

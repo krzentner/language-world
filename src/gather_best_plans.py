@@ -1,19 +1,34 @@
-from typing import Dict, List
 import clize
-import plotly.graph_objects as go
-from run_utils import str_list
-from sample_utils import (
-    MT10_ENV_NAMES,
+from plan_encoding import load_plan_file
+from constants import (
     MT50_ENV_NAMES,
-    GPT3_ENGINES,
-    GPT_CHAT_MODELS,
-    PLAN_ENCODINGS,
     LLM_ATTEMPTS,
-    MODEL_SHORT_NAME,
 )
-from tqdm import tqdm
-import warnings
-import re
-import os
+from plot_tasks_at_success_rate import merge_result_files
+from plan_encoding import load_plan_file, save
 import json
-import sys
+
+
+def gather_best_plans(out_file: str, *, out_encoding: str = "json"):
+    model = "ulm340b"
+    plan_enc = "chain_py"
+    perf = merge_result_files(
+        [
+            f"data/{model}/{plan_enc}/{task}-{i}-perf.json"
+            for i in range(LLM_ATTEMPTS)
+            for task in MT50_ENV_NAMES
+        ]
+    )
+    result_to_plan = {
+        f"data/{model}/{plan_enc}/{task}-{i}-perf.json": f"data/{model}/{plan_enc}/{task}-{i}.py"
+        for i in range(LLM_ATTEMPTS)
+        for task in MT50_ENV_NAMES
+    }
+    merged_plans = {}
+    for task, (_, result_file) in perf.items():
+        merged_plans[task] = load_plan_file(result_to_plan[result_file])
+    save(json.dumps(merged_plans, indent=True), out_file)
+
+
+if __name__ == "__main__":
+    clize.run(gather_best_plans)

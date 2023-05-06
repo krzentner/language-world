@@ -1,0 +1,764 @@
+{
+ "assembly": {
+  "plug-insert": [
+   [
+    "the robot's gripper is not vertically aligned with the plug",
+    "put gripper above plug"
+   ],
+   [
+    "plug is not right of the robot's gripper and the plug is not forward aligned with the robot's gripper",
+    "grab the plug"
+   ]
+  ]
+ },
+ "basketball": {
+  "peg-insert-topdown": [
+   [
+    "the robot's gripper is not vertically aligned with the peg",
+    "put gripper above peg"
+   ],
+   [
+    "peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper",
+    "grab peg"
+   ]
+  ]
+ },
+ "bin-picking": {
+  "block-stack": [
+   [
+    "the robot's gripper is not above the block",
+    "put gripper above block"
+   ],
+   [
+    "the robot's gripper is not around block and the robot's gripper is open",
+    "put gripper around block"
+   ]
+  ]
+ },
+ "box-close": {},
+ "button-press-topdown": {
+  "block-pick-place": [
+   [
+    "the robot's gripper is not above the block",
+    "place gripper above block"
+   ],
+   [
+    "the robot's gripper is not around block and the robot's gripper is open",
+    "drop gripper around block"
+   ],
+   [
+    "the robot's gripper is near block and the robot's gripper is open",
+    "close gripper around block"
+   ]
+  ]
+ },
+ "button-press-topdown-wall": {
+  "peg-unstack": [
+   [
+    "the robot's gripper is not above the peg",
+    "place gripper above peg"
+   ],
+   [
+    "the robot's gripper is not around peg and the robot's gripper is open",
+    "drop gripper around peg"
+   ],
+   [
+    "the robot's gripper is near peg and the robot's gripper is open",
+    "close gripper around peg"
+   ],
+   [
+    "the robot's gripper is above peg and the robot's gripper is closed",
+    "slide peg out of hole"
+   ]
+  ],
+  "door-close": []
+ },
+ "button-press": {
+  "door-close": [
+   [
+    "the robot's gripper is not vertically aligned with door handle",
+    "put gripper below door handle"
+   ],
+   [
+    "the robot's gripper is below door handle and the robot's gripper is not forward aligned with door handle",
+    "put gripper behind door handle"
+   ],
+   [
+    "the robot's gripper is forward aligned with door handle",
+    "push door closed"
+   ]
+  ],
+  "peg-insert-down": []
+ },
+ "button-press-wall": {
+  "door-close": [
+   [
+    "the robot's gripper is not near the door handle",
+    "grab door handle"
+   ],
+   [
+    "the robot's gripper is forward aligned with door handle",
+    "push door closed"
+   ]
+  ],
+  "peg-insert-front": [
+   [
+    "the robot's gripper is not vertically aligned with the peg",
+    "put gripper above peg"
+   ]
+  ]
+ },
+ "coffee-button": {
+  "push-left": [
+   [
+    "the door handle is left of the robot's gripper and the robot's gripper is not near the door handle",
+    "move gripper to right of door handle"
+   ],
+   [
+    "the robot's gripper is near the door handle",
+    "slide the door left"
+   ],
+   [
+    "the robot's gripper is in front of the door handle",
+    "push the door left harder"
+   ]
+  ],
+  "pick-place-simple": []
+ },
+ "coffee-pull": {
+  "spatula-slide": [
+   [
+    "the robot's gripper is not above the spatula",
+    "place gripper above spatula"
+   ],
+   [
+    "the robot's gripper is not around spatula and the robot's gripper is open",
+    "drop gripper around spatula"
+   ]
+  ]
+ },
+ "coffee-push": {
+  "coffee-pull": [
+   [
+    "the robot's gripper is not vertically aligned with mug handle",
+    "put gripper above mug handle"
+   ],
+   [
+    "the robot's gripper is vertically aligned with mug handle and the robot's gripper is not around mug handle",
+    "put gripper around mug handle"
+   ],
+   [
+    "the robot's gripper is forward aligned with mug handle",
+    "push mug to goal"
+   ]
+  ],
+  "coffee-press": []
+ },
+ "dial-turn": {
+  "hook-hang": [
+   [
+    "the robot's gripper is not above the hook",
+    "put gripper above the hook"
+   ],
+   [
+    "the robot's gripper is not above the hook",
+    "put gripper above the hook"
+   ],
+   [
+    "the robot's gripper is not above the hook",
+    "give up"
+   ],
+   [
+    "the robot's gripper is above the hook",
+    "put gripper around hook"
+   ],
+   [
+    "the robot's gripper is not around the hook",
+    "put gripper around hook"
+   ],
+   [
+    "the robot's gripper is not around the hook",
+    "give up"
+   ]
+  ]
+ },
+ "disassemble": {
+  "peg-insert-front": [
+   [
+    "the robot's gripper is not vertically aligned with the peg",
+    "put gripper above peg"
+   ]
+  ]
+ },
+ "door-close": {
+  "pick-place-side": [
+   [
+    "the robot's gripper is not above the puck",
+    "place gripper above puck"
+   ],
+   [
+    "the robot's gripper is not around puck and the robot's gripper is open",
+    "drop gripper around puck"
+   ],
+   [
+    "the robot's gripper is near puck and the robot's gripper is open",
+    "close gripper around puck"
+   ],
+   [
+    "the robot's gripper is above puck and the robot's gripper is closed",
+    "place puck at goal"
+   ]
+  ]
+ },
+ "door-lock": {
+  "knob-turn-cw": [
+   [
+    "the robot's gripper is not right of the knob",
+    "move the robot's gripper right of the knob"
+   ],
+   [
+    "the robot's gripper is in front of the knob",
+    "push knob left"
+   ],
+   [
+    "the robot's gripper is left of the knob",
+    "push knob harder"
+   ]
+  ],
+  "knob-turn-ccw": []
+ },
+ "door-open": {
+  "door-close": [
+   [
+    "the robot's gripper is not vertically aligned with door handle",
+    "put gripper above door handle"
+   ],
+   [
+    "the robot's gripper is vertically aligned with door handle",
+    "push door closed"
+   ]
+  ],
+  "pick-reach": [
+   [
+    "the robot's gripper is not above the puck",
+    "place gripper above puck"
+   ]
+  ]
+ },
+ "door-unlock": {
+  "door-close": [
+   [
+    "the robot's gripper is not vertically aligned with door handle",
+    "put gripper above door handle"
+   ],
+   [
+    "the robot's gripper is vertically aligned with door handle",
+    "push door closed"
+   ]
+  ],
+  "peg-insert-side-start": [
+   [
+    "the robot's gripper is not vertically aligned with the peg",
+    "put gripper above peg"
+   ]
+  ]
+ },
+ "hand-insert": {
+  "stack": [
+   [
+    "the robot's gripper is not above the puck",
+    "place gripper above puck"
+   ],
+   [
+    "the robot's gripper is not around puck and the robot's gripper is open",
+    "drop gripper around puck"
+   ]
+  ]
+ },
+ "drawer-close": {
+  "door-close": [
+   [
+    "the robot's gripper is not in front of door handle",
+    "put gripper in front of door handle"
+   ],
+   [
+    "the robot's gripper is in front of door handle",
+    "push door shut"
+   ]
+  ],
+  "door-toggle": [
+   [
+    "the robot's gripper is not almost vertically aligned with door handle",
+    "put gripper above door handle"
+   ],
+   [
+    "the robot's gripper is almost vertically aligned with the door handle and the robot's gripper is open",
+    "put gripper around door handle"
+   ]
+  ]
+ },
+ "drawer-open": {
+  "pick-hold": [
+   [
+    "the robot's gripper is not above the puck",
+    "place gripper above puck"
+   ],
+   [
+    "the robot's gripper is not around puck and the robot's gripper is open",
+    "drop gripper around puck"
+   ],
+   [
+    "the robot's gripper is near puck and the robot's gripper is open",
+    "close gripper around puck"
+   ]
+  ],
+  "pick-insert-side": [
+   [
+    "the robot's gripper is not vertically aligned with the puck",
+    "put gripper above puck"
+   ]
+  ]
+ },
+ "faucet-open": {
+  "peg-unstack-side": [
+   [
+    "the robot's gripper is not above the top peg",
+    "put gripper above top peg"
+   ],
+   [
+    "the top peg is not around the robot's gripper and the robot's gripper is open",
+    "drop gripper around top peg"
+   ],
+   [
+    "the top peg is around the robot's gripper and the robot's gripper is closed",
+    "unstack the pegs sideways"
+   ]
+  ],
+  "pick-place-with-camera": []
+ },
+ "faucet-close": {
+  "pick-place-side": [
+   [
+    "the robot's gripper is not above the puck",
+    "place gripper above puck"
+   ],
+   [
+    "the robot's gripper is not around puck and the robot's gripper is open",
+    "drop gripper around puck"
+   ],
+   [
+    "the robot's gripper is near puck and the robot's gripper is open",
+    "close gripper around puck"
+   ],
+   [
+    "the robot's gripper is above puck and the robot's gripper is closed",
+    "place puck at goal"
+   ]
+  ],
+  "door-close": []
+ },
+ "hammer": {
+  "peg-insert-front": [
+   [
+    "the robot's gripper is not vertically aligned with the peg",
+    "put gripper above peg"
+   ],
+   [
+    "peg is not left of the robot's gripper and peg is not forward aligned with the robot's gripper",
+    "grab peg"
+   ],
+   [
+    "the robot's gripper is forward aligned with the peg and the peg is not horizontally aligned with hole",
+    "align peg to hole"
+   ]
+  ]
+ },
+ "handle-press-side": {
+  "handle-press": [
+   [
+    "the robot's gripper is not forward of the handle",
+    "put gripper forward of the handle"
+   ],
+   [
+    "the robot's gripper is almost forward aligned with handle",
+    "move gripper forward"
+   ],
+   [
+    "the robot's gripper is forward aligned with handle",
+    "push handle forward"
+   ]
+  ],
+  "door-close": [
+   [
+    "the robot's gripper is not near door handle",
+    "grab door handle"
+   ],
+   [
+    "the robot's gripper is forward aligned with door handle",
+    "push door closed"
+   ]
+  ],
+  "handle-pull-side": []
+ },
+ "handle-press": {
+  "handle-pull": [
+   [
+    "the robot's gripper is not vertically aligned with handle",
+    "place gripper below handle"
+   ],
+   [
+    "the robot's gripper is vertically aligned with handle and the robot's gripper is not around the handle",
+    "grab handle"
+   ],
+   [
+    "the robot's gripper is around handle and the robot's gripper is vertically aligned with handle",
+    "pull handle up"
+   ]
+  ],
+  "button-press-side": []
+ },
+ "handle-pull-side": {
+  "button-press-side": [
+   [
+    "the robot's gripper is not vertically aligned with the button",
+    "put gripper above button"
+   ],
+   [
+    "button is not right of the robot's gripper and button is not forward aligned with the robot's gripper",
+    "align the gripper with button"
+   ],
+   [
+    "the robot's gripper is forward aligned with the button and the button is not forward aligned with the robot's gripper",
+    "press button sideways"
+   ]
+  ]
+ },
+ "handle-pull": {
+  "handle-side-open": [
+   [
+    "the robot's gripper is not above handle",
+    "place gripper above handle"
+   ],
+   [
+    "the robot's gripper is above handle and the robot's gripper is open",
+    "put gripper around handle"
+   ],
+   [
+    "the robot's gripper is around handle",
+    "pull out on handle"
+   ]
+  ],
+  "handle-turn": [
+   [
+    "the robot's gripper is not above handle",
+    "place gripper above handle"
+   ]
+  ]
+ },
+ "lever-pull": {
+  "switch-on": [
+   [
+    "the robot's gripper is not vertically aligned with the switch",
+    "put gripper above switch"
+   ],
+   [
+    "the robot's gripper is vertically aligned with the switch",
+    "push switch on"
+   ]
+  ],
+  "peg-insert-topdown": [
+   [
+    "the robot's gripper is not vertically aligned with the peg",
+    "put gripper above peg"
+   ]
+  ]
+ },
+ "peg-insert-side": {
+  "switch-right": []
+ },
+ "pick-place-wall": {
+  "pick-place-wall-high": [
+   [
+    "the robot's gripper is not above puck",
+    "move gripper above puck"
+   ],
+   [
+    "the robot's gripper is above puck",
+    "put gripper around puck"
+   ],
+   [
+    "the robot's gripper is near puck",
+    "close gripper around puck"
+   ]
+  ]
+ },
+ "pick-out-of-hole": {
+  "insert": [
+   [
+    "the robot's gripper is not vertically aligned with the peg",
+    "put gripper above peg"
+   ]
+  ]
+ },
+ "reach": {
+  "button-press-side": [
+   [
+    "the robot's gripper is not vertically aligned with the button and the button is not above the robot's gripper",
+    "move gripper vertically aligned with button"
+   ],
+   [
+    "the robot's gripper is vertically aligned with button and the robot's gripper is not horizontally aligned with button",
+    "align gripper to button"
+   ],
+   [
+    "the robot's gripper is horizontally aligned with button and the robot's gripper is vertically aligned with button",
+    "push the gripper into the button"
+   ]
+  ],
+  "button-press-topdown-side": []
+ },
+ "push-back": {
+  "hook": [
+   [
+    "the robot's gripper is not below ring",
+    "put gripper below ring"
+   ],
+   [
+    "the robot's gripper is below ring and the robot's gripper is vertically aligned with the ring",
+    "hook ring"
+   ],
+   [
+    "the robot's gripper is above ring and the robot's gripper is not vertically aligned with the ring",
+    "pull ring towards goal"
+   ]
+  ],
+  "sweep": []
+ },
+ "push": {
+  "pick-place-wall": [
+   [
+    "the robot's gripper is not above the puck",
+    "place gripper above puck"
+   ],
+   [
+    "the robot's gripper is not around puck and the robot's gripper is open",
+    "drop gripper around puck"
+   ],
+   [
+    "the robot's gripper is near puck and the robot's gripper is open",
+    "close gripper around puck"
+   ],
+   [
+    "the robot's gripper is above puck and the robot's gripper is closed",
+    "place puck on wall"
+   ]
+  ],
+  "reach-wall": []
+ },
+ "pick-place": {
+  "pick-hold": [
+   [
+    "the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck",
+    "put the gripper above the puck"
+   ],
+   [
+    "the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck",
+    "grab puck"
+   ],
+   [
+    "the robot's gripper is near the puck and the puck is below the robot's gripper",
+    "hold puck"
+   ]
+  ],
+  "stack": []
+ },
+ "plate-slide": {
+  "plate-slide-side": [
+   [
+    "the robot's gripper is not in front of the plate and the robot's gripper is not vertically aligned with the plate",
+    "move gripper in front of plate"
+   ],
+   [
+    "the robot's gripper is in front of plate and the robot's gripper is open",
+    "slide gripper into the plate"
+   ],
+   [
+    "the robot's gripper is near plate and the robot's gripper is open",
+    "slide plate to goal"
+   ]
+  ]
+ },
+ "plate-slide-side": {},
+ "plate-slide-back": {
+  "plate-slide": [
+   [
+    "the robot's gripper is not above plate",
+    "put gripper above plate"
+   ],
+   [
+    "the robot's gripper is vertically aligned with the plate and the robot's gripper is not near plate",
+    "push gripper into plate"
+   ],
+   [
+    "the robot's gripper is near plate and the robot's gripper is above the plate",
+    "slide plate forwards to goal"
+   ]
+  ]
+ },
+ "plate-slide-back-side": {
+  "plate-slide-back": [
+   [
+    "the robot's gripper is not above plate",
+    "put the gripper above the plate"
+   ],
+   [
+    "the robot's gripper is above plate and the robot's gripper is not near plate",
+    "reach the gripper forward towards plate"
+   ],
+   [
+    "the robot's gripper is near plate",
+    "slide the plate back to the goal"
+   ]
+  ],
+  "plate-slide-side": []
+ },
+ "peg-unplug-side": {
+  "peg-insert-topdown": [
+   [
+    "the robot's gripper is not vertically aligned with the peg",
+    "put gripper above peg"
+   ]
+  ]
+ },
+ "soccer": {
+  "pick": [
+   [
+    "the robot's gripper is not vertically aligned with object",
+    "put gripper above object"
+   ]
+  ]
+ },
+ "stick-push": {
+  "stick-pull": []
+ },
+ "stick-pull": {
+  "stick-push": [
+   [
+    "the robot's gripper is not vertically aligned with stick",
+    "put gripper above stick"
+   ],
+   [
+    "the robot's gripper is vertically aligned with stick",
+    "push gripper down on stick"
+   ],
+   [
+    "the robot's gripper is around stick",
+    "slide stick to the goal"
+   ]
+  ],
+  "stick-slide": []
+ },
+ "push-wall": {
+  "pick-place-wall": [
+   [
+    "the robot's gripper is not above the puck",
+    "place gripper above puck"
+   ],
+   [
+    "the robot's gripper is not around puck and the robot's gripper is open",
+    "drop gripper around puck"
+   ]
+  ]
+ },
+ "reach-wall": {
+  "slide": [
+   [
+    "the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck",
+    "put the gripper above the puck"
+   ],
+   [
+    "the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck",
+    "push the gripper into the puck"
+   ],
+   [
+    "the robot's gripper is near the puck and the puck is below the robot's gripper",
+    "slide the puck to the goal"
+   ]
+  ],
+  "button-press-topdown-wall": [
+   [
+    "the robot's gripper is not near button",
+    "reach to button"
+   ]
+  ]
+ },
+ "shelf-place": {
+  "grasp-place": [
+   [
+    "the robot's gripper is not above the object",
+    "place gripper above object"
+   ],
+   [
+    "the robot's gripper is not around object and the robot's gripper is open",
+    "drop gripper around object"
+   ]
+  ]
+ },
+ "sweep-into": {
+  "sweep-into-goal": [
+   [
+    "the robot's gripper is not above cube and the robot's gripper is not vertically aligned with the cube",
+    "place the gripper above the cube"
+   ],
+   [
+    "the robot's gripper is vertically aligned with the cube and the robot's gripper is not near cube",
+    "move the gripper around the cube"
+   ]
+  ]
+ },
+ "sweep": {
+  "sweep-into-goal": [
+   [
+    "the robot's gripper is not vertically aligned with cube",
+    "put gripper above cube"
+   ],
+   [
+    "the robot's gripper is vertically aligned with cube and the robot's gripper is not around cube",
+    "grab cube"
+   ],
+   [
+    "the robot's gripper is vertically aligned with cube and the robot's gripper is around cube",
+    "sweep cube into goal"
+   ]
+  ]
+ },
+ "window-open": {
+  "box-close": [
+   [
+    "the lid is not to the left of the robot's gripper",
+    "put the gripper to the left of the lid"
+   ],
+   [
+    "the robot's gripper is near the lid",
+    "slide the lid closed"
+   ],
+   [
+    "the robot's gripper is right of the lid",
+    "push the lid closed"
+   ]
+  ],
+  "box-open": []
+ },
+ "window-close": {
+  "push-wall": [
+   [
+    "the robot's gripper is not above puck and the robot's gripper is not vertically aligned with the puck",
+    "put the gripper above the puck"
+   ],
+   [
+    "the robot's gripper is vertically aligned with the puck and the robot's gripper is not near puck",
+    "push the gripper into the puck"
+   ]
+  ]
+ }
+}

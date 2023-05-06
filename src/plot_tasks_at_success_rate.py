@@ -1,8 +1,17 @@
-from typing import Dict, List
+from typing import Dict, List, Tuple
 import clize
 import plotly.graph_objects as go
 from run_utils import str_list
-from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES
+from constants import (
+    MT10_ENV_NAMES,
+    MT50_ENV_NAMES,
+    MODEL_SHORT_NAMES,
+    LLM_ATTEMPTS,
+    PLAN_ENCODINGS,
+    GPT3_ENGINES,
+    GPT_CHAT_MODELS,
+    GOOGLE_LLMS,
+)
 from tqdm import tqdm
 import warnings
 import re
@@ -108,7 +117,7 @@ def load_result_files(filenames, metric="SuccessRate", n_evals=None, max_t=True)
     return perf
 
 
-def merge_result_files(result_filenames: List[str]) -> Dict[str, (float, str)]:
+def merge_result_files(result_filenames: List[str]) -> Dict[str, Tuple[float, str]]:
     perf = {}
     for filename in result_filenames:
         with open(filename) as f:
@@ -125,44 +134,6 @@ def merge_result_files(result_filenames: List[str]) -> Dict[str, (float, str)]:
             if k not in perf or v > perf[k][0]:
                 perf[k] = (v, filename)
     return perf
-
-
-GPT3_ENGINES = [
-    # "text-babbage-001",
-    # "text-curie-001",
-    "text-davinci-003",
-]
-
-GPT_CHAT_MODELS = [
-    # "gpt-4",
-    "gpt-3.5-turbo"
-]
-
-PLAN_ENCODINGS = [
-    "basic_py",
-    "chain_py",
-    "goal_py",
-    "basic_py_md",
-    "chain_py_md",
-    "goal_py_md",
-    "basic_md",
-    "chain_md",
-    "goal_md",
-]
-
-LLM_ATTEMPTS = 5
-
-MODEL_SHORT_NAME = {
-    "text-davinci-003": "GPT 3",
-    "gpt-3.5-turbo": "GPT 3.5",
-    "ulm340b": "PaLM 2",
-    "codepoet24b": "PaLM Code",
-}
-
-GOOGLE_LLMS = [
-    "ulm340b",
-    # "codepoet24b",
-]
 
 
 def plot_llm_scripted_skill_evals():
@@ -189,7 +160,7 @@ def plot_llm_scripted_skill_evals():
     palm2_perf = {}
     for plan_enc in tqdm(PLAN_ENCODINGS):
         model = "ulm340b"
-        key = f"{MODEL_SHORT_NAME[model]}/{plan_enc}"
+        key = f"{MODEL_SHORT_NAMES[model]}/{plan_enc}"
         palm2_perf[key] = performances[key]
     plot_tasks_auc(palm2_perf, f"data/scripted_skills_palm2.html")
 

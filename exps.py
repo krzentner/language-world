@@ -1,104 +1,19 @@
 from doexp import cmd, FileArg, In, Out, GLOBAL_CONTEXT
+from constants import (
+    GOOGLE_LLMS,
+    MT50_ENV_NAMES,
+    MT10_ENV_NAMES,
+    LLM_ATTEMPTS,
+    GPT3_ENGINES,
+    GPT_CHAT_MODELS,
+    PLAN_ENCODINGS,
+)
 import psutil
 
 GLOBAL_CONTEXT.max_concurrent_jobs = 20
 GLOBAL_CONTEXT.vm_percent_cap = 90.0
 
-MT50_ENV_NAMES = [
-    "assembly",
-    "basketball",
-    "bin-picking",
-    "box-close",
-    "button-press-topdown",
-    "button-press-topdown-wall",
-    "button-press",
-    "button-press-wall",
-    "coffee-button",
-    "coffee-pull",
-    "coffee-push",
-    "dial-turn",
-    "disassemble",
-    "door-close",
-    "door-lock",
-    "door-open",
-    "door-unlock",
-    "hand-insert",
-    "drawer-close",
-    "drawer-open",
-    "faucet-open",
-    "faucet-close",
-    "hammer",
-    "handle-press-side",
-    "handle-press",
-    "handle-pull-side",
-    "handle-pull",
-    "lever-pull",
-    "peg-insert-side",
-    "pick-place-wall",
-    "pick-out-of-hole",
-    "reach",
-    "push-back",
-    "push",
-    "pick-place",
-    "plate-slide",
-    "plate-slide-side",
-    "plate-slide-back",
-    "plate-slide-back-side",
-    "peg-unplug-side",
-    "soccer",
-    "stick-push",
-    "stick-pull",
-    "push-wall",
-    "reach-wall",
-    "shelf-place",
-    "sweep-into",
-    "sweep",
-    "window-open",
-    "window-close",
-]
-
-MT10_ENV_NAMES = [
-    "reach",
-    "push",
-    "pick-place",
-    "door-open",
-    "drawer-open",
-    "drawer-close",
-    "button-press-topdown",
-    "peg-insert-side",
-    "window-open",
-    "window-close",
-]
-
-MT40_ENV_NAMES = []
-for env_name in MT50_ENV_NAMES:
-    if env_name not in MT10_ENV_NAMES:
-        MT40_ENV_NAMES.append(env_name)
-
-GPT3_ENGINES = [
-    # "text-babbage-001",
-    # "text-curie-001",
-    "text-davinci-003",
-]
-
-GPT_CHAT_MODELS = [
-    # "gpt-4",
-    "gpt-3.5-turbo"
-]
-
-PLAN_ENCODINGS = [
-    "basic_py",
-    "chain_py",
-    "goal_py",
-    "basic_py_md",
-    "chain_py_md",
-    "goal_py_md",
-    "basic_md",
-    "chain_md",
-    "goal_md",
-]
-
-LLM_ATTEMPTS = 5
+RAM_TINY = 0.3
 
 
 def plan_ext(plan_enc):
@@ -122,7 +37,7 @@ cmd(
         for plan_enc in PLAN_ENCODINGS
         for task in MT50_ENV_NAMES
     ],
-    ram_gb=0.3,
+    ram_gb=RAM_TINY,
 )
 
 cmd(
@@ -141,23 +56,24 @@ cmd(
     priority=1,
 )
 
-cmd(
-    "python",
-    "src/extract_json.py",
-    In(f"output_no-labels_codepoet_24b_int8.json"),
-    FileArg(f"codepoet24b/{{plan_enc}}/{{task}}-{{i}}{{ext}}"),
-    extra_outputs=[
-        Out(f"codepoet24b/{plan_enc}/{task}-{i}{plan_ext(plan_enc)}")
-        for i in range(LLM_ATTEMPTS)
-        for plan_enc in PLAN_ENCODINGS
-        for task in MT50_ENV_NAMES
-    ],
-    warmup_time=10,
-    ram_gb=1.0,
-    priority=1,
-)
+# cmd(
+#     "python",
+#     "src/extract_json.py",
+#     In(f"output_no-labels_codepoet_24b_int8.json"),
+#     FileArg(f"codepoet24b/{{plan_enc}}/{{task}}-{{i}}{{ext}}"),
+#     extra_outputs=[
+#         Out(f"codepoet24b/{plan_enc}/{task}-{i}{plan_ext(plan_enc)}")
+#         for i in range(LLM_ATTEMPTS)
+#         for plan_enc in PLAN_ENCODINGS
+#         for task in MT50_ENV_NAMES
+#     ],
+#     warmup_time=10,
+#     ram_gb=1.0,
+#     priority=1,
+# )
 
 
+LLM_EVAL_FILES = []
 for plan_enc in PLAN_ENCODINGS:
     ext = plan_ext(plan_enc)
     for task in MT50_ENV_NAMES:
@@ -173,7 +89,7 @@ for plan_enc in PLAN_ENCODINGS:
                     for i in range(LLM_ATTEMPTS)
                 ],
                 warmup_time=5,
-                ram_gb=0.3,
+                ram_gb=RAM_TINY,
                 priority=2,
             )
         for gpt_model in GPT_CHAT_MODELS:
@@ -188,11 +104,10 @@ for plan_enc in PLAN_ENCODINGS:
                     for i in range(LLM_ATTEMPTS)
                 ],
                 warmup_time=10,
-                ram_gb=0.3,
+                ram_gb=RAM_TINY,
                 priority=1,
             )
-        LLM_EVAL_FILES = []
-        for model in GPT3_ENGINES + GPT_CHAT_MODELS + ['ulm340b', 'codepoet24b']:
+        for model in GPT3_ENGINES + GPT_CHAT_MODELS + GOOGLE_LLMS:
             for i in range(LLM_ATTEMPTS):
                 out_file = f"{model}/{plan_enc}/{task}-{i}-perf.json"
                 cmd(
@@ -209,6 +124,16 @@ cmd(
     "src/plot_tasks_at_success_rate.py",
     "plot-llm-scripted-skill-evals",
     extra_inputs=[In(eval_file) for eval_file in LLM_EVAL_FILES],
+    ram_gb=RAM_TINY,
+    priority=-1,
+)
+
+cmd(
+    "python",
+    "src/gather_best_plans.py",
+    Out("ulm340b_best_plans.json"),
+    extra_inputs=[In(eval_file) for eval_file in LLM_EVAL_FILES],
+    ram_gb=RAM_TINY,
     priority=-1,
 )
 

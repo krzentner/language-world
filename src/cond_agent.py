@@ -46,6 +46,7 @@ import jax_utils
 from jax_utils import pad_list
 from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks
 from datasets import single_env_dataset, grouped_env_dataset
+from plan_encoding import load_plan_file
 
 
 generate_metaworld_scene_dataset.np = jnp
@@ -330,7 +331,7 @@ def zeroshot(
     batch_size=4,
     noise_scale=0.1,
     language_space_mixing=True,
-    use_noise=True,
+    use_noise=False,
     give_obs_to_learned_scripted_skill=True,
     use_goal_space_primitives=False,
     plan_file,
@@ -339,12 +340,17 @@ def zeroshot(
     from generate_mt10_plans import load_and_parse_plans
 
     if use_noise:
-        data = grouped_env_dataset(envs=train_envs, n_timesteps=n_timesteps, seed=seed)
+        data = grouped_env_dataset(
+            envs=train_envs,
+            n_timesteps=n_timesteps,
+            seed=seed,
+            noise_scales=[noise_scale],
+        )
     else:
         data = grouped_env_dataset(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
         )
-    parsed_plans = load_and_parse_plans(plan_file)
+    parsed_plans = load_plan_file(plan_file)
     cond_agent = CondAgent(
         use_learned_evaluator=False,
         mix_in_language_space=language_space_mixing,

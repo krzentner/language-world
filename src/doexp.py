@@ -37,6 +37,10 @@ class Cmd:
     priority: Union[int, Tuple[int, ...]] = 10
     gpus: Union[str, None] = None
 
+    def __str__(self):
+        args = _cmd_to_args(self, "data", "tmp_data")
+        return " ".join(args)
+
 
 _BYTES_PER_GB = (1024) ** 3
 # If srun is installed, use slurm
@@ -97,6 +101,8 @@ def _filter_cmds_ready(commands, data_dir):
                 os.path.join(data_dir, arg.filename)
             ):
                 ready = False
+                print("Waiting on input:", arg.filename)
+                break
         if ready:
             out_commands.add(cmd)
     return out_commands
@@ -183,6 +189,7 @@ class Context:
     max_concurrent_jobs: int or None = psutil.cpu_count()
     warmup_deadline: float = time.monotonic()
     reserved_ram_gb: float = _ram_in_use_gb()
+    last_commands_remaining: int = -1
 
     @property
     def _tmp_data_dir(self):
@@ -256,7 +263,11 @@ class Context:
                 except AttributeError:
                     print(exc)
                 self.commands = old_commands
-        ready, done = self._filter_commands(self.commands)
+        ready, done, remaining = self._filter_commands(self.commands)
+        if len(remaining) != self.last_commands_remaining:
+            self.last_commands_remaining = len(remaining)
+            print("Number of commands:", len(self.commands))
+            print("Commands remaining:", len(remaining))
         return _sort_cmds(ready), done
 
     def _filter_commands(self, commands):
@@ -264,7 +275,9 @@ class Context:
         needs_output = _filter_cmds_remaining(commands, self.data_dir)
         has_inputs = _filter_cmds_ready(needs_output, self.data_dir)
         if needs_output and not has_inputs:
-            print("Commands exist without any way to acquire inputs:", needs_output)
+            print("Commands exist without any way to acquire inputs:")
+            for cmd in needs_output:
+                print(str(cmd))
         if _USING_SLURM:
             fits_in_ram = has_inputs
         else:
@@ -274,7 +287,7 @@ class Context:
                 ram_gb_cap=self.ram_gb_cap,
             )
         not_running = self._filter_cmds_running(fits_in_ram)
-        return not_running, not bool(needs_output)
+        return not_running, not bool(needs_output), needs_output
 
     def _filter_cmds_running(self, commands):
         """Filters out running commands"""
@@ -343,12 +356,12 @@ class Context:
         for (cmd, proc) in completed:
             self.reserved_ram_gb -= cmd.ram_gb
             if proc.returncode != 0:
-                print(f"Error running {cmd}")
+                print(f"Error running {str(cmd)}")
                 cmd_dir = os.path.join(self._tmp_data_dir, "pipes", _cmd_name(cmd))
                 with open(os.path.join(cmd_dir, "stderr.txt")) as f:
                     print(f.read())
             else:
-                print(f"Command complete: {cmd}")
+                print(f"Command complete: {str(cmd)}")
                 for arg in cmd.args + cmd.extra_outputs:
                     if isinstance(arg, Out):
                         tmp = os.path.join(self._tmp_data_dir, arg.filename)
