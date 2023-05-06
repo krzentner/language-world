@@ -149,8 +149,10 @@ class CondAgent(nn.Module):
                 )
                 true_values.append(true_results)
             padded_true_results, conds_mask = pad_list(true_values)
-            logits = 10 * padded_true_results - 5
-        scripted_skill_weights = nn.softmax(logits, dim=1, where=conds_mask, initial=0)
+            logits = 10 * padded_true_results.type(torch.float32) - 5
+        # scripted_skill_weights = F.softmax(logits, dim=1, where=conds_mask, initial=0)
+        logits[conds_mask == 0] = float("-inf")
+        scripted_skill_weights = F.softmax(logits, dim=1)
         info["logits"] = logits
         info["scripted_skill_weights"] = scripted_skill_weights
         scripted_skill_weights /= scripted_skill_weights.sum(dim=1)[0]
@@ -266,7 +268,9 @@ class CondAgentPolicy:
     def get_actions(self, observations, env_names=None):
         if env_names is None:
             env_names = [self.env_name] * len(observations)
-        return self.agent(env_names, observations)
+        with torch.no_grad():
+            actions, infos = self.agent(np.array(env_names), torch.as_tensor(np.array(observations), dtype=torch.float32))
+        return np.asarray(actions), infos
 
 
 def loss_function(agent, env_names, low_dim, targets):
@@ -290,7 +294,7 @@ def preprocess(batch):
             env_names.append(data["env_name"])
             observations.append(data["observation"])
             actions.append(data["action"])
-    return (tuple(env_names), torch.tensor(observations)), torch.tensor(actions)
+    return (tuple(env_names), torch.tensor(observations, dtype=torch.float32)), torch.tensor(actions, dtype=torch.float32)
 
 
 def load_best_evaluator_params():
@@ -335,7 +339,7 @@ def zeroshot(
         plans=embed_plans(parsed_plans),
     )
     callbacks = SingleProcEvalCallbacks(
-        seed, train_envs + test_envs, agent, output_filename=out_file
+        seed, train_envs + test_envs, output_filename=out_file
     )
     def create_model(_example_inputs):
         return agent
@@ -382,7 +386,6 @@ def oneshot(
     callbacks = SingleProcEvalCallbacks(
         seed,
         [target_task],
-        agent,
         base_infos={
             "target_task": target_task,
         },
@@ -428,7 +431,7 @@ def train_and_evaluate_fewshot_with_callbacks(
                 env_names.append(data["env_name"])
                 observations.append(data["observation"])
                 actions.append(data["action"])
-        return (tuple(env_names), torch.tensor(observations)), torch.tensor(actions)
+        return (tuple(env_names), torch.tensor(observations, dtype=torch.float32)), torch.tensor(actions, dtype=torch.float32)
 
     if use_noise:
         base_data = grouped_env_dataset(
