@@ -30,6 +30,7 @@ tar xf mujoco210-linux-x86_64.tar.gz --directory $HOME/.mujoco
 
 echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.mujoco/mujoco210/bin' >> ~/.bashrc
 echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.mujoco/mujoco210/bin' >> ~/.profile
+source ~/.profile
 source ~/.bashrc
 pip install --upgrade --user pip
 poetry install

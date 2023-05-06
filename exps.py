@@ -10,7 +10,7 @@ from constants import (
 )
 import psutil
 
-GLOBAL_CONTEXT.max_concurrent_jobs = 20
+GLOBAL_CONTEXT.max_concurrent_jobs = 2
 GLOBAL_CONTEXT.vm_percent_cap = 90.0
 
 RAM_TINY = 0.3
