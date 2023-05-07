@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Dict, Optional, Union
 import numpy as np
 import difflib
+import os
 
 from metaworld.envs.mujoco.env_dict import MT10_V2, ALL_V2_ENVIRONMENTS
 from metaworld.policies.policy import Policy, assert_fully_parsed
@@ -560,16 +561,29 @@ def test_universal_scripted_policy(env_name, act_noise_pct, iters=100):
 
 STR_PROJ_CACHE = {}
 
+try:
+    from joblib import Memory
+except ImportError:
+    print("JobLib not present, str_project will cache in RAM only")
+    def cache(x):
+        return x
+else:
+    memory = Memory(os.path.expanduser("~/.cache/language-world"), verbose=0)
+    cache = memory.cache
+
+@cache
+def str_project_inner(src, targets):
+    return sorted(
+        targets,
+        key=lambda tgt: difflib.SequenceMatcher(None, tgt, src).ratio(),
+        reverse=True,
+    )
 
 def str_project(src, targets):
     cache_key = (src, tuple(targets))
     if cache_key in STR_PROJ_CACHE:
         return STR_PROJ_CACHE[cache_key]
-    matches = sorted(
-        targets,
-        key=lambda tgt: difflib.SequenceMatcher(None, tgt, src).ratio(),
-        reverse=True,
-    )
+    matches = str_project_inner(src, targets)
     STR_PROJ_CACHE[cache_key] = matches
     return matches
 

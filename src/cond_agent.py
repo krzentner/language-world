@@ -48,8 +48,8 @@ import lightning_utils
 def embed_plans(parsed_plans):
     embedded_plans = {}
     for plan_name, plan in parsed_plans.items():
-        conds = [cond for (skill, cond) in plan]
-        skills = [skill for (skill, cond) in plan]
+        conds = [cond for (cond, skill) in plan]
+        skills = [skill for (cond, skill) in plan]
         assert conds, plan_name
         conds_embed = np.stack(
             [np.array(embed_prompt.embed_condition(cond)) for cond in conds]
@@ -344,10 +344,10 @@ def zeroshot(
     parsed_plans = load_plan_file(plan_file)
     projected_plans = {
         task_name: project_plan(plan, task=task_name, project_skills=project_skills)
-        for task_name, plan in parsed_plans.items()
+        for task_name, plan in tqdm(parsed_plans.items(), desc="Projecting plans")
     }
     callbacks = SingleProcEvalCallbacks(
-        seed, train_envs + test_envs, output_filename=out_file
+        seed, test_envs, output_filename=out_file
     )
 
     def create_model(example_inputs):
@@ -391,6 +391,7 @@ def oneshot(
     use_noise=True,
     give_obs_to_learned_skill=True,
     use_goals_as_skills=False,
+    project_skills=False,
     n_epochs: int = N_EPOCHS,
     plan_file,
     out_file,
@@ -398,7 +399,7 @@ def oneshot(
     parsed_plans = load_plan_file(plan_file)
     projected_plans = {
         task_name: project_plan(plan, task=task_name, project_skills=project_skills)
-        for task_name, plan in parsed_plans.items()
+        for task_name, plan in tqdm(parsed_plans.items(), desc="Projecting plans")
     }
     agent = CondAgent(
         use_learned_evaluator=False,

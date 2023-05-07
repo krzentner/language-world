@@ -228,12 +228,12 @@ def grouped_env_dataset_mpire(
     assert timesteps_per_env % 500 == 0
     episodes_per_env = timesteps_per_env // 500
     episode_keys = []
-    while True:
+    while len(episode_keys) < n_timesteps // 500:
         for noise_scale in itertools.cycle(noise_scales):
             for env_name in envs:
                 seed += 1
                 episode_keys.append((env_name, noise_scale, seed))
-            if len(episode_keys) > n_timesteps // 500:
+            if len(episode_keys) >= n_timesteps // 500:
                 break
 
     def mpire_task(worker_state, env_name, noise_scale, seed):
@@ -253,21 +253,21 @@ def grouped_env_dataset_mpire(
             episode.append(data)
         return episode
 
-    with WorkerPool(n_jobs=min(10, n_timesteps // 500), use_worker_state=True, keep_alive=True) as pool:
-        episodes = pool.map(episode_keys, progress_bar=True)
-    timesteps_by_task = { env_name: [] for env_name in env_names }
+    with WorkerPool(n_jobs=20, use_worker_state=True, keep_alive=True) as pool:
+        episodes = pool.map(mpire_task, episode_keys, progress_bar=True, progress_bar_options=dict(desc="Gathering dataset"))
+    timesteps_by_task = { env_name: [] for env_name in envs }
     for episode in episodes:
         timesteps_by_task[episode[0]["env_name"]].extend(episode)
-    episodes_by_task = { env_name: [] for env_name in env_names }
+    episodes_by_task = { env_name: [] for env_name in envs }
     for episode in episodes:
         episodes_by_task[episode[0]["env_name"]].append(episode)
     calc_success_rates(episodes_by_task)
     if shuffle_timesteps:
         for timesteps in timesteps_by_task:
             random.shuffle(episode)
-    for env_name in env_names:
+    for env_name in envs:
         assert len(timesteps_by_task[env_name]) == timesteps_per_env, env_name
-    datapoints = [[timesteps_by_task[env_name][i] for env_name in env_names]
+    datapoints = [[timesteps_by_task[env_name][i] for env_name in envs]
                   for i in range(timesteps_per_env)]
     return datapoints
 
