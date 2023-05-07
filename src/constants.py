@@ -108,4 +108,5 @@ GOOGLE_LLMS = [
     "codepoet24b",
 ]
 
-N_EPOCHS = 500
+N_EPOCHS = 100
+N_BASE_TIMESTEPS = int(5e4)

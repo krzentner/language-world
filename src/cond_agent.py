@@ -41,7 +41,8 @@ from pytorch_utils import pad_list
 from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks
 from datasets import single_env_dataset, grouped_env_dataset
 from plan_encoding import load_plan_file
-from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS
+from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS, N_BASE_TIMESTEPS
+import lightning_utils
 
 
 def embed_plans(parsed_plans):
@@ -135,6 +136,7 @@ class CondAgent(nn.Module):
 
     def __call__(self, env_names, low_dim):
         info = {}
+        device = self.skill_decoder.decoder[0].weight.device
         plans = [self.plans[env_name] for env_name in env_names]
         if self.use_goals_as_skills:
             assert self.mix_in_language_space
@@ -146,11 +148,11 @@ class CondAgent(nn.Module):
             true_values = []
             for env_name, obs, plan in zip(env_names, low_dim, plans):
                 true_results = generate_metaworld_scene_dataset.eval_conditions(
-                    env_name, plan["conds_str"], np.asarray(obs), fuzzy=True
+                    env_name, plan["conds_str"], np.asarray(obs.cpu()), fuzzy=True
                 )
                 true_values.append(true_results)
             padded_true_results, conds_mask = pad_list(true_values)
-            logits = 10 * padded_true_results.type(torch.float32) - 5
+            logits = 10 * padded_true_results.type(torch.float32).to(device) - 5
         # scripted_skill_weights = F.softmax(logits, dim=1, where=conds_mask, initial=0)
         logits[conds_mask == 0] = float("-inf")
         scripted_skill_weights = F.softmax(logits, dim=1)
@@ -170,7 +172,7 @@ class CondAgent(nn.Module):
                     embedded_scripted_skill_names
                 )
             skill_embed = torch.einsum(
-                "ij,ijk->ik", scripted_skill_weights, primitive_reprs
+                "ij,ijk->ik", scripted_skill_weights.to(device), primitive_reprs.to(device)
             )
             if self.give_obs_to_learned_skill:
                 skills, scripted_skill_info = self.skill_decoder(skill_embed, low_dim)
@@ -228,7 +230,7 @@ class SkillDecoder(nn.Module):
             nn.ReLU(),
             nn.LazyLinear(64),
         )
-        self.skill_decoder = nn.Sequential(
+        self.decoder = nn.Sequential(
             nn.LazyLinear(128),
             nn.ReLU(),
             nn.LazyLinear(128),
@@ -249,9 +251,9 @@ class SkillDecoder(nn.Module):
             obs_and_lang_skills = torch.concatenate(
                 [low_dim, reencoded_language], dim=-1
             )
-            actions = self.skill_decoder(obs_and_lang_skills)
+            actions = self.decoder(obs_and_lang_skills)
         else:
-            actions = self.skill_decoder(reencoded_language)
+            actions = self.decoder(reencoded_language)
         return actions, info
 
 
@@ -274,7 +276,7 @@ class CondAgentPolicy:
                 np.array(env_names),
                 torch.as_tensor(np.array(observations), dtype=torch.float32),
             )
-        return np.asarray(actions), infos
+        return np.asarray(actions.cpu()), infos
 
 
 def loss_function(agent, env_names, low_dim, targets):
@@ -300,8 +302,8 @@ def preprocess(batch):
             actions.append(data["action"])
     return (
         tuple(env_names),
-        torch.tensor(observations, dtype=torch.float32),
-    ), torch.tensor(actions, dtype=torch.float32)
+        torch.tensor(np.array(observations), dtype=torch.float32),
+    ), torch.tensor(np.array(actions), dtype=torch.float32)
 
 
 def load_best_evaluator_params():
@@ -315,13 +317,14 @@ def zeroshot(
     train_envs: str_list = MT10_ENV_NAMES,
     test_envs: str_list = MT50_ENV_NAMES,
     seed=pytorch_utils.DEFAULT_SEED,
-    n_timesteps=1e5,
+    n_timesteps=N_BASE_TIMESTEPS,
     batch_size=4,
     noise_scale=0.1,
     language_space_mixing=True,
     use_noise=False,
     give_obs_to_learned_skill=True,
     use_goals_as_skills=False,
+    n_epochs=N_EPOCHS,
     plan_file,
     out_file,
 ):
@@ -337,23 +340,25 @@ def zeroshot(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
         )
     parsed_plans = load_plan_file(plan_file)
-    agent = CondAgent(
-        use_learned_evaluator=False,
-        mix_in_language_space=language_space_mixing,
-        use_learned_skills=True,
-        give_obs_to_learned_skill=give_obs_to_learned_skill,
-        use_goals_as_skills=use_goals_as_skills,
-        plans=embed_plans(parsed_plans),
-    )
     callbacks = SingleProcEvalCallbacks(
         seed, train_envs + test_envs, output_filename=out_file
     )
 
-    def create_model(_example_inputs):
+    def create_model(example_inputs):
+        agent = CondAgent(
+            use_learned_evaluator=False,
+            mix_in_language_space=language_space_mixing,
+            use_learned_skills=True,
+            give_obs_to_learned_skill=give_obs_to_learned_skill,
+            use_goals_as_skills=use_goals_as_skills,
+            plans=embed_plans(parsed_plans),
+        )
+        with torch.no_grad():
+            agent(*example_inputs)
         return agent
 
     # callbacks.step_period = 100
-    pytorch_utils.fit_model(
+    lightning_utils.fit_model(
         data=data,
         create_model=create_model,
         loss_function=loss_function,
@@ -361,7 +366,7 @@ def zeroshot(
         batch_size=batch_size,
         preprocess=preprocess,
         seed=seed,
-        n_epochs=N_EPOCHS,
+        n_epochs=n_epochs,
         callbacks=callbacks,
         learning_rate=1e-5,
     )
@@ -374,7 +379,7 @@ def oneshot(
     train_envs: str_list = MT10_ENV_NAMES,
     target_task: str,
     seed=pytorch_utils.DEFAULT_SEED,
-    n_timesteps=1e5,
+    n_timesteps=N_BASE_TIMESTEPS,
     fewshot_timesteps=500,
     language_space_mixing=True,
     use_noise=True,
@@ -421,7 +426,7 @@ def train_and_evaluate_fewshot_with_callbacks(
     train_envs: str_list = MT10_ENV_NAMES,
     target_task: str,
     seed=pytorch_utils.DEFAULT_SEED,
-    n_timesteps=1e5,
+    n_timesteps=N_BASE_TIMESTEPS,
     fewshot_timesteps=500,
     use_noise=True,
     n_epochs=N_EPOCHS,
@@ -443,8 +448,8 @@ def train_and_evaluate_fewshot_with_callbacks(
                 actions.append(data["action"])
         return (
             tuple(env_names),
-            torch.tensor(observations, dtype=torch.float32),
-        ), torch.tensor(actions, dtype=torch.float32)
+            torch.tensor(np.array(observations), dtype=torch.float32),
+        ), torch.tensor(np.array(actions), dtype=torch.float32)
 
     if use_noise:
         base_data = grouped_env_dataset(
@@ -464,10 +469,12 @@ def train_and_evaluate_fewshot_with_callbacks(
             noise_scales=[0.0],
         )
 
-    def create_model(_example_inputs):
+    def create_model(example_inputs):
+        with torch.no_grad():
+            agent(*example_inputs)
         return agent
 
-    pytorch_utils.fit_model_multisource(
+    lightning_utils.fit_model_multisource(
         create_model=create_model,
         loss_function=loss_function,
         sources=[base_data, target_data],

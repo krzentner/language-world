@@ -19,9 +19,14 @@ def pad_list(seq, max_len=None):
         max_len = max(len(s) for s in seq)
     zero = torch.zeros(seq[0][0].shape)
     padded = torch.tensor(
-        [[s[i] if len(s) > i else zero for i in range(max_len)] for s in seq]
+            [
+                [s[i] if len(s) > i else zero for i in range(max_len)]
+                for s in seq
+            ]
     )
-    mask = torch.tensor([[1 if len(s) > i else 0 for i in range(max_len)] for s in seq])
+    mask = torch.tensor(
+            [[1 if len(s) > i else 0 for i in range(max_len)] for s in seq]
+    )
     return padded, mask
 
 
@@ -32,7 +37,7 @@ def find_max_lens(seq):
         for sub_max in sub_max_lens:
             # We don't handle different levels of dimensions
             assert len(sub_max_lens[0]) == len(sub_max)
-            for (i, m_len) in enumerate(sub_max):
+            for i, m_len in enumerate(sub_max):
                 if m_len > max_lens[i]:
                     max_lens[i] = m_len
         return [len(seq)] + max_lens
@@ -77,7 +82,7 @@ def pad_list_single_pass(seq, new_len=None):
         max_len = max(len(s) for s in seq)
         seq_padded = []
         seq_mask = []
-        for (s_padded, s_mask) in (pad_list_nd(s, max_len) for s in seq):
+        for s_padded, s_mask in (pad_list_nd(s, max_len) for s in seq):
             seq_padded.append(s_padded)
             seq_mask.append(s_mask)
         return np.array(seq_padded), np.array(seq_mask)
@@ -157,7 +162,7 @@ DEFAULT_SEED = sample_utils.DEFAULT_SEED
 
 
 def log_infos(summary_writer, infos, step):
-    for (k, v) in infos.items():
+    for k, v in infos.items():
         try:
             summary_writer.add_scalar(k, v, step)
         except ValueError:

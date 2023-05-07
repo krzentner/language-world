@@ -172,7 +172,7 @@ def grouped_env_dataset(
             while len(datapoints) < n_timesteps:
                 episode_block = []
                 for (env_name, worker) in zip(envs, workers):
-                    print(f"Collecting episode for {env_name}")
+                    # print(f"Collecting episode for {env_name}")
                     episode = worker.recv(block=True)
                     successes[env_name].append(episode_to_success(episode))
                     if shuffle_timesteps:

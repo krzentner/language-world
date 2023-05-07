@@ -17,13 +17,14 @@ from tqdm import tqdm
 # sys.path.append("src")
 
 import sample_utils
-from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS
+from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS, N_BASE_TIMESTEPS
 from run_utils import float_list, str_list
 import pytorch_utils
 from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks
 from datasets import single_env_dataset, grouped_env_dataset
 from embed_prompt import embed_action
 from generate_mt10_plans import MT50_TASK_DESCRIPTIONS
+import lightning_utils
 
 
 class MLPAgent(nn.Module):
@@ -100,7 +101,7 @@ class MLPAgentPolicy:
         # for (k, v) in info.items():
         # print(k, v)
 
-        return np.asarray(action), info
+        return np.asarray(action.cpu()), info
 
 
 def loss_function(agent, env_names, low_dim, targets):
@@ -120,7 +121,7 @@ def zeroshot(
     train_envs: str_list = MT10_ENV_NAMES,
     test_envs: str_list = MT50_ENV_NAMES,
     seed=sample_utils.DEFAULT_SEED,
-    n_timesteps=int(1e5),
+    n_timesteps=N_BASE_TIMESTEPS,
     n_epochs:int=N_EPOCHS,
     batch_size=4,
     use_noise=True,
@@ -167,7 +168,7 @@ def zeroshot(
         output_filename=out_file,
         step_period=100,
     )
-    pytorch_utils.fit_model(
+    lightning_utils.fit_model(
         data=data,
         create_model=create_model,
         loss_function=loss_function,
@@ -188,7 +189,7 @@ def oneshot(
     target_task: str,
     seed=sample_utils.DEFAULT_SEED,
     use_language_embedding: bool = True,
-    n_timesteps=int(1e5),
+    n_timesteps=N_BASE_TIMESTEPS,
     n_epochs:int = N_EPOCHS,
     fewshot_timesteps=500,
     use_noise=False,
@@ -226,7 +227,7 @@ def train_and_evaluate_fewshot_with_callbacks(
     train_envs: str_list = MT10_ENV_NAMES,
     target_task: str,
     seed: int = sample_utils.DEFAULT_SEED,
-    n_timesteps=int(1e5),
+    n_timesteps=N_BASE_TIMESTEPS,
     fewshot_timesteps=500,
     use_language_embedding,
     use_noise,
@@ -284,7 +285,7 @@ def train_and_evaluate_fewshot_with_callbacks(
             seed=seed,
             noise_scales=[0.0],
         )
-    pytorch_utils.fit_model_multisource(
+    lightning_utils.fit_model_multisource(
         create_model=create_model,
         sources=[base_data, target_data],
         source_repeats=source_repeats,

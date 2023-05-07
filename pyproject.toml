@@ -24,7 +24,6 @@ imageio = "^2.19.3"
 imageio-ffmpeg = "^0.4.7"
 pybullet = "^3.2.5"
 moviepy = "^1.0.3"
-flax = "^0.5.2"
 easydict = "^1.9"
 gdown = "^4.4.0"
 opencv-python = "^4.6.0"
@@ -37,6 +36,7 @@ metaworld = {path = "metaworld", develop = true}
 cliport = {path = "cliport", develop = true}
 tensorboardx = "^2.6"
 ray = "^2.4.0"
+lightning = "^2.0.2"
 
 [tool.poetry.dev-dependencies]
 ipython = "^8.3.0"
