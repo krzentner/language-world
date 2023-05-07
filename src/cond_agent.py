@@ -39,8 +39,8 @@ from run_utils import float_list, str_list
 import pytorch_utils
 from pytorch_utils import pad_list
 from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks
-from datasets import single_env_dataset, grouped_env_dataset
-from plan_encoding import load_plan_file
+from datasets import single_env_dataset, grouped_env_dataset, grouped_env_dataset_mpire
+from plan_encoding import load_plan_file, project_plan
 from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS, N_BASE_TIMESTEPS
 import lightning_utils
 
@@ -91,6 +91,7 @@ class CondAgent(nn.Module):
             self.cond_evaluator = train_evaluator.ConditionEvaluator()
 
     def _compute_goal_space_primitives(self, env_names, low_dim):
+        assert False
         if self.use_learned_evaluator:
             conds_padded, conds_mask = pad_list(
                 [
@@ -114,7 +115,7 @@ class CondAgent(nn.Module):
                     env_name,
                     generate_metaworld_scene_dataset.enumerate_base_conds(env_name),
                     obs,
-                    fuzzy=True,
+                    fuzzy=False,
                 )
                 true_values.append(true_results)
             padded_true_results, conds_mask = pad_list(true_values)
@@ -148,7 +149,7 @@ class CondAgent(nn.Module):
             true_values = []
             for env_name, obs, plan in zip(env_names, low_dim, plans):
                 true_results = generate_metaworld_scene_dataset.eval_conditions(
-                    env_name, plan["conds_str"], np.asarray(obs.cpu()), fuzzy=True
+                    env_name, plan["conds_str"], np.asarray(obs.cpu()), fuzzy=False
                 )
                 true_values.append(true_results)
             padded_true_results, conds_mask = pad_list(true_values)
@@ -324,22 +325,27 @@ def zeroshot(
     use_noise=False,
     give_obs_to_learned_skill=True,
     use_goals_as_skills=False,
+    project_skills=False,
     n_epochs=N_EPOCHS,
     plan_file,
     out_file,
 ):
     if use_noise:
-        data = grouped_env_dataset(
+        data = grouped_env_dataset_mpire(
             envs=train_envs,
             n_timesteps=n_timesteps,
             seed=seed,
             noise_scales=[noise_scale],
         )
     else:
-        data = grouped_env_dataset(
+        data = grouped_env_dataset_mpire(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
         )
     parsed_plans = load_plan_file(plan_file)
+    projected_plans = {
+        task_name: project_plan(plan, task=task_name, project_skills=project_skills)
+        for task_name, plan in parsed_plans.items()
+    }
     callbacks = SingleProcEvalCallbacks(
         seed, train_envs + test_envs, output_filename=out_file
     )
@@ -351,7 +357,7 @@ def zeroshot(
             use_learned_skills=True,
             give_obs_to_learned_skill=give_obs_to_learned_skill,
             use_goals_as_skills=use_goals_as_skills,
-            plans=embed_plans(parsed_plans),
+            plans=embed_plans(projected_plans),
         )
         with torch.no_grad():
             agent(*example_inputs)
@@ -390,6 +396,10 @@ def oneshot(
     out_file,
 ):
     parsed_plans = load_plan_file(plan_file)
+    projected_plans = {
+        task_name: project_plan(plan, task=task_name, project_skills=project_skills)
+        for task_name, plan in parsed_plans.items()
+    }
     agent = CondAgent(
         use_learned_evaluator=False,
         mix_in_language_space=language_space_mixing,

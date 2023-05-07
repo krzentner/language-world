@@ -10,7 +10,7 @@ from constants import (
 )
 import psutil
 
-GLOBAL_CONTEXT.max_concurrent_jobs = 5
+GLOBAL_CONTEXT.max_concurrent_jobs = 6
 GLOBAL_CONTEXT.vm_percent_cap = 90.0
 
 RAM_TINY = 0.3
@@ -146,7 +146,7 @@ for seed in range(8):
         "--out-file",
         Out(f"mlp_agent_zeroshot-results-{seed}.ndjson"),
         f"--seed={seed}",
-        ram_gb=48,
+        ram_gb=24,
         priority=(4, seed, 1),
         warmup_time=30,
     )
@@ -160,7 +160,7 @@ for seed in range(8):
         "--out-file",
         Out(f"cond_agent_zeroshot-results-{seed}.ndjson"),
         f"--seed={seed}",
-        ram_gb=48,
+        ram_gb=24,
         priority=(4, seed, 3),
         warmup_time=30,
     )
@@ -169,12 +169,13 @@ for seed in range(8):
         "python",
         "src/cond_agent.py",
         "zeroshot",
+        "--project-skills=yes",
         "--plan-file",
-        In("ulm340b_best_plans-projected.json"),
+        In("ulm340b_best_plans.json"),
         "--out-file",
         Out(f"cond_agent_zeroshot-projected-results-{seed}.ndjson"),
         f"--seed={seed}",
-        ram_gb=48,
+        ram_gb=24,
         priority=(4, seed, 3),
         warmup_time=30,
     )
@@ -214,10 +215,11 @@ for seed in range(8):
             "python",
             "src/cond_agent.py",
             "oneshot",
+            "--project-skills=yes",
             "--target-task",
             task,
             "--plan-file",
-            In("ulm340b_best_plans-projected.json"),
+            In("ulm340b_best_plans.json"),
             "--out-file",
             Out(f"cond_agent_oneshot-projected-results-{seed}.ndjson"),
             f"--seed={seed}",

@@ -1,6 +1,7 @@
 import random
 import easy_process
 import sample_utils
+import itertools
 from collections import deque
 from sample_utils import (
     make_env,
@@ -15,6 +16,7 @@ from ou_process import OUProcess
 from gaussian_noise_process import GaussianNoiseProcess
 from run_utils import float_list, str_list
 from collections import defaultdict
+from mpire import WorkerPool
 
 
 def single_env_dataset(
@@ -54,6 +56,28 @@ def single_env_dataset(
 
 
 def sample_process(*, env_name: str, noise_scales: [float], seed: int, n_timesteps: int, parent):
+    env = make_env(env_name, seed)
+    policy = SawyerUniversalV2Policy(env_name=env_name)
+    timesteps_so_far = 0
+
+    while True:
+        random.shuffle(noise_scales)
+        for noise_scale in noise_scales:
+            noise_proc = GaussianNoiseProcess(
+                dimensions=env.action_space.shape[0], noise_scale=noise_scale
+            )
+            episode = []
+            for data in sample_policy_with_noise_process(env, policy, noise_proc):
+                data["env_name"] = env_name
+                data["noise_scale"] = noise_scale
+                episode.append(data)
+                timesteps_so_far += 1
+            parent.sendrecv(episode)
+        if timesteps_so_far >= n_timesteps:
+            break
+
+
+def mpire_sample_proc(env_name: str, noise_scale: [float], seed: int, n_timesteps: int, parent):
     env = make_env(env_name, seed)
     policy = SawyerUniversalV2Policy(env_name=env_name)
     timesteps_so_far = 0
@@ -187,6 +211,75 @@ def grouped_env_dataset(
     for (env_name, success_rate) in successes.items():
         print(f"Data success rate for {env_name}:", mean(success_rate))
     return datapoints
+
+
+def grouped_env_dataset_mpire(
+    *,
+    envs: str_list,
+    n_timesteps=1000,
+    seed=sample_utils.DEFAULT_SEED,
+    shuffle_timesteps=True,
+    noise_scales: float_list = [0.1, 0.2, 0.3, 0.4],
+) -> [[dict]]:
+    """Produce a set of datapoints that each contain one timestep from each env."""
+    assert n_timesteps % len(envs) == 0
+    assert n_timesteps % 500 == 0
+    timesteps_per_env = n_timesteps // len(envs)
+    assert timesteps_per_env % 500 == 0
+    episodes_per_env = timesteps_per_env // 500
+    episode_keys = []
+    while True:
+        for noise_scale in itertools.cycle(noise_scales):
+            for env_name in envs:
+                seed += 1
+                episode_keys.append((env_name, noise_scale, seed))
+            if len(episode_keys) > n_timesteps // 500:
+                break
+
+    def mpire_task(worker_state, env_name, noise_scale, seed):
+        if env_name in worker_state:
+            env = worker_state[env_name]
+        else:
+            env = make_env(env_name, seed=seed)
+            worker_state[env_name] = env
+        policy = SawyerUniversalV2Policy(env_name=env_name)
+        noise_proc = GaussianNoiseProcess(
+            dimensions=env.action_space.shape[0], noise_scale=noise_scale
+        )
+        episode = []
+        for data in sample_policy_with_noise_process(env, policy, noise_proc):
+            data["env_name"] = env_name
+            data["noise_scale"] = noise_scale
+            episode.append(data)
+        return episode
+
+    with WorkerPool(n_jobs=min(10, n_timesteps // 500), use_worker_state=True, keep_alive=True) as pool:
+        episodes = pool.map(episode_keys, progress_bar=True)
+    timesteps_by_task = { env_name: [] for env_name in env_names }
+    for episode in episodes:
+        timesteps_by_task[episode[0]["env_name"]].extend(episode)
+    episodes_by_task = { env_name: [] for env_name in env_names }
+    for episode in episodes:
+        episodes_by_task[episode[0]["env_name"]].append(episode)
+    calc_success_rates(episodes_by_task)
+    if shuffle_timesteps:
+        for timesteps in timesteps_by_task:
+            random.shuffle(episode)
+    for env_name in env_names:
+        assert len(timesteps_by_task[env_name]) == timesteps_per_env, env_name
+    datapoints = [[timesteps_by_task[env_name][i] for env_name in env_names]
+                  for i in range(timesteps_per_env)]
+    return datapoints
+
+
+def calc_success_rates(episodes_by_task):
+    success_rates = {}
+    for env_name, episodes in episodes_by_task.items():
+        success_rates[env_name] = mean([episode_to_success(ep) for ep in episodes])
+    for (env_name, success_rate) in success_rates.items():
+        print(f"Data success rate for {env_name}:", success_rate)
+    return success_rates
+
 
 
 if __name__ == "__main__":

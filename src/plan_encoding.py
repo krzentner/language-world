@@ -680,12 +680,14 @@ def generate_all_plans(directory: str = "data"):
         json.dump(ALL_SAVED, f, indent=True)
 
 
-def project_plan(plan: List[Tuple[str, str]], task: str) -> List[Tuple[str, str]]:
+def project_plan(plan: List[Tuple[str, str]], task: str, project_skills: bool = True) -> List[Tuple[str, str]]:
     out = []
     possible_conditions = generate_metaworld_scene_dataset.enumerate_descriptors(task)
     for (cond, skill) in plan:
         cond_projected = metaworld_scripted_skills.str_project(cond, possible_conditions)[0]
-        out.append((cond_projected, metaworld_scripted_skills.nearest_skill(target_task=task, skill=skill)))
+        if project_skills:
+            skill = metaworld_scripted_skills.nearest_skill(target_task=task, skill=skill)
+        out.append((cond_projected, skill))
     return out
 
 
