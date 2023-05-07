@@ -10,7 +10,7 @@ from constants import (
 )
 import psutil
 
-GLOBAL_CONTEXT.max_concurrent_jobs = 6
+GLOBAL_CONTEXT.max_concurrent_jobs = 1
 GLOBAL_CONTEXT.vm_percent_cap = 90.0
 
 RAM_TINY = 0.3
@@ -146,8 +146,8 @@ for seed in range(8):
         "--out-file",
         Out(f"mlp_agent_zeroshot-results-{seed}.ndjson"),
         f"--seed={seed}",
-        ram_gb=24,
-        priority=(4, seed, 1),
+        ram_gb=40,
+        priority=(5, seed, 1),
         warmup_time=30,
     )
 
@@ -191,7 +191,7 @@ for seed in range(8):
             Out(f"mlp_agent_oneshot-results-{task}-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(4, seed, 2),
+            priority=(4, seed, 3),
             warmup_time=30,
         )
 

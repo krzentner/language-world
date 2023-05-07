@@ -20,7 +20,7 @@ import sample_utils
 from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS, N_BASE_TIMESTEPS
 from run_utils import float_list, str_list
 import pytorch_utils
-from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks
+from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks, MpireEvalCallbacks
 from datasets import single_env_dataset, grouped_env_dataset, grouped_env_dataset_mpire
 from embed_prompt import embed_action
 from generate_mt10_plans import MT50_TASK_DESCRIPTIONS
@@ -162,7 +162,7 @@ def zeroshot(
         model = torch.jit.script(agent, example_inputs=[example_inputs])
         return model
 
-    callbacks = SingleProcEvalCallbacks(
+    callbacks = MpireEvalCallbacks(
         seed,
         test_envs,
         output_filename=out_file,

@@ -64,10 +64,14 @@ def gather_data(data, episodes, episodes_by_task, env_names, max_path_length):
             episodes_by_task[env_names[i]].append(episodes[i])
             episodes[i] = []
 
-def dict_seq_to_seq_dict(d):
+def dict_seq_to_seq_dict(d, default_len):
     keys = list(d.keys())
-    for i in range(len(d[keys[0]])):
-        yield { k: d[k][i] for k in keys }
+    if len(keys) > 0:
+        for i in range(len(d[keys[0]])):
+            yield { k: d[k][i] for k in keys }
+    else:
+        for i in range(default_len):
+            yield {}
 
 class VecMpireSampler:
 
@@ -78,8 +82,8 @@ class VecMpireSampler:
         main_module = sys.modules["__main__"]
         if not hasattr(main_module, "__spec__"):
             main_module.__spec__ = "MainModule"
-        self._pool_a = WorkerPool(n_jobs=n_jobs, use_worker_state=True, pass_worker_id=True, keep_alive=True, start_method='threading', order_tasks=True)
-        self._pool_b = WorkerPool(n_jobs=n_jobs, use_worker_state=True, pass_worker_id=True, keep_alive=True, start_method='threading', order_tasks=True)
+        self._pool_a = WorkerPool(n_jobs=n_jobs, use_worker_state=True, pass_worker_id=True, keep_alive=True, start_method='spawn', order_tasks=True)
+        self._pool_b = WorkerPool(n_jobs=n_jobs, use_worker_state=True, pass_worker_id=True, keep_alive=True, start_method='spawn', order_tasks=True)
 
     def collect_episodes(self, policy, env_names, n_episodes, noise_scale, max_path_length=500):
         episodes_by_task = { env_name: [] for env_name in env_names }
@@ -92,22 +96,22 @@ class VecMpireSampler:
 
         obs_list_a, env_ids_a = gather_res(res_a)
         actions_a, agent_infos_a = policy.get_actions(obs_list_a, env_names)
-        results_a = self._pool_a.map(step, zip(actions_a, dict_seq_to_seq_dict(agent_infos_a), env_ids_a, noise_scale_vec), chunk_size=1)
+        results_a = self._pool_a.map(step, zip(actions_a, dict_seq_to_seq_dict(agent_infos_a, default_len=len(actions_a)), env_ids_a, noise_scale_vec), chunk_size=1)
         obs_list_b, env_ids_b = gather_res(res_b)
         actions_b, agent_infos_b = policy.get_actions(obs_list_b, env_names)
-        results_b = self._pool_b.map(step, zip(actions_b, dict_seq_to_seq_dict(agent_infos_b), env_ids_b, noise_scale_vec), chunk_size=1)
+        results_b = self._pool_b.map(step, zip(actions_b, dict_seq_to_seq_dict(agent_infos_b, default_len=len(actions_b)), env_ids_b, noise_scale_vec), chunk_size=1)
         with tqdm(desc="Sampling episodes", total=len(env_names) * n_episodes * max_path_length) as pbar:
             while any(len(episodes) < n_episodes for episodes in episodes_by_task.values()):
                 data_a, obs_list_a = gather_res(results_a)
                 gather_data(data_a, episodes_a, episodes_by_task, env_names, max_path_length)
                 actions_a, agent_infos_a = policy.get_actions(obs_list_a, env_names)
-                results_a = self._pool_a.map(step, zip(actions_a, dict_seq_to_seq_dict(agent_infos_a), env_ids_a, noise_scale_vec), chunk_size=1)
+                results_a = self._pool_a.map(step, zip(actions_a, dict_seq_to_seq_dict(agent_infos_a, default_len=len(actions_a)), env_ids_a, noise_scale_vec), chunk_size=1)
 
                 data_b, obs_list_b = gather_res(results_b)
                 gather_data(data_b, episodes_b, episodes_by_task, env_names, max_path_length)
                 actions_b, agent_infos_b = policy.get_actions(obs_list_b, env_names)
-                results_b = self._pool_b.map(step, zip(actions_b, dict_seq_to_seq_dict(agent_infos_b), env_ids_b, noise_scale_vec), chunk_size=1)
-                pbar.n = sum([len(ep) for ep in episodes_by_task.values()] + [len(ep) for ep in episodes_a] + [len(ep) for ep in episodes_b])
+                results_b = self._pool_b.map(step, zip(actions_b, dict_seq_to_seq_dict(agent_infos_b, default_len=len(actions_b)), env_ids_b, noise_scale_vec), chunk_size=1)
+                pbar.n = sum([len(ep) for eps in episodes_by_task.values() for ep in eps] + [len(ep) for ep in episodes_a] + [len(ep) for ep in episodes_b])
                 pbar.refresh()
 
         return episodes_by_task

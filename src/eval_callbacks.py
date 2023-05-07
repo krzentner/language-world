@@ -132,7 +132,7 @@ class SingleProcEvalCallbacks(pytorch_utils.FitCallbacks):
         results_proc=None,
         output_filename=None,
         step_period=20,
-        n_episodes=100,
+        n_episodes=20,
     ):
         self.n_episodes = n_episodes
         self.step_period = step_period
@@ -174,7 +174,7 @@ class SingleProcEvalCallbacks(pytorch_utils.FitCallbacks):
         print()
         episodes = vec_collect_noisy_episodes(all_envs, policy,
                                               self.noise_scale,
-                                              self.n_episodes,
+                                              self.n_episodes * len(self.envs.keys()),
                                               all_env_names, desc="Evaluating")
         episodes_by_task = { env_name: [] for env_name in self.envs.keys() }
         for episode in episodes:
@@ -208,7 +208,7 @@ class MpireEvalCallbacks(pytorch_utils.FitCallbacks):
         results_proc=None,
         output_filename=None,
         step_period=20,
-        n_episodes=100,
+        n_episodes=20,
         n_workers=20,
     ):
         self.env_names = env_names
@@ -239,7 +239,7 @@ class MpireEvalCallbacks(pytorch_utils.FitCallbacks):
     def _run_evals(self, agent):
         print("Evaluating...")
         infos = self.base_infos.copy()
-        for (env_name, episodes) in self.sampler.collect_episodes(agent.as_policy(None), self.env_names, self.n_episodes, self.noise_scale):
+        for (env_name, episodes) in self.sampler.collect_episodes(agent.as_policy(None), self.env_names, self.n_episodes, self.noise_scale).items():
             successes = []
             rewards = []
             for episode in episodes:
@@ -248,6 +248,7 @@ class MpireEvalCallbacks(pytorch_utils.FitCallbacks):
             print(f"Success rate for {env_name}:", mean(successes))
             infos[f"{env_name}/SuccessRate"] = mean(successes)
             infos[f"{env_name}/RewardMean"] = mean(rewards)
+            assert len(episodes) == self.n_episodes
         if self.output_filename:
             with open(self.output_filename, "a") as f:
                 json.dump(infos, f)
