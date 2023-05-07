@@ -358,7 +358,7 @@ def zeroshot(
         task_name: project_plan(plan, task=task_name, project_skills=project_skills)
         for task_name, plan in tqdm(parsed_plans.items(), desc="Projecting plans")
     }
-    callbacks = MpireEvalCallbacks(seed, test_envs, output_filename=out_file)
+    callbacks = SingleProcEvalCallbacks(seed, test_envs, output_filename=out_file)
 
     def create_model(example_inputs):
         agent = CondAgent(

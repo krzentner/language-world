@@ -7,6 +7,7 @@ from sample_utils import (
     average_reward,
     vec_collect_noisy_episodes,
     vec_sample_noisy_policy,
+    calc_statistics,
 )
 import pytorch_utils
 import easy_process
@@ -135,12 +136,10 @@ class SingleProcEvalCallbacks(pytorch_utils.FitCallbacks):
     ):
         self.n_episodes = n_episodes
         self.step_period = step_period
-        print("Creating eval environments")
         self.envs = {
             env_name: [make_env(env_name, seed + i) for i in range(20)]
-            for env_name in tqdm(env_names)
+            for env_name in tqdm(env_names, desc="Creating eval envs")
         }
-        print("Done creating eval environments")
         self.noise_scale = noise_scale
         self.current_step = 0
         if base_infos is None:
@@ -165,19 +164,25 @@ class SingleProcEvalCallbacks(pytorch_utils.FitCallbacks):
 
     def _run_evals(self, agent):
         infos = self.base_infos.copy()
-        for (env_name, envs) in tqdm(self.envs.items(), desc="Evaluating"):
-            policy = agent.as_policy(env_name)
-            successes = []
-            rewards = []
-            episodes = vec_collect_noisy_episodes(
-                envs, policy, self.noise_scale, self.n_episodes
-            )
-            for episode in episodes:
-                successes.append(episode_to_success(episode))
-                rewards.append(average_reward(episode))
-            print(f"Success rate for {env_name}:", mean(successes))
-            infos[f"{env_name}/SuccessRate"] = mean(successes)
-            infos[f"{env_name}/RewardMean"] = mean(rewards)
+        all_envs = [env
+                    for envs in self.envs.values()
+                    for env in envs]
+        all_env_names = [env_name
+                         for env_name, envs in self.envs.items()
+                         for _ in envs]
+        policy = agent.as_policy(env_name=None)
+        episodes = vec_collect_noisy_episodes(all_envs, policy,
+                                              self.noise_scale,
+                                              len(self.envs) * self.n_episodes,
+                                              all_env_names, desc="Evaluating")
+        episodes_by_task = { env_name: [] for env_name in self.envs.keys() }
+        for episode in episodes:
+            episodes_by_task[episode[0]["env_name"]].append(episode)
+        success_rates, rewards = calc_statistics(episodes_by_task)
+        for env_name in self.envs.keys():
+            print(f"Success rate for {env_name}:", success_rates[env_name])
+            infos[f"{env_name}/SuccessRate"] = success_rates[env_name]
+            infos[f"{env_name}/RewardMean"] = rewards[env_name]
         if self.output_filename:
             with open(self.output_filename, "a") as f:
                 json.dump(infos, f)

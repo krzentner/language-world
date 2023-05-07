@@ -64,19 +64,22 @@ def sample_policy_or_random(env, policy, random_policy_prob):
         observation = next_obs
 
 
-def vec_collect_noisy_episodes(envs, policy, noise_scale, n_episodes):
+def vec_collect_noisy_episodes(envs, policy, noise_scale, n_episodes, env_names=None, desc="Sampling"):
     episodes = []
-    while len(episodes) < n_episodes:
-        episodes.extend(vec_sample_noisy_policy(envs, policy, noise_scale))
+    with tqdm(total=n_episodes, desc=desc) as pbar:
+        while len(episodes) < n_episodes:
+            episodes.extend(vec_sample_noisy_policy(envs, policy, noise_scale, env_names=env_names))
+            pbar.n = len(episodes)
+            pbar.refresh()
     return episodes
 
 
-def vec_sample_noisy_policy(envs, policy, noise_scale):
+def vec_sample_noisy_policy(envs, policy, noise_scale, env_names=None):
     assert all(env.seeded_rand_vec for env in envs)
     observations = [env.reset() for env in envs]
     episodes = [[] for obs in observations]
     for _ in range(envs[0].max_episode_length):
-        actions, agent_info = policy.get_actions(observations)
+        actions, agent_info = policy.get_actions(observations, env_names)
         for i, env in enumerate(envs):
             action_noisy = actions[i] + np.random.normal(
                 scale=noise_scale, size=(actions[i].shape)
@@ -88,6 +91,7 @@ def vec_sample_noisy_policy(envs, policy, noise_scale):
                 "action_noisy": action_noisy,
                 "reward": reward,
                 "done": done,
+                "env_name": env_names[i]
             }
             for (k, v) in info.items():
                 assert k not in data
@@ -283,3 +287,13 @@ def eval_policy(
         envs, policy, noise_scale, n_episodes=n_episodes
     )
     return evaluate_policy(policy, episodes)
+
+
+def calc_statistics(episodes_by_task):
+    success_rates = {}
+    rewards = {}
+    for env_name, episodes in episodes_by_task.items():
+        success_rates[env_name] = mean([episode_to_success(ep) for ep in episodes])
+        rewards[env_name] = mean([average_reward(ep) for ep in episodes])
+    return success_rates, rewards
+
