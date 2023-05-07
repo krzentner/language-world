@@ -5,6 +5,8 @@ import pytorch_utils
 from constants import N_EPOCHS
 from os.path import expanduser
 
+ACCELERATOR = "auto"
+
 
 class LightningModel(pl.LightningModule):
     def __init__(self, model, preprocess, loss_function, learning_rate, momentum):
@@ -73,7 +75,7 @@ def fit_model(
     learning_rate=1e-4,
     momentum=0.995,
     callbacks=pytorch_utils.FitCallbacks(),
-    accelerator="gpu",
+    accelerator=ACCELERATOR,
 ):
     torch.manual_seed(seed)
     workdir = expanduser(f"~/data/fit_model={model_name}_seed={seed}")
@@ -107,7 +109,7 @@ def fit_model_multisource(
     learning_rate=1e-4,
     momentum=0.995,
     callbacks=pytorch_utils.FitCallbacks(),
-    accelerator="gpu",
+    accelerator=ACCELERATOR,
 ):
     torch.manual_seed(seed)
     workdir = expanduser(f"~/data/fit_model={model_name}_seed={seed}")

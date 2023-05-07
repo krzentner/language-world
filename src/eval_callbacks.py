@@ -171,9 +171,10 @@ class SingleProcEvalCallbacks(pytorch_utils.FitCallbacks):
                          for env_name, envs in self.envs.items()
                          for _ in envs]
         policy = agent.as_policy(env_name=None)
+        print()
         episodes = vec_collect_noisy_episodes(all_envs, policy,
                                               self.noise_scale,
-                                              len(self.envs) * self.n_episodes,
+                                              self.n_episodes,
                                               all_env_names, desc="Evaluating")
         episodes_by_task = { env_name: [] for env_name in self.envs.keys() }
         for episode in episodes:
@@ -183,6 +184,7 @@ class SingleProcEvalCallbacks(pytorch_utils.FitCallbacks):
             print(f"Success rate for {env_name}:", success_rates[env_name])
             infos[f"{env_name}/SuccessRate"] = success_rates[env_name]
             infos[f"{env_name}/RewardMean"] = rewards[env_name]
+            print("n_eval_episodes =", len(episodes_by_task[env_name]))
         if self.output_filename:
             with open(self.output_filename, "a") as f:
                 json.dump(infos, f)
