@@ -38,7 +38,7 @@ from sample_utils import MT10_ENV_NAMES, MT50_ENV_NAMES
 from run_utils import float_list, str_list
 import pytorch_utils
 from pytorch_utils import pad_list
-from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks
+from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks, MpireEvalCallbacks
 from datasets import single_env_dataset, grouped_env_dataset, grouped_env_dataset_mpire
 from plan_encoding import load_plan_file, project_plan
 from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS, N_BASE_TIMESTEPS
@@ -135,6 +135,10 @@ class CondAgent(nn.Module):
         goals_padded, goals_mask = pad_list(goal_vecs)
         return torch.concatenate([goals_padded, logits], dim=-1), goals_mask
 
+    @property
+    def device(self):
+        return self.skill_decoder.decoder[0].weight.device
+
     def __call__(self, env_names, low_dim):
         info = {}
         device = self.skill_decoder.decoder[0].weight.device
@@ -173,7 +177,9 @@ class CondAgent(nn.Module):
                     embedded_scripted_skill_names
                 )
             skill_embed = torch.einsum(
-                "ij,ijk->ik", scripted_skill_weights.to(device), primitive_reprs.to(device)
+                "ij,ijk->ik",
+                scripted_skill_weights.to(device),
+                primitive_reprs.to(device),
             )
             if self.give_obs_to_learned_skill:
                 skills, scripted_skill_info = self.skill_decoder(skill_embed, low_dim)
@@ -275,9 +281,15 @@ class CondAgentPolicy:
         with torch.no_grad():
             actions, infos = self.agent(
                 np.array(env_names),
-                torch.as_tensor(np.array(observations), dtype=torch.float32),
+                torch.as_tensor(np.array(observations), dtype=torch.float32).to(
+                    self.agent.device
+                ),
             )
-        return np.asarray(actions.cpu()), infos
+        infos_np = {
+            k: np.asarray(v.cpu()) if isinstance(v, torch.Tensor) else v
+            for (k, v) in infos.items()
+        }
+        return np.asarray(actions.cpu()), infos_np
 
 
 def loss_function(agent, env_names, low_dim, targets):
@@ -346,9 +358,7 @@ def zeroshot(
         task_name: project_plan(plan, task=task_name, project_skills=project_skills)
         for task_name, plan in tqdm(parsed_plans.items(), desc="Projecting plans")
     }
-    callbacks = SingleProcEvalCallbacks(
-        seed, test_envs, output_filename=out_file
-    )
+    callbacks = MpireEvalCallbacks(seed, test_envs, output_filename=out_file)
 
     def create_model(example_inputs):
         agent = CondAgent(
@@ -463,14 +473,14 @@ def train_and_evaluate_fewshot_with_callbacks(
         ), torch.tensor(np.array(actions), dtype=torch.float32)
 
     if use_noise:
-        base_data = grouped_env_dataset(
+        base_data = grouped_env_dataset_mpire(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed
         )
         target_data = single_env_dataset(
             env_name=target_task, n_timesteps=fewshot_timesteps, seed=seed
         )
     else:
-        base_data = grouped_env_dataset(
+        base_data = grouped_env_dataset_mpire(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
         )
         target_data = single_env_dataset(

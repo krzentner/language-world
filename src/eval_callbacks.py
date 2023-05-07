@@ -13,6 +13,7 @@ import easy_process
 import random
 from tqdm import tqdm
 import ray
+from vec_mpire_sampler import VecMpireSampler
 
 
 N_EVAL_WORKERS = 1
@@ -130,7 +131,7 @@ class SingleProcEvalCallbacks(pytorch_utils.FitCallbacks):
         results_proc=None,
         output_filename=None,
         step_period=20,
-        n_episodes=50,
+        n_episodes=100,
     ):
         self.n_episodes = n_episodes
         self.step_period = step_period
@@ -163,9 +164,8 @@ class SingleProcEvalCallbacks(pytorch_utils.FitCallbacks):
             return {}
 
     def _run_evals(self, agent):
-        print("Evaluating...")
         infos = self.base_infos.copy()
-        for (env_name, envs) in self.envs.items():
+        for (env_name, envs) in tqdm(self.envs.items(), desc="Evaluating"):
             policy = agent.as_policy(env_name)
             successes = []
             rewards = []
@@ -189,6 +189,66 @@ class SingleProcEvalCallbacks(pytorch_utils.FitCallbacks):
         if self.results_proc is not None:
             print("Sending back results")
             self.results_proc.sendrecv(infos)
+        return infos
+
+class MpireEvalCallbacks(pytorch_utils.FitCallbacks):
+    def __init__(
+        self,
+        seed,
+        env_names,
+        noise_scale=0.10,
+        base_infos=None,
+        results_proc=None,
+        output_filename=None,
+        step_period=20,
+        n_episodes=100,
+        n_workers=20,
+    ):
+        self.env_names = env_names
+        self.n_episodes = n_episodes
+        self.step_period = step_period
+        self.sampler = VecMpireSampler(n_workers=n_workers)
+        self.noise_scale = noise_scale
+        self.current_step = 0
+        if base_infos is None:
+            base_infos = {}
+        self.base_infos = base_infos
+        self.output_filename = output_filename
+        if output_filename:
+            with open(output_filename, "w") as f:
+                # Truncate the output file
+                pass
+
+    def minibatch_start(self, agent):
+        return {}
+
+    def epoch_start(self, agent):
+        self.current_step += 1
+        if self.current_step % self.step_period == 1:
+            return self.training_complete(agent)
+        else:
+            return {}
+
+    def _run_evals(self, agent):
+        print("Evaluating...")
+        infos = self.base_infos.copy()
+        for (env_name, episodes) in self.sampler.collect_episodes(agent.as_policy(None), self.env_names, self.n_episodes, self.noise_scale):
+            successes = []
+            rewards = []
+            for episode in episodes:
+                successes.append(episode_to_success(episode))
+                rewards.append(average_reward(episode))
+            print(f"Success rate for {env_name}:", mean(successes))
+            infos[f"{env_name}/SuccessRate"] = mean(successes)
+            infos[f"{env_name}/RewardMean"] = mean(rewards)
+        if self.output_filename:
+            with open(self.output_filename, "a") as f:
+                json.dump(infos, f)
+                f.write("\n")
+        return infos
+
+    def training_complete(self, agent):
+        infos = self._run_evals(agent)
         return infos
 
 

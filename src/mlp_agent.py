@@ -21,7 +21,7 @@ from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS, N_BASE_TIMESTEPS
 from run_utils import float_list, str_list
 import pytorch_utils
 from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks
-from datasets import single_env_dataset, grouped_env_dataset
+from datasets import single_env_dataset, grouped_env_dataset, grouped_env_dataset_mpire
 from embed_prompt import embed_action
 from generate_mt10_plans import MT50_TASK_DESCRIPTIONS
 import lightning_utils
@@ -129,9 +129,9 @@ def zeroshot(
 ):
     print("Gathering training dataset")
     if use_noise:
-        data = grouped_env_dataset(envs=train_envs, n_timesteps=n_timesteps, seed=seed)
+        data = grouped_env_dataset_mpire(envs=train_envs, n_timesteps=n_timesteps, seed=seed)
     else:
-        data = grouped_env_dataset(
+        data = grouped_env_dataset_mpire(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
         )
     agent = MLPAgent(use_language_embedding=True)
@@ -269,14 +269,14 @@ def train_and_evaluate_fewshot_with_callbacks(
         ), torch.tensor(np.asarray(actions), dtype=torch.float32)
 
     if use_noise:
-        base_data = grouped_env_dataset(
+        base_data = grouped_env_dataset_mpire(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed
         )
         target_data = single_env_dataset(
             env_name=target_task, n_timesteps=fewshot_timesteps, seed=seed
         )
     else:
-        base_data = grouped_env_dataset(
+        base_data = grouped_env_dataset_mpire(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
         )
         target_data = single_env_dataset(

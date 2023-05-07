@@ -73,6 +73,7 @@ def fit_model(
     learning_rate=1e-4,
     momentum=0.995,
     callbacks=pytorch_utils.FitCallbacks(),
+    accelerator="gpu",
 ):
     torch.manual_seed(seed)
     workdir = expanduser(f"~/data/fit_model={model_name}_seed={seed}")
@@ -82,7 +83,7 @@ def fit_model(
     trainer = pl.Trainer(
         max_epochs=n_epochs,
         default_root_dir=workdir,
-        accelerator="cpu",
+        accelerator=accelerator,
         callbacks=[fit_callbacks],
     )
     trainer.fit(
@@ -106,6 +107,7 @@ def fit_model_multisource(
     learning_rate=1e-4,
     momentum=0.995,
     callbacks=pytorch_utils.FitCallbacks(),
+    accelerator="gpu",
 ):
     torch.manual_seed(seed)
     workdir = expanduser(f"~/data/fit_model={model_name}_seed={seed}")
@@ -118,7 +120,7 @@ def fit_model_multisource(
     trainer = pl.Trainer(
         max_epochs=n_epochs,
         default_root_dir=workdir,
-        accelerator="cpu",
+        accelerator=accelerator,
         callbacks=[fit_callbacks],
     )
     trainer.fit(

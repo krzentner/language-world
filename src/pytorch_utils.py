@@ -17,16 +17,11 @@ from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS
 def pad_list(seq, max_len=None):
     if max_len is None:
         max_len = max(len(s) for s in seq)
-    zero = torch.zeros(seq[0][0].shape)
-    padded = torch.tensor(
-            [
-                [s[i] if len(s) > i else zero for i in range(max_len)]
-                for s in seq
-            ]
-    )
-    mask = torch.tensor(
-            [[1 if len(s) > i else 0 for i in range(max_len)] for s in seq]
-    )
+    padded = torch.zeros(size=(len(seq), max_len) + seq[0][0].shape)
+    mask = torch.zeros(size=(len(seq), max_len))
+    for i, s in enumerate(seq):
+        padded[i][:len(s)] = torch.tensor(np.array(s))
+        mask[i][:len(s)] = 1
     return padded, mask
 
 
