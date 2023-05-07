@@ -108,4 +108,4 @@ GOOGLE_LLMS = [
     "codepoet24b",
 ]
 
-N_EPOCHS = 10000
+N_EPOCHS = 500
