@@ -37,6 +37,7 @@ cliport = {path = "cliport", develop = true}
 tensorboardx = "^2.6"
 ray = "^2.4.0"
 lightning = "^2.0.2"
+mpire = "^2.7.1"
 
 [tool.poetry.dev-dependencies]
 ipython = "^8.3.0"
