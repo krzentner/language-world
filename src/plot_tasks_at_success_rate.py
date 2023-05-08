@@ -157,13 +157,32 @@ def plot_llm_scripted_skill_evals(out_file):
         "GPT 3.5/chain_py": performances["GPT 3.5/chain_py"],
         "GPT 3/basic_py": performances["GPT 3/basic_py"],
     }
-    plot_tasks_auc(best_perf, out_file.replace('.html', '-best.html'))
+    plot_tasks_auc(best_perf, out_file.replace(".html", "-best.html"))
     palm2_perf = {}
     for plan_enc in tqdm(PLAN_ENCODINGS):
         model = "ulm340b"
         key = f"{MODEL_SHORT_NAMES[model]}/{plan_enc}"
         palm2_perf[key] = performances[key]
-    plot_tasks_auc(palm2_perf, out_file.replace('.html', '-palm2.html'))
+    plot_tasks_auc(palm2_perf, out_file.replace(".html", "-palm2.html"))
+
+
+def plot_zeroshot_success_rates(out_file):
+    llm_zeroshot_merge = merge_result_files(
+        [
+            f"data/ulm340b/chain_py/{task}-{i}-perf.json"
+            for i in range(LLM_ATTEMPTS)
+            for task in MT50_ENV_NAMES
+        ]
+    )
+    llm_zeroshot = {k: v[0] for k, v in llm_zeroshot_merge.items()}
+    mlp_zeroshot = load_result_files(
+        ["data/mlp_agent_zeroshot-results-7.ndjson"], max_t=False
+    )
+    performances = {
+        "Skill Decoder Only Zeroshot": mlp_zeroshot,
+        "PalM 2/chain_py": llm_zeroshot,
+    }
+    plot_tasks_auc(performances, out_file)
 
 
 def run(
@@ -684,4 +703,4 @@ def success_rate_results(result_set, max_t):
 
 
 if __name__ == "__main__":
-    clize.run(run, plot_llm_scripted_skill_evals)
+    clize.run(run, plot_llm_scripted_skill_evals, plot_zeroshot_success_rates)
