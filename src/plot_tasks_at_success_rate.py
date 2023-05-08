@@ -178,8 +178,12 @@ def plot_zeroshot_success_rates(out_file):
     mlp_zeroshot = load_result_files(
         ["data/mlp_agent_zeroshot-results-7.ndjson"], max_t=False
     )
+    mlp_zeroshot_max = load_result_files(
+        ["data/mlp_agent_zeroshot-results-7.ndjson"], max_t=True
+    )
     performances = {
-        "Skill Decoder Only Zeroshot": mlp_zeroshot,
+        "MLP zeroshot (last training epoch)": mlp_zeroshot,
+        "MLP zeroshot (best epoch per-task)": mlp_zeroshot_max,
         "PalM 2/chain_py": llm_zeroshot,
     }
     plot_tasks_auc(performances, out_file)
