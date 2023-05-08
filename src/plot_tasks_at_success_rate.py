@@ -20,7 +20,9 @@ import json
 import sys
 
 
-def plot_tasks_auc(data, filename, title="Success Rate", x_label="Success Rate"):
+def plot_tasks_auc(
+    data, filename, title="Success Rate", x_label="Success Rate", legend_x=0.7
+):
     fig = go.Figure()
     N_TASKS = 40
     for exp_name, perf in data.items():
@@ -72,11 +74,18 @@ def plot_tasks_auc(data, filename, title="Success Rate", x_label="Success Rate")
         yaxis_title="Number of Tasks",
         xaxis_title=x_label,
         template="simple_white",
+        legend=dict(
+            x=legend_x,
+            y=1.0,
+            traceorder="normal",
+            font=dict(family="sans-serif", size=12, color="black"),
+        ),
     )
     fig.write_html(filename)
     fig.write_image(filename.replace(".html", ".svg"))
     fig.write_image(filename.replace(".html", ".pdf"))
     fig.write_image(filename.replace(".html", ".png"))
+    fig.write_image(filename.replace(".html", ".pdf"))
     return fig
 
 
@@ -186,7 +195,7 @@ def plot_zeroshot_success_rates(out_file):
         "MLP zeroshot (best epoch per-task)": mlp_zeroshot_max,
         "PalM 2/chain_py": llm_zeroshot,
     }
-    plot_tasks_auc(performances, out_file)
+    plot_tasks_auc(performances, out_file, legend_x=0.5)
 
 
 def run(
