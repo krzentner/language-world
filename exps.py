@@ -10,7 +10,7 @@ from constants import (
 )
 import psutil
 
-GLOBAL_CONTEXT.max_concurrent_jobs = 1
+GLOBAL_CONTEXT.max_concurrent_jobs = 2
 GLOBAL_CONTEXT.vm_percent_cap = 90.0
 
 RAM_TINY = 0.3
@@ -147,7 +147,7 @@ for seed in range(8):
         Out(f"mlp_agent_zeroshot-results-{seed}.ndjson"),
         f"--seed={seed}",
         ram_gb=40,
-        priority=(5, seed, 1),
+        priority=(4, seed, 5),
         warmup_time=30,
     )
 
@@ -161,7 +161,7 @@ for seed in range(8):
         Out(f"cond_agent_zeroshot-results-{seed}.ndjson"),
         f"--seed={seed}",
         ram_gb=24,
-        priority=(4, seed, 3),
+        priority=(4, seed, 4),
         warmup_time=30,
     )
 
@@ -176,7 +176,7 @@ for seed in range(8):
         Out(f"cond_agent_zeroshot-projected-results-{seed}.ndjson"),
         f"--seed={seed}",
         ram_gb=24,
-        priority=(4, seed, 3),
+        priority=(4, seed, 4),
         warmup_time=30,
     )
 
@@ -224,7 +224,7 @@ for seed in range(8):
             Out(f"cond_agent_oneshot-projected-results-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(4, seed, 2),
+            priority=(3, seed, 2),
             warmup_time=30,
         )
 
@@ -238,7 +238,7 @@ for seed in range(8):
             Out(f"mlp_agent_oneshot_no_transfer-results-{task}-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(4, seed, 0),
+            priority=(3, seed, 0),
             warmup_time=30,
         )
 
