@@ -2166,6 +2166,18 @@ files = [
 ansicon = {version = "*", markers = "platform_system == \"Windows\""}
 
 [[package]]
+name = "joblib"
+version = "1.2.0"
+description = "Lightweight pipelining with Python functions"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "joblib-1.2.0-py3-none-any.whl", hash = "sha256:091138ed78f800342968c523bdde947e7a305b8594b910a0fea2ab83c3c6d385"},
+    {file = "joblib-1.2.0.tar.gz", hash = "sha256:e1cee4a79e4af22881164f218d4311f60074197fb707e082e803b61f6d137018"},
+]
+
+[[package]]
 name = "json5"
 version = "0.9.11"
 description = "A Python implementation of the JSON5 data format."
@@ -6912,4 +6924,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8,<3.11"
-content-hash = "61334face9f5ae216754b4e410822db2c64d49994b89692506031d613328425c"
+content-hash = "6f09f6c3cad3d43f7fac85cb59159ae67a65a69f7b11ff6527cbfe885899becb"
