@@ -160,7 +160,7 @@ for seed in range(8):
         "--out-file",
         Out(f"cond_agent_zeroshot-results-{seed}.ndjson"),
         f"--seed={seed}",
-        ram_gb=24,
+        ram_gb=48,
         priority=(4, seed, 4),
         warmup_time=30,
     )
@@ -175,7 +175,7 @@ for seed in range(8):
         "--out-file",
         Out(f"cond_agent_zeroshot-projected-results-{seed}.ndjson"),
         f"--seed={seed}",
-        ram_gb=24,
+        ram_gb=48,
         priority=(4, seed, 4),
         warmup_time=30,
     )
