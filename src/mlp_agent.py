@@ -101,7 +101,7 @@ class MLPAgentPolicy:
         # for (k, v) in info.items():
         # print(k, v)
 
-        return np.asarray(action.cpu()), info
+        return np.asarray(action.detach().cpu()), info
 
 
 def loss_function(agent, env_names, low_dim, targets):
