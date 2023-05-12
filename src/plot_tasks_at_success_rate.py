@@ -190,9 +190,17 @@ def plot_zeroshot_success_rates(out_file):
     mlp_zeroshot_max = load_result_files(
         ["data/mlp_agent_zeroshot-results-7.ndjson"], max_t=True
     )
+    cond_zeroshot = load_result_files(
+        ["data/cond_agent_zeroshot-results-7.ndjson"], max_t=False
+    )
+    cond_zeroshot_max = load_result_files(
+        ["data/cond_agent_zeroshot-results-7.ndjson"], max_t=True
+    )
     performances = {
         "MLP zeroshot (last training epoch)": mlp_zeroshot,
         "MLP zeroshot (best epoch per-task)": mlp_zeroshot_max,
+        "CondAgent zeroshot (last training epoch)": cond_zeroshot,
+        "CondAgent zeroshot (best epoch per-task)": cond_zeroshot_max,
         "PalM 2/chain_py": llm_zeroshot,
     }
     plot_tasks_auc(performances, out_file, legend_x=0.5)
