@@ -1,0 +1,17 @@
+0a1,4
+> # Adapted from https://github.com/ray-project/ray/blob/ray-2.0.1/python/ray/worker.py
+> # Fixed the problem in ray's issue https://github.com/ray-project/ray/issues/9233
+> # Tracked in PR https://github.com/ray-project/ray/pull/21977/files.
+> 
+1748a1753,1759
+>     
+>     def end_for(line: str) -> str:
+>         if sys.platform == "win32":
+>             return "\n"
+>         if line.endswith("\r"):
+>             return ""
+>         return "\n"
+1768a1780
+>                 end=end_for(line),
+1782a1795
+>                 end=end_for(line),
