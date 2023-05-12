@@ -1,3 +1,7 @@
+resources:
+  cloud: gcp
+  instance_type: c2-standard-30
+
 num_nodes: 1  # Number of VMs to launch
 
 # Working directory (optional) containing the project codebase.
