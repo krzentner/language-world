@@ -45,7 +45,7 @@ _CREDENTIAL_FILES = [
     "application_default_credentials.json",
     "access_tokens.db",
     "configurations",
-    "legacy_credentials",
+    #"legacy_credentials",
     "active_config",
 ]
 
