@@ -189,6 +189,7 @@ def _is_head_node_a_tpu(config: dict) -> bool:
 
 
 def _create_crm(gcp_credentials=None):
+    return None
     return discovery.build(
         "cloudresourcemanager", "v1", credentials=gcp_credentials, cache_discovery=False
     )
@@ -294,8 +295,9 @@ def bootstrap_gcp(config):
 
     crm, iam, compute, tpu = construct_clients_from_provider_config(config["provider"])
 
-    config = _configure_project(config, crm)
-    config = _configure_iam_role(config, crm, iam)
+    # config = _configure_project(config, crm)
+    # config = _configure_iam_role(config, crm, iam)
+    config["provider"]["project_id"] = "brain-robotics-metaworld"
     config = _configure_key_pair(config, compute)
     config = _configure_subnet(config, compute)
 
