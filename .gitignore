@@ -11,3 +11,6 @@ notebooks/image_path_v2/
 /old/
 /videos
 /data/pipes/*
+*.tar*
+*.gz
+*.swp

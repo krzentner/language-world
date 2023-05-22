@@ -192,6 +192,7 @@ class GCPComputeNode(GCPNode):
         return self.get("labels", {})
 
     def get_external_ip(self) -> str:
+        return self.get_internal_ip()
         return (
             self.get("networkInterfaces", [{}])[0]
             .get("accessConfigs", [{}])[0]
@@ -221,6 +222,7 @@ class GCPTPUNode(GCPNode):
         return self.get("labels", {})
 
     def get_external_ip(self) -> str:
+        return self.get_internal_ip()
         return (
             self.get("networkEndpoints", [{}])[0]
             .get("accessConfig", {})

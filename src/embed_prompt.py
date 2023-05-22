@@ -4,7 +4,7 @@ from pprint import pprint
 import pickle
 import shutil
 from os.path import expanduser
-import dbm.gnu
+#import dbm.gnu
 from tqdm import tqdm
 import tensorflow as tf
 
@@ -220,26 +220,29 @@ def parse_condition_consequences(con_con):
 EMBEDDING_CACHE = {}
 UNFLUSHED_VALUES = []
 
+#EMBEDDING_CACHE_PATH = expanduser("~/data/embedding_cache.pkl")
+EMBEDDING_CACHE_PATH = "embedding_cache.pkl"
 
 def load_cache():
     print("Loading embedding cache")
     global EMBEDDING_CACHE
     try:
-        with open(expanduser("~/data/embedding_cache.pkl"), "rb") as f:
+        #with open(expanduser("~/data/embedding_cache.pkl"), "rb") as f:
+        with open(EMBEDDING_CACHE_PATH, "rb") as f:
             EMBEDDING_CACHE = pickle.load(f)
     except FileNotFoundError:
         print("Could not load embedding cache")
-    try:
-        embedding_db = dbm.gnu.open(expanduser("~/data/embedding_cache.db"), "c")
-        key = embedding_db.firstkey()
-        while key is not None:
-            value = pickle.loads(embedding_db[key])
-            if isinstance(value, np.ndarray):
-                EMBEDDING_CACHE[key.decode("utf-8")] = value
-            key = embedding_db.nextkey(key)
-    except dbm.gnu.error as exc:
-        print("Ignoring cache db error:", exc)
-        pass
+    # try:
+    #     embedding_db = dbm.gnu.open(expanduser("~/data/embedding_cache.db"), "c")
+    #     key = embedding_db.firstkey()
+    #     while key is not None:
+    #         value = pickle.loads(embedding_db[key])
+    #         if isinstance(value, np.ndarray):
+    #             EMBEDDING_CACHE[key.decode("utf-8")] = value
+    #         key = embedding_db.nextkey(key)
+    # except dbm.gnu.error as exc:
+    #     print("Ignoring cache db error:", exc)
+    #     pass
     print("Done loading embedding cache")
 
 
@@ -248,17 +251,17 @@ load_cache()
 
 def save_cache():
     print("Saving cache")
-    with open(expanduser("~/data/embedding_cache.pkl.tmp"), "wb") as f:
+    with open(f"{EMBEDDING_CACHE_PATH}.pkl", "wb") as f:
         pickle.dump(EMBEDDING_CACHE, f)
     shutil.move(
-        expanduser("~/data/embedding_cache.pkl.tmp"),
-        expanduser("~/data/embedding_cache.pkl"),
+        f"{EMBEDDING_CACHE_PATH}.pkl",
+        EMBEDDING_CACHE_PATH,
     )
-    embedding_db = dbm.open(expanduser("~/data/embedding_cache.db"), "c")
-    global UNFLUSHED_VALUES
-    UNFLUSHED_VALUES, need_write = [], UNFLUSHED_VALUES
-    for (key, value) in need_write:
-        embedding_db[key] = pickle.dumps(value)
+    # embedding_db = dbm.open(expanduser("~/data/embedding_cache.db"), "c")
+    # global UNFLUSHED_VALUES
+    # UNFLUSHED_VALUES, need_write = [], UNFLUSHED_VALUES
+    # for (key, value) in need_write:
+    #     embedding_db[key] = pickle.dumps(value)
 
 
 UNFLUSHED_VALUES_CAP = 0

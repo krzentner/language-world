@@ -2,7 +2,6 @@ import os
 import pickle
 import re
 from typing import Union
-import optax
 from os.path import expanduser
 from collections import defaultdict
 import shutil
@@ -21,16 +20,12 @@ from sample_utils import (
     DEFAULT_SEED,
     evaluate_policy,
 )
-from flax.training import train_state
-import jax_utils
 from run_utils import str_list
 import metaworld_scripted_skills
 from metaworld_scripted_skills import parse_obs, run_scripted_skill
 from metaworld_universal_policy import SawyerUniversalV2Policy
 import numpy as np
 import random
-import jax
-import jax.numpy as jnp
 from tqdm import tqdm
 from render_policy import render_policy
 
@@ -395,6 +390,8 @@ def eval_plans(
     env_names: str_list = None,
     noise_scale: float = 0.05,
 ):
+    import jax
+    import jax.numpy as jnp
     generate_metaworld_scene_dataset.jnp = np
     success_rates = {}
     plans = load_and_parse_plans(filename)
@@ -423,147 +420,6 @@ def load_best_cond_agent_params():
     with open(expanduser("~/data/best_cond_agent.pkl"), "rb") as f:
         cond_eval_state = pickle.load(f)
     return cond_eval_state
-
-
-def run_cond_agent_mt50(
-    *, seed=jax_utils.DEFAULT_SEED, env_names: str_list = MT50_ENV_NAMES
-):
-    import embed_prompt
-
-    embedded_plans = {}
-    parsed_plans = load_and_parse_plans("mt50_plans.py")
-    print("Embedding plans...")
-    for (plan_name, plan) in parsed_plans.items():
-        conds = list(plan.keys())
-        conds_embed = jnp.stack(
-            [np.array(embed_prompt.embed_condition(cond)) for cond in conds]
-        )
-        actions_embed = jnp.stack(
-            [np.array(embed_prompt.embed_action(plan[cond])) for cond in conds]
-        )
-        embedded_plans[plan_name] = {
-            # 'conds': self.param(f'{plan_name}.conds', lambda _: conds_embed),
-            # 'actions': self.param(f'{plan_name}.actions', lambda _: actions_embed),
-            "conds": conds_embed,
-            "actions": actions_embed,
-            "conds_str": conds,
-            "actions_str": [plan[cond] for cond in conds],
-        }
-    # embed_prompt.save_cache()
-    print("Done embedding plans")
-
-    from evaluator_agent import CondAgent
-
-    cond_agent = CondAgent(
-        use_learned_evaluator=False,
-        mix_in_language_space=True,
-        use_learned_scripted_skill=True,
-        plans=embedded_plans,
-    )
-
-    batch_size = 4
-    rng = jax.random.PRNGKey(seed)
-    rng, init_rng = jax.random.split(rng)
-    params = load_best_cond_agent_params()
-    print(params)
-    # params = cond_agent.init(init_rng,
-    # ["drawer-close", "pick-place"] * int(batch_size / 2),
-    # jnp.ones([batch_size, 39]))
-    # params = params.copy({"params": {"cond_evaluator": load_best_evaluator_params()}})
-    learning_rate = 1e-5
-    momentum = 0.99
-    tx = optax.sgd(learning_rate, momentum)
-    tstate = train_state.TrainState.create(
-        apply_fn=cond_agent.apply, params=params, tx=tx
-    )
-
-    success_rates = {}
-    rewards = {}
-    for env_name in parsed_plans:
-        print(env_name)
-        policy = cond_agent.as_policy(env_name, tstate)
-        env = make_env(env_name, seed)
-        success, rew = evaluate_policy(
-            env_name,
-            # [sample_noisy_policy(env, policy, 0.05) for _ in tqdm(range(20))]
-            collect_noisy_episodes(
-                20 * [env_name], policy, seed=seed, n_episodes=100, noise_scale=0.05
-            ),
-        )
-        success_rates[env_name] = success
-        rewards[env_name] = rew
-        for i in range(20):
-            render_success, _ = render_policy(
-                env, policy, expanduser(f"~/data/{env_name}-cond-agent.mp4")
-            )
-            if render_success:
-                shutil.copy(
-                    expanduser(f"~/data/{env_name}-cond-agent.mp4"),
-                    expanduser(f"~/data/{env_name}-cond-agent-success.mp4"),
-                )
-                print(f"Rendered successful episode for {env_name}")
-                break
-            elif success == 0:
-                print(f"Skipping additional renders of {env_name}")
-                break
-            elif i == 19:
-                print(f"Could not render successful episode for {env_name}")
-
-    print(success_rates)
-    print(rewards)
-
-    results = {
-        "door-open": 1.0,
-        "drawer-open": 1.0,
-        "assembly": 0.0,
-        "basketball": 0.0,
-        "button-press-topdown": 1.0,
-        "button-press-topdown-wall": 1.0,
-        "button-press": 0.0,
-        "button-press-wall": 0.1,
-        "coffee-button": 1.0,
-        "coffee-pull": 0.1,
-        "coffee-push": 0.2,
-        "bin-picking": 0.0,
-        "dial-turn": 0.0,
-        "disassemble": 0.0,
-        "drawer-close": 1.0,
-        "faucet-open": 0.0,
-        "faucet-close": 0.6,
-        "hammer": 0.0,
-        "box-close": 0.0,
-        "handle-press-side": 1.0,
-        "handle-press": 0.8,
-        "handle-pull-side": 0.0,
-        "handle-pull": 0.0,
-        "lever-pull": 0.0,
-        "peg-insert-side": 0.0,
-        "peg-unplug-side": 0.0,
-        "pick-out-of-hole": 0.0,
-        "pick-place": 0.0,
-        "door-lock": 1.0,
-        "pick-place-wall": 0.8,
-        "plate-slide": 0.0,
-        "plate-slide-side": 0.0,
-        "plate-slide-back": 0.0,
-        "plate-slide-back-side": 0.1,
-        "push-back": 0.0,
-        "push": 0.0,
-        "push-wall": 0.1,
-        "reach": 0.0,
-        "door-unlock": 0.7,
-        "reach-wall": 0.0,
-        "shelf-place": 0.0,
-        "soccer": 0.0,
-        "stick-push": 0.0,
-        "stick-pull": 0.0,
-        "sweep-into": 1.0,
-        "sweep": 0.0,
-        "window-open": 1.0,
-        "window-close": 1.0,
-        "hand-insert": 0.0,
-        "door-close": 0.5,
-    }
 
 
 COND_AGENT_MT50_SUCCESS_RATES = {
@@ -674,7 +530,7 @@ COND_AGENT_MT50_AVG_REWARDS = {
 
 
 def eval_universal_agent(
-    *, seed=jax_utils.DEFAULT_SEED, env_names: str_list = MT50_ENV_NAMES
+    *, seed=DEFAULT_SEED, env_names: str_list = MT50_ENV_NAMES
 ):
     policy = SawyerUniversalV2Policy()
     policy_name = "universal"
@@ -873,7 +729,6 @@ if __name__ == "__main__":
     # print(load_mt10_plans())
     # print(load_and_parse_plans('mt50_plans.py'))
     print(load_and_parse_plans("mt10_plans.py"))
-    # clize.run(run_cond_agent_mt50)
     # clize.run(eval_universal_agent)
     # print('Environment Name, Zero-Shot Success Rate, Reward Percentage')
     # for env_name in MT50_ENV_NAMES:
