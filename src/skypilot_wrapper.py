@@ -4,6 +4,7 @@ import time
 import re
 from subprocess import run, PIPE
 import sys
+import os
 
 def parse_args():
     parser = argparse.ArgumentParser("doexp skypilot wrapper")
@@ -24,18 +25,27 @@ def main():
         job_return_codes_crashed = re.findall(r"Job [0-9]+ failed with return code list:.* \[([^0-9]+)", output)
         job_succeeded = "Job finished (status: SUCCEEDED)" in output
         print(launch_proc.stdout)
-        print(launch_proc.stderr)
-        print("job_id:", job_id)
-        print("cluster_name:", cluster_name)
-        print("job_return_codes_crashed:", job_return_codes_crashed)
-        print("job_succeeded:", job_succeeded)
+        print(launch_proc.stderr, file=sys.stderr)
+        print("skypilot_wrapper: job_id:", job_id)
+        print("skypilot_wrapper: cluster_name:", cluster_name)
+        print("skypilot_wrapper: job_return_codes_crashed:", job_return_codes_crashed)
+        print("skypilot_wrapper: job_succeeded:", job_succeeded)
         if job_succeeded:
+            copy_output_failed = False
             for out_file in args.out_file:
-                run(["rsync", "-Pavz", f"{cluster_name}:/home/gcpuser/sky_workdir/{out_file}", out_file])
+                rsync_proc = run(["rsync", "-Pavz", f"{cluster_name}:/home/gcpuser/sky_workdir/{out_file}", out_file])
+                if rsync_proc.returncode != 0:
+                    print("skypilot_wrapper: Could not copy out-file", out_file, file=sys.stderr)
+                    copy_output_failed = True
     finally:
         run(["sky", "down", "--yes", cluster_name])
     if not job_succeeded:
-        sys.exit(int(job_return_codes_crashed[0]))
+        if job_return_codes_crashed:
+            sys.exit(int(job_return_codes_crashed[0]))
+        else:
+            sys.exit(1)
+    if copy_output_failed:
+        sys.exit(2)
 
 if __name__ == '__main__':
     main()

@@ -346,10 +346,13 @@ class Context:
         args = _cmd_to_args(cmd, self.data_dir, self._tmp_data_dir)
         env = os.environ.copy()
         if self.use_skypilot and cmd.skypilot_template is not None:
-            command = " ".join([shlex.quote(arg) for arg in args])
+            tmp_dir_rel_path = os.path.relpath(self._tmp_data_dir, os.getcwd())
+            data_dir_rel_path = os.path.relpath(self.data_dir, os.getcwd())
+            args_rel = _cmd_to_args(cmd, data_dir_rel_path, tmp_dir_rel_path)
+            command = " ".join([shlex.quote(arg) for arg in args_rel])
             with open(cmd.skypilot_template) as f:
                 template_content = f.read()
-            skypilot_yaml = template_content.format(comamnd=command)
+            skypilot_yaml = template_content.format(command=command)
             skypilot_file = tempfile.NamedTemporaryFile("w", suffix=".yaml", delete=False)
             skypilot_file.write(skypilot_yaml)
             skypilot_file.close()
@@ -357,7 +360,8 @@ class Context:
             for arg in cmd.args:
                 if isinstance(arg, (Out, FileArg)):
                     args.append("--out-file")
-                    args.append(arg.filename)
+                    f_path = os.path.join(tmp_dir_rel_path, arg.filename)
+                    args.append(f_path)
         elif self._using_slurm:
             ram_mb = int(math.ceil(1024 * cmd.ram_gb))
             if not cmd.cores:
@@ -455,7 +459,8 @@ def cmd(
     ram_gb: float = 4,
     priority: Union[int, List[int], Tuple[int, ...]] = 10,
     gpus: Union[str, None] = None,
-    cores: Optional[int] = None
+    cores: Optional[int] = None,
+    skypilot_template: Optional[str] = None,
 ):
     """Add a command to be run by the GLOBAL_CONTEXT"""
     if isinstance(priority, list):
@@ -470,6 +475,7 @@ def cmd(
             priority=priority,
             gpus=gpus,
             cores=cores,
+            skypilot_template=skypilot_template,
         )
     )
 

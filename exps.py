@@ -10,6 +10,9 @@ from constants import (
     PLAN_ENCODINGS,
 )
 import psutil
+from socket import gethostname
+
+HOSTNAME = gethostname()
 
 GLOBAL_CONTEXT.max_concurrent_jobs = 2
 GLOBAL_CONTEXT.vm_percent_cap = 90.0
@@ -27,7 +30,11 @@ def plan_ext(plan_enc):
     else:
         return ".plan"
 
-for i in range(10):
+if HOSTNAME == "sky-control":
+    GLOBAL_CONTEXT.max_concurrent_jobs = 1
+    GLOBAL_CONTEXT.use_skypilot = True
+
+for i in range(2):
     cmd(
         "python",
         "src/test_experiment.py",

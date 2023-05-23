@@ -23,4 +23,5 @@ run: |
   source "$HOME/.profile"
   source activate l2p-py38
   poetry install
+  mkdir data_tmp
   poetry run {command}
