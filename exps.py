@@ -27,6 +27,20 @@ def plan_ext(plan_enc):
     else:
         return ".plan"
 
+
+GLOBAL_CONTEXT.skypilot_setup = r"""
+  conda create -y -n l2p-py38 python=3.8
+  source activate l2p-py38
+  ./scripts/setup_vm.sh
+"""
+
+GLOBAL_CONTEXT.skypilot_run_template = r"""
+  source "$HOME/.profile"
+  source activate l2p-py38
+  poetry install
+  poetry run {command}
+"""
+
 for i in range(10):
     cmd(
         "python",

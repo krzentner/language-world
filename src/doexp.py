@@ -10,6 +10,7 @@ import shutil
 import math
 import sys
 import argparse
+import shlex
 
 
 @dataclass(frozen=True)
@@ -192,6 +193,10 @@ class Context:
     # If srun is installed, use slurm
     _using_slurm: bool = bool(shutil.which("srun"))
     _cuda_devices: List[str] = get_cuda_gpus()
+    use_skypilot: bool = False
+    skypilot_cluster: Optional[str] = None
+    skypilot_setup: str = "pip install -r requirements.txt"
+    skypilot_run_template: str = "{command}"
 
     @property
     def _tmp_data_dir(self):
@@ -223,6 +228,9 @@ class Context:
         """Runs all commands listed in the file."""
         self.data_dir = args.data_dir
         self.temporary_data_dir = args.tmp_dir
+        self.skypilot_cluster = args.skypilot_cluster
+        if args.skypilot_cluster:
+            self.use_skypilot = True
         print(f"Using GPUS: {self._cuda_devices}")
         done = False
         while not done:
@@ -340,19 +348,36 @@ class Context:
 
     def _run_process(self, args, *, gpus, cores, ram_gb, stdout, stderr):
         env = os.environ.copy()
-        if not cores:
-            mb_per_core = int(1024 * ram_gb)
-        else:
-            mb_per_core = int(math.ceil(1024 * ram_gb / cores))
-        ram_mb = int(math.ceil(1024 * ram_gb))
         if self._using_slurm:
+            ram_mb = int(math.ceil(1024 * ram_gb))
+            if not cores:
+                core_args = ()
+                mb_per_core = int(1024 * ram_gb)
+            else:
+                core_args = (f"--cpus-per-task={cores}",)
+                mb_per_core = int(math.ceil(1024 * ram_gb / cores))
             args = [
                 "srun",
                 f"--mem={ram_mb}M",
-                f"--cpus-per-task={cores}",
+                *core_args,
                 f"--mem-per-cpu={mb_per_core}M",
                 "--",
             ] + args
+        elif self.use_skypilot:
+            import sky
+            command = " ".join([shlex.quote(arg) for arg in args])
+            if cores:
+                cpus = f"{cores}+"
+            else:
+                cpus = None
+            memory = f"{int(math.ceil(ram_gb))}+"
+            task = sky.Task(setup=self.skypilot_setup,
+                            run=self.skypilot_run_template.format(command=command))
+            task.set_resouces(sky.Resources(
+                cpus=cpus,
+                memory=memory,
+            ))
+            sky.launch(task, cluster_name=self.skypilot_cluster)
         elif gpus is not None:
             env["CUDA_VISIBLE_DEVICES"] = gpus
         elif len(self._cuda_devices) > 1:
@@ -459,6 +484,7 @@ def parse_args():
     # data_dir: str = os.path.expanduser("~/exp_data")
     parser.add_argument("-d", "--data-dir", default=f"{os.getcwd()}/data")
     parser.add_argument("-t", "--tmp-dir", default=f"{os.getcwd()}/data_tmp")
+    parser.add_argument("--skypilot-cluster", default=None)
     return parser.parse_args()
 
 
