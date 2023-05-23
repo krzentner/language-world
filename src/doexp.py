@@ -11,6 +11,7 @@ import math
 import sys
 import argparse
 import shlex
+import tempfile
 
 
 @dataclass(frozen=True)
@@ -39,6 +40,7 @@ class Cmd:
     priority: Union[int, Tuple[int, ...]] = 10
     gpus: Union[str, None] = None
     cores: Optional[int] = None
+    skypilot_template: Optional[str] = None
 
     def __str__(self):
         args = _cmd_to_args(self, "data", "tmp_data")
@@ -194,9 +196,6 @@ class Context:
     _using_slurm: bool = bool(shutil.which("srun"))
     _cuda_devices: List[str] = get_cuda_gpus()
     use_skypilot: bool = False
-    skypilot_cluster: Optional[str] = None
-    skypilot_setup: str = "pip install -r requirements.txt"
-    skypilot_run_template: str = "{command}"
 
     @property
     def _tmp_data_dir(self):
@@ -228,10 +227,10 @@ class Context:
         """Runs all commands listed in the file."""
         self.data_dir = args.data_dir
         self.temporary_data_dir = args.tmp_dir
-        self.skypilot_cluster = args.skypilot_cluster
-        if args.skypilot_cluster:
-            self.use_skypilot = True
         print(f"Using GPUS: {self._cuda_devices}")
+        self.use_skypilot = args.use_skypilot
+        if self.use_skypilot:
+            print("WARNING: Using skypilot. Watch usage to avoid excessive bills.")
         done = False
         while not done:
             ready_cmds, done = self._refresh_commands(args.expfile)
@@ -332,12 +331,9 @@ class Context:
         stdout = open(os.path.join(cmd_dir, "stdout.txt"), "w")
         stderr = open(os.path.join(cmd_dir, "stderr.txt"), "w")
         args = _cmd_to_args(cmd, self.data_dir, self._tmp_data_dir)
-        print(" ".join(args))
+        #print(" ".join(args))
         proc = self._run_process(
-            args,
-            gpus=cmd.gpus,
-            ram_gb=cmd.ram_gb,
-            cores=cmd.cores,
+            cmd,
             stdout=stdout,
             stderr=stderr,
         )
@@ -346,16 +342,30 @@ class Context:
         self.running.append((cmd, proc))
         return proc
 
-    def _run_process(self, args, *, gpus, cores, ram_gb, stdout, stderr):
+    def _run_process(self, cmd, *, stdout, stderr):
+        args = _cmd_to_args(cmd, self.data_dir, self._tmp_data_dir)
         env = os.environ.copy()
-        if self._using_slurm:
-            ram_mb = int(math.ceil(1024 * ram_gb))
-            if not cores:
+        if self.use_skypilot and cmd.skypilot_template is not None:
+            command = " ".join([shlex.quote(arg) for arg in args])
+            with open(cmd.skypilot_template) as f:
+                template_content = f.read()
+            skypilot_yaml = template_content.format(comamnd=command)
+            skypilot_file = tempfile.NamedTemporaryFile("w", suffix=".yaml", delete=False)
+            skypilot_file.write(skypilot_yaml)
+            skypilot_file.close()
+            args = ["python", "src/skypilot_wrapper.py", "--task-file", skypilot_file.name]
+            for arg in cmd.args:
+                if isinstance(arg, (Out, FileArg)):
+                    args.append("--out-file")
+                    args.append(arg.filename)
+        elif self._using_slurm:
+            ram_mb = int(math.ceil(1024 * cmd.ram_gb))
+            if not cmd.cores:
                 core_args = ()
-                mb_per_core = int(1024 * ram_gb)
+                mb_per_core = int(1024 * cmd.ram_gb)
             else:
-                core_args = (f"--cpus-per-task={cores}",)
-                mb_per_core = int(math.ceil(1024 * ram_gb / cores))
+                core_args = (f"--cpus-per-task={cmd.cores}",)
+                mb_per_core = int(math.ceil(1024 * cmd.ram_gb / cmd.cores))
             args = [
                 "srun",
                 f"--mem={ram_mb}M",
@@ -363,26 +373,12 @@ class Context:
                 f"--mem-per-cpu={mb_per_core}M",
                 "--",
             ] + args
-        elif self.use_skypilot:
-            import sky
-            command = " ".join([shlex.quote(arg) for arg in args])
-            if cores:
-                cpus = f"{cores}+"
-            else:
-                cpus = None
-            memory = f"{int(math.ceil(ram_gb))}+"
-            task = sky.Task(setup=self.skypilot_setup,
-                            run=self.skypilot_run_template.format(command=command))
-            task.set_resouces(sky.Resources(
-                cpus=cpus,
-                memory=memory,
-            ))
-            sky.launch(task, cluster_name=self.skypilot_cluster)
-        elif gpus is not None:
-            env["CUDA_VISIBLE_DEVICES"] = gpus
+        elif cmd.gpus is not None:
+            env["CUDA_VISIBLE_DEVICES"] = cmd.gpus
         elif len(self._cuda_devices) > 1:
             env["CUDA_VISIBLE_DEVICES"] = str(self._cuda_devices[self.next_cuda_device])
             self.next_cuda_device = (self.next_cuda_device + 1) % len(self._cuda_devices)
+        print(" ".join(args))
         return subprocess.Popen(args, stdout=stdout, stderr=stderr, env=env)
 
 
@@ -484,7 +480,7 @@ def parse_args():
     # data_dir: str = os.path.expanduser("~/exp_data")
     parser.add_argument("-d", "--data-dir", default=f"{os.getcwd()}/data")
     parser.add_argument("-t", "--tmp-dir", default=f"{os.getcwd()}/data_tmp")
-    parser.add_argument("--skypilot-cluster", default=None)
+    parser.add_argument("--use-skypilot", action='store_true')
     return parser.parse_args()
 
 
