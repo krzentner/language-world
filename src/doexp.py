@@ -51,14 +51,9 @@ class Cmd:
 
 
 _BYTES_PER_GB = (1024) ** 3
-# If srun is installed, use slurm
-_USING_SLURM = bool(shutil.which("srun"))
-CUDA_DEVICES = []
-next_cuda_device = 0
 
 
 def get_cuda_gpus():
-    global CUDA_DEVICES
     visible_devices = os.environ.get("CUDA_VISIBLE_DEVICES", None)
     if visible_devices is None:
         try:
@@ -69,20 +64,16 @@ def get_cuda_gpus():
                 check=False,
             )
             output = _nvidia_smi_proc.stdout.decode("utf-8")
-            CUDA_DEVICES = re.findall(r"GPU ([0-9]*):", output)
+            return tuple(re.findall(r"GPU ([0-9]*):", output))
         except FileNotFoundError:
-            CUDA_DEVICES = []
+            return ()
     else:
         if visible_devices == "-1":
-            CUDA_DEVICES = []
+            return ()
         try:
-            CUDA_DEVICES = [str(int(d)) for d in visible_devices.split(",")]
+            return tuple([str(int(d)) for d in visible_devices.split(",")])
         except ValueError:
-            CUDA_DEVICES = []
-
-
-get_cuda_gpus()
-print(f"Using GPUS: {CUDA_DEVICES}")
+            return ()
 
 
 def _ram_in_use_gb():
@@ -183,36 +174,11 @@ def _cmd_name(cmd):
     return name
 
 
-def _run_process(args, *, gpus, cores, ram_gb, stdout, stderr):
-    global next_cuda_device
-    env = os.environ.copy()
-    if not cores:
-        mb_per_core = int(1024 * ram_gb)
-    else:
-        mb_per_core = int(math.ceil(1024 * ram_gb / cores))
-    ram_mb = int(math.ceil(1024 * ram_gb))
-    if _USING_SLURM:
-        args = [
-            "srun",
-            f"--mem={ram_mb}M",
-            f"--cpus-per-task={cores}",
-            f"--mem-per-cpu={mb_per_core}M",
-            "--",
-        ] + args
-    elif gpus is not None:
-        env["CUDA_VISIBLE_DEVICES"] = gpus
-    elif len(CUDA_DEVICES) > 1:
-        env["CUDA_VISIBLE_DEVICES"] = str(CUDA_DEVICES[next_cuda_device])
-        next_cuda_device = (next_cuda_device + 1) % len(CUDA_DEVICES)
-    return subprocess.Popen(args, stdout=stdout, stderr=stderr, env=env)
-
-
 @dataclass
 class Context:
 
     commands: set = field(default_factory=set)
     running: list = field(default_factory=list)
-    # data_dir: str = os.path.expanduser("~/exp_data")
     data_dir: str = f"{os.getcwd()}/data"
     temporary_data_dir: Optional[str] = None
     _vm_percent_cap: float = 90.0
@@ -222,6 +188,10 @@ class Context:
     warmup_deadline: float = time.monotonic()
     reserved_ram_gb: float = _ram_in_use_gb()
     last_commands_remaining: int = -1
+    next_cuda_device: int = 0
+    # If srun is installed, use slurm
+    _using_slurm: bool = bool(shutil.which("srun"))
+    _cuda_devices: List[str] = get_cuda_gpus()
 
     @property
     def _tmp_data_dir(self):
@@ -253,13 +223,14 @@ class Context:
         """Runs all commands listed in the file."""
         self.data_dir = args.data_dir
         self.temporary_data_dir = args.tmp_dir
+        print(f"Using GPUS: {self._cuda_devices}")
         done = False
         while not done:
             ready_cmds, done = self._refresh_commands(args.expfile)
             if self._ready() and ready_cmds:
                 self.run_cmd(ready_cmds[0])
                 done = False
-            if not _USING_SLURM:
+            if not self._using_slurm:
                 self._terminate_if_oom()
             self.running, completed = _filter_completed(self.running)
             if self.running:
@@ -315,7 +286,7 @@ class Context:
             print("Commands exist without any way to acquire inputs:")
             for cmd in needs_output:
                 print(str(cmd))
-        if _USING_SLURM:
+        if self._using_slurm:
             fits_in_ram = has_inputs
         else:
             fits_in_ram = _filter_cmds_ram(
@@ -354,7 +325,7 @@ class Context:
         stderr = open(os.path.join(cmd_dir, "stderr.txt"), "w")
         args = _cmd_to_args(cmd, self.data_dir, self._tmp_data_dir)
         print(" ".join(args))
-        proc = _run_process(
+        proc = self._run_process(
             args,
             gpus=cmd.gpus,
             ram_gb=cmd.ram_gb,
@@ -366,6 +337,29 @@ class Context:
         self.warmup_deadline = time.monotonic() + cmd.warmup_time
         self.running.append((cmd, proc))
         return proc
+
+    def _run_process(self, args, *, gpus, cores, ram_gb, stdout, stderr):
+        env = os.environ.copy()
+        if not cores:
+            mb_per_core = int(1024 * ram_gb)
+        else:
+            mb_per_core = int(math.ceil(1024 * ram_gb / cores))
+        ram_mb = int(math.ceil(1024 * ram_gb))
+        if self._using_slurm:
+            args = [
+                "srun",
+                f"--mem={ram_mb}M",
+                f"--cpus-per-task={cores}",
+                f"--mem-per-cpu={mb_per_core}M",
+                "--",
+            ] + args
+        elif gpus is not None:
+            env["CUDA_VISIBLE_DEVICES"] = gpus
+        elif len(self._cuda_devices) > 1:
+            env["CUDA_VISIBLE_DEVICES"] = str(self._cuda_devices[self.next_cuda_device])
+            self.next_cuda_device = (self.next_cuda_device + 1) % len(self._cuda_devices)
+        return subprocess.Popen(args, stdout=stdout, stderr=stderr, env=env)
+
 
     def _terminate_if_oom(self):
         """Terminates processes if over ram cap"""
@@ -462,6 +456,7 @@ def cmd(
 def parse_args():
     parser = argparse.ArgumentParser("doexp.py")
     parser.add_argument("expfile", nargs='?', default="exps.py")
+    # data_dir: str = os.path.expanduser("~/exp_data")
     parser.add_argument("-d", "--data-dir", default=f"{os.getcwd()}/data")
     parser.add_argument("-t", "--tmp-dir", default=f"{os.getcwd()}/data_tmp")
     return parser.parse_args()
