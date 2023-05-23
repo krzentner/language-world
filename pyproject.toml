@@ -8,11 +8,8 @@ authors = ["K.R. Zentner <krzentner@gmail.com>"]
 python = "^3.8,<3.11"
 openai = "^0.18.1"
 python-dotenv = "^0.20.0"
-jupyterlab = "^3.4.3"
 scipy = "^1.8.1"
-PyQt5 = "5.15.7"
 Pillow = "^9.1.1"
-ipdb = "^0.13.9"
 plotly = "^5.8.2"
 pandas = "^1.4.2"
 pytest = "^7.1.2"
@@ -30,18 +27,20 @@ opencv-python = "^4.6.0"
 tensorflow = "^2.9.1"
 tensorflow-hub = "^0.12.0"
 clize = "^4.2.1"
-ml-collections = "^0.1.1"
 pillow = "9.1.1"
 metaworld = {path = "metaworld", develop = true}
 cliport = {path = "cliport", develop = true}
 tensorboardx = "^2.6"
-ray = "^2.4.0"
 lightning = "^2.0.2"
 mpire = "^2.7.1"
 joblib = "^1.2.0"
 
 [tool.poetry.dev-dependencies]
 ipython = "^8.3.0"
+jupyterlab = "^3.4.3"
+PyQt5 = "5.15.7"
+ipdb = "^0.13.9"
+ray = "^2.4.0"
 
 [build-system]
 requires = ["setuptools", "poetry-core>=1.0.0"]

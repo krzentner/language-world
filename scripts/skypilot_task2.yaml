@@ -13,9 +13,21 @@ workdir: ~/language-to-policies/
 # Commands to be run before executing the job.
 # Typical use: pip install -r requirements.txt, git clone, etc.
 setup: |
+  curl -sSL https://install.python-poetry.org | python3 -
+
+  mkdir -p $HOME/.mujoco && \
+  curl -O https://mujoco.org/download/mujoco210-linux-x86_64.tar.gz && \
+  tar xf mujoco210-linux-x86_64.tar.gz --directory $HOME/.mujoco
+
+  echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.mujoco/mujoco210/bin' >> ~/.bashrc
+  echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.mujoco/mujoco210/bin' >> ~/.profile
+  source ~/.profile
+  source ~/.bashrc
+
   conda create -y -n l2p-py38 python=3.8
   source activate l2p-py38
-  ./scripts/setup_vm.sh
+  pip install --upgrade --user pip
+  poetry install
 
 # Commands to run as a job.
 # Typical use: launch the main program.

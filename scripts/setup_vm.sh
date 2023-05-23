@@ -16,9 +16,7 @@ DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
     libreadline-dev \
     libssl-dev \
     libsqlite3-dev \
-    ffmpeg \
-    xvfb \
-    pulseaudio
+    ffmpeg
 
 sudo mkdir -p -m 1777 /tmp/.X11-unix
 
