@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 sudo apt-get -y -q update
-DEBIAN_FRONTEND=noninteractive sudo apt-get upgrade -y
+#DEBIAN_FRONTEND=noninteractive sudo apt-get upgrade -y
 DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
     git \
     curl \
