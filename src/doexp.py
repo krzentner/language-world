@@ -111,19 +111,23 @@ def _filter_cmds_ready(commands, data_dir):
     return out_commands
 
 
-def _filter_cmds_ram(commands, *, reserved_ram_gb, ram_gb_cap):
+def _filter_cmds_ram(commands, *, reserved_ram_gb, ram_gb_cap, use_skypilot):
     out_commands = set()
     for cmd in commands:
-        if max(reserved_ram_gb, _ram_in_use_gb()) + cmd.ram_gb <= ram_gb_cap:
+        if use_skypilot and cmd.skypilot_template:
+            out_commands.add(cmd)
+        elif max(reserved_ram_gb, _ram_in_use_gb()) + cmd.ram_gb <= ram_gb_cap:
             out_commands.add(cmd)
     return out_commands
 
 
-def _filter_cmds_cores(commands, *, reserved_cores, max_core_alloc):
+def _filter_cmds_cores(commands, *, reserved_cores, max_core_alloc, use_skypilot):
     out_commands = set()
     for cmd in commands:
         cores = cmd._cores_as_int()
-        if reserved_cores + cores <= max_core_alloc:
+        if use_skypilot and cmd.skypilot_template:
+            out_commands.add(cmd)
+        elif reserved_cores + cores <= max_core_alloc:
             out_commands.add(cmd)
     return out_commands
 
@@ -193,7 +197,7 @@ class Context:
     last_commands_remaining: int = -1
     next_cuda_device: int = 0
     # If srun is installed, use slurm
-    _using_slurm: bool = bool(shutil.which("srun"))
+    use_slurm: bool = bool(shutil.which("srun"))
     _cuda_devices: List[str] = get_cuda_gpus()
     use_skypilot: bool = False
 
@@ -237,7 +241,7 @@ class Context:
             if self._ready() and ready_cmds:
                 self.run_cmd(ready_cmds[0])
                 done = False
-            if not self._using_slurm:
+            if not self.use_slurm:
                 self._terminate_if_oom()
             self.running, completed = _filter_completed(self.running)
             if self.running:
@@ -293,18 +297,20 @@ class Context:
             print("Commands exist without any way to acquire inputs:")
             for cmd in needs_output:
                 print(str(cmd))
-        if self._using_slurm:
+        if self.use_slurm:
             fits_in_ram = has_inputs
         else:
             fits_in_ram = _filter_cmds_ram(
                 has_inputs,
                 reserved_ram_gb=self.reserved_ram_gb,
                 ram_gb_cap=self.ram_gb_cap,
+                use_skypilot=self.use_skypilot,
             )
         fits_in_core_alloc = _filter_cmds_cores(
             fits_in_ram,
             reserved_cores=self.reserved_cores,
             max_core_alloc=self.max_core_alloc,
+            use_skypilot=self.use_skypilot,
         )
         not_running = self._filter_cmds_running(fits_in_core_alloc)
         return not_running, not bool(needs_output), needs_output
@@ -345,7 +351,7 @@ class Context:
     def _run_process(self, cmd, *, stdout, stderr):
         args = _cmd_to_args(cmd, self.data_dir, self._tmp_data_dir)
         env = os.environ.copy()
-        if self.use_skypilot and cmd.skypilot_template is not None:
+        if self.use_skypilot and cmd.skypilot_template:
             tmp_dir_rel_path = os.path.relpath(self._tmp_data_dir, os.getcwd())
             data_dir_rel_path = os.path.relpath(self.data_dir, os.getcwd())
             args_rel = _cmd_to_args(cmd, data_dir_rel_path, tmp_dir_rel_path)
@@ -362,7 +368,7 @@ class Context:
                     args.append("--out-file")
                     f_path = os.path.join(tmp_dir_rel_path, arg.filename)
                     args.append(f_path)
-        elif self._using_slurm:
+        elif self.use_slurm:
             ram_mb = int(math.ceil(1024 * cmd.ram_gb))
             if not cmd.cores:
                 core_args = ()
