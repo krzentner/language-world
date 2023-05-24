@@ -17,7 +17,7 @@ def main():
     # Autostop after four hours, manually stop immediately once downloads are done
     launch_proc = run(
             ["sky", "launch", "--yes", "--idle-minutes-to-autostop=240", args.task_file],
-        capture_output=True, check=True, text=True)
+        capture_output=True, check=False, text=True)
     output = launch_proc.stdout
     try:
         cluster_name = re.findall(r"To log into the head VM:.*ssh[^\s]* ([A-z0-9-]+)", output)[0]
@@ -37,6 +37,7 @@ def main():
                 if rsync_proc.returncode != 0:
                     print("skypilot_wrapper: Could not copy out-file", out_file, file=sys.stderr)
                     copy_output_failed = True
+            run(["rsync", "-Prz", f"{cluster_name}:/home/gcpuser/data/", os.path.expanduser("~/data")], check=False)
     finally:
         run(["sky", "down", "--yes", cluster_name])
     if not job_succeeded:

@@ -31,16 +31,19 @@ def plan_ext(plan_enc):
         return ".plan"
 
 if HOSTNAME == "sky-control":
-    GLOBAL_CONTEXT.max_concurrent_jobs = 18
+    #GLOBAL_CONTEXT.max_concurrent_jobs = 18
+    #GLOBAL_CONTEXT.max_concurrent_jobs = 15
+    GLOBAL_CONTEXT.max_concurrent_jobs = 20
 
-# for i in range(10):
-    # cmd(
-        # "python",
-        # "src/test_experiment.py",
-        # "--content", f"Hello {i}!",
-        # "--out-file", Out(f"test_output{i}.txt"),
-        # skypilot_template="scripts/skypilot_template.yaml"
-    # )
+for i in range(10):
+    cmd(
+        "python",
+        "src/test_experiment.py",
+        "--content", f"Hello {i}!",
+        "--out-file", Out(f"test_output{i}.txt"),
+        skypilot_template="scripts/skypilot_template.yaml",
+        priority=100
+    )
 
 cmd(
     "python",
@@ -156,7 +159,7 @@ cmd(
 )
 
 seeds = [1111, 2222, 3333, 4444]
-template_16c = "scripts/skypilot_template.yaml"
+template_c2 = "scripts/skypilot_template.yaml"
 
 # for seed in range(8):
 for seed in seeds:
@@ -168,9 +171,9 @@ for seed in seeds:
         Out(f"mlp_agent_zeroshot-results-{seed}.ndjson"),
         f"--seed={seed}",
         ram_gb=40,
-        priority=(7, seed, 5),
+        priority=(7, -seed, 5),
         warmup_time=30,
-        skypilot_template=template_16c
+        skypilot_template=template_c2
     )
 
     cmd(
@@ -183,9 +186,9 @@ for seed in seeds:
         Out(f"cond_agent_zeroshot-results-{seed}.ndjson"),
         f"--seed={seed}",
         ram_gb=48,
-        priority=(7, seed, 4),
+        priority=(7, -seed, 4),
         warmup_time=30,
-        skypilot_template=template_16c
+        skypilot_template=template_c2
     )
 
     cmd(
@@ -199,9 +202,9 @@ for seed in seeds:
         Out(f"cond_agent_zeroshot-projected-results-{seed}.ndjson"),
         f"--seed={seed}",
         ram_gb=48,
-        priority=(7, seed, 4),
+        priority=(7, -seed, 4),
         warmup_time=30,
-        skypilot_template=template_16c
+        skypilot_template=template_c2
     )
 
     for task in MT50_ENV_NAMES:
@@ -215,9 +218,9 @@ for seed in seeds:
             Out(f"mlp_agent_oneshot-results-{task}-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(7, seed, 3),
+            priority=(7, -seed, 3),
             warmup_time=30,
-            skypilot_template=template_16c
+            skypilot_template=template_c2
         )
 
         cmd(
@@ -232,9 +235,9 @@ for seed in seeds:
             Out(f"cond_agent_oneshot-results-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(7, seed, 2),
+            priority=(7, -seed, 2),
             warmup_time=30,
-            skypilot_template=template_16c
+            skypilot_template=template_c2
         )
 
         cmd(
@@ -250,9 +253,9 @@ for seed in seeds:
             Out(f"cond_agent_oneshot-projected-results-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(6, seed, 2),
+            priority=(6, -seed, 2),
             warmup_time=30,
-            skypilot_template=template_16c
+            skypilot_template=template_c2
         )
 
         cmd(
@@ -265,7 +268,7 @@ for seed in seeds:
             Out(f"mlp_agent_oneshot_no_transfer-results-{task}-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(6, seed, 0),
+            priority=(6, -seed, 0),
             warmup_time=30,
-            skypilot_template=template_16c
+            skypilot_template=template_c2
         )

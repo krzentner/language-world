@@ -23,4 +23,6 @@ run: |
   source "$HOME/.profile"
   source activate l2p-py38
   poetry install
+  mkdir data_tmp
+  poetry run pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
   poetry run python src/test_experiment.py --content "Hello Sky" --out-file "data/hello_sky.txt"

@@ -358,7 +358,7 @@ class Context:
             skypilot_file.close()
             args = ["python", "src/skypilot_wrapper.py", "--task-file", skypilot_file.name]
             for arg in cmd.args:
-                if isinstance(arg, (Out, FileArg)):
+                if isinstance(arg, (Out, FileArg)) and not isinstance(arg, In):
                     args.append("--out-file")
                     f_path = os.path.join(tmp_dir_rel_path, arg.filename)
                     args.append(f_path)

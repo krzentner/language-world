@@ -1,6 +1,6 @@
 resources:
   cloud: gcp
-  instance_type: c2-standard-16
+  instance_type: c2-standard-8
   #image_id: projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230429
   image_id: skypilot:cpu-debian-10
 
@@ -24,4 +24,5 @@ run: |
   source activate l2p-py38
   poetry install
   mkdir data_tmp
+  poetry run pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
   poetry run {command}
