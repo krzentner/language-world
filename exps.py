@@ -33,7 +33,7 @@ def plan_ext(plan_enc):
 if HOSTNAME == "sky-control":
     #GLOBAL_CONTEXT.max_concurrent_jobs = 18
     #GLOBAL_CONTEXT.max_concurrent_jobs = 15
-    GLOBAL_CONTEXT.max_concurrent_jobs = 25
+    GLOBAL_CONTEXT.max_concurrent_jobs = 30
     GLOBAL_CONTEXT.max_core_alloc = 350
     GLOBAL_CONTEXT._vm_percent_cap = 800
 
