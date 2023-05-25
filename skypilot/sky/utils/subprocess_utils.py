@@ -73,8 +73,8 @@ def handle_returncode(returncode: int,
             error_msg = error_msg()
         format_err_msg = (
             f'{colorama.Fore.RED}{error_msg}{colorama.Style.RESET_ALL}')
-        with ux_utils.print_exception_no_traceback():
-            raise exceptions.CommandError(returncode, command, format_err_msg)
+        #with ux_utils.print_exception_no_traceback():
+        #    raise exceptions.CommandError(returncode, command, format_err_msg)
 
 
 def kill_children_processes(first_pid_to_kill: Optional[int] = None,
