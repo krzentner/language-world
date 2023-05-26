@@ -534,6 +534,13 @@ def test_jax():
                 pbar.update(1)
 
 
+def test_can_eval_every_enumerated(task: str='door-lock'):
+    conditions = enumerate_descriptors(task)
+    for cond in conditions:
+        eval_conditions(task, [cond], np.zeros(39), fuzzy=False)
+    eval_conditions(task, ["the robot's gripper is not at goal"], np.zeros(39), fuzzy=False)
+
+
 if __name__ == "__main__":
     # test_smoke()
     test_jax()

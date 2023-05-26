@@ -417,7 +417,7 @@ def oneshot(
         use_learned_skills=True,
         give_obs_to_learned_skill=give_obs_to_learned_skill,
         use_goals_as_skills=use_goals_as_skills,
-        plans=embed_plans(parsed_plans),
+        plans=embed_plans(projected_plans),
     )
     callbacks = SingleProcEvalCallbacks(
         seed,
