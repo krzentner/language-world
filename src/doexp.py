@@ -434,6 +434,8 @@ class Context:
             if proc.returncode != 0:
                 print(f"Error running {str(cmd)}")
                 cmd_dir = os.path.join(self._tmp_data_dir, "pipes", _cmd_name(cmd))
+                with open(os.path.join(cmd_dir, "stdout.txt")) as f:
+                    print(f.read())
                 with open(os.path.join(cmd_dir, "stderr.txt")) as f:
                     print(f.read())
             else:
