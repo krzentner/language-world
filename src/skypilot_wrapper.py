@@ -20,6 +20,7 @@ def main():
             ["sky", "launch", "--yes", "--idle-minutes-to-autostop=20", "--down", args.task_file],
         capture_output=True, check=False, text=True)
     print(launch_proc.stdout)
+    #print(launch_proc.stdout, file=sys.stderr)
     print(launch_proc.stderr, file=sys.stderr)
     output = launch_proc.stdout
     job_return_codes_crashed = None

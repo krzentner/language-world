@@ -33,10 +33,10 @@ def plan_ext(plan_enc):
 if HOSTNAME == "sky-control":
     #GLOBAL_CONTEXT.max_concurrent_jobs = 3
     #GLOBAL_CONTEXT.max_concurrent_jobs = 15
-    GLOBAL_CONTEXT.max_concurrent_jobs = 30
-    #GLOBAL_CONTEXT.max_concurrent_jobs = 0
-    GLOBAL_CONTEXT.max_core_alloc = 350
-    GLOBAL_CONTEXT._vm_percent_cap = 800
+    #GLOBAL_CONTEXT.max_concurrent_jobs = 30
+    GLOBAL_CONTEXT.max_concurrent_jobs = 0
+    #GLOBAL_CONTEXT.max_core_alloc = 350
+    #GLOBAL_CONTEXT._vm_percent_cap = 800
 
 for i in range(10):
     cmd(
@@ -235,11 +235,11 @@ for seed in seeds:
             "--plan-file",
             In("ulm340b_best_plans.json"),
             "--out-file",
-            Out(f"cond_agent_oneshot-results-{seed}.ndjson"),
+            Out(f"cond_agent_oneshot-results-{task}-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
             priority=(7, -seed, 2),
-            warmup_time=30,
+            warmup_time=300,
             skypilot_template=template_c2
         )
 
@@ -253,10 +253,10 @@ for seed in seeds:
             "--plan-file",
             In("ulm340b_best_plans.json"),
             "--out-file",
-            Out(f"cond_agent_oneshot-projected-results-{seed}.ndjson"),
+            Out(f"cond_agent_oneshot-projected-results-{task}-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(6, -seed, 2),
+            priority=(7, -seed, 2),
             warmup_time=30,
             skypilot_template=template_c2
         )

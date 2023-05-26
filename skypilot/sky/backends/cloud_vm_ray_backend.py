@@ -2057,6 +2057,11 @@ class CloudVmRayResourceHandle(backends.backend.ResourceHandle):
 
     @property
     def head_ip(self):
+        internal_ips = self.internal_ips()
+        if internal_ips is not None:
+            return internal_ips[0]
+        else:
+            return None
         return self.internal_ips()[0]
         external_ips = self.external_ips()
         if external_ips is not None:
