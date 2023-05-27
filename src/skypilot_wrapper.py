@@ -14,10 +14,13 @@ def parse_args():
 
 def main():
     args = parse_args()
+    _, file_path = os.path.split(args.task_file)
+    file_path = file_path.split('.')[0].replace('_', '')
+    cluster_name = f"sky-{file_path}-krzentner"
     # Autostop after four hours, manually stop immediately once downloads are done
     launch_proc = run(
             #["sky", "launch", "--yes", "--idle-minutes-to-autostop=240", args.task_file],
-            ["sky", "launch", "--yes", "--idle-minutes-to-autostop=20", "--down", args.task_file],
+            ["sky", "launch", "--yes", "--idle-minutes-to-autostop=20", "--down", "--cluster", cluster_name, args.task_file],
         capture_output=True, check=False, text=True)
     print(launch_proc.stdout)
     #print(launch_proc.stdout, file=sys.stderr)
@@ -25,11 +28,11 @@ def main():
     output = launch_proc.stdout
     job_return_codes_crashed = None
     try:
-        cluster_name = re.findall(r"To log into the head VM:.*ssh[^\s]* ([A-z0-9-]+)", output)
-        if cluster_name:
-            cluster_name = cluster_name[0]
-        else:
-            raise ValueError("Could not find cluster name")
+        #cluster_name = re.findall(r"To log into the head VM:.*ssh[^\s]* ([A-z0-9-]+)", output)
+        #if cluster_name:
+        #    cluster_name = cluster_name[0]
+        #else:
+        #    raise ValueError("Could not find cluster name")
         job_id = re.findall(r"Job submitted with Job ID: ([0-9]+)", output)
         job_return_codes_crashed = re.findall(r"Job [0-9]+ failed with return code list:.* \[([^0-9]+)", output)
         job_succeeded = "Job finished (status: SUCCEEDED)" in output
@@ -37,7 +40,7 @@ def main():
         print("skypilot_wrapper: cluster_name:", cluster_name)
         print("skypilot_wrapper: job_return_codes_crashed:", job_return_codes_crashed)
         print("skypilot_wrapper: job_succeeded:", job_succeeded)
-        if job_succeeded:
+        if job_succeeded or launch_proc.returncode == 0:
             copy_output_failed = False
             for out_file in args.out_file:
                 rsync_proc = run(["rsync", "-Pavz", f"{cluster_name}:/home/gcpuser/sky_workdir/{out_file}", out_file])

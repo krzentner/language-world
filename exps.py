@@ -31,21 +31,23 @@ def plan_ext(plan_enc):
         return ".plan"
 
 if HOSTNAME == "sky-control":
+    GLOBAL_CONTEXT.use_skypilot = True
+    GLOBAL_CONTEXT.max_concurrent_jobs = 1
     #GLOBAL_CONTEXT.max_concurrent_jobs = 3
     #GLOBAL_CONTEXT.max_concurrent_jobs = 15
     GLOBAL_CONTEXT.max_concurrent_jobs = 30
-    #GLOBAL_CONTEXT.max_concurrent_jobs = 0
     #GLOBAL_CONTEXT.max_core_alloc = 350
     #GLOBAL_CONTEXT._vm_percent_cap = 800
 
-for i in range(10):
+for i in range(1):
     cmd(
         "python",
         "src/test_experiment.py",
         "--content", f"Hello {i}!",
         "--out-file", Out(f"test_output{i}.txt"),
         skypilot_template="scripts/skypilot_template.yaml",
-        priority=100
+        warmup_time=30,
+        priority=100,
     )
 
 cmd(
@@ -235,11 +237,30 @@ for seed in seeds:
             "--plan-file",
             In("ulm340b_best_plans.json"),
             "--out-file",
+            Out(f"cond_agent_mini_oneshot-results-{task}-{seed}.ndjson"),
+            f"--seed={seed}",
+            "--n-epochs=10",
+            ram_gb=8,
+            priority=(8, -seed, 2),
+            warmup_time=30,
+            skypilot_template=template_c2
+        )
+
+
+        cmd(
+            "python",
+            "src/cond_agent.py",
+            "oneshot",
+            "--target-task",
+            task,
+            "--plan-file",
+            In("ulm340b_best_plans.json"),
+            "--out-file",
             Out(f"cond_agent_oneshot-results-{task}-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(7, -seed, 2),
-            warmup_time=300,
+            priority=(6, -seed, 2),
+            warmup_time=30,
             skypilot_template=template_c2
         )
 
@@ -271,7 +292,7 @@ for seed in seeds:
             Out(f"mlp_agent_oneshot_no_transfer-results-{task}-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(6, -seed, 0),
+            priority=(5, -seed, 0),
             warmup_time=30,
             skypilot_template=template_c2
         )
