@@ -1,0 +1,2 @@
+{"target_task": "button-press-topdown-wall", "button-press-topdown-wall/SuccessRate": 0.0, "button-press-topdown-wall/RewardMean": 0.39412557690191813}
+{"target_task": "button-press-topdown-wall", "button-press-topdown-wall/SuccessRate": 0.1, "button-press-topdown-wall/RewardMean": 0.0001557592913484225}
