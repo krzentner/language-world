@@ -241,7 +241,7 @@ for seed in seeds:
             f"--seed={seed}",
             "--n-epochs=10",
             ram_gb=8,
-            priority=(8, -seed, 2),
+            priority=(8 if seed == 1111 else 6, -seed, 2),
             warmup_time=30,
             skypilot_template=template_c2
         )
