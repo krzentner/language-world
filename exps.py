@@ -223,7 +223,7 @@ for seed in seeds:
             Out(f"mlp_agent_oneshot-results-{task}-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(7, -seed, 3),
+            priority=(7, -seed, 1),
             warmup_time=30,
             skypilot_template=template_c2
         )
@@ -259,7 +259,7 @@ for seed in seeds:
             Out(f"cond_agent_oneshot-results-{task}-{seed}.ndjson"),
             f"--seed={seed}",
             ram_gb=8,
-            priority=(6, -seed, 2),
+            priority=(7, -seed, 3),
             warmup_time=30,
             skypilot_template=template_c2
         )
