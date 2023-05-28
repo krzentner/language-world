@@ -39,7 +39,7 @@ if HOSTNAME == "sky-control":
     #GLOBAL_CONTEXT.max_core_alloc = 350
     #GLOBAL_CONTEXT._vm_percent_cap = 800
 
-for i in range(1):
+for i in range(0):
     cmd(
         "python",
         "src/test_experiment.py",
