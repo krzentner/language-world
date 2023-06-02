@@ -1,0 +1,2 @@
+{"target_task": "window-open", "window-open/SuccessRate": 0.0, "window-open/RewardMean": 0.2750355108889145}
+{"target_task": "window-open", "window-open/SuccessRate": 0.15, "window-open/RewardMean": 0.4583948322332184}
