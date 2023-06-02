@@ -1,0 +1,2 @@
+{"target_task": "door-close", "door-close/SuccessRate": 0.0, "door-close/RewardMean": 0.03473583661524266}
+{"target_task": "door-close", "door-close/SuccessRate": 0.8, "door-close/RewardMean": 8.04993426154622}
