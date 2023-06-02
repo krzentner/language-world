@@ -1,0 +1,2 @@
+{"target_task": "button-press", "button-press/SuccessRate": 0.0, "button-press/RewardMean": 0.10424621305795159}
+{"target_task": "button-press", "button-press/SuccessRate": 0.2, "button-press/RewardMean": 0.3968739563319067}
