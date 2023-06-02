@@ -1,0 +1,2 @@
+{"target_task": "window-close", "window-close/SuccessRate": 0.0, "window-close/RewardMean": 0.4888357895177064}
+{"target_task": "window-close", "window-close/SuccessRate": 0.3, "window-close/RewardMean": 1.5842035759887447}
