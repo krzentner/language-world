@@ -1,0 +1,2 @@
+{"target_task": "soccer", "soccer/SuccessRate": 0.0, "soccer/RewardMean": 0.029089921615699406}
+{"target_task": "soccer", "soccer/SuccessRate": 0.1, "soccer/RewardMean": 0.48339328421748684}
