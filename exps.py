@@ -35,8 +35,8 @@ if HOSTNAME == "sky-control":
     GLOBAL_CONTEXT.max_concurrent_jobs = 1
     #GLOBAL_CONTEXT.max_concurrent_jobs = 3
     #GLOBAL_CONTEXT.max_concurrent_jobs = 15
-    GLOBAL_CONTEXT.max_concurrent_jobs = 30
-    #GLOBAL_CONTEXT.max_core_alloc = 350
+    GLOBAL_CONTEXT.max_concurrent_jobs = 10
+    #GLOBAL_CONTEXT.max_core_alloc = 300
     #GLOBAL_CONTEXT._vm_percent_cap = 800
 
 for i in range(0):
@@ -164,7 +164,8 @@ cmd(
 )
 
 seeds = [1111, 2222, 3333, 4444]
-template_c2 = "scripts/skypilot_template.yaml"
+template_8 = "scripts/skypilot_template.yaml"
+template_large = "scripts/skypilot_template_large.yaml"
 
 # for seed in range(8):
 for seed in seeds:
@@ -178,7 +179,7 @@ for seed in seeds:
         ram_gb=40,
         priority=(7, -seed, 5),
         warmup_time=30,
-        skypilot_template=template_c2
+        skypilot_template=template_large
     )
 
     cmd(
@@ -191,9 +192,9 @@ for seed in seeds:
         Out(f"cond_agent_zeroshot-results-{seed}.ndjson"),
         f"--seed={seed}",
         ram_gb=48,
-        priority=(7, -seed, 4),
+        priority=(7, -seed, 5),
         warmup_time=30,
-        skypilot_template=template_c2
+        skypilot_template=template_large
     )
 
     cmd(
@@ -209,7 +210,7 @@ for seed in seeds:
         ram_gb=48,
         priority=(7, -seed, 4),
         warmup_time=30,
-        skypilot_template=template_c2
+        skypilot_template=template_large
     )
 
     for task in MT50_ENV_NAMES:
@@ -225,7 +226,7 @@ for seed in seeds:
             ram_gb=8,
             priority=(7, -seed, 1),
             warmup_time=30,
-            skypilot_template=template_c2
+            skypilot_template=template_8
         )
 
         cmd(
@@ -243,7 +244,7 @@ for seed in seeds:
             ram_gb=8,
             priority=(8 if seed == 1111 else 6, -seed, 2),
             warmup_time=30,
-            skypilot_template=template_c2
+            skypilot_template=template_8
         )
 
 
@@ -261,7 +262,7 @@ for seed in seeds:
             ram_gb=8,
             priority=(7, -seed, 3),
             warmup_time=30,
-            skypilot_template=template_c2
+            skypilot_template=template_8
         )
 
         cmd(
@@ -279,7 +280,7 @@ for seed in seeds:
             ram_gb=8,
             priority=(7, -seed, 2),
             warmup_time=30,
-            skypilot_template=template_c2
+            skypilot_template=template_8
         )
 
         cmd(
@@ -294,5 +295,5 @@ for seed in seeds:
             ram_gb=8,
             priority=(5, -seed, 0),
             warmup_time=30,
-            skypilot_template=template_c2
+            skypilot_template=template_8
         )
