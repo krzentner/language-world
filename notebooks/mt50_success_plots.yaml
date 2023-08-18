@@ -1,0 +1,7 @@
+in_files:
+  - "PaLM2 zeroshot": "data/ulm340b/chain_py/*-perf.json"
+  - "CondAgent zeroshot": "data/cond_agent_zeroshot-results-*.ndjson"
+  - "CondAgent mini oneshot": "data/cond_agent_mini_oneshot-results-*.ndjson"
+  - "CondAgent oneshot": "data/cond_agent_oneshot-results-*.ndjson"
+
+out_file: "comparison.pdf"

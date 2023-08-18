@@ -34,10 +34,10 @@ tensorboardx = "^2.6"
 lightning = "^2.0.2"
 mpire = "^2.7.1"
 joblib = "^1.2.0"
+jupyterlab = "^3.4.3"
 
 [tool.poetry.dev-dependencies]
 ipython = "^8.3.0"
-jupyterlab = "^3.4.3"
 PyQt5 = "5.15.7"
 ipdb = "^0.13.9"
 ray = "^2.4.0"
