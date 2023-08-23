@@ -1,5 +1,6 @@
 #!/usr/bin/env -S python3 src/doexp.py
 from doexp import cmd, FileArg, In, Out, GLOBAL_CONTEXT
+from typing import List, Tuple
 from constants import (
     GOOGLE_LLMS,
     MT50_ENV_NAMES,
@@ -9,8 +10,11 @@ from constants import (
     GPT_CHAT_MODELS,
     PLAN_ENCODINGS,
 )
+import os.path
 import psutil
 from socket import gethostname
+import hashlib
+from omegaconf import OmegaConf
 
 HOSTNAME = gethostname()
 
@@ -29,6 +33,29 @@ def plan_ext(plan_enc):
         return ".py"
     else:
         return ".plan"
+
+
+def run_notebook(notebook: str, config: dict,
+                 in_files: List[Tuple[str, str]],
+                 out_files: List[str]):
+    data_dir = GLOBAL_CONTEXT.data_dir
+    tmp_data_dir = GLOBAL_CONTEXT._tmp_data_dir
+    in_file_list = []
+    in_file_map = []
+    for (k, file) in in_files:
+        in_file_list.append(file)
+        in_file_map.append({k: os.path.join(data_dir, file)})
+    config['in_files'] = in_file_map
+    config['out_files'] = [os.path.join(tmp_data_dir, ofile) for ofile in out_files]
+    oconf = OmegaConf.create(config)
+    yaml_str = OmegaConf.to_yaml(oconf)
+    hexdigest = hashlib.sha1(yaml_str.encode()).hexdigest()
+    config_file_path = f"{tmp_data_dir}/config_{hexdigest[:128]}.yaml"
+    OmegaConf.save(oconf, config_file_path)
+    cmd("python", "src/run_ipynb.py", notebook, config_file_path,
+        extra_inputs=in_file_list, extra_outputs=out_files,
+        warmup_time=10)
+
 
 if HOSTNAME == "sky-control":
     GLOBAL_CONTEXT.use_skypilot = True
@@ -98,6 +125,7 @@ cmd(
 
 
 LLM_EVAL_FILES = []
+LLM_EVALS = {}
 for plan_enc in PLAN_ENCODINGS:
     ext = plan_ext(plan_enc)
     for task in MT50_ENV_NAMES:
@@ -143,6 +171,7 @@ for plan_enc in PLAN_ENCODINGS:
                     priority=9,
                 )
                 LLM_EVAL_FILES.append(out_file)
+                LLM_EVALS.setdefault(f"{model}/{plan_enc}", []).append(out_file)
 
 cmd(
     "python",
@@ -152,6 +181,24 @@ cmd(
     extra_inputs=[In(eval_file) for eval_file in LLM_EVAL_FILES],
     ram_gb=RAM_TINY,
     priority=8,
+)
+
+scripted_skill_rename = {
+    "ulm340b/chain_py": "PaLM2 (chain_py)",
+    "text-davinci-003/basic_py": "GPT3 (basic_py)",
+    "gpt-3.5-turbo/basic_py_md": "GPT3.5 (basic_py_md)",
+}
+
+run_notebook(
+    "notebooks/mt50_success_plots.ipynb",
+    {"title": "Scripted Skill Performance"},
+    in_files=[
+        (scripted_skill_rename[k], f)
+        for (k, files) in LLM_EVALS.items()
+        if k in scripted_skill_rename
+        for f in files
+    ],
+    out_files=["scripted_skill_performance.pdf", "scripted_skill_performance.svg"]
 )
 
 cmd(

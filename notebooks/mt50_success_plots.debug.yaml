@@ -5,4 +5,4 @@ in_files:
   - "GPT3 (basic_py)": "data/text-davinci-003/basic_py/*-perf.json"
   - "GPT3.5 (basic_py_md)": "data/gpt-3.5-turbo/basic_py_md/*-perf.json"
 
-out_file: "scripted_skill_performance.pdf"
+out_files: ["scripted_skill_performance.pdf"]
