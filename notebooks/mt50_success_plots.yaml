@@ -1,7 +1,8 @@
-in_files:
-  - "PaLM2 zeroshot": "data/ulm340b/chain_py/*-perf.json"
-  - "CondAgent zeroshot": "data/cond_agent_zeroshot-results-*.ndjson"
-  - "CondAgent mini oneshot": "data/cond_agent_mini_oneshot-results-*.ndjson"
-  - "CondAgent oneshot": "data/cond_agent_oneshot-results-*.ndjson"
+title: "Scripted Skill Performance by LLM"
 
-out_file: "comparison.pdf"
+in_files:
+  - "PaLM2 (chain_py)": "data/ulm340b/chain_py/*-perf.json"
+  - "GPT3 (basic_py)": "data/text-davinci-003/basic_py/*-perf.json"
+  - "GPT3.5 (basic_py_md)": "data/gpt-3.5-turbo/basic_py_md/*-perf.json"
+
+out_file: "scripted_skill_performance.pdf"
