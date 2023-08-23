@@ -37,7 +37,7 @@ def plan_ext(plan_enc):
 
 def run_notebook(notebook: str, config: dict,
                  in_files: List[Tuple[str, str]],
-                 out_files: List[str]):
+                 out_files: List[str], **kwargs):
     data_dir = GLOBAL_CONTEXT.data_dir
     tmp_data_dir = GLOBAL_CONTEXT._tmp_data_dir
     in_file_list = []
@@ -53,8 +53,9 @@ def run_notebook(notebook: str, config: dict,
     config_file_path = f"{tmp_data_dir}/config_{hexdigest[:128]}.yaml"
     OmegaConf.save(oconf, config_file_path)
     cmd("python", "src/run_ipynb.py", notebook, config_file_path,
-        extra_inputs=in_file_list, extra_outputs=out_files,
-        warmup_time=10)
+        extra_inputs=[In(f) for f in in_file_list],
+        extra_outputs=[Out(f) for f in out_files],
+        warmup_time=10, **kwargs)
 
 
 if HOSTNAME == "sky-control":
@@ -183,22 +184,22 @@ cmd(
     priority=8,
 )
 
-scripted_skill_rename = {
-    "ulm340b/chain_py": "PaLM2 (chain_py)",
-    "text-davinci-003/basic_py": "GPT3 (basic_py)",
-    "gpt-3.5-turbo/basic_py_md": "GPT3.5 (basic_py_md)",
+scripted_skill_labels = {
+    "PaLM2 (chain_py)": "ulm340b/chain_py",
+    "GPT3 (basic_py)": "text-davinci-003/basic_py",
+    "GPT3.5 (basic_py_md)": "gpt-3.5-turbo/basic_py_md",
 }
 
 run_notebook(
     "notebooks/mt50_success_plots.ipynb",
     {"title": "Scripted Skill Performance"},
     in_files=[
-        (scripted_skill_rename[k], f)
-        for (k, files) in LLM_EVALS.items()
-        if k in scripted_skill_rename
-        for f in files
+        (title, f)
+        for (title, k) in scripted_skill_labels.items()
+        for f in LLM_EVALS[k]
     ],
-    out_files=["scripted_skill_performance.pdf", "scripted_skill_performance.svg"]
+    out_files=["scripted_skill_performance.pdf", "scripted_skill_performance.svg"],
+    ram_gb=1.0,
 )
 
 cmd(
