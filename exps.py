@@ -192,13 +192,52 @@ scripted_skill_labels = {
 
 run_notebook(
     "notebooks/mt50_success_plots.ipynb",
-    {"title": "Scripted Skill Performance"},
+    {"title": "LLM Comparison using Scripted Skills"},
     in_files=[
         (title, f)
         for (title, k) in scripted_skill_labels.items()
         for f in LLM_EVALS[k]
     ],
-    out_files=["scripted_skill_performance.pdf", "scripted_skill_performance.svg"],
+    out_files=["scripted_skill_performance.pdf"],
+    ram_gb=1.0,
+)
+
+run_notebook(
+    "notebooks/mt50_success_plots.ipynb",
+    {"title": "PaLM2 Prompt Comparison"},
+    in_files=[
+        (k.split('/')[1], f)
+        for (k, files) in LLM_EVALS.items()
+        for f in files
+        if 'ulm340b' in f
+    ],
+    out_files=["palm2_scripted_skill_performance.pdf"],
+    ram_gb=1.0,
+)
+
+run_notebook(
+    "notebooks/mt50_success_plots.ipynb",
+    {"title": "GPT3 Prompt Comparison"},
+    in_files=[
+        (k.split('/')[1], f)
+        for (k, files) in LLM_EVALS.items()
+        for f in files
+        if 'text-davinci-003' in f
+    ],
+    out_files=["gpt3_scripted_skill_performance.pdf"],
+    ram_gb=1.0,
+)
+
+run_notebook(
+    "notebooks/mt50_success_plots.ipynb",
+    {"title": "GPT3.5 Prompt Comparison"},
+    in_files=[
+        (k.split('/')[1], f)
+        for (k, files) in LLM_EVALS.items()
+        for f in files
+        if 'gpt-3.5-turbo' in f
+    ],
+    out_files=["gpt35_scripted_skill_performance.pdf"],
     ram_gb=1.0,
 )
 
@@ -345,3 +384,44 @@ for seed in seeds:
             warmup_time=30,
             skypilot_template=template_8
         )
+
+
+run_notebook(
+    "notebooks/mt50_success_plots.ipynb",
+    {"title": "ZeroShot Performance"},
+    in_files=[
+        ('CondAgent ZeroShot', f"cond_agent_zeroshot-results-{seed}.ndjson")
+        for seed in seeds
+    ] + [
+        ('MLPAgent ZeroShot', f"mlp_agent_zeroshot-results-{seed}.ndjson")
+        for seed in seeds
+    ] + [
+        ('Scripted Skills', f)
+        for f in LLM_EVALS['ulm340b/chain_py']
+    ],
+    out_files=["zeroshot_performance.pdf"],
+    ram_gb=1.0,
+)
+
+run_notebook(
+    "notebooks/mt50_success_plots.ipynb",
+    {"title": "OneShot Performance"},
+    in_files= [
+        ('CondAgent OneShot', f"cond_agent_oneshot-results-{task}-{seed}.ndjson")
+        for seed in seeds
+        for task in MT50_ENV_NAMES
+    ]
+    + [
+        ('MLPAgent OneShot', f"mlp_agent_oneshot-results-{task}-{seed}.ndjson")
+        for seed in seeds
+        for task in MT50_ENV_NAMES
+    ] + [
+        ('CondAgent ZeroShot', f"cond_agent_zeroshot-results-{seed}.ndjson")
+        for seed in seeds
+    ] + [
+        ('Scripted Skills', f)
+        for f in LLM_EVALS['ulm340b/chain_py']
+    ],
+    out_files=["oneshot_performance.pdf"],
+    ram_gb=1.0,
+)
