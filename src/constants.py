@@ -1,4 +1,5 @@
 # No imports here >:)
+# This file is imported by both experiments and exps.py
 
 MT50_ENV_NAMES = [
     "assembly",
@@ -109,4 +110,8 @@ GOOGLE_LLMS = [
 ]
 
 N_EPOCHS = 500
-N_BASE_TIMESTEPS = 10 * 4 * 25 * 500
+
+# 10 tasks, 100 demonstrations per task, 500 timesteps per demonstration
+N_BASE_TIMESTEPS = 10 * 100 * 500
+# 50 tasks, 10 demonstrations per task, 500 timesteps per demonstration
+N_FEWSHOT_TIMESTEPS = 50 * 10 * 500

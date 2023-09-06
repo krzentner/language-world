@@ -17,7 +17,7 @@ from tqdm import tqdm
 # sys.path.append("src")
 
 import sample_utils
-from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS, N_BASE_TIMESTEPS
+from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS, N_BASE_TIMESTEPS, N_FEWSHOT_TIMESTEPS
 from run_utils import float_list, str_list
 import pytorch_utils
 from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks, MpireEvalCallbacks
@@ -173,6 +173,73 @@ def zeroshot(
         create_model=create_model,
         loss_function=loss_function,
         model_name="mlp_agent_zeroshot",
+        batch_size=batch_size,
+        preprocess=preprocess,
+        seed=seed,
+        n_epochs=n_epochs,
+        callbacks=callbacks,
+        learning_rate=1e-5,
+    )
+    print("Done saving cache")
+
+
+def fewshot(
+    *,
+    train_envs: str_list = MT50_ENV_NAMES,
+    test_envs: str_list = MT50_ENV_NAMES,
+    seed=sample_utils.DEFAULT_SEED,
+    n_timesteps=N_FEWSHOT_TIMESTEPS,
+    n_epochs:int=N_EPOCHS,
+    batch_size=4,
+    use_noise=True,
+    out_file,
+):
+    print("Gathering training dataset")
+    if use_noise:
+        data = grouped_env_dataset_mpire(envs=train_envs, n_timesteps=n_timesteps, seed=seed)
+    else:
+        data = grouped_env_dataset_mpire(
+            envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
+        )
+    agent = MLPAgent(use_language_embedding=True)
+
+    def preprocess(batch):
+        env_names = []
+        observations = []
+        actions = []
+        for stack in batch:
+            for data in stack:
+                env_names.append(data["env_name"])
+                observations.append(data["observation"])
+                actions.append(data["action"])
+        task_reprs = torch.stack(
+            [
+                torch.as_tensor(embed_action(MT50_TASK_DESCRIPTIONS[env_name]))
+                for env_name in env_names
+            ]
+        )
+        return (
+            task_reprs,
+            torch.tensor(np.asarray(observations), dtype=torch.float32),
+        ), torch.tensor(np.asarray(actions), dtype=torch.float32)
+
+    def create_model(example_inputs):
+        with torch.no_grad():
+            agent(*example_inputs)
+        model = torch.jit.script(agent, example_inputs=[example_inputs])
+        return model
+
+    callbacks = MpireEvalCallbacks(
+        seed,
+        test_envs,
+        output_filename=out_file,
+        step_period=100,
+    )
+    lightning_utils.fit_model(
+        data=data,
+        create_model=create_model,
+        loss_function=loss_function,
+        model_name="mlp_agent_fewshot",
         batch_size=batch_size,
         preprocess=preprocess,
         seed=seed,
@@ -378,4 +445,4 @@ if __name__ == "__main__":
     # import multiprocessing as mp
 
     # mp.set_start_method("spawn")
-    clize.run(zeroshot, oneshot_no_transfer, oneshot)
+    clize.run(zeroshot, oneshot_no_transfer, oneshot, fewshot)

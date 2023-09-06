@@ -41,7 +41,7 @@ from pytorch_utils import pad_list
 from eval_callbacks import SingleProcEvalCallbacks, EvalCallbacks, MpireEvalCallbacks
 from datasets import single_env_dataset, grouped_env_dataset, grouped_env_dataset_mpire
 from plan_encoding import load_plan_file, project_plan
-from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS, N_BASE_TIMESTEPS
+from constants import MT10_ENV_NAMES, MT50_ENV_NAMES, N_EPOCHS, N_BASE_TIMESTEPS, N_FEWSHOT_TIMESTEPS
 import lightning_utils
 
 
@@ -390,6 +390,72 @@ def zeroshot(
     print("Done saving cache")
 
 
+def fewshot(
+    *,
+    train_envs: str_list = MT50_ENV_NAMES,
+    test_envs: str_list = MT50_ENV_NAMES,
+    seed=pytorch_utils.DEFAULT_SEED,
+    n_timesteps=N_FEWSHOT_TIMESTEPS,
+    batch_size=4,
+    noise_scale=0.1,
+    language_space_mixing=True,
+    use_noise=False,
+    give_obs_to_learned_skill=True,
+    use_goals_as_skills=False,
+    project_skills=False,
+    n_epochs=N_EPOCHS,
+    plan_file,
+    out_file,
+):
+    if use_noise:
+        data = grouped_env_dataset_mpire(
+            envs=train_envs,
+            n_timesteps=n_timesteps,
+            seed=seed,
+            noise_scales=[noise_scale],
+        )
+    else:
+        data = grouped_env_dataset_mpire(
+            envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
+        )
+    assert len(data) == n_timesteps
+    parsed_plans = load_plan_file(plan_file)
+    projected_plans = {
+        task_name: project_plan(plan, task=task_name, project_skills=project_skills)
+        for task_name, plan in tqdm(parsed_plans.items(), desc="Projecting plans")
+    }
+    callbacks = MpireEvalCallbacks(seed, test_envs, output_filename=out_file)
+
+    def create_model(example_inputs):
+        agent = CondAgent(
+            use_learned_evaluator=False,
+            mix_in_language_space=language_space_mixing,
+            use_learned_skills=True,
+            give_obs_to_learned_skill=give_obs_to_learned_skill,
+            use_goals_as_skills=use_goals_as_skills,
+            plans=embed_plans(projected_plans),
+        )
+        with torch.no_grad():
+            agent(*example_inputs)
+        return agent
+
+    # callbacks.step_period = 100
+    lightning_utils.fit_model(
+        data=data,
+        create_model=create_model,
+        loss_function=loss_function,
+        model_name="cond_agent_fewshot",
+        batch_size=batch_size,
+        preprocess=preprocess,
+        seed=seed,
+        n_epochs=n_epochs,
+        callbacks=callbacks,
+        learning_rate=1e-5,
+    )
+    embed_prompt.save_cache()
+    print("Done saving cache")
+
+
 def oneshot(
     *,
     train_envs: str_list = MT10_ENV_NAMES,
@@ -515,4 +581,4 @@ if __name__ == "__main__":
     # import multiprocessing as mp
 
     # mp.set_start_method("spawn")
-    clize.run(zeroshot, oneshot)
+    clize.run(zeroshot, oneshot, fewshot)
