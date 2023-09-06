@@ -271,12 +271,40 @@ for seed in seeds:
 
     cmd(
         "python",
+        "src/mlp_agent.py",
+        "fewshot",
+        "--out-file",
+        Out(f"mlp_agent_fewshot-results-{seed}.ndjson"),
+        f"--seed={seed}",
+        ram_gb=40,
+        priority=(7, -seed, 5),
+        warmup_time=30,
+        skypilot_template=template_large
+    )
+
+    cmd(
+        "python",
         "src/cond_agent.py",
         "zeroshot",
         "--plan-file",
         In("ulm340b_best_plans.json"),
         "--out-file",
         Out(f"cond_agent_zeroshot-results-{seed}.ndjson"),
+        f"--seed={seed}",
+        ram_gb=48,
+        priority=(7, -seed, 5),
+        warmup_time=30,
+        skypilot_template=template_large
+    )
+
+    cmd(
+        "python",
+        "src/cond_agent.py",
+        "fewshot",
+        "--plan-file",
+        In("ulm340b_best_plans.json"),
+        "--out-file",
+        Out(f"cond_agent_fewshot-results-{seed}.ndjson"),
         f"--seed={seed}",
         ram_gb=48,
         priority=(7, -seed, 5),
@@ -388,15 +416,15 @@ for seed in seeds:
 
 run_notebook(
     "notebooks/mt50_success_plots.ipynb",
-    {"title": "ZeroShot Performance"},
+    {"title": "Zero-Shot Performance"},
     in_files=[
-        ('CondAgent ZeroShot', f"cond_agent_zeroshot-results-{seed}.ndjson")
+        ('PCBC zero-shot', f"cond_agent_zeroshot-results-{seed}.ndjson")
         for seed in seeds
     ] + [
-        ('MLPAgent ZeroShot', f"mlp_agent_zeroshot-results-{seed}.ndjson")
+        ('DC zero-shot', f"mlp_agent_zeroshot-results-{seed}.ndjson")
         for seed in seeds
     ] + [
-        ('Scripted Skills', f)
+        ('scripted skills', f)
         for f in LLM_EVALS['ulm340b/chain_py']
     ],
     out_files=["zeroshot_performance.pdf"],
@@ -405,21 +433,21 @@ run_notebook(
 
 run_notebook(
     "notebooks/mt50_success_plots.ipynb",
-    {"title": "OneShot Performance"},
+    {"title": "One-Shot Performance"},
     in_files= [
-        ('CondAgent OneShot', f"cond_agent_oneshot-results-{task}-{seed}.ndjson")
+        ('PCBC one-shot', f"cond_agent_oneshot-results-{task}-{seed}.ndjson")
         for seed in seeds
         for task in MT50_ENV_NAMES
     ]
     + [
-        ('MLPAgent OneShot', f"mlp_agent_oneshot-results-{task}-{seed}.ndjson")
+        ('DC one-shot', f"mlp_agent_oneshot-results-{task}-{seed}.ndjson")
         for seed in seeds
         for task in MT50_ENV_NAMES
     ] + [
-        ('CondAgent ZeroShot', f"cond_agent_zeroshot-results-{seed}.ndjson")
+        ('PCBC zero-shot', f"cond_agent_zeroshot-results-{seed}.ndjson")
         for seed in seeds
     ] + [
-        ('Scripted Skills', f)
+        ('scripted skills', f)
         for f in LLM_EVALS['ulm340b/chain_py']
     ],
     out_files=["oneshot_performance.pdf"],
