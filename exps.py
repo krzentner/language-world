@@ -284,6 +284,21 @@ for seed in seeds:
 
     cmd(
         "python",
+        "src/mlp_agent.py",
+        "fewshot",
+        "--out-file",
+        Out(f"mlp_agent_fewshot_nolang-results-{seed}.ndjson"),
+        "--use-language-embedding=no",
+        f"--seed={seed}",
+        ram_gb=40,
+        priority=(7, -seed, 5),
+        warmup_time=30,
+        skypilot_template=template_large
+    )
+
+
+    cmd(
+        "python",
         "src/cond_agent.py",
         "zeroshot",
         "--plan-file",

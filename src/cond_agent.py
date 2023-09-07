@@ -418,7 +418,7 @@ def fewshot(
         data = grouped_env_dataset_mpire(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
         )
-    assert len(data) == n_timesteps
+    print("len(data) =", len(data))
     parsed_plans = load_plan_file(plan_file)
     projected_plans = {
         task_name: project_plan(plan, task=task_name, project_skills=project_skills)

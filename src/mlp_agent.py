@@ -188,12 +188,14 @@ def fewshot(
     train_envs: str_list = MT50_ENV_NAMES,
     test_envs: str_list = MT50_ENV_NAMES,
     seed=sample_utils.DEFAULT_SEED,
+    use_language_embedding: bool = True,
     n_timesteps=N_FEWSHOT_TIMESTEPS,
     n_epochs:int=N_EPOCHS,
     batch_size=4,
     use_noise=True,
     out_file,
 ):
+    print("use_language_embedding =", use_language_embedding)
     print("Gathering training dataset")
     if use_noise:
         data = grouped_env_dataset_mpire(envs=train_envs, n_timesteps=n_timesteps, seed=seed)
@@ -201,7 +203,7 @@ def fewshot(
         data = grouped_env_dataset_mpire(
             envs=train_envs, n_timesteps=n_timesteps, seed=seed, noise_scales=[0.0]
         )
-    agent = MLPAgent(use_language_embedding=True)
+    agent = MLPAgent(use_language_embedding=use_language_embedding)
 
     def preprocess(batch):
         env_names = []

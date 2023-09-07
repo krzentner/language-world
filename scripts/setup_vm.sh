@@ -1,7 +1,7 @@
 #!/bin/bash -xe
-sudo apt-get -o DPkg::Lock::Timeout=60 -y -q update
+sudo apt-get -o DPkg::Lock::Timeout=240 -y -q update
 #DEBIAN_FRONTEND=noninteractive sudo apt-get upgrade -y
-DEBIAN_FRONTEND=noninteractive sudo apt-get install -o DPkg::Lock::Timeout=60 -y \
+DEBIAN_FRONTEND=noninteractive sudo apt-get install -o DPkg::Lock::Timeout=240 -y \
     git \
     curl \
     python3 \
