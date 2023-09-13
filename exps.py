@@ -448,7 +448,7 @@ run_notebook(
 
 run_notebook(
     "notebooks/mt50_success_plots.ipynb",
-    {"title": "One-Shot Performance"},
+    {"title": "Co-Learning Performance"},
     in_files= [
         ('PCBC one-shot', f"cond_agent_oneshot-results-{task}-{seed}.ndjson")
         for seed in seeds
@@ -465,6 +465,29 @@ run_notebook(
         ('scripted skills', f)
         for f in LLM_EVALS['ulm340b/chain_py']
     ],
-    out_files=["oneshot_performance.pdf"],
+    out_files=["colearning_performance.pdf"],
+    ram_gb=1.0,
+)
+
+run_notebook(
+    "notebooks/mt50_success_plots.ipynb",
+    {"title": "Few-Shot Performance"},
+    in_files= [
+        ('PCBC few-shot', f"cond_agent_fewshot-results-{seed}.ndjson")
+        for seed in seeds
+    ] + [
+        ('DC few-shot', f"mlp_agent_fewshot-results-{seed}.ndjson")
+        for seed in seeds
+    ] + [
+        ('PCBC zero-shot', f"cond_agent_zeroshot-results-{seed}.ndjson")
+        for seed in seeds
+    ] + [
+        ('DC zero-shot', f"mlp_agent_zeroshot-results-{seed}.ndjson")
+        for seed in seeds
+    ] + [
+        ('scripted skills', f)
+        for f in LLM_EVALS['ulm340b/chain_py']
+    ],
+    out_files=["fewshot_performance.pdf"],
     ram_gb=1.0,
 )
