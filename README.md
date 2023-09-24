@@ -10,7 +10,7 @@ If you choose not to, please prominently document what configuration you used in
 Language-World can be installed via pip:
 
 ```
-pip install git+https://github.com/krzentner/language_world.git@v0.1.0
+pip install git+https://github.com/krzentner/language-world.git@v0.1.0
 ```
 
 Alternatively, copy [this file](./src/language_world/language_world.py) into your project.
