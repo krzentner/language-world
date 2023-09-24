@@ -1,0 +1,61 @@
+[project]
+name = "language_world"
+version = "0.1.0-dev"
+description = "A robotics and language benchmark"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [
+  {name = "K.R. Zentner", email = "krzentner@gmail.com" }
+]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+
+  "Intended Audience :: Science/Research",
+
+  "License :: OSI Approved :: MIT License",
+
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3 :: Only",
+]
+
+# The user should install a version of their own.
+dependencies = [
+  "numpy"
+]
+
+[project.optional-dependencies]
+dev = []
+test = [
+  "pytest",
+  "metaworld@git+https://github.com/Farama-Foundation/Metaworld.git@v2.0.0"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/krzentner/language-world"
+"Bug Reports" = "https://github.com/krzentner/language-world/issues"
+"Source" = "https://github.com/krzentner/language-world"
+
+# Use setuptools to install the main script
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+# Below is poetry setup for developing this package
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.pyright]
+include = ["src"]
+venv = ".venv"
+
+[tool.poetry]
+name = "language_world"
+version = "0.1.0-dev"
+description = ""
+authors = ["K.R. Zentner <krzentner@gmail.com>"]
