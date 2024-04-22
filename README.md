@@ -13,7 +13,7 @@ Language-World can be installed via pip:
 pip install git+https://github.com/krzentner/language-world.git@v0.1.0
 ```
 
-Alternatively, copy [this file](./src/language_world/language_world.py) into your project.
+Alternatively, copy [this file](./src/language_world/__init__.py) into your project.
 
 Language-World consists of three main components:
 

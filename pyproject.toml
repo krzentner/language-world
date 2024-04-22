@@ -1,6 +1,6 @@
 [project]
 name = "language_world"
-version = "0.1.0-dev"
+version = "0.1.1-dev"
 description = "A robotics and language benchmark"
 readme = "README.md"
 requires-python = ">=3.7"
@@ -57,6 +57,6 @@ venv = ".venv"
 
 [tool.poetry]
 name = "language_world"
-version = "0.1.0-dev"
+version = "0.1.1-dev"
 description = ""
 authors = ["K.R. Zentner <krzentner@gmail.com>"]
