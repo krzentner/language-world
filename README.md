@@ -1,5 +1,7 @@
 # Language-World
 
+[\[api reference\]](https://krzentner.github.io/language-world/)
+
 A language and robotics benchmark based on [Meta-World](https://github.com/Farama-Foundation/Metaworld).
 
 Language-World is packaged as a set of small tools which process Meta-World observations.
