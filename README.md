@@ -7,11 +7,18 @@ Wrapping Meta-World environments directly is left up to the user.
 To avoid confusion, please always use the goal-observable, randomized goal and initial state variation of Meta-World (MT50-rand), and always sample length 500 episodes.
 If you choose not to, please prominently document what configuration you used instead.
 
-Language-World can be installed via pip:
+Language-World can be installed via pypi:
 
 ```
-pip install git+https://github.com/krzentner/language-world.git@v0.1.0
+pip install language-world==0.1.1
 ```
+
+Or directly from the git repo
+```
+pip install git+https://github.com/krzentner/language-world.git@v0.1.1
+```
+
+You will also need to install a version of Meta-World. language-world should work will all versions of Meta-World with at least v2 environments.
 
 Alternatively, copy [this file](./src/language_world/__init__.py) into your project.
 

@@ -1,6 +1,6 @@
 [project]
 name = "language_world"
-version = "0.1.1-dev"
+version = "0.1.1"
 description = "A robotics and language benchmark"
 readme = "README.md"
 requires-python = ">=3.7"
@@ -27,14 +27,7 @@ classifiers = [
 
 # The user should install a version of their own.
 dependencies = [
-  "numpy"
-]
-
-[project.optional-dependencies]
-dev = []
-test = [
-  "pytest",
-  "metaworld@git+https://github.com/Farama-Foundation/Metaworld.git@v2.0.0"
+  "numpy>=1.22"
 ]
 
 [project.urls]
@@ -57,6 +50,10 @@ venv = ".venv"
 
 [tool.poetry]
 name = "language_world"
-version = "0.1.1-dev"
+version = "0.1.1"
 description = ""
 authors = ["K.R. Zentner <krzentner@gmail.com>"]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.2"
+metaworld = { git = "https://github.com/Farama-Foundation/Metaworld.git", tag = "v2.0.0" }
